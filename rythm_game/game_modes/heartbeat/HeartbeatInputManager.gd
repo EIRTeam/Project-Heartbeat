@@ -199,12 +199,12 @@ func _handle_direct_axis_input_for_device(device_idx: int):
 			last_action_device_type = DEVICE_TYPE.JOYPAD
 			send_input(press_actions_to_send[i], action_state[i], press_actions_to_send.size(), press_actions_event_uids[i], press_actions_to_send)
 
-func flush_inputs():
+func flush_inputs(prev_game_time_usec: float, new_game_time_usec: float, last_frame_time_usec: int):
 	if is_processing_input():
 		_handle_direct_axis_input()
-	super.flush_inputs()
+	super.flush_inputs(prev_game_time_usec, new_game_time_usec, last_frame_time_usec)
 
-func _input_received(event):
+func _input_received(event: InputEvent):
 	var actions_to_send = []
 	var releases_to_send = []
 	if event is InputEventHB:
@@ -291,6 +291,6 @@ func _input_received(event):
 			last_action_device_idx = device_idx
 			last_action_device_type = device_type
 			
-			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid, current_actions)
+			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid, current_actions, event.timestamp)
 		for action in releases_to_send:
 			emit_signal("unhandled_release", action, event_uid)

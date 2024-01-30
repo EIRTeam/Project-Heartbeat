@@ -145,12 +145,12 @@ func bind_node_to_layer(node: Node2D, layer_name: String, source_transform = nul
 	
 	layer_bound_node_datas.append(data)
 
-func draw_trail(time_msec: int):
+func draw_trail(time_usec: int):
 	if not sine_drawer:
 		return
 	if sine_drawer.is_inside_tree():
-		var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
-		var time_out_distance = time_out - (note_data.time - time_msec)
+		var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
+		var time_out_distance = (time_out) - ((note_data.time * 1000) - time_usec)
 		# Trail will be time_out / 2 behind
 		# How much margin we leave for the trail from the note center, this prevents
 		# the trail from leaking into notes with holes in the middle
@@ -166,23 +166,24 @@ func is_autoplay_enabled() -> bool:
 	# Hardcoded GAME_MODE.AUTOPLAY because godot 3 doesn't support cyclic references
 	return game.game_mode == 2 and not disable_autoplay
 
-func update_graphic_positions_and_scale(time_msec: int):
+func update_graphic_positions_and_scale(time_usec: int):
 	note_target_graphics.position = note_data.position
-	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
-	var time_out_distance = time_out - (note_data.time - time_msec)
+	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
+	var time_out_distance = time_out - (note_data.time * 1000 - time_usec)
 
 	note_graphics.position = HBUtils.calculate_note_sine(time_out_distance/float(time_out), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
 	note_graphics.scale = Vector2.ONE * UserSettings.user_settings.note_size
-	if time_msec > note_data.time:
+	if time_usec > note_data.time * 1000:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
-		var new_scale = (disappereance_time - time_msec) / float(game.judge.get_target_window_msec()) * game.get_note_scale()
+		disappereance_time *= 1000
+		var new_scale = (disappereance_time - time_usec) / float(game.judge.get_target_window_usec()) * game.get_note_scale()
 		new_scale = max(new_scale, 0.0)
 		note_graphics.scale = Vector2(new_scale, new_scale) * UserSettings.user_settings.note_size
-	note_target_graphics.arm_position = 1.0 - ((note_data.time - time_msec) / float(time_out))
-	draw_trail(time_msec)
+	note_target_graphics.arm_position = 1.0 - ((note_data.time * 1000 - time_usec) / float(time_out))
+	draw_trail(time_usec)
 
-func process_note(time_msec: int):
-	update_graphic_positions_and_scale(time_msec)
+func process_note(time_usec: int):
+	update_graphic_positions_and_scale(time_usec)
 	process_scheduled_autoplay_sound()
 
 func process_scheduled_autoplay_sound():

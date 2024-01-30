@@ -1,3 +1,4 @@
+@uid("uid://bpi5ms4hmagia") # Generated automatically, do not modify.
 extends Node
 
 class_name HBRhythmGameBase
@@ -27,7 +28,10 @@ var note_groups_by_end_time := []
 # TPs that were previously hit
 var result = HBResult.new()
 var judge = preload("res://rythm_game/judge.gd").new()
-var time_msec: int
+var time_usec: int
+var time_msec: int:
+	get:
+		return time_usec / 1000
 var current_combo = 0
 var disable_intro_skip = false
 
@@ -112,6 +116,8 @@ enum GAME_MODE {
 }
 
 var game_mode: int = GAME_MODE.NORMAL
+
+var last_frame_time_usec := 0
 
 func _init():
 	name = "RhythmGameBase"
@@ -422,12 +428,12 @@ func _group_compare_start(a, b):
 	var b_time: int
 	
 	if a is HBNoteGroup:
-		a_time = a.get_start_time_msec()
+		a_time = a.get_start_time_msec() * 1000
 	else:
 		a_time = a
 		
 	if b is HBNoteGroup:
-		b_time = b.get_start_time_msec()
+		b_time = b.get_start_time_msec() * 1000
 	else:
 		b_time = b
 	
@@ -438,12 +444,12 @@ func _group_compare_end(a, b):
 	var b_time: int
 	
 	if a is HBNoteGroup:
-		a_time = a.get_end_time_msec()
+		a_time = a.get_end_time_msec() * 1000
 	else:
 		a_time = a
 		
 	if b is HBNoteGroup:
-		b_time = b.get_end_time_msec()
+		b_time = b.get_end_time_msec() * 1000
 	else:
 		b_time = b
 	
@@ -466,8 +472,8 @@ func _process_groups():
 	if note_groups.size() == 0:
 		return
 	# Find the first group that is still alive in our window
-	var final_search_point := note_groups.bsearch_custom(time_msec, self._group_compare_start, false)
-	var first_search_point := note_groups_by_end_time.bsearch_custom(time_msec, self._group_compare_end, true)
+	var final_search_point := note_groups.bsearch_custom(time_usec, self._group_compare_start, false)
+	var first_search_point := note_groups_by_end_time.bsearch_custom(time_usec, self._group_compare_end, true)
 	if first_search_point == note_groups_by_end_time.size():
 		first_search_point -= 1
 	first_search_point = note_groups.find(note_groups_by_end_time[first_search_point])
@@ -479,7 +485,7 @@ func _process_groups():
 	for i in range(first_search_point, final_search_point):
 		var group := note_groups[i] as HBNoteGroup
 		if not group in current_note_groups and not group in finished_note_groups:
-			if group.get_start_time_msec() <= time_msec and group.get_end_time_msec() >= time_msec:
+			if group.get_start_time_msec() * 1000 <= time_usec and group.get_end_time_msec() * 1000 >= time_usec:
 				current_note_groups.append(group)
 				group_order_dirty = true
 	
@@ -490,7 +496,7 @@ func _process_groups():
 	
 	for i in range(current_note_groups.size()-1, -1, -1):
 		var note_group := current_note_groups[i] as HBNoteGroup
-		if note_group.process_group(time_msec):
+		if note_group.process_group(time_usec):
 			current_note_groups.erase(note_group)
 			finished_note_groups.append(note_group)
 
@@ -510,10 +516,10 @@ func _process_game(_delta):
 	for i in range(current_note_groups.size()):
 		var group = current_note_groups[i] as HBNoteGroup
 		# Ignore timing points that are not happening now
-		var start_time_msec := group.get_start_time_msec() as int
-		if time_msec < start_time_msec:
+		var start_time_usec := group.get_start_time_msec() * 1000 as int
+		if time_usec < start_time_usec:
 			break
-		if time_msec >= start_time_msec:
+		if time_usec >= start_time_usec:
 			for modifier in modifiers:
 				if modifier.processing_notes:
 					var drawers = []
@@ -521,9 +527,9 @@ func _process_game(_delta):
 						var drw = group.note_drawers.get(note, null)
 						if drw:
 							drawers.append(drw)
-					modifier._process_note(drawers, time_msec / 1000.0, get_note_speed_at_time(time_msec))
+					modifier._process_note(drawers, time_usec / 1000.0, get_note_speed_at_time(time_msec))
 	
-	emit_signal("time_changed", time_msec / 1000.0)
+	emit_signal("time_changed", time_usec / 1000_000.0)
 	
 	var new_closest_multi_notes = []
 	for group in current_note_groups:
@@ -558,14 +564,14 @@ func _process_game(_delta):
 		if sfx_debounce_times[sound_name] <= 0.0:
 			sfx_debounce_times.erase(sound_name)
 func _pre_process_game():
-	game_input_manager.flush_inputs()
+	var prev_time_usec := time_usec
 	var latency_compensation = UserSettings.user_settings.lag_compensation
 	if current_song.id in UserSettings.user_settings.per_song_settings:
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
 	if (not editing or previewing) and audio_playback:
-		time_msec = audio_playback.get_playback_position_nsec() / 1000_000.0
-		time_msec -= latency_compensation
+		time_usec = audio_playback.get_playback_position_nsec() / 1000
+		time_usec -= latency_compensation * 1000
 
 		if not editing:
 			var end_time = audio_playback.get_length_msec() + audio_playback.offset
@@ -574,11 +580,13 @@ func _pre_process_game():
 
 			if (audio_playback.get_playback_position_nsec() / 1000_000.0) >= end_time or audio_playback.is_at_stream_end() and not _finished:
 				_on_game_finished()
+	game_input_manager.flush_inputs(prev_time_usec, time_usec, last_frame_time_usec)
 func _process(delta):
 	_pre_process_game()
 	_process_game(delta)
 	notes_judged_this_frame = []
 	game_input_manager._frame_end()
+	last_frame_time_usec = Time.get_ticks_usec()
 
 
 func toggle_ui():
@@ -594,7 +602,7 @@ func restart():
 	var max_score := result.max_score as int
 	_prevent_finishing = true
 	get_tree().paused = false
-	time_msec = current_song.start_time
+	time_usec = current_song.start_time * 1000
 	game_ui._on_reset()
 	seek_new(current_song.start_time, true)
 	autoplay_scheduled_sounds.clear()
@@ -640,14 +648,14 @@ func schedule_play_start(global_time: int):
 		voice_audio_playback.schedule_start_time(global_time)
 		voice_audio_playback.start()
 	
-func play_from_pos(position: float):
+func play_from_pos(position_nsec: int):
 	audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
 	if voice_audio_playback:
 		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
 	audio_playback.schedule_start_time(0)
-	audio_playback.seek(position * 1000.0)
+	audio_playback.seek(position_nsec * 1000.0)
 	audio_playback.start()
-	time_msec = position * 1000
+	time_usec = position_nsec
 func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add
@@ -757,7 +765,7 @@ func untrack_sound(sound: ShinobuSoundPlayer):
 func seek_new(new_position_msec: int, reset_notes := false):
 	autoplay_scheduled_sounds.clear()
 	seek(new_position_msec)
-	time_msec = new_position_msec
+	time_usec = new_position_msec * 1000
 	if reset_notes:
 		last_culled_note_group = -1
 		for group in current_note_groups:
@@ -768,22 +776,6 @@ func seek_new(new_position_msec: int, reset_notes := false):
 			group.reset_group()
 		current_note_groups.clear()
 		finished_note_groups.clear()
-
-func _group_compare_hit(a, b):
-	var a_time: int
-	var b_time: int
-	
-	if a is HBNoteGroup:
-		a_time = a.get_hit_time_msec()
-	else:
-		a_time = a
-		
-	if b is HBNoteGroup:
-		b_time = b.get_hit_time_msec()
-	else:
-		b_time = b
-	
-	return a_time < b_time
 
 func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 	if point is HBBaseNote:

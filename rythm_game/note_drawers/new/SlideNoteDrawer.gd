@@ -71,7 +71,7 @@ func get_slide_chain_pieces() -> Array:
 	
 func handles_input(event: InputEventHB) -> bool:
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
-	var is_input_in_range: bool = abs(game.time_msec - note_data.time) < game.judge.get_target_window_msec()
+	var is_input_in_range: bool = abs(event.game_time - note_data.time * 1000) < game.judge.get_target_window_usec()
 	if not is_slide_chain() and pressed and is_multi_note:
 		return false
 	return event.is_action_pressed(action) and is_input_in_range
@@ -84,7 +84,7 @@ func process_input(event: InputEventHB):
 		_on_pressed()
 
 func _on_pressed():
-	var judgement := game.judge.judge_note(game.time_msec, note_data.time) as int
+	var judgement := game.judge.judge_note_usec(game.time_usec, note_data.time * 1000) as int
 	judgement = max(HBJudge.JUDGE_RATINGS.FINE, judgement) # Slide notes always give at least a fine
 	if is_slide_chain():
 		judgement = HBJudge.JUDGE_RATINGS.COOL # Slide chains can never be a fine
@@ -150,13 +150,15 @@ func is_slide_direction_pressed():
 			break
 	return direction_pressed
 
-func process_note(time_msec: int):
-	super.process_note(time_msec)
+func process_note(time_usec: int):
+	super.process_note(time_usec)
+	
+	var t_msec := time_usec / 1000
 	
 	if is_autoplay_enabled():
-		if is_in_autoplay_schedule_range(time_msec, note_data.time) and \
+		if is_in_autoplay_schedule_range(t_msec, note_data.time) and \
 				not scheduled_autoplay_sound and not is_slide_chain():
-			schedule_autoplay_sound("slide_hit", time_msec, note_data.time)
+			schedule_autoplay_sound("slide_hit", t_msec, note_data.time)
 	
 	if is_in_editor_mode():
 		if current_slide_chain_sound:
@@ -165,14 +167,14 @@ func process_note(time_msec: int):
 		set_pressed(false)
 	
 	if is_slide_direction_pressed():
-		last_hold_time = time_msec
+		last_hold_time = time_usec
 	elif not pressed:
 		last_hold_time = -1
 	
 	if is_slide_chain():
 		if not pressed:
 			if is_slide_direction_pressed():
-				if time_msec > note_data.time:
+				if time_usec > note_data.time * 1000:
 					_on_pressed()
 		if pressed:
 			if current_slide_chain_sound and current_slide_chain_sound.is_at_stream_end():
@@ -185,22 +187,23 @@ func process_note(time_msec: int):
 				add_child(current_slide_chain_sound)
 			ensure_vibration()
 		
-		var blue_notes = max(0, float(last_hold_time - (note_data.time)) * (BLUE_SLIDE_PIECES_PER_SECOND / 1000.0))
+		var blue_notes = (max(0, float(last_hold_time - (note_data.time * 1000))*1000.0) * (BLUE_SLIDE_PIECES_PER_SECOND / 1000.0))
 		var slide_chain_pieces := get_slide_chain_pieces()
 		
 		for i in range(slide_chain_pieces.size()):
 			var piece := slide_chain_pieces[i] as HBNoteData
-			var time_out := piece.get_time_out(game.get_note_speed_at_time(piece.time)) as int
-			var should_be_visible: bool = (piece.time - time_out) < time_msec
+			var piece_t_usec := piece.time * 1000
+			var time_out := piece.get_time_out(game.get_note_speed_at_time(piece.time)) * 1000 as int
+			var should_be_visible: bool = (piece_t_usec - time_out) < time_usec
 			# Process pieces that are alive
 			if should_be_visible:
-				var should_create := piece.time > time_msec
+				var should_create := piece_t_usec > time_usec
 				if not piece in chain_piece_drawers:
 					if not should_create:
 						continue
 					chain_piece_drawers[piece] = create_note_drawer(piece)
 				var drawer := chain_piece_drawers[piece] as HBNewNoteDrawer
-				drawer.process_note(time_msec)
+				drawer.process_note(time_usec)
 				
 				if last_hold_time == -1:
 					continue
@@ -208,7 +211,7 @@ func process_note(time_msec: int):
 				var is_blue: bool = blue_notes > i
 				drawer.note_target_graphics.set_note_type(drawer.note_data, false, is_blue)
 				
-				if time_msec >= piece.time:
+				if time_usec >= piece_t_usec:
 					var current_score = (i + 1) * game.SLIDE_HOLD_PIECE_SCORE
 					# Fail the chain if its not being held
 					if not is_slide_direction_pressed() and not is_blue:
@@ -245,10 +248,10 @@ func process_note(time_msec: int):
 				chain_piece_drawers[piece].queue_free()
 				chain_piece_drawers.erase(piece)
 	elif is_autoplay_enabled():
-		if time_msec >= note_data.time:
+		if time_usec >= note_data.time * 1000:
 			_on_pressed()
 	if not pressed:
-		if time_msec > note_data.time + game.judge.get_target_window_msec() and not (is_slide_chain() and is_slide_direction_pressed()):
+		if time_usec > (note_data.time * 1000 + game.judge.get_target_window_usec()) and not (is_slide_chain() and is_slide_direction_pressed()):
 			emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, false, note_data.time, null)
 			emit_signal("finished")
 

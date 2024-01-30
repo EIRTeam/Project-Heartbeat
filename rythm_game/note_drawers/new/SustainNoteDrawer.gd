@@ -1,3 +1,4 @@
+@uid("uid://ccipxrxr4g48t") # Generated automatically, do not modify.
 extends HBNewNoteDrawer
 
 class_name HBSustainNoteDrawer
@@ -29,10 +30,10 @@ func handles_input(event: InputEventHB):
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
 	if pressed:
 		if not event.is_pressed():
-			var is_input_in_range: bool = abs(game.time_msec - note_data.end_time) < game.judge.get_target_window_msec()
+			var is_input_in_range: bool = abs(event.game_time - note_data.end_time * 1000) < game.judge.get_target_window_usec()
 			return event.is_action_released(action)
 	else:
-		var is_input_in_range: bool = abs(game.time_msec - note_data.time) < game.judge.get_target_window_msec()
+		var is_input_in_range: bool = abs(event.game_time - note_data.time * 1000) < game.judge.get_target_window_usec()
 		return event.is_action_pressed(action) and is_input_in_range
 	return false
 
@@ -43,7 +44,8 @@ func process_input(event: InputEventHB):
 		_on_pressed(event)
 		
 func _on_end_release(event = null):
-	var judgement := game.judge.judge_note(game.time_msec, note_data.end_time) as int
+	var time_usec := event.game_time if event else game.time_usec as int
+	var judgement := game.judge.judge_note_usec(time_usec, note_data.end_time * 1000) as int
 	judgement = max(judgement, 0)
 	notify_release_judgement(judgement)
 	emit_signal("finished")
@@ -63,7 +65,7 @@ func _on_pressed(event = null, judge := true):
 		sustain_loop.start()
 	if not is_autoplay_enabled():
 		fire_and_forget_user_sfx("note_hit")
-	var judgement := game.judge.judge_note(game.time_msec, note_data.time) as int
+	var judgement := game.judge.judge_note_usec(game.time_usec, note_data.time * 1000) as int
 	if judge:
 		emit_signal("judged", judgement, false, note_data.time, event)
 		if not pressed and judgement < HBJudge.JUDGE_RATINGS.FINE:
@@ -75,40 +77,44 @@ func _on_pressed(event = null, judge := true):
 		if judgement >= HBJudge.JUDGE_RATINGS.FINE:
 			show_note_hit_effect(note_data.position)
 
-func update_arm_position(time_msec: int):
-	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
+func update_arm_position(time_usec: int):
+	var note_time_usec := note_data.time * 1000
+	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
 	if pressed:
 		note_target_graphics.arm2_position = 0.0
 	else:
-		note_target_graphics.arm2_position = 1.0 - ((note_data.time - time_msec) / float(time_out))
-	var time_out_distance = time_out - (note_data.time - time_msec) - note_data.get_duration()
+		note_target_graphics.arm2_position = 1.0 - ((note_time_usec - time_usec) / float(time_out))
+	var time_out_distance = time_out - (note_time_usec - time_usec) - (note_data.get_duration() * 1000)
 	note_target_graphics.arm_position = max(time_out_distance / float(time_out), 0.0)
 
 func is_in_editor_mode():
 	return game.game_mode == 1
 
-func process_note(time_msec: int):
-	super.process_note(time_msec)
+func process_note(time_usec: int):
+	super.process_note(time_usec)
+	var t_msec := time_usec / 1000
+	var note_time_usec := note_data.time * 1000
+	var note_end_time_usec := note_data.end_time * 1000 as int
 	
 	if is_autoplay_enabled():
 		if not scheduled_autoplay_sound:
 			var target_time: int = note_data.time if not pressed else note_data.end_time
-			if is_in_autoplay_schedule_range(time_msec, target_time):
+			if is_in_autoplay_schedule_range(t_msec, target_time):
 				var note_sfx := "note_hit" if not pressed else "sustain_note_release"
-				schedule_autoplay_sound(note_sfx, time_msec, target_time)
-		if time_msec > note_data.time and not pressed:
+				schedule_autoplay_sound(note_sfx, t_msec, target_time)
+		if time_usec > note_time_usec and not pressed:
 			_on_pressed()
 			if scheduled_autoplay_sound:
 				get_tree().root.remove_child(scheduled_autoplay_sound)
 				game.track_sound(scheduled_autoplay_sound)
 				scheduled_autoplay_sound = null
 			return
-		elif time_msec > note_data.end_time and pressed:
+		elif time_usec > note_end_time_usec and pressed:
 			_on_end_release()
 			return
 			
 	if is_in_editor_mode():
-		if time_msec > note_data.time:
+		if time_usec > note_time_usec:
 			pressed = true
 			note_graphics.hide()
 		else:
@@ -119,39 +125,39 @@ func process_note(time_msec: int):
 			sustain_loop = null
 	# Handle note going out of range
 	if pressed:
-		if time_msec > note_data.end_time + game.judge.get_target_window_msec():
+		if time_usec > note_end_time_usec + game.judge.get_target_window_usec():
 			notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
 			emit_signal("finished")
 	else:
-		if time_msec > note_data.time + game.judge.get_target_window_msec():
+		if time_usec > note_time_usec + game.judge.get_target_window_usec():
 			# Judge note independently once, that way it will count as 2 worsts
 			emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, false, note_data.time, null)
 			notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
 			emit_signal("finished")
 	if sustain_loop:
-		var duration_progress := (time_msec - note_data.time) / float(note_data.end_time - note_data.time)
+		var duration_progress := (time_usec - note_time_usec) / float(note_end_time_usec - note_time_usec)
 		sustain_loop.pitch_scale = 1.0 + duration_progress * 0.1
 
-func update_graphic_positions_and_scale(time_msec: int):
-	super.update_graphic_positions_and_scale(time_msec)
-	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
+func update_graphic_positions_and_scale(time_usec: int):
+	super.update_graphic_positions_and_scale(time_usec)
+	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
 	
-	var time_out_distance = time_out - (note_data.time - time_msec) - note_data.get_duration()
+	var time_out_distance = time_out - (note_data.time * 1000 - time_usec) - note_data.get_duration() * 1000
 	note_graphic2.position = HBUtils.calculate_note_sine(time_out_distance/float(time_out), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
 	note_graphic2.scale = Vector2.ONE * UserSettings.user_settings.note_size
-	if time_msec > note_data.end_time:
-		var disappereance_time = note_data.end_time + (game.judge.get_target_window_msec())
-		var new_scale = (disappereance_time - time_msec) / float(game.judge.get_target_window_msec()) * game.get_note_scale()
+	if time_usec > note_data.end_time * 1000:
+		var disappereance_time = note_data.end_time * 1000 + (game.judge.get_target_window_usec())
+		var new_scale = (disappereance_time - time_usec) / float(game.judge.get_target_window_usec()) * game.get_note_scale()
 		new_scale = max(new_scale, 0.0)
 		note_graphic2.scale = Vector2(new_scale, new_scale) * UserSettings.user_settings.note_size
-	update_arm_position(time_msec)
+	update_arm_position(time_usec)
 
-func draw_trail(time_msec: int):
-	super.draw_trail(time_msec)
+func draw_trail(time_usec: int):
+	super.draw_trail(time_usec)
 	if pressed:
 		sine_drawer.time = 1.0
-	var time_out = note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
-	var time_out_distance = time_out - (note_data.time - time_msec) - note_data.get_duration()
+	var time_out = note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
+	var time_out_distance = time_out - (note_data.time * 1000 - time_usec) - note_data.get_duration() * 1000
 	var t = (time_out_distance / float(time_out))
 	sine_drawer.trail_position = t
 

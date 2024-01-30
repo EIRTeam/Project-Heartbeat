@@ -1,3 +1,4 @@
+@uid("uid://b5jvktugvyer0") # Generated automatically, do not modify.
 extends HBNewNoteDrawer
 
 class_name HBNewDoubleNoteDrawer
@@ -19,7 +20,7 @@ func set_is_multi_note(val):
 	
 func handles_input(event: InputEventHB) -> bool:
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
-	var is_input_in_range: bool = abs((game.time_msec) - note_data.time) < game.judge.get_target_window_msec()
+	var is_input_in_range: bool = abs((event.game_time) - note_data.time * 1000) < game.judge.get_target_window_usec()
 	return event.is_action_pressed(action) and is_input_in_range and not waiting_for_multi_judgement
 
 func process_input(event: InputEventHB):
@@ -55,7 +56,7 @@ func process_input(event: InputEventHB):
 		game.add_child(current_note_sound)
 
 func _on_note_pressed(event = null):
-	var judgement := game.judge.judge_note(game.time_msec, note_data.time) as int
+	var judgement := game.judge.judge_note_usec(game.time_usec, note_data.time * 1000) as int
 	if note_data.note_type == HBNoteData.NOTE_TYPE.HEART:
 		judgement = max(HBJudge.JUDGE_RATINGS.FINE, judgement) # Heart notes always give at least a fine
 	if not is_autoplay_enabled():
@@ -72,8 +73,9 @@ func _on_note_pressed(event = null):
 	if judgement >= HBJudge.JUDGE_RATINGS.FINE:
 		show_note_hit_effect(note_data.position)
 
-func process_note(time_msec: int):
-	super.process_note(time_msec)
+func process_note(time_usec: int):
+	super.process_note(time_usec)
+	var note_time_usec := note_data.time * 1000
 	
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
 	var new_held_count = game.game_input_manager.get_action_press_count(action)
@@ -82,13 +84,14 @@ func process_note(time_msec: int):
 	current_frame_held_count = new_held_count
 	
 	if is_autoplay_enabled():
+		var time_msec := time_usec / 1000
 		if is_in_autoplay_schedule_range(time_msec, note_data.time) and not scheduled_autoplay_sound:
 			var hit_sound := "double_heart_note_hit" if note_data.note_type == HBBaseNote.NOTE_TYPE.HEART else "double_note_hit"
 			schedule_autoplay_sound(hit_sound, time_msec, note_data.time)
-		if time_msec > note_data.time:
+		if time_usec > note_data.time * 1000:
 			_on_note_pressed(null)
 	
-	if time_msec > note_data.time + game.judge.get_target_window_msec() and not waiting_for_multi_judgement:
+	if time_usec > note_time_usec + game.judge.get_target_window_usec() and not waiting_for_multi_judgement:
 		emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, false, note_data.time, null)
 		emit_signal("finished")
 

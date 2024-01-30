@@ -33,7 +33,7 @@ func reset():
 	
 func is_action_held(action):
 	return false
-func send_input(action, pressed, count = 1, event_uid=0b0, current_actions=[]):
+func send_input(action, pressed, count = 1, event_uid=0b0, current_actions=[], timestamp := -1):
 	# When paused we only buffer release events...
 	if pressed and get_tree().paused:
 		return
@@ -43,13 +43,19 @@ func send_input(action, pressed, count = 1, event_uid=0b0, current_actions=[]):
 	a.pressed = pressed
 	a.event_uid = event_uid
 	a.actions = current_actions
+	a.timestamp = timestamp
 	_buffered_inputs.append(a)
 
 func _frame_end():
 	_buffered_inputs.clear()
 
-func flush_inputs():
-	for input in _buffered_inputs:
+func flush_inputs(prev_game_time_usec: float, new_game_time_usec: float, last_frame_time_usec: int):
+	var current_frame_time_usec := Time.get_ticks_usec()
+	for input: InputEventHB in _buffered_inputs:
+		if input.timestamp == -1:
+			input.game_time = new_game_time_usec
+		else:
+			input.game_time = clamp(prev_game_time_usec + ((last_frame_time_usec - input.timestamp)), prev_game_time_usec, new_game_time_usec)
 		current_input_handled = false
 		Input.parse_input_event(input)
 	current_input_handled = false
