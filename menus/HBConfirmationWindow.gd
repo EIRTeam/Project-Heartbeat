@@ -28,7 +28,6 @@ func _input(event: InputEvent):
 			cancel.emit()
 			hide()
 			get_viewport().set_input_as_handled()
-			print("CANCEL")
 func _connect_button_signals():
 	%AcceptButton.connect("pressed", Callable(self, "_on_accept_pressed"))
 	%CancelButton.connect("pressed", Callable(self, "_on_cancel_pressed"))
@@ -60,7 +59,6 @@ func popup():
 	_on_Control_about_to_show()
 	show()
 func popup_centered_ratio(ratio := 0.5):
-	size = get_viewport().size * ratio
 	popup_centered()
 func popup_centered():
 	_on_Control_about_to_show()

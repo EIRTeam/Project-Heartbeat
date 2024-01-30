@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
+[ext_resource type="Script" uid="uid://cnltgci1qiotv" path="res://menus/HBSimpleMenu.gd" id="3"]
 [ext_resource type="Script" uid="uid://bgd0ah6ji7iwi" path="res://menus/HBConfirmationWindow.gd" id="4"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="5"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="6"]
@@ -25,16 +25,26 @@ shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
 [node name="HBConfirmationWindow" type="PanelContainer"]
-visible = false
-offset_right = 650.0
-offset_bottom = 398.0
+custom_minimum_size = Vector2(650, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -325.0
+offset_top = -204.5
+offset_right = 325.0
+offset_bottom = 204.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme = ExtResource("1")
 script = ExtResource("4")
 
 [node name="Panel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(650, 195)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]

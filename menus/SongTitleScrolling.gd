@@ -33,7 +33,7 @@ func _update_scroll(delta: float):
 		if child.visible:
 			total_children_width += child.size.x
 	
-	var remainder := total_children_width - size.x
+	var remainder := max(total_children_width - size.x, 0.0) as int
 	var offset := remainder * scroll_amount
 	for child: Control in get_children():
 		if not child.visible:
@@ -58,13 +58,11 @@ func _on_sort_children():
 			total_children_width += child.size.x
 	if total_children_width > size.x:
 		if not material:
-			clip_children = CanvasItem.CLIP_CHILDREN_ONLY
 			material = MATERIAL
 			queue_redraw()
 		set_process(true)
 	else:
 		if material:
-			clip_children = CanvasItem.CLIP_CHILDREN_ONLY
 			material = null
 			queue_redraw()
 		set_process(false)

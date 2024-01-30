@@ -1,3 +1,4 @@
+@uid("uid://cj8al5gllmy6x") # Generated automatically, do not modify.
 extends Control
 
 class_name HBDownloadProgressThing
@@ -6,7 +7,7 @@ var text : set = set_text
 
 const ROTATION_SPEED = 90 # degrees a second
 var spinning = false: set = set_spinning
-@onready var label = get_node("Panel/Label")
+@onready var label = get_node("%Label")
 @onready var panel = get_node("Panel")
 @onready var icon_panel = get_node("Control")
 @onready var icon_texture_rect = get_node("Control/TextureRect")
@@ -66,7 +67,7 @@ func _process(delta):
 	move_t = clamp(move_t+delta, 0, move_time)
 	position = move_start_position.lerp(move_target_position, ease(move_t / move_time, easing))
 	if spinning:
-		icon_texture_rect.rotation += ROTATION_SPEED * delta
+		icon_texture_rect.rotation += deg_to_rad(ROTATION_SPEED) * delta
 	if modulate.a == 0.0 and disappearing:
 		queue_free()
 	if life_timer != -1:
@@ -88,34 +89,18 @@ func move_to(position: Vector2):
 
 func set_text(val):
 	text = val
-	$Panel/Label.text = text
-	recalculate_label_size()
-	var minimum_size = $Panel/Label.get_minimum_size().x
-	if $Panel/Label.autowrap_mode != TextServer.OVERRUN_NO_TRIM:
-		if get_parent():
-			minimum_size = get_parent().size.x / 2.0
-	$Panel.size.x = minimum_size
-	$Panel/Label.size.y = 0
+	$Panel/MarginContainer/Label.text = text
 	
 func _ready():
 	set_type(TYPE.SUCCESS)
 	modulate.a = 0.0
 	get_viewport().connect("size_changed", Callable(self, "_on_vp_size_changed"))
-	recalculate_label_size()
 	
 func _on_vp_size_changed():
 	await get_tree().process_frame
 	move_to_offset(target_offset)
 	move_t = move_time
 	
-func recalculate_label_size():
-	if label:
-		label.autowrap_mode = TextServer.OVERRUN_NO_TRIM
-		var size = label.get_combined_minimum_size()
-		if size.x > (get_parent().size.x / 2.0):
-			label.autowrap_mode = TextServer.OVERRUN_ADD_ELLIPSIS
-			label.size.x = get_parent().size.x / 2.0
-		
 func move_to_offset(to_offset, time=0.75):
 	var parent = get_parent()
 	move_target_position = Vector2(0, parent.size.y - to_offset) + MARGIN

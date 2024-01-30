@@ -108,7 +108,6 @@ alignment = 1
 
 [node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_a3lbd")]
 self_modulate = Color(0, -0.0313015, 1, 1)
-clip_children = 0
 layout_mode = 2
 size_flags_vertical = 3
 

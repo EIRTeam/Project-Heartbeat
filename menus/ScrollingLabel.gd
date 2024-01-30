@@ -56,7 +56,6 @@ func _on_text_updated():
 	else:
 		queue_redraw()
 func _ready():
-	print(material)
 	connect("resized", Callable(self, "_on_resized"))
 	add_child(movement_tween)
 	movement_tween.connect("tween_all_completed", Callable(self, "_on_tween_all_completed"))

@@ -39,7 +39,11 @@ mouse_filter = 2
 script = ExtResource("3")
 
 [node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
-size = Vector2i(1121, 643)
+layout_mode = 1
+offset_left = -671.0
+offset_top = -730.0
+offset_right = 450.0
+offset_bottom = 223.0
 text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
 
 [node name="TextLabel" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" index="0"]
@@ -56,13 +60,35 @@ text = "Yes (audio only)"
 script = ExtResource("8")
 
 [node name="DownloadingPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
-size = Vector2i(650, 267)
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 518.5
+offset_top = 150.0
+offset_right = 1180.5
+offset_bottom = 423.0
+grow_horizontal = 1
+grow_vertical = 1
 has_cancel = false
 has_accept = false
 text = "Downloading..."
 
 [node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
-size = Vector2i(650, 451)
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 518.5
+offset_top = -20.0
+offset_right = 1180.5
+offset_bottom = 593.0
+grow_horizontal = 1
+grow_vertical = 1
 has_cancel = false
 text = "Media for this song is currently being downloaded."
 accept_text = "Ok"
