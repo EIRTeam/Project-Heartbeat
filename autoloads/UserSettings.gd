@@ -427,7 +427,7 @@ func set_enable_menu_fps_limits(val):
 	enable_menu_fps_limits = val
 	_update_fps_limits()
 func _update_fps_limits():
-	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX if (user_settings.vsync_enabled) else DisplayServer.VSYNC_DISABLED)
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if (user_settings.vsync_enabled) else DisplayServer.VSYNC_DISABLED)
 	Engine.max_fps = 0
 	if enable_menu_fps_limits:
 		Engine.max_fps = 0
