@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://c31wn00neekt1"]
+[gd_scene load_steps=7 format=3 uid="uid://c31wn00neekt1"]
 
 [ext_resource type="FontFile" path="res://fonts/Rating_Font.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://d2xoywdaxsuvs" path="res://menus/MainMenuVisualizer.tscn" id="4"]
-[ext_resource type="Script" path="res://base_scene.gd" id="5"]
+[ext_resource type="Script" uid="uid://bguo2pwgkg5bx" path="res://base_scene.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://dssxtjqhuhlbn" path="res://graphics/effects/SlideParticles.tscn" id="6_x0nmg"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -23,7 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource("2")
 expand_mode = 1
-stretch_mode = 7
+stretch_mode = 6
 
 [node name="MainMenuVisualizer2" parent="." instance=ExtResource("4")]
 layout_mode = 0
@@ -45,10 +46,13 @@ custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 texture = ExtResource("3")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="StatusLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 5
 theme_override_fonts/font = ExtResource("1")
 text = "Loadingu..."
+horizontal_alignment = 1
+
+[node name="Node2D" parent="." instance=ExtResource("6_x0nmg")]

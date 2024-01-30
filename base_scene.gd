@@ -1,3 +1,4 @@
+@uid("uid://bguo2pwgkg5bx") # Generated automatically, do not modify.
 extends Control
 
 @onready var status_label = get_node("VBoxContainer/StatusLabel")
