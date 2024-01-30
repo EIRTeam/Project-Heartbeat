@@ -59,7 +59,6 @@ func _on_sort_children():
 	if total_children_width > size.x:
 		if not material:
 			clip_children = CanvasItem.CLIP_CHILDREN_ONLY
-			RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY)
 			material = MATERIAL
 			queue_redraw()
 		set_process(true)
@@ -67,7 +66,6 @@ func _on_sort_children():
 		if material:
 			clip_children = CanvasItem.CLIP_CHILDREN_ONLY
 			material = null
-			RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_DISABLED)
 			queue_redraw()
 		set_process(false)
 	_update_scroll(0.0)
