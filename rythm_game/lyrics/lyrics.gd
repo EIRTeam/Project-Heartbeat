@@ -1,3 +1,4 @@
+@uid("uid://b023m7j4hbi0q") # Generated automatically, do not modify.
 extends Label
 
 var phrases = []
@@ -84,7 +85,6 @@ func set_current_phrase(phrase: HBLyricsPhrase):
 	
 func _ready():
 	update_labels()
-	connect("resized", Callable(self, "_on_resized"))
 	horizontal_alignment = UserSettings.user_settings.get_lyrics_halign()
 	overlay_label.horizontal_alignment = horizontal_alignment
 	
@@ -94,7 +94,6 @@ func _ready():
 	$Label2.add_theme_color_override("font_color", UserSettings.user_settings.get_lyrics_color())
 	add_theme_font_override("font", font1)
 	$Label2.add_theme_font_override("font", font2)
-	_on_resized()
 	
 	
 func update_labels():
@@ -107,13 +106,6 @@ func update_labels():
 		overlay_label.text = ""
 		text = ""
 	
-func _on_resized():
-	var font_size = int(BASE_FONT_SIZE * size.x / 1920.0)
-	var outline_size = int(BASE_OUTLINE_SIZE * size.x / 1920.0)
-	add_theme_font_size_override("font_size", font_size)
-	add_theme_constant_override("outline_size", outline_size)
-	$Label2.add_theme_font_size_override("font_size", font_size)
-	$Label2.add_theme_constant_override("outline_size", outline_size)
 func set_phrases(array: Array):
 	phrases = array
 	overlay_label.text = ""
