@@ -1,3 +1,4 @@
+@uid("uid://droabmn1arbht") # Generated automatically, do not modify.
 extends Control
 
 var value_max = 100.0
@@ -75,9 +76,9 @@ func draw_rating_rects():
 	
 	draw_line(Vector2(0, pass_y), Vector2(size.x, pass_y), pass_line_color, 5.0)
 	
-	draw_string(fnt, Vector2(30, great_y), "GREAT", great_line_color)
-	draw_string(fnt, Vector2(30, excellent_y), "EXCELLENT", excellent_line_color)
-	draw_string(fnt, Vector2(30, pass_y), "PASS", pass_line_color)
+	draw_string(fnt, Vector2(30, great_y), "GREAT", 0, -1, 16, great_line_color)
+	draw_string(fnt, Vector2(30, excellent_y), "EXCELLENT", 0, -1, 16, excellent_line_color)
+	draw_string(fnt, Vector2(30, pass_y), "PASS", 0, -1, 16, pass_line_color)
 	
 func _draw():
 	
@@ -107,8 +108,8 @@ func _draw():
 
 	draw_polygon(_draw_points_internal, colors)
 
-	_draw_points_internal.remove(_draw_points_internal.size()-1)
-	_draw_points_internal.remove(_draw_points_internal.size()-1)
+	_draw_points_internal.remove_at(_draw_points_internal.size()-1)
+	_draw_points_internal.remove_at(_draw_points_internal.size()-1)
 	
 	draw_polyline(_draw_points_internal, Color.ROYAL_BLUE, 4.0, true)
 	draw_rating_rects()
