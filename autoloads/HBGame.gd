@@ -266,12 +266,13 @@ func _game_init():
 	
 	PlatformService.service_provider._post_game_init()
 	
+	Input.set_use_accumulated_input(false)
+	
 	# Switch specific stuff
 	if platform_settings is HBPlatformSettingsSwitch:
 		UserSettings.user_settings.button_prompt_override = "nintendo"
 		UserSettings.set_joypad_prompts()
 		UserSettings.user_settings.visualizer_enabled = false
-		Input.set_use_accumulated_input(false)
 		UserSettings.user_settings.content_path = platform_settings.user_dir_redirect(UserSettings.user_settings.content_path)
 	if "--disable-async-loading" in OS.get_cmdline_args():
 		SongLoader.load_all_songs_meta()
