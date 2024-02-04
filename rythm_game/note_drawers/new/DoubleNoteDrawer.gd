@@ -5,8 +5,7 @@ class_name HBNewDoubleNoteDrawer
 	
 var current_note_sound: ShinobuSoundPlayer
 var waiting_for_multi_judgement := false
-var current_frame_held_count := 0
-var processed_held_count := 0
+var processed_press_events := 0
 	
 func note_init():
 	super.note_init()
@@ -32,14 +31,14 @@ func process_input(event: InputEventHB):
 	# of pressed actions might be 2 without passing through 1 ever if the input is frame perfect, which means
 	# we wouldn't capture the second input event, this leads
 	# to the empty note sound being played and the second event being passed to the next note if close enough,
-	# to solve this, we store the last frame held count into processed_held_count and increment it every time we
+	# to solve this, we store the last frame held count into processed_press_events and increment it every time we
 	# process an input and use that instead of get_action_press_count, this way we will make sure to capture
 	# both events, but only when needed the reasoning behind this approach is that this way we only consume
 	# as many events are needed for the double note to be hit, leaving subsequent input events to be processed 
 	# by other notes such as a very close note after this note
-	processed_held_count += 1
+	processed_press_events += 1
 	
-	if processed_held_count >= 2:
+	if processed_press_events >= 2:
 		_on_note_pressed(event)
 	else:
 		var sound_name := "note_hit"
@@ -79,9 +78,9 @@ func process_note(time_usec: int):
 	
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
 	var new_held_count = game.game_input_manager.get_action_press_count(action)
-	
-	processed_held_count = current_frame_held_count
-	current_frame_held_count = new_held_count
+
+	# process_note happens after inputs are processed, so we can just assume processed_press_events is the previous frame's count
+	processed_press_events = new_held_count
 	
 	if is_autoplay_enabled():
 		var time_msec := time_usec / 1000
