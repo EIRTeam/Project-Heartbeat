@@ -78,3 +78,15 @@ to = "{game_output_path}/swscale-7.dll"
 [[extra_files]]
 from = "{engine_binaries_path}/steam_appid.txt"
 to = "{game_output_path}/steam_appid.txt"
+
+[[extra_files]]
+from = "{engine_binaries_path}/D3D12Core.dll"
+to = "{game_output_path}/D3D12Core.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/d3d12SDKLayers.dll"
+to = "{game_output_path}/d3d12SDKLayers.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/dxil.dll"
+to = "{game_output_path}/dxil.dll"
