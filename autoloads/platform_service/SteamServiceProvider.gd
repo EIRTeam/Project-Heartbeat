@@ -25,10 +25,10 @@ func get_avatar() -> Texture2D:
 
 func init_platform() -> int:
 	if Engine.has_singleton("Steamworks"):
-		var init = Steamworks.init(APP_ID, false)
-		
+		var init = Steamworks.is_valid()
 		if not init:
 			return ERR_UNAVAILABLE
+		Steamworks.set_run_callbacks_automatically(false)
 		
 		InputGlyphsSingleton.init()
 		
