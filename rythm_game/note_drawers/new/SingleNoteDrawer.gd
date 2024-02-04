@@ -12,7 +12,8 @@ func process_input(event: InputEventHB):
 	_on_note_pressed(event)
 
 func _on_note_pressed(event: InputEventHB = null):
-	var judgement := game.judge.judge_note_usec(event.game_time, note_data.time * 1000) as int
+	var game_time := event.game_time if event else game.time_usec
+	var judgement := game.judge.judge_note_usec(game_time, note_data.time * 1000) as int
 	if note_data.note_type == HBNoteData.NOTE_TYPE.HEART:
 		judgement = max(HBJudge.JUDGE_RATINGS.FINE, judgement) # Heart notes always give at least a fine
 	if not is_autoplay_enabled():
