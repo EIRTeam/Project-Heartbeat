@@ -1,4 +1,3 @@
-@uid("uid://d2lpr71gks2w8") # Generated automatically, do not modify.
 extends Panel
 
 @export var axis_x = 0

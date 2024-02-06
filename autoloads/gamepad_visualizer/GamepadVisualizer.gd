@@ -5,11 +5,18 @@ extends Control
 const ANALOG_GAMEPAD_VISUALIZER = preload("res://autoloads/gamepad_visualizer/AnalogGamepadVisualizer.tscn")
 const ANALOG_SLIDER_VISUALIZER = preload("res://autoloads/gamepad_visualizer/AnalogSliderVisualizer.tscn")
 const BUTTON_VISUALIZER = preload("res://autoloads/gamepad_visualizer/GamepadButtonVisualizer.tscn")
+
+var current_device = -1
+
 func _ready():
 	UserSettings.connect("controller_swapped", Callable(self, "create_controller_map"))
-	for device in Input.get_connected_joypads():
-		if Input.get_joy_guid(device) == UserSettings.controller_guid:
-			create_controller_map(device)
+	get_window().window_input.connect(_on_window_input)
+
+func _on_window_input(event: InputEvent):
+	if event is InputEventJoypadButton:
+		if current_device != event.device:
+			create_controller_map(event.device)
+
 func get_slider_axis(axis, device):
 	var visualizer = ANALOG_SLIDER_VISUALIZER.instantiate()
 	visualizer.axis = axis
