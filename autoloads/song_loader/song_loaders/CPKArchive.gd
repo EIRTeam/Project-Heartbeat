@@ -25,6 +25,8 @@ var file: FileAccess
 
 var roms_found := []
 
+var archive_lock := Mutex.new()
+
 func propagate_error(error_m: String):
 	has_error = true
 	error_message = error_m
@@ -35,7 +37,6 @@ func read_table_from_chunk(expected_signature: String) -> Array:
 	return table.read_from_chunk(file, expected_signature)
 	
 func open(_file: FileAccess):
-	
 	file = _file
 	
 	var cpk := read_table_from_chunk("CPK ")[0] as Dictionary
@@ -69,9 +70,12 @@ func open(_file: FileAccess):
 		
 		entries[entry.name] = entry
 func load_file(file_path: String) -> StreamPeerBuffer:
+	archive_lock.lock()
 	file_path = get_file_rom_path(file_path)
 	if not file_path:
+		archive_lock.unlock()
 		return StreamPeerBuffer.new()
+		
 	var aes_context := AESContext.new()
 	aes_context.start(AESContext.MODE_CBC_DECRYPT, KEY, IV)
 	
@@ -89,6 +93,7 @@ func load_file(file_path: String) -> StreamPeerBuffer:
 	var spb := StreamPeerBuffer.new()
 	spb.data_array = unenc_buffer
 	
+	archive_lock.unlock()
 	return spb
 
 func load_text_file(file_path: String) -> String:

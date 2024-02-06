@@ -168,7 +168,7 @@ func _load_thread_func(element: int, token: AssetLoadToken):
 				if not token.song.youtube_url and token.song.uses_dsc_style_channels() and ASSET_TYPES.VOICE in token.assets_to_load:
 					var spb := StreamPeerBuffer.new()
 					spb.data_array = audio_ogg.packet_sequence.packet_data
-					if HBUtils.get_ogg_channel_count_buff(spb) >= 4:
+					if song_audio_data.shinobu.get_channel_count() >= 4:
 						var voice_audio_data := song_audio_data
 						token.mutex.lock()
 						token.loaded_assets[ASSET_TYPES.VOICE] = voice_audio_data

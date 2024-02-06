@@ -1,7 +1,7 @@
 class_name DIVASpriteSet
 
 # Godot renderer is crashy in multi threaded mode
-const ENABLE_TEXTURE_ALLOCATION := false
+const ENABLE_TEXTURE_ALLOCATION := true
 
 var buffer: StreamPeerBuffer
 
@@ -71,7 +71,6 @@ func propagate_error(error_msg: String):
 	
 func read(_spb: StreamPeerBuffer):
 	buffer = _spb
-	
 	var _signature := buffer.get_32()
 	var textures_offset := buffer.get_u32()
 	var _texture_count := buffer.get_32()

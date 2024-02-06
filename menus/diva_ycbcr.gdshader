@@ -10,11 +10,16 @@ const mat4 transform = mat4(
 	vec4(-0.7010, 0.5291, -0.8860, 1.0000)
 );
 
+varying flat vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
 
 void fragment() {
 	vec2 uv = UV;
 	uv.y = 1.0 - uv.y;
 	vec4 ycbcr = vec4(texture(texture_ya, uv).r, texture(texture_cbcr, uv).rg, 1.0);
-	COLOR = transform * ycbcr;
-    COLOR.a = texture(texture_ya, uv).g;
+	COLOR = modulate * (transform * ycbcr);
+    COLOR.a *= modulate.a * texture(texture_ya, uv).g;
 }
