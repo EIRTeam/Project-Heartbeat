@@ -1,4 +1,3 @@
-@uid("uid://bpi5ms4hmagia") # Generated automatically, do not modify.
 extends Node
 
 class_name HBRhythmGameBase

@@ -1,4 +1,3 @@
-@uid("uid://bs57o82wfkelo") # Generated automatically, do not modify.
 extends Control
 
 signal back

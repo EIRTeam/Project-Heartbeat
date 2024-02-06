@@ -36,7 +36,6 @@ func _redraw_items():
 		texture_size_changed = true
 	else:
 		image.fill(base_color)
-	false # image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 
 	#image.fill(base_color)
 	
@@ -86,11 +85,11 @@ func _redraw_items():
 									if pos*size.x + x < image.get_size().x:
 										image.set_pixel(pos*size.x + x, y_pos + TOP_MARGIN + y, note_color)
 		layer_i += 1
-	false # image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
+
 	if texture_size_changed:
 		texture.create_from_image(image) #,0
 	else:
-		texture.set_data(image)
+		texture.update(image)
 	var time_end = Time.get_ticks_usec()
 	print("_renegerate_minimap took %d microseconds" % [(time_end - time_start)])
 	draw_texture(texture, Vector2.ZERO)

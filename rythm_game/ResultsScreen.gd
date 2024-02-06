@@ -1,4 +1,3 @@
-@uid("uid://ce8332vai5mkl") # Generated automatically, do not modify.
 extends HBMenu
 
 var game_info : HBGameInfo: set = set_game_info

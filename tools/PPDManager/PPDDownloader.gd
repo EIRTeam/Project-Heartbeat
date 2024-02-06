@@ -1,4 +1,3 @@
-@uid("uid://lx0yyfeicwor") # Generated automatically, do not modify.
 extends Control
 
 @onready var url_line_edit = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/URLLineEdit")

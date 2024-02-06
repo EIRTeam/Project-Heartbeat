@@ -1,4 +1,3 @@
-@uid("uid://ksymqbk4rhkw") # Generated automatically, do not modify.
 extends HBoxContainer
 @onready var title_label = get_node("TitleLabel")
 @onready var author_label = get_node("AuthorLabel")

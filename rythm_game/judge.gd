@@ -1,4 +1,3 @@
-@uid("uid://cbsy7wtd6fgj3") # Generated automatically, do not modify.
 class_name HBJudge
 enum JUDGE_RATINGS {
 	WORST,

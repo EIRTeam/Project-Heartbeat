@@ -1,4 +1,3 @@
-@uid("uid://btjtkniphugcg") # Generated automatically, do not modify.
 extends Panel
 
 var normal_style

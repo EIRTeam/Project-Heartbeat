@@ -1,4 +1,3 @@
-@uid("uid://dtim1fc8g6bwc") # Generated automatically, do not modify.
 extends HBMenu
 
 var current_song_length

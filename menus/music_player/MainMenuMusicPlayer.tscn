@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ddwcdis3ndvvm"]
+[gd_scene load_steps=10 format=3 uid="uid://ddwcdis3ndvvm"]
 
 [ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="2"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="4"]
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="4_a3lbd"]
-[ext_resource type="Script" uid="uid://dtim1fc8g6bwc" path="res://menus/music_player/MainMenuMusicPlayer.gd" id="5"]
+[ext_resource type="Script" path="res://menus/music_player/MainMenuMusicPlayer.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="6"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
@@ -19,6 +19,18 @@ corner_detail = 1
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 anti_aliasing = false
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_24haw"]
+color = Color(1, 1, 1, 0.5)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 10
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_obf6w"]
+color = Color(1, 1, 1, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 10
 
 [sub_resource type="GDScript" id="GDScript_wpdnd"]
 script/source = "extends Control
@@ -107,16 +119,17 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_a3lbd")]
-self_modulate = Color(0, -0.0313015, 1, 1)
+self_modulate = Color(0, 0, 1, 1)
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="PlaybackCurrentTimeLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("2")
@@ -132,12 +145,15 @@ alignment = 1
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBoxLine_24haw")
+theme_override_styles/fill = SubResource("StyleBoxLine_obf6w")
 max_value = 1.0
 step = 0.0
 value = 0.5
 show_percentage = false
 
 [node name="PlaybackMaxLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2")
 theme_override_font_sizes/font_size = 24

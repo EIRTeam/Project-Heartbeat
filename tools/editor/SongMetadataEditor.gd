@@ -1,4 +1,3 @@
-@uid("uid://bkbauhiu7h0nv") # Generated automatically, do not modify.
 extends Panel
 
 var song_meta: HBSong: set = set_song_meta

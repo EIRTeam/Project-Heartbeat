@@ -1,4 +1,3 @@
-@uid("uid://bf2xdvrk0cupo") # Generated automatically, do not modify.
 extends Control
 
 const LOG_NAME = "RhythmGameController"
@@ -66,7 +65,7 @@ func _ready():
 	$Label.visible = false
 	game.health_system_enabled = UserSettings.user_settings.enable_health
 func _on_intro_skipped(new_time):
-	video_player.set_stream_position(new_time)
+	video_player.stream_position = new_time
 
 func _fade_in_done():
 	video_player.paused = false

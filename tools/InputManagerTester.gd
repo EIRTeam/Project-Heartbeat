@@ -1,4 +1,3 @@
-@uid("uid://dm3m87c36fdrl") # Generated automatically, do not modify.
 extends Control
 
 @onready var sticks_container: HBoxContainer = get_node("%SticksContainer")

@@ -1,4 +1,3 @@
-@uid("uid://cferyg68rsy43") # Generated automatically, do not modify.
 # Base class for all song meta types
 extends HBSerializable
 

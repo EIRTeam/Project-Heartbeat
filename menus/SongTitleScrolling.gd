@@ -1,4 +1,3 @@
-@uid("uid://lgbt87xiaj46") # Generated automatically, do not modify.
 @tool
 extends Container
 @onready var song_title = get_node("SongTitle")

@@ -1,4 +1,3 @@
-@uid("uid://8vvkr8uo801d") # Generated automatically, do not modify.
 extends InputEventAction
 
 class_name InputEventHB

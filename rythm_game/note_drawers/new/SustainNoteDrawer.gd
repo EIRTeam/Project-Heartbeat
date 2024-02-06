@@ -1,4 +1,3 @@
-@uid("uid://ccipxrxr4g48t") # Generated automatically, do not modify.
 extends HBNewNoteDrawer
 
 class_name HBSustainNoteDrawer

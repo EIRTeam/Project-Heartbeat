@@ -1,4 +1,3 @@
-@uid("uid://droabmn1arbht") # Generated automatically, do not modify.
 extends Control
 
 var value_max = 100.0

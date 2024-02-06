@@ -1,4 +1,3 @@
-@uid("uid://dks1agdj5qb8i") # Generated automatically, do not modify.
 extends HBMenu
 
 class_name HBSongListMenu

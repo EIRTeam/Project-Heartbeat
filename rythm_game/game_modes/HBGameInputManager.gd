@@ -1,4 +1,3 @@
-@uid("uid://bbg76kbyas88x") # Generated automatically, do not modify.
 # In PH all input must be converted to InputEventActions for consistency between
 # different controllers
 

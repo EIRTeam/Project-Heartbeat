@@ -1,4 +1,3 @@
-@uid("uid://chn15krouqry5") # Generated automatically, do not modify.
 extends HBNewNoteDrawer
 	
 var SINGLE_NOTE_DRAWER_SCENE := load("res://rythm_game/note_drawers/new/SingleNoteDrawer.tscn")

@@ -1,4 +1,3 @@
-@uid("uid://coemhrr2djxue") # Generated automatically, do not modify.
 extends Panel
 var FREQ_MAX = 44100.0 / 2.5: set = set_freq_max
 const VU_COUNT = 256 # high VU_COUNTS break on windows

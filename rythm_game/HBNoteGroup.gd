@@ -1,4 +1,3 @@
-@uid("uid://c0e4smhnlr8ym") # Generated automatically, do not modify.
 class_name HBNoteGroup
 
 # note_data: note_drawer map

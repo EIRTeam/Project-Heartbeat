@@ -1,4 +1,3 @@
-@uid("uid://gxx2aqda8gf1") # Generated automatically, do not modify.
 extends Node2D
 
 class_name HBNewNoteDrawer

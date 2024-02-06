@@ -1,4 +1,3 @@
-@uid("uid://b4i2iieepxu20") # Generated automatically, do not modify.
 # game version class
 extends Node
 

@@ -1,4 +1,3 @@
-@uid("uid://dxkktag6rvmsp") # Generated automatically, do not modify.
 extends HBNewNoteDrawer
 	
 var waiting_for_multi_judgement := false

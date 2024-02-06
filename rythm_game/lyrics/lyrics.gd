@@ -1,4 +1,3 @@
-@uid("uid://b023m7j4hbi0q") # Generated automatically, do not modify.
 extends Label
 
 var phrases = []

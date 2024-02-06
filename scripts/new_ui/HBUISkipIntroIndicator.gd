@@ -1,4 +1,3 @@
-@uid("uid://bqvvfuw1fpcqj") # Generated automatically, do not modify.
 extends HBUIComponent
 
 class_name HBUISkipIntroIndicator

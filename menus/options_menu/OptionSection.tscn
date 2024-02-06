@@ -61,6 +61,7 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "test lolololo"
 horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="Panel" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2

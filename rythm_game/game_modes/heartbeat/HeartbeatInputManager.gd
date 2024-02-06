@@ -1,4 +1,3 @@
-@uid("uid://jpwvs5vxrtuc") # Generated automatically, do not modify.
 extends HBGameInputManager
 
 class_name HeartbeatInputManager

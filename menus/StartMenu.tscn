@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bo3yjn1jcs8j5"]
+[gd_scene load_steps=10 format=3 uid="uid://bo3yjn1jcs8j5"]
 
 [ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://menus/PressStartMenu.gd" id="6"]
 [ext_resource type="FontFile" path="res://fonts/RatingFontSmaller.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://dpavg7fpmvy8v" path="res://graphics/party_hat.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://dqqnvr6m45tgc" path="res://graphics/U1f438-frog.svg" id="9_73qls"]
 
 [node name="StartMenu" type="Control"]
 layout_mode = 3
@@ -64,6 +65,25 @@ offset_bottom = 16.0
 texture = ExtResource("8")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Frog" type="TextureRect" parent="PressStart/VBoxContainer/TextureRect3"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.385192
+anchor_top = 0.5
+anchor_right = 0.385192
+anchor_bottom = 0.5
+offset_left = -135.0
+offset_top = -135.0
+offset_right = 135.0
+offset_bottom = 135.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(135, 135)
+texture = ExtResource("9_73qls")
+metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PressStart/VBoxContainer"]
 layout_mode = 2
