@@ -88,13 +88,11 @@ func _input(event):
 		fps_label.visible = !fps_label.visible
 	
 	if event.is_action_pressed("take_screenshot", false, true):
-		var img = get_viewport().get_texture().get_data()
+		var img = get_viewport().get_texture().get_image()
 		# Flip it on the y-axis (because it's flipped).
-		img.flip_y()
 		if not DirAccess.dir_exists_absolute("user://debug_screenshot"):
 			DirAccess.make_dir_absolute("user://debug_screenshot")
 		img.save_png("user://debug_screenshot/%d.png" % [Time.get_unix_time_from_system()])
-	
 	if event.is_action_pressed("toggle_gamepad_view", false, true):
 		gamepad_visualizer.visible = !gamepad_visualizer.visible 
 		
