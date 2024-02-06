@@ -1,4 +1,3 @@
-@uid("uid://8sqeankfcdem") # Generated automatically, do not modify.
 extends "res://menus/HBConfirmationWindow.gd"
 
 signal entered(text)

@@ -1,4 +1,3 @@
-@uid("uid://bbysc60udeqve") # Generated automatically, do not modify.
 extends PanelContainer
 
 @onready var scroll_list_container = get_node("MarginContainer/VBoxContainer/HBScrollList/VBoxContainer")

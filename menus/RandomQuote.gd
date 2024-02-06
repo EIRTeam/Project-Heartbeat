@@ -77,7 +77,12 @@ const QUOTES = [
 	"Como que 33?", # Fernando Alonso reference
 	"An offer you can't refuse!", # The godfather reference
 	"kyuuonComfy kyuuonComfy", # Kyuuon reference
-	"I really wish I was born in the middle ages" # i really wish i was born in the middle ages so i could legally fuck and marry my sister - Mephisto
+	"I really wish I was born in the middle ages", # i really wish i was born in the middle ages so i could legally fuck and marry my sister - Mephisto
+	"Lulu's great eternity", # RIP lulu the dog
+	"We love you Grandpa Luis!", # RIP gramps
+	"Don't ask why they call her Chernobyl", # Never ask Kami why they call her that
+	"LAS GRAPAS DONDE???", # Never ask guinii about that one vtuber
+	"Pick up that can", # HL2 reference
 ]
 
 const BIRTHDAYS = {
@@ -97,7 +102,7 @@ func _ready():
 	if date_time.day == 14 and date_time.month == 2:
 		text = "Love is in the air!"
 	else:
-		text = QUOTES[randi() % QUOTES.size()]
+		text = QUOTES[randi_range(0, QUOTES.size()-1)]
 		for birthday in BIRTHDAYS:
 			if birthday[0] == date_time.day and birthday[1] == date_time.month:
 				emit_signal("birthday_triggered")

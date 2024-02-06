@@ -1,4 +1,3 @@
-@uid("uid://duw505w12btfa") # Generated automatically, do not modify.
 extends PlatformServiceProvider
 
 const LOG_NAME = "SteamServiceProvider"

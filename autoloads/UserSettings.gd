@@ -1,4 +1,3 @@
-@uid("uid://5b7pqe2ujnh3") # Generated automatically, do not modify.
 extends Node
 
 var user_settings: HBUserSettings = HBUserSettings.new()
@@ -524,7 +523,7 @@ func get_sound_path(sfx_name: String) -> String:
 	return HBUserSettings.DEFAULT_SOUNDS[sfx_name]
 
 func should_use_direct_joystick_access(device_idx: int) -> bool:
-	return user_settings.use_direct_joystick_access and device_idx in Input.get_connected_joypads() and Input.is_joy_known(device_idx)
+	return user_settings.use_direct_joystick_access and device_idx in Input.get_connected_joypads()
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

@@ -1,4 +1,3 @@
-@uid("uid://bledxvxmbfr67") # Generated automatically, do not modify.
 @tool
 extends Button
 

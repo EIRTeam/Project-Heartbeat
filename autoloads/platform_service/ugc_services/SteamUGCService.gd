@@ -52,7 +52,6 @@ func _reload_ugc_item_added_dates():
 		var result: HBSteamUGCQueryPageResult = await query.query_completed 
 		var results := result.results
 		_on_ugc_meta_query_update_completed(results)
-		print("META QUERY DONE", page)
 		return result
 	var page := 1
 	var result := await do_req.call(page) as HBSteamUGCQueryPageResult

@@ -1,4 +1,3 @@
-@uid("uid://du5oeuubcmh70") # Generated automatically, do not modify.
 extends Control
 
 var current_diff

@@ -1,4 +1,3 @@
-@uid("uid://dw58ruk7ib7f2") # Generated automatically, do not modify.
 extends Control
 
 var title: String

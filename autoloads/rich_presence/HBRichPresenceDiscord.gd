@@ -1,4 +1,3 @@
-@uid("uid://bh143efp6hmdc") # Generated automatically, do not modify.
 extends HBRichPresence
 
 class_name HBRichPresenceDiscord
@@ -46,7 +45,6 @@ func update_activity(state):
 		DiscordRPC.update_presence(dict)
 		rpc_rate_limit_timer.start()
 	else:
-		print("RATE LIMIT")
 		rate_limited_presence_data = dict
 	
 func poll():

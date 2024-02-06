@@ -1,4 +1,3 @@
-@uid("uid://cv1vaotn6leud") # Generated automatically, do not modify.
 extends Control
 
 @onready var download_confirm_popup = get_node("DownloadConfirmPopup")

@@ -1,4 +1,3 @@
-@uid("uid://3tm77b0ajy1v") # Generated automatically, do not modify.
 # Main Game class
 extends Node
 

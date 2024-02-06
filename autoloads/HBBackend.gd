@@ -1,4 +1,3 @@
-@uid("uid://cuyt5ae3ogdgt") # Generated automatically, do not modify.
 extends Node
 
 signal result_entered(result)

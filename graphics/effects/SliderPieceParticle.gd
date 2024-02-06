@@ -1,4 +1,3 @@
-@uid("uid://ep2vlj4qg55x") # Generated automatically, do not modify.
 @tool
 extends CPUParticles2D
 

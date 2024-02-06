@@ -1,4 +1,3 @@
-@uid("uid://bgd0ah6ji7iwi") # Generated automatically, do not modify.
 @tool
 extends Control
 

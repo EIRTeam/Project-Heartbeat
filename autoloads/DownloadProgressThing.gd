@@ -1,4 +1,3 @@
-@uid("uid://cj8al5gllmy6x") # Generated automatically, do not modify.
 extends Control
 
 class_name HBDownloadProgressThing

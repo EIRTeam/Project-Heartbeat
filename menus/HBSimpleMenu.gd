@@ -1,4 +1,3 @@
-@uid("uid://cnltgci1qiotv") # Generated automatically, do not modify.
 extends BoxContainer
 
 class_name HBSimpleMenu
