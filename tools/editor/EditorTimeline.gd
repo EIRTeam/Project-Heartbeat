@@ -94,7 +94,7 @@ func send_time_cull_changed_signal():
 	
 	stream_editor.start_point = _cull_start_time / 1000.0 - variant_offset
 	stream_editor.end_point = _cull_end_time / 1000.0 - variant_offset
-	stream_editor.size.x = size.x - layer_names.size.x - 13 # Account for scrollbar
+	stream_editor.size.x = size.x - layer_names.size.x
 	stream_editor.size.y = scroll_container.size.y
 	stream_editor.global_position.y = scroll_container.global_position.y
 	stream_editor.global_position.x = layer_names.size.x
