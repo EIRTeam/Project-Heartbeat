@@ -38,16 +38,7 @@ func show_epilepsy_warning():
 	epilepsy_warning_tween.interpolate_property(epilepsy_warning, "modulate:a", 0.0, 1.0, 0.5, Threen.TRANS_LINEAR)
 	epilepsy_warning_tween.start()
 	
-func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoader.AssetLoadToken):
-	game_info = new_game_info
-	current_diff = game_info.difficulty
-	var song: HBSong = new_game_info.get_song()
-	if song.show_epilepsy_warning:
-		min_load_time_timer.start(3)
-		show_epilepsy_warning()
-	
-	is_loading_practice_mode = practice
-
+func _display_asset_graphics(assets: SongAssetLoader.AssetLoadToken):
 	$TextureRect.material = null
 	var background := assets.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND) as Texture2D
 	if background:
@@ -65,6 +56,20 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoade
 			album_cover.material = preview.get_material()
 	else:
 		album_cover.texture = DEFAULT_PREVIEW_TEXTURE
+	
+func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoader.AssetLoadToken):
+	game_info = new_game_info
+	current_diff = game_info.difficulty
+	var song: HBSong = new_game_info.get_song()
+	if song.show_epilepsy_warning:
+		min_load_time_timer.start(3)
+		show_epilepsy_warning()
+	
+	is_loading_practice_mode = practice
+
+	# unlikely case in which we had no assets, we should load without them
+	if assets and assets.song == song:
+		_display_asset_graphics(assets)
 	title_label.text = song.get_visible_title(new_game_info.variant)
 	meta_label.text = '\n'.join(song.get_meta_string())
 	
@@ -84,7 +89,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoade
 					if ugc_item.download(true):
 						loadingu_label.text = tr("Downloadingu UI Skin...")
 						skin_downloading_item = song.skin_ugc_id
-						Steamworks.ugc.item_installed.connect(Callable(self, "_on_item_installed"))
+						Steamworks.ugc.item_installed.connect(self._on_item_downloaded)
 						start_now = false
 					elif item_state & Steam.ITEM_STATE_INSTALLED:
 						_load_ugc_skin(song.skin_ugc_id)
@@ -92,6 +97,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoade
 					_load_ugc_skin(song.skin_ugc_id)
 	if start_now:
 		start_asset_load()
+		
 func _load_ugc_skin(file_id: int):
 	var item := HBSteamUGCItem.from_id(file_id)
 	var item_state := item.item_state
@@ -133,6 +139,7 @@ func _on_song_assets_loaded(assets: SongAssetLoader.AssetLoadToken):
 		await min_load_time_timer.timeout
 	current_assets = assets
 	if UserSettings.user_settings.show_note_types_before_playing:
+		_display_asset_graphics(assets)
 		var song: HBSong = game_info.get_song()
 		var chart := song.get_chart_for_difficulty(game_info.difficulty)
 		chart_features_display.set_chart(chart)
