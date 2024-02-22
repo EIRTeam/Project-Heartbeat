@@ -339,13 +339,13 @@ func _ready():
 		var sound_pretty_name = sound_type.capitalize().to_lower()
 		sound_pretty_name = sound_pretty_name.substr(0, 1).to_upper() + sound_pretty_name.substr(1)
 		OPTIONS[OPTIONS.keys()[4]][sound_type + "_custom"] = {
-			"name": tr("%s sound") % [sound_pretty_name],
+			"name": tr("{sound_pretty_name} sound").format({"sound_pretty_name": sound_pretty_name}),
 			"description": tr("Sound to use. (Place custom sounds inside the custom_sounds folder in your user folder, only 16-bit WAV files are supported)"),
 			"sound_name": sound_type,
 			"type": "sound_type_selector"
 		}
 		OPTIONS[OPTIONS.keys()[4]][sound_type] = {
-			"name": tr("%s sound volume") % [sound_pretty_name],
+			"name": tr("{sound_pretty_name} sound volume").format({"sound_pretty_name": sound_pretty_name}),
 			"description": tr("Volume for this sound effect"),
 			"minimum": 0.0,
 			"maximum": 1.5,

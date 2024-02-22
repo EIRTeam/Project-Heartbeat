@@ -1,124 +1,122 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=12 format=3 uid="uid://uod8mukngj86"]
 
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=1]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontFile" id=2]
-[ext_resource path="res://graphics/default_avatar.png" type="Texture2D" id=3]
-[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=4]
-[ext_resource path="res://fonts/orbitron-black-mono.otf" type="FontFile" id=5]
-[ext_resource path="res://rythm_game/MultiplayerScoreboardItem.gd" type="Script" id=6]
-[ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=7]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="1"]
+[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="2"]
+[ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="3"]
+[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="4"]
+[ext_resource type="FontFile" uid="uid://bp300py43a3w8" path="res://fonts/orbitron-black-mono.otf" id="5"]
+[ext_resource type="Script" path="res://rythm_game/MultiplayerScoreboardItem.gd" id="6"]
+[ext_resource type="Script" path="res://rythm_game/ScoreCounter.gd" id="7"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 25.0
 content_margin_right = 0.0
-bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
+bg_color = Color(0.188235, 0.0745098, 0.301961, 0.501961)
 border_width_left = 2
 border_width_top = 2
 border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_top_left = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="FontFile" id=2]
-size = 15
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 2 )
-fallback/0 = ExtResource( 1 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("2"), ExtResource("1")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
-[sub_resource type="FontFile" id=3]
-size = 20
-outline_size = 3
-outline_color = Color( 1, 1, 1, 0.2 )
-use_mipmaps = true
-use_filter = true
-spacing_top = 3
-spacing_bottom = 1
-extra_spacing_char = 5
-font_data = ExtResource( 5 )
+[sub_resource type="FontFile" id="3"]
+fallbacks = Array[Font]([ExtResource("5")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
-[sub_resource type="FontFile" id=4]
-size = 20
-outline_size = 2
-outline_color = Color( 1, 1, 1, 0.2 )
-use_mipmaps = true
-use_filter = true
-spacing_top = 7
-font_data = ExtResource( 4 )
+[sub_resource type="FontFile" id="4"]
+fallbacks = Array[Font]([ExtResource("4")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
 [node name="MultiplayerScoreboardItem" type="Panel"]
+custom_minimum_size = Vector2(0, 83)
 offset_top = 322.0
 offset_right = 256.0
 offset_bottom = 398.0
-custom_minimum_size = Vector2( 0, 83 )
-theme_override_styles/panel = SubResource( 1 )
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = SubResource("1")
+script = ExtResource("6")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_top = 5
 theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 273.0
-offset_bottom = 78.0
+layout_mode = 2
 theme_override_constants/separation = 13
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
-offset_right = 73.0
-offset_bottom = 73.0
-custom_minimum_size = Vector2( 73, 0 )
-texture = ExtResource( 3 )
-expand = true
+custom_minimum_size = Vector2(73, 0)
+layout_mode = 2
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-offset_left = 86.0
-offset_right = 268.0
-offset_bottom = 73.0
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MemberNameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-offset_right = 182.0
-offset_bottom = 18.0
-theme_override_fonts/font = SubResource( 2 )
+auto_translate_mode = 2
+layout_mode = 2
+auto_translate = false
+theme_override_fonts/font = SubResource("2")
 text = "(NT)EIREXE"
 
 [node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-offset_top = 20.0
-offset_right = 182.0
-offset_bottom = 44.0
-theme_override_fonts/font = SubResource( 3 )
+auto_translate_mode = 2
+layout_mode = 2
+auto_translate = false
+theme_override_fonts/font = SubResource("3")
 text = "(NT)0000000"
 vertical_alignment = 1
-script = ExtResource( 7 )
+script = ExtResource("7")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-offset_top = 46.0
-offset_right = 182.0
-offset_bottom = 73.0
+layout_mode = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-offset_right = 110.0
-offset_bottom = 27.0
-theme_override_fonts/font = SubResource( 4 )
+auto_translate_mode = 2
+layout_mode = 2
+auto_translate = false
+theme_override_fonts/font = SubResource("4")
 text = "(NT)COOL"
 vertical_alignment = 1

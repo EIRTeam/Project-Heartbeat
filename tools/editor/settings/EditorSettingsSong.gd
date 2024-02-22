@@ -83,11 +83,9 @@ func _variants_parser(value, mode):
 
 
 func clear_layers():
-	var item = layers_item.get_children()
-	while item:
-		var _item = item
-		item = item.get_next()
-		_item.free()
+	var children := layers_item.get_children()
+	for tree_item: TreeItem in children:
+		tree_item.free()
 
 func add_layer(layer_name: String, layer_visibility: bool):
 	var text := tr("Visible") if layer_visibility else tr("Hidden")

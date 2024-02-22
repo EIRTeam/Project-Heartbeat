@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://cf2jxkpomwvf3"]
 
 [ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="1"]
-[ext_resource type="Script" uid="uid://bf2xdvrk0cupo" path="res://rythm_game/rhythm_game_controller.gd" id="2"]
+[ext_resource type="Script" path="res://rythm_game/rhythm_game_controller.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://q7lxigfdjdkq" path="res://rythm_game/pause_menu/PauseMenu.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="5"]
@@ -199,9 +199,11 @@ theme_override_styles/panel = SubResource("2")
 [node name="FadeOutThreen" type="Threen" parent="."]
 
 [node name="Label" type="Label" parent="."]
+auto_translate_mode = 2
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 14.0
+auto_translate = false
 theme_override_fonts/font = ExtResource("9")
 text = "asdsadsad"
 

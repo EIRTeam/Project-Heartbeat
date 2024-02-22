@@ -232,7 +232,9 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_fonts/font = SubResource("2")
 text = "discord.gg/qGMdbez"
 
@@ -248,7 +250,9 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_fonts/font = SubResource("2")
 text = "@PHeartbeatGame"
 

@@ -16,8 +16,7 @@ func _ready():
 func set_values():
 	if get_index() % 2 != 0:
 		add_theme_stylebox_override("panel", style_even)
-	percentage_label.text = "%s (%.2f" % [HBUtils.thousands_sep(entry.game_info.result.score), entry.game_info.result.get_percentage()*100]
-	percentage_label.text += "%)"
+	percentage_label.text = "%s (%.2f%%)" % [HBUtils.thousands_sep(entry.game_info.result.score), entry.game_info.result.get_percentage()*100]
 	username_label.text = entry.user.member_name
 	rank_label.text = str(entry.rank)
 	user_avatar_texture_rect.texture = entry.user.get_avatar()

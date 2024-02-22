@@ -79,7 +79,9 @@ action_text = ""
 action_name = &"pause"
 
 [node name="Label3" type="Label" parent="MarginContainer/VBoxContainer2/Panel/MarginContainer/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_fonts/font = ExtResource("2_5lgdl")
 text = "/"
 horizontal_alignment = 1

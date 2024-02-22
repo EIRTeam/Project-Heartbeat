@@ -8,10 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://6phu22pv2pdj" path="res://graphics/icons/5-star.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://7g6fr4u55qd8" path="res://graphics/icons/0-star.png" id="7"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="8"]
-[ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="9"]
 [ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="9_jse5m"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="10"]
-[ext_resource type="FontFile" uid="uid://bhvxjn5pyyk55" path="res://fonts/orbitron-bold.otf" id="10_cnllk"]
+[ext_resource type="FontFile" uid="uid://igqm8fnnmk4q" path="res://fonts/orbitron-bold.otf" id="10_cnllk"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
@@ -72,15 +72,19 @@ size_flags_horizontal = 3
 theme_override_constants/separation = -7
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
+auto_translate = false
 theme_override_fonts/font = ExtResource("2")
 text = "aasdasdasdsadsadsa"
 horizontal_alignment = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
+auto_translate = false
 text = "aasdasdasdsadsadsa"
 horizontal_alignment = 2
 
@@ -112,16 +116,22 @@ texture_progress = ExtResource("6")
 layout_mode = 2
 
 [node name="UpVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 text = "1"
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 text = "/"
 
 [node name="DownVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "1"
 
@@ -158,7 +168,9 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
 [node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_fonts/normal_font = ExtResource("9_jse5m")
 theme_override_fonts/bold_font = ExtResource("10_cnllk")
@@ -198,7 +210,9 @@ action_name = "gui_cancel"
 text = "Back"
 
 [node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource("10")]
-unresizable = false
+visible = false
+layout_mode = 0
+anchors_preset = 0
 has_cancel = false
 text = "Item unsubscribed succesfully, will be removed after you restart the game."
 accept_text = "Alright"

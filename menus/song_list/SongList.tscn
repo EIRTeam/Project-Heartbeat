@@ -1,17 +1,17 @@
 [gd_scene load_steps=25 format=3 uid="uid://mq8cvko6co3o"]
 
 [ext_resource type="FontFile" path="res://fonts/Default_Font_thin.tres" id="1"]
-[ext_resource type="Script" uid="uid://dks1agdj5qb8i" path="res://menus/song_list/SongList.gd" id="2"]
+[ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="6"]
-[ext_resource type="Script" uid="uid://cnltgci1qiotv" path="res://menus/HBSimpleMenu.gd" id="7"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
 [ext_resource type="Texture2D" uid="uid://dq1i623nxlj8v" path="res://graphics/icons/sort-ascending.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="9"]
 [ext_resource type="Script" path="res://menus/song_list/SongListSongContainer.gd" id="10"]
 [ext_resource type="PackedScene" uid="uid://c4tvo47nahi4h" path="res://menus/FolderManager.tscn" id="11"]
-[ext_resource type="Script" uid="uid://bil3yngksv25g" path="res://menus/ScrollingLabel.gd" id="12"]
+[ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="12"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="12_787qn"]
 [ext_resource type="PackedScene" path="res://menus/HBHovereableCheckbox.tscn" id="14"]
 [ext_resource type="PackedScene" path="res://menus/HBHovereableOptionButton.tscn" id="15"]
@@ -302,6 +302,7 @@ action_name = "gui_cancel"
 text = "Back"
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource("5")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_left = 0.0
@@ -372,6 +373,7 @@ offset_right = 374.0
 offset_bottom = 264.5
 
 [node name="SongCountIndicator" type="Label" parent="."]
+auto_translate_mode = 2
 layout_mode = 0
 anchor_left = 0.015
 anchor_top = 0.945
@@ -380,6 +382,7 @@ anchor_bottom = 1.0
 offset_left = 0.200001
 offset_top = 12.4
 offset_right = 290.2
+auto_translate = false
 theme_override_fonts/font = ExtResource("18")
 text = "123/123"
 vertical_alignment = 1

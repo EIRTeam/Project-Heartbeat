@@ -1,25 +1,27 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=3 uid="uid://b4eqtqajjdw50"]
 
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=1]
-[ext_resource path="res://menus/tools_menu/ToolsMenu.gd" type="Script" id=2]
-[ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://graphics/icons/folder-music.svg" type="Texture2D" id=4]
-[ext_resource path="res://graphics/icons/folder-cog.svg" type="Texture2D" id=5]
-[ext_resource path="res://graphics/icons/music-clef-treble.svg" type="Texture2D" id=6]
-[ext_resource path="res://graphics/icons/account-bigger.svg" type="Texture2D" id=7]
-[ext_resource path="res://graphics/icons/settings-box.svg" type="Texture2D" id=8]
-[ext_resource path="res://graphics/icons/package-variant.svg" type="Texture2D" id=9]
-[ext_resource path="res://graphics/icons/nintendo-switch.svg" type="Texture2D" id=10]
-[ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture2D" id=11]
-[ext_resource path="res://graphics/icons/uoh.svg" type="Texture2D" id=12]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="1"]
+[ext_resource type="Script" path="res://menus/tools_menu/ToolsMenu.gd" id="2"]
+[ext_resource type="PackedScene" path="res://menus/HBMenuChangeButton.tscn" id="3"]
+[ext_resource type="Texture2D" uid="uid://dnbe0dc4neqg3" path="res://graphics/icons/folder-music.svg" id="4"]
+[ext_resource type="Texture2D" uid="uid://bov4rkihexnl0" path="res://graphics/icons/folder-cog.svg" id="5"]
+[ext_resource type="Texture2D" uid="uid://bce3btarcngmp" path="res://graphics/icons/music-clef-treble.svg" id="6"]
+[ext_resource type="Texture2D" uid="uid://di2nif4hes7ts" path="res://graphics/icons/account-bigger.svg" id="7"]
+[ext_resource type="Texture2D" uid="uid://c8c1a67bhcxiv" path="res://graphics/icons/settings-box.svg" id="8"]
+[ext_resource type="Texture2D" uid="uid://07ken53fehqf" path="res://graphics/icons/package-variant.svg" id="9"]
+[ext_resource type="Texture2D" uid="uid://bwx8jmm5u4dmc" path="res://graphics/icons/music-box-outline.svg" id="11"]
+[ext_resource type="Texture2D" uid="uid://bys46g1tt3d17" path="res://graphics/icons/uoh.svg" id="12"]
 
 [node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-scale = Vector2( 0.95, 0.95 )
-script = ExtResource( 2 )
+scale = Vector2(0.95, 0.95)
+script = ExtResource("2")
 
 [node name="ToolsList" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_bottom = 1.0
 offset_top = 170.053
 offset_right = 545.0
@@ -27,88 +29,63 @@ offset_bottom = 1.05261
 focus_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
-script = ExtResource( 1 )
+script = ExtResource("1")
 orientation = 1
 enable_wrap_around = true
 
-[node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 145.0
-offset_right = 545.0
-offset_bottom = 205.0
-custom_minimum_size = Vector2( 0, 60 )
+[node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 text = "Song Editor"
-icon = ExtResource( 6 )
+icon = ExtResource("6")
+alignment = 0
 
-[node name="ResourcePackEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 215.0
-offset_right = 545.0
-offset_bottom = 275.0
-custom_minimum_size = Vector2( 0, 60 )
+[node name="ResourcePackEditorButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 text = "Resource Pack Editor"
-icon = ExtResource( 9 )
+icon = ExtResource("9")
+alignment = 0
 
-[node name="OpenLogsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 285.0
-offset_right = 545.0
-offset_bottom = 345.0
-custom_minimum_size = Vector2( 0, 60 )
-text = "Open Logs DirAccess"
-icon = ExtResource( 5 )
+[node name="OpenLogsDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Open Logs Directory"
+icon = ExtResource("5")
+alignment = 0
 
-[node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 355.0
-offset_right = 545.0
-offset_bottom = 415.0
-custom_minimum_size = Vector2( 0, 60 )
-text = "Open Songs DirAccess"
-icon = ExtResource( 4 )
+[node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Open Songs Directory"
+icon = ExtResource("4")
+alignment = 0
 
-[node name="OpenUserDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 425.0
-offset_right = 545.0
-offset_bottom = 485.0
-custom_minimum_size = Vector2( 0, 60 )
-text = "Open User DirAccess"
-icon = ExtResource( 7 )
+[node name="OpenUserDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Open User Directory"
+icon = ExtResource("7")
+alignment = 0
 
-[node name="PPDManagerButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 495.0
-offset_right = 545.0
-offset_bottom = 555.0
-custom_minimum_size = Vector2( 0, 60 )
+[node name="PPDManagerButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 text = "PPD Manager"
-icon = ExtResource( 8 )
+icon = ExtResource("8")
+alignment = 0
 
-[node name="SwitchExporterButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 565.0
-offset_right = 545.0
-offset_bottom = 625.0
-custom_minimum_size = Vector2( 0, 60 )
-text = "Switch Exporter"
-icon = ExtResource( 10 )
-
-[node name="LatencyCalculatorButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 635.0
-offset_right = 545.0
-offset_bottom = 695.0
-custom_minimum_size = Vector2( 0, 60 )
+[node name="LatencyCalculatorButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 text = "Latency Tester"
-icon = ExtResource( 11 )
+icon = ExtResource("11")
+alignment = 0
 next_menu = "latency_tester"
 
-[node name="DJADebugButton" parent="ToolsList" instance=ExtResource( 3 )]
-offset_left = 0.0
-offset_top = 705.0
-offset_right = 545.0
-offset_bottom = 765.0
-custom_minimum_size = Vector2( 0, 60 )
+[node name="DJADebugButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 text = "DJA Debug"
-icon = ExtResource( 12 )
+icon = ExtResource("12")
+alignment = 0

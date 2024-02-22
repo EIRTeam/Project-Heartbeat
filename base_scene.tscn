@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://d2xoywdaxsuvs" path="res://menus/MainMenuVisualizer.tscn" id="4"]
-[ext_resource type="Script" uid="uid://bguo2pwgkg5bx" path="res://base_scene.gd" id="5"]
+[ext_resource type="Script" path="res://base_scene.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://dssxtjqhuhlbn" path="res://graphics/effects/SlideParticles.tscn" id="6_x0nmg"]
 
 [node name="Control" type="Control"]

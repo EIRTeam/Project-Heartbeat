@@ -1,12 +1,88 @@
-[gd_scene load_steps=15 format=3 uid="uid://cr4ygsnm3cu5s"]
+[gd_scene load_steps=20 format=3 uid="uid://cr4ygsnm3cu5s"]
 
-[ext_resource type="PackedScene" path="res://rythm_game/rhythm_game_controller.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://cf2jxkpomwvf3" path="res://rythm_game/rhythm_game_controller.tscn" id="1"]
 [ext_resource type="Script" path="res://rythm_game/practice_mode.gd" id="2"]
 [ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="3"]
-[ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
 [ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="5"]
-[ext_resource type="PackedScene" path="res://menus/HBConfirmationWindow.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://menus/PerSongSettingsEditor.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://mk4i5mpqt4hy" path="res://menus/PerSongSettingsEditor.tscn" id="7"]
+
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Shader" id="3"]
+code = "shader_type canvas_item;
+
+const float range = 0.05;
+const float noiseQuality = 250.0;
+const float noiseIntensity = 0.0044;
+const float offsetIntensity = 0.01;
+const float colorOffsetIntensity = 1.3;
+uniform float desaturation = 0.25;
+uniform sampler2D screen_tex: hint_screen_texture, filter_linear_mipmap;
+
+vec3 desaturate(vec3 color, float Desaturation)
+{
+	vec3 grayXfer = vec3(0.3, 0.59, 0.11);
+	vec3 gray = vec3(dot(grayXfer, color));
+	return mix(color, gray, Desaturation);
+}
+
+float rand(vec2 co)
+{
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+float verticalBar(float pos, float uvY, float offset)
+{
+    float edge0 = (pos - range);
+    float edge1 = (pos + range);
+
+    float x = smoothstep(edge0, pos, uvY) * offset;
+    x -= smoothstep(pos, edge1, uvY) * offset;
+    return x;
+}
+
+void fragment()
+{
+	vec2 fragCoord = FRAGCOORD.xy;
+	vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
+	vec2 uv = FRAGCOORD.xy / iResolution.xy;
+    
+    for (float i = 0.0; i < 0.71; i += 0.1313)
+    {
+        float d = mod(TIME * i, 1.7);
+        float o = sin(1.0 - tan(TIME * 0.24 * i));
+    	o *= offsetIntensity;
+        uv.x += verticalBar(d, uv.y, o);
+    }
+    
+    float uvY = uv.y;
+    uvY *= noiseQuality;
+    uvY = float(int(uvY)) * (1.0 / noiseQuality);
+    float noise = rand(vec2(TIME * 0.00001, uvY));
+    uv.x += noise * noiseIntensity;
+
+    vec2 offsetR = vec2(0.006 * sin(TIME), 0.0) * colorOffsetIntensity;
+    vec2 offsetG = vec2(0.0073 * (cos(TIME * 0.97)), 0.0) * colorOffsetIntensity;
+    
+    float r = texture(screen_tex, uv + offsetR).r;
+    float g = texture(screen_tex, uv + offsetG).g;
+    float b = texture(screen_tex, uv).b;
+
+
+
+    vec4 tex = vec4(desaturate(vec3(r, g, b), desaturation), 1.0);
+    COLOR = tex;
+}"
+
+[sub_resource type="ShaderMaterial" id="4"]
+shader = SubResource("3")
+shader_parameter/desaturation = 0.25
 
 [sub_resource type="Animation" id="5"]
 resource_name = "appear"
@@ -44,29 +120,35 @@ _data = {
 "disappear": SubResource("6")
 }
 
+[sub_resource type="Environment" id="7"]
+
 [sub_resource type="FontFile" id="8"]
 fallbacks = Array[Font]([ExtResource("5")])
-face_index = null
-embolden = null
-transform = null
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
 cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
-[sub_resource type="FontFile" id="1"]
+[sub_resource type="FontFile" id="FontFile_5u356"]
 fallbacks = Array[Font]([ExtResource("3")])
-face_index = null
-embolden = null
-transform = null
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
 cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
 [sub_resource type="GDScript" id="GDScript_q7pkj"]
 script/source = "extends Button
@@ -84,7 +166,7 @@ func _input(event):
 						emit_signal(\"seeked\", progress)
 "
 
-[sub_resource type="StyleBoxFlat" id="7"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5djo4"]
 content_margin_left = 7.0
 content_margin_top = 7.0
 content_margin_right = 7.0
@@ -99,22 +181,16 @@ shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
 [node name="RhythmGame" instance=ExtResource("1")]
-layout_mode = 3
-anchors_preset = 15
-grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("2")
 
 [node name="TextureRect" parent="Node2D" index="0"]
-anchors_preset = 15
 offset_right = 0.0
 offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
-expand_mode = 1
+
+[node name="Panel" parent="Node2D" index="1"]
+theme_override_styles/panel = SubResource("1")
 
 [node name="VideoStreamPlayer" parent="Node2D/Panel" index="0"]
-layout_mode = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 
@@ -124,34 +200,23 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GameUIContainer" parent="." index="1"]
-anchors_preset = 0
-
 [node name="FadeIn" parent="." index="3"]
-layout_mode = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
+theme_override_styles/panel = SubResource("2")
 
-[node name="PauseMenu" parent="." index="4"]
-visible = false
-anchors_preset = 0
-
-[node name="FadeToBlack" parent="." index="5"]
-layout_mode = 0
+[node name="FadeToBlack" parent="." index="4"]
 anchor_right = 0.0
 anchor_bottom = 0.0
+theme_override_styles/panel = SubResource("2")
 
-[node name="Label" parent="." index="7"]
-layout_mode = 0
+[node name="Label" parent="." index="6"]
 offset_bottom = 23.0
 
-[node name="VHS" parent="." index="8"]
-layout_mode = 0
+[node name="VHS" parent="." index="7"]
+material = SubResource("4")
 anchor_right = 0.0
 anchor_bottom = 0.0
-
-[node name="RollbackLabel" parent="." index="9"]
-anchors_preset = 0
 
 [node name="AnimationPlayer" parent="RollbackLabel" index="0"]
 libraries = {
@@ -159,17 +224,21 @@ libraries = {
 }
 
 [node name="VBoxContainer" parent="RollbackLabel" index="1"]
-layout_mode = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 0.0
 
-[node name="Label" parent="RollbackLabel/VBoxContainer" index="0"]
-layout_mode = 2
+[node name="PauseMenu" parent="." index="9"]
+visible = false
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
-[node name="TextureRect" parent="RollbackLabel/VBoxContainer" index="1"]
-layout_mode = 2
+[node name="WorldEnvironment" parent="." index="10"]
+environment = SubResource("7")
 
 [node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="11"]
 layout_mode = 0
@@ -184,11 +253,26 @@ mouse_filter = 2
 alignment = 2
 
 [node name="Label" type="Label" parent="PracticeModeUIIngame/HBoxContainer" index="0"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_fonts/font = SubResource("8")
 text = "asdad"
 
 [node name="QuitConfirmation" parent="." index="12" instance=ExtResource("6")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 650.0
+offset_bottom = 409.0
+grow_horizontal = 1
+grow_vertical = 1
 text = "Are you sure you want to quit?"
 
 [node name="SeekGUI" type="MarginContainer" parent="." index="13"]
@@ -210,8 +294,10 @@ alignment = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="SeekGUI/VBoxContainer/VBoxContainer" index="0"]
+auto_translate_mode = 2
 layout_mode = 2
-theme_override_fonts/font = SubResource("1")
+auto_translate = false
+theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1:20/1:23"
 
 [node name="ProgressBar" type="ProgressBar" parent="SeekGUI/VBoxContainer/VBoxContainer" index="1"]
@@ -246,162 +332,90 @@ alignment = 1
 [node name="Panel1" parent="SeekGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_last_mode"
 text = "Previous mode"
 
-[node name="HBoxContainer" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_last_mode"
-
-[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Previous mode"
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+action_text = "Previous mode"
+action_name = &"practice_last_mode"
 
 [node name="Panel2" parent="SeekGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("4")]
 custom_minimum_size = Vector2(142, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_left"
 text = "Seek Left"
 
-[node name="HBoxContainer" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "gui_left"
-
-[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Seek Left"
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+action_text = "Seek Left"
+action_name = &"gui_left"
 
 [node name="Panel3" parent="SeekGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource("4")]
 custom_minimum_size = Vector2(174, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_set_waypoint"
 text = "Set Waypoint"
 
-[node name="HBoxContainer" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_set_waypoint"
-
-[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Set Waypoint"
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+action_text = "Set Waypoint"
+action_name = &"practice_set_waypoint"
 
 [node name="Panel4" parent="SeekGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource("4")]
 custom_minimum_size = Vector2(189, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_go_to_waypoint"
 text = "Go to waypoint"
 
-[node name="HBoxContainer" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_go_to_waypoint"
-
-[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Go to waypoint"
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+action_text = "Go to waypoint"
+action_name = &"practice_go_to_waypoint"
 
 [node name="Panel5" parent="SeekGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource("4")]
 custom_minimum_size = Vector2(126, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "pause"
 text = "Resume"
 
-[node name="HBoxContainer" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "pause"
-
-[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Resume"
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+action_text = "Resume"
+action_name = &"pause"
 
 [node name="Panel6" parent="SeekGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource("4")]
 custom_minimum_size = Vector2(90, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "contextual_option"
 text = "Quit"
 
-[node name="HBoxContainer" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "contextual_option"
-
-[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Quit"
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+action_text = "Quit"
+action_name = &"contextual_option"
 
 [node name="Panel7" parent="SeekGUI/VBoxContainer/HBoxContainer" index="6" instance=ExtResource("4")]
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_right"
 text = "Seek Right"
 
-[node name="HBoxContainer" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "gui_right"
-
-[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Seek Right"
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
+action_text = "Seek Right"
+action_name = &"gui_right"
 
 [node name="Panel8" parent="SeekGUI/VBoxContainer/HBoxContainer" index="7" instance=ExtResource("4")]
 custom_minimum_size = Vector2(149, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_next_mode"
 text = "Next mode"
 
-[node name="HBoxContainer" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_next_mode"
-
-[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Next mode"
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
+action_text = "Next mode"
+action_name = &"practice_next_mode"
 
 [node name="SectionSeekGUI" type="MarginContainer" parent="." index="14"]
 visible = false
@@ -422,8 +436,10 @@ alignment = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="0"]
+auto_translate_mode = 2
 layout_mode = 2
-theme_override_fonts/font = SubResource("1")
+auto_translate = false
+theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1:20/1:23"
 
 [node name="ProgressBar" type="ProgressBar" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="1"]
@@ -451,8 +467,10 @@ anchor_bottom = 1.0
 script = SubResource("GDScript_q7pkj")
 
 [node name="Label2" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="2"]
+auto_translate_mode = 2
 layout_mode = 2
-theme_override_fonts/font = SubResource("1")
+auto_translate = false
+theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "Default"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SectionSeekGUI/VBoxContainer" index="1"]
@@ -463,122 +481,68 @@ alignment = 1
 [node name="Panel1" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_last_mode"
 text = "Previous mode"
 
-[node name="HBoxContainer" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_last_mode"
-
-[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Previous mode"
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+action_text = "Previous mode"
+action_name = &"practice_last_mode"
 
 [node name="Panel2" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("4")]
 custom_minimum_size = Vector2(205, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_left"
 text = "Previous section"
 
-[node name="HBoxContainer" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "gui_left"
-
-[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Previous section"
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+action_text = "Previous section"
+action_name = &"gui_left"
 
 [node name="Panel3" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource("4")]
 custom_minimum_size = Vector2(126, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "pause"
 text = "Resume"
 
-[node name="HBoxContainer" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "pause"
-
-[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Resume"
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+action_text = "Resume"
+action_name = &"pause"
 
 [node name="Panel4" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource("4")]
 custom_minimum_size = Vector2(90, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "contextual_option"
 text = "Quit"
 
-[node name="HBoxContainer" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "contextual_option"
-
-[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Quit"
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+action_text = "Quit"
+action_name = &"contextual_option"
 
 [node name="Panel5" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource("4")]
 custom_minimum_size = Vector2(166, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_right"
 text = "Next section"
 
-[node name="HBoxContainer" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "gui_right"
-
-[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Next section"
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+action_text = "Next section"
+action_name = &"gui_right"
 
 [node name="Panel6" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource("4")]
 custom_minimum_size = Vector2(149, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_next_mode"
 text = "Next mode"
 
-[node name="HBoxContainer" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_next_mode"
-
-[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Next mode"
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+action_text = "Next mode"
+action_name = &"practice_next_mode"
 
 [node name="SettingsGUI" type="MarginContainer" parent="." index="15"]
 visible = false
@@ -614,102 +578,57 @@ alignment = 1
 [node name="Panel1" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_last_mode"
 text = "Previous mode"
 
-[node name="HBoxContainer" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel1" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_last_mode"
-
-[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Previous mode"
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+action_text = "Previous mode"
+action_name = &"practice_last_mode"
 
 [node name="Panel2" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("4")]
 custom_minimum_size = Vector2(126, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "pause"
 text = "Resume"
 
-[node name="HBoxContainer" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel2" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "pause"
-
-[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Resume"
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+action_text = "Resume"
+action_name = &"pause"
 
 [node name="Panel3" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource("4")]
 custom_minimum_size = Vector2(90, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "contextual_option"
 text = "Quit"
 
-[node name="HBoxContainer" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel3" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "contextual_option"
-
-[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Quit"
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+action_text = "Quit"
+action_name = &"contextual_option"
 
 [node name="Panel4" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource("4")]
 custom_minimum_size = Vector2(178, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_apply_latency"
 text = "Apply latency"
 
-[node name="HBoxContainer" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel4" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_apply_latency"
-
-[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Apply latency"
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+action_text = "Apply latency"
+action_name = &"practice_apply_latency"
 
 [node name="Panel5" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource("4")]
 custom_minimum_size = Vector2(149, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_next_mode"
 text = "Next mode"
 
-[node name="HBoxContainer" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel5" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_next_mode"
-
-[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Next mode"
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+action_text = "Next mode"
+action_name = &"practice_next_mode"
 
 [node name="SpeedControlGUI" type="MarginContainer" parent="." index="16"]
 visible = false
@@ -730,8 +649,10 @@ alignment = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="SpeedControlGUI/VBoxContainer/VBoxContainer" index="0"]
+auto_translate_mode = 2
 layout_mode = 2
-theme_override_fonts/font = SubResource("1")
+auto_translate = false
+theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1x"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SpeedControlGUI/VBoxContainer" index="1"]
@@ -742,122 +663,68 @@ alignment = 1
 [node name="Panel1" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_last_mode"
 text = "Previous mode"
 
-[node name="HBoxContainer" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_last_mode"
-
-[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Previous mode"
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+action_text = "Previous mode"
+action_name = &"practice_last_mode"
 
 [node name="Panel2" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("4")]
 custom_minimum_size = Vector2(154, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_left"
 text = "Slow down"
 
-[node name="HBoxContainer" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "gui_left"
-
-[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Slow down"
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+action_text = "Slow down"
+action_name = &"gui_left"
 
 [node name="Panel3" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource("4")]
 custom_minimum_size = Vector2(126, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "pause"
 text = "Resume"
 
-[node name="HBoxContainer" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "pause"
-
-[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Resume"
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+action_text = "Resume"
+action_name = &"pause"
 
 [node name="Panel4" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource("4")]
 custom_minimum_size = Vector2(90, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "contextual_option"
 text = "Quit"
 
-[node name="HBoxContainer" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "contextual_option"
-
-[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Quit"
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+action_text = "Quit"
+action_name = &"contextual_option"
 
 [node name="Panel5" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource("4")]
 custom_minimum_size = Vector2(137, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_right"
 text = "Speed up"
 
-[node name="HBoxContainer" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "gui_right"
-
-[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Speed up"
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+action_text = "Speed up"
+action_name = &"gui_right"
 
 [node name="Panel6" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource("4")]
 custom_minimum_size = Vector2(149, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_next_mode"
 text = "Next mode"
 
-[node name="HBoxContainer" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "practice_next_mode"
-
-[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Next mode"
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+action_text = "Next mode"
+action_name = &"practice_next_mode"
 
 [connection signal="seeked" from="SeekGUI/VBoxContainer/VBoxContainer/ProgressBar/SeekButton" to="." method="_on_SeekButton_seeked"]
 [connection signal="seeked" from="SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar/SeekButton" to="." method="_on_SeekButton_seeked"]

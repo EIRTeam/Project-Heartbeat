@@ -61,9 +61,11 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="Rank" type="Label" parent="MarginContainer/HBoxContainer"]
+auto_translate_mode = 2
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 0.08
+auto_translate = false
 theme_override_fonts/font = SubResource("1")
 text = "1"
 vertical_alignment = 2
@@ -79,9 +81,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="UserName" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
+auto_translate = false
 theme_override_fonts/font = SubResource("1")
 text = "Eirewe"
 vertical_alignment = 2
@@ -93,8 +97,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/ValueLabel3"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
+auto_translate = false
 theme_override_fonts/font = SubResource("4")
 text = "1.100.000 (100%)"

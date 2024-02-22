@@ -1,93 +1,80 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://k6ydqqj6cf3j"]
 
-[ext_resource path="res://graphics/default_avatar.png" type="Texture2D" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=2]
-[ext_resource path="res://multiplayer/lobby/Member.gd" type="Script" id=3]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontFile" id=4]
-[ext_resource path="res://graphics/icons/crown.svg" type="Texture2D" id=5]
-[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=6]
+[ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="1"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2"]
+[ext_resource type="Script" path="res://multiplayer/lobby/Member.gd" id="3"]
+[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="4"]
+[ext_resource type="Texture2D" uid="uid://c8s20e88p3ig7" path="res://graphics/icons/crown.svg" id="5"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="6"]
 
-[sub_resource type="FontFile" id=1]
-size = 20
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 4 )
-fallback/0 = ExtResource( 2 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("4"), ExtResource("2")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
 [node name="MarginContainer" type="MarginContainer"]
+custom_minimum_size = Vector2(300, 50)
 offset_right = 327.0
 offset_bottom = 60.0
-custom_minimum_size = Vector2( 300, 50 )
 size_flags_horizontal = 0
-theme_override_constants/margin_top = 0
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
 theme_override_constants/margin_bottom = 10
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 10.0
-offset_right = 327.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 317.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 27
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
-offset_right = 50.0
-offset_bottom = 50.0
-custom_minimum_size = Vector2( 50, 50 )
-texture = ExtResource( 1 )
-expand = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("1")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
-offset_left = 77.0
-offset_right = 317.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
-offset_right = 103.0
-offset_bottom = 50.0
+layout_mode = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
-offset_top = 13.0
-offset_right = 103.0
-offset_bottom = 37.0
+auto_translate_mode = 2
+layout_mode = 2
 size_flags_vertical = 5
-theme_override_fonts/font = SubResource( 1 )
+auto_translate = false
+theme_override_fonts/font = SubResource("1")
 text = "(NT)EIREXE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
-offset_left = 107.0
-offset_right = 131.0
-offset_bottom = 50.0
-texture = ExtResource( 5 )
+layout_mode = 2
+texture = ExtResource("5")
 stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
-offset_left = 135.0
-offset_right = 240.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="SetAsHostButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer"]
-offset_left = 11.0
-offset_right = 93.0
-offset_bottom = 50.0
+layout_mode = 2
 text = "Set as host"
-script = ExtResource( 6 )
+script = ExtResource("6")

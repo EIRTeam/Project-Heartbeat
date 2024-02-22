@@ -1,94 +1,88 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://bmww8gq2wjx8p"]
 
-[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=1]
-[ext_resource path="res://menus/media_download_queue/MediaDownloadQueue.gd" type="Script" id=2]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=3]
-[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=4]
-[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=5]
-[ext_resource path="res://fonts/orbitron-bold.otf" type="FontFile" id=6]
+[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="1"]
+[ext_resource type="Script" path="res://menus/media_download_queue/MediaDownloadQueue.gd" id="2"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="3"]
+[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="4"]
+[ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="5"]
+[ext_resource type="FontFile" uid="uid://igqm8fnnmk4q" path="res://fonts/orbitron-bold.otf" id="6"]
 
-[sub_resource type="FontFile" id=2]
-size = 40
-use_mipmaps = true
-use_filter = true
-spacing_top = 5
-font_data = ExtResource( 6 )
-fallback/0 = ExtResource( 3 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("6"), ExtResource("3")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
-[sub_resource type="FontFile" id=1]
-size = 45
-use_filter = true
-font_data = ExtResource( 4 )
-fallback/0 = ExtResource( 3 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("4"), ExtResource("3")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
 [node name="MarginContainer" type="MarginContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_top = 15
 theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 15.0
-offset_top = 15.0
-offset_right = 1905.0
-offset_bottom = 1065.0
+layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 1890.0
-offset_bottom = 45.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
-offset_right = 353.0
-offset_bottom = 45.0
-theme_override_fonts/font = SubResource( 2 )
+auto_translate_mode = 2
+layout_mode = 2
+auto_translate = false
+theme_override_fonts/font = SubResource("2")
 text = "adasdasdsadas"
 
 [node name="HBUniversalScrollList" type="ScrollContainer" parent="VBoxContainer"]
-offset_top = 49.0
-offset_right = 1890.0
-offset_bottom = 1015.0
-focus_mode = 2
+layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+focus_mode = 2
+script = ExtResource("1")
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_wrap_around = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBUniversalScrollList"]
-offset_right = 1890.0
-offset_bottom = 966.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-offset_top = 1019.0
-offset_right = 1890.0
-offset_bottom = 1050.0
+layout_mode = 2
 alignment = 1
 
-[node name="Panel4" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 5 )]
-offset_left = 883.0
-offset_right = 1007.0
-offset_bottom = 31.0
-custom_minimum_size = Vector2( 124, 31 )
+[node name="Panel4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("5")]
+custom_minimum_size = Vector2(124, 31)
+layout_mode = 2
 action_name = "gui_cancel"
 text = "Back"
 
 [node name="Label" type="Label" parent="."]
-offset_left = 15.0
-offset_top = 517.0
-offset_right = 1905.0
-offset_bottom = 563.0
-theme_override_fonts/font = SubResource( 1 )
+layout_mode = 2
+theme_override_fonts/font = SubResource("1")
 text = "No downloads queued!"
 horizontal_alignment = 1

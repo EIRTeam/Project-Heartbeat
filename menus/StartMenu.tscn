@@ -91,7 +91,9 @@ mouse_filter = 2
 theme_override_constants/separation = 70
 
 [node name="RandomQuote" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_fonts/font = ExtResource("7")
 text = "(NT)On the wings of a dream"
 horizontal_alignment = 1

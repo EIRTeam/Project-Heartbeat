@@ -162,46 +162,48 @@ func show_ph_credits(label: RichTextLabel):
 	scroll_container.scroll_vertical = 0
 	label.text = ""
 	
-	label.text += "\n"
-	make_title(label, "Patrons")
+	var newl := "\n"
+	label.text += newl
+	make_title(label, tr("Patrons"))
 	make_credits_dumb(label, PH_AUTHORS.Patrons)
 	
-	label.text += "\n"
-	make_title(label, "Programming")
+	label.text += newl
+	make_title(label, tr("Programming"))
 	make_credits_simple(label, PH_AUTHORS.Programming)
 
-	label.text += "\n"
-	make_title(label, "Art")
+	label.text += newl
+	make_title(label, tr("Art"))
 	make_credits_links(label, PH_AUTHORS.Art)
 
-	label.text += "\n"
-	make_title(label, "Music")
+	label.text += newl
+	make_title(label, tr("Music"))
 	make_credits_list(label, PH_AUTHORS.Music)
 
-	label.text += "\n"
-	make_title(label, "Charting")
+	label.text += newl
+	make_title(label, tr("Charting"))
 	make_credits_list(label, PH_AUTHORS.Charting)
 
-	label.text += "\n"
-	make_title(label, "Charting Software")
+	label.text += newl
+	make_title(label, tr("Charting Software"))
 	make_credits_list(label, PH_AUTHORS["Charting software"])
 
-	label.text += "\n"
-	make_title(label, "Licenses")
+	label.text += newl
+	make_title(label, tr("Licenses"))
 	make_credits_dumb(label, PH_AUTHORS.Licenses)
 
-	label.text += "\n"
-	make_title(label, "Others")
+	label.text += newl
+	make_title(label, tr("Others"))
 	make_credits_simple(label, PH_AUTHORS.Others)
 	
 func show_copyright_info_engine(info: Dictionary):
 	var title = info.name
 	make_title(rich_text_label, title)
 	for part in info.parts:
-		rich_text_label.text += "License: %s \n" % [part.license]
+		rich_text_label.text += tr("License: %s \n") % [part.license]
 		for copyright in part.copyright:
 			rich_text_label.text += "[u][indent]%s[/indent][/u]\n" % [copyright]
-	rich_text_label.text += "\n"
+	var newl := "\n"
+	rich_text_label.text += newl
 	
 func show_engine_credits(label: RichTextLabel):
 	scroll_container.scroll_vertical = 0

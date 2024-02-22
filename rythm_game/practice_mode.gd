@@ -382,10 +382,11 @@ func update_stats_label():
 	
 	ingame_stats_label.text = "Game info:\n"
 	ingame_stats_label.text += ('"%s"\n' % current_section.name) if current_section else ""
+	
 	ingame_stats_label.text += "BPM: %.*f\n" % [0 if round(current_bpm) == current_bpm else 2, current_bpm]
 	ingame_stats_label.text += "Time sig: %s\n" % current_time_sig
 	ingame_stats_label.text += "Note speed: %.*fBPM\n" % [0 if round(current_speed) == current_speed else 2, current_speed]
-	ingame_stats_label.text += "NPS: %d\n" % notes_in_second.size()
+	ingame_stats_label.text += "NPS: %d\n\n" % notes_in_second.size()
 	
 	ingame_stats_label.text += "\nAccuracy:\n"
 	ingame_stats_label.text += "Notes hit: %d/%d (%.2f %%)\n" % [stats_passed_notes, stats_total_notes, passed_percentage]

@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://n2yd8i4x5hox"]
+[gd_scene load_steps=4 format=3 uid="uid://n2yd8i4x5hox"]
 
-[ext_resource type="Script" uid="uid://lgbt87xiaj46" path="res://menus/SongTitleScrolling.gd" id="3"]
+[ext_resource type="Material" uid="uid://dakangk3xanaf" path="res://menus/scrolling_container_material.tres" id="1_s26n8"]
+[ext_resource type="Script" path="res://menus/SongTitleScrolling.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://bk36n81tgbx1g" path="res://menus/SongTitle.tscn" id="3_4qgqv"]
 
 [node name="Control" type="Container"]
-self_modulate = Color(0.0699915, 0.254453, 1, 1)
+self_modulate = Color(0.254453, 0.0598474, 1, 1)
 clip_children = 1
+material = ExtResource("1_s26n8")
 offset_left = 434.0
 offset_top = 86.0
 offset_right = 827.0
@@ -15,5 +17,17 @@ script = ExtResource("3")
 [node name="SongTitle" parent="." instance=ExtResource("3_4qgqv")]
 use_parent_material = false
 layout_mode = 2
+
+[node name="DifficultyLabel" parent="SongTitle" index="0"]
+auto_translate_mode = 2
+auto_translate = false
+
+[node name="TitleLabel" parent="SongTitle" index="1"]
+auto_translate_mode = 2
+auto_translate = false
+
+[node name="AuthorLabel" parent="SongTitle" index="2"]
+auto_translate_mode = 2
+auto_translate = false
 
 [editable path="SongTitle"]

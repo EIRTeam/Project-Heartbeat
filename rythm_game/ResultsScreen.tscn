@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://crfv6jol2l5x3" path="res://graphics/icons/thumb-down.svg" id="9"]
 [ext_resource type="Texture2D" uid="uid://84w02fe36br2" path="res://graphics/icons/thumb-up.svg" id="10"]
 [ext_resource type="Texture2D" uid="uid://j24c3y62014l" path="res://graphics/icons/twitter.svg" id="11"]
-[ext_resource type="Script" uid="uid://ce8332vai5mkl" path="res://rythm_game/ResultsScreen.gd" id="12"]
+[ext_resource type="Script" path="res://rythm_game/ResultsScreen.gd" id="12"]
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://u7xd1sepbnm5" path="res://menus/tabbed_container/TabbedContainer.tscn" id="14"]
 [ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="17"]
@@ -189,7 +189,8 @@ layout_mode = 2
 theme_override_constants/separation = 19
 
 [node name="SongTitle" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer" instance=ExtResource("13")]
-self_modulate = Color(0, -0.684409, 1, 1)
+self_modulate = Color(0, 0, 1, 1)
+material = null
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -198,13 +199,17 @@ layout_mode = 2
 theme_override_constants/separation = 30
 
 [node name="ResultRatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 theme_override_fonts/font = ExtResource("6")
 text = "(NT)PERFECT"
 
 [node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
+auto_translate = false
 theme_override_fonts/normal_font = SubResource("3")
 theme_override_styles/normal = SubResource("1")
 bbcode_enabled = true
@@ -212,8 +217,10 @@ text = "HI-SCORE!!!"
 custom_effects = [SubResource("6")]
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
+auto_translate = false
 theme_override_fonts/font = ExtResource("6")
 text = "(NT)100.00%"
 horizontal_alignment = 2
@@ -333,7 +340,19 @@ text = "Don't ask me again"
 script = ExtResource("5")
 
 [node name="HBConfirmationWindow" parent="." instance=ExtResource("7")]
+visible = false
 layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 650.0
+offset_bottom = 409.0
+grow_horizontal = 1
+grow_vertical = 1
 has_cancel = false
 text = ""
 

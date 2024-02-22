@@ -1,1229 +1,1178 @@
-# Translations template for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+# LANGUAGE translation for Project Heartbeat for the following files:
+# autoloads/HBGame.gd
+# autoloads/MouseTrap.tscn
+# autoloads/UserSettings.gd
+# autoloads/YoutubeDL.gd
+# autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+# base_scene.tscn
+# menus/FolderManager.gd
+# menus/FolderManager.tscn
+# menus/FolderManagerFolderButton.tscn
+# menus/HBConfirmationWindow.tscn
+# menus/HBTextInput.gd
+# menus/HBTextInput.tscn
+# menus/LoadingScreen.gd
+# menus/LoadingScreen.tscn
+# menus/MainMenuUserInfo.gd
+# menus/MainMenuUserInfo.tscn
+# menus/ModifierSelector.tscn
+# menus/PerSongSettingsEditor.gd
+# menus/PreGameChartFeaturesDisplay.gd
+# menus/PreGameChartFeaturesDisplay.tscn
+# menus/StartMenu.tscn
+# menus/demo_screen/page1/page1.tscn
+# menus/leaderboard_control/LeaderboardControl.tscn
+# menus/leaderboard_control/LeaderboardItem.tscn
+# menus/main_menu/MainMenuLeft.tscn
+# menus/media_download_queue/MediaDownloadQueue.tscn
+# menus/new_leaderboard_control/LeaderboardLabels.tscn
+# menus/news_list/MainMenuRight.tscn
+# menus/options_menu/OptionControlsSection.tscn
+# menus/options_menu/OptionControlsSectionEvent.gd
+# menus/options_menu/OptionControlsSectionReset.tscn
+# menus/options_menu/OptionCreditsSection.tscn
+# menus/options_menu/OptionResourcePacksSection.gd
+# menus/options_menu/OptionResourcePacksSection.tscn
+# menus/options_menu/OptionSoundSelectDropdown.gd
+# menus/options_menu/OptionsMenu.gd
+# menus/options_menu/content_dirs_menu/ContentDirControl.tscn
+# menus/options_menu/content_dirs_menu/MMPlusControl.gd
+# menus/options_menu/content_dirs_menu/MMPlusControl.tscn
+# menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+# menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
+# menus/pregame_screen/ModifierButton.tscn
+# menus/pregame_screen/PreGameScreen.gd
+# menus/pregame_screen/PreGameScreen.tscn
+# menus/pregame_screen/PregameStartTab.tscn
+# menus/song_list/SongList.gd
+# menus/song_list/SongList.tscn
+# menus/song_list/SongListFolder.tscn
+# menus/song_list/SongListFolderBack.tscn
+# menus/song_list/SongListNewFolder.tscn
+# menus/tools_menu/ToolsMenu.tscn
+# menus/tutorial/page1/page1.tscn
+# menus/tutorial/page2/page2.tscn
+# menus/tutorial/page3/page3.tscn
+# menus/tutorial/page4/Page4.tscn
+# menus/tutorial/page5/Page5.tscn
+# menus/tutorial/page6/Page6.tscn
+# menus/tutorial/pagefinal/page_final.tscn
+# menus/workshop_browser/WorkshopBrowser.gd
+# menus/workshop_browser/WorkshopBrowser.tscn
+# menus/workshop_browser/WorkshopItemDetailView.tscn
+# multiplayer/lobby/LobbyList.tscn
+# multiplayer/lobby/LobbyMenu.tscn
+# multiplayer/lobby/LobbySongSelector.tscn
+# multiplayer/lobby/Member.tscn
+# rythm_game/MultiplayerScoreboardItem.tscn
+# rythm_game/MultiplayerSidebarUser.tscn
+# rythm_game/ResultsScreen.gd
+# rythm_game/ResultsScreen.tscn
+# rythm_game/SlideHoldScoreText.tscn
+# rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
+# rythm_game/lyrics/lyrics.tscn
+# rythm_game/modifiers/autoplay/autoplay.gd
+# rythm_game/modifiers/nightcore/nightcore.gd
+# rythm_game/modifiers/timing/timing.gd
+# rythm_game/pause_menu/PauseMenu3D.tscn
+# rythm_game/pause_menu/PauseMenuLeft.tscn
+# rythm_game/practice_mode.tscn
+# rythm_game/results_screen/ResultRating.tscn
+# rythm_game/results_screen/ResultsScreenResultTab.tscn
+# rythm_game/rhythm_game_controller.tscn
+# rythm_game/rhythm_game_multiplayer.tscn
+# scripts/HBSong.gd
+# scripts/new_ui/HBUISkipIntroIndicator.gd
+# scripts/new_ui/SkipIntroIndicator.tscn
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-22 20:22+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Project Heartbeat\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
 
-#: base_scene.tscn:48 menus/LoadingScreen.gd:111 menus/LoadingScreen.tscn:161
-msgid "Loadingu..."
-msgstr ""
-
-#: autoloads/HBGame.gd:325
+#: autoloads/HBGame.gd
 msgid "Unknown error"
 msgstr ""
 
-#: autoloads/HBGame.gd:328
+#: autoloads/HBGame.gd
 msgid "Fatal error loading data from the game, please see below"
 msgstr ""
 
-#: autoloads/HBGame.gd:330
+#: autoloads/HBGame.gd
 msgid "Steam reports MM+ is not installed"
 msgstr ""
 
-#: autoloads/HBGame.gd:332
+#: autoloads/HBGame.gd
 msgid "Your steam account does not own MM+"
 msgstr ""
 
-#: autoloads/HBGame.gd:334
+#: autoloads/HBGame.gd
 msgid "Steam couldn't be found, is it closed?"
 msgstr ""
 
-#: autoloads/MouseTrap.tscn:46 autoloads/MouseTrap.tscn:51
-msgid ""
-"This song requires downloading video/audio files from YouTube, would you "
-"like to download them?"
+#: autoloads/MouseTrap.tscn
+msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
 msgstr ""
 
-#: autoloads/MouseTrap.tscn:65
+#: autoloads/MouseTrap.tscn
 msgid "Yes (audio only)"
 msgstr ""
 
-#: autoloads/MouseTrap.tscn:75
+#: autoloads/MouseTrap.tscn
 msgid "Downloading..."
 msgstr ""
 
-#: autoloads/MouseTrap.tscn:79
+#: autoloads/MouseTrap.tscn
 msgid "Media for this song is currently being downloaded."
 msgstr ""
 
-#: autoloads/MouseTrap.tscn:129
-msgid ""
-"Due to legal and licensing reasons, Project Heartbeat cannot use MP4 "
-"files for PPD songs. Read more about why here.\n"
-"\n"
-"The recommended way to share and play community charts is to use the "
-"Workshop, PPD suport is provided as a courtesy for transitioning players."
-"\n"
-"\n"
-"You can either input a YouTube URL or select an ogg file from disk to use"
-" as audio."
+#: autoloads/MouseTrap.tscn
+msgid "OGG"
 msgstr ""
 
-#: autoloads/MouseTrap.tscn:152
+#: autoloads/MouseTrap.tscn
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
+#: menus/HBTextInput.gd
+#: menus/HBTextInput.tscn
+#: menus/options_menu/OptionControlsSectionEvent.gd
+#: menus/options_menu/OptionCreditsSection.tscn
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid ""
+msgstr ""
+
+#: autoloads/MouseTrap.tscn
+msgid ""
+"Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n"
+"\n"
+"The recommended way to share and play community charts is to use the Workshop, PPD suport is provided as a courtesy for transitioning players.\n"
+"\n"
+"You can either input a YouTube URL or select an ogg file from disk to use as audio."
+msgstr ""
+
+#: autoloads/MouseTrap.tscn
 msgid "Use YouTube Video"
 msgstr ""
 
-#: autoloads/MouseTrap.tscn:159
+#: autoloads/MouseTrap.tscn
 msgid "Select from disk"
 msgstr ""
 
-#: autoloads/UserSettings.gd:121
+#: autoloads/MouseTrap.tscn
+msgid "Invalid URL, ensure you are using a YouTube URL and that it is valid."
+msgstr ""
+
+#: autoloads/UserSettings.gd
 msgid "DualShock Cross, Xbox A, Nintendo B"
 msgstr ""
 
-#: autoloads/UserSettings.gd:122
+#: autoloads/UserSettings.gd
 msgid "DualShock Circle, Xbox B, Nintendo A"
 msgstr ""
 
-#: autoloads/UserSettings.gd:123
+#: autoloads/UserSettings.gd
 msgid "DualShock Square, Xbox X, Nintendo Y"
 msgstr ""
 
-#: autoloads/UserSettings.gd:124
+#: autoloads/UserSettings.gd
 msgid "DualShock Triangle, Xbox Y, Nintendo X"
 msgstr ""
 
-#: autoloads/UserSettings.gd:131
+#: autoloads/UserSettings.gd
 msgid "Select, DualShock Share, Nintendo -"
 msgstr ""
 
-#: autoloads/UserSettings.gd:132
+#: autoloads/UserSettings.gd
 msgid "Start, DualShock Options, Nintendo +"
 msgstr ""
 
-#: autoloads/UserSettings.gd:133
+#: autoloads/UserSettings.gd
 msgid "D-Pad Up"
 msgstr ""
 
-#: autoloads/UserSettings.gd:134
+#: autoloads/UserSettings.gd
 msgid "D-Pad Down"
 msgstr ""
 
-#: autoloads/UserSettings.gd:135
+#: autoloads/UserSettings.gd
 msgid "D-Pad Left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:136
+#: autoloads/UserSettings.gd
 msgid "D-Pad Right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:140
+#: autoloads/UserSettings.gd
 msgid " (Left Stick Left)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:141
+#: autoloads/UserSettings.gd
 msgid " (Left Stick Right)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:142
+#: autoloads/UserSettings.gd
 msgid " (Left Stick Up)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:143
+#: autoloads/UserSettings.gd
 msgid " (Left Stick Down)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:144
+#: autoloads/UserSettings.gd
 msgid " (Right Stick Left)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:145
+#: autoloads/UserSettings.gd
 msgid " (Right Stick Right)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:146
+#: autoloads/UserSettings.gd
 msgid " (Right Stick Up)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:147
+#: autoloads/UserSettings.gd
 msgid " (Right Stick Down)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:155
+#: autoloads/UserSettings.gd
 msgid "Note up"
 msgstr ""
 
-#: autoloads/UserSettings.gd:156
+#: autoloads/UserSettings.gd
 msgid "Note down"
 msgstr ""
 
-#: autoloads/UserSettings.gd:157
+#: autoloads/UserSettings.gd
 msgid "Note left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:158
+#: autoloads/UserSettings.gd
 msgid "Note right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:159
+#: autoloads/UserSettings.gd
 msgid "Slide left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:160
+#: autoloads/UserSettings.gd
 msgid "Slide right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:161
+#: autoloads/UserSettings.gd
 msgid "Heart note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:162
+#: autoloads/UserSettings.gd
 msgid "Practice mode: Set waypoint"
 msgstr ""
 
-#: autoloads/UserSettings.gd:163
+#: autoloads/UserSettings.gd
 msgid "Practice mode: Go to waypoint"
 msgstr ""
 
-#: autoloads/UserSettings.gd:164
+#: autoloads/UserSettings.gd
 msgid "Practice mode: Last mode"
 msgstr ""
 
-#: autoloads/UserSettings.gd:165
+#: autoloads/UserSettings.gd
 msgid "Practice mode: Next mode"
 msgstr ""
 
-#: autoloads/UserSettings.gd:166
+#: autoloads/UserSettings.gd
 msgid "Practice mode: Apply calculated latency"
 msgstr ""
 
-#: autoloads/UserSettings.gd:167
+#: autoloads/UserSettings.gd
 msgid "Pause"
 msgstr ""
 
-#: autoloads/UserSettings.gd:170
+#: autoloads/UserSettings.gd
 msgid "Menu up"
 msgstr ""
 
-#: autoloads/UserSettings.gd:171
+#: autoloads/UserSettings.gd
 msgid "Menu down"
 msgstr ""
 
-#: autoloads/UserSettings.gd:172
+#: autoloads/UserSettings.gd
 msgid "Menu left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:173
+#: autoloads/UserSettings.gd
 msgid "Menu right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:174
+#: autoloads/UserSettings.gd
 msgid "Tab left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:175
+#: autoloads/UserSettings.gd
 msgid "Tab right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:176
+#: autoloads/UserSettings.gd
 msgid "Menu accept"
 msgstr ""
 
-#: autoloads/UserSettings.gd:177
+#: autoloads/UserSettings.gd
 msgid "Menu cancel"
 msgstr ""
 
-#: autoloads/UserSettings.gd:178
+#: autoloads/UserSettings.gd
 msgid "(Song list) Page up"
 msgstr ""
 
-#: autoloads/UserSettings.gd:179
+#: autoloads/UserSettings.gd
 msgid "(Song list) Page down"
 msgstr ""
 
-#: autoloads/UserSettings.gd:180
+#: autoloads/UserSettings.gd
 msgid "Show currently playing song"
 msgstr ""
 
-#: autoloads/UserSettings.gd:181
+#: autoloads/UserSettings.gd
 msgid "Menu sort by"
 msgstr ""
 
-#: autoloads/UserSettings.gd:182
+#: autoloads/UserSettings.gd
 msgid "Menu search"
 msgstr ""
 
-#: autoloads/UserSettings.gd:183
+#: autoloads/UserSettings.gd
 msgid "Contextual option"
 msgstr ""
 
-#: autoloads/UserSettings.gd:187
+#: autoloads/UserSettings.gd
 msgid "Undo"
 msgstr ""
 
-#: autoloads/UserSettings.gd:188
+#: autoloads/UserSettings.gd
 msgid "Redo"
 msgstr ""
 
-#: autoloads/UserSettings.gd:189
+#: autoloads/UserSettings.gd
 msgid "Select notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:190
+#: autoloads/UserSettings.gd
 msgid "Show contextual menu"
 msgstr ""
 
-#: autoloads/UserSettings.gd:191
+#: autoloads/UserSettings.gd
 msgid "Scale up"
 msgstr ""
 
-#: autoloads/UserSettings.gd:192
+#: autoloads/UserSettings.gd
 msgid "Scale down"
 msgstr ""
 
-#: autoloads/UserSettings.gd:193
+#: autoloads/UserSettings.gd
 msgid "Pan the timeline"
 msgstr ""
 
-#: autoloads/UserSettings.gd:194
+#: autoloads/UserSettings.gd
 msgid "Move playhead to the left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:195
+#: autoloads/UserSettings.gd
 msgid "Move playhead to the right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:197
+#: autoloads/UserSettings.gd
 msgid "Open/Close the settings menu"
 msgstr ""
 
-#: autoloads/UserSettings.gd:198
+#: autoloads/UserSettings.gd
 msgid "Open the editor docs"
 msgstr ""
 
-#: autoloads/UserSettings.gd:199
+#: autoloads/UserSettings.gd
 msgid "Open the script manager"
 msgstr ""
 
-#: autoloads/UserSettings.gd:200
+#: autoloads/UserSettings.gd
 msgid "Open the diagnostics menu"
 msgstr ""
 
-#: autoloads/UserSettings.gd:201
+#: autoloads/UserSettings.gd
 msgid "Toggle the fps counter"
 msgstr ""
 
-#: autoloads/UserSettings.gd:202
+#: autoloads/UserSettings.gd
 msgid "Show hidden charts"
 msgstr ""
 
-#: autoloads/UserSettings.gd:203
+#: autoloads/UserSettings.gd
 msgid "Open/Close the layer visibility menu"
 msgstr ""
 
-#: autoloads/UserSettings.gd:205
+#: autoloads/UserSettings.gd
 msgid "Open a chart"
 msgstr ""
 
-#: autoloads/UserSettings.gd:206
+#: autoloads/UserSettings.gd
 msgid "Open the scripts directory"
 msgstr ""
 
-#: autoloads/UserSettings.gd:207
+#: autoloads/UserSettings.gd
 msgid "Save the chart / script"
 msgstr ""
 
-#: autoloads/UserSettings.gd:208
+#: autoloads/UserSettings.gd
 msgid "Save the chart / script as"
 msgstr ""
 
-#: autoloads/UserSettings.gd:209
+#: autoloads/UserSettings.gd
 msgid "Create a new script"
 msgstr ""
 
-#: autoloads/UserSettings.gd:211
+#: autoloads/UserSettings.gd
 msgid "Play / Pause"
 msgstr ""
 
-#: autoloads/UserSettings.gd:212
+#: autoloads/UserSettings.gd
 msgid "Playtest"
 msgstr ""
 
-#: autoloads/UserSettings.gd:213
+#: autoloads/UserSettings.gd
 msgid "Playtest at time"
 msgstr ""
 
-#: autoloads/UserSettings.gd:214
+#: autoloads/UserSettings.gd
 msgid "Toggle metronome"
 msgstr ""
 
-#: autoloads/UserSettings.gd:215
+#: autoloads/UserSettings.gd
 msgid "Toggle background"
 msgstr ""
 
-#: autoloads/UserSettings.gd:216
+#: autoloads/UserSettings.gd
 msgid "Toggle video"
 msgstr ""
 
-#: autoloads/UserSettings.gd:218
+#: autoloads/UserSettings.gd
 msgid "Select all"
 msgstr ""
 
-#: autoloads/UserSettings.gd:219
+#: autoloads/UserSettings.gd
 msgid "Deselect"
 msgstr ""
 
-#: autoloads/UserSettings.gd:220
+#: autoloads/UserSettings.gd
 msgid "Shift selection left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:221
+#: autoloads/UserSettings.gd
 msgid "Shift selection right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:222
+#: autoloads/UserSettings.gd
 msgid "Select every 2nd note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:223
+#: autoloads/UserSettings.gd
 msgid "Select every 3rd note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:224
+#: autoloads/UserSettings.gd
 msgid "Select every 4th note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:225
+#: autoloads/UserSettings.gd
 msgid "Select only notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:226
+#: autoloads/UserSettings.gd
 msgid "Select only double notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:227
+#: autoloads/UserSettings.gd
 msgid "Select only sustains"
 msgstr ""
 
-#: autoloads/UserSettings.gd:228
+#: autoloads/UserSettings.gd
 msgid "Select only sections"
 msgstr ""
 
-#: autoloads/UserSettings.gd:229
+#: autoloads/UserSettings.gd
 msgid "Select only tempo changes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:230
+#: autoloads/UserSettings.gd
 msgid "Select only speed changes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:231
+#: autoloads/UserSettings.gd
 msgid "Cut notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:232
+#: autoloads/UserSettings.gd
 msgid "Copy notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:233
+#: autoloads/UserSettings.gd
 msgid "Paste notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:234
+#: autoloads/UserSettings.gd
 msgid "Delete notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:236
+#: autoloads/UserSettings.gd
 msgid "Convert to normal note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:237
+#: autoloads/UserSettings.gd
 msgid "Toggle hold"
 msgstr ""
 
-#: autoloads/UserSettings.gd:238
+#: autoloads/UserSettings.gd
 msgid "Toggle sustain"
 msgstr ""
 
-#: autoloads/UserSettings.gd:239
+#: autoloads/UserSettings.gd
 msgid "Toggle double"
 msgstr ""
 
-#: autoloads/UserSettings.gd:240
+#: autoloads/UserSettings.gd
 msgid "Make slide chain"
 msgstr ""
 
-#: autoloads/UserSettings.gd:241
+#: autoloads/UserSettings.gd
 msgid "Increase note type"
 msgstr ""
 
-#: autoloads/UserSettings.gd:242
+#: autoloads/UserSettings.gd
 msgid "Decrease note type"
 msgstr ""
 
-#: autoloads/UserSettings.gd:244
+#: autoloads/UserSettings.gd
 msgid "Set resolution to 4ths"
 msgstr ""
 
-#: autoloads/UserSettings.gd:245
+#: autoloads/UserSettings.gd
 msgid "Set resolution to 6ths"
 msgstr ""
 
-#: autoloads/UserSettings.gd:246
+#: autoloads/UserSettings.gd
 msgid "Set resolution to 8ths"
 msgstr ""
 
-#: autoloads/UserSettings.gd:247
+#: autoloads/UserSettings.gd
 msgid "Set resolution to 12ths"
 msgstr ""
 
-#: autoloads/UserSettings.gd:248
+#: autoloads/UserSettings.gd
 msgid "Set resolution to 16ths"
 msgstr ""
 
-#: autoloads/UserSettings.gd:249
+#: autoloads/UserSettings.gd
 msgid "Set resolution to 24ths"
 msgstr ""
 
-#: autoloads/UserSettings.gd:250
+#: autoloads/UserSettings.gd
 msgid "Set resolution to 32nds"
 msgstr ""
 
-#: autoloads/UserSettings.gd:251
+#: autoloads/UserSettings.gd
 msgid "Toggle timeline snap"
 msgstr ""
 
-#: autoloads/UserSettings.gd:252
+#: autoloads/UserSettings.gd
 msgid "Increase timeline resolution"
 msgstr ""
 
-#: autoloads/UserSettings.gd:253
+#: autoloads/UserSettings.gd
 msgid "Decrease timeline resolution"
 msgstr ""
 
-#: autoloads/UserSettings.gd:254
+#: autoloads/UserSettings.gd
 msgid "Toggle the hitsound sfxs"
 msgstr ""
 
-#: autoloads/UserSettings.gd:255
+#: autoloads/UserSettings.gd
 msgid "Toggle the waveform display"
 msgstr ""
 
-#: autoloads/UserSettings.gd:256
+#: autoloads/UserSettings.gd
 msgid "Tap metronome"
 msgstr ""
 
-#: autoloads/UserSettings.gd:258
+#: autoloads/UserSettings.gd
 msgid "Toggle grid"
 msgstr ""
 
-#: autoloads/UserSettings.gd:259
+#: autoloads/UserSettings.gd
 msgid "Toggle grid snap"
 msgstr ""
 
-#: autoloads/UserSettings.gd:260
+#: autoloads/UserSettings.gd
 msgid "Show arrange menu"
 msgstr ""
 
-#: autoloads/UserSettings.gd:261
+#: autoloads/UserSettings.gd
 msgid "Arrange left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:262
+#: autoloads/UserSettings.gd
 msgid "Arrange right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:263
+#: autoloads/UserSettings.gd
 msgid "Arrange up"
 msgstr ""
 
-#: autoloads/UserSettings.gd:264
+#: autoloads/UserSettings.gd
 msgid "Arrange down"
 msgstr ""
 
-#: autoloads/UserSettings.gd:265
+#: autoloads/UserSettings.gd
 msgid "Arrange up left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:266
+#: autoloads/UserSettings.gd
 msgid "Arrange up right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:267
+#: autoloads/UserSettings.gd
 msgid "Arrange down left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:268
+#: autoloads/UserSettings.gd
 msgid "Arrange down right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:269
+#: autoloads/UserSettings.gd
 msgid "Stack notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:270
+#: autoloads/UserSettings.gd
 msgid "Fine position notes left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:271
+#: autoloads/UserSettings.gd
 msgid "Fine position notes right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:272
+#: autoloads/UserSettings.gd
 msgid "Fine position notes up"
 msgstr ""
 
-#: autoloads/UserSettings.gd:273
+#: autoloads/UserSettings.gd
 msgid "Fine position notes down"
 msgstr ""
 
-#: autoloads/UserSettings.gd:274
+#: autoloads/UserSettings.gd
 msgid "Move notes left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:275
+#: autoloads/UserSettings.gd
 msgid "Move notes right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:276
+#: autoloads/UserSettings.gd
 msgid "Move notes up"
 msgstr ""
 
-#: autoloads/UserSettings.gd:277
+#: autoloads/UserSettings.gd
 msgid "Move notes down"
 msgstr ""
 
-#: autoloads/UserSettings.gd:279
+#: autoloads/UserSettings.gd
 msgid "Interpolate angles"
 msgstr ""
 
-#: autoloads/UserSettings.gd:280
+#: autoloads/UserSettings.gd
 msgid "Interpolate distances"
 msgstr ""
 
-#: autoloads/UserSettings.gd:281
+#: autoloads/UserSettings.gd
 msgid "Flip angle"
 msgstr ""
 
-#: autoloads/UserSettings.gd:282
+#: autoloads/UserSettings.gd
 msgid "Flip oscillation"
 msgstr ""
 
-#: autoloads/UserSettings.gd:283
+#: autoloads/UserSettings.gd
 msgid "Move angles towards the first note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:284
+#: autoloads/UserSettings.gd
 msgid "Move angles away from the first note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:285
+#: autoloads/UserSettings.gd
 msgid "Move angles towards the last note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:286
+#: autoloads/UserSettings.gd
 msgid "Move angles away from the last note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:287
+#: autoloads/UserSettings.gd
 msgid "Set angle to 180º"
 msgstr ""
 
-#: autoloads/UserSettings.gd:288
+#: autoloads/UserSettings.gd
 msgid "Set angle to 0º"
 msgstr ""
 
-#: autoloads/UserSettings.gd:289
+#: autoloads/UserSettings.gd
 msgid "Set angle to 270º"
 msgstr ""
 
-#: autoloads/UserSettings.gd:290
+#: autoloads/UserSettings.gd
 msgid "Set angle to 90º"
 msgstr ""
 
-#: autoloads/UserSettings.gd:291
+#: autoloads/UserSettings.gd
 msgid "Set angle to 225º"
 msgstr ""
 
-#: autoloads/UserSettings.gd:292
+#: autoloads/UserSettings.gd
 msgid "Set angle to 315º"
 msgstr ""
 
-#: autoloads/UserSettings.gd:293
+#: autoloads/UserSettings.gd
 msgid "Set angle to 135º"
 msgstr ""
 
-#: autoloads/UserSettings.gd:294
+#: autoloads/UserSettings.gd
 msgid "Set angle to 45º"
 msgstr ""
 
-#: autoloads/UserSettings.gd:296
+#: autoloads/UserSettings.gd
 msgid "Mirror horizontally"
 msgstr ""
 
-#: autoloads/UserSettings.gd:297
+#: autoloads/UserSettings.gd
 msgid "Mirror vertically"
 msgstr ""
 
-#: autoloads/UserSettings.gd:298
+#: autoloads/UserSettings.gd
 msgid "Flip horizontally"
 msgstr ""
 
-#: autoloads/UserSettings.gd:299
+#: autoloads/UserSettings.gd
 msgid "Flip vertically"
 msgstr ""
 
-#: autoloads/UserSettings.gd:300
+#: autoloads/UserSettings.gd
 msgid "Make circle clockwise"
 msgstr ""
 
-#: autoloads/UserSettings.gd:301
+#: autoloads/UserSettings.gd
 msgid "Make circle counter-clockwise"
 msgstr ""
 
-#: autoloads/UserSettings.gd:302
+#: autoloads/UserSettings.gd
 msgid "Make circle clockwise from the inside"
 msgstr ""
 
-#: autoloads/UserSettings.gd:303
+#: autoloads/UserSettings.gd
 msgid "Make circle counter-clockwise from the inside"
 msgstr ""
 
-#: autoloads/UserSettings.gd:304
+#: autoloads/UserSettings.gd
 msgid "Circle size bigger"
 msgstr ""
 
-#: autoloads/UserSettings.gd:305
+#: autoloads/UserSettings.gd
 msgid "Circle size smaller"
 msgstr ""
 
-#: autoloads/UserSettings.gd:306
+#: autoloads/UserSettings.gd
 msgid "Rotate around the selection center"
 msgstr ""
 
-#: autoloads/UserSettings.gd:307
+#: autoloads/UserSettings.gd
 msgid "Rotate around the leftmost note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:308
+#: autoloads/UserSettings.gd
 msgid "Rotate around the rightmost note"
 msgstr ""
 
-#: autoloads/UserSettings.gd:309
+#: autoloads/UserSettings.gd
 msgid "Rotate around the screen center"
 msgstr ""
 
-#: autoloads/UserSettings.gd:311
+#: autoloads/UserSettings.gd
 msgid "Vertical multi left"
 msgstr ""
 
-#: autoloads/UserSettings.gd:312
+#: autoloads/UserSettings.gd
 msgid "Vertical multi right"
 msgstr ""
 
-#: autoloads/UserSettings.gd:313
-msgid "Vertical multi top"
+#: autoloads/UserSettings.gd
+msgid "Straight vertical multi"
 msgstr ""
 
-#: autoloads/UserSettings.gd:314
-msgid "Vertical multi bottom"
+#: autoloads/UserSettings.gd
+msgid "Horizontal multi top"
 msgstr ""
 
-#: autoloads/UserSettings.gd:315
+#: autoloads/UserSettings.gd
+msgid "Horizontal multi bottom"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Diagonal multi"
+msgstr ""
+
+#: autoloads/UserSettings.gd
 msgid "Quad"
 msgstr ""
 
-#: autoloads/UserSettings.gd:316
+#: autoloads/UserSettings.gd
 msgid "Quad (From inside)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:317
+#: autoloads/UserSettings.gd
 msgid "Sideways quad"
 msgstr ""
 
-#: autoloads/UserSettings.gd:318
+#: autoloads/UserSettings.gd
 msgid "Triangle"
 msgstr ""
 
-#: autoloads/UserSettings.gd:319
+#: autoloads/UserSettings.gd
 msgid "Inverted triangle"
 msgstr ""
 
-#: autoloads/UserSettings.gd:320
+#: autoloads/UserSettings.gd
 msgid "Create template"
 msgstr ""
 
-#: autoloads/UserSettings.gd:321
+#: autoloads/UserSettings.gd
 msgid "Refresh templates"
 msgstr ""
 
-#: autoloads/UserSettings.gd:322
-msgid "Popup template deletion menu"
+#: autoloads/UserSettings.gd
+msgid "Open the templates dir (to manage them)"
 msgstr ""
 
-#: autoloads/UserSettings.gd:324
+#: autoloads/UserSettings.gd
 msgid "Create timing change"
 msgstr ""
 
-#: autoloads/UserSettings.gd:325
+#: autoloads/UserSettings.gd
 msgid "Create speed change"
 msgstr ""
 
-#: autoloads/UserSettings.gd:326
+#: autoloads/UserSettings.gd
 msgid "Create a smooth speed transition"
 msgstr ""
 
-#: autoloads/UserSettings.gd:327
+#: autoloads/UserSettings.gd
 msgid "Create intro skip"
 msgstr ""
 
-#: autoloads/UserSettings.gd:328
+#: autoloads/UserSettings.gd
 msgid "Create chart section"
 msgstr ""
 
-#: autoloads/UserSettings.gd:329
+#: autoloads/UserSettings.gd
 msgid "Quick lyric"
 msgstr ""
 
-#: autoloads/UserSettings.gd:330
+#: autoloads/UserSettings.gd
 msgid "Quick phrase start"
 msgstr ""
 
-#: autoloads/UserSettings.gd:331
+#: autoloads/UserSettings.gd
 msgid "Quick phrase end"
 msgstr ""
 
-#: autoloads/UserSettings.gd:335
+#: autoloads/UserSettings.gd
 msgid "Notes"
 msgstr ""
 
-#: autoloads/UserSettings.gd:336
-#: menus/options_menu/OptionCreditsSection.tscn:45
-#: menus/options_menu/OptionsMenu.gd:4
+#: autoloads/UserSettings.gd
+#: menus/options_menu/OptionCreditsSection.tscn
+#: menus/options_menu/OptionsMenu.gd
 msgid "Game"
 msgstr ""
 
-#: autoloads/UserSettings.gd:337
+#: autoloads/UserSettings.gd
 msgid "GUI"
 msgstr ""
 
-#: autoloads/YoutubeDL.gd:700
-#, python-format
+#: autoloads/YoutubeDL.gd
 msgid "Processing audio for %s"
 msgstr ""
 
-#: autoloads/YoutubeDL.gd:709
+#: autoloads/YoutubeDL.gd
 msgid "audio"
 msgstr ""
 
-#: autoloads/YoutubeDL.gd:716
+#: autoloads/YoutubeDL.gd
 msgid "video"
 msgstr ""
 
-#: autoloads/YoutubeDL.gd:719
-#, python-format
+#: autoloads/YoutubeDL.gd
 msgid " of %s"
 msgstr ""
 
-#: autoloads/YoutubeDL.gd:721
-#, python-format
-msgid " at %s/s"
-msgstr ""
-
-#: autoloads/YoutubeDL.gd:722
+#: autoloads/YoutubeDL.gd
 msgid "Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
 msgstr ""
 
-#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd:571
-#, python-format
-msgid "Couldn't load game data from %s"
+#: base_scene.tscn
+#: menus/LoadingScreen.gd
+#: menus/LoadingScreen.tscn
+#: multiplayer/lobby/LobbyList.tscn
+msgid "Loadingu..."
 msgstr ""
 
-#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd:665
-#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd:726
-#, python-format
-msgid "Song ID %s's (%s) difficulty %s did not have a DSC script path"
-msgstr ""
-
-#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd:681
-#, python-format
-msgid "Couldn't find audio data for song ID %s (%s)"
-msgstr ""
-
-#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd:703
-#, python-format
-msgid "PVDB does not exist (%s)"
-msgstr ""
-
-#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd:732
-#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd:733
-#, python-format
-msgid "Song ID %s's audio path (%s) did not exist"
-msgstr ""
-
-#: menus/FolderManager.gd:25 menus/FolderManager.gd:26
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
 msgid "Enter the new folder name"
 msgstr ""
 
-#: menus/FolderManager.tscn:94 menus/FolderManager.tscn:101
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
+msgid "Add subfolder"
+msgstr ""
+
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
+msgid "Rename folder"
+msgstr ""
+
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
+msgid "Delete folder"
+msgstr ""
+
+#: menus/FolderManager.tscn
 msgid "Close"
 msgstr ""
 
-#: menus/FolderManager.tscn:108 menus/FolderManager.tscn:115
+#: menus/FolderManager.tscn
 msgid "Open"
 msgstr ""
 
-#: menus/FolderManager.tscn:122 menus/FolderManager.tscn:129
-#: menus/song_list/SongList.tscn:322
+#: menus/FolderManager.tscn
+#: menus/song_list/SongList.tscn
 msgid "Select"
 msgstr ""
 
-#: menus/FolderManager.tscn:136 menus/FolderManager.tscn:143
-#: menus/media_download_queue/MediaDownloadQueue.tscn:85
-#: menus/pregame_screen/PregameStartTab.tscn:240
-#: menus/song_list/SongList.tscn:329
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:252
+#: menus/FolderManager.tscn
+#: menus/media_download_queue/MediaDownloadQueue.tscn
+#: menus/pregame_screen/PregameStartTab.tscn
+#: menus/song_list/SongList.tscn
+#: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Back"
 msgstr ""
 
-#: menus/FolderManager.tscn:148
+#: menus/FolderManager.tscn
 msgid "Do you want to delete this folder?"
 msgstr ""
 
-#: menus/FolderManagerFolderButton.tscn:19
-#: menus/pregame_screen/ModifierButton.tscn:52
-#: menus/pregame_screen/PregameStartTab.tscn:206
+#: menus/FolderManagerFolderButton.tscn
+#: menus/pregame_screen/ModifierButton.tscn
+#: menus/pregame_screen/PregameStartTab.tscn
 msgid "Start"
 msgstr ""
 
-#: menus/HBConfirmationWindow.tscn:71
+#: menus/HBConfirmationWindow.tscn
 msgid "Are you sure you want to do this?"
 msgstr ""
 
-#: menus/HBConfirmationWindow.tscn:97
+#: menus/HBConfirmationWindow.tscn
 msgid "Yes"
 msgstr ""
 
-#: menus/HBConfirmationWindow.tscn:108
+#: menus/HBConfirmationWindow.tscn
 msgid "No"
 msgstr ""
 
-#: menus/HBTextInput.gd:7
+#: menus/HBTextInput.gd
+#: menus/HBTextInput.tscn
 msgid "Input text"
 msgstr ""
 
-#: menus/HBTextInput.tscn:107
+#: menus/HBTextInput.tscn
 msgid "Please enter the folder's name:"
 msgstr ""
 
-#: menus/HBTextInput.tscn:136 menus/HBTextInput.tscn:145
+#: menus/HBTextInput.tscn
 msgid "Accept"
 msgstr ""
 
-#: menus/HBTextInput.tscn:153
+#: menus/HBTextInput.tscn
 msgid "Cancel"
 msgstr ""
 
-#: menus/LoadingScreen.gd:86
+#: menus/LoadingScreen.gd
+#: menus/LoadingScreen.tscn
 msgid "Downloadingu UI Skin..."
 msgstr ""
 
-#: menus/LoadingScreen.tscn:120 menus/song_list/SongList.gd:29
+#: menus/LoadingScreen.tscn
+#: menus/song_list/SongList.tscn
 msgid "Title"
 msgstr ""
 
-#: menus/LoadingScreen.tscn:136
-msgid ""
-"1\n"
-"2"
-msgstr ""
-
-#: menus/LoadingScreen.tscn:227
+#: menus/LoadingScreen.tscn
 msgid ""
 "This chart's video contains scenes with rapidly flashing colours.\n"
 "Please take caution if you are affected by epilepsy."
 msgstr ""
 
-#: menus/MainMenuUserInfo.gd:15
-#, python-format
+#: menus/MainMenuUserInfo.gd
+#: menus/MainMenuUserInfo.tscn
 msgid "Lvl. %d"
 msgstr ""
 
-#: menus/MainMenuUserInfo.tscn:103
-msgid "Player"
-msgstr ""
-
-#: menus/MainMenuUserInfo.tscn:132
-msgid "Level 1"
-msgstr ""
-
-#: menus/ModifierSelector.tscn:108
+#: menus/ModifierSelector.tscn
 msgid "Makes everyone sound like anime girls, who would have thought?"
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd:12 menus/options_menu/OptionsMenu.gd:43
+#: menus/PerSongSettingsEditor.gd
+#: menus/options_menu/OptionsMenu.gd
 msgid "Latency compensation"
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd:13
-msgid ""
-"Delay applied to note timing, in miliseconds. Higher values means notes "
-"come later. Keep in mind the game already somewhat compensates for "
-"hardware delay (by, for example, already compensating for pulseaudio "
-"latency)."
+#: menus/PerSongSettingsEditor.gd
+msgid "Delay applied to note timing, in miliseconds. Higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd:22
+#: menus/PerSongSettingsEditor.gd
 msgid "Song volume"
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd:23
+#: menus/PerSongSettingsEditor.gd
 msgid "Volume of the song, relative."
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd:32
+#: menus/PerSongSettingsEditor.gd
 msgid "Video enabled"
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd:33
+#: menus/PerSongSettingsEditor.gd
 msgid "Enables or disables video for this song."
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd:37
+#: menus/PerSongSettingsEditor.gd
 msgid "Use the song's recommended skin"
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd:38
-msgid ""
-"When enabled, makes the game use the skin chosen by the song's creator "
-"for this particular song, will download it if it is not installed "
-"already."
+#: menus/PerSongSettingsEditor.gd
+msgid "When enabled, makes the game use the skin chosen by the song's creator for this particular song, will download it if it is not installed already."
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:26
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Normal notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:27
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:28
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:29
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide chains"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:30
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Double notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:31
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Sustain notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:32 menus/tutorial/page6/Page6.tscn:29
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
+#: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:36
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated buton!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:37
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold these notes for as long as you can!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:38
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated direction!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:39
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold the indicated direction!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:40
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated note on two different buttons!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:41
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold and release when the time is right!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd:42
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Flick in any direction!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.tscn:72
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "This chart includes:"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.tscn:106
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.tscn:123
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:165
-msgid "/"
-msgstr ""
-
-#: menus/PreGameChartFeaturesDisplay.tscn:140
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "to continue"
 msgstr ""
 
-#: menus/SongTitleScrolling.tscn:61
-msgid "(NT)[EXTREME]"
-msgstr ""
-
-#: menus/StaffRoll.tscn:53
-msgid ""
-"Made by EIREXE (Álex Román)\n"
-"\n"
-"With special thanks to the following people:"
-msgstr ""
-
-#: menus/StaffRoll.tscn:73
-msgid "Charting Team"
-msgstr ""
-
-#: menus/StaffRoll.tscn:81
-msgid ""
-"Blizzin\n"
-"Twoncity\n"
-"Henttus\n"
-"Starbeat"
-msgstr ""
-
-#: menus/StaffRoll.tscn:98
-msgid "Background Artists"
-msgstr ""
-
-#: menus/StaffRoll.tscn:106
-msgid ""
-"Emmilly Lima (sadnesswaifu)\n"
-"Guinii4\n"
-"Mariale (_unangelito)"
-msgstr ""
-
-#: menus/StaffRoll.tscn:122
-msgid "Music provided by"
-msgstr ""
-
-#: menus/StaffRoll.tscn:140
-msgid "Thank you to the following people for keeping me alive:"
-msgstr ""
-
-#: menus/StaffRoll.tscn:158
-msgid ""
-"Emmilly Lima\n"
-"Estrella\n"
-"Xénia C. B. (wherever you are...)\n"
-"Helena\n"
-"Paula\n"
-"Xènia MK2\n"
-"The 2 Adrians\n"
-"Lorena\n"
-"Sergi-kun\n"
-"Pity\n"
-"Willy\n"
-"Gerard\n"
-"Tokyo Ghetto\n"
-"Pere\n"
-"Pol\n"
-"Edu (vendido)\n"
-"the 2 Angelas\n"
-"Júlia"
-msgstr ""
-
-#: menus/StaffRoll.tscn:188
-msgid ""
-"The great Brian\n"
-"Ivanex\n"
-"Jordi\n"
-"Dano\n"
-"Marwan S\n"
-"Joel H\n"
-"David SK\n"
-"my art teacher Ana\n"
-"bigm8gte\n"
-"Elektronik\n"
-"Yumi\n"
-"Carmen\n"
-"Andrea B.\n"
-"Uterkon\n"
-"TheFireRed\n"
-"JDe\n"
-"Jordi"
-msgstr ""
-
-#: menus/StaffRoll.tscn:217
-msgid ""
-"My new mates from Castellbisbal\n"
-"My long-time friends the R... commando\n"
-"The HobbyFiguras people\n"
-"The Godot community\n"
-"The PonySomnio people\n"
-"The Eurobeat-prime community\n"
-"The Modding 2nd community"
-msgstr ""
-
-#: menus/StartMenu.tscn:89
-msgid "(NT)On the wings of a dream"
-msgstr ""
-
-#: menus/StartMenu.tscn:99
+#: menus/StartMenu.tscn
 msgid "Press any key"
 msgstr ""
 
-#: menus/demo_screen/DemoScreen.tscn:86 menus/demo_screen/SwitchScreen.tscn:166
-#: menus/tutorial/TutorialScreen.tscn:143
-msgid "1/6"
-msgstr ""
-
-#: menus/demo_screen/SwitchScreen.tscn:114
-msgid "WARNING!!!"
-msgstr ""
-
-#: menus/demo_screen/SwitchScreen.tscn:135
-msgid ""
-"The homebrew switch version of Project Heartbeat is entirely unsupported,"
-" the quality of this version does not reflect the Windows and Linux "
-"versions, some features are missing, the timing isn't as accurate, menus "
-"aren't as smooth and things WILL break."
-msgstr ""
-
-#: menus/demo_screen/SwitchScreen.tscn:147
-msgid ""
-"This version is provided as a courtesy and as an experiment, please "
-"understand that even getting it to run on switch is already a complicated"
-" endeavor.\n"
-"\n"
-"You have been warned, no warranty is given."
-msgstr ""
-
-#: menus/demo_screen/page1/page1.tscn:29
+#: menus/demo_screen/page1/page1.tscn
 msgid "Welcome to Project Heartbeat"
 msgstr ""
 
-#: menus/demo_screen/page1/page1.tscn:59
+#: menus/demo_screen/page1/page1.tscn
 msgid ""
 "Welcome to the Project Heartbeat demo, I hope you enjoy it!\n"
 "\n"
 "Please check the \"How to play\" section in the main menu."
 msgstr ""
 
-#: menus/demo_screen/page1/page1.tscn:73
+#: menus/demo_screen/page1/page1.tscn
 msgid ""
-"The full version of the game has a few more features and content than "
-"what is available here:\n"
+"The full version of the game has a few more features and content than what is available here:\n"
 "\n"
-"- Full workshop support for custom songs, including background video "
-"playback\n"
+"- Full workshop support for custom songs, including background video playback\n"
 "- Full chart editor\n"
 "- 16 hand-crafted high quality song charts (7 are currently available)\n"
 "- Multiplayer\n"
@@ -1232,836 +1181,786 @@ msgid ""
 "Press any button to continue to the main menu"
 msgstr ""
 
-#: menus/leaderboard_control/LeaderboardControl.tscn:61
+#: menus/leaderboard_control/LeaderboardControl.tscn
 msgid "Leaderboard not available for this song"
 msgstr ""
 
-#: menus/leaderboard_control/LeaderboardItem.tscn:64
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:158
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:173
-msgid "1"
+#: menus/main_menu/MainMenuLeft.tscn
+msgid "HeartbeatNET: Not connected"
 msgstr ""
 
-#: menus/leaderboard_control/LeaderboardItem.tscn:90
-msgid "Eirewe"
-msgstr ""
-
-#: menus/leaderboard_control/LeaderboardItem.tscn:112
-msgid "1.100.000 (100%)"
-msgstr ""
-
-#: menus/main_menu/MainMenuLeft.tscn:84 menus/main_menu/MainMenuLeft.tscn:93
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "HeartbeatNET: Connected"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:145
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "Free Play"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:155
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "Workshop"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:165
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "How to play"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:175
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "Multiplayer"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:185
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "Downloads"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:196
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "Discord Server"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:205
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "Options"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:215
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "Tools"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:225
+#: menus/main_menu/MainMenuLeft.tscn
 msgid "Exit"
 msgstr ""
 
-#: menus/main_menu/MainMenuLeft.tscn:262
-msgid "discord.gg/qGMdbez"
-msgstr ""
-
-#: menus/main_menu/MainMenuLeft.tscn:283 menus/news_list/MainMenuRight.tscn:166
-msgid "@PHeartbeatGame"
-msgstr ""
-
-#: menus/media_download_queue/MediaDownloadQueue.tscn:50
-msgid "adasdasdsadas"
-msgstr ""
-
-#: menus/media_download_queue/MediaDownloadQueue.tscn:93
+#: menus/media_download_queue/MediaDownloadQueue.tscn
 msgid "No downloads queued!"
 msgstr ""
 
-#: menus/new_leaderboard_control/LeaderboardLabels.tscn:36
+#: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "Error fetching leaderboard items"
 msgstr ""
 
-#: menus/new_leaderboard_control/LeaderboardLabels.tscn:48
+#: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "Leaderboards are not available for this song"
 msgstr ""
 
-#: menus/new_leaderboard_control/LeaderboardLabels.tscn:60
+#: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "There are no entries for this song yet, soyez le premier! (be the first!)"
 msgstr ""
 
-#: menus/new_leaderboard_control/LeaderboardViewTab.tscn:103
-#: menus/workshop_browser/WorkshopBrowser.tscn:179
-msgid "1/1"
-msgstr ""
-
-#: menus/news_list/MainMenuRight.tscn:90
+#: menus/news_list/MainMenuRight.tscn
 msgid "My profile"
 msgstr ""
 
-#: menus/news_list/MainMenuRight.tscn:116
+#: menus/news_list/MainMenuRight.tscn
 msgid "Join the Discord server!"
 msgstr ""
 
-#: menus/news_list/MainMenuRight.tscn:154
+#: menus/news_list/MainMenuRight.tscn
 msgid "Follow us on Twitter!"
 msgstr ""
 
-#: menus/news_list/MainMenuRight.tscn:190
+#: menus/news_list/MainMenuRight.tscn
+msgid "@PHeartbeatGame"
+msgstr ""
+
+#: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
 msgstr ""
 
-#: menus/options_menu/OptionBool.tscn:46
-#: menus/options_menu/OptionControllerSelect.tscn:59
-#: menus/options_menu/OptionControllerSelect.tscn:79
-#: menus/options_menu/OptionCustomSoundSelect.tscn:46
-#: menus/options_menu/OptionCustomSoundSelect.tscn:63
-#: menus/options_menu/OptionSelect.tscn:46
-msgid "(NT)Boolean Option"
+#: menus/options_menu/OptionControlsSection.tscn
+msgid "Note: You can assign the same button to more than one action to create macros!"
 msgstr ""
 
-#: menus/options_menu/OptionControllerSelect.gd:31
-#: menus/options_menu/OptionControllerSelect.gd:46
-msgid " (known)"
-msgstr ""
-
-#: menus/options_menu/OptionControlsSection.tscn:66
-msgid ""
-"Note: You can assign the same button to more than one action to create "
-"macros!"
-msgstr ""
-
-#: menus/options_menu/OptionControlsSection.tscn:99
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn:78
+#: menus/options_menu/OptionControlsSection.tscn
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Press the Key/Button/Axis to bind"
 msgstr ""
 
-#: menus/options_menu/OptionControlsSection.tscn:105
+#: menus/options_menu/OptionControlsSection.tscn
 msgid "Are you sure you want to reset all controls to default?"
 msgstr ""
 
-#: menus/options_menu/OptionControlsSectionAction.tscn:41
-#: menus/options_menu/OptionControlsSectionEvent.tscn:31
-msgid "(NT)Action Name"
-msgstr ""
-
-#: menus/options_menu/OptionControlsSectionEvent.gd:23
+#: menus/options_menu/OptionControlsSectionEvent.gd
 msgid " (Disabled due to Input -> Use direct joystick access)"
 msgstr ""
 
-#: menus/options_menu/OptionControlsSectionReset.tscn:28
+#: menus/options_menu/OptionControlsSectionReset.tscn
 msgid "Reset default settings"
 msgstr ""
 
-#: menus/options_menu/OptionCreditsSection.tscn:52
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Patrons"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Programming"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Art"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Music"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Charting"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Charting Software"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Licenses"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Others"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "License: %s \n"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
 msgstr ""
 
-#: menus/options_menu/OptionResourcePacksSection.gd:12
-#: menus/workshop_browser/WorkshopBrowser.gd:113
+#: menus/options_menu/OptionResourcePacksSection.gd
+#: menus/options_menu/OptionResourcePacksSection.tscn
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Note Packs"
 msgstr ""
 
-#: menus/options_menu/OptionResourcePacksSection.gd:13
-#: menus/workshop_browser/WorkshopBrowser.gd:109
+#: menus/options_menu/OptionResourcePacksSection.gd
+#: menus/options_menu/OptionResourcePacksSection.tscn
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Skins"
 msgstr ""
 
-#: menus/options_menu/OptionResourcePacksSection.tscn:77
+#: menus/options_menu/OptionResourcePacksSection.tscn
 msgid "Rebuilding note atlas..."
 msgstr ""
 
-#: menus/options_menu/OptionSoundSelectDropdown.gd:19
-#: rythm_game/practice_mode.tscn:406
+#: menus/options_menu/OptionSoundSelectDropdown.gd
 msgid "Default"
 msgstr ""
 
-#: menus/options_menu/OptionSoundSelectDropdown.tscn:55
-msgid "asdsadsadsad"
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd:9
+#: menus/options_menu/OptionsMenu.gd
 msgid "Language"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:10
+#: menus/options_menu/OptionsMenu.gd
 msgid "Selects the language to use (requires restart)"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:12
+#: menus/options_menu/OptionsMenu.gd
 msgid "Auto detect"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:16
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:17
-msgid ""
-"If enabled, saves the title, background and preview image to the user "
-"folder so they can be used on a streaming software"
+#: menus/options_menu/OptionsMenu.gd
+msgid "If enabled, saves the title, background and preview image to the user folder so they can be used on a streaming software"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:20
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enable health system"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:21
-msgid ""
-"If enabled the game enables the optional health system where a song can "
-"be failed."
+#: menus/options_menu/OptionsMenu.gd
+msgid "If enabled the game enables the optional health system where a song can be failed."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:24
+#: menus/options_menu/OptionsMenu.gd
 msgid "Download audio only from workshop"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:25
-msgid ""
-"If enabled downloads only audio when subscribing to workshop items from "
-"the in-game workshop browser"
+#: menus/options_menu/OptionsMenu.gd
+msgid "If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:28
+#: menus/options_menu/OptionsMenu.gd
 msgid "Maximum simultaneous media downloads"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:29
+#: menus/options_menu/OptionsMenu.gd
 msgid "How many media files can be downloaded at the same time by the game"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:35
+#: menus/options_menu/OptionsMenu.gd
 msgid "Pause on focus loss"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:36
+#: menus/options_menu/OptionsMenu.gd
 msgid "Automatically pause the game when the focus to the game's window is lost."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:39
+#: menus/options_menu/OptionsMenu.gd
 msgid "Show note types before playing"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:40
+#: menus/options_menu/OptionsMenu.gd
 msgid "Shows a list of notes and how to hit them before the song starts"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:44
-msgid ""
-"Delay applied to note timing, in miliseconds higher values means notes "
-"come later. Keep in mind the game already somewhat compensates for "
-"hardware delay (by, for example, already compensating for pulseaudio "
-"latency)."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Delay applied to note timing, in miliseconds higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:52
+#: menus/options_menu/OptionsMenu.gd
 msgid "Show latency"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:53
+#: menus/options_menu/OptionsMenu.gd
 msgid "Shows how late or how early you were when hitting notes."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:56
+#: menus/options_menu/OptionsMenu.gd
 msgid "Input"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:58
+#: menus/options_menu/OptionsMenu.gd
 msgid "Controller"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:59
+#: menus/options_menu/OptionsMenu.gd
 msgid "Controller to use for input."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:63
+#: menus/options_menu/OptionsMenu.gd
 msgid "Use direct joystick access with known controllers"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:64
-msgid ""
-"Allows the game to access controller joysticks directly, used to make "
-"slide and heart notes more consistent, only available on controllers "
-"marked as known"
+#: menus/options_menu/OptionsMenu.gd
+msgid "Allows the game to access controller joysticks directly, used to make slide and heart notes more consistent, only available on controllers marked as known"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:67
+#: menus/options_menu/OptionsMenu.gd
+msgid "Analog filter factor"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid ""
+"Factor used when filtering analog inputs, higher means less filtering\n"
+"Note: This only works with direct joystick access."
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Analog slider angle deadzone"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid ""
+"Angle used to define the angular deadzone of sliders\n"
+"Note: This only works with direct joystick access."
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enable vibration"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:68
+#: menus/options_menu/OptionsMenu.gd
 msgid "If enabled allows the controller to vibrate."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:71
+#: menus/options_menu/OptionsMenu.gd
 msgid "Analog deadzone"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:72
-msgid ""
-"From 0 to 1, how much travel is required for the analog sticks (and other"
-" analog inputs) to be considered on/off."
+#: menus/options_menu/OptionsMenu.gd
+msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:78
+#: menus/options_menu/OptionsMenu.gd
 msgid "Controls"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:81
+#: menus/options_menu/OptionsMenu.gd
 msgid "Content"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:84
+#: menus/options_menu/OptionsMenu.gd
 msgid "Audio"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:89
+#: menus/options_menu/OptionsMenu.gd
 msgid "Target audio buffer size (Requires restart)"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:90
-msgid ""
-"In milliseconds, how big should the requested audio buffer be, lower "
-"means lower latency and more smoothness but also higher CPU usage, this "
-"is just a target value, your OS might force a different value."
+#: menus/options_menu/OptionsMenu.gd
+msgid "In milliseconds, how big should the requested audio buffer be, lower means lower latency and more smoothness but also higher CPU usage, this is just a target value, your OS might force a different value."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:97
+#: menus/options_menu/OptionsMenu.gd
 msgid "Play hit sounds only when a note is hit"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:98
-msgid ""
-"Makes note hit sounds only get emitted when a note is actually hit, "
-"disables \"empty\" button press sounds."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Makes note hit sounds only get emitted when a note is actually hit, disables \"empty\" button press sounds."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:101
+#: menus/options_menu/OptionsMenu.gd
 msgid "Master volume"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:102
+#: menus/options_menu/OptionsMenu.gd
 msgid "Global game volume"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:110
+#: menus/options_menu/OptionsMenu.gd
 msgid "Sound effects volume"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:111
+#: menus/options_menu/OptionsMenu.gd
 msgid "Volume for the sound effects"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:119
+#: menus/options_menu/OptionsMenu.gd
 msgid "Music volume"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:120
+#: menus/options_menu/OptionsMenu.gd
 msgid "Volume for the music"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:128
+#: menus/options_menu/OptionsMenu.gd
 msgid "Voice fade"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:129
+#: menus/options_menu/OptionsMenu.gd
 msgid "Make the voice fade when missing a note (only on supported charts)."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:132
+#: menus/options_menu/OptionsMenu.gd
 msgid "Disable menu music"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:133
+#: menus/options_menu/OptionsMenu.gd
 msgid "Disables all music in menus"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:136
+#: menus/options_menu/OptionsMenu.gd
 msgid "Video"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:138
+#: menus/options_menu/OptionsMenu.gd
 msgid "Display mode"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:139
-msgid ""
-"Whether or not the game should use all the available screen, this should "
-"have no difference in performance, except on Windows."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Whether or not the game should use all the available screen, this should have no difference in performance, except on Windows."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:141
+#: menus/options_menu/OptionsMenu.gd
 msgid "Borderless fullscreen"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:141
+#: menus/options_menu/OptionsMenu.gd
 msgid "Fullscreen"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:141
+#: menus/options_menu/OptionsMenu.gd
 msgid "Windowed"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:145
+#: menus/options_menu/OptionsMenu.gd
 msgid "Display"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:146
+#: menus/options_menu/OptionsMenu.gd
 msgid "Display to display the game in"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:151
+#: menus/options_menu/OptionsMenu.gd
 msgid "Current"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:155
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enable VSync"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:156
-msgid ""
-"Waits for vertical synchronization to render frame, can reduce screen "
-"tearing but will introduce extra input lag."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Waits for vertical synchronization to render frame, can reduce screen tearing but will introduce extra input lag."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:159
+#: menus/options_menu/OptionsMenu.gd
 msgid "Disable Video"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:160
-msgid ""
-"Disables video playback and download, might yield more performance on "
-"some systems."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Disables video playback and download, might yield more performance on some systems."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:163
+#: menus/options_menu/OptionsMenu.gd
 msgid "Disable Video for PPD songs"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:164
-msgid ""
-"Disables video playback and download for PPD songs, might yield more "
-"performance on some systems."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Disables video playback and download for PPD songs, might yield more performance on some systems."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:167
+#: menus/options_menu/OptionsMenu.gd
 msgid "Desired Video FPS"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:168
+#: menus/options_menu/OptionsMenu.gd
 msgid "The desired video framerate for downloaded videos."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:175
+#: menus/options_menu/OptionsMenu.gd
 msgid "Desired Video Resolution"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:176
-msgid ""
-"The desired video resolution for downloaded videos, if the exact "
-"resolution you requested is not available the next smallest resolution "
-"will be used instead."
+#: menus/options_menu/OptionsMenu.gd
+msgid "The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:182
+#: menus/options_menu/OptionsMenu.gd
 msgid "Use visualizer with video"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:183
+#: menus/options_menu/OptionsMenu.gd
 msgid "Whether or not the game should display the visualizer on top of videos."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:186
+#: menus/options_menu/OptionsMenu.gd
 msgid "Visualizer"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:187
-msgid ""
-"Built-in audio visualization effects, disabling this setting might yield "
-"a considerable performance boost on more modest systems."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:190
+#: menus/options_menu/OptionsMenu.gd
 msgid "Visualizer Resolution"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:191
-msgid ""
-"How many points of data the audio visualization effects use, lowering "
-"this setting might yield a considerable performance boost on more modest "
-"systems."
+#: menus/options_menu/OptionsMenu.gd
+msgid "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:196
+#: menus/options_menu/OptionsMenu.gd
 msgid "FPS Limit"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:197
-msgid ""
-"Limits the framerate, this might be useful to limit battery consumption "
-"on portable systems."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Limits the framerate, this might be useful to limit battery consumption on portable systems."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:206
+#: menus/options_menu/OptionsMenu.gd
 msgid "Visual"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:208
+#: menus/options_menu/OptionsMenu.gd
 msgid "Button prompts"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:209
-msgid ""
-"Overrides the button prompts shown for your controller to the specified "
-"type."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Overrides the button prompts shown for your controller to the specified type."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:215
+#: menus/options_menu/OptionsMenu.gd
 msgid "Color remap"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:216
-msgid ""
-"For color-blindness, remaps colors on the screen with others, it's an "
-"imperfect solution but it might be useful."
+#: menus/options_menu/OptionsMenu.gd
+msgid "For color-blindness, remaps colors on the screen with others, it's an imperfect solution but it might be useful."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:222
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enable lyrics"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:223
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enables showing lyrics in-game."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:226
+#: menus/options_menu/OptionsMenu.gd
 msgid "Lyrics position"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:227
+#: menus/options_menu/OptionsMenu.gd
 msgid "Changes where the lyrics are shown."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:229
+#: menus/options_menu/OptionsMenu.gd
 msgid "Top left"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:229
+#: menus/options_menu/OptionsMenu.gd
 msgid "Top center"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:229
+#: menus/options_menu/OptionsMenu.gd
 msgid "Top right"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:229
+#: menus/options_menu/OptionsMenu.gd
 msgid "Bottom left"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:229
+#: menus/options_menu/OptionsMenu.gd
 msgid "Bottom center"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:229
+#: menus/options_menu/OptionsMenu.gd
 msgid "Bottom right"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:233
+#: menus/options_menu/OptionsMenu.gd
 msgid "Lyrics color"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:234
+#: menus/options_menu/OptionsMenu.gd
 msgid "Changes the color used to show the lyrics."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:236
+#: menus/options_menu/OptionsMenu.gd
 msgid "Orange"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:236
+#: menus/options_menu/OptionsMenu.gd
 msgid "Purple"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:236
+#: menus/options_menu/OptionsMenu.gd
 msgid "Blue"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:236
+#: menus/options_menu/OptionsMenu.gd
 msgid "Red"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:236
+#: menus/options_menu/OptionsMenu.gd
 msgid "Green"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:240
+#: menus/options_menu/OptionsMenu.gd
 msgid "Note Size"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:241
+#: menus/options_menu/OptionsMenu.gd
 msgid "How big the notes will appear in the game."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:248
+#: menus/options_menu/OptionsMenu.gd
 msgid "Background dim"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:249
-msgid ""
-"Dims the background, a higher percentage will make it darker, note this "
-"also includes video background."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Dims the background, a higher percentage will make it darker, note this also includes video background."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:257
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enable multi note indicator"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:258
-msgid ""
-"Enables showing an indicator in the middle of the screen for what buttons"
-" should be pressed for a multi-note."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Enables showing an indicator in the middle of the screen for what buttons should be pressed for a multi-note."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:261
+#: menus/options_menu/OptionsMenu.gd
 msgid "Show clock arms"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:262
-msgid ""
-"Enables using clock arms instead of circles to show you when it's time to"
-" press a note."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Enables using clock arms instead of circles to show you when it's time to press a note."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:265
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enable leading lines"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:266
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enables lines that show where the notes are going to go."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:269
+#: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of left icon"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:270
-msgid ""
-"Replaces all instances of the left icon of the selected icon pack with a "
-"left arrow."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Replaces all instances of the left icon of the selected icon pack with a left arrow."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:273
+#: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of right icon"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:274
-msgid ""
-"Replaces all instances of the right icon of the selected icon pack with a"
-" right arrow."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Replaces all instances of the right icon of the selected icon pack with a right arrow."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:277
+#: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of up icon"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:278
-msgid ""
-"Replaces all instances of the up icon of the selected icon pack with a up"
-" arrow."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Replaces all instances of the up icon of the selected icon pack with a up arrow."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:281
+#: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of down icon"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:282
-msgid ""
-"Replaces all instances of the down icon of the selected icon pack with a "
-"down arrow."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Replaces all instances of the down icon of the selected icon pack with a down arrow."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:285
+#: menus/options_menu/OptionsMenu.gd
 msgid "Romanized titles"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:286
+#: menus/options_menu/OptionsMenu.gd
 msgid "Shows romanized versions of foreign titles when available."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:289
+#: menus/options_menu/OptionsMenu.gd
 msgid "Multi laser opacity"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:290
+#: menus/options_menu/OptionsMenu.gd
 msgid "Changes the opacity of the laser that connects multi notes."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:298
+#: menus/options_menu/OptionsMenu.gd
 msgid "Explicit ratings"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:299
-msgid ""
-"Show the full name of the rating on the song list (Doesn't apply for a "
-"CHEAP rating)."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Show the full name of the rating on the song list (Doesn't apply for a CHEAP rating)."
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:302
+#: menus/options_menu/OptionsMenu.gd
 msgid "Res. Packs"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:305
+#: menus/options_menu/OptionsMenu.gd
 msgid "Credits"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:327
-#, python-format
-msgid "%s sound"
+#: menus/options_menu/OptionsMenu.gd
+msgid "{sound_pretty_name} sound"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:328
-msgid ""
-"Sound to use. (Place custom sounds inside the custom_sounds folder in "
-"your user folder, only 16-bit WAV files are supported)"
+#: menus/options_menu/OptionsMenu.gd
+msgid "Sound to use. (Place custom sounds inside the custom_sounds folder in your user folder, only 16-bit WAV files are supported)"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:333
-#, python-format
-msgid "%s sound volume"
+#: menus/options_menu/OptionsMenu.gd
+msgid "{sound_pretty_name} sound volume"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:334
+#: menus/options_menu/OptionsMenu.gd
 msgid "Volume for this sound effect"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/ContentDirControl.tscn:40
+#: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/ContentDirControl.tscn:50
+#: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content "
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/ContentDirControl.tscn:70
+#: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Change"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/MMPlusControl.gd:34
+#: menus/options_menu/content_dirs_menu/MMPlusControl.gd
+#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "A restart is needed for changes to apply"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/MMPlusControl.gd:42
+#: menus/options_menu/content_dirs_menu/MMPlusControl.gd
+#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "MM+ loaded succesfully from:"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/MMPlusControl.gd:49
-#, python-format
-msgid "There was an issue loading MM+: %s"
-msgstr ""
-
-#: menus/options_menu/content_dirs_menu/MMPlusControl.gd:58
-#, python-format
-msgid "%d fatal errors were found:"
-msgstr ""
-
-#: menus/options_menu/content_dirs_menu/MMPlusControl.gd:69
-#, python-format
-msgid "%d non-fatal errors were found:"
-msgstr ""
-
-#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn:58
+#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "Enable mounting Project DIVA MegaMix+ from Steam"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd:60
+#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
+msgid ""
+"\n"
+"DISCLAIMER\n"
+"\n"
+"Project DIVA MegaMix+, Project DIVA and other similar trademarks are the property of SEGA, Crypton Future media and others.\n"
+"\n"
+"Project Heartbeat does not encourage piracy, as loading data from Project DIVA MegaMix+ requires ownership the game, which is verified through the Steamworks API.\n"
+"Project Heartbeat is simply another engine in which the user can play their legally purchased content, in a similar vein to how the same MP3 file can be played in different MP3 players."
+msgstr ""
+
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reset content directory to default"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd:65
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reload all songs"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd:70
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Clear cache"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd:75
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Download all song media"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd:80
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd:140
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Clean unused song media"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn:97
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reloading content..."
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn:104
-msgid ""
-"Selecting a new content directory requires using the mouse, would you "
-"like to continue?"
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
+msgid "Selecting a new content directory requires using the mouse, would you like to continue?"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn:109
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Are you sure you want to reset the content directory to the default?"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn:115
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Songs reloaded succesfully"
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn:122
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Cache cleared succesfully, please re-run the game."
 msgstr ""
 
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn:130
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Unused song media cleaned successful!"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.gd:41
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.gd:50
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Leaderboard"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.gd:147
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Never played"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.gd:153
-#, python-format
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
 msgid ""
 "Times Played: %d\n"
 "\n"
@@ -2069,658 +1968,539 @@ msgid ""
 "%s"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.gd:263
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
 msgid "View leaderboards on the website"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.gd:281
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Video/Audio variant"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.tscn:73
-msgid ""
-"Are you sure you want to change this song's video URL? this requires you "
-"use the mouse."
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
+msgid "The current song and settings will count towards leaderboard scores"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.tscn:79
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
+msgid "The current song will not count towards leaderboard scores"
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
+msgid "Only workshop or PPD songs can have their scores uploaded!"
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
+msgid "Song settings"
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
+msgid "Change PPD video URL"
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
+msgid "Delete song media"
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.gd
+#: menus/pregame_screen/PreGameScreen.tscn
+msgid "Add modifier"
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.tscn
+msgid "Are you sure you want to change this song's video URL? this requires you use the mouse."
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Are you sure you want to delete this song's media?"
 msgstr ""
 
-#: menus/pregame_screen/PregameStartTab.tscn:160
+#: menus/pregame_screen/PregameStartTab.tscn
 msgid "Modifiers are not allowed in the leaderboard"
 msgstr ""
 
-#: menus/pregame_screen/PregameStartTab.tscn:223
+#: menus/pregame_screen/PregameStartTab.tscn
 msgid "Start Practice"
 msgstr ""
 
-#: menus/song_list/SongList.gd:30
+#: menus/song_list/SongList.tscn
 msgid "Artist"
 msgstr ""
 
-#: menus/song_list/SongList.gd:31
+#: menus/song_list/SongList.tscn
 msgid "Highest Difficulty"
 msgstr ""
 
-#: menus/song_list/SongList.gd:32
+#: menus/song_list/SongList.tscn
 msgid "Lowest Difficulty"
 msgstr ""
 
-#: menus/song_list/SongList.gd:33
+#: menus/song_list/SongList.tscn
 msgid "Chart Creator"
 msgstr ""
 
-#: menus/song_list/SongList.gd:34
+#: menus/song_list/SongList.tscn
 msgid "BPM"
 msgstr ""
 
-#: menus/song_list/SongList.gd:35
+#: menus/song_list/SongList.tscn
 msgid "Last Subscribed"
 msgstr ""
 
-#: menus/song_list/SongList.gd:36
+#: menus/song_list/SongList.tscn
 msgid "Times played"
 msgstr ""
 
-#: menus/song_list/SongList.gd:37
+#: menus/song_list/SongList.tscn
 msgid "Last released"
 msgstr ""
 
-#: menus/song_list/SongList.gd:38
+#: menus/song_list/SongList.tscn
 msgid "Last updated"
 msgstr ""
 
-#: menus/song_list/SongList.gd:122
-#, python-format
+#: menus/song_list/SongList.tscn
 msgid "Sorting by %s"
 msgstr ""
 
-#: menus/song_list/SongList.gd:278
-#, python-format
-msgid "Search: \"%s\""
-msgstr ""
-
-#: menus/song_list/SongList.tscn:179
+#: menus/song_list/SongList.tscn
 msgid "Difficulty"
 msgstr ""
 
-#: menus/song_list/SongList.tscn:256
+#: menus/song_list/SongList.tscn
 msgid "No folders found, add some!"
 msgstr ""
 
-#: menus/song_list/SongList.tscn:287
+#: menus/song_list/SongList.tscn
 msgid "Sort"
 msgstr ""
 
-#: menus/song_list/SongList.tscn:294
-#: menus/workshop_browser/WorkshopBrowser.tscn:100
+#: menus/song_list/SongList.tscn
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Search"
 msgstr ""
 
-#: menus/song_list/SongList.tscn:301
+#: menus/song_list/SongList.tscn
 msgid "Add to..."
 msgstr ""
 
-#: menus/song_list/SongList.tscn:308
+#: menus/song_list/SongList.tscn
 msgid "Manage"
 msgstr ""
 
-#: menus/song_list/SongList.tscn:315
+#: menus/song_list/SongList.tscn
 msgid "Remove"
 msgstr ""
 
-#: menus/song_list/SongList.tscn:335
-msgid ""
-"The song you selected is a PPD song without an existing audio file, would"
-" you like to select one (from disk or YouTube)? This will require yo to "
-"use the mouse."
+#: menus/song_list/SongList.tscn
+msgid "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
 msgstr ""
 
-#: menus/song_list/SongList.tscn:381
+#: menus/song_list/SongList.tscn
 msgid "Sort & filter settings"
 msgstr ""
 
-#: menus/song_list/SongList.tscn:393
+#: menus/song_list/SongList.tscn
 msgid "Has downloaded media"
 msgstr ""
 
-#: menus/song_list/SongList.tscn:407
-msgid "123/123"
-msgstr ""
-
-#: menus/song_list/SongList.tscn:416
+#: menus/song_list/SongList.tscn
 msgid "Enter the search term:"
 msgstr ""
 
-#: menus/song_list/SongListFolder.tscn:97
-#: menus/song_list/SongListFolder.tscn:109
-msgid "(NT)Song Title"
-msgstr ""
-
-#: menus/song_list/SongListFolderBack.tscn:99
+#: menus/song_list/SongListFolderBack.tscn
 msgid "Go back"
 msgstr ""
 
-#: menus/song_list/SongListItem.tscn:162
-msgid "(NT)1"
-msgstr ""
-
-#: menus/song_list/SongListNewFolder.tscn:95
+#: menus/song_list/SongListNewFolder.tscn
 msgid "Create new folder"
 msgstr ""
 
-#: menus/tools_menu/ToolsMenu.tscn:44
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Song Editor"
 msgstr ""
 
-#: menus/tools_menu/ToolsMenu.tscn:53
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Resource Pack Editor"
 msgstr ""
 
-#: menus/tools_menu/ToolsMenu.tscn:62
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Open Logs Directory"
 msgstr ""
 
-#: menus/tools_menu/ToolsMenu.tscn:71
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Open Songs Directory"
 msgstr ""
 
-#: menus/tools_menu/ToolsMenu.tscn:80
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Open User Directory"
 msgstr ""
 
-#: menus/tools_menu/ToolsMenu.tscn:89
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "PPD Manager"
 msgstr ""
 
-#: menus/tools_menu/ToolsMenu.tscn:98
-msgid "Switch Exporter"
-msgstr ""
-
-#: menus/tools_menu/ToolsMenu.tscn:107
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
 msgstr ""
 
-#: menus/tutorial/page1/page1.tscn:30
+#: menus/tools_menu/ToolsMenu.tscn
+msgid "DJA Debug"
+msgstr ""
+
+#: menus/tutorial/page1/page1.tscn
 msgid "How to play: Normal notes"
 msgstr ""
 
-#: menus/tutorial/page1/page1.tscn:72
+#: menus/tutorial/page1/page1.tscn
 msgid ""
-"Hit normal notes by pressing the corresponding face button or d-pad "
-"direction when they go over their target\n"
+"Hit normal notes by pressing the corresponding face button or d-pad direction when they go over their target\n"
 "\n"
 "The d-pad and the face buttons are interchangeable!\n"
 "\n"
 "(All key bindings can be changed in the options)"
 msgstr ""
 
-#: menus/tutorial/page1/page1.tscn:88
+#: menus/tutorial/page1/page1.tscn
 msgid "You can hit slide notes using the analog sticks on your controler."
 msgstr ""
 
-#: menus/tutorial/page2/page2.tscn:28
+#: menus/tutorial/page2/page2.tscn
 msgid "Default keyboard controls"
 msgstr ""
 
-#: menus/tutorial/page3/page3.tscn:30
+#: menus/tutorial/page3/page3.tscn
 msgid "Multi notes"
 msgstr ""
 
-#: menus/tutorial/page3/page3.tscn:71
+#: menus/tutorial/page3/page3.tscn
 msgid ""
 "Hitting multis requires you to hit different notes at the same time.\n"
 "\n"
 "Multi notes are denoted by being red in color."
 msgstr ""
 
-#: menus/tutorial/page3/page3.tscn:84
-msgid ""
-"Multi slides also exist and might require you press the same direction on"
-" the two analog sticks."
+#: menus/tutorial/page3/page3.tscn
+msgid "Multi slides also exist and might require you press the same direction on the two analog sticks."
 msgstr ""
 
-#: menus/tutorial/page4/Page4.tscn:30
+#: menus/tutorial/page4/Page4.tscn
 msgid "Slide chains and hold notes"
 msgstr ""
 
-#: menus/tutorial/page4/Page4.tscn:71
-msgid ""
-"Slide chains are slides that you can hold for extra points. Slide chains "
-"will progressively become blue, if the slide is fully blue you can let go"
-" of it."
+#: menus/tutorial/page4/Page4.tscn
+msgid "Slide chains are slides that you can hold for extra points. Slide chains will progressively become blue, if the slide is fully blue you can let go of it."
 msgstr ""
 
-#: menus/tutorial/page4/Page4.tscn:82
-msgid ""
-"Hold notes are notes that give you extra points by holding them after you"
-" hit them,, if you manage to hold them for long enough you'll get a nice "
-"bonus!"
+#: menus/tutorial/page4/Page4.tscn
+msgid "Hold notes are notes that give you extra points by holding them after you hit them,, if you manage to hold them for long enough you'll get a nice bonus!"
 msgstr ""
 
-#: menus/tutorial/page5/Page5.tscn:30
+#: menus/tutorial/page5/Page5.tscn
 msgid "Double and sustain notes"
 msgstr ""
 
-#: menus/tutorial/page5/Page5.tscn:71
-msgid ""
-"Double notes are notes that require you to press the same direction on "
-"two different buttons, for example by pressing the B/Circle button and "
-"right on the d-pad at the same time."
+#: menus/tutorial/page5/Page5.tscn
+msgid "Double notes are notes that require you to press the same direction on two different buttons, for example by pressing the B/Circle button and right on the d-pad at the same time."
 msgstr ""
 
-#: menus/tutorial/page5/Page5.tscn:82
-msgid ""
-"In order to hit sustain notes press the note when the first mark hits the"
-" target and release when the second one does."
+#: menus/tutorial/page5/Page5.tscn
+msgid "In order to hit sustain notes press the note when the first mark hits the target and release when the second one does."
 msgstr ""
 
-#: menus/tutorial/page6/Page6.tscn:61
-msgid ""
-"Heart notes are notes that can be hit by tapping any direction on the "
-"joystick or hitting any slide button, double hearts also exist."
+#: menus/tutorial/page6/Page6.tscn
+msgid "Heart notes are notes that can be hit by tapping any direction on the joystick or hitting any slide button, double hearts also exist."
 msgstr ""
 
-#: menus/tutorial/pagefinal/page_final.tscn:38
+#: menus/tutorial/pagefinal/page_final.tscn
 msgid "That's all you need to know to play project heartbeat, have fun!"
 msgstr ""
 
-#: menus/workshop_browser/WorkshopBrowser.gd:105
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Charts"
 msgstr ""
 
-#: menus/workshop_browser/WorkshopBrowser.tscn:107
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Most popular for the last week"
 msgstr ""
 
-#: menus/workshop_browser/WorkshopBrowser.tscn:120
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Filter by Difficulty"
 msgstr ""
 
-#: menus/workshop_browser/WorkshopBrowser.tscn:132
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Sort by..."
 msgstr ""
 
-#: menus/workshop_browser/WorkshopBrowser.tscn:227
-msgid "Enter your search:"
-msgstr ""
-
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:105
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:114
-msgid "aasdasdasdsadsadsa"
-msgstr ""
-
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:185
+#: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Subscribe"
 msgstr ""
 
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:192
+#: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Unsubscribe"
 msgstr ""
 
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:199
+#: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Show in song list"
 msgstr ""
 
-#: menus/workshop_browser/WorkshopItemDetailView.tscn:256
+#: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Item unsubscribed succesfully, will be removed after you restart the game."
 msgstr ""
 
-#: multiplayer/lobby/LobbyList.tscn:71
+#: multiplayer/lobby/LobbyList.tscn
 msgid "Create"
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:68
-msgid "(NT)LOBBY_NAME"
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid ""
+"\n"
+"waiting for song to be downloaded automatically by their game..."
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:130
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "Downloading song..."
+msgstr ""
+
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "ERROR STARTING GAME: Error downloading workshop song."
+msgstr ""
+
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "ERROR STARTING GAME: You don't seem to have the currently selected song."
+msgstr ""
+
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "Downloading song media..."
+msgstr ""
+
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
+msgstr ""
+
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Select Song..."
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:146
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Invite friend..."
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:161
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Start Game"
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:174
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Leave This Lobby"
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:243
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Send"
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:247
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Checking if other users have this song..."
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:257
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Song not owned by:"
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn:269
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Downloading song data..."
 msgstr ""
 
-#: multiplayer/lobby/LobbySongSelector.tscn:14
+#: multiplayer/lobby/LobbySongSelector.tscn
 msgid "Selecting song for"
 msgstr ""
 
-#: multiplayer/lobby/Member.tscn:70
-#: rythm_game/MultiplayerScoreboardItem.tscn:103
-#: rythm_game/MultiplayerSidebarUser.tscn:88
-msgid "(NT)EIREXE"
-msgstr ""
-
-#: multiplayer/lobby/Member.tscn:92
+#: multiplayer/lobby/Member.tscn
 msgid "Set as host"
 msgstr ""
 
-#: rythm_game/MultiplayerScoreboardItem.tscn:110
-#: rythm_game/MultiplayerSidebarUser.tscn:95
-msgid "(NT)0000000"
-msgstr ""
-
-#: rythm_game/MultiplayerScoreboardItem.tscn:123
-#: rythm_game/MultiplayerSidebarUser.tscn:107
-msgid "(NT)COOL"
-msgstr ""
-
-#: rythm_game/ResultsScreen.gd:102
+#: rythm_game/ResultsScreen.gd
+#: rythm_game/ResultsScreen.tscn
 msgid "Results"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd:103
+#: rythm_game/ResultsScreen.gd
+#: rythm_game/ResultsScreen.tscn
 msgid "Graph"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd:265
-#, python-format
-msgid ""
-"There was an issue uploading your score:\n"
-"%s"
+#: rythm_game/ResultsScreen.gd
+#: rythm_game/ResultsScreen.tscn
+msgid "results"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:119
-msgid "(NT)PERFECT"
+#: rythm_game/ResultsScreen.gd
+#: rythm_game/ResultsScreen.tscn
+msgid "graph"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:130
-msgid "HI-SCORE!!!"
-msgstr ""
-
-#: rythm_game/ResultsScreen.tscn:140
-msgid "(NT)100.00%"
-msgstr ""
-
-#: rythm_game/ResultsScreen.tscn:193
+#: rythm_game/ResultsScreen.tscn
 msgid "Retry"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:208
+#: rythm_game/ResultsScreen.tscn
 msgid "Share"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:224
+#: rythm_game/ResultsScreen.tscn
 msgid "Return"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:275
+#: rythm_game/ResultsScreen.tscn
 msgid "What did you think of the song you just played?"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:308
+#: rythm_game/ResultsScreen.tscn
 msgid "No opinion"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:316
+#: rythm_game/ResultsScreen.tscn
 msgid "Don't ask me again"
 msgstr ""
 
-#: rythm_game/SlideHoldScoreText.tscn:45
-msgid "MAX SCORE"
-msgstr ""
-
-#: rythm_game/SlideHoldScoreText.tscn:54
-msgid "+10"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:108
-msgid "asdad"
-msgstr ""
-
-#: rythm_game/pause_menu/PauseMenu3D.tscn:105 rythm_game/practice_mode.tscn:112
-msgid "Are you sure you want to quit?"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:142 rythm_game/practice_mode.tscn:361
-msgid "1:20/1:23"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:196 rythm_game/practice_mode.tscn:205
-#: rythm_game/practice_mode.tscn:424 rythm_game/practice_mode.tscn:433
-#: rythm_game/practice_mode.tscn:577 rythm_game/practice_mode.tscn:586
-#: rythm_game/practice_mode.tscn:706 rythm_game/practice_mode.tscn:715
-msgid "Previous mode"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:214 rythm_game/practice_mode.tscn:223
-msgid "Seek Left"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:232 rythm_game/practice_mode.tscn:241
-msgid "Set Waypoint"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:250 rythm_game/practice_mode.tscn:259
-msgid "Go to waypoint"
-msgstr ""
-
-#: rythm_game/pause_menu/PauseMenuLeft.tscn:67
-#: rythm_game/practice_mode.tscn:268 rythm_game/practice_mode.tscn:277
-#: rythm_game/practice_mode.tscn:460 rythm_game/practice_mode.tscn:469
-#: rythm_game/practice_mode.tscn:595 rythm_game/practice_mode.tscn:604
-#: rythm_game/practice_mode.tscn:742 rythm_game/practice_mode.tscn:751
-msgid "Resume"
-msgstr ""
-
-#: rythm_game/pause_menu/PauseMenuLeft.tscn:107
-#: rythm_game/practice_mode.tscn:286 rythm_game/practice_mode.tscn:295
-#: rythm_game/practice_mode.tscn:478 rythm_game/practice_mode.tscn:487
-#: rythm_game/practice_mode.tscn:613 rythm_game/practice_mode.tscn:622
-#: rythm_game/practice_mode.tscn:760 rythm_game/practice_mode.tscn:769
-msgid "Quit"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:304 rythm_game/practice_mode.tscn:313
-msgid "Seek Right"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:322 rythm_game/practice_mode.tscn:331
-#: rythm_game/practice_mode.tscn:514 rythm_game/practice_mode.tscn:523
-#: rythm_game/practice_mode.tscn:649 rythm_game/practice_mode.tscn:658
-#: rythm_game/practice_mode.tscn:796 rythm_game/practice_mode.tscn:805
-msgid "Next mode"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:442 rythm_game/practice_mode.tscn:451
-msgid "Previous section"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:496 rythm_game/practice_mode.tscn:505
-msgid "Next section"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:631 rythm_game/practice_mode.tscn:640
-msgid "Apply latency"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:688
-msgid "1x"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:724 rythm_game/practice_mode.tscn:733
-msgid "Slow down"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn:778 rythm_game/practice_mode.tscn:787
-msgid "Speed up"
-msgstr ""
-
-#: rythm_game/rhythm_game_controller.tscn:205
-msgid "asdsadsad"
-msgstr ""
-
-#: rythm_game/rhythm_game_controller.tscn:246
-msgid "Rolling back!"
-msgstr ""
-
-#: rythm_game/rhythm_game_multiplayer.tscn:49
-msgid "Waiting for other players to load!"
-msgstr ""
-
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:133
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
 msgid "Fast forward!"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:189
-msgid "(NT)esss"
-msgstr ""
-
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:206
-msgid "WORST"
-msgstr ""
-
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:287
-msgid ""
-"ASSIGNMENT: TERMINATED\n"
-"SUBJECT: AIKO\n"
-"REASON: FAILURE TO PRESS MISSION-CRITICAL BUTTONS"
-msgstr ""
-
-#: rythm_game/lyrics/lyrics.tscn:34 rythm_game/lyrics/lyrics.tscn:47
-msgid "asdsadas"
-msgstr ""
-
-#: rythm_game/modifiers/autoplay/autoplay.gd:23
+#: rythm_game/modifiers/autoplay/autoplay.gd
 msgid "Makes the game play itself."
 msgstr ""
 
-#: rythm_game/modifiers/nightcore/nightcore.gd:30
+#: rythm_game/modifiers/nightcore/nightcore.gd
 msgid "Turns your manly voices into anime girls."
 msgstr ""
 
-#: rythm_game/modifiers/nightcore/nightcore.gd:36
+#: rythm_game/modifiers/nightcore/nightcore.gd
 msgid "Speed"
 msgstr ""
 
-#: rythm_game/modifiers/nightcore/nightcore.gd:37
+#: rythm_game/modifiers/nightcore/nightcore.gd
 msgid "Percentage of speed to increase (or decrease) the song's playback"
 msgstr ""
 
-#: rythm_game/modifiers/timing/timing.gd:29
+#: rythm_game/modifiers/timing/timing.gd
 msgid "Timing Window"
 msgstr ""
 
-#: rythm_game/modifiers/timing/timing.gd:30
+#: rythm_game/modifiers/timing/timing.gd
 msgid "Duration of the overall timing window (in ms)"
 msgstr ""
 
-#: rythm_game/pause_menu/PauseMenu3D.tscn:98
+#: rythm_game/pause_menu/PauseMenu3D.tscn
 msgid "Are you sure you want to restart?"
 msgstr ""
 
-#: rythm_game/pause_menu/PauseMenuLeft.tscn:39
+#: rythm_game/pause_menu/PauseMenu3D.tscn
+#: rythm_game/practice_mode.tscn
+msgid "Are you sure you want to quit?"
+msgstr ""
+
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "PAUSED"
 msgstr ""
 
-#: rythm_game/pause_menu/PauseMenuLeft.tscn:80
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
+#: rythm_game/practice_mode.tscn
+msgid "Resume"
+msgstr ""
+
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "Restart"
 msgstr ""
 
-#: rythm_game/pause_menu/PauseMenuLeft.tscn:94
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "Song Settings"
 msgstr ""
 
-#: rythm_game/results_screen/ResultRating.tscn:57
-msgid "(NT)WORST"
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
+#: rythm_game/practice_mode.tscn
+msgid "Quit"
 msgstr ""
 
-#: rythm_game/results_screen/ResultRating.tscn:67
-msgid ":"
+#: rythm_game/practice_mode.tscn
+msgid "No section"
 msgstr ""
 
-#: rythm_game/results_screen/ResultRating.tscn:85
-#: rythm_game/results_screen/ResultRating.tscn:98
-msgid "(NT)407/"
+#: rythm_game/practice_mode.tscn
+msgid "Game info:\n"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:150
+#: rythm_game/practice_mode.tscn
+msgid ""
+"\n"
+"Accuracy:\n"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Previous mode"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Seek Left"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Set Waypoint"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Go to waypoint"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Seek Right"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Next mode"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Previous section"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Next section"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Apply latency"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Slow down"
+msgstr ""
+
+#: rythm_game/practice_mode.tscn
+msgid "Speed up"
+msgstr ""
+
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "Level up!"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:178
-msgid ""
-"Gained \n"
-"1000xp!"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:201
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:221
-msgid "(NT) %"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:244
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:264
-msgid "(NT)"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:322
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "TOTAL NOTES"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:330
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:358
-msgid "(NT)700"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:350
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "COMBO"
 msgstr ""
 
-#: scripts/HBSong.gd:90
-msgid "Written by: "
+#: rythm_game/rhythm_game_controller.tscn
+msgid "Rolling back!"
 msgstr ""
 
-#: scripts/HBSong.gd:93
-msgid "Vocals by: "
+#: rythm_game/rhythm_game_multiplayer.tscn
+msgid "Waiting for other players to load!"
 msgstr ""
-
-#: scripts/HBSong.gd:96
-msgid "Composed by: "
-msgstr ""
-
-#: scripts/HBSong.gd:99
-#, python-format
-msgid "Chart by: %s"
-msgstr ""
-
-#: scripts/new_ui/HBUISkipIntroIndicator.gd:28
-#: scripts/new_ui/SkipIntroIndicator.tscn:44
-msgid "Press "
-msgstr ""
-
-#: scripts/new_ui/HBUISkipIntroIndicator.gd:30
-#: scripts/new_ui/SkipIntroIndicator.tscn:82
-msgid "to skip the intro"
-msgstr ""
-
-#: scripts/new_ui/SkipIntroIndicator.tscn:63
-msgid "+"
-msgstr ""
-

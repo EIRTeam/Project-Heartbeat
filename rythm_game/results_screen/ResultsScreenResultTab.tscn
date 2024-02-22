@@ -337,9 +337,11 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="ExperienceLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 1
+auto_translate = false
 theme_override_fonts/font = SubResource("2")
 text = "Gained 
 1000xp!"
@@ -355,9 +357,11 @@ layout_mode = 2
 alignment = 1
 
 [node name="Previous" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+auto_translate = false
 theme_override_fonts/font = ExtResource("6_qqm8m")
 theme_override_font_sizes/font_size = 72
 text = "(NT) %"
@@ -371,9 +375,11 @@ texture = ExtResource("8")
 stretch_mode = 1
 
 [node name="Current" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+auto_translate = false
 theme_override_fonts/normal_font = ExtResource("6_qqm8m")
 theme_override_font_sizes/normal_font_size = 72
 theme_override_styles/normal = SubResource("5")
@@ -392,9 +398,11 @@ layout_mode = 2
 alignment = 1
 
 [node name="Previous" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+auto_translate = false
 theme_override_fonts/font = ExtResource("6_qqm8m")
 theme_override_font_sizes/font_size = 72
 text = "(NT)"
@@ -408,9 +416,11 @@ texture = ExtResource("8")
 stretch_mode = 1
 
 [node name="Current" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+auto_translate = false
 theme_override_fonts/normal_font = ExtResource("6_qqm8m")
 theme_override_font_sizes/normal_font_size = 72
 theme_override_styles/normal = SubResource("5")
@@ -456,9 +466,11 @@ size_flags_horizontal = 3
 text = "TOTAL NOTES"
 
 [node name="TotalNotesLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
+auto_translate = false
 text = "(NT)700"
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -473,9 +485,11 @@ size_flags_horizontal = 3
 text = "COMBO"
 
 [node name="ComboLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
+auto_translate = false
 text = "(NT)700"
 horizontal_alignment = 2
 vertical_alignment = 1

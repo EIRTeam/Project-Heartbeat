@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bk36n81tgbx1g"]
 
 [ext_resource type="FontFile" path="res://fonts/SongLabelAuthor.tres" id="2"]
-[ext_resource type="Script" uid="uid://ksymqbk4rhkw" path="res://menus/SongTitle.gd" id="3"]
+[ext_resource type="Script" path="res://menus/SongTitle.gd" id="3"]
 [ext_resource type="FontVariation" uid="uid://douevr81666aa" path="res://fonts/song_label.tres" id="3_8n0hl"]
 [ext_resource type="FontVariation" uid="uid://3jn6llwvpc71" path="res://fonts/song_label_author.tres" id="4_pr31k"]
 
@@ -13,11 +13,13 @@ theme_override_constants/separation = 20
 script = ExtResource("3")
 
 [node name="DifficultyLabel" type="Label" parent="."]
+auto_translate_mode = 2
 visible = false
 use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
+auto_translate = false
 theme_override_fonts/font = ExtResource("2")
 text = "(NT)[EXTREME]"
 horizontal_alignment = 3
@@ -25,18 +27,22 @@ vertical_alignment = 1
 uppercase = true
 
 [node name="TitleLabel" type="Label" parent="."]
+auto_translate_mode = 2
 use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 7
+auto_translate = false
 theme_override_fonts/font = ExtResource("3_8n0hl")
 text = "(NT)Song Title"
 vertical_alignment = 1
 
 [node name="AuthorLabel" type="Label" parent="."]
+auto_translate_mode = 2
 use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
+auto_translate = false
 theme_override_fonts/font = ExtResource("4_pr31k")
 text = "(NT)Ken asdsad"
 horizontal_alignment = 3

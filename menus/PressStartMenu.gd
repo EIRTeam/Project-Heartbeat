@@ -10,3 +10,4 @@ func _unhandled_input(event):
 		get_viewport().set_input_as_handled()
 #			$AnimationPlayer.play("FadeOut")
 		emit_signal("start_pressed")
+
