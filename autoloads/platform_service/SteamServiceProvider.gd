@@ -78,36 +78,36 @@ func run_callbacks():
 func get_achivements():
 	pass
 
-func write_remote_file(file_name: String, data: PackedByteArray):
-	Log.log(self, "Writing to remote file: %s" % [file_name])
-	return Steamworks.remote_storage.file_write(file_name, data)
+#func write_remote_file(file_name: String, data: PackedByteArray):
+	#Log.log(self, "Writing to remote file: %s" % [file_name])
+	#return Steamworks.remote_storage.file_write(file_name, data)
 
 # HACK because Steam and Godot are dumb, idk which one is dumber
 func _wait_for_thread_HACK(thread: Thread):
 	thread.wait_to_finish()
 
-func _write_remote_file_async(userdata):
-	var result = Steamworks.remote_storage.file_write(userdata.file_name, userdata.data)
-	if result:
-		Log.log(self, "Wrote succesfully to remote file (asynchronously): %s" % [userdata.file_name])
-	call_deferred("_wait_for_thread_HACK", userdata.thread)
-func write_remote_file_async(file_name: String, data: PackedByteArray):
-	var thread = Thread.new()
-	Log.log(self, "Writing to remote file (asynchronously): %s" % [file_name])	
-	var result = thread.start(Callable(self, "_write_remote_file_async").bind({"file_name": file_name, "data": data, "thread": thread}))
-	if result != OK:
-		Log.log(self, "Error starting thread for writing remote file: " + str(result), Log.LogLevel.ERROR)
-
-# Write a file to remote
-func write_remote_file_from_path(file_name: String, path: String):
-	var file = FileAccess.open(path, FileAccess.READ)
-	if FileAccess.get_open_error() == OK:
-		var buffer = file.get_buffer(file.get_length())
-		var result = Steamworks.remote_storage.file_write(file_name, buffer)
-		if not result:
-			Log.log(self, "Error writing file to remote storage: %s" % [file_name])
-	else:
-		Log.log(self, "Error reading file to write in remote: %s" % [path])
+#func _write_remote_file_async(userdata):
+	#var result = Steamworks.remote_storage.file_write(userdata.file_name, userdata.data)
+	#if result:
+		#Log.log(self, "Wrote succesfully to remote file (asynchronously): %s" % [userdata.file_name])
+	#call_deferred("_wait_for_thread_HACK", userdata.thread)
+#func write_remote_file_async(file_name: String, data: PackedByteArray):
+	#var thread = Thread.new()
+	#Log.log(self, "Writing to remote file (asynchronously): %s" % [file_name])	
+	#var result = thread.start(Callable(self, "_write_remote_file_async").bind({"file_name": file_name, "data": data, "thread": thread}))
+	#if result != OK:
+		#Log.log(self, "Error starting thread for writing remote file: " + str(result), Log.LogLevel.ERROR)
+#
+## Write a file to remote
+#func write_remote_file_from_path(file_name: String, path: String):
+	#var file = FileAccess.open(path, FileAccess.READ)
+	#if FileAccess.get_open_error() == OK:
+		#var buffer = file.get_buffer(file.get_length())
+		#var result = Steamworks.remote_storage.file_write(file_name, buffer)
+		#if not result:
+			#Log.log(self, "Error writing file to remote storage: %s" % [file_name])
+	#else:
+		#Log.log(self, "Error reading file to write in remote: %s" % [path])
 	
 func is_big_picture():
 	return Steamworks.utils.is_in_big_picture_mode()
@@ -115,30 +115,31 @@ func is_big_picture():
 func is_steam_deck():
 	return Steamworks.utils.is_on_steam_deck()
 	
-func read_remote_file(file_name: String):
-	var result = {}
-	if not Steamworks.remote_storage.file_exists(file_name):
-		Log.log(self, "Attempted to read a remote file that does not exist: %s" % [file_name])
-		result["result"] = false
-	else:
-		var read_result = Steamworks.remote_storage.file_read(file_name)
-		if not read_result.size() > 0:
-			Log.log(self, "Error reading remote file: %s" % [file_name])
-		else:
-			result["buffer"] = read_result
-		result["result"] = read_result.size() != 0
-	return result
-func read_remote_file_to_path(file_name: String, target_path: String):
-	var result = read_remote_file(file_name)
-	if result.result:
-		var file := FileAccess.open(target_path, FileAccess.WRITE)
-		var err := FileAccess.get_open_error()
-		if err == OK:
-			file.store_buffer(result.buffer)
-		else:
-			Log.log(self, "Error opening file to write remote data: %s (Error: %d)" % [file_name, err])
+#func read_remote_file(file_name: String):
+	#var result = {}
+	#if not Steamworks.remote_storage.file_exists(file_name):
+		#Log.log(self, "Attempted to read a remote file that does not exist: %s" % [file_name])
+		#result["result"] = false
+	#else:
+		#var read_result = Steamworks.remote_storage.file_read(file_name)
+		#if not read_result.size() > 0:
+			#Log.log(self, "Error reading remote file: %s" % [file_name])
+		#else:
+			#result["buffer"] = read_result
+		#result["result"] = read_result.size() != 0
+	#return result
+#func read_remote_file_to_path(file_name: String, target_path: String):
+	#var result = read_remote_file(file_name)
+	#if result.result:
+		#var file := FileAccess.open(target_path, FileAccess.WRITE)
+		#var err := FileAccess.get_open_error()
+		#if err == OK:
+			#file.store_buffer(result.buffer)
+		#else:
+			#Log.log(self, "Error opening file to write remote data: %s (Error: %d)" % [file_name, err])
 
 func is_remote_storage_enabled():
+	return false
 	return Steamworks.remote_storage.is_cloud_enabled()
 
 # Leaderboard auth token
