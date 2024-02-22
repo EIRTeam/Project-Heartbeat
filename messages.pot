@@ -1157,30 +1157,6 @@ msgstr ""
 msgid "Press any key"
 msgstr ""
 
-#: menus/demo_screen/page1/page1.tscn
-msgid "Welcome to Project Heartbeat"
-msgstr ""
-
-#: menus/demo_screen/page1/page1.tscn
-msgid ""
-"Welcome to the Project Heartbeat demo, I hope you enjoy it!\n"
-"\n"
-"Please check the \"How to play\" section in the main menu."
-msgstr ""
-
-#: menus/demo_screen/page1/page1.tscn
-msgid ""
-"The full version of the game has a few more features and content than what is available here:\n"
-"\n"
-"- Full workshop support for custom songs, including background video playback\n"
-"- Full chart editor\n"
-"- 16 hand-crafted high quality song charts (7 are currently available)\n"
-"- Multiplayer\n"
-"- Ability to load your own charts (Including PPD charts)\n"
-"\n"
-"Press any button to continue to the main menu"
-msgstr ""
-
 #: menus/leaderboard_control/LeaderboardControl.tscn
 msgid "Leaderboard not available for this song"
 msgstr ""
