@@ -9,7 +9,6 @@ func _ready():
 	$ToolsList/OpenUserDirectoryButton.connect("pressed", Callable(self, "_on_OpenUserDirectoryButton_pressed"))
 	$ToolsList/PPDManagerButton.connect("pressed", Callable(self, "_on_PPDDownloaderButton_pressed"))
 	$ToolsList/ResourcePackEditorButton.connect("pressed", Callable(self, "_on_ResourcePackEditorButton_pressed"))
-	$ToolsList/SwitchExporterButton.connect("pressed", Callable(self, "_on_SwitchExporterButton_pressed"))
 	$ToolsList/LatencyCalculatorButton.connect("pressed", Callable(self, "_on_LatencyCalculatorButton_pressed"))
 	$ToolsList/DJADebugButton.connect("pressed", Callable(self, "_on_dja_debug_button_pressed"))
 func _on_menu_enter(force_hard_transition=false, args = {}):
@@ -43,9 +42,6 @@ func _on_PPDDownloaderButton_pressed():
 
 func _on_ResourcePackEditorButton_pressed():
 	get_tree().change_scene_to_packed(load("res://tools/resource_pack_editor/ResourcePackEditor.tscn"))
-
-func _on_SwitchExporterButton_pressed():
-	get_tree().change_scene_to_packed(load("res://tools/SwitchExporter/SwitchExporter.tscn"))
 
 func _on_dja_debug_button_pressed():
 	get_tree().change_scene_to_packed(load("res://tools/InputManagerTester.tscn"))
