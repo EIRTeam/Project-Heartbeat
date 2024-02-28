@@ -1,6 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://b45i8v0pti5s3"]
+[gd_scene load_steps=3 format=3 uid="uid://b45i8v0pti5s3"]
 
 [ext_resource type="Script" path="res://scripts/new_ui/HBUIClearBar.gd" id="1_xy0v0"]
+
+[sub_resource type="GDScript" id="GDScript_wpdnd"]
+script/source = "extends Control
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_line_edit_text_submitted(new_text):
+	$InputGlyphRect.action_name = new_text
+"
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -9,6 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = SubResource("GDScript_wpdnd")
 
 [node name="HBUIClearBar" type="Control" parent="."]
 anchors_preset = 0
@@ -17,3 +36,16 @@ offset_top = 538.0
 offset_right = 1747.0
 offset_bottom = 687.0
 script = ExtResource("1_xy0v0")
+
+[node name="InputGlyphRect" type="InputGlyphRect" parent="."]
+layout_mode = 0
+offset_right = 368.0
+offset_bottom = 51.0
+action_name = &"note_left"
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_right = 124.0
+offset_bottom = 39.0
+
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

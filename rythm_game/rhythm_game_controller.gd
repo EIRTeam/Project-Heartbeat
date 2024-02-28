@@ -73,9 +73,9 @@ func _fade_in_done():
 	video_player.show()
 	$FadeIn.hide()
 	game.set_process(true)
-	print("SETTING VIDEO POSITION TO", game.time_msec / 1000.0)
 	video_player.stream_position = game.time_msec / 1000.0
 	rescale_video_player()
+	print("FFMPEG: Using YUV->RGB compute shader for video", video_player.get_video_texture() is Texture2DRD)
 	
 	pause_menu_disabled = false
 func start_fade_in():
@@ -214,18 +214,13 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 			var stream = song.get_video_stream(current_game_info.variant)
 			if stream:
 				video_player.hide()
-				# HACK HACK HACK: vp9 decoder requires us to set the stream position
-				# to -1, then set it to 0 wait 5 frames, set our target start time
-				# wait another 5 frames and only then can we pause the player
-				# yeah I don't know why I bother either
 				if not video_player.stream:
 					video_player.stream = stream
-					video_player.set_stream_position(0)
-					print("SET STREAM TO", 0)
+					video_player.stream_position = 0
 					video_player.paused = true
 				video_player.play()
-				video_player.set_stream_position(song.get_video_offset(current_game_info.variant) / 1000.0)
-				print("SET STREAM 2 TO ", song.get_video_offset(current_game_info.variant) / 1000.0)
+				video_player.stream_position = song.get_video_offset(current_game_info.variant) / 1000.0
+				video_player.playback_speed = game.audio_playback.pitch_scale
 				if game.time_msec < 0:
 					video_player.paused = true
 				video_player_panel.show()
@@ -271,7 +266,7 @@ func _on_resumed():
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
-		video_player.set_stream_position(game.time_msec / 1000.0)
+		video_player.stream_position = game.time_msec / 1000.0
 		if game.time_msec < 0:
 			video_player.paused = true
 	else:
@@ -282,7 +277,7 @@ func _on_resumed():
 		game.time_msec = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
-		video_player.set_stream_position((last_pause_time - ROLLBACK_TIME) / 1000.0)
+		video_player.stream_position = (last_pause_time - ROLLBACK_TIME) / 1000.0
 		if game.time_msec < 0:
 			video_player.paused = true
 		vhs_panel.show()

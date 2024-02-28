@@ -70,7 +70,7 @@ window/vsync/vsync_mode=false
 
 [editor]
 
-run/main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading --phplugin:dscloader:game_location \"/home/eirexe/.steam/steam/steamapps/common/Hatsune Miku Project DIVA Mega Mix Plus\" --phplugin:dscloader:game_type f --logging-enabled"
+run/main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --phplugin:dscloader:game_location \"/home/eirexe/.steam/steam/steamapps/common/Hatsune Miku Project DIVA Mega Mix Plus\" --phplugin:dscloader:game_type f --logging-enabled"
 convert_text_resources_to_binary_on_export=true
 
 [editor_plugins]

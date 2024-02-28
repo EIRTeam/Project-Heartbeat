@@ -20,6 +20,10 @@ from = "{engine_binaries_path}/godot.linuxbsd.template_release.x86_64"
 to = "{game_output_path}/Project Heartbeat.x86_64"
 
 [[extra_files]]
+from = "{engine_binaries_path}/SDL2.dll"
+to = "{game_output_path}/SDL2.dll"
+
+[[extra_files]]
 from = "{engine_binaries_path}/libavcodec.so.60"
 to = "{game_output_path}/libavcodec.so.60"
 

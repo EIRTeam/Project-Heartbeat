@@ -124,7 +124,6 @@ func load_all_songs_meta():
 func load_all_songs_async():
 	songs = {}
 #	load_all_songs_meta()
-	initial_load_done = true
 	
 	var thread = Thread.new()
 	var result = thread.start(Callable(self, "_load_all_songs_async").bind({"thread": thread}))

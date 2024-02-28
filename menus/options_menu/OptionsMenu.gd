@@ -41,7 +41,7 @@ var OPTIONS = {
 		},
 		"lag_compensation": {
 			"name": tr("Latency compensation"),
-			"description": tr("Delay applied to note timing, in miliseconds higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."),
+			"description": tr("Delay applied to note timing, in miliseconds, higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."),
 			"minimum": -300,
 			"maximum": 300,
 			"step": 1,

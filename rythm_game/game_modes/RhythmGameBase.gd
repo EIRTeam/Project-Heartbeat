@@ -137,6 +137,7 @@ func _ready():
 
 func set_game_input_manager(manager: HBGameInputManager):
 	game_input_manager = manager
+	game_input_manager.input_out.connect(self._on_input_received)
 	add_child(game_input_manager)
 
 # TODO: generalize this
@@ -419,7 +420,7 @@ func _process_input(event):
 				break
 		if not input_handled:
 			unhandled_input_events_this_frame.append(event)
-func _input(event):
+func _on_input_received(event: InputEventHB):
 	_process_input(event)
 
 func _group_compare_start(a, b):

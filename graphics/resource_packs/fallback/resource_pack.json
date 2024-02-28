@@ -1,16 +1,21 @@
 {
   "effects_atlas_data": {
+    "appear.png": {
+      "margin": "Rect2(25, 14, 46, 39)",
+      "region": "Rect2(1, 973, 404, 411)",
+      "type": "HBAtlasEntry"
+    },
     "bubble.png": {
-      "region": "Rect2(513, 1, 496, 496)",
+      "region": "Rect2(513, 514, 496, 496)",
       "type": "HBAtlasEntry"
     },
     "flare.png": {
       "margin": "Rect2(172, 182, 289, 342)",
-      "region": "Rect2(1, 1, 511, 458)",
+      "region": "Rect2(1, 514, 511, 458)",
       "type": "HBAtlasEntry"
     },
     "loop.png": {
-      "region": "Rect2(1, 460, 310, 310)",
+      "region": "Rect2(1, 1, 512, 512)",
       "type": "HBAtlasEntry"
     }
   },

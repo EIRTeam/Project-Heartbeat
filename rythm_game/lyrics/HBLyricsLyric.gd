@@ -5,6 +5,7 @@ class_name HBLyricsLyric
 var value: String = ""
 
 func _init():
+	super._init()
 	_class_name = "HBLyricsLyric" # Workaround for godot#4708
 	_inheritance.append("HBTimingPoint")
 	

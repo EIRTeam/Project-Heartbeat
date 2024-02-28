@@ -10,7 +10,7 @@ var ingame := false
 var section_data = {
 	"lag_compensation": {
 		"name": tr("Latency compensation"),
-		"description": tr("Delay applied to note timing, in miliseconds. Higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."),
+		"description": tr("Delay applied to note timing, in miliseconds, higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."),
 		"minimum": -30000,
 		"maximum": 30000,
 		"step": 1,

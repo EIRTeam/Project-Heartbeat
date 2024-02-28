@@ -101,12 +101,12 @@ func _get_analog_action_held_count(action):
 					count += 1
 				if v2.x > 0 and v2.length() > deadzone and _is_in_slide_range(v2):
 					count += 1
-		for device in last_axis_values:
-			if action in last_axis_values[device]:
-				for axis in last_axis_values[device][action]:
-					if abs(last_axis_values[device][action][axis]) >= _get_action_deadzone(action):
-						if not UserSettings.should_use_direct_joystick_access(device) or not axis in DIRECT_AXIS:
-							count += 1
+	for device in last_axis_values:
+		if action in last_axis_values[device]:
+			for axis in last_axis_values[device][action]:
+				if abs(last_axis_values[device][action][axis]) >= _get_action_deadzone(action):
+					if not UserSettings.should_use_direct_joystick_access(device) or not axis in DIRECT_AXIS:
+						count += 1
 	return count
 func _is_action_held_analog(action):
 	return _get_analog_action_held_count(action) > 0

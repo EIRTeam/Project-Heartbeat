@@ -28,7 +28,7 @@ func set_status(status: String):
 func _process(delta):
 	loadingu_t += delta * LOADINGU_SPEED
 	
-	status_label.percent_visible = fmod(loadingu_t, 1.5)
+	status_label.visible_ratio = fmod(loadingu_t, 1.5)
 
 func _on_main_scene_finished_loading(scene):
 	get_tree().current_scene.queue_free()

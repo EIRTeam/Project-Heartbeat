@@ -46,7 +46,6 @@ func _ready():
 	queue_redraw()
 
 func _draw_stick_debug(stick_idx: int):
-	print(input_man.last_action_device_idx)
 	var info: StickInfo = stick_infos[stick_idx]
 	var container: Control = stick_infos[stick_idx].container
 	draw_set_transform_matrix(container.get_global_transform_with_canvas())
@@ -87,7 +86,7 @@ func _draw_stick_debug(stick_idx: int):
 
 func _process(delta):
 	event_ids_processed_this_frame.clear()
-	input_man.flush_inputs()
+	input_man.flush_inputs(0, 0, 0)
 	queue_redraw()
 	input_man._frame_end()
 func _draw():

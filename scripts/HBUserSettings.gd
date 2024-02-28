@@ -173,7 +173,7 @@ var editor_migrated_shortcuts := false
 var editor_autosave_enabled: bool = true
 
 var use_direct_joystick_access: bool = true
-var direct_joystick_filter_factor := 0.25
+var direct_joystick_filter_factor := 1.0
 var direct_joystick_slider_angle_window := 90
 
 var color_presets = []

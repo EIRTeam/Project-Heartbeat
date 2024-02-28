@@ -106,7 +106,7 @@ cache/0/30/10/glyphs/72/size = Vector2(22, 30)
 cache/0/30/10/glyphs/72/uv_rect = Rect2(1, 27, 22, 30)
 cache/0/30/10/glyphs/72/texture_idx = 0
 
-[sub_resource type="FontFile" id="FontFile_bqu4i"]
+[sub_resource type="FontFile" id="FontFile_7pcpx"]
 resource_local_to_scene = true
 fallbacks = Array[Font]([SubResource("13"), ExtResource("2")])
 cache/0/16/0/ascent = 0.0
@@ -261,7 +261,7 @@ anchor_bottom = 0.9
 offset_top = 0.0
 offset_right = 0.00012207
 offset_bottom = 0.0
-theme_override_fonts/font = SubResource("FontFile_bqu4i")
+theme_override_fonts/font = SubResource("FontFile_7pcpx")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 0
@@ -310,6 +310,7 @@ vertical_alignment = 1
 script = ExtResource("26")
 
 [node name="WrongRatingCross" type="TextureRect" parent="RatingLabel"]
+auto_translate_mode = 2
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 0
 offset_left = 440.0
@@ -348,6 +349,7 @@ auto_translate = false
 alignment = 1
 
 [node name="Panel" type="PanelContainer" parent="CanvasLayer2/GameOverMessage"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 auto_translate = false
@@ -355,6 +357,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("19")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2/GameOverMessage/Panel"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -364,12 +367,14 @@ theme_override_constants/margin_top = 100
 theme_override_constants/margin_bottom = 100
 
 [node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 auto_translate = false
 theme_override_constants/separation = 0
 
 [node name="Control" type="Control" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_stretch_ratio = 0.3

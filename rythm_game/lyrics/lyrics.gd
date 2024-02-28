@@ -9,8 +9,7 @@ const LYRIC_MARGIN = 200
 
 var last_time = 0
 
-@export var font1: FontFile
-@export var font2: FontFile
+@export var font: FontFile
 
 const BASE_FONT_SIZE = 45
 const BASE_OUTLINE_SIZE = 5
@@ -91,8 +90,7 @@ func _ready():
 	overlay_label.vertical_alignment = vertical_alignment
 	
 	$Label2.add_theme_color_override("font_color", UserSettings.user_settings.get_lyrics_color())
-	add_theme_font_override("font", font1)
-	$Label2.add_theme_font_override("font", font2)
+	add_theme_font_override("font", font)
 	
 	
 func update_labels():

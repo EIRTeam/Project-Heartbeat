@@ -5,6 +5,8 @@ extends Node
 
 class_name HBGameInputManager
 
+signal input_out(event: InputEventHB)
+
 var _buffered_inputs = []
 
 enum DEVICE_TYPE {
@@ -56,7 +58,7 @@ func flush_inputs(prev_game_time_usec: float, new_game_time_usec: float, last_fr
 		else:
 			input.game_time = clamp(prev_game_time_usec + ((last_frame_time_usec - input.timestamp)), prev_game_time_usec, new_game_time_usec)
 		current_input_handled = false
-		Input.parse_input_event(input)
+		input_out.emit(input)
 	current_input_handled = false
 
 func _input_received(event):

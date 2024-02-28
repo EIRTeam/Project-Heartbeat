@@ -205,8 +205,7 @@ func _on_open_modifier_settings_selected(modifier_id: String):
 	modifier_settings_editor.grab_focus()
 	
 func select_song(s: HBSong):
-	current_song = s
-	
+	pass
 func _on_modify_song_settings_pressed():
 	per_song_settings_editor.current_song = current_song
 	per_song_settings_editor.show()

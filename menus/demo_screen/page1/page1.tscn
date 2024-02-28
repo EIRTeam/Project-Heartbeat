@@ -16,11 +16,13 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+auto_translate_mode = 2
 layout_mode = 2
 auto_translate = false
 theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 auto_translate = false
 theme_override_fonts/font = ExtResource("2")
@@ -28,16 +30,19 @@ text = "Welcome to Project Heartbeat"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 auto_translate = false
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 auto_translate = false
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
@@ -47,6 +52,7 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
@@ -59,6 +65,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
