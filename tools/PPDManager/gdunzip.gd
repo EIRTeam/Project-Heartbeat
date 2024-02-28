@@ -209,12 +209,12 @@ func _get_files():
 		var raw_end = _read(file_name_length + extra_field_length + comment_length)
 		if !raw_end:
 			return false
-		var fname_result := raw_end.subarray(0, file_name_length - 1).get_string_from_utf8_checked() as Array
+		var fname_result := raw_end.slice(0, file_name_length).get_string_from_utf8_checked() as Array
 		var fname := ""
 		if fname_result[1]:
 			fname = fname_result[0]
 		else:
-			fname = HBUtils.sj2utf(raw_end.subarray(0, file_name_length - 1)).get_string_from_utf8()
+			fname = HBUtils.sj2utf(raw_end.slice(0, file_name_length)).get_string_from_utf8()
 		
 		header['file_name'] = (
 			fname
@@ -225,10 +225,10 @@ func _get_files():
 
 # Read a given number of bytes from the buffer, and return it as a
 # PoolByteArray
-func _read(length):
-	var result = buffer.subarray(pos, pos + length - 1)
+func _read(length) -> PackedByteArray:
+	var result = buffer.slice(pos, pos + length)
 	if result.size() != length:
-		return false
+		return PackedByteArray()
 	pos = pos + length
 	return result
 
@@ -294,8 +294,8 @@ class Tinf:
 		# "Faux pointer" to dest.
 		'destPtr': 0,
 
-		'ltree': TINF_TREE.duplicate(),
-		'dtree': TINF_TREE.duplicate()
+		'ltree': TINF_TREE.duplicate(true),
+		'dtree': TINF_TREE.duplicate(true)
 	}
 
 	const TINF_OK = 0
@@ -305,8 +305,8 @@ class Tinf:
 	# -- uninitialized global data (static structures) --
 	# ---------------------------------------------------
 
-	var sltree = TINF_TREE.duplicate() # fixed length/symbol tree
-	var sdtree = TINF_TREE.duplicate() # fixed distance tree
+	var sltree = TINF_TREE.duplicate(true) # fixed length/symbol tree
+	var sdtree = TINF_TREE.duplicate(true) # fixed distance tree
 
 	var base_tables = {
 		# extra bits and base tables for length codes
@@ -461,7 +461,7 @@ class Tinf:
 	# lt: TINF_TREE
 	# dt: TINF_TREE
 	func tinf_decode_trees(d, lt, dt):
-		var code_tree = TINF_TREE.duplicate()
+		var code_tree = TINF_TREE.duplicate(true)
 		var lengths = make_pool_byte_array(288 + 32)
 		var hlit = 0
 		var hdist = 0
@@ -517,7 +517,7 @@ class Tinf:
 
 		# build dynamic trees
 		tinf_build_tree(lt, lengths, hlit)
-		tinf_build_tree(dt, lengths.subarray(hlit, lengths.size() - 1), hdist)
+		tinf_build_tree(dt, lengths.slice(hlit, lengths.size()), hdist)
 
 	# -----------------------------
 	# -- block inflate functions --
@@ -630,7 +630,7 @@ class Tinf:
 
 	# inflate stream from source to dest
 	func tinf_uncompress(destLen, source):
-		var d = TINF_DATA.duplicate()
+		var d = TINF_DATA.duplicate(true)
 		var dest = make_pool_byte_array(destLen)
 		var sourceSize = source.size()
 		d['source'] = source

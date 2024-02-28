@@ -1,6 +1,6 @@
 extends Control
 
-@onready var tools_panel: Popup = get_node("CenterContainer/ToolsPopup")
+@onready var tools_panel: Window = get_node("CenterContainer/ToolsPopup")
 @onready var error_dialog = get_node("ErrorDialog")
 @onready var ppd_manager_panel = get_node("PPDManagerPopup")
 @onready var ppd_downloader_panel = get_node("PPDDownloader")
@@ -9,12 +9,14 @@ func _ready():
 	await get_tree().process_frame
 	await get_tree().process_frame
 	
-	tools_panel.popup_centered()
+	tools_panel.popup_centered_ratio(0.5)
 	tools_panel.connect("popup_hide", Callable(tools_panel, "popup_centered"))
 	tools_panel.close_requested.connect(self._on_exit)
 	ppd_manager_panel.connect("error", Callable(self, "show_error"))
 	ppd_downloader_panel.connect("error", Callable(self, "show_error"))
 	ppd_importer_panel.connect("error", Callable(self, "show_error"))
+	
+	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	
 	if not HBGame.has_mp4_support:
 		$CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDImporter.hide()

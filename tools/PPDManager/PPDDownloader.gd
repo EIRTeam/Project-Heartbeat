@@ -223,7 +223,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 		wait_dialog.popup_centered()
 		await get_tree().process_frame
 		
-		var ss := Shinobu.register_sound_from_memory("shinobu_norm_ppd", song.get_audio_stream().data)
+		var ss := Shinobu.register_sound_from_memory("shinobu_norm_ppd", song.get_audio_stream().get_meta("raw_file_data"))
 		var res = ss.ebur128_get_loudness()
 		song.has_audio_loudness = true
 		song.audio_loudness = res
