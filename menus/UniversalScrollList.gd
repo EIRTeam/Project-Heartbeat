@@ -54,7 +54,7 @@ func _ready():
 	
 	get_v_scroll_bar().connect("visibility_changed", Callable(self, "_on_vscrollbar_visibility_changed"))
 	get_v_scroll_bar().connect("changed", Callable(self, "update_fade"))
-	get_v_scroll_bar().connect("changed", Callable(self, "_on_scroll_changed"))
+	get_v_scroll_bar().connect("value_changed", Callable(self, "_on_scroll_changed"))
 	item_container.connect("resized", Callable(self, "force_scroll"))
 	clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
 	if enable_fade:
@@ -64,7 +64,7 @@ func _ready():
 		RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 10.0, true, 10.0, false)
 	_on_resized()
 	
-func _on_scroll_changed():
+func _on_scroll_changed(_new_scroll: float):
 	if not tween.is_active():
 		for i in range(item_container.get_child_count()):
 			var child = item_container.get_child(i)
