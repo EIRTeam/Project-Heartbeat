@@ -2,7 +2,7 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://igqm8fnnmk4q"
+uid="uid://k13xkyrstrw6"
 path="res://.godot/imported/orbitron-bold.otf-b8993ed57199782a0e8f1db0e669e8ed.fontdata"
 
 [deps]
@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/orbitron-bold.otf-b8993ed57199782a0e8f1db0e66
 Rendering=null
 antialiasing=1
 generate_mipmaps=false
-multichannel_signed_distance_field=false
+multichannel_signed_distance_field=true
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
@@ -24,16 +24,10 @@ hinting=1
 subpixel_positioning=1
 oversampling=0.0
 Fallbacks=null
-fallbacks=[Resource("res://fonts/NotoSansSC-VariableFont_wght.ttf")]
+fallbacks=[]
 Compress=null
-compress=true
-preload=[{
-"chars": [],
-"glyphs": [],
-"name": "New Configuration",
-"size": Vector2i(16, 0),
-"variation_embolden": 0.0
-}]
+compress=false
+preload=[]
 language_support={}
 script_support={}
 opentype_features={}
