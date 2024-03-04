@@ -171,7 +171,7 @@ node_quad = NodePath("MeshInstance3D")
 node_area = NodePath(".")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="AreaLeft"]
-transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0.0118276)
+transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0)
 mesh = SubResource("1")
 skeleton = NodePath("")
 script = ExtResource("7")
