@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://tools/PPDManager/PPDManagerPopup.gd" id="1"]
 
 [node name="PPDManagerPopup" type="Window"]
+position = Vector2i(0, 24)
 size = Vector2i(600, 500)
 exclusive = true
 script = ExtResource("1")

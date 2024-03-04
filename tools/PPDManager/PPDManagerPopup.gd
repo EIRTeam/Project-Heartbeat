@@ -1,4 +1,4 @@
-extends Window
+extends BGWindow
 
 @onready var tree = get_node("MarginContainer/HBoxContainer/Tree")
 
@@ -13,6 +13,7 @@ extends Window
 signal error(message)
 
 func _ready():
+	super._ready()
 	tree.hide_root = true
 	connect("about_to_popup", Callable(self, "populate_tree"))
 	tree.connect("item_selected", Callable(self, "_on_item_selected"))

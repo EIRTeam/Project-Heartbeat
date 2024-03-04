@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://f1jy7yowfayo"]
+[gd_scene load_steps=11 format=3 uid="uid://f1jy7yowfayo"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
 [ext_resource type="Script" path="res://tools/PPDManager/PPDManager.gd" id="3"]
 [ext_resource type="Script" path="res://tools/PPDManager/PPDDownloader.gd" id="4"]
+[ext_resource type="Script" path="res://menus/BGWindow.gd" id="4_oui4o"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="5"]
 [ext_resource type="PackedScene" uid="uid://b2wrelc1otv6p" path="res://tools/PPDManager/PPDManagerPopup.tscn" id="6"]
 [ext_resource type="Texture2D" uid="uid://c8c1a67bhcxiv" path="res://graphics/icons/settings-box.svg" id="7"]
@@ -28,7 +29,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource("2")
 expand_mode = 1
-stretch_mode = 7
+stretch_mode = 6
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 show_behind_parent = true
@@ -40,7 +41,9 @@ offset_bottom = -1.0
 mouse_filter = 2
 
 [node name="ToolsPopup" type="Window" parent="CenterContainer"]
-position = Vector2i(0, 24)
+position = Vector2i(0, 32)
+size = Vector2i(980, 100)
+script = ExtResource("4_oui4o")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/ToolsPopup"]
 anchors_preset = 15
@@ -134,6 +137,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PPDManagerPopup" parent="." instance=ExtResource("6")]
+position = Vector2i(0, 32)
 visible = false
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
