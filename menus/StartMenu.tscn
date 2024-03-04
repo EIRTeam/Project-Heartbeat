@@ -1,14 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bo3yjn1jcs8j5"]
+[gd_scene load_steps=7 format=3 uid="uid://bo3yjn1jcs8j5"]
 
-[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="2"]
 [ext_resource type="Script" path="res://menus/RandomQuote.gd" id="3"]
 [ext_resource type="Script" path="res://menus/StartMenu.gd" id="4"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="5"]
 [ext_resource type="Script" path="res://menus/PressStartMenu.gd" id="6"]
-[ext_resource type="FontFile" path="res://fonts/RatingFontSmaller.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://dpavg7fpmvy8v" path="res://graphics/party_hat.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://dqqnvr6m45tgc" path="res://graphics/U1f438-frog.svg" id="9_73qls"]
 
 [node name="StartMenu" type="Control"]
 layout_mode = 3
@@ -66,25 +63,6 @@ texture = ExtResource("8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Frog" type="TextureRect" parent="PressStart/VBoxContainer/TextureRect3"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.385192
-anchor_top = 0.5
-anchor_right = 0.385192
-anchor_bottom = 0.5
-offset_left = -135.0
-offset_top = -135.0
-offset_right = 135.0
-offset_bottom = 135.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(135, 135)
-texture = ExtResource("9_73qls")
-metadata/_edit_use_anchors_ = true
-
 [node name="VBoxContainer" type="VBoxContainer" parent="PressStart/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
@@ -94,7 +72,6 @@ theme_override_constants/separation = 70
 auto_translate_mode = 2
 layout_mode = 2
 auto_translate = false
-theme_override_fonts/font = ExtResource("7")
 text = "(NT)On the wings of a dream"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -102,7 +79,6 @@ script = ExtResource("3")
 
 [node name="Label" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1")
 text = "Press any key"
 horizontal_alignment = 1
 vertical_alignment = 3

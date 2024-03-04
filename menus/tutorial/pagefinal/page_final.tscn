@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=4]
+[ext_resource path="res://fonts/default_font_medium.tres" type="FontVariation" id=4]
 
 [node name="Page4" type="MarginContainer"]
 anchor_right = 1.0

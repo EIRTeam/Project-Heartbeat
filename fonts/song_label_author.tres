@@ -1,9 +1,0 @@
-[gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://3jn6llwvpc71"]
-
-[ext_resource type="FontFile" uid="uid://igqm8fnnmk4q" path="res://fonts/orbitron-bold.otf" id="1_lh2we"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2_uw61f"]
-
-[resource]
-fallbacks = Array[Font]([ExtResource("2_uw61f")])
-base_font = ExtResource("1_lh2we")
-spacing_top = 7

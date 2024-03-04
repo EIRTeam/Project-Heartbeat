@@ -1,52 +1,50 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://dpp05jvqww62"]
 
-[ext_resource path="res://HBHovereableCheckbox.gd" type="Script" id=1]
-[ext_resource path="res://graphics/icons/checkbox-marked-small.png" type="Texture2D" id=2]
-[ext_resource path="res://graphics/icons/checkbox-blank-outline-small.png" type="Texture2D" id=3]
-[ext_resource path="res://fonts/Default_Font_Bigger.tres" type="FontFile" id=4]
+[ext_resource type="Script" path="res://HBHovereableCheckbox.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dobosq03vx2ki" path="res://graphics/icons/checkbox-marked-small.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://f1cjys1utqhj" path="res://graphics/icons/checkbox-blank-outline-small.png" id="3"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxEmpty" id="3"]
+
+[sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 4.0
-content_margin_right = 8.0
 content_margin_top = 2.0
+content_margin_right = 8.0
 content_margin_bottom = 2.0
-bg_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxEmpty" id=2]
+[sub_resource type="StyleBoxEmpty" id="2"]
 content_margin_left = 4.0
-content_margin_right = 8.0
 content_margin_top = 2.0
+content_margin_right = 8.0
 content_margin_bottom = 2.0
-
-[sub_resource type="StyleBoxEmpty" id=3]
 
 [node name="CheckBox" type="CheckBox"]
 offset_top = 152.0
 offset_right = 190.0
 offset_bottom = 192.0
-theme_override_colors/font_focus_color = Color( 1, 1, 1, 1 )
-theme_override_colors/font_hover_pressed_color = Color( 1, 1, 1, 1 )
-theme_override_colors/font_color = Color( 1, 1, 1, 1 )
-theme_override_colors/font_hover_color = Color( 1, 1, 1, 1 )
-theme_override_colors/font_pressed_color = Color( 1, 1, 1, 1 )
-theme_override_fonts/font = ExtResource( 4 )
-theme_override_icons/checked = ExtResource( 2 )
-theme_override_icons/unchecked = ExtResource( 3 )
-theme_override_styles/hover = SubResource( 1 )
-theme_override_styles/pressed = SubResource( 2 )
-theme_override_styles/focus = SubResource( 3 )
-theme_override_styles/hover_pressed = SubResource( 1 )
-theme_override_styles/normal = SubResource( 2 )
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("3")
+theme_override_styles/hover_pressed = SubResource("1")
+theme_override_styles/hover = SubResource("1")
+theme_override_styles/pressed = SubResource("2")
+theme_override_styles/normal = SubResource("2")
+theme_override_icons/checked = ExtResource("2")
+theme_override_icons/unchecked = ExtResource("3")
 text = "asdasdasdsadsadasdsa"
-script = ExtResource( 1 )
-normal_style = SubResource( 2 )
-hover_style = SubResource( 1 )
+script = ExtResource("1")
+normal_style = SubResource("2")
+hover_style = SubResource("1")

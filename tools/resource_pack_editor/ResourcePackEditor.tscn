@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c0fe7cjb2bknm" path="res://tools/icons/icon_save.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="6"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" id="7"]
-[ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="8"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://bi00tlp38rnc3" path="res://tools/editor/WorkshopUploadForm.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://cln670qlnyiv6" path="res://graphics/background.png" id="10"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="11"]

@@ -3,7 +3,7 @@
 [ext_resource path="res://menus/demo_screen/DemoScreen.gd" type="Script" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
 [ext_resource path="res://menus/demo_screen/page1/page1.tscn" type="PackedScene" id=3]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=4]
+[ext_resource path="res://fonts/default_font_medium.tres" type="FontVariation" id=4]
 [ext_resource path="res://graphics/icons/menu-left.svg" type="Texture2D" id=9]
 [ext_resource path="res://graphics/icons/menu-right.svg" type="Texture2D" id=10]
 

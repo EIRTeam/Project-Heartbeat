@@ -2,7 +2,7 @@
 
 [ext_resource path="res://graphics/icons/refresh.svg" type="Texture2D" id=1]
 [ext_resource path="res://multiplayer/lobby/LobbyList.gd" type="Script" id=2]
-[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=3]
+[ext_resource path="res://fonts/default_font_black.tres" type="FontVariation" id=3]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
 [ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture2D" id=5]
 [ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=6]

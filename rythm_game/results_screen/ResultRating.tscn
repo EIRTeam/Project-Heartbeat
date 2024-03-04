@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://rythm_game/results_screen/ResultRating.gd" id="1"]
 [ext_resource type="StyleBox" path="res://styles/ResultRatingStyleEven.tres" id="1_a2wd1"]
-[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="2"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="2"]
 
 [sub_resource type="FontFile" id="1"]
 fallbacks = Array[Font]([ExtResource("2")])

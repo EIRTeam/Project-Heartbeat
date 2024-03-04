@@ -1,132 +1,100 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://chxel0tx6rsfi"]
 
-[ext_resource path="res://graphics/icons/account.svg" type="Texture2D" id=1]
-[ext_resource path="res://fonts/SongLabel.tres" type="FontFile" id=2]
-[ext_resource path="res://graphics/icons/icon_note_OK.svg" type="Texture2D" id=3]
-[ext_resource path="res://fonts/Default_Font_thin.tres" type="FontFile" id=4]
-[ext_resource path="res://multiplayer/lobby/LobbyListItem.gd" type="Script" id=8]
+[ext_resource type="Texture2D" uid="uid://dyuopeorlq6bt" path="res://graphics/icons/account.svg" id="1"]
+[ext_resource type="Texture2D" uid="uid://backmy8xbm3iy" path="res://graphics/icons/icon_note_OK.svg" id="3"]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="4_rh5w4"]
+[ext_resource type="Script" path="res://multiplayer/lobby/LobbyListItem.gd" id="8"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
-border_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0.188235, 0.0745098, 0.301961, 0.501961)
+border_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
 corner_radius_top_left = 5
 corner_radius_top_right = 1024
 corner_radius_bottom_right = 5
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id="2"]
 content_margin_left = 0.0
-bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
-border_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+bg_color = Color(0.188235, 0.0745098, 0.301961, 0.501961)
+border_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
 corner_radius_top_left = 5
 corner_radius_top_right = 1024
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 1
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="Theme" id=3]
-default_font = ExtResource( 2 )
-
 [node name="Control" type="Button"]
+custom_minimum_size = Vector2(0, 100)
+anchors_preset = 10
 anchor_right = 1.0
 offset_right = -280.0
 offset_bottom = 50.0
-custom_minimum_size = Vector2( 0, 100 )
 focus_mode = 0
-theme_override_styles/hover = SubResource( 1 )
-theme_override_styles/normal = SubResource( 2 )
 theme_override_constants/h_separation = 0
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/hover = SubResource("1")
+theme_override_styles/normal = SubResource("2")
+script = ExtResource("8")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_top = 0
 theme_override_constants/margin_left = 36
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_top = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-offset_left = 36.0
-offset_right = 1000.0
-offset_bottom = 100.0
+layout_mode = 2
 theme_override_constants/separation = -15
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-offset_right = 964.0
-offset_bottom = 100.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-offset_top = 19.0
-offset_right = 964.0
-offset_bottom = 50.0
+layout_mode = 2
 theme_override_constants/separation = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LobbyTitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-offset_right = 964.0
-offset_bottom = 31.0
+layout_mode = 2
 size_flags_horizontal = 3
-theme = SubResource( 3 )
 text = "(NT)I can't believe my little lobby can be this cute"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-offset_top = 54.0
-offset_right = 964.0
-offset_bottom = 80.0
+layout_mode = 2
 theme_override_constants/separation = 52
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
-offset_right = 201.0
-offset_bottom = 26.0
+layout_mode = 2
 
 [node name="TextureRect2" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
-offset_right = 20.0
-offset_bottom = 26.0
-custom_minimum_size = Vector2( 20, 0 )
-texture = ExtResource( 3 )
-expand = true
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="SongNameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
-offset_left = 24.0
-offset_right = 201.0
-offset_bottom = 26.0
-theme_override_fonts/font = ExtResource( 4 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_rh5w4")
 text = "(NT)105.05%"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
-offset_left = 253.0
-offset_right = 454.0
-offset_bottom = 26.0
+layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer2"]
-offset_right = 20.0
-offset_bottom = 26.0
-custom_minimum_size = Vector2( 20, 0 )
-texture = ExtResource( 1 )
-expand = true
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+texture = ExtResource("1")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="MemberCountLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer2"]
-offset_left = 24.0
-offset_right = 201.0
-offset_bottom = 26.0
-theme_override_fonts/font = ExtResource( 4 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_rh5w4")
 text = "(NT)105.05%"
 horizontal_alignment = 1
 vertical_alignment = 1

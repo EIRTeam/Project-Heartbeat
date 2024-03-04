@@ -1,0 +1,8 @@
+[gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://weeyd75f2ma7"]
+
+[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="1"]
+[ext_resource type="FontVariation" uid="uid://k12lugi3q7n6" path="res://fonts/noto/NotoSans-Medium.tres" id="2_dm1te"]
+
+[resource]
+fallbacks = Array[Font]([ExtResource("2_dm1te")])
+base_font = ExtResource("1")

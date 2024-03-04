@@ -1,40 +1,19 @@
-[gd_scene load_steps=22 format=3 uid="uid://bgxdiwbsfjwi3"]
+[gd_scene load_steps=16 format=3 uid="uid://bgxdiwbsfjwi3"]
 
 [ext_resource type="Script" path="res://menus/main_menu/MainMenuLeft.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bwx8jmm5u4dmc" path="res://graphics/icons/music-box-outline.svg" id="2"]
 [ext_resource type="Texture2D" uid="uid://747hv6amarf4" path="res://graphics/icons/settings.svg" id="3"]
+[ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="3_egic7"]
 [ext_resource type="PackedScene" path="res://menus/HBMenuChangeButton.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://doafidb2q4jxo" path="res://graphics/icons/exit-run.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://m0q58fhyueok" path="res://graphics/icons/tools.svg" id="6"]
 [ext_resource type="Texture2D" uid="uid://d2kjl2b11qmqm" path="res://graphics/icons/earth.svg" id="7"]
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://d1tqcne0ldeng" path="res://graphics/icons/discord.svg" id="9"]
-[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="10"]
-[ext_resource type="Texture2D" uid="uid://j24c3y62014l" path="res://graphics/icons/twitter.svg" id="11"]
 [ext_resource type="Texture2D" uid="uid://cgshshdr1fqyn" path="res://graphics/icons/help-circle.svg" id="12"]
-[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="13"]
 [ext_resource type="Texture2D" uid="uid://bsw2b863mfxnd" path="res://graphics/icons/discord_main.svg" id="14"]
 [ext_resource type="Script" path="res://menus/main_menu/NetworkStatus.gd" id="15"]
 [ext_resource type="Texture2D" uid="uid://rx4rtkhmkprb" path="res://graphics/icons/steam.svg" id="16"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="17"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="18"]
-
-[sub_resource type="FontFile" id="3"]
-fallbacks = Array[Font]([ExtResource("13"), ExtResource("18")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
 [sub_resource type="GDScript" id="1"]
 script/source = "@tool
@@ -54,23 +33,6 @@ func _on_child_pressed(next_menu):
 func _on_ExitButton_pressed():
 	get_tree().quit()
 "
-
-[sub_resource type="FontFile" id="2"]
-fallbacks = Array[Font]([ExtResource("10")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
 [node name="StartMenu" type="Control"]
 layout_mode = 3
@@ -98,15 +60,16 @@ script = ExtResource("15")
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_fonts/font = SubResource("3")
+theme_override_fonts/font = ExtResource("3_egic7")
 text = "HeartbeatNET: Connected"
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_fonts/font = SubResource("3")
+theme_override_fonts/font = ExtResource("3_egic7")
 text = "HeartbeatNET: Connected"
+vertical_alignment = 1
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(0, 175)
@@ -210,51 +173,6 @@ layout_mode = 2
 text = "Exit"
 icon = ExtResource("5")
 alignment = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/margin_left = 28
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
-layout_mode = 2
-alignment = 2
-
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" groups=["nodemo"]]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-texture = ExtResource("9")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-auto_translate_mode = 2
-layout_mode = 2
-auto_translate = false
-theme_override_fonts/font = SubResource("2")
-text = "discord.gg/qGMdbez"
-
-[node name="VBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-texture = ExtResource("11")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
-auto_translate_mode = 2
-layout_mode = 2
-auto_translate = false
-theme_override_fonts/font = SubResource("2")
-text = "@PHeartbeatGame"
 
 [connection signal="focus_entered" from="." to="VBoxContainer/StartMenu" method="grab_focus"]
 [connection signal="pressed" from="VBoxContainer/StartMenu/DiscordButton" to="." method="_on_discord_server_pressed"]

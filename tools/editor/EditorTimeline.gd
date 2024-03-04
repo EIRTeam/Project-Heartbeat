@@ -7,7 +7,7 @@ const LOG_NAME = "Editor"
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const LAYER_NAME_SCENE = preload("res://tools/editor/EditorLayerName.tscn")
 const TRIANGLE_HEIGHT = 15
-const TIME_LABEL = preload("res://fonts/new_fonts/roboto_black_15.tres")
+const TIME_LABEL = preload("res://fonts/Roboto-Black.ttf")
 
 const SELECT_MODE = {
 	"NORMAL": 0,

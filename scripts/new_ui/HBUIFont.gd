@@ -18,10 +18,11 @@ func set_fallback_hint(val):
 	fallbacks.clear()
 	match fallback_hint:
 		FALLBACK_HINT.NORMAL:
-			fallbacks.push_back(preload("res://fonts/NotoSansJP-Regular.otf"))
-		FALLBACK_HINT.BOLD, FALLBACK_HINT.BLACK:
-			# TODO: Add different fallback fonts for black/bold
-			fallbacks.push_back(preload("res://fonts/NotoSansJP-Black.otf"))
+			fallbacks.push_back(preload("res://fonts/default_font_regular.tres"))
+		FALLBACK_HINT.BOLD:
+			fallbacks.push_back(preload("res://fonts/default_font_bold.tres"))
+		FALLBACK_HINT.BLACK:
+			fallbacks.push_back(preload("res://fonts/default_font_black.tres"))
 
 func _set(property, value):
 	if property == "font_data":

@@ -1,0 +1,9 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://dhadcv8aq5u14"]
+
+[ext_resource type="FontFile" uid="uid://crsxc0xgsxsba" path="res://fonts/noto/NotoSansCJK-VF.otf.ttc" id="1_04whc"]
+
+[resource]
+base_font = ExtResource("1_04whc")
+variation_opentype = {
+2003265652: 400
+}

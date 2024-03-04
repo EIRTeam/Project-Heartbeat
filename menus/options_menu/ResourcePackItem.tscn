@@ -1,32 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://2yb8q0lu4mr3"]
+[gd_scene load_steps=9 format=3 uid="uid://2yb8q0lu4mr3"]
 
 [ext_resource type="Script" path="res://menus/options_menu/ResourcePackItem.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="2"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="3"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="4"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="5"]
-[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="6"]
-[ext_resource type="FontFile" uid="uid://q172ug5w4fdw" path="res://fonts/new_fonts/roboto_black_45.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="8"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconPress.tres" id="9"]
 [ext_resource type="Texture2D" uid="uid://cakqpc84jlapb" path="res://graphics/icons/check-circle.svg" id="10"]
-
-[sub_resource type="FontFile" id="1"]
-fallbacks = Array[Font]([ExtResource("2"), ExtResource("3")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [sub_resource type="StyleBoxEmpty" id="2"]
 
@@ -37,9 +16,9 @@ custom_minimum_size = Vector2(0, 250)
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 250.0
-theme_override_styles/normal = ExtResource("5")
 theme_override_styles/hover = ExtResource("4")
 theme_override_styles/pressed = ExtResource("9")
+theme_override_styles/normal = ExtResource("5")
 script = ExtResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -79,18 +58,15 @@ alignment = 1
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("7")
 text = "No vea loco peaso pack de testura"
 
 [node name="AuthorLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = SubResource("1")
 text = "by EIREXE"
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("6")
 theme_override_styles/focus = SubResource("2")
 theme_override_styles/normal = SubResource("3")
 bbcode_enabled = true

@@ -1,28 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3mmbo7g2s50t"]
+[gd_scene load_steps=5 format=3 uid="uid://b3mmbo7g2s50t"]
 
 [ext_resource type="Script" path="res://menus/PregameChartFeatureDisplaySection.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2"]
-[ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="3"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="4"]
-[ext_resource type="FontFile" uid="uid://igqm8fnnmk4q" path="res://fonts/orbitron-bold.otf" id="5"]
 [ext_resource type="Texture2D" uid="uid://dflywc0pf4cen" path="res://menus/chart_feature_previews/normal_note.png" id="6"]
-
-[sub_resource type="FontFile" id="1"]
-fallbacks = Array[Font]([ExtResource("5"), ExtResource("2")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Panel" type="Panel"]
 custom_minimum_size = Vector2(450, 450)
@@ -64,7 +45,6 @@ stretch_mode = 5
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = SubResource("1")
 text = "HaHa!!!sadasdasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
 horizontal_alignment = 1
 autowrap_mode = 3

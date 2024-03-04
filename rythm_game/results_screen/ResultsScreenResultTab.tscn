@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3 uid="uid://b8speakm7hc8h"]
 
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="1"]
+[ext_resource type="FontVariation" path="res://fonts/noto/NotoSans-Regular.tres" id="1"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://c0but4q8m0shn" path="res://graphics/icons/chevron-double-up.svg" id="4"]
 [ext_resource type="Texture2D" uid="uid://cuekflm7vmt0v" path="res://graphics/icons/plus-thick.svg" id="5"]
 [ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenResultTab.gd" id="6"]
-[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="6_qqm8m"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="6_qqm8m"]
 [ext_resource type="Script" path="res://scripts/RichTextWordRainbow.gd" id="7"]
 [ext_resource type="Texture2D" uid="uid://blv1embpiu5dr" path="res://graphics/icons/score_update_arrow.svg" id="8"]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://drt3kp0xnlq7r" path="res://tools/icons/icon_back_options.svg" id="1"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionRange.gd" id="2"]
-[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="3"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://duufc5ac5bdbc" path="res://tools/icons/icon_forward_options.svg" id="4"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]

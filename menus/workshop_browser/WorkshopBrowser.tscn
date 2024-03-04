@@ -5,9 +5,9 @@
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://bpgc6vwbd27s7" path="res://graphics/icons/menu-left.svg" id="4"]
 [ext_resource type="Texture2D" uid="uid://u7u60edt283r" path="res://graphics/icons/menu-right.svg" id="5"]
-[ext_resource type="FontFile" uid="uid://q172ug5w4fdw" path="res://fonts/new_fonts/roboto_black_45.tres" id="6"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="7"]
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="8"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="8_57xkq"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="9"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="11"]
@@ -148,7 +148,7 @@ script = ExtResource("2")
 auto_translate_mode = 2
 layout_mode = 2
 auto_translate = false
-theme_override_fonts/font = ExtResource("6")
+theme_override_fonts/font = ExtResource("8_57xkq")
 text = "1/1"
 
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/Control/HBoxContainer"]

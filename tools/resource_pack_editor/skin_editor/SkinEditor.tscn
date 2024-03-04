@@ -1,58 +1,18 @@
-[gd_scene load_steps=20 format=3 uid="uid://bg77snqocggfy"]
+[gd_scene load_steps=13 format=3 uid="uid://bg77snqocggfy"]
 
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2"]
-[ext_resource type="FontFile" path="res://fonts/SongLabelIngame.tres" id="3"]
-[ext_resource type="FontFile" path="res://fonts/SongLabelAuthorInGame.tres" id="4"]
-[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="5"]
-[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="7"]
-[ext_resource type="Script" path="res://menus/DynamicallyResizingLabel.gd" id="8"]
-[ext_resource type="PackedScene" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="9"]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_4vcqj"]
+[ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="9"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor.gd" id="11"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd" id="13"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/viewport_quad.gd" id="14"]
 [ext_resource type="Texture2D" uid="uid://cln670qlnyiv6" path="res://graphics/background.png" id="15"]
-[ext_resource type="PackedScene" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" id="16"]
+[ext_resource type="PackedScene" uid="uid://i08qk1n42uwn" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" id="16"]
 [ext_resource type="PackedScene" uid="uid://dycvec2jy0kmy" path="res://tools/new_inspector/new_inspector.tscn" id="17"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorComponentPicker.gd" id="18"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorOutliner.gd" id="19"]
 
 [sub_resource type="ViewportTexture" id="6"]
 viewport_path = NodePath("HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport")
-
-[sub_resource type="StyleBoxFlat" id="4"]
-content_margin_left = 77.0
-bg_color = Color(0.188235, 0.0705882, 0.301961, 0.501961)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 3
-border_width_bottom = 2
-border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
-corner_radius_bottom_right = 1024
-corner_detail = 1
-expand_margin_right = 77.0
-shadow_color = Color(0, 0, 0, 0.25)
-shadow_size = 10
-anti_aliasing = false
-
-[sub_resource type="FontFile" id="5"]
-fallbacks = Array[Font]([ExtResource("5"), ExtResource("2")])
-face_index = null
-embolden = null
-transform = null
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
 [sub_resource type="StyleBoxEmpty" id="3"]
 
@@ -66,6 +26,7 @@ offset_top = 32.0
 offset_right = -5.0
 offset_bottom = -5.0
 mouse_filter = 2
+theme = ExtResource("1_4vcqj")
 script = ExtResource("11")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
@@ -86,6 +47,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
+current_tab = 0
 
 [node name="Outline" type="ItemList" parent="HSplitContainer/HBoxContainer/Control/TabContainer2"]
 layout_mode = 2
@@ -97,6 +59,7 @@ script = ExtResource("19")
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/HBoxContainer/Control"]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 
 [node name="Components" type="ScrollContainer" parent="HSplitContainer/HBoxContainer/Control/TabContainer"]
 layout_mode = 2
@@ -188,90 +151,10 @@ stretch_mode = 7
 [node name="Node2D" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("9")]
 visible = false
 anchors_preset = 0
-
-[node name="Panel" type="Panel" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
-custom_minimum_size = Vector2(0, 70)
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 405.6
-offset_top = 200.858
-offset_right = -1120.0
-offset_bottom = -169.622
-size_flags_horizontal = 3
-theme = ExtResource("7")
-theme_override_styles/panel = SubResource("4")
-
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel"]
-layout_mode = 0
-anchor_left = 0.07
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -14.2907
-offset_right = -1.01001
-offset_bottom = 2.462
-scale = Vector2(1, 0.996064)
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = -7
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 15
-
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_top = 3
-
-[node name="CircleImage" type="TextureRect" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-expand_mode = 1
-stretch_mode = 6
-
-[node name="SongAuthor" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("4")
-text = "(NT)NOSONG"
-vertical_alignment = 1
-uppercase = true
-
-[node name="SongName" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("3")
-text = "(NT)LOADED"
-vertical_alignment = 1
-clip_text = true
-script = ExtResource("8")
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="DifficultyLabel" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/font = SubResource("5")
-text = "(NT)[DIFFICULTY]"
-vertical_alignment = 1
-uppercase = true
-
-[node name="ModifierLabel" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Nightcore"
-vertical_alignment = 1
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="EditLayer" type="Control" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
 anchors_preset = 0
@@ -283,10 +166,10 @@ layout_mode = 0
 offset_top = 0.0
 offset_bottom = 86.0
 theme_override_styles/panel = SubResource("3")
-target_node_path = NodePath("../Panel")
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/HSplitContainer"]
 layout_mode = 2
+current_tab = 0
 
 [node name="Inspector" parent="HSplitContainer/HSplitContainer/TabContainer" instance=ExtResource("17")]
 layout_mode = 2

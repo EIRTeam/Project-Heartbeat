@@ -1,111 +1,83 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://y8fip840vfy3"]
 
-[ext_resource path="res://graphics/icons/undo-variant.svg" type="Texture2D" id=1]
-[ext_resource path="res://fonts/SongLabel.tres" type="FontFile" id=2]
-[ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=4]
-[ext_resource path="res://menus/song_list/SongListFolderBack.gd" type="Script" id=5]
+[ext_resource type="Texture2D" uid="uid://cs0udkbeyyhkv" path="res://graphics/icons/undo-variant.svg" id="1"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3_ub516"]
+[ext_resource type="StyleBox" path="res://styles/SongListItemNormal.tres" id="4"]
+[ext_resource type="Script" path="res://menus/song_list/SongListFolderBack.gd" id="5"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0.188235, 0.0745098, 0.301961, 0.501961)
 border_width_left = 211
-border_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+border_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
 corner_radius_top_left = 5
 corner_radius_top_right = 1024
 corner_radius_bottom_right = 5
 corner_detail = 1
 
-[sub_resource type="Theme" id=2]
-default_font = ExtResource( 2 )
-
 [node name="Control" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 100)
+anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 100.0
-custom_minimum_size = Vector2( 0, 100 )
-focus_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_top = 25
+focus_mode = 2
 theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
 theme_override_constants/margin_bottom = 25
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("5")
 
 [node name="Control" type="Button" parent="."]
-offset_left = 25.0
-offset_top = 25.0
-offset_right = 1280.0
-offset_bottom = 75.0
-focus_mode = 0
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/hover = SubResource( 1 )
-theme_override_styles/normal = ExtResource( 4 )
+focus_mode = 0
 theme_override_constants/h_separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/hover = SubResource("1")
+theme_override_styles/normal = ExtResource("4")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_top = 0
 theme_override_constants/margin_left = 62
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_top = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
-offset_left = 62.0
-offset_right = 1255.0
-offset_bottom = 50.0
+layout_mode = 2
 theme_override_constants/separation = 7
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
-offset_right = 313.0
-offset_bottom = 50.0
-theme_override_constants/margin_top = 7
+layout_mode = 2
 theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 7
 theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
-offset_top = 7.0
-offset_right = 313.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
-offset_right = 313.0
-offset_bottom = 43.0
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="FolderName" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-offset_right = 313.0
-offset_bottom = 43.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-theme = SubResource( 2 )
+theme_override_fonts/font = ExtResource("3_ub516")
 text = "Create new folder"
 vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(175, 125)
+layout_mode = 0
 offset_left = -87.747
 offset_top = -35.0
 offset_right = 87.253
 offset_bottom = 90.0
-custom_minimum_size = Vector2( 175, 125 )
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-texture = ExtResource( 1 )
-expand = true
+texture = ExtResource("1")
+expand_mode = 1
 stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}

@@ -1,13 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://cf2jxkpomwvf3"]
+[gd_scene load_steps=17 format=3 uid="uid://cf2jxkpomwvf3"]
 
 [ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="1"]
 [ext_resource type="Script" path="res://rythm_game/rhythm_game_controller.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://q7lxigfdjdkq" path="res://rythm_game/pause_menu/PauseMenu.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="5"]
-[ext_resource type="FontFile" path="res://fonts/Rating_Font.tres" id="7"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://bp2b0enf3mcn4" path="res://graphics/icons/fast-forward.svg" id="8"]
-[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="9"]
 [ext_resource type="Script" path="res://rythm_game/VideoPlayerOffset.gd" id="10"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
@@ -204,7 +203,6 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 14.0
 auto_translate = false
-theme_override_fonts/font = ExtResource("9")
 text = "asdsadsad"
 
 [node name="VHS" type="Panel" parent="."]
@@ -243,7 +241,7 @@ vertical_alignment = 1
 [node name="TextureRect" type="TextureRect" parent="RollbackLabel/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("8")
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="PauseMenu" parent="." instance=ExtResource("3")]
 layout_mode = 1

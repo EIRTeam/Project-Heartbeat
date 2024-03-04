@@ -1,11 +1,8 @@
-[gd_resource type="FontFile" load_steps=3 format=2]
+[gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://cdj3wvnplto5x"]
 
-[ext_resource path="res://fonts/new_fonts/Comfortaa-VariableFont_wght.ttf" type="FontFile" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=2]
+[ext_resource type="FontFile" uid="uid://d0bcbtmo6qttn" path="res://fonts/new_fonts/Comfortaa-VariableFont_wght.ttf" id="1"]
+[ext_resource type="FontVariation" uid="uid://b8q6nfnnhuho6" path="res://fonts/noto/NotoSans-Light.tres" id="2_hhd6b"]
 
 [resource]
-size = 23
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 1 )
-fallback/0 = ExtResource( 2 )
+fallbacks = Array[Font]([ExtResource("2_hhd6b")])
+base_font = ExtResource("1")

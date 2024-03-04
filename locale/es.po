@@ -1,22 +1,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-02-22 23:22+0100\n"
+"PO-Revision-Date: 2024-03-04 03:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.2\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-SearchPath-0: menus\n"
-"X-Poedit-SearchPath-1: scripts\n"
-"X-Poedit-SearchPath-2: rythm_game\n"
-"X-Poedit-SearchPath-3: autoloads/UserSettings.gd\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -43,7 +37,7 @@ msgid ""
 "This song requires downloading video/audio files from YouTube, would you "
 "like to download them?"
 msgstr ""
-"Esta canción requiere descargar archivos de video / audio de YouTube, ¿te "
+"Esta canción requiere descargar archivos de video/audio de YouTube, ¿te "
 "gustaría descargarlos?"
 
 #: autoloads/MouseTrap.tscn
@@ -60,7 +54,7 @@ msgstr "Los medios de esta canción se están descargando actualmente."
 
 #: autoloads/MouseTrap.tscn
 msgid "OGG"
-msgstr ""
+msgstr "OGG"
 
 #: autoloads/MouseTrap.tscn
 msgid ""
@@ -73,15 +67,6 @@ msgid ""
 "You can either input a YouTube URL or select an ogg file from disk to use as "
 "audio."
 msgstr ""
-"Debido a razones legales y de licencia, Project Heartbeat no puede usar "
-"archivos MP4 para canciones de PPD. Lee más sobre por qué aquí.\n"
-"\n"
-"La forma recomendada de compartir y jugar las listas de la comunidad es "
-"utilizar la Workshop, el soporte de de PPD se proporciona como cortesía para "
-"los jugadores en transición.\n"
-"\n"
-"Puedes introducir una URL de YouTube o seleccionar un archivo ogg del disco "
-"para usarlo como audio."
 
 #: autoloads/MouseTrap.tscn
 msgid "Use YouTube Video"
@@ -94,6 +79,8 @@ msgstr "Seleccionar desde el disco"
 #: autoloads/MouseTrap.tscn
 msgid "Invalid URL, ensure you are using a YouTube URL and that it is valid."
 msgstr ""
+"URL no válida. Asegúrese de estar utilizando una URL de YouTube y de que sea "
+"válida."
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Cross, Xbox A, Nintendo B"
@@ -253,11 +240,11 @@ msgstr "Menú cancelar"
 
 #: autoloads/UserSettings.gd
 msgid "(Song list) Page up"
-msgstr ""
+msgstr "(Lista de canciones) Página arriba"
 
 #: autoloads/UserSettings.gd
 msgid "(Song list) Page down"
-msgstr ""
+msgstr "(Lista de canciones) Página abajo"
 
 #: autoloads/UserSettings.gd
 msgid "Show currently playing song"
@@ -277,547 +264,550 @@ msgstr "Opción contextual"
 
 #: autoloads/UserSettings.gd
 msgid "Undo"
-msgstr ""
+msgstr "Deshacer"
 
 #: autoloads/UserSettings.gd
 msgid "Redo"
-msgstr ""
+msgstr "Rehacer"
 
 #: autoloads/UserSettings.gd
 msgid "Select notes"
-msgstr ""
+msgstr "Seleccionar notas"
 
 #: autoloads/UserSettings.gd
 msgid "Show contextual menu"
-msgstr ""
+msgstr "Mostrar menú contextual"
 
 #: autoloads/UserSettings.gd
 msgid "Scale up"
-msgstr ""
+msgstr "Aumentar escala"
 
 #: autoloads/UserSettings.gd
 msgid "Scale down"
-msgstr ""
+msgstr "Reducir escala"
 
 #: autoloads/UserSettings.gd
 msgid "Pan the timeline"
-msgstr ""
+msgstr "Mover la línea de tiempo"
 
 #: autoloads/UserSettings.gd
 msgid "Move playhead to the left"
-msgstr ""
+msgstr "Mover el cursor de reproducción hacia la izquierda"
 
 #: autoloads/UserSettings.gd
 msgid "Move playhead to the right"
-msgstr ""
+msgstr "Mover el cabezal de reproducción hacia la derecha"
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the settings menu"
-msgstr ""
+msgstr "Abrir/Cerrar el menú de configuración"
 
 #: autoloads/UserSettings.gd
 msgid "Open the editor docs"
-msgstr ""
+msgstr "Abrir los la documentación del editor"
 
 #: autoloads/UserSettings.gd
 msgid "Open the script manager"
-msgstr ""
+msgstr "Abra el administrador de scripts"
 
 #: autoloads/UserSettings.gd
 msgid "Open the diagnostics menu"
-msgstr ""
+msgstr "Abrir el menú de diagnóstico"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the fps counter"
-msgstr ""
+msgstr "Alternar el contador de fps"
 
 #: autoloads/UserSettings.gd
 msgid "Show hidden charts"
-msgstr ""
+msgstr "Mostrar charts ocultos"
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the layer visibility menu"
-msgstr ""
+msgstr "Abrir/Cerrar el menú de visibilidad de capas"
 
 #: autoloads/UserSettings.gd
 msgid "Open a chart"
-msgstr ""
+msgstr "Abrir un chart"
 
 #: autoloads/UserSettings.gd
 msgid "Open the scripts directory"
-msgstr ""
+msgstr "Abrir el directorio de scripts"
 
 #: autoloads/UserSettings.gd
 msgid "Save the chart / script"
-msgstr ""
+msgstr "Guardar el chart/script"
 
 #: autoloads/UserSettings.gd
 msgid "Save the chart / script as"
-msgstr ""
+msgstr "Guardar el chart/script como"
 
 #: autoloads/UserSettings.gd
 msgid "Create a new script"
-msgstr ""
+msgstr "Crear un nuevo script"
 
 #: autoloads/UserSettings.gd
 msgid "Play / Pause"
-msgstr ""
+msgstr "Reproducir / Pausar"
 
 #: autoloads/UserSettings.gd
 msgid "Playtest"
-msgstr ""
+msgstr "Prueba de juego"
 
 #: autoloads/UserSettings.gd
 msgid "Playtest at time"
-msgstr ""
+msgstr "Prueba de juego en el momento"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle metronome"
-msgstr ""
+msgstr "Alternar metrónomo"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle background"
-msgstr ""
+msgstr "Alternar fondo"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle video"
-msgstr ""
+msgstr "Alternar vídeo"
 
 #: autoloads/UserSettings.gd
 msgid "Select all"
-msgstr ""
+msgstr "Seleccionar todo"
 
 #: autoloads/UserSettings.gd
 msgid "Deselect"
-msgstr ""
+msgstr "Deseleccionar"
 
 #: autoloads/UserSettings.gd
 msgid "Shift selection left"
-msgstr ""
+msgstr "Desplazar selección a la izquierda"
 
 #: autoloads/UserSettings.gd
 msgid "Shift selection right"
-msgstr ""
+msgstr "Desplazar selección a la derecha"
 
 #: autoloads/UserSettings.gd
 msgid "Select every 2nd note"
-msgstr ""
+msgstr "Seleccionar cada segunda nota"
 
 #: autoloads/UserSettings.gd
 msgid "Select every 3rd note"
-msgstr ""
+msgstr "Seleccionar cada tercera nota"
 
 #: autoloads/UserSettings.gd
 msgid "Select every 4th note"
-msgstr ""
+msgstr "Seleccionar cada cuarta nota"
 
 #: autoloads/UserSettings.gd
 msgid "Select only notes"
-msgstr ""
+msgstr "Seleccionar solo notas"
 
 #: autoloads/UserSettings.gd
 msgid "Select only double notes"
-msgstr ""
+msgstr "Seleccione solo notas dobles"
 
 #: autoloads/UserSettings.gd
 msgid "Select only sustains"
-msgstr ""
+msgstr "Seleccionar solo sustains"
 
 #: autoloads/UserSettings.gd
 msgid "Select only sections"
-msgstr ""
+msgstr "Seleccionar solo secciones"
 
 #: autoloads/UserSettings.gd
 msgid "Select only tempo changes"
-msgstr ""
+msgstr "Seleccionar solo cambios de tempo"
 
 #: autoloads/UserSettings.gd
 msgid "Select only speed changes"
-msgstr ""
+msgstr "Seleccione solo cambios de velocidad"
 
 #: autoloads/UserSettings.gd
 msgid "Cut notes"
-msgstr ""
+msgstr "Cortar notas"
 
 #: autoloads/UserSettings.gd
 msgid "Copy notes"
-msgstr ""
+msgstr "Copiar notas"
 
 #: autoloads/UserSettings.gd
 msgid "Paste notes"
-msgstr ""
+msgstr "Pegar notas"
 
 #: autoloads/UserSettings.gd
 msgid "Delete notes"
-msgstr ""
+msgstr "Eliminar notas"
 
 #: autoloads/UserSettings.gd
 msgid "Convert to normal note"
-msgstr ""
+msgstr "Convertir a nota normal"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle hold"
-msgstr ""
+msgstr "Alternar hold"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle sustain"
-msgstr ""
+msgstr "Alternar sustain"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle double"
-msgstr ""
+msgstr "Alternar doble"
 
 #: autoloads/UserSettings.gd
 msgid "Make slide chain"
-msgstr ""
+msgstr "Hacer cadena de slides"
 
 #: autoloads/UserSettings.gd
 msgid "Increase note type"
-msgstr ""
+msgstr "Aumentar tipo de nota"
 
 #: autoloads/UserSettings.gd
 msgid "Decrease note type"
-msgstr ""
+msgstr "Disminuir tipo de nota"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 4ths"
-msgstr ""
+msgstr "Establecer resolución en 4tos"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 6ths"
-msgstr ""
+msgstr "Establecer resolución en 6tos"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 8ths"
-msgstr ""
+msgstr "Establecer resolución en 8vos"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 12ths"
-msgstr ""
+msgstr "Establecer resolución en 12"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 16ths"
-msgstr ""
+msgstr "Establecer resolución en 16"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 24ths"
-msgstr ""
+msgstr "Establecer resolución en 24"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 32nds"
-msgstr ""
+msgstr "Establecer resolución en 32"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle timeline snap"
-msgstr ""
+msgstr "Alternar ajuste de línea de tiempo"
 
 #: autoloads/UserSettings.gd
 msgid "Increase timeline resolution"
-msgstr ""
+msgstr "Aumentar la resolución de la línea de tiempo"
 
 #: autoloads/UserSettings.gd
 msgid "Decrease timeline resolution"
-msgstr ""
+msgstr "Disminuir la resolución de la línea de tiempo"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the hitsound sfxs"
-msgstr ""
+msgstr "Alternar los efectos de sonido de hits"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the waveform display"
-msgstr ""
+msgstr "Alternar la visualización de forma de onda"
 
 #: autoloads/UserSettings.gd
 msgid "Tap metronome"
-msgstr ""
+msgstr "Tocar metrónomo"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle grid"
-msgstr ""
+msgstr "Alternar cuadrícula"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle grid snap"
-msgstr ""
+msgstr "Alternar ajuste de cuadrícula"
 
 #: autoloads/UserSettings.gd
 msgid "Show arrange menu"
-msgstr ""
+msgstr "Mostrar menú de organización"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange left"
-msgstr ""
+msgstr "Organizar a la izquierda"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange right"
-msgstr ""
+msgstr "Organizar a la derecha"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up"
-msgstr ""
+msgstr "Organizar arriba"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down"
-msgstr ""
+msgstr "Organizar abajo"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up left"
-msgstr ""
+msgstr "Organizar arriba a la izquierda"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up right"
-msgstr ""
+msgstr "Organizar arriba a la derecha"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down left"
-msgstr ""
+msgstr "Organizar abajo a la izquierda"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down right"
-msgstr ""
+msgstr "Organizar abajo a la derecha"
 
 #: autoloads/UserSettings.gd
 msgid "Stack notes"
-msgstr ""
+msgstr "Apilar notas"
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes left"
-msgstr ""
+msgstr "Posicionar notas a la izquierda finamente"
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes right"
-msgstr ""
+msgstr "Posicionar notas a la derecha finamente"
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes up"
-msgstr ""
+msgstr "Posicionar notas arriba finamente"
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes down"
-msgstr ""
+msgstr "Posicionar notas abajo finamente"
 
 #: autoloads/UserSettings.gd
 msgid "Move notes left"
-msgstr ""
+msgstr "Mover notas a la izquierda"
 
 #: autoloads/UserSettings.gd
 msgid "Move notes right"
-msgstr ""
+msgstr "Mover notas a la derecha"
 
 #: autoloads/UserSettings.gd
 msgid "Move notes up"
-msgstr ""
+msgstr "Mover notas hacia arriba"
 
 #: autoloads/UserSettings.gd
 msgid "Move notes down"
-msgstr ""
+msgstr "Mover notas hacia abajo"
 
 #: autoloads/UserSettings.gd
 msgid "Interpolate angles"
-msgstr ""
+msgstr "Interpolar ángulos"
 
 #: autoloads/UserSettings.gd
 msgid "Interpolate distances"
-msgstr ""
+msgstr "Interpolar distancias"
 
 #: autoloads/UserSettings.gd
 msgid "Flip angle"
-msgstr ""
+msgstr "Invertir angulo"
 
 #: autoloads/UserSettings.gd
 msgid "Flip oscillation"
-msgstr ""
+msgstr "Invertir oscilación"
 
 #: autoloads/UserSettings.gd
 msgid "Move angles towards the first note"
-msgstr ""
+msgstr "Mover ángulos hacia la primera nota"
 
 #: autoloads/UserSettings.gd
 msgid "Move angles away from the first note"
-msgstr ""
+msgstr "Aleja los ángulos de la primera nota"
 
 #: autoloads/UserSettings.gd
 msgid "Move angles towards the last note"
-msgstr ""
+msgstr "Mover ángulos hacia la última nota"
 
 #: autoloads/UserSettings.gd
 msgid "Move angles away from the last note"
-msgstr ""
+msgstr "Aleja los ángulos de la última nota"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 180º"
-msgstr ""
+msgstr "Establecer el ángulo en 180º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 0º"
-msgstr ""
+msgstr "Establecer ángulo en 0º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 270º"
-msgstr ""
+msgstr "Establecer el ángulo en 270º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 90º"
-msgstr ""
+msgstr "Establecer el ángulo en 90º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 225º"
-msgstr ""
+msgstr "Establecer el ángulo en 225º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 315º"
-msgstr ""
+msgstr "Establecer el ángulo en 315º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 135º"
-msgstr ""
+msgstr "Establecer el ángulo en 135º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 45º"
-msgstr ""
+msgstr "Establecer el ángulo en 45º"
 
 #: autoloads/UserSettings.gd
 msgid "Mirror horizontally"
-msgstr ""
+msgstr "Reflejar horizontalmente"
 
 #: autoloads/UserSettings.gd
 msgid "Mirror vertically"
-msgstr ""
+msgstr "Reflejar verticalmente"
 
 #: autoloads/UserSettings.gd
 msgid "Flip horizontally"
-msgstr ""
+msgstr "Invertir horizontalmente"
 
 #: autoloads/UserSettings.gd
 msgid "Flip vertically"
-msgstr ""
+msgstr "Invertir verticalmente"
 
 #: autoloads/UserSettings.gd
 msgid "Make circle clockwise"
-msgstr ""
+msgstr "Hacer un círculo en el sentido de las agujas del reloj"
 
 #: autoloads/UserSettings.gd
 msgid "Make circle counter-clockwise"
-msgstr ""
+msgstr "Hacer un círculo en el sentido contrario a las agujas del reloj"
 
 #: autoloads/UserSettings.gd
 msgid "Make circle clockwise from the inside"
 msgstr ""
+"Hacer un círculo en el sentido de las agujas del reloj desde el interior"
 
 #: autoloads/UserSettings.gd
 msgid "Make circle counter-clockwise from the inside"
 msgstr ""
+"Hacer un círculo en el sentido contrario a las agujas del reloj desde el "
+"interior"
 
 #: autoloads/UserSettings.gd
 msgid "Circle size bigger"
-msgstr ""
+msgstr "Aumentar tamaño del círculo"
 
 #: autoloads/UserSettings.gd
 msgid "Circle size smaller"
-msgstr ""
+msgstr "Disminuir tamaño del círculo"
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the selection center"
-msgstr ""
+msgstr "Girar alrededor del centro de selección"
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the leftmost note"
-msgstr ""
+msgstr "Girar alrededor de la nota más a la izquierda"
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the rightmost note"
-msgstr ""
+msgstr "Girar alrededor de la nota más a la derecha"
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the screen center"
-msgstr ""
+msgstr "Girar alrededor del centro de la pantalla"
 
 #: autoloads/UserSettings.gd
 msgid "Vertical multi left"
-msgstr ""
+msgstr "Multi vertical izquierdo"
 
 #: autoloads/UserSettings.gd
 msgid "Vertical multi right"
-msgstr ""
+msgstr "Multi vertical derecho"
 
 #: autoloads/UserSettings.gd
 msgid "Straight vertical multi"
-msgstr ""
+msgstr "Multi vertical recto"
 
 #: autoloads/UserSettings.gd
 msgid "Horizontal multi top"
-msgstr ""
+msgstr "Multi vertical arriba"
 
 #: autoloads/UserSettings.gd
 msgid "Horizontal multi bottom"
-msgstr ""
+msgstr "Multi vertical abajo"
 
 #: autoloads/UserSettings.gd
 msgid "Diagonal multi"
-msgstr ""
+msgstr "Multi diagonal"
 
 #: autoloads/UserSettings.gd
 msgid "Quad"
-msgstr ""
+msgstr "Quad"
 
 #: autoloads/UserSettings.gd
 msgid "Quad (From inside)"
-msgstr ""
+msgstr "Quad (Desde el interior)"
 
 #: autoloads/UserSettings.gd
 msgid "Sideways quad"
-msgstr ""
+msgstr "Quad de lado"
 
 #: autoloads/UserSettings.gd
 msgid "Triangle"
-msgstr ""
+msgstr "Triángulo"
 
 #: autoloads/UserSettings.gd
 msgid "Inverted triangle"
-msgstr ""
+msgstr "Triángulo invertido"
 
 #: autoloads/UserSettings.gd
 msgid "Create template"
-msgstr ""
+msgstr "Crear plantilla"
 
 #: autoloads/UserSettings.gd
 msgid "Refresh templates"
-msgstr ""
+msgstr "Actualizar plantillas"
 
 #: autoloads/UserSettings.gd
 msgid "Open the templates dir (to manage them)"
-msgstr ""
+msgstr "Abra el directorio de plantillas (para administrarlas)"
 
 #: autoloads/UserSettings.gd
 msgid "Create timing change"
-msgstr ""
+msgstr "Crear cambio de tempo"
 
 #: autoloads/UserSettings.gd
 msgid "Create speed change"
-msgstr ""
+msgstr "Crear cambio de velocidad"
 
 #: autoloads/UserSettings.gd
 msgid "Create a smooth speed transition"
-msgstr ""
+msgstr "Crea transición de velocidad suave"
 
 #: autoloads/UserSettings.gd
 msgid "Create intro skip"
-msgstr ""
+msgstr "Crear salto de introducción"
 
 #: autoloads/UserSettings.gd
 msgid "Create chart section"
-msgstr ""
+msgstr "Crear sección de chart"
 
 #: autoloads/UserSettings.gd
 msgid "Quick lyric"
-msgstr ""
+msgstr "Letra rapida"
 
 #: autoloads/UserSettings.gd
 msgid "Quick phrase start"
-msgstr ""
+msgstr "Inicio de frase rápido"
 
 #: autoloads/UserSettings.gd
 msgid "Quick phrase end"
-msgstr ""
+msgstr "Fin de frase rápido"
 
 #: autoloads/UserSettings.gd
 msgid "Notes"
@@ -946,7 +936,7 @@ msgid ""
 msgstr ""
 "El video de este mapa puede contener escenas que afecten a personas "
 "fotosensibles.\n"
-"Tenga cuidado si se ve afectado por la epilepsia."
+" Tenga cuidado si se ve afectado por la epilepsia."
 
 #: menus/MainMenuUserInfo.gd menus/MainMenuUserInfo.tscn
 msgid "Lvl. %d"
@@ -966,10 +956,10 @@ msgid ""
 "later. Keep in mind the game already somewhat compensates for hardware delay "
 "(by, for example, already compensating for pulseaudio latency)."
 msgstr ""
-"Retardo aplicado a la sincronización de las notas, en milisegundos, los "
-"valores más altos significan que las notas entran más tarde. Ten en cuenta "
-"que el juego ya compensa parcialmente el retraso del hardware (por ejemplo, "
-"ya compensa la latencia de pulseaudio)."
+"Retraso aplicado a la sincronización de las notas, en milisegundos. Los "
+"valores más altos significan que las notas llegan más tarde. Tenga en cuenta "
+"que el juego ya compensa en cierta medida el retraso del hardware (por "
+"ejemplo, compensando la latencia de pulseaudio)."
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Song volume"
@@ -1091,7 +1081,7 @@ msgstr "Juego Libre"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Workshop"
-msgstr ""
+msgstr "Workshop"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "How to play"
@@ -1153,7 +1143,7 @@ msgstr "¡Síguenos en Twitter!"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "@PHeartbeatGame"
-msgstr ""
+msgstr "@PHeartbeatGame"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
@@ -1189,43 +1179,39 @@ msgstr "Restablecer a la configuración predeterminada"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Patrons"
-msgstr ""
+msgstr "Mecenas"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Programming"
-msgstr ""
+msgstr "Programación"
 
 #: menus/options_menu/OptionCreditsSection.tscn
-#, fuzzy
-#| msgid "Artist"
 msgid "Art"
 msgstr "Artista"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Music"
-msgstr ""
+msgstr "Música"
 
 #: menus/options_menu/OptionCreditsSection.tscn
-#, fuzzy
-#| msgid "Charts"
 msgid "Charting"
 msgstr "Mapas"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Charting Software"
-msgstr ""
+msgstr "Software de charting"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Licenses"
-msgstr ""
+msgstr "Licencias"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Others"
-msgstr ""
+msgstr "Otros"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "License: %s \n"
-msgstr ""
+msgstr "Licencia: %s\n"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
@@ -1241,7 +1227,7 @@ msgstr "Packs de Notas"
 #: menus/options_menu/OptionResourcePacksSection.tscn
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Skins"
-msgstr ""
+msgstr "Skins"
 
 #: menus/options_menu/OptionResourcePacksSection.tscn
 msgid "Rebuilding note atlas..."
@@ -1272,8 +1258,8 @@ msgid ""
 "If enabled, saves the title, background and preview image to the user folder "
 "so they can be used on a streaming software"
 msgstr ""
-"Una vez activado, guarda el titulo, el fondo y la imagen de previsualización "
-"en una carpeta para poder utilizarlas en cualquier software de streaming"
+"Si está habilitado, guarda el título, el fondo y la imagen de vista previa "
+"en la carpeta del usuario para que puedan usarse en un software de streaming"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable health system"
@@ -1285,7 +1271,7 @@ msgid ""
 "failed."
 msgstr ""
 "Si está habilitado, el juego habilita el sistema de salud opcional donde se "
-"pueden fallar canciones."
+"puede fallar una canción."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Download audio only from workshop"
@@ -1296,8 +1282,8 @@ msgid ""
 "If enabled downloads only audio when subscribing to workshop items from the "
 "in-game workshop browser"
 msgstr ""
-"Si está habilitado descarga solo audio cuando te suscribes a artículos de la "
-"workshop desde el juego"
+"Si está habilitado, descarga solo audio al suscribirse a elementos de la "
+"Workshop desde el navegador del taller del juego"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Maximum simultaneous media downloads"
@@ -1333,10 +1319,10 @@ msgid ""
 "later. Keep in mind the game already somewhat compensates for hardware delay "
 "(by, for example, already compensating for pulseaudio latency)."
 msgstr ""
-"Retardo aplicado a la sincronización de las notas, en milisegundos, los "
-"valores más altos significan que las notas entran más tarde. Ten en cuenta "
-"que el juego ya compensa parcialmente el retraso del hardware (por ejemplo, "
-"ya compensa la latencia de pulseaudio)."
+"Retraso aplicado a la sincronización de las notas; en milisegundos, los "
+"valores más altos significan que las notas llegan más tarde. Ten en cuenta "
+"que el juego ya compensa en cierta medida el retraso del hardware (por "
+"ejemplo, compensando la latencia de pulseaudio)."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show latency"
@@ -1370,22 +1356,22 @@ msgid ""
 msgstr ""
 "Permite que el juego acceda directamente a los joysticks del controlador, "
 "que se utilizan para hacer que las diapositivas y las notas del corazón sean "
-"más consistentes, solo disponible en los controladores marcados como "
-"conocidos"
+"más consistentes, solo disponible en controladores marcados como conocidos"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Analog filter factor"
-msgstr ""
+msgstr "Factor de filtro analógico"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid ""
 "Factor used when filtering analog inputs, higher means less filtering\n"
 "Note: This only works with direct joystick access."
 msgstr ""
+"Factor utilizado al filtrar entradas analógicas; más alto significa menos "
+"filtrado\n"
+" Nota: Esto solo funciona con acceso directo al joystick."
 
 #: menus/options_menu/OptionsMenu.gd
-#, fuzzy
-#| msgid "Analog deadzone"
 msgid "Analog slider angle deadzone"
 msgstr "Zona muerta analógica"
 
@@ -1394,6 +1380,8 @@ msgid ""
 "Angle used to define the angular deadzone of sliders\n"
 "Note: This only works with direct joystick access."
 msgstr ""
+"Ángulo utilizado para definir la zona muerta angular de los slides\n"
+" Nota: Esto solo funciona con acceso directo al joystick."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable vibration"
@@ -1412,8 +1400,8 @@ msgid ""
 "From 0 to 1, how much travel is required for the analog sticks (and other "
 "analog inputs) to be considered on/off."
 msgstr ""
-"De 0 a 1, cuánto recorrido se requiere para que los sticks analógicos (y "
-"otras entradas analógicas) se consideren activadas / no activadas."
+"De 0 a 1, cuánto recorrido se requiere para que las palancas analógicas (y "
+"otras entradas analógicas) se consideren activadas/desactivadas."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Controls"
@@ -1437,10 +1425,10 @@ msgid ""
 "lower latency and more smoothness but also higher CPU usage, this is just a "
 "target value, your OS might force a different value."
 msgstr ""
-"En milisegundos, qué tan grande debe ser el búfer de audio solicitado, más "
-"bajo significa una latencia más baja y más fluidez, pero también un mayor "
-"uso de la CPU, este es solo un valor objetivo, el sistema operativo puede "
-"forzar un valor diferente."
+"En milisegundos, qué tan grande debe ser el búfer de audio solicitado, menor "
+"significa menor latencia y más fluidez, pero también mayor uso de la CPU. "
+"Este es solo un valor objetivo, su sistema operativo podría forzar un valor "
+"diferente."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Play hit sounds only when a note is hit"
@@ -1451,8 +1439,8 @@ msgid ""
 "Makes note hit sounds only get emitted when a note is actually hit, disables "
 "\"empty\" button press sounds."
 msgstr ""
-"Hace que los sonidos de pulsación de nota solo se emitan cuando se acierta, "
-"desactiva los sonidos de pulsación de botón \"vacíos\"."
+"Hace que los sonidos de las notas solo se emitan cuando realmente se toca "
+"una nota, desactiva los sonidos de pulsación de botón \\\"vacío\\\"."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Master volume"
@@ -1509,8 +1497,8 @@ msgid ""
 "Whether or not the game should use all the available screen, this should "
 "have no difference in performance, except on Windows."
 msgstr ""
-"Hace que el juego utilice toda la pantalla disponible, esto no debería tener "
-"ninguna diferencia en el rendimiento, excepto en Windows."
+"Ya sea que el juego use o no toda la pantalla disponible, esto no debería "
+"tener ninguna diferencia en el rendimiento, excepto en Windows."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Borderless fullscreen"
@@ -1546,7 +1534,7 @@ msgid ""
 "tearing but will introduce extra input lag."
 msgstr ""
 "Espera la sincronización vertical para renderizar el fotograma, puede "
-"reducir el desgarro de pantalla pero introducirá un retraso de entrada "
+"reducir el desgarro de la pantalla pero introducirá un retraso de entrada "
 "adicional."
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1558,8 +1546,8 @@ msgid ""
 "Disables video playback and download, might yield more performance on some "
 "systems."
 msgstr ""
-"Desactiva la reproducción y descarga de video, puede aumentar el rendimiento "
-"en algunos sistemas."
+"Desactiva la reproducción y descarga de videos; puede generar más "
+"rendimiento en algunos sistemas."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disable Video for PPD songs"
@@ -1570,8 +1558,8 @@ msgid ""
 "Disables video playback and download for PPD songs, might yield more "
 "performance on some systems."
 msgstr ""
-"Deshabilita la reproducción y descarga de video para canciones de PPD, puede "
-"aumentar el rendimiento en algunos sistemas."
+"Desactiva la reproducción y descarga de videos de canciones PPD, lo que "
+"puede resultar en un mayor rendimiento en algunos sistemas."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Desired Video FPS"
@@ -1591,8 +1579,8 @@ msgid ""
 "you requested is not available the next smallest resolution will be used "
 "instead."
 msgstr ""
-"La resolución de video deseada para los videos descargados, si la resolución "
-"exacta que se solicitó no está disponible, se usará la siguiente resolución "
+"La resolución de video deseada para los videos descargados; si la resolución "
+"exacta que solicitó no está disponible, se utilizará la siguiente resolución "
 "más pequeña."
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1612,8 +1600,9 @@ msgid ""
 "Built-in audio visualization effects, disabling this setting might yield a "
 "considerable performance boost on more modest systems."
 msgstr ""
-"Efectos de visualización de audio, deshabilitar esta configuración puede "
-"producir un aumento considerable del rendimiento en sistemas más modestos."
+"Efectos de visualización de audio integrados; deshabilitar esta "
+"configuración podría resultar en un aumento considerable del rendimiento en "
+"sistemas más modestos."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Visualizer Resolution"
@@ -1625,7 +1614,7 @@ msgid ""
 "setting might yield a considerable performance boost on more modest systems."
 msgstr ""
 "Cuántos puntos de datos utilizan los efectos de visualización de audio, "
-"reducir esta configuración puede producir un aumento considerable del "
+"reducir esta configuración podría resultar en un aumento considerable del "
 "rendimiento en sistemas más modestos."
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1637,7 +1626,7 @@ msgid ""
 "Limits the framerate, this might be useful to limit battery consumption on "
 "portable systems."
 msgstr ""
-"Limita la velocidad de fotogramas, esto puede resultar útil para limitar el "
+"Limita la velocidad de fotogramas, esto podría resultar útil para limitar el "
 "consumo de batería en sistemas portátiles."
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1664,8 +1653,8 @@ msgid ""
 "For color-blindness, remaps colors on the screen with others, it's an "
 "imperfect solution but it might be useful."
 msgstr ""
-"Para el daltonismo, reasigna colores en la pantalla con otros, es una "
-"solución imperfecta pero podría ser útil."
+"Para el daltonismo, reasigna los colores de la pantalla con otros, es una "
+"solución imperfecta pero podría resultar útil."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable lyrics"
@@ -1752,8 +1741,8 @@ msgid ""
 "Dims the background, a higher percentage will make it darker, note this also "
 "includes video background."
 msgstr ""
-"Atenúa el fondo, un porcentaje más alto lo hará más oscuro, ten en cuenta "
-"que esto también incluye los videos de fondo."
+"Atenúa el fondo; un porcentaje mayor lo oscurecerá; tenga en cuenta que esto "
+"también incluye el fondo del video."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable multi note indicator"
@@ -1776,8 +1765,8 @@ msgid ""
 "Enables using clock arms instead of circles to show you when it's time to "
 "press a note."
 msgstr ""
-"Habilita el uso de brazos de reloj en lugar de círculos para mostrar cuándo "
-"es el momento de presionar una nota."
+"Utiliza brazos de reloj en lugar de círculos para mostrar cuándo es el "
+"momento de presionar una nota."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable leading lines"
@@ -1796,8 +1785,8 @@ msgid ""
 "Replaces all instances of the left icon of the selected icon pack with a "
 "left arrow."
 msgstr ""
-"Reemplaza todas las instancias del ícono de la izquierda del paquete de "
-"íconos seleccionado con una flecha hacia la izquierda."
+"Reemplaza todas las instancias del ícono izquierdo del paquete de íconos "
+"seleccionado con una flecha hacia la izquierda."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of right icon"
@@ -1808,7 +1797,7 @@ msgid ""
 "Replaces all instances of the right icon of the selected icon pack with a "
 "right arrow."
 msgstr ""
-"Reemplaza todas las instancias del ícono de la derecha del paquete de íconos "
+"Reemplaza todas las instancias del ícono derecho del paquete de íconos "
 "seleccionado con una flecha hacia la derecha."
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1862,12 +1851,12 @@ msgid ""
 "Show the full name of the rating on the song list (Doesn't apply for a CHEAP "
 "rating)."
 msgstr ""
-"Muestra el nombre completo de la clasificación en la lista de canciones (no "
-"aplica para una clasificación CHEAP)."
+"Muestra el nombre completo de la calificación en la lista de canciones (No "
+"aplica para calificación CHEAP)."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Res. Packs"
-msgstr "Paq. de Rec."
+msgstr "Paq. de Rec"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Credits"
@@ -1875,20 +1864,20 @@ msgstr "Creditos"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "{sound_pretty_name} sound"
-msgstr ""
+msgstr "sonido de {sound_pretty_name}"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid ""
 "Sound to use. (Place custom sounds inside the custom_sounds folder in your "
 "user folder, only 16-bit WAV files are supported)"
 msgstr ""
-"Sonido a usar. (Coloque sonidos personalizados dentro de la carpeta "
-"custom_sounds en su carpeta de usuario, solo se admiten archivos WAV de 16 "
+"Sonido a utilizar. (Coloca tus sonidos personalizados dentro de la carpeta "
+"custom_sounds en la carpeta de usuario, solo se admiten archivos WAV de 16 "
 "bits)"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "{sound_pretty_name} sound volume"
-msgstr ""
+msgstr "{sound_pretty_name} volumen del sonido"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for this sound effect"
@@ -1935,6 +1924,18 @@ msgid ""
 "legally purchased content, in a similar vein to how the same MP3 file can be "
 "played in different MP3 players."
 msgstr ""
+"\n"
+"orte DESCARGO DE RESPONSABILIDAD\n"
+" \n"
+"orte Project DIVA MegaMix+, Project DIVA y otras marcas comerciales "
+"similares son propiedad de SEGA, Crypton Future media y otros.\n"
+" \n"
+"orte Project Heartbeat no fomenta la piratería, ya que para cargar datos de "
+"Project DIVA MegaMix+ es necesario ser propietario del juego, lo cual se "
+"verifica a través de la API de Steamworks.\n"
+" Project Heartbeat es simplemente otro motor en el que el usuario puede "
+"reproducir su contenido comprado legalmente, de forma similar a cómo se "
+"puede reproducir el mismo archivo MP3 en diferentes reproductores MP3."
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
@@ -1970,8 +1971,8 @@ msgid ""
 "Selecting a new content directory requires using the mouse, would you like "
 "to continue?"
 msgstr ""
-"La selección de un nuevo directorio de contenido requiere el uso del mouse, "
-"¿te gustaría continuar?"
+"Para seleccionar un nuevo directorio de contenido es necesario utilizar el "
+"ratón. ¿Quieres continuar?"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Are you sure you want to reset the content directory to the default?"
@@ -2015,9 +2016,9 @@ msgid ""
 "%s"
 msgstr ""
 "Veces jugada: %d\n"
-"\n"
-"Puntuación más alta:\n"
-"%s"
+" \n"
+" Puntuación más alta:\n"
+" %s"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
@@ -2062,8 +2063,6 @@ msgstr "Cambiar la URL del video de PPD"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
-#, fuzzy
-#| msgid "Clean unused song media"
 msgid "Delete song media"
 msgstr "Limpiar los medios de canciones no utilizados"
 
@@ -2077,8 +2076,8 @@ msgid ""
 "Are you sure you want to change this song's video URL? this requires you use "
 "the mouse."
 msgstr ""
-"¿Estás seguro de que deseas cambiar la URL del video de esta canción? esto "
-"requiere que uses el mouse."
+"¿Estás seguro de que quieres cambiar la URL del vídeo de esta canción? esto "
+"requiere que uses el ratón."
 
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Are you sure you want to delete this song's media?"
@@ -2166,9 +2165,9 @@ msgid ""
 "you like to select one (from disk or YouTube)? This will require yo to use "
 "the mouse."
 msgstr ""
-"La canción que has seleccionado es una canción de PPD sin un archivo de "
-"audio existente, ¿te gustaría seleccionar una (del disco o de YouTube)? Esto "
-"requerirá que uses el mouse."
+"La canción que seleccionó es una canción de PPD sin un archivo de audio "
+"existente. ¿Te gustaría seleccionar uno (del disco o de YouTube)? Esto "
+"requerirá que uses el ratón."
 
 #: menus/song_list/SongList.tscn
 msgid "Sort & filter settings"
@@ -2220,7 +2219,7 @@ msgstr "Comprobador de latencia"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "DJA Debug"
-msgstr ""
+msgstr "DJA Debug"
 
 #: menus/tutorial/page1/page1.tscn
 msgid "How to play: Normal notes"
@@ -2235,12 +2234,12 @@ msgid ""
 "\n"
 "(All key bindings can be changed in the options)"
 msgstr ""
-"Toque notas normales presionando el botón correspondiente o la dirección del "
-"d-pad cuando pasen por encima del objetivo\n"
-"\n"
-"¡El d-pad y los botones son intercambiables!\n"
-"\n"
-"(Todas las combinaciones de teclas se pueden cambiar en las opciones)"
+"Toca notas normales presionando el botón correspondiente o la dirección del "
+"pad direccional cuando pasan por encima de su objetivo\n"
+" \n"
+"orte ¡El pad direccional y los botones son intercambiables!\n"
+" \n"
+" (Todas las combinaciones de teclas se pueden cambiar en las opciones)"
 
 #: menus/tutorial/page1/page1.tscn
 msgid "You can hit slide notes using the analog sticks on your controler."
@@ -2262,16 +2261,16 @@ msgid ""
 "Multi notes are denoted by being red in color."
 msgstr ""
 "Presionar multis requiere que presiones diferentes notas al mismo tiempo.\n"
-"\n"
-"Las notas múltiples se indican por ser de color rojo."
+" \n"
+" Las notas múltiples se indican por ser de color rojo."
 
 #: menus/tutorial/page3/page3.tscn
 msgid ""
 "Multi slides also exist and might require you press the same direction on "
 "the two analog sticks."
 msgstr ""
-"También existen slides múltiples y pueden requerir que presiones la misma "
-"dirección en los dos joysticks analógicos."
+"También existen slides multiples y es posible que requieras presionar en la "
+"misma dirección en los dos joysticks analógicos."
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Slide chains and hold notes"
@@ -2283,9 +2282,9 @@ msgid ""
 "will progressively become blue, if the slide is fully blue you can let go of "
 "it."
 msgstr ""
-"Las cadenas de slides son slides que se pueden sostener para obtener puntos "
-"extra. Las cadenas de slides se volverán azules progresivamente, si la "
-"cadena es completamente azul, puedes soltarla."
+"Las cadenas de slides son slides que puedes sostener para obtener puntos "
+"adicionales. Las cadenas de slides se volverán azules progresivamente; si la "
+"cadena está completamente azul, podrás soltarla."
 
 #: menus/tutorial/page4/Page4.tscn
 msgid ""
@@ -2293,9 +2292,9 @@ msgid ""
 "hit them,, if you manage to hold them for long enough you'll get a nice "
 "bonus!"
 msgstr ""
-"Las notas hold son notas que te dan puntos extra si las retienes después de "
-"pulsarlas; si consigues retenerlas el tiempo suficiente, ¡obtendrás una "
-"buena bonificación!"
+"Las notas hold son notas que te dan puntos extra si las mantienes después de "
+"tocarlas. Si logras mantenerlas el tiempo suficiente, ¡obtendrás una buena "
+"bonificación!"
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "Double and sustain notes"
@@ -2308,24 +2307,25 @@ msgid ""
 "the d-pad at the same time."
 msgstr ""
 "Las notas dobles son notas que requieren que presiones la misma dirección en "
-"dos botones diferentes, por ejemplo, presionando el botón B/Circulo y la "
-"derecha en el pad direccional al mismo tiempo."
+"dos botones diferentes, por ejemplo, presionando el botón B/Círculo y hacia "
+"la derecha en el pad direccional al mismo tiempo."
 
 #: menus/tutorial/page5/Page5.tscn
 msgid ""
 "In order to hit sustain notes press the note when the first mark hits the "
 "target and release when the second one does."
 msgstr ""
-"Para tocar notas sostenidas, presione la nota cuando la primera marca golpee "
-"el objetivo y suéltala cuando lo haga la segunda."
+"Para tocar notas sostenidas, presione la nota cuando la primera marca llegue "
+"al objetivo y suéltala cuando lo haga la segunda."
 
 #: menus/tutorial/page6/Page6.tscn
 msgid ""
 "Heart notes are notes that can be hit by tapping any direction on the "
 "joystick or hitting any slide button, double hearts also exist."
 msgstr ""
-"Las notas de corazón son notas que se pueden presionar tocando en cualquier "
-"dirección en el joystick, también existen corazones dobles."
+"Las notas de corazón son notas que se pueden tocar tocando cualquier "
+"dirección del joystick o presionando cualquier botón de slide; también "
+"existen corazones dobles."
 
 #: menus/tutorial/pagefinal/page_final.tscn
 msgid "That's all you need to know to play project heartbeat, have fun!"
@@ -2377,25 +2377,26 @@ msgid ""
 "\n"
 "waiting for song to be downloaded automatically by their game..."
 msgstr ""
+"\n"
+" esperando que su juego descargue la canción automáticamente..."
 
 #: multiplayer/lobby/LobbyMenu.tscn
-#, fuzzy
-#| msgid "Downloading song data..."
 msgid "Downloading song..."
 msgstr "Descargando datos de canción..."
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "ERROR STARTING GAME: Error downloading workshop song."
 msgstr ""
+"ERROR AL INICIAR EL JUEGO: Error al descargar la canción de la Workshop."
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid ""
 "ERROR STARTING GAME: You don't seem to have the currently selected song."
 msgstr ""
+"ERROR AL INICIAR EL JUEGO: Parece que no tienes la canción seleccionada "
+"actualmente."
 
 #: multiplayer/lobby/LobbyMenu.tscn
-#, fuzzy
-#| msgid "Downloading song data..."
 msgid "Downloading song media..."
 msgstr "Descargando datos de canción..."
 
@@ -2404,6 +2405,9 @@ msgid ""
 "ERROR STARTING GAME: You don't seem to have the video/audio for the song "
 "currently selected, please return to the free play song list and download it."
 msgstr ""
+"ERROR AL INICIAR EL JUEGO: Parece que no tienes el video/audio de la canción "
+"actualmente seleccionada, regresa a la lista de canciones de juego libre y "
+"descárgalo."
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Select Song..."
@@ -2454,16 +2458,12 @@ msgid "Graph"
 msgstr "Grafico"
 
 #: rythm_game/ResultsScreen.gd rythm_game/ResultsScreen.tscn
-#, fuzzy
-#| msgid "Results"
 msgid "results"
-msgstr "Resultados"
+msgstr "resultados"
 
 #: rythm_game/ResultsScreen.gd rythm_game/ResultsScreen.tscn
-#, fuzzy
-#| msgid "Graph"
 msgid "graph"
-msgstr "Grafico"
+msgstr "grafico"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Retry"
@@ -2548,20 +2548,20 @@ msgid "Quit"
 msgstr "Salir"
 
 #: rythm_game/practice_mode.tscn
-#, fuzzy
-#| msgid "Next section"
 msgid "No section"
 msgstr "Siguiente sección"
 
 #: rythm_game/practice_mode.tscn
 msgid "Game info:\n"
-msgstr ""
+msgstr "Información del juego:\n"
 
 #: rythm_game/practice_mode.tscn
 msgid ""
 "\n"
 "Accuracy:\n"
 msgstr ""
+"\n"
+"orte Precisión:\n"
 
 #: rythm_game/practice_mode.tscn
 msgid "Previous mode"
@@ -2617,7 +2617,7 @@ msgstr "NOTAS TOTALES"
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "COMBO"
-msgstr ""
+msgstr "COMBO"
 
 #: rythm_game/rhythm_game_controller.tscn
 msgid "Rolling back!"
@@ -2626,209 +2626,3 @@ msgstr "¡Retrocediendo!"
 #: rythm_game/rhythm_game_multiplayer.tscn
 msgid "Waiting for other players to load!"
 msgstr "¡Esperando a que otros jugadores carguen!"
-
-#, python-format
-#~ msgid " at %s/s"
-#~ msgstr " a %s/s"
-
-#, python-format
-#~ msgid "Couldn't load game data from %s"
-#~ msgstr "No se pudieron cargas los datos del juego desde %s"
-
-#, python-format
-#~ msgid "Song ID %s's (%s) difficulty %s did not have a DSC script path"
-#~ msgstr ""
-#~ "El ID de canción %s (%s) en la dificultad %s no tiene una ruta de mapa DSC"
-
-#, python-format
-#~ msgid "Couldn't find audio data for song ID %s (%s)"
-#~ msgstr ""
-#~ "No se pudieron encontrar datos de audio para el ID de canción %s (%s)"
-
-#, python-format
-#~ msgid "PVDB does not exist (%s)"
-#~ msgstr "PVDB no existe (%s)"
-
-#, python-format
-#~ msgid "Song ID %s's audio path (%s) did not exist"
-#~ msgstr "La ruta de audio de la ID de canción %s (%s) no existe"
-
-#~ msgid "Player"
-#~ msgstr "Jugador"
-
-#~ msgid "Level 1"
-#~ msgstr "Nivel 1"
-
-#~ msgid "Welcome to Project Heartbeat"
-#~ msgstr "Bienvenido a Project Heartbeat"
-
-#~ msgid " (known)"
-#~ msgstr " (conocido)"
-
-#, python-format
-#~ msgid "%s sound"
-#~ msgstr "Sonido de %s"
-
-#, python-format
-#~ msgid "%s sound volume"
-#~ msgstr "Volumen del sonido %s"
-
-#, python-format
-#~ msgid "There was an issue loading MM+: %s"
-#~ msgstr "Hubo un problema al cargar MM+: %s"
-
-#, python-format
-#~ msgid "%d fatal errors were found:"
-#~ msgstr "Se encontraron %d errores fatales:"
-
-#, python-format
-#~ msgid "%d non-fatal errors were found:"
-#~ msgstr "Se encontraron %d errores no fatales:"
-
-#, python-format
-#~ msgid "Search: \"%s\""
-#~ msgstr "Busqueda: \"%s\""
-
-#~ msgid "Switch Exporter"
-#~ msgstr "Exportador de Switch"
-
-#~ msgid "Enter your search:"
-#~ msgstr "Introduce tu búsqueda:"
-
-#, python-format
-#~ msgid ""
-#~ "There was an issue uploading your score:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ha ocurrido un problema subiendo tu puntuación:\n"
-#~ "%s"
-
-#~ msgid "Written by: "
-#~ msgstr "Escrito por: "
-
-#~ msgid "Vocals by: "
-#~ msgstr "Vocales por: "
-
-#~ msgid "Composed by: "
-#~ msgstr "Compuesto por: "
-
-#, python-format
-#~ msgid "Chart by: %s"
-#~ msgstr "Mapa por:%s"
-
-#~ msgid "Press "
-#~ msgstr "Pulsa "
-
-#~ msgid "to skip the intro"
-#~ msgstr "para omitir la introducción"
-
-#~ msgid "Enable autoplay"
-#~ msgstr "Habilitar reproducción automática"
-
-#~ msgid "Filter by:"
-#~ msgstr "Filtrar por:"
-
-#~ msgid "Load all notes when song starts"
-#~ msgstr "Cargar todas las notas cuando comience la canción"
-
-#~ msgid ""
-#~ "Makes the game pre-generate all notes before the song starts playing, "
-#~ "this increases loadtimes but will increase performance once loaded."
-#~ msgstr ""
-#~ "Hace que el juego genere previamente todas las notas antes de que la "
-#~ "canción comience, esto aumenta los tiempos de carga pero aumentará el "
-#~ "rendimiento una vez cargada."
-
-#~ msgid "by"
-#~ msgstr "por"
-
-#~ msgid "Load Song..."
-#~ msgstr "Cargar canción ..."
-
-#~ msgid "Toggle override notes with selected pack"
-#~ msgstr "Usar notas del paquete seleccionado"
-
-#~ msgid "Timing method"
-#~ msgstr "Método de sincronización"
-
-#~ msgid ""
-#~ "Selects the timing method to use, using the system clock is the "
-#~ "recommended option for most people, use the alternatives only if you are "
-#~ "having issues."
-#~ msgstr ""
-#~ "Selecciona el método de sincronización a usar, usar el reloj del sistema "
-#~ "es la opción recomendad para la mayoría de gente, utiliza las "
-#~ "alternativas unicamente si tienes problemas."
-
-#~ msgid "Resource Packs"
-#~ msgstr "Paq. de Recursos"
-
-#~ msgid "Shows the engine console."
-#~ msgstr "Muestra la consola del motor."
-
-#~ msgid "Poll for input more than once per frame"
-#~ msgstr "Lectura de entrada más de una vez por fotograma"
-
-#~ msgid ""
-#~ "If this is enabled the game polls for input more than once per frame, it "
-#~ "can reduce input lag but it will increase CPU usage."
-#~ msgstr ""
-#~ "Si esto está habilitado, el juego lee la entrada más de una vez por "
-#~ "fotograma, puede reducir el retraso de entrada, pero aumentará el uso de "
-#~ "la CPU."
-
-#~ msgid "The desired video resolution for downloaded videos."
-#~ msgstr "La resolución de video deseada para videos descargados."
-
-#, python-format
-#~ msgid "Level %d"
-#~ msgstr "Nivel %d"
-
-#~ msgid "Happy birthday %s!"
-#~ msgstr "¡Feliz cumpleaños %s!"
-
-#~ msgid "HeartbeatNET: Connected (%s)"
-#~ msgstr "HeartbeatNET: Conectado (%s)"
-
-#~ msgid ""
-#~ "Allows loading of textures from multiple threads, this might cause "
-#~ "crashes to happen randomly on some systems."
-#~ msgstr ""
-#~ "Permite cargar texturas desde múltiples hilos, esto puede causar bloqueos "
-#~ "aleatorios en algunos sistemas"
-
-#~ msgid "Alright"
-#~ msgstr "Bien"
-
-#~ msgid "Enable multi-threaded texture loading"
-#~ msgstr "Activar carga de texturas multi-hilo"
-
-#~ msgid "Icons"
-#~ msgstr "Iconos"
-
-#~ msgid "Leaderboard (Modifiers)"
-#~ msgstr "Tabla de clasificación (Modificadores)"
-
-#~ msgid "Switches between available Icon-Sets."
-#~ msgstr "Cambia entre los conjuntos de iconos disponibles."
-
-#~ msgid "Most Popular this week"
-#~ msgstr "Mas popular esta semana"
-
-#~ msgid "Most Recent"
-#~ msgstr "Mas reciente"
-
-#~ msgid "Gained %d experience points!"
-#~ msgstr "¡Has ganado %d puntos de experiencia!"
-
-#~ msgid "No points were granted!"
-#~ msgstr "¡No se otorgaron puntos!"
-
-#~ msgid "SCORE"
-#~ msgstr "PUNTUACIÓN"
-
-#~ msgid "Seek Back"
-#~ msgstr "Ir hacia atrás"
-
-#~ msgid "Seek Forward"
-#~ msgstr "Ir hacia adelante"

@@ -1,13 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://d4hc2q6cbgae"]
+[gd_scene load_steps=6 format=3 uid="uid://d4hc2q6cbgae"]
 
 [ext_resource type="Texture2D" uid="uid://cs0udkbeyyhkv" path="res://graphics/icons/undo-variant.svg" id="1"]
-[ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="2"]
 [ext_resource type="StyleBox" path="res://styles/SongListItemHover.tres" id="3"]
 [ext_resource type="StyleBox" path="res://styles/SongListItemNormal.tres" id="4"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="4_6fm3q"]
 [ext_resource type="Script" path="res://menus/song_list/SongListFolderBack.gd" id="5"]
-
-[sub_resource type="Theme" id="2"]
-default_font = ExtResource("2")
 
 [node name="Control" type="Control"]
 use_parent_material = true
@@ -78,7 +75,7 @@ use_parent_material = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-theme = SubResource("2")
+theme_override_fonts/font = ExtResource("4_6fm3q")
 text = "Go back"
 vertical_alignment = 1
 

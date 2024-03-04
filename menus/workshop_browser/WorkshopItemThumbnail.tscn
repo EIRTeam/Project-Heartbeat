@@ -1,16 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://cvopeb3crui87"]
+[gd_scene load_steps=10 format=3 uid="uid://cvopeb3crui87"]
 
 [ext_resource type="Script" path="res://menus/workshop_browser/WorkshopItemThumbnail.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://d2jm1b1wu37iv" path="res://fonts/NotoSansJP-Black.otf" id="2"]
-[ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="3"]
-[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="4"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="5"]
 [ext_resource type="Texture2D" uid="uid://cakqpc84jlapb" path="res://graphics/icons/check-circle.svg" id="6"]
 [ext_resource type="Texture2D" uid="uid://6phu22pv2pdj" path="res://graphics/icons/5-star.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://7g6fr4u55qd8" path="res://graphics/icons/0-star.png" id="8"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="9"]
 [ext_resource type="Texture2D" uid="uid://cqsegv1wyr5o7" path="res://graphics/icons/menu_star.png" id="10"]
-[ext_resource type="FontFile" uid="uid://bhvxjn5pyyk55" path="res://fonts/orbitron-bold.otf" id="11"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 7.0
@@ -50,74 +45,6 @@ void fragment() {
 shader = SubResource("3")
 shader_parameter/radius = 2.0
 
-[sub_resource type="FontFile" id="2"]
-fallbacks = Array[Font]([ExtResource("3"), ExtResource("2")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="FontFile" id="7"]
-fallbacks = Array[Font]([ExtResource("3"), ExtResource("2")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="FontFile" id="6"]
-fallbacks = Array[Font]([ExtResource("4"), ExtResource("9")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="FontFile" id="5"]
-fallbacks = Array[Font]([ExtResource("11"), ExtResource("9")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
 [node name="Control" type="Button"]
 use_parent_material = true
 custom_minimum_size = Vector2(0, 100)
@@ -127,8 +54,8 @@ anchor_bottom = 1.0
 offset_bottom = -980.0
 size_flags_horizontal = 3
 focus_mode = 0
-theme_override_styles/normal = ExtResource("5")
 theme_override_styles/hover = SubResource("1")
+theme_override_styles/normal = ExtResource("5")
 script = ExtResource("1")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -210,7 +137,6 @@ use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
-theme_override_fonts/font = SubResource("2")
 text = "ds"
 
 [node name="RomanizedTitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label"]
@@ -220,7 +146,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = SubResource("7")
 text = "asdadsadsadada"
 vertical_alignment = 2
 clip_text = true
@@ -230,7 +155,6 @@ use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
-theme_override_fonts/font = SubResource("6")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 use_parent_material = true
@@ -261,7 +185,6 @@ stretch_mode = 6
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/Panel3/HBoxContainer"]
 use_parent_material = true
 layout_mode = 2
-theme_override_fonts/font = SubResource("5")
 text = "x10-x10"
 horizontal_alignment = 2
 

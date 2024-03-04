@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://domwopqlk14pp"]
 
-[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
-[ext_resource type="Script" uid="uid://btjtkniphugcg" path="res://menus/options_menu/OptionControlsSectionEvent.gd" id="2"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
+[ext_resource type="Script" path="res://menus/options_menu/OptionControlsSectionEvent.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://bxhrte7i7snxo" path="res://graphics/icons/icon_remove.svg" id="3_1b50h"]
 
 [node name="Control" type="Panel"]

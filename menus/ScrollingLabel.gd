@@ -1,8 +1,8 @@
 extends Control
 
 
-@export var font_1: FontFile
-@export var font_2: FontFile
+@export var font_1: Font
+@export var font_2: Font
 
 @export var text_1: String = "asd": set = set_text_1
 @export var text_2: String = "asd": set = set_text_2

@@ -1,26 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://goudcfvpe5jy"]
+[gd_scene load_steps=3 format=3 uid="uid://goudcfvpe5jy"]
 
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="1"]
-[ext_resource type="FontFile" path="res://fonts/Default_Font_smoler.tres" id="2"]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="2_52mxr"]
 [ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/ContentDirControl.gd" id="3"]
-[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="4"]
-
-[sub_resource type="FontFile" id="1"]
-fallbacks = Array[Font]([ExtResource("4"), ExtResource("1")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Control3" type="Panel"]
 custom_minimum_size = Vector2(0, 64)
@@ -40,7 +21,7 @@ theme_override_constants/separation = 52
 [node name="Label2" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = SubResource("1")
+theme_override_fonts/font = ExtResource("2_52mxr")
 text = "Content directory"
 vertical_alignment = 1
 
@@ -48,7 +29,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource("2")
+theme_override_fonts/font = ExtResource("2_52mxr")
 text = "Content "
 vertical_alignment = 1
 text_overrun_behavior = 4
@@ -63,7 +44,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Panel"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2")
+theme_override_fonts/font = ExtResource("2_52mxr")
 text = "Change"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ugik7k8g2kon"]
 
-[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionControlsSectionReset.gd" id="2"]
 
 [node name="Control" type="Panel"]

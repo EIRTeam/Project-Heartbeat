@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bth6nkx5rjn86"]
+[gd_scene load_steps=13 format=3 uid="uid://bth6nkx5rjn86"]
 
 [ext_resource type="Script" path="res://menus/LoadingScreen.gd" id="1"]
-[ext_resource type="FontFile" path="res://fonts/new_fonts/Comforta.tres" id="2"]
+[ext_resource type="FontVariation" uid="uid://cdj3wvnplto5x" path="res://fonts/new_fonts/Comforta.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://dyst4sw87pyjr" path="res://graphics/loadingu_bg.png" id="4"]
-[ext_resource type="FontFile" path="res://fonts/new_fonts/roboto_regular_25.tres" id="5"]
-[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="6"]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="5_y3pgt"]
 [ext_resource type="Texture2D" uid="uid://vhdytfcvo7jj" path="res://graphics/Warning sign.svg" id="7"]
 [ext_resource type="PackedScene" uid="uid://c02nw4pxhmcab" path="res://menus/PreGameChartFeaturesDisplay.tscn" id="8"]
 
@@ -105,7 +104,6 @@ theme_override_constants/separation = 0
 [node name="TitleLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 5
-theme_override_fonts/font = ExtResource("5")
 text = "Title"
 
 [node name="HSeparator" type="HSeparator" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -114,7 +112,7 @@ layout_mode = 2
 [node name="MetaLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource("5")
+theme_override_fonts/font = ExtResource("5_y3pgt")
 vertical_alignment = 2
 
 [node name="Control" type="Control" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
@@ -184,7 +182,6 @@ stretch_mode = 6
 
 [node name="Label" type="Label" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("6")
 text = "This chart's video contains scenes with rapidly flashing colours.
 Please take caution if you are affected by epilepsy."
 horizontal_alignment = 1

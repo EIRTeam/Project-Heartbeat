@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bk36n81tgbx1g"]
+[gd_scene load_steps=4 format=3 uid="uid://bk36n81tgbx1g"]
 
-[ext_resource type="FontFile" path="res://fonts/SongLabelAuthor.tres" id="2"]
 [ext_resource type="Script" path="res://menus/SongTitle.gd" id="3"]
-[ext_resource type="FontVariation" uid="uid://douevr81666aa" path="res://fonts/song_label.tres" id="3_8n0hl"]
-[ext_resource type="FontVariation" uid="uid://3jn6llwvpc71" path="res://fonts/song_label_author.tres" id="4_pr31k"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3_hm66h"]
+[ext_resource type="FontVariation" uid="uid://nyc27vir054y" path="res://fonts/default_font_bold.tres" id="4_oh0tk"]
 
 [node name="SongTitle" type="HBoxContainer"]
 use_parent_material = true
@@ -20,7 +19,7 @@ layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
 auto_translate = false
-theme_override_fonts/font = ExtResource("2")
+theme_override_fonts/font = ExtResource("4_oh0tk")
 text = "(NT)[EXTREME]"
 horizontal_alignment = 3
 vertical_alignment = 1
@@ -32,7 +31,7 @@ use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 7
 auto_translate = false
-theme_override_fonts/font = ExtResource("3_8n0hl")
+theme_override_fonts/font = ExtResource("3_hm66h")
 text = "(NT)Song Title"
 vertical_alignment = 1
 
@@ -43,7 +42,7 @@ layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
 auto_translate = false
-theme_override_fonts/font = ExtResource("4_pr31k")
+theme_override_fonts/font = ExtResource("4_oh0tk")
 text = "(NT)Ken asdsad"
 horizontal_alignment = 3
 vertical_alignment = 1

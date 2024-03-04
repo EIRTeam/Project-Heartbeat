@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource path="res://menus/HBMenuChangeButton.gd" type="Script" id=1]
-[ext_resource path="res://fonts/ThinButton.tres" type="FontFile" id=2]
-[ext_resource path="res://styles/NewButtonStyleHover.tres" type="StyleBox" id=3]
-[ext_resource path="res://styles/NewButtonStyle.tres" type="StyleBox" id=5]
+[ext_resource type="Script" path="res://menus/HBMenuChangeButton.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2"]
+[ext_resource type="StyleBox" path="res://styles/NewButtonStyleHover.tres" id="3"]
+[ext_resource type="StyleBox" uid="uid://buch37hpi8m2q" path="res://styles/NewButtonStyle.tres" id="5"]
 
 [node name="StartButton" type="Button"]
 offset_left = 9.0

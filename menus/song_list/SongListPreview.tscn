@@ -1,47 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://lkkru7no1ko1"]
+[gd_scene load_steps=6 format=3 uid="uid://lkkru7no1ko1"]
 
-[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="1"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2"]
-[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="3"]
-[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="4"]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="2_c1g4p"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2_g2q8y"]
 [ext_resource type="Script" path="res://menus/song_list/SongListPreview.gd" id="8"]
-[ext_resource type="FontFile" uid="uid://d2jm1b1wu37iv" path="res://fonts/NotoSansJP-Black.otf" id="9"]
-[ext_resource type="FontFile" path="res://fonts/Default_Font_thin.tres" id="10"]
-[ext_resource type="FontFile" path="res://fonts/SongLabelIngame.tres" id="11"]
-
-[sub_resource type="FontFile" id="1"]
-fallbacks = Array[Font]([ExtResource("4"), ExtResource("9")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="FontFile" id="2"]
-fallbacks = Array[Font]([ExtResource("1"), ExtResource("2")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [sub_resource type="StyleBoxFlat" id="3"]
 content_margin_left = 25.0
@@ -75,40 +36,6 @@ corner_detail = 20
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="FontFile" id="5"]
-fallbacks = Array[Font]([ExtResource("3"), ExtResource("2")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="FontFile" id="6"]
-fallbacks = Array[Font]([ExtResource("3"), ExtResource("2")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
 [node name="Panel" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -139,7 +66,8 @@ theme_override_constants/separation = 12
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5
-theme_override_fonts/font = SubResource("1")
+theme_override_fonts/font = ExtResource("2_g2q8y")
+theme_override_font_sizes/font_size = 45
 text = "(NT)THE TOP"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -150,7 +78,7 @@ max_lines_visible = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme_override_fonts/font = SubResource("2")
+theme_override_fonts/font = ExtResource("2_c1g4p")
 text = "(NT)Original title: "
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -161,13 +89,13 @@ alignment = 1
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("10")
+theme_override_fonts/font = ExtResource("2_c1g4p")
 text = "by"
 horizontal_alignment = 1
 
 [node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("11")
+theme_override_fonts/font = ExtResource("2_g2q8y")
 text = "(NT)DRAGONFORCE"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -248,7 +176,6 @@ alignment = 1
 [node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = SubResource("5")
 text = "(NT)160 BPM"
 horizontal_alignment = 1
 autowrap_mode = 3
@@ -256,6 +183,7 @@ autowrap_mode = 3
 [node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = SubResource("6")
+theme_override_fonts/font = ExtResource("2_c1g4p")
+text = "sadsadsadsad"
 horizontal_alignment = 1
 autowrap_mode = 3

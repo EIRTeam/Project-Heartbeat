@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://daul3fw7ohk30"]
 
-[ext_resource type="FontFile" path="res://fonts/Default_Font_smoler.tres" id="1"]
-[ext_resource type="FontFile" path="res://fonts/Rating_Font.tres" id="2"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_medium.tres" id="1"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="3"]
 
 [node name="MarginContainer" type="MarginContainer"]

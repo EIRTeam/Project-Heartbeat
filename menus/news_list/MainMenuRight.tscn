@@ -1,31 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://be7tuc1i6yq5b"]
+[gd_scene load_steps=12 format=3 uid="uid://be7tuc1i6yq5b"]
 
 [ext_resource type="Script" path="res://menus/news_list/MainMenuRight.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="2"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="3"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://cgkq7divjs4o6" path="res://graphics/icons/discord_main_join.svg" id="5"]
-[ext_resource type="FontFile" uid="uid://q172ug5w4fdw" path="res://fonts/new_fonts/roboto_black_45.tres" id="6"]
 [ext_resource type="Texture2D" uid="uid://58gmorfx1ujw" path="res://graphics/icons/twitter_main.svg" id="7"]
-[ext_resource type="FontFile" path="res://fonts/Rating_Font.tres" id="8"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="9"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="8"]
+[ext_resource type="FontVariation" uid="uid://nyc27vir054y" path="res://fonts/default_font_bold.tres" id="9_cyc42"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="10"]
 [ext_resource type="Texture2D" uid="uid://diw3qc73g27lv" path="res://graphics/icons/account_main.svg" id="11"]
-
-[sub_resource type="StyleBoxFlat" id="2"]
-content_margin_left = 25.0
-content_margin_top = 7.0
-content_margin_right = 7.0
-content_margin_bottom = 7.0
-bg_color = Color(0.19, 0.07, 0.3, 0.75)
-border_width_left = 133
-border_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_color = Color(0, 0, 0, 0.25)
-shadow_size = 10
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 25.0
@@ -41,22 +24,20 @@ corner_radius_bottom_left = 5
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="FontFile" id="3"]
-fallbacks = Array[Font]([ExtResource("2"), ExtResource("9")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+[sub_resource type="StyleBoxFlat" id="2"]
+content_margin_left = 25.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.19, 0.07, 0.3, 0.75)
+border_width_left = 133
+border_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 10
 
 [node name="Panel" type="Control"]
 layout_mode = 3
@@ -90,9 +71,9 @@ orientation = 1
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("6")
-theme_override_styles/normal = SubResource("2")
+theme_override_fonts/font = ExtResource("8")
 theme_override_styles/hover = SubResource("1")
+theme_override_styles/normal = SubResource("2")
 text = "My profile"
 icon = ExtResource("11")
 script = ExtResource("4")
@@ -104,9 +85,9 @@ custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 focus_mode = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("6")
-theme_override_styles/normal = SubResource("2")
+theme_override_fonts/font = ExtResource("8")
 theme_override_styles/hover = SubResource("1")
+theme_override_styles/normal = SubResource("2")
 icon = ExtResource("5")
 script = ExtResource("4")
 normal_style = SubResource("2")
@@ -117,7 +98,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 123.0
-theme_override_fonts/font = ExtResource("6")
+theme_override_fonts/font = ExtResource("8")
 text = "Join the Discord server!"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -127,9 +108,9 @@ custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 focus_mode = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("6")
-theme_override_styles/normal = SubResource("2")
+theme_override_fonts/font = ExtResource("8")
 theme_override_styles/hover = SubResource("1")
+theme_override_styles/normal = SubResource("2")
 icon = ExtResource("7")
 script = ExtResource("4")
 normal_style = SubResource("2")
@@ -144,14 +125,14 @@ alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("6")
+theme_override_fonts/font = ExtResource("8")
 text = "Follow us on Twitter!"
 horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="Label2" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = SubResource("3")
+theme_override_fonts/font = ExtResource("9_cyc42")
 text = "@PHeartbeatGame"
 horizontal_alignment = 1
 

@@ -1,13 +1,8 @@
-[gd_resource type="FontVariation" load_steps=4 format=2]
+[gd_resource type="FontVariation" script_class="HBUIFont" load_steps=3 format=3 uid="uid://ql3ok3egbokh"]
 
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontVariation" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontVariation" id=2]
-[ext_resource path="res://scripts/new_ui/HBUIFont.gd" type="Script" id=3]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="1_6x5f5"]
+[ext_resource type="Script" path="res://scripts/new_ui/HBUIFont.gd" id="3"]
 
 [resource]
-size = 30
-generate_mipmaps = true
-use_filter = true
-base_font = ExtResource( 1 )
-fallback/0 = ExtResource( 2 )
-script = ExtResource( 3 )
+base_font = ExtResource("1_6x5f5")
+script = ExtResource("3")

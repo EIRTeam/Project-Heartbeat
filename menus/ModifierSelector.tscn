@@ -1,13 +1,15 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://c1ovx7e2yqrtk"]
 
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=1]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=3]
-[ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture2D" id=4]
-[ext_resource path="res://menus/ModifierSelector.gd" type="Script" id=5]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=6]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="1"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="2"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3"]
+[ext_resource type="Texture2D" uid="uid://cai6nkgeq8ftu" path="res://graphics/icons/icon_information_sign.svg" id="4"]
+[ext_resource type="Script" path="res://menus/ModifierSelector.gd" id="5"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="6"]
 
 [node name="ModifierSelector" type="Control"]
+layout_mode = 3
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -16,96 +18,68 @@ offset_left = -361.0
 offset_top = -267.0
 offset_right = 361.0
 offset_bottom = 267.0
-theme = ExtResource( 6 )
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("6")
+script = ExtResource("5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
-offset_right = 722.0
-offset_bottom = 392.0
+layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_top = 10
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 712.0
-offset_bottom = 382.0
+layout_mode = 2
 focus_mode = 2
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 orientation = 1
 
 [node name="Panel2" type="Panel" parent="VBoxContainer"]
-offset_top = 396.0
-offset_right = 722.0
-offset_bottom = 534.0
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.35
-theme_override_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 20
 theme_override_constants/margin_left = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_right = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer"]
-offset_left = 20.0
-offset_right = 702.0
-offset_bottom = 138.0
+layout_mode = 2
 theme_override_constants/separation = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
-offset_right = 30.0
-offset_bottom = 138.0
-custom_minimum_size = Vector2( 30, 0 )
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/Panel2/MarginContainer/HBoxContainer/VBoxContainer"]
-offset_right = 30.0
-offset_bottom = 138.0
+layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource( 4 )
-expand = true
+texture = ExtResource("4")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="DescriptionLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
-offset_left = 45.0
-offset_right = 682.0
-offset_bottom = 138.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "Makes everyone sound like anime girls, who would have thought?"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap = true

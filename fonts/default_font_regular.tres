@@ -1,0 +1,8 @@
+[gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://wkerk1bs0uut"]
+
+[ext_resource type="FontFile" uid="uid://deylhnghmpgcx" path="res://fonts/orbitron/Orbitron-VariableFont_wght.ttf" id="1_6dede"]
+[ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2_vh6dk"]
+
+[resource]
+fallbacks = Array[Font]([ExtResource("2_vh6dk")])
+base_font = ExtResource("1_6dede")

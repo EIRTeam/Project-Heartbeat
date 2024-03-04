@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cloehp50oox4y"]
+[gd_scene load_steps=5 format=3 uid="uid://cloehp50oox4y"]
 
 [ext_resource type="Script" path="res://menus/options_menu/OptionSection.gd" id="1"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://cai6nkgeq8ftu" path="res://graphics/icons/icon_information_sign.svg" id="4"]
-[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="5"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="6"]
 
 [node name="OptionSection" type="Control"]
@@ -90,7 +89,6 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource("5")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=1]
+[ext_resource path="res://fonts/default_font_black.tres" type="FontVariation" id=1]
 [ext_resource path="res://menus/tutorial/page2/keyboard.png" type="Texture2D" id=2]
 
 [node name="Page2" type="MarginContainer"]

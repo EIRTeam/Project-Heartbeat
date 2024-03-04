@@ -1,11 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cirrqo7iy3t7a"]
+[gd_scene load_steps=7 format=3 uid="uid://cirrqo7iy3t7a"]
 
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionSoundSelectDropdown.gd" id="3"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
-[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="5"]
-
-[sub_resource type="StyleBoxEmpty" id="3"]
 
 [sub_resource type="StyleBoxFlat" id="2"]
 content_margin_left = 10.0
@@ -22,6 +19,8 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="3"]
 
 [sub_resource type="GDScript" id="4"]
 script/source = "extends HBUniversalScrollList
@@ -49,9 +48,8 @@ layout_mode = 0
 offset_right = 12.0
 offset_bottom = 20.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("5")
-theme_override_styles/normal = SubResource("3")
 theme_override_styles/hover = SubResource("2")
+theme_override_styles/normal = SubResource("3")
 text = "asdsadsadsad"
 script = ExtResource("4")
 

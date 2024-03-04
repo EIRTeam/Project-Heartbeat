@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b5jfxpr0tscsc"]
 
-[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionMenuButton.gd" id="2"]
 [ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="3"]
 [ext_resource type="StyleBox" path="res://styles/OptionButtonHover.tres" id="4"]

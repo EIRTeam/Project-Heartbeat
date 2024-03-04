@@ -1,47 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://cqmf6tqu6khsv"]
+[gd_scene load_steps=7 format=3 uid="uid://cqmf6tqu6khsv"]
 
-[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="1"]
-[ext_resource type="FontFile" uid="uid://d2jm1b1wu37iv" path="res://fonts/NotoSansJP-Black.otf" id="3"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="4"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://cqsegv1wyr5o7" path="res://graphics/icons/menu_star.png" id="5"]
-[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="6"]
 [ext_resource type="Script" path="res://menus/song_list/SongListItemDifficulty.gd" id="7"]
 [ext_resource type="StyleBox" path="res://styles/SongListItemNormal.tres" id="8"]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="8_l56nt"]
 [ext_resource type="StyleBox" path="res://styles/SongListItemHover.tres" id="9"]
-
-[sub_resource type="FontFile" id="1"]
-fallbacks = Array[Font]([ExtResource("6"), ExtResource("4")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="FontFile" id="2"]
-fallbacks = Array[Font]([ExtResource("1"), ExtResource("3")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Control" type="Control"]
 custom_minimum_size = Vector2(0, 100)
@@ -111,7 +75,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
 auto_translate = false
-theme_override_fonts/font = SubResource("1")
+theme_override_fonts/font = ExtResource("8_l56nt")
 text = "10 "
 vertical_alignment = 1
 
@@ -144,7 +108,7 @@ auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 7
 auto_translate = false
-theme_override_fonts/font = SubResource("2")
+theme_override_fonts/font = ExtResource("1")
 text = "EXTREME"
 vertical_alignment = 1
 
@@ -157,7 +121,7 @@ auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 7
 auto_translate = false
-theme_override_fonts/font = SubResource("1")
+theme_override_fonts/font = ExtResource("8_l56nt")
 text = "CHEAP - 100%"
 horizontal_alignment = 2
 vertical_alignment = 1

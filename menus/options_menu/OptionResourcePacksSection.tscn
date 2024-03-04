@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://menus/options_menu/OptionResourcePacksSection.gd" id="1"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="3"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="4"]
-[ext_resource type="FontFile" path="res://fonts/ResultsTitleFont.tres" id="5"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="5_ubvdl"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="6"]
 
 [node name="MarginContainer" type="MarginContainer"]
@@ -53,6 +53,6 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="CenterContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5")
+theme_override_fonts/font = ExtResource("5_ubvdl")
 text = "Rebuilding note atlas..."
 horizontal_alignment = 1

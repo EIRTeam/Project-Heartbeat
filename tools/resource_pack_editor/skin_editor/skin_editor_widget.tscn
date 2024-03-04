@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://i08qk1n42uwn"]
 
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.gd" id="1"]
-[ext_resource type="FontFile" path="res://fonts/new_fonts/orbitron_regular_25.tres" id="2"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="3"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="4"]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="4_gmoep"]
 
 [sub_resource type="StyleBoxEmpty" id="3"]
 
@@ -65,7 +65,7 @@ theme_override_styles/panel = SubResource("2")
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_fonts/font = ExtResource("2")
+theme_override_fonts/font = ExtResource("4_gmoep")
 text = "name"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -78,7 +78,6 @@ mouse_filter = 2
 theme_override_fonts/font = SubResource("4")
 item_count = 3
 item_0/text = "Elemento 0"
-item_0/id = 0
 item_1/text = "Elemento 1"
 item_1/id = 1
 item_2/text = "Elemento 2"

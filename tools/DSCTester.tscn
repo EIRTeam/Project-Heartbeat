@@ -1,6 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6tt3iq5mqtat"]
-
-[ext_resource type="FontFile" path="res://fonts/Tools_Font.tres" id="1"]
+[gd_scene load_steps=2 format=3 uid="uid://c6tt3iq5mqtat"]
 
 [sub_resource type="GDScript" id="1"]
 script/source = "extends Control
@@ -126,4 +124,3 @@ script = SubResource("1")
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_fonts/normal_font = ExtResource("1")

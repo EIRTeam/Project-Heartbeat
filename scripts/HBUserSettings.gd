@@ -145,7 +145,10 @@ var locale__possibilities = [
 	"auto-detect",
 	"en",
 	"es",
-	"ca"
+	"ca",
+	"ja",
+	"pt",
+	"zh_CN"
 ]
 
 var workshop_download_audio_only = false

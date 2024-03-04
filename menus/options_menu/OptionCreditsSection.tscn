@@ -83,4 +83,5 @@ size_flags_vertical = 3
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("1")
 bbcode_enabled = true
+fit_content = true
 scroll_active = false

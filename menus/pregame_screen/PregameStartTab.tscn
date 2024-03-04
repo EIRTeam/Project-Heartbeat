@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dwcd6tgw5po4y"]
 
-[ext_resource type="FontFile" path="res://fonts/Default_Font_smoler.tres" id="1"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="2"]
 [ext_resource type="Script" path="res://menus/pregame_screen/PregameStartTab.gd" id="3"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]

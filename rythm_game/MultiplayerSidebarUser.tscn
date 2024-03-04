@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://6ew2y6gkcbj5"]
 
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="1"]
+[ext_resource type="FontVariation" path="res://fonts/noto/NotoSans-Regular.tres" id="1"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="2"]
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="3"]
-[ext_resource type="FontFile" path="res://fonts/Rating_Font.tres" id="4"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="4"]
 [ext_resource type="FontFile" uid="uid://bp300py43a3w8" path="res://fonts/orbitron-black-mono.otf" id="5"]
 
 [sub_resource type="StyleBoxFlat" id="1"]

@@ -1,23 +1,23 @@
 [gd_scene load_steps=25 format=3 uid="uid://mq8cvko6co3o"]
 
-[ext_resource type="FontFile" path="res://fonts/Default_Font_thin.tres" id="1"]
 [ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="6"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="7_fawyf"]
 [ext_resource type="Texture2D" uid="uid://dq1i623nxlj8v" path="res://graphics/icons/sort-ascending.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="9"]
 [ext_resource type="Script" path="res://menus/song_list/SongListSongContainer.gd" id="10"]
 [ext_resource type="PackedScene" uid="uid://c4tvo47nahi4h" path="res://menus/FolderManager.tscn" id="11"]
 [ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="12"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="12_787qn"]
-[ext_resource type="PackedScene" path="res://menus/HBHovereableCheckbox.tscn" id="14"]
-[ext_resource type="PackedScene" path="res://menus/HBHovereableOptionButton.tscn" id="15"]
-[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="16"]
+[ext_resource type="PackedScene" uid="uid://dpp05jvqww62" path="res://menus/HBHovereableCheckbox.tscn" id="14"]
+[ext_resource type="PackedScene" uid="uid://dhyyvctuvaunk" path="res://menus/HBHovereableOptionButton.tscn" id="15"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="16"]
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="17"]
-[ext_resource type="FontFile" path="res://fonts/Rating_Font.tres" id="18"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="18"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "spin"
@@ -173,7 +173,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
 layout_mode = 2
 text = "Difficulty"
-vertical_alignment = 2
+vertical_alignment = 1
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(39, 0)
@@ -192,7 +192,7 @@ material = SubResource("3")
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("12")
-font_1 = ExtResource("1")
+font_1 = ExtResource("7_fawyf")
 font_2 = ExtResource("16")
 text_2 = ""
 

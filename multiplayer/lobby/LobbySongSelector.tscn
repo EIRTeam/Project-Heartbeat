@@ -2,7 +2,7 @@
 
 [ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=1]
 [ext_resource path="res://multiplayer/lobby/LobbySongSelector.gd" type="Script" id=2]
-[ext_resource path="res://fonts/SongLabel.tres" type="FontFile" id=3]
+[ext_resource path="res://fonts/default_font_black.tres" type="FontVariation" id=3]
 
 [node name="SongListMenu" instance=ExtResource( 1 )]
 script = ExtResource( 2 )

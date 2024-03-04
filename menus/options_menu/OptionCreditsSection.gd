@@ -8,7 +8,7 @@ signal back
 @onready var button_container: HBSimpleMenu = get_node("VBoxContainer/HBoxContainer")
 @onready var scroll_container: ScrollContainer = get_node("VBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer")
 
-const TITLE_TEMPLATE = "[font=res://fonts/new_fonts/roboto_black_35.tres]%s[/font]\n\n"
+const TITLE_TEMPLATE = "[font name=res://fonts/default_font_black.tres size=35]%s[/font]\n\n"
 const SCROLL_SPEED = 1500.0
 
 var PH_AUTHORS = {
@@ -26,6 +26,14 @@ var PH_AUTHORS = {
 		"Andrea Balaguer (Hikaru)": ["Background artwork (RedLine)"],
 		"David Revoy": ["Used background artwork (Hyperspeed out of Control, Music Play in the Floor, Dime Linda)"],
 		"Lucas Corral": ["Background artwork (Reprisal)"]
+	},
+	"Localization": {
+		"Spanish": ["Álex Román Núñez (EIREXE)"],
+		"Catalan": ["Álex Román Núñez (EIREXE)"],
+		"English": ["Álex Román Núñez (EIREXE)", "Lino Bigatti"],
+		"Japanese": ["Hachi"],
+		"Portuguese": ["Álex Román Núñez (EIREXE)", "Chiyuyuy"],
+		"Chinese (Simplified)": ["hiki8man"]
 	},
 	"Charting": {
 		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice", "Reprisal", "Confession", "Monochrome Stars"],
@@ -182,6 +190,10 @@ func show_ph_credits(label: RichTextLabel):
 	label.text += newl
 	make_title(label, tr("Charting"))
 	make_credits_list(label, PH_AUTHORS.Charting)
+
+	label.text += newl
+	make_title(label, tr("Localization"))
+	make_credits_list(label, PH_AUTHORS["Localization"])
 
 	label.text += newl
 	make_title(label, tr("Charting Software"))

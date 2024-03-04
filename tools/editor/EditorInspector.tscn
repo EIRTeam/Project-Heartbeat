@@ -5,7 +5,7 @@
 [ext_resource path="res://tools/icons/icon_action_paste.svg" type="Texture2D" id=3]
 [ext_resource path="res://tools/icons/icon_action_copy.svg" type="Texture2D" id=4]
 [ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontFile" id=5]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=6]
+[ext_resource path="res://fonts/noto/NotoSans-Regular.tres" type="FontVariation" id=6]
 
 [sub_resource type="FontFile" id=1]
 size = 20

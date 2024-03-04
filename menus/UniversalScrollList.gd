@@ -60,8 +60,8 @@ func _ready():
 	if enable_fade:
 		var fade_mat = ShaderMaterial.new()
 		fade_mat.shader = FADE_SHADER
-		material = fade_mat
-		RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 10.0, true, 10.0, false)
+		item_container.material = fade_mat
+		RenderingServer.canvas_item_set_canvas_group_mode(item_container.get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 10.0, true, 10.0, false)
 	_on_resized()
 	
 func _on_scroll_changed(_new_scroll: float):
@@ -90,13 +90,13 @@ func _on_input_debounce_timeout():
 	
 func _on_vscrollbar_visibility_changed():
 	if enable_fade:
-		var mat = material as ShaderMaterial
+		var mat = item_container.material as ShaderMaterial
 		if mat:
 			mat.set_shader_parameter("enabled", get_v_scroll_bar().visible)
 	
 func _on_resized():
 	if enable_fade:
-		var mat = material as ShaderMaterial
+		var mat = item_container.material as ShaderMaterial
 		if mat:
 			mat.set_shader_parameter("enabled", get_v_scroll_bar().visible)
 			# HACK: Makes the fade work inside scaled controls!!
@@ -120,7 +120,7 @@ func smooth_scroll_to(target: float):
 func update_fade():
 	# Hide top/bottom fade intelligently
 	if enable_fade:
-		var mat = material as ShaderMaterial
+		var mat = item_container.material as ShaderMaterial
 		if mat:
 			var max_scroll = get_v_scroll_bar().max_value - size.y
 			var selected_item = get_selected_item()

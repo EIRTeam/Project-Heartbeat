@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bpsdlmoc167hx"]
 
 [ext_resource type="Script" path="res://rythm_game/lyrics/lyrics.gd" id="2"]
-[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="2_x0a8r"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="2_x0a8r"]
 
 [node name="Label" type="Label"]
 auto_translate_mode = 2

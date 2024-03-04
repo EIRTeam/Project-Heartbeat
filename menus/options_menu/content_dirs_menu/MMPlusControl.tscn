@@ -1,28 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://r1d8rkhhgkpn"]
+[gd_scene load_steps=9 format=3 uid="uid://r1d8rkhhgkpn"]
 
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="1"]
 [ext_resource type="Texture2D" uid="uid://di30jv0le85ua" path="res://graphics/icons/checkbox-blank-outline.png" id="2"]
 [ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/MMPlusControl.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://bwhiiioudwqlb" path="res://graphics/icons/checkbox-marked.png" id="4"]
-[ext_resource type="FontFile" path="res://fonts/new_fonts/Comforta.tres" id="5"]
-[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="6"]
-
-[sub_resource type="FontFile" id="6"]
-fallbacks = Array[Font]([ExtResource("6"), ExtResource("1")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+[ext_resource type="FontVariation" uid="uid://cdj3wvnplto5x" path="res://fonts/new_fonts/Comforta.tres" id="5"]
 
 [sub_resource type="StyleBoxFlat" id="4"]
 bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
@@ -63,7 +44,6 @@ mouse_filter = 2
 use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = SubResource("6")
 text = "Enable mounting Project DIVA MegaMix+ from Steam"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -99,7 +79,6 @@ layout_mode = 2
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("5")
 theme_override_styles/normal = SubResource("5")
 bbcode_enabled = true
 text = "

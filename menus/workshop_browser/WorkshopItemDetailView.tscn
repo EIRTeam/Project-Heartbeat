@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://b4rr5jg5duobg"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
-[ext_resource type="FontFile" uid="uid://q172ug5w4fdw" path="res://fonts/new_fonts/roboto_black_45.tres" id="2"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="3"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3_3gro8"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4"]
 [ext_resource type="Script" path="res://menus/workshop_browser/WorkshopItemDetailView.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://6phu22pv2pdj" path="res://graphics/icons/5-star.png" id="6"]
@@ -76,7 +76,8 @@ auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 auto_translate = false
-theme_override_fonts/font = ExtResource("2")
+theme_override_fonts/font = ExtResource("3_3gro8")
+theme_override_font_sizes/font_size = 25
 text = "aasdasdasdsadsadsa"
 horizontal_alignment = 2
 

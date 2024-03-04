@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://dci3fgqj0yg83"]
+[gd_scene load_steps=14 format=3 uid="uid://dci3fgqj0yg83"]
 
 [ext_resource type="Texture2D" uid="uid://dfq7klmc635ah" path="res://graphics/icons/menu_heart.png" id="2"]
 [ext_resource type="Script" path="res://menus/song_list/SongListItemRandom.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://uebvk0qr14vq" path="res://graphics/icons/menu_heart_white.png" id="4"]
-[ext_resource type="FontVariation" uid="uid://douevr81666aa" path="res://fonts/song_label.tres" id="4_68i23"]
-[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="5"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="5"]
 [ext_resource type="StyleBox" path="res://styles/SongListItemHover.tres" id="6"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="7"]
 
@@ -113,9 +112,9 @@ size_flags_horizontal = 3
 focus_mode = 0
 theme = ExtResource("7")
 theme_override_constants/h_separation = 0
-theme_override_styles/normal = SubResource("2")
 theme_override_styles/hover = ExtResource("6")
 theme_override_styles/pressed = ExtResource("6")
+theme_override_styles/normal = SubResource("2")
 
 [node name="RainbowOverlay" type="Panel" parent="Control"]
 material = SubResource("6")
@@ -163,7 +162,7 @@ theme_override_constants/separation = 10
 [node name="TitleLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource("4_68i23")
+theme_override_fonts/font = ExtResource("5")
 text = "??????"
 vertical_alignment = 1
 

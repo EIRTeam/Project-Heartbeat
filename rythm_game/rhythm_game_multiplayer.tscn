@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://fonts/SongLabel.tres" type="FontFile" id=1]
+[ext_resource path="res://fonts/default_font_black.tres" type="FontVariation" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
 [ext_resource path="res://rythm_game/rhythm_game_controller.tscn" type="PackedScene" id=3]
 [ext_resource path="res://rythm_game/rhythm_game_multiplayer.gd" type="Script" id=4]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://7jip7aagc551"]
 
-[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://cirrqo7iy3t7a" path="res://menus/options_menu/OptionSoundSelectDropdown.tscn" id="2"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionCustomSoundSelect.gd" id="4"]
 

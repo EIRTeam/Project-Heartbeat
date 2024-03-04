@@ -1,13 +1,13 @@
 [gd_scene load_steps=14 format=3 uid="uid://dg1viq66ci7cl"]
 
-[ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="1"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="PackedScene" path="res://multiplayer/lobby/MemberList.tscn" id="2"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4"]
 [ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="5"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="7"]
-[ext_resource type="FontFile" path="res://fonts/Default_Font_smoler.tres" id="8"]
+[ext_resource type="FontVariation" path="res://fonts/default_font_medium.tres" id="8"]
 [ext_resource type="Script" path="res://multiplayer/lobby/LobbyMenu.gd" id="9"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://menus/leaderboard_control/LeaderboardControl.gd" type="Script" id=1]
-[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=2]
+[ext_resource path="res://fonts/default_font_black.tres" type="FontVariation" id=2]
 [ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture2D" id=3]
 
 [sub_resource type="Animation" id=1]

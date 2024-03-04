@@ -9,7 +9,7 @@ var _draw_points_internal = PackedVector2Array()
 
 const X_MARGIN = 0
 
-const fnt = preload("res://fonts/new_fonts/roboto_black_35.tres")
+const fnt = preload("res://fonts/Roboto-Black.ttf")
 
 @onready var point_nodes_node = get_node("PointNodes")
 

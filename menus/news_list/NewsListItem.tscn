@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="1"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="2"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="3"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="4"]
+[ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="4"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="5"]
 [ext_resource type="Script" path="res://menus/news_list/NewsListItem.gd" id="6"]
 
@@ -45,8 +45,8 @@ cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 custom_minimum_size = Vector2(0, 100)
 offset_right = 331.0
 offset_bottom = 206.0
-theme_override_styles/normal = ExtResource("3")
 theme_override_styles/hover = ExtResource("2")
+theme_override_styles/normal = ExtResource("3")
 script = ExtResource("6")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

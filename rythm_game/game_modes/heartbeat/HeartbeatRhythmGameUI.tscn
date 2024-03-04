@@ -1,10 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://c0p0ql3vtldti"]
+[gd_scene load_steps=21 format=3 uid="uid://c0p0ql3vtldti"]
 
-[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="1"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2"]
-[ext_resource type="FontFile" uid="uid://d2jm1b1wu37iv" path="res://fonts/NotoSansJP-Black.otf" id="3"]
+[ext_resource type="FontVariation" path="res://fonts/noto/NotoSans-Regular.tres" id="2"]
 [ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" id="4"]
-[ext_resource type="FontFile" path="res://fonts/Rating_Font.tres" id="5"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="5"]
 [ext_resource type="Texture2D" uid="uid://72rqxh58ituv" path="res://graphics/wrong_rating_cross.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://cpbashdu3eysf" path="res://graphics/aiko_sad.png" id="7"]
 [ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" id="10"]
@@ -106,7 +104,7 @@ cache/0/30/10/glyphs/72/size = Vector2(22, 30)
 cache/0/30/10/glyphs/72/uv_rect = Rect2(1, 27, 22, 30)
 cache/0/30/10/glyphs/72/texture_idx = 0
 
-[sub_resource type="FontFile" id="FontFile_7pcpx"]
+[sub_resource type="FontFile" id="FontFile_pa60l"]
 resource_local_to_scene = true
 fallbacks = Array[Font]([SubResource("13"), ExtResource("2")])
 cache/0/16/0/ascent = 0.0
@@ -155,23 +153,6 @@ gradient = SubResource("17")
 [sub_resource type="StyleBoxTexture" id="19"]
 texture = SubResource("18")
 region_rect = Rect2(0, 0, 2048, 1)
-
-[sub_resource type="FontFile" id="20"]
-fallbacks = Array[Font]([ExtResource("1"), ExtResource("3")])
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Node2D" type="Control"]
 layout_mode = 3
@@ -261,7 +242,7 @@ anchor_bottom = 0.9
 offset_top = 0.0
 offset_right = 0.00012207
 offset_bottom = 0.0
-theme_override_fonts/font = SubResource("FontFile_7pcpx")
+theme_override_fonts/font = SubResource("FontFile_pa60l")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 0
@@ -388,7 +369,7 @@ auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 auto_translate = false
-theme_override_fonts/font = SubResource("20")
+theme_override_fonts/font = ExtResource("5")
 text = "ASSIGNMENT: TERMINATED
 SUBJECT: AIKO
 REASON: FAILURE TO PRESS MISSION-CRITICAL BUTTONS"
