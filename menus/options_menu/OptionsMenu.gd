@@ -54,10 +54,8 @@ var OPTIONS = {
 		}
 	},
 	tr("Input"): {
-		"controller_guid": {
-			"name": tr("Controller"),
-			"description": tr("Controller to use for input."),
-			"type": "controller_selector"
+		"__section_label": {
+			"label_callback": self._detected_controllers_callback
 		},
 		"use_direct_joystick_access": {
 			"name": tr("Use direct joystick access with known controllers"),
@@ -476,3 +474,10 @@ func _audio_buffer_info_callback():
 
 func _version_info_callback():
 	return HBVersion.get_version_string(true)
+
+func _detected_controllers_callback() -> String:
+	var text := tr("Detected controllers:") + "\n\n"
+	
+	for gamepad_i in Input.get_connected_joypads():
+		text += Input.get_joy_name(gamepad_i) + "\n"
+	return text

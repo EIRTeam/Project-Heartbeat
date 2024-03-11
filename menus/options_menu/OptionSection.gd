@@ -6,7 +6,6 @@ const OptionBool = preload("res://menus/options_menu/OptionBool.tscn")
 const OptionRange = preload("res://menus/options_menu/OptionRange.tscn")
 const OptionSelect = preload("res://menus/options_menu/OptionSelect.tscn")
 const OptionSoundSelect = preload("res://menus/options_menu/OptionCustomSoundSelect.tscn")
-const OptionControllerSelect = preload("res://menus/options_menu/OptionControllerSelect.tscn")
 signal back
 signal changed(property_name, new_value)
 signal value_changed
@@ -50,8 +49,6 @@ func _set_section_data(val):
 				"sound_type_selector":
 					option_scene = OptionSoundSelect.instantiate()
 					option_scene.sound_name = option.sound_name
-				"controller_selector":
-					option_scene = OptionControllerSelect.instantiate()
 				"options":
 					option_scene = OptionSelect.instantiate()
 					option_scene.options = option.options
