@@ -136,6 +136,7 @@ func _ready():
 	
 	MENUS["song_list"].left.connect("song_hovered", Callable(MENUS["song_list_preview"].right, "select_song"))
 	MENUS["lobby"].left.connect("song_selected", Callable(MENUS["song_list_preview"].right, "select_song"))
+	MENUS["song_list"].left.connect("song_hovered", Callable(MENUS["pre_game"].left, "select_song"))
 	#MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "fetch_entries")
 	
 	MENUS["results"].left.connect("select_song", Callable(MENUS["song_list_preview"].right, "select_song"))

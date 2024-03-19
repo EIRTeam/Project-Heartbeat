@@ -33,8 +33,6 @@ var leaderboard_tab_modifiers = LEADERBOARD_TAB.instantiate()
 
 func _ready():
 	super._ready()
-	connect("resized", Callable(self, "_on_resized"))
-	_on_resized()
 	
 	# Hacky af...
 	var pregame_start_tab = preload("res://menus/pregame_screen/PregameStartTab.tscn").instantiate()
@@ -100,13 +98,6 @@ func _on_modifier_setting_changed(property_name, new_value):
 func _modifier_loader_back():
 	modifier_scroll_container.grab_focus()
 	
-func _on_resized():
-	# We have to wait a frame for the resize to happen...
-	# seriously wtf
-	await get_tree().process_frame
-	var inv = 1.0 / (size.y / BASE_HEIGHT)
-	button_panel.size_flags_stretch_ratio = inv
-
 func _on_menu_exit(force_hard_transition=false):
 	super._on_menu_exit(force_hard_transition)
 	MouseTrap.cache_song_overlay.disconnect("done", Callable(button_container, "grab_focus"))
@@ -205,7 +196,8 @@ func _on_open_modifier_settings_selected(modifier_id: String):
 	modifier_settings_editor.grab_focus()
 	
 func select_song(s: HBSong):
-	pass
+	if not is_inside_tree():
+		current_song = s
 func _on_modify_song_settings_pressed():
 	per_song_settings_editor.current_song = current_song
 	per_song_settings_editor.show()
@@ -346,7 +338,7 @@ func _on_StartPractice_pressed():
 		stats.selected_variant = selected_variant
 		HBGame.song_stats.save_song_stats()
 	game_info.variant = selected_variant
-	if current_assets.song == current_song:
+	if current_assets and current_assets.song == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
 		game_info.time = Time.get_unix_time_from_system()
 		var scene = new_scene.instantiate()

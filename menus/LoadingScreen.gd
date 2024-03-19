@@ -133,7 +133,6 @@ func start_asset_load():
 		game_info.variant
 	)
 	task.assets_loaded.connect(_on_song_assets_loaded)
-	task.assets_loaded.connect(_on_song_assets_loaded)
 func _on_song_assets_loaded(assets: SongAssetLoader.AssetLoadToken):
 	if not min_load_time_timer.is_stopped():
 		await min_load_time_timer.timeout
