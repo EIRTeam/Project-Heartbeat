@@ -31,11 +31,6 @@ func reset():
 	total_pages = 1
 
 func _ready():
-	scroll_container.get_v_scroll_bar().add_theme_stylebox_override("grabber", preload("res://styles/Grabber.tres"))
-	scroll_container.get_v_scroll_bar().add_theme_stylebox_override("scroll", StyleBoxEmpty.new())
-	scroll_container.get_v_scroll_bar().add_theme_icon_override("increment", ImageTexture.new())
-	scroll_container.get_v_scroll_bar().add_theme_icon_override("decrement", ImageTexture.new())
-	scroll_container.get_v_scroll_bar().custom_minimum_size = Vector2(20, 0)
 	prev_page_button.connect("pressed", Callable(self, "_on_prev_page_pressed"))
 	next_page_button.connect("pressed", Callable(self, "_on_next_page_pressed"))
 	leaderboard.connect("entries_received", Callable(self, "_on_entries_received"))

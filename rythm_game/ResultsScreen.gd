@@ -85,22 +85,13 @@ func _on_lobby_loading_start():
 	rhythm_game_multiplayer_scene.lobby = mp_lobby
 	rhythm_game_multiplayer_scene.start_loading()
 	
-func _on_resized():
-	# We have to wait a frame for the resize to happen...
-	# seriously wtf
-	if (size.y / BASE_HEIGHT) > 0:
-		var inv = 0.1 / (size.y / BASE_HEIGHT)
-		button_panel.size_flags_stretch_ratio = inv
-
 func _ready():
 	super._ready()
 	error_window.connect("accept", Callable(buttons, "grab_focus"))
 	
-	connect("resized", Callable(self, "_on_resized"))
 	ScoreHistory.connect("score_entered", Callable(self, "_on_score_entered"))
 	ScoreHistory.connect("score_uploaded", Callable(self, "_on_score_uploaded"))
 	ScoreHistory.connect("score_upload_failed", Callable(self, "_on_score_upload_failed"))
-	_on_resized()
 	var values = HBJudge.JUDGE_RATINGS.values()
 	tabbed_container.add_tab("results", tr("Results"), results_tab)
 	tabbed_container.add_tab("graph", tr("Graph"), chart_tab)
