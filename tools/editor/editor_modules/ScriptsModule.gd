@@ -39,7 +39,7 @@ func _ready():
 	if not DirAccess.dir_exists_absolute(EDITOR_SCRIPTS_PATH):
 		DirAccess.make_dir_absolute(EDITOR_SCRIPTS_PATH)
 	script_editor_dialog.close_requested.connect(_close_script_editor)
-	var file := FileAccess.open("res://tools/editor/editor_modules/ScriptsModule/ScriptRunnerScriptTemplate.gd", FileAccess.READ)
+	var file := FileAccess.open("res://tools/editor/editor_modules/ScriptsModule/ScriptRunnerScriptTemplate.gd.txt", FileAccess.READ)
 	script_template = file.get_as_text()
 	script_editor.text = script_template
 	
