@@ -9,6 +9,7 @@ var time_signature := {
 }
 
 func _init():
+	super._init()
 	_class_name = "HBTimingChange" # Workaround for godot#4708
 	_inheritance.append("HBTimingPoint")
 	
