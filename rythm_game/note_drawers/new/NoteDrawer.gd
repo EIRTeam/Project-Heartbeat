@@ -13,13 +13,13 @@ const SCHEDULE_MARGIN := 100
 
 func set_note_data(val):
 	note_data = val
-	note_data.connect("parameter_changed", Callable(self, "_on_note_parameter_changed_received"))
+	note_data.parameter_changed.connect(self._on_note_parameter_changed_received)
 
 var parameters_changed_this_frame := []
 
 func _on_note_parameter_changed_received(parameter_name: String):
 	if parameters_changed_this_frame.is_empty():
-		call_deferred("_on_note_parameter_changed")
+		self._on_note_parameter_changed.call_deferred()
 	parameters_changed_this_frame.append(parameter_name)
 
 func _on_note_parameter_changed():
@@ -45,8 +45,8 @@ var disable_trail_margin := false
 
 var layer_bound_node_datas = []
 
-signal add_node_to_layer(layer_name, node)
-signal remove_node_from_layer(layer_name, node)
+signal add_node_to_layer(layer_name: String, node: Node)
+signal remove_node_from_layer(layer_name: String, node: Node)
 signal judged(judgement, independent, target_time, event)
 signal finished
 
@@ -106,14 +106,14 @@ func play_appear_animation():
 	appear_particles_node.get_node("AnimationPlayer").play("appear")
 
 func add_bind_to_tree(data):
-	emit_signal("add_node_to_layer", data.layer_name, data.node)
+	add_node_to_layer.emit(data.layer_name, data.node)
 	if data.remote_transform:
 		data.remote_transform.remote_path = data.node.get_path()
 		var trg = get_node(data.source_transform)
 		trg.add_child(data.remote_transform)
 
 func remove_bind_from_tree(data: LayerBoundNodeData):
-	emit_signal("remove_node_from_layer", data.layer_name, data.node)
+	remove_node_from_layer.emit(data.layer_name, data.node)
 	if data.remote_transform:
 		var target_node = get_node(data.source_transform)
 		target_node.remove_child(data.remote_transform)
@@ -137,7 +137,7 @@ func bind_node_to_layer(node: Node2D, layer_name: String, source_transform = nul
 		data.remote_transform = remote_transform
 		data.source_transform = source_transform
 	data.node_self_visibility = node.visible
-	node.connect("visibility_changed", Callable(data, "_on_node_self_visibility_changed"))
+	node.visibility_changed.connect(data._on_node_self_visibility_changed)
 	node.set_meta("layer_bind", data)
 	if is_inside_tree():
 		add_bind_to_tree(data)
@@ -201,13 +201,12 @@ func process_input(event: InputEventHB):
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
-		if not is_inside_tree():
-			for data in layer_bound_node_datas:
-				if not data.node.is_queued_for_deletion():
-					data.node.queue_free()
-				if data.remote_transform:
-					if not data.remote_transform.is_queued_for_deletion():
-						data.remote_transform.queue_free()
+		for data in layer_bound_node_datas:
+			if not data.node.is_queued_for_deletion():
+				data.node.queue_free()
+			if data.remote_transform:
+				if not data.remote_transform.is_queued_for_deletion():
+					data.remote_transform.queue_free()
 	elif what == NOTIFICATION_POST_ENTER_TREE:
 		for data in layer_bound_node_datas:
 			add_bind_to_tree(data)

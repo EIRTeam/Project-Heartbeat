@@ -258,20 +258,20 @@ func _on_wrong():
 			note_judgement_info.judgement = final_judgement
 			note_judgement_infos[note] = note_judgement_info
 		_on_note_finished(note)
-	emit_signal("notes_judged", final_judgement, note_judgement_infos.values(), get_hit_time_msec(), true)
+	notes_judged.emit(final_judgement, note_judgement_infos.values(), get_hit_time_msec(), true)
 
 func create_note_drawer(note_data: HBBaseNote):
-	var note_drawer = note_data.get_drawer_new().instantiate()
+	var note_drawer = note_data.get_drawer_new().instantiate() as HBNewNoteDrawer
 	note_drawer.game = game
 	note_drawer.note_data = note_data
 	note_drawers[note_data] = note_drawer
-	note_drawer.connect("add_node_to_layer", Callable(self, "_on_note_add_node_to_layer"))
-	note_drawer.connect("remove_node_from_layer", Callable(self, "_on_note_remove_node_from_layer"))
+	note_drawer.add_node_to_layer.connect(self._on_note_add_node_to_layer)
+	note_drawer.remove_node_from_layer.connect(self._on_note_remove_node_from_layer)
 	game.game_ui.get_notes_node().add_child(note_drawer)
 	note_drawer.is_multi_note = note_datas.size() > 1
 	note_drawer.note_init()
-	note_drawer.connect("judged", Callable(self, "_on_note_judged").bind(note_data))
-	note_drawer.connect("finished", Callable(self, "_on_note_finished").bind(note_data))
+	note_drawer.judged.connect(self._on_note_judged.bind(note_data))
+	note_drawer.finished.connect(self._on_note_finished.bind(note_data))
 	return note_drawer
 				
 func _on_note_add_node_to_layer(layer_name: String, node: Node):
@@ -297,9 +297,9 @@ func _on_note_judged(judgement: int, independent: bool, judgement_target_time: i
 				game.add_score(HBNoteData.NOTE_SCORES[multi_judgement])
 				for note_drawer in note_drawers.values():
 					note_drawer._on_multi_note_judged(multi_judgement)
-			emit_signal("notes_judged", multi_judgement, note_judgement_infos.values(), get_hit_time_msec(), false)
+			notes_judged.emit(multi_judgement, note_judgement_infos.values(), get_hit_time_msec(), false)
 	else:
-		emit_signal("notes_judged", judgement, [judgement_info], judgement_target_time, false)
+		notes_judged.emit(judgement, [judgement_info], judgement_target_time, false)
 
 func _on_note_finished(note_data: HBBaseNote):
 	var drawer := note_drawers.get(note_data) as HBNewNoteDrawer
