@@ -154,9 +154,11 @@ func update_shortcuts():
 
 func _ready():
 	UserSettings.enable_menu_fps_limits = false
+	UserSettings.mouse_hide_timer.stop()
 	add_child(game_playback)
 	game_playback.connect("playback_speed_changed", Callable(self, "_on_playback_speed_changed"))
 	game_playback.connect("time_changed", Callable(self, "_on_game_playback_time_changed"))
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Input.set_use_accumulated_input(true)
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	#get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
