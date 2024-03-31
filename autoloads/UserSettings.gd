@@ -64,7 +64,9 @@ func _ready():
 
 	add_child(mouse_hide_timer)
 	#TODO GD4
-	#mouse_hide_timer.connect("timeout", Callable(Input, "set_mouse_mode").bind(Input.MOUSE_MODE_HIDDEN))
+	mouse_hide_timer.wait_time = 0.5
+	mouse_hide_timer.one_shot = true
+	mouse_hide_timer.connect("timeout", Callable(Input, "set_mouse_mode").bind(Input.MOUSE_MODE_HIDDEN))
 	# Godot simulates joy connections on startup, this makes sure we skip them
 
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
@@ -375,18 +377,22 @@ enum PROMPT_MODE {
 	
 var current_mode = PROMPT_MODE.KEYBOARD
 func _input(event):
-	if event is InputEventKey or event is InputEventMouseButton:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	if event is InputEventKey:
+		mouse_hide_timer.start()
 		if current_mode != PROMPT_MODE.KEYBOARD:
 			current_mode = PROMPT_MODE.KEYBOARD
-			mouse_hide_timer.stop()
+	if event is InputEventJoypadButton:
+		mouse_hide_timer.start()
+		if current_mode != PROMPT_MODE.JOYPAD:
+			current_mode = PROMPT_MODE.JOYPAD
+	if event is InputEventMouseMotion and event.relative.is_equal_approx(Vector2.ZERO) or event is InputEventMouseButton:
+		if current_mode == PROMPT_MODE.KEYBOARD:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	if event is InputEventMouseMotion:
-		mouse_hide_timer.stop()
-	if current_mode == PROMPT_MODE.JOYPAD:
-		if event is InputEventMouseMotion:
-			if not event.relative.is_equal_approx(Vector2.ZERO):
-				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-				mouse_hide_timer.start()
+			mouse_hide_timer.stop()
+		if current_mode == PROMPT_MODE.JOYPAD:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			mouse_hide_timer.start()
 func load_user_settings():
 	var usp = HBGame.platform_settings.user_dir_redirect(USER_SETTINGS_PATH)
 	var file := FileAccess.open(usp, FileAccess.READ)
