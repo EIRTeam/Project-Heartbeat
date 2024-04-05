@@ -1043,7 +1043,8 @@ msgid "Latency compensation"
 msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
-msgid "Delay applied to note timing, in miliseconds. Higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Delay applied to note timing, in miliseconds, higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."
 msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
@@ -1108,7 +1109,7 @@ msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
-msgid "Press the indicated buton!"
+msgid "Press the indicated button!"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
@@ -1283,6 +1284,10 @@ msgid "Charting"
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
+msgid "Localization"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
 msgid "Charting Software"
 msgstr ""
 
@@ -1383,10 +1388,6 @@ msgid "Shows a list of notes and how to hit them before the song starts"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Delay applied to note timing, in miliseconds higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
 msgid "Show latency"
 msgstr ""
 
@@ -1396,14 +1397,6 @@ msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Input"
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "Controller"
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "Controller to use for input."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1832,6 +1825,10 @@ msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for this sound effect"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Detected controllers:"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn

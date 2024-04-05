@@ -33,7 +33,7 @@ var feature_titles = {
 }
 
 var feature_descriptions = {
-	FEATURES_DISPLAY_TYPES.NORMAL_NOTES: tr("Press the indicated buton!"),
+	FEATURES_DISPLAY_TYPES.NORMAL_NOTES: tr("Press the indicated button!"),
 	FEATURES_DISPLAY_TYPES.HOLD_NOTES: tr("Hold these notes for as long as you can!"),
 	FEATURES_DISPLAY_TYPES.SLIDE_NOTES: tr("Press the indicated direction!"),
 	FEATURES_DISPLAY_TYPES.SLIDE_CHAINS: tr("Hold the indicated direction!"),
