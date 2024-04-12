@@ -51,7 +51,7 @@ static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 	
 	var data := PackedByteArray()
 	for i in range(0, file.get_length(), 4):
-		var bytes := data_8.slice(i, i + 3)
+		var bytes := data_8.slice(i, i + 4)
 		if opcode_map.game == "F2":
 			bytes.reverse()
 		
