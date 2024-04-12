@@ -48,9 +48,6 @@ func _on_confirmed():
 func _on_tree_item_edited():
 	if track_tree.get_selected() == track_root and track_tree.get_selected_column() == 0:
 		var select_all = track_root.is_checked(0)
-		var current_item = track_root.get_children()
-		
-		while current_item:
-			current_item.set_checked(0, select_all)
+		for child in track_root.get_children():
+			child.set_checked(0, select_all)
 			
-			current_item = current_item.get_next()
