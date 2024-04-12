@@ -7,15 +7,19 @@ var request: HTTPRequest
 @onready var romanized_title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label/RomanizedTitleLabel")
 @onready var author_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label2")
 @onready var subscribed_tick = get_node("MarginContainer/HBoxContainer/TextureRect/Panel")
-@onready var stars_progress = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel2/TextureRect")
-@onready var stars_panel = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel2")
-@onready var difficulty_panel = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel3")
-@onready var difficulty_label = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel3/HBoxContainer/Label")
+@onready var stars_progress = get_node("%Stars")
+@onready var stars_panel = get_node("%Stars")
+@onready var difficulty_panel = get_node("%DifficultyPanel")
+@onready var difficulty_label = get_node("%DifficultyLabel")
+@onready var arcade_texture_rect: TextureRect = get_node("%ArcadeTextureRect")
+@onready var console_texture_rect: TextureRect = get_node("%ConsoleTextureRect")
 var data: HBSteamUGCItem
 var item_owner: HBSteamFriend
 
 func _ready():
 	super._ready()
+	arcade_texture_rect.hide()
+	console_texture_rect.hide()
 	
 func set_data(_data: HBSteamUGCItem):
 	# HACKHACKHACK: requests need to be in tree?
@@ -47,6 +51,16 @@ func set_data(_data: HBSteamUGCItem):
 		difficulty_label.text = "x?"
 		if data.get_meta("item") is HBSong:
 			var song := data.get_meta("item") as HBSong
+			for difficulty in song.charts:
+				var usg := song.charts[difficulty].get("note_usage", []) as Array
+				# Usage map may be floats for some reason
+				usg = usg.map(func(a: float): return int(a))
+				if HBChart.ChartNoteUsage.ARCADE in usg:
+					arcade_texture_rect.texture = ResourcePackLoader.get_graphic("slide_right_note.png")
+					arcade_texture_rect.show()
+				if HBChart.ChartNoteUsage.CONSOLE in usg:
+					console_texture_rect.texture = ResourcePackLoader.get_graphic("heart_note.png")
+					console_texture_rect.show()
 			var min_stars = 100000000
 			var max_stars = 0
 			for difficulty in song.charts:
