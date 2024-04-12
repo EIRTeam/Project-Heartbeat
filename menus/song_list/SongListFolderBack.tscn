@@ -1,13 +1,12 @@
 [gd_scene load_steps=6 format=3 uid="uid://d4hc2q6cbgae"]
 
 [ext_resource type="Texture2D" uid="uid://cs0udkbeyyhkv" path="res://graphics/icons/undo-variant.svg" id="1"]
-[ext_resource type="StyleBox" path="res://styles/SongListItemHover.tres" id="3"]
-[ext_resource type="StyleBox" path="res://styles/SongListItemNormal.tres" id="4"]
+[ext_resource type="StyleBox" uid="uid://bpo43s4bcd0gr" path="res://styles/SongListItemHover.tres" id="3"]
+[ext_resource type="StyleBox" uid="uid://3yhfuv7t5wgf" path="res://styles/SongListItemNormal.tres" id="4"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="4_6fm3q"]
 [ext_resource type="Script" path="res://menus/song_list/SongListFolderBack.gd" id="5"]
 
 [node name="Control" type="Control"]
-use_parent_material = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 3
 anchors_preset = 10
@@ -20,7 +19,6 @@ script = ExtResource("5")
 node_to_scale_path = NodePath("Control")
 
 [node name="Control" type="Button" parent="."]
-use_parent_material = true
 layout_mode = 0
 offset_left = 50.0
 offset_top = 25.0
@@ -34,44 +32,43 @@ theme_override_styles/pressed = ExtResource("3")
 theme_override_styles/normal = ExtResource("4")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
-use_parent_material = true
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 62
 theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
-use_parent_material = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 7
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
-use_parent_material = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 7
+theme_override_constants/margin_top = 0
 theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
-use_parent_material = true
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
-use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="FolderName" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-use_parent_material = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
@@ -80,7 +77,6 @@ text = "Go back"
 vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
-use_parent_material = true
 custom_minimum_size = Vector2(175, 125)
 layout_mode = 0
 offset_left = -87.747
@@ -92,4 +88,4 @@ size_flags_stretch_ratio = 0.2
 mouse_filter = 2
 texture = ExtResource("1")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
