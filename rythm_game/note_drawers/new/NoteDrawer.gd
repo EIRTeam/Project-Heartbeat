@@ -45,8 +45,8 @@ var disable_trail_margin := false
 
 var layer_bound_node_datas = []
 
-signal add_node_to_layer(layer_name: String, node: Node)
-signal remove_node_from_layer(layer_name: String, node: Node)
+signal add_node_to_layer(layer_name: StringName, node: Node)
+signal remove_node_from_layer(layer_name: StringName, node: Node)
 signal judged(judgement, independent, target_time, event)
 signal finished
 
@@ -58,7 +58,7 @@ class LayerBoundNodeData:
 	var node: Node2D
 	var remote_transform = null
 	var source_transform
-	var layer_name: String
+	var layer_name: StringName
 	var node_self_visibility = false # for storing the old visibility of the node
 	
 	func _on_node_self_visibility_changed():
@@ -73,7 +73,7 @@ func set_enable_trail(val):
 			sine_drawer = SineDrawerCPU.new()
 			sine_drawer.game = game
 			sine_drawer.note_data = note_data
-			bind_node_to_layer(sine_drawer, "Trails")
+			bind_node_to_layer(sine_drawer, &"Trails")
 		elif sine_drawer:
 			free_node_bind(sine_drawer)
 			sine_drawer.queue_free()
@@ -90,7 +90,7 @@ func set_is_multi_note(val):
 func note_init():
 	note_graphics.scale = Vector2.ONE * UserSettings.user_settings.note_size
 	note_target_graphics.scale = Vector2.ONE * UserSettings.user_settings.note_size
-	bind_node_to_layer(appear_particles_node, "AppearParticles", NodePath("NoteTarget"))
+	bind_node_to_layer(appear_particles_node, &"AppearParticles", NodePath("NoteTarget"))
 	if appear_animation_enabled:
 		play_appear_animation()
 
@@ -127,7 +127,7 @@ func free_bind(data: LayerBoundNodeData):
 		data.remote_transform.queue_free()
 	layer_bound_node_datas.erase(data)
 
-func bind_node_to_layer(node: Node2D, layer_name: String, source_transform = null):
+func bind_node_to_layer(node: Node2D, layer_name: StringName, source_transform = null):
 	var data := LayerBoundNodeData.new()
 	data.node = node
 	data.layer_name = layer_name
@@ -222,7 +222,7 @@ func show_note_hit_effect(target_pos: Vector2):
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
 	var effect = effect_scene.instantiate()
 	effect.scale = Vector2.ONE * UserSettings.user_settings.note_size
-	game.game_ui.get_drawing_layer_node("HitParticles").add_child(effect)
+	game.game_ui.get_drawing_layer_node(&"HitParticles").add_child(effect)
 	effect.position = target_pos
 
 func fire_and_forget_user_sfx(sfx_name: String):

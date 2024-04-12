@@ -54,7 +54,7 @@ func set_game(new_game):
 	game.connect("time_changed", Callable(self, "_on_game_time_changed"))
 	get_tree().call_group(LATENCY_DISPLAY_GROUP, "set_judge", game.judge)
 func get_notes_node() -> Node2D:
-	return get_drawing_layer_node("Notes")
+	return get_drawing_layer_node(&"Notes")
 	
 func get_lyrics_view():
 	return lyrics_view
@@ -84,14 +84,14 @@ func _ready():
 	connect("resized", Callable(self, "_on_size_changed"))
 	call_deferred("_on_size_changed")
 	
-	add_drawing_layer("Laser")
-	add_drawing_layer("Trails")
-	add_drawing_layer("StarParticles")
-	add_drawing_layer("HitParticles")
-	add_drawing_layer("AppearParticles")
-	add_drawing_layer("SlideChainPieces")
-	add_drawing_layer("SlideChainParticles")
-	add_drawing_layer("Notes")
+	add_drawing_layer(&"Laser")
+	add_drawing_layer(&"Trails")
+	add_drawing_layer(&"StarParticles")
+	add_drawing_layer(&"HitParticles")
+	add_drawing_layer(&"AppearParticles")
+	add_drawing_layer(&"SlideChainPieces")
+	add_drawing_layer(&"SlideChainParticles")
+	add_drawing_layer(&"Notes")
 	
 	game_over_turn_off_node.hide()
 	add_child(tv_animation_tween)
@@ -104,13 +104,13 @@ func _ready():
 
 	get_tree().set_group(LATENCY_DISPLAY_GROUP, "visible", UserSettings.user_settings.show_latency)
 	_on_hide_multi_hint()
-func add_drawing_layer(layer_name: String):
+func add_drawing_layer(layer_name: StringName):
 	var layer_node = Node2D.new()
 	layer_node.name = "LAYER_" + layer_name
 	game_layer_node.add_child(layer_node)
 	drawing_layer_nodes[layer_name] = layer_node
 	
-func get_drawing_layer_node(layer_name: String) -> Node2D:
+func get_drawing_layer_node(layer_name: StringName) -> Node2D:
 	return drawing_layer_nodes[layer_name]
 	
 func _on_note_judged(judgement_info):

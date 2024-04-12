@@ -274,10 +274,10 @@ func create_note_drawer(note_data: HBBaseNote):
 	note_drawer.finished.connect(self._on_note_finished.bind(note_data))
 	return note_drawer
 				
-func _on_note_add_node_to_layer(layer_name: String, node: Node):
+func _on_note_add_node_to_layer(layer_name: StringName, node: Node):
 	game.game_ui.get_drawing_layer_node(layer_name).add_child(node)
 
-func _on_note_remove_node_from_layer(layer_name: String, node: Node):
+func _on_note_remove_node_from_layer(layer_name: StringName, node: Node):
 	game.game_ui.get_drawing_layer_node(layer_name).remove_child(node)
 
 # Independent means that a note judgement should be independent of the multi system, for example for

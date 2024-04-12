@@ -23,7 +23,7 @@ func note_init():
 	sine_drawer = SineDrawerSustain.new()
 	sine_drawer.game = game
 	sine_drawer.note_data = note_data
-	bind_node_to_layer(sine_drawer, "Trails")
+	bind_node_to_layer(sine_drawer, &"Trails")
 
 func handles_input(event: InputEventHB):
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String

@@ -38,7 +38,7 @@ func show_note_hit_effect(target_pos: Vector2):
 	if note_data.is_slide_note():
 		var effect = slide_effect_scene.instantiate()
 		effect.scale = Vector2.ONE * UserSettings.user_settings.note_size
-		game.game_ui.get_drawing_layer_node("StarParticles").add_child(effect)
+		game.game_ui.get_drawing_layer_node(&"StarParticles").add_child(effect)
 		if note_data.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
 			effect.scale.x = -1.0
 		effect.position = target_pos
@@ -49,7 +49,7 @@ func create_note_drawer(piece: HBNoteData):
 	drawer.note_data = piece
 	drawer.connect("add_node_to_layer", Callable(self, "_on_slide_piece_add_node_to_layer"))
 	drawer.connect("remove_node_from_layer", Callable(self, "_on_slide_piece_remove_node_from_layer"))
-	bind_node_to_layer(drawer, "SlideChainPieces")
+	bind_node_to_layer(drawer, &"SlideChainPieces")
 	drawer.is_multi_note = false
 	drawer.appear_animation_enabled = false
 	drawer.note_init()
@@ -224,7 +224,7 @@ func process_note(time_usec: int):
 						super.show_note_hit_effect(piece.position)
 						var hit_particle: SliderPieceParticle = SLIDE_PIECE_EFFECT.instantiate()
 						
-						game.game_ui.get_drawing_layer_node("SlideChainParticles").add_child(hit_particle)
+						game.game_ui.get_drawing_layer_node(&"SlideChainParticles").add_child(hit_particle)
 						hit_particle.position = piece.position
 						hit_particle.scale.x = -1 if piece.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT else 1
 						hit_particle.do_emit()
