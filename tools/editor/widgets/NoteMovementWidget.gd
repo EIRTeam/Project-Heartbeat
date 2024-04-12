@@ -82,7 +82,7 @@ func _widget_area_input(event: InputEvent):
 				
 				var values = {}
 				for i in editor.selected.size():
-					values[i] = fmod(fmod(round(rad_to_deg(entry_angle) - 180), 360.0) + 360, 360.0)
+					values[i] = fmod(fmod(round(rad_to_deg(entry_angle)), 360.0) + 360, 360.0)
 				
 				editor._change_selected_properties("entry_angle", values)
 				
