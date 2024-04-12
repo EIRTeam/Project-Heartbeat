@@ -2448,6 +2448,6 @@ func get_time_as_eight(time: int) -> float:
 		upper_bound = idx + 1
 	
 	var w := inverse_lerp(eight_map.times[lower_bound], eight_map.times[upper_bound], time)
-	var eight = lerp(eight_map.eights[lower_bound], eight_map.eights[upper_bound], w)
+	var eight = lerp(float(eight_map.eights[lower_bound]), float(eight_map.eights[upper_bound]), w)
 	
 	return eight
