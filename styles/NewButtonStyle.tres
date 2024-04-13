@@ -1,14 +1,11 @@
 [gd_resource type="StyleBoxFlat" format=3 uid="uid://buch37hpi8m2q"]
 
 [resource]
-content_margin_left = 66.0
-bg_color = Color(0.188235, 0.0705882, 0.301961, 0.501961)
+content_margin_left = 33.0
+bg_color = Color(0.186, 0.072, 0.3, 0.5)
+skew = Vector2(-1, 0)
 border_width_left = 100
-border_color = Color(0.929412, 0.215686, 0.8, 0.501961)
-corner_radius_top_right = 1024
-corner_radius_bottom_left = 1024
-corner_detail = 1
-expand_margin_right = 77.0
+border_color = Color(0.929412, 0.219608, 0.8, 0.501961)
+shadow_draw_center = false
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
-anti_aliasing = false
