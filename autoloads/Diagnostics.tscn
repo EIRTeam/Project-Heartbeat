@@ -1,27 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dq5y3eypts76p"]
+[gd_scene load_steps=5 format=3 uid="uid://dq5y3eypts76p"]
 
 [ext_resource type="Script" path="res://autoloads/Diagnostics.gd" id="1"]
-[ext_resource type="FontFile" path="res://fonts/new_fonts/roboto_black_15.tres" id="2"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="3"]
-[ext_resource type="PackedScene" path="res://autoloads/gamepad_visualizer/GamepadVisualizer.tscn" id="4"]
-[ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="5"]
-
-[sub_resource type="FontFile" id="1"]
-fallbacks = Array[Font]([ExtResource("5")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3_cyjtc"]
+[ext_resource type="PackedScene" uid="uid://ctfqpu58nwwdy" path="res://autoloads/gamepad_visualizer/GamepadVisualizer.tscn" id="4"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 process_mode = 3
@@ -34,8 +16,6 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -18.0
 offset_right = 120.0
-theme = ExtResource("3")
-theme_override_fonts/font = ExtResource("2")
 
 [node name="Window" type="Window" parent="."]
 position = Vector2i(0, 24)
@@ -50,6 +30,7 @@ offset_left = 10.0
 offset_right = -10.0
 offset_bottom = -10.0
 theme = ExtResource("3")
+current_tab = 0
 
 [node name="Game" type="MarginContainer" parent="Window/TabContainer"]
 layout_mode = 2
@@ -86,6 +67,11 @@ text = "Max:"
 [node name="ResetButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Reset"
+
+[node name="TestResultsScreenButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Test results screen"
 
 [node name="OpenStrayNodeTester" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -247,20 +233,17 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_right = -10.0
 offset_bottom = 24.0
-theme_override_fonts/font = SubResource("1")
+theme_override_fonts/font = ExtResource("3_cyjtc")
 text = "FPS: 15"
 horizontal_alignment = 2
 
 [node name="GamepadVisualizer" parent="." instance=ExtResource("4")]
-layout_mode = 3
-anchors_preset = 15
 offset_left = 1.18921
 offset_right = 1.18921
-grow_horizontal = 2
-grow_vertical = 2
 
 [connection signal="close_requested" from="Window" to="Window" method="hide"]
 [connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/TestResultsScreenButton" to="." method="_on_test_results_screen_button_pressed"]
 [connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/OpenStrayNodeTester" to="." method="_on_OpenStrayNodeTester_pressed"]
 [connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/PrintOrphanedNodesButton" to="." method="_on_PrintOrphanedNodesButton_pressed"]
 [connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PrintPropertyValue" to="." method="_on_PrintPropertyValue_pressed"]

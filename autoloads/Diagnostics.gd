@@ -246,3 +246,34 @@ func _on_CommitActionButton_pressed():
 		return
 	
 	editor_undo_redo.commit_action()
+
+
+func _on_test_results_screen_button_pressed() -> void:
+	var game_info := HBGameInfo.new()
+	game_info.result.used_cheats = true
+	game_info.song_id = "confession"
+	game_info.result.max_combo = 501
+	game_info.result.max_score = 754000
+	game_info.result.note_ratings[HBJudge.JUDGE_RATINGS.COOL] = 688
+	game_info.result.note_ratings[HBJudge.JUDGE_RATINGS.FINE] = 44
+	game_info.result.note_ratings[HBJudge.JUDGE_RATINGS.SAD] = 2
+	game_info.result.note_ratings[HBJudge.JUDGE_RATINGS.SAFE] = 14
+	game_info.result.note_ratings[HBJudge.JUDGE_RATINGS.WORST] = 1
+	
+	game_info.result.wrong_note_ratings[HBJudge.JUDGE_RATINGS.COOL] = 2
+	game_info.result.wrong_note_ratings[HBJudge.JUDGE_RATINGS.FINE] = 1
+	game_info.result.wrong_note_ratings[HBJudge.JUDGE_RATINGS.SAD] = 3
+	game_info.result.wrong_note_ratings[HBJudge.JUDGE_RATINGS.SAFE] = 4
+	game_info.result.wrong_note_ratings[HBJudge.JUDGE_RATINGS.WORST] = 5
+	game_info.result.total_notes = 753 + 2 + 4 + 5
+
+	var MainMenu := load("res://menus/MainMenu3D.tscn")
+	var scene = MainMenu.instantiate() as HBMainMenu
+	var old_scene = get_tree().current_scene
+	get_tree().current_scene.queue_free()
+	scene.starting_menu = "results"
+	scene.starting_menu_args = {"game_info": game_info}
+	scene.starting_song = game_info.get_song()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+	get_tree().root.remove_child(old_scene)
