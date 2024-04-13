@@ -16,7 +16,7 @@ float remap(float value, float low1, float low2, float high1, float high2) {
 void fragment() {
 	COLOR = texture(screen_texture, SCREEN_UV);
 	vec2 screen_size = 1.0 / SCREEN_PIXEL_SIZE;
-	float screen_pos_y = FRAGCOORD.y;
+	float screen_pos_y = CANVAS_COORD.y;
 	float remapped = clamp(remap(screen_pos_y, pos.y, 0, pos.y+size.y, 1.0), 0.0, 1.0);
 	float fade_s = fade_size * (1.0 / float(size.y));
 	COLOR.a = mix(COLOR.a, COLOR.a * smoothstep(0.0, fade_s, remapped), top_enabled);

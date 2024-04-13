@@ -1,13 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://bsax0rf0shie"]
+[gd_scene load_steps=18 format=3 uid="uid://bsax0rf0shie"]
 
 [ext_resource type="Script" path="res://menus/MainMenu3D.gd" id="1"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2"]
-[ext_resource type="Script" path="res://menus/ScaledViewport.gd" id="2_8711a"]
-[ext_resource type="Script" path="res://scripts/3DUIQuad.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://d2xoywdaxsuvs" path="res://menus/MainMenuVisualizer.tscn" id="5"]
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="6"]
-[ext_resource type="Script" path="res://menus/GLES2ViewportRTHack.gd" id="7"]
 [ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="8"]
 [ext_resource type="PackedScene" uid="uid://s460eaf516lj" path="res://menus/MainMenuUserInfo.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://ddwcdis3ndvvm" path="res://menus/music_player/MainMenuMusicPlayer.tscn" id="10"]
@@ -15,40 +12,6 @@
 
 [sub_resource type="Environment" id="Environment_i7ayv"]
 background_mode = 3
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_6fpf8"]
-viewport_path = NodePath("ViewportLeft")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57r4k"]
-resource_local_to_scene = true
-transparency = 1
-shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_6fpf8")
-
-[sub_resource type="QuadMesh" id="1"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_57r4k")
-size = Vector2(1.6, 0.9)
-
-[sub_resource type="BoxShape3D" id="4"]
-size = Vector3(1.6, 0.9, 0.1)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_bsm36"]
-viewport_path = NodePath("ViewportRight")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xaq6o"]
-resource_local_to_scene = true
-transparency = 1
-shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_bsm36")
-
-[sub_resource type="QuadMesh" id="5"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_xaq6o")
-size = Vector2(0.45, 0.9)
-
-[sub_resource type="BoxShape3D" id="8"]
-size = Vector3(0.45, 0.9, 0.1)
 
 [sub_resource type="Animation" id="9"]
 length = 0.3
@@ -116,14 +79,12 @@ current = true
 fov = 47.0
 size = 0.9
 
-[node name="ViewportLeft" type="SubViewport" parent="."]
-disable_3d = true
-transparent_bg = true
-size = Vector2i(1920, 1080)
-render_target_update_mode = 3
-script = ExtResource("2_8711a")
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -1.12763, 0.479316, -0.488259)
 
-[node name="MenuLeftContainer" type="MarginContainer" parent="ViewportLeft"]
+[node name="CanvasLayer3D" type="CanvasLayer3D" parent="Node3D"]
+
+[node name="MenuLeftContainer" type="MarginContainer" parent="Node3D/CanvasLayer3D"]
 custom_minimum_size = Vector2(1760, 1080)
 offset_left = 100.0
 offset_right = -59.9999
@@ -131,14 +92,14 @@ size_flags_horizontal = 3
 theme = ExtResource("2")
 theme_override_constants/margin_left = 0
 
-[node name="ViewportRight" type="SubViewport" parent="."]
-disable_3d = true
-transparent_bg = true
-size = Vector2i(720, 1440)
-render_target_update_mode = 3
-script = ExtResource("2_8711a")
+[node name="Node3D2" type="Node3D" parent="."]
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 0.468815, 0.45091, -0.407527)
 
-[node name="MenuRightContainer" type="MarginContainer" parent="ViewportRight"]
+[node name="CanvasLayer3D" type="CanvasLayer3D" parent="Node3D2"]
+scale = Vector2(0.75, 0.75)
+transform = Transform2D(0.75, 0, 0, 0.75, 0, 0)
+
+[node name="MenuRightContainer" type="MarginContainer" parent="Node3D2/CanvasLayer3D"]
 custom_minimum_size = Vector2(720, 1440)
 offset_right = 6.10352e-05
 offset_bottom = 0.00012207
@@ -149,53 +110,19 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ViewportRight/MenuRightContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Node3D2/CanvasLayer3D/MenuRightContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 30
 
-[node name="UserInfo" parent="ViewportRight/MenuRightContainer/VBoxContainer" instance=ExtResource("9")]
+[node name="UserInfo" parent="Node3D2/CanvasLayer3D/MenuRightContainer/VBoxContainer" instance=ExtResource("9")]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="ViewportRight/MenuRightContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="Node3D2/CanvasLayer3D/MenuRightContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="AreaLeft" type="Area3D" parent="." node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
-transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -0.24791, 0, -0.518273)
-script = ExtResource("3")
-node_viewport = NodePath("../ViewportLeft")
-node_quad = NodePath("MeshInstance3D")
-node_area = NodePath(".")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaLeft"]
-transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0)
-mesh = SubResource("1")
-skeleton = NodePath("")
-script = ExtResource("7")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaLeft"]
-transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0.004, -0.004, -0.05)
-shape = SubResource("4")
-
-[node name="AreaRight" type="Area3D" parent="." node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
-transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 0.651739, 0, -0.235812)
-script = ExtResource("3")
-node_viewport = NodePath("../ViewportRight")
-node_quad = NodePath("MeshInstance3D")
-node_area = NodePath(".")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaRight"]
-transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 5.96046e-08, 0, 0.00996158)
-mesh = SubResource("5")
-skeleton = NodePath("")
-script = ExtResource("7")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaRight"]
-transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, -0.05)
-shape = SubResource("8")
 
 [node name="SongListPreviewAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
