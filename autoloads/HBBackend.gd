@@ -9,6 +9,7 @@ signal diagnostics_created_request(request_data)
 signal request_failed(handle, code, total_pages)
 signal score_enter_failed(handle, reason)
 signal connection_status_changed
+signal song_history_received(entries: Array[BackendLeaderboardHistoryEntry])
 var enable_diagnostics = false
 
 const SERVICE_ENVIRONMENTS = {
@@ -46,14 +47,16 @@ enum REQUEST_TYPE {
 	LOGIN,
 	ENTER_RESULT,
 	GET_ENTRIES,
-	GET_USER_DATA
+	GET_USER_DATA,
+	GET_USER_SONG_HISTORY
 }
 
 var request_type_methods = {
 	REQUEST_TYPE.LOGIN: "_on_logged_in",
 	REQUEST_TYPE.ENTER_RESULT: "_on_result_entered",
 	REQUEST_TYPE.GET_ENTRIES: "_on_entries_received",
-	REQUEST_TYPE.GET_USER_DATA: "_on_user_data_received"
+	REQUEST_TYPE.GET_USER_DATA: "_on_user_data_received",
+	REQUEST_TYPE.GET_USER_SONG_HISTORY: "_on_user_song_history_received"
 }
 
 const LOG_NAME = "HBBackend"
@@ -71,6 +74,14 @@ class BackendLeaderboardEntry:
 		user = _user
 		rank = _rank
 		game_info = _game_info
+		
+class BackendLeaderboardHistoryEntry:
+	var rank: int
+	var game_info: HBGameInfo
+	func _init(_rank: int, _game_info: HBGameInfo):
+		game_info = _game_info
+		rank = _rank
+		
 func _ready():
 	add_child(timer)
 	
@@ -274,6 +285,34 @@ func _convert_note_ratings(data_dict: Dictionary):
 			if key.to_lower() == rating_name.to_lower():
 				out_dict[str(HBJudge.JUDGE_RATINGS[key])] = data_dict[rating_name]
 	return out_dict
+	
+func _on_user_song_history_received(result: Dictionary, params):
+	var entries: Array[BackendLeaderboardHistoryEntry]
+	for entry in result.get("leaderboard_entries", []):
+		var entry_data := entry.get("entry", {}).get("entry_data") as Dictionary
+		var entry_result := entry_data.get("result", {}) as Dictionary
+		const RATING_MAP := {
+			"Cool": HBJudge.JUDGE_RATINGS.COOL,
+			"Fine": HBJudge.JUDGE_RATINGS.FINE,
+			"Sad": HBJudge.JUDGE_RATINGS.SAD,
+			"Safe": HBJudge.JUDGE_RATINGS.SAFE,
+			"Worst": HBJudge.JUDGE_RATINGS.WORST
+		}
+		var note_ratings_copy := (entry_result.get("note_ratings", {}) as Dictionary).duplicate()
+		var note_ratings := (entry_result.get("note_ratings", {}) as Dictionary)
+		note_ratings.clear()
+		for rating in note_ratings_copy:
+			if rating in RATING_MAP:
+				note_ratings[RATING_MAP[rating]] = note_ratings_copy[rating]
+		if not note_ratings.size() == HBJudge.JUDGE_RATINGS.size():
+			continue
+		var game_info := HBSerializable.deserialize(entry_data) as HBGameInfo
+		if not game_info:
+			continue
+		entries.push_back(BackendLeaderboardHistoryEntry.new(entry.get("rank", 0), game_info))
+	song_history_received.emit(entries)
+	
+	
 func _on_entries_received(result, params):
 	var entries = []
 	for item in result.leaderboard_entries:
@@ -299,6 +338,15 @@ func get_song_entries(song: HBSong, difficulty: String, include_modifiers = fals
 		song_uid = song.guid
 	var params = [type, song_uid, difficulty.uri_encode(), str(page), str(include_modifiers).to_lower()]
 	return make_request("/api/leaderboard/get-results/%s/%s/%s?page=%s&modifiers=%s" % params, {}, HTTPClient.METHOD_GET, REQUEST_TYPE.GET_ENTRIES, {"page": page})
+
+func get_song_history(song: HBSong, difficulty: String):
+	var type = "steam"
+	var song_uid = str(song.ugc_id)
+	if song is HBPPDSong:
+		type = "ppd"
+		song_uid = song.guid
+	var params = [type, song_uid, difficulty.uri_encode()]
+	return make_request("/api/user/get-song-history/%s/%s/%s" % params, {}, HTTPClient.METHOD_GET, REQUEST_TYPE.GET_USER_SONG_HISTORY)
 
 func renew_auth():
 	if PlatformService.service_provider.implements_leaderboard_auth:
