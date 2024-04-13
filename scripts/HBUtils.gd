@@ -300,7 +300,7 @@ static func array2texture(body: PackedByteArray) -> Texture2D:
 	var texture = ImageTexture.create_from_image(img)
 	return texture
 
-static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=true):
+static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=true, create_mipmaps := false):
 	var time_start = Time.get_ticks_usec()
 	
 	var _image_sizes = PackedVector2Array()
@@ -348,9 +348,11 @@ static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=
 		atlas_entry.region = atlas_texture.region
 		atlas_entry.margin = atlas_texture.margin
 		atlas_data[image_name] = atlas_entry
-		
+	if create_mipmaps:
+		output_image.generate_mipmaps()
 	texture.set_image(output_image)
 	var time_end = Time.get_ticks_usec()
+
 	print("pack_images_turbo16 took %d microseconds" % [(time_end - time_start)])
 	
 	return {
@@ -589,3 +591,13 @@ static func bsearch_linear(array: Array, value: int) -> float:
 	
 	var decimal = inverse_lerp(array[idx], array[idx + 1], value)
 	return idx + decimal
+
+static func get_clear_badge(rating: HBResult.RESULT_RATING) -> Texture2D:
+	const clear_badges = {
+		HBResult.RESULT_RATING.CHEAP: preload("res://graphics/icons/clearBadge-Cheap.png"),
+		HBResult.RESULT_RATING.STANDARD: preload("res://graphics/icons/clearBadge-Pass.png"),
+		HBResult.RESULT_RATING.GREAT: preload("res://graphics/icons/clearBadge-Great.png"),
+		HBResult.RESULT_RATING.EXCELLENT: preload("res://graphics/icons/clearBadge-Excellent.png"),
+		HBResult.RESULT_RATING.PERFECT: preload("res://graphics/icons/clearBadge-Perfect.png")
+	}
+	return clear_badges[rating]

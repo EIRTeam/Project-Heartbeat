@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqsegv1wyr5o7"
-path="res://.godot/imported/menu_star.png-6954bd70e8bae99f5ce1a1b5973cba50.ctex"
+uid="uid://lh6qy62htimt"
+path="res://.godot/imported/clearBadge-Cheap.png-0d97c50d082b27d89e9bc6681e1fbac3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/menu_star.png"
-dest_files=["res://.godot/imported/menu_star.png-6954bd70e8bae99f5ce1a1b5973cba50.ctex"]
+source_file="res://graphics/icons/clearBadge-Cheap.png"
+dest_files=["res://.godot/imported/clearBadge-Cheap.png-0d97c50d082b27d89e9bc6681e1fbac3.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

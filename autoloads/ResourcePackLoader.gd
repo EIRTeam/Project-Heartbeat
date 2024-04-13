@@ -144,7 +144,7 @@ func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_setti
 			var at = HBUtils.pack_images_turbo16({
 				"fallback": fallback_images[atlas_name],
 				"selected": selected_pack_atlas
-			}, 1, true)
+			}, 1, true, true)
 			var atlas_texture := at.texture as Texture2D
 			atlas_increment += 1
 			at.texture.resource_path = "PH_RESOURCE_PACK_LOADER_ATLAS_" + str(atlas_increment)
