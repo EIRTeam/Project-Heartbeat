@@ -284,9 +284,11 @@ func _game_init():
 		
 	rich_presence = HBRichPresence.new()
 	if not OS.has_feature("no_rich_presence"):
+		rich_presence.queue_free()
 		rich_presence = HBRichPresenceDiscord.new()
 	var res = rich_presence.init_presence()
 	if res != OK:
+		rich_presence.queue_free()
 		rich_presence = HBRichPresence.new()
 	add_child(rich_presence)
 
