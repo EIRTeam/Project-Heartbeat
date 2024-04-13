@@ -1,11 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://f7tw4wikjads"]
 
 [ext_resource type="Script" path="res://rythm_game/results_screen/ResultRating.gd" id="1"]
-[ext_resource type="StyleBox" path="res://styles/ResultRatingStyleEven.tres" id="1_a2wd1"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="2"]
+[ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="1_3rfje"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2"]
 
 [sub_resource type="FontFile" id="1"]
 fallbacks = Array[Font]([ExtResource("2")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -17,22 +20,20 @@ cache/0/30/0/underline_position = 0.0
 cache/0/30/0/underline_thickness = 0.0
 cache/0/30/0/scale = 1.0
 
-[node name="Panel" type="Panel"]
+[node name="Panel" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 50)
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 46.0
+offset_bottom = 67.0
+grow_horizontal = 2
 size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("1_a2wd1")
+theme_override_styles/panel = ExtResource("1_3rfje")
 script = ExtResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 5.0
+layout_mode = 2
 theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 10
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 5
 

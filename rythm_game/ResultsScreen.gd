@@ -175,6 +175,7 @@ func set_game_info(val: HBGameInfo):
 	
 	results_tab.combo_label.text = str(result.max_combo)
 	results_tab.total_notes_label.text = str(result.total_notes)
+	results_tab.notes_hit_label.text = str(result.notes_hit)
 	
 	var highest_percentage = previous_entry.highest_percentage if previous_entry else 0.0
 	var highest_score = previous_entry.highest_score if previous_entry else 0

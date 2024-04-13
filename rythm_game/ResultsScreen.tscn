@@ -1,11 +1,11 @@
 [gd_scene load_steps=23 format=3 uid="uid://batn8iey4yeus"]
 
-[ext_resource type="FontVariation" path="res://fonts/default_font_medium.tres" id="1"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="Script" path="res://scripts/RichTextWordRainbow.gd" id="2"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="4"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="5"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="6"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="6"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="7"]
 [ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="8"]
 [ext_resource type="Texture2D" uid="uid://crfv6jol2l5x3" path="res://graphics/icons/thumb-down.svg" id="9"]
@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://rythm_game/ResultsScreen.gd" id="12"]
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://u7xd1sepbnm5" path="res://menus/tabbed_container/TabbedContainer.tscn" id="14"]
-[ext_resource type="FontVariation" path="res://fonts/noto/NotoSans-Regular.tres" id="17"]
+[ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="17"]
 
 [sub_resource type="Image" id="Image_oer0l"]
 data = {
@@ -103,6 +103,9 @@ cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
 [sub_resource type="FontFile" id="3"]
 fallbacks = Array[Font]([SubResource("2"), ExtResource("17")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0

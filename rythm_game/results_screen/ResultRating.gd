@@ -1,5 +1,5 @@
 @tool
-extends Panel
+extends PanelContainer
 
 @export var rating: HBJudge.JUDGE_RATINGS : set = set_rating
 var total_notes : set = set_total_notes
@@ -10,6 +10,7 @@ var percentage : set = set_percentage
 @onready var percentage_label = get_node("MarginContainer/HBoxContainer/ValueLabel3/PercentageLabel")
 
 const style_even = preload("res://styles/ResultRatingStyleEven.tres")
+const style_odd = preload("res://styles/ResultRatingStyleOdd.tres")
 var odd = false
 
 func set_total_notes(val):
@@ -17,7 +18,9 @@ func set_total_notes(val):
 	total_label.text = str(val)
 
 func _ready():
-	if not odd:
+	if odd:
+		add_theme_stylebox_override("panel", style_odd)
+	else:
 		add_theme_stylebox_override("panel", style_even)
 func set_percentage(val):
 	percentage = val
