@@ -1,14 +1,17 @@
 [gd_scene load_steps=9 format=3 uid="uid://csftab5uoigrn"]
 
 [ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="1"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="2"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="3"]
+[ext_resource type="StyleBox" uid="uid://cp7yh4stt825r" path="res://styles/PanelStyleTransparentIconHover.tres" id="2"]
+[ext_resource type="StyleBox" uid="uid://b21324ii6ky3l" path="res://styles/PanelStyleTransparentIcon.tres" id="3"]
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="4"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="5"]
 [ext_resource type="Script" path="res://menus/news_list/NewsListItem.gd" id="6"]
 
 [sub_resource type="FontFile" id="1"]
 fallbacks = Array[Font]([ExtResource("5"), ExtResource("4")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -26,6 +29,9 @@ cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
 [sub_resource type="FontFile" id="3"]
 fallbacks = Array[Font]([ExtResource("1"), ExtResource("4")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -41,7 +47,7 @@ cache/0/30/0/scale = 1.0
 cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
 cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
-[node name="Button" type="Button"]
+[node name="Button" type="HBButtonBlurEX"]
 custom_minimum_size = Vector2(0, 100)
 offset_right = 331.0
 offset_bottom = 206.0

@@ -11,7 +11,8 @@ var button_panel
 var leaderboard_legal_text
 @onready var ppd_video_url_change_confirmation_prompt = get_node("VideoURLChangePopup")
 @onready var tabbed_container = get_node("MarginContainer/VBoxContainer/TabbedContainer")
-var stats_label
+var stats_label: Label
+var history_container: VBoxContainer
 var current_song: HBSong
 var current_difficulty: String
 var current_editing_modifier: String
@@ -44,6 +45,7 @@ func _ready():
 	modifier_scroll_container = pregame_start_tab.modifier_scroll_container
 	leaderboard_legal_text = pregame_start_tab.leaderboard_legal_text
 	stats_label = pregame_start_tab.stats_label
+	history_container = pregame_start_tab.leaderboard_history_container
 	button_panel = pregame_start_tab.button_panel
 	
 	tabbed_container.add_tab("Leaderboard", tr("Leaderboard"), leaderboard_tab_normal)
@@ -101,6 +103,7 @@ func _modifier_loader_back():
 func _on_menu_exit(force_hard_transition=false):
 	super._on_menu_exit(force_hard_transition)
 	MouseTrap.cache_song_overlay.disconnect("done", Callable(button_container, "grab_focus"))
+	HBBackend.song_history_received.disconnect(self._on_song_history_received)
 	
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
@@ -111,6 +114,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	current_difficulty = current_song.charts.keys()[0]
 	if args.has("difficulty"):
 		current_difficulty = args.difficulty
+
 	song_title.difficulty = current_difficulty
 	song_title.set_song(current_song)
 	game_info = UserSettings.user_settings.last_game_info.clone()
@@ -133,15 +137,29 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	tabbed_container.show_tab("Song")
 	
 	MouseTrap.cache_song_overlay.connect("done", Callable(button_container, "grab_focus").bind(), CONNECT_DEFERRED)
+	HBBackend.song_history_received.connect(self._on_song_history_received)
+	if current_song.comes_from_ugc():
+		HBBackend.get_song_history(current_song, current_difficulty)
+	
+const HISTORY_ENTRY_SCENE = preload("res://menus/pregame_screen/PreGameLeaderboardHistoryEntry.tscn")
+		
+func _on_song_history_received(entries: Array[HBBackend.BackendLeaderboardHistoryEntry]):
+	var last_entry: HBBackend.BackendLeaderboardHistoryEntry 
+	
+	for child in history_container.get_children():
+		child.queue_free()
+	
+	for entry in entries:
+		var scene := HISTORY_ENTRY_SCENE.instantiate() as HBPregameLeaderboardHistoryEntry
+		scene.game_info = entry.game_info
+		if last_entry:
+			scene.diff = last_entry.game_info.result.score - entry.game_info.result.score
+		history_container.add_child(scene)
+		last_entry = entry
+		
 func update_song_stats_label():
 	var stats = HBGame.song_stats.get_song_stats(current_song.id)
-	var highest_score_string = tr("Never played")
-	if ScoreHistory.has_result(current_song.id, current_difficulty):
-		var result := ScoreHistory.get_data(current_song.id, current_difficulty) as HBHistoryEntry
-		var pass_percentage = result.highest_score_info.result.get_percentage()
-		var thousands_sep_score = HBUtils.thousands_sep(result.highest_score)
-		highest_score_string = "%s (%.2f %%)" % [thousands_sep_score, pass_percentage*100]
-	var text = tr("Times Played: %d\n\nHighest score:\n%s") % [stats.times_played, highest_score_string]
+	var text = tr("Times Played: %d\n") % [stats.times_played]
 	stats_label.text = text
 	
 func _on_button_list_out_from_top():

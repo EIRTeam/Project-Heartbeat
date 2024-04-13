@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://s460eaf516lj"]
 
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="1"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="3"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="4_2kxm0"]
 [ext_resource type="Script" path="res://menus/MainMenuUserInfo.gd" id="5"]
@@ -11,7 +11,7 @@ border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 shadow_color = Color(0.94902, 0.239216, 0.819608, 0.501961)
 shadow_size = 8
 
-[node name="Panel" type="Panel"]
+[node name="Panel" type="HBPanelContainerBlurEX"]
 custom_minimum_size = Vector2(0, 135)
 anchors_preset = -1
 anchor_right = 1.0
@@ -22,9 +22,7 @@ theme_override_styles/panel = ExtResource("1")
 script = ExtResource("5")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 20

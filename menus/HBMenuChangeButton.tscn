@@ -1,26 +1,23 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://df57f4m3iefr8"]
 
 [ext_resource type="Script" path="res://menus/HBMenuChangeButton.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2"]
-[ext_resource type="StyleBox" path="res://styles/NewButtonStyleHover.tres" id="3"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2"]
+[ext_resource type="StyleBox" uid="uid://cagyam1vrjokn" path="res://styles/NewButtonStyleHover.tres" id="3"]
 [ext_resource type="StyleBox" uid="uid://buch37hpi8m2q" path="res://styles/NewButtonStyle.tres" id="5"]
 
-[node name="StartButton" type="Button"]
+[node name="StartButton" type="HBButtonBlurEX"]
 offset_left = 9.0
 offset_top = 83.0
 offset_right = 417.0
 offset_bottom = 147.0
-pivot_offset = Vector2( 768.465, 260.259 )
+pivot_offset = Vector2(768.465, 260.259)
 focus_mode = 0
-theme_override_styles/hover = ExtResource( 3 )
-theme_override_styles/pressed = ExtResource( 3 )
-theme_override_styles/normal = ExtResource( 5 )
-theme_override_fonts/font = ExtResource( 2 )
-theme_override_colors/font_color = Color( 1, 1, 1, 1 )
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/h_separation = 69
+theme_override_fonts/font = ExtResource("2")
+theme_override_styles/hover = ExtResource("3")
+theme_override_styles/pressed = ExtResource("3")
+theme_override_styles/normal = ExtResource("5")
 text = "(NT)Rhythm Game"
-horizontal_alignment = 0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+alignment = 0
+script = ExtResource("1")

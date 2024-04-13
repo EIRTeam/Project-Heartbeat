@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bwx8jmm5u4dmc" path="res://graphics/icons/music-box-outline.svg" id="2"]
 [ext_resource type="Texture2D" uid="uid://747hv6amarf4" path="res://graphics/icons/settings.svg" id="3"]
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="3_egic7"]
-[ext_resource type="PackedScene" path="res://menus/HBMenuChangeButton.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://df57f4m3iefr8" path="res://menus/HBMenuChangeButton.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://doafidb2q4jxo" path="res://graphics/icons/exit-run.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://m0q58fhyueok" path="res://graphics/icons/tools.svg" id="6"]
 [ext_resource type="Texture2D" uid="uid://d2kjl2b11qmqm" path="res://graphics/icons/earth.svg" id="7"]
@@ -83,10 +83,13 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 9
 anchor_bottom = 1.0
-offset_right = 435.0
+offset_left = 53.0
+offset_right = 488.0
 offset_bottom = 15.0
+grow_vertical = 2
 theme_override_constants/separation = 25
 alignment = 1
 
@@ -108,7 +111,6 @@ custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Free Play"
 icon = ExtResource("2")
-alignment = 0
 next_menu = "song_list"
 
 [node name="WorkshopButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource("4")]
@@ -116,7 +118,6 @@ custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Workshop"
 icon = ExtResource("16")
-alignment = 0
 next_menu = "workshop_browser"
 
 [node name="HowToPlayButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
@@ -124,7 +125,6 @@ custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "How to play"
 icon = ExtResource("12")
-alignment = 0
 next_menu = "tutorial"
 
 [node name="MultiplayerButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource("4")]
@@ -132,7 +132,6 @@ custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Multiplayer"
 icon = ExtResource("7")
-alignment = 0
 next_menu = "lobby_list"
 
 [node name="DownloadQueueButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
@@ -140,7 +139,6 @@ custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Downloads"
 icon = ExtResource("17")
-alignment = 0
 next_menu = "download_queue"
 
 [node name="DiscordButton" parent="VBoxContainer/StartMenu" groups=["demo_only"] instance=ExtResource("4")]
@@ -149,14 +147,12 @@ custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Discord Server"
 icon = ExtResource("14")
-alignment = 0
 
 [node name="OptionsButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Options"
 icon = ExtResource("3")
-alignment = 0
 next_menu = "options_menu"
 
 [node name="ToolsButton" parent="VBoxContainer/StartMenu" groups=["nodemo"] instance=ExtResource("4")]
@@ -164,7 +160,6 @@ custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Tools"
 icon = ExtResource("6")
-alignment = 0
 next_menu = "tools_menu"
 
 [node name="ExitButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
@@ -172,7 +167,6 @@ custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Exit"
 icon = ExtResource("5")
-alignment = 0
 
 [connection signal="focus_entered" from="." to="VBoxContainer/StartMenu" method="grab_focus"]
 [connection signal="pressed" from="VBoxContainer/StartMenu/DiscordButton" to="." method="_on_discord_server_pressed"]

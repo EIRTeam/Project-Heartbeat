@@ -1,4 +1,4 @@
-extends Panel
+extends PanelContainer
 
 @onready var avatar_texture_rect = get_node("MarginContainer/HBoxContainer/TextureRect")
 
