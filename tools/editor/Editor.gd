@@ -153,6 +153,7 @@ func update_shortcuts():
 		module.update_shortcuts()
 
 func _ready():
+	UserSettings.auto_mouse_hiding_enabled = false
 	UserSettings.enable_menu_fps_limits = false
 	UserSettings.mouse_hide_timer.stop()
 	add_child(game_playback)
@@ -2079,6 +2080,7 @@ func _notification(what):
 		if not playtesting:
 			if not rhythm_game_playtest_popup.is_queued_for_deletion() and not rhythm_game_playtest_popup.is_inside_tree():
 				rhythm_game_playtest_popup.queue_free()
+		UserSettings.auto_mouse_hiding_enabled = true
 
 
 func get_hold_size(data):

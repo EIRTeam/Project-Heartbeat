@@ -52,23 +52,28 @@ var controller_device_idx = -1
 
 var controller_guid := ""
 
-const MOUSE_HIDE_TIME = 0.5
+const MOUSE_HIDE_TIME = 1.0
+var auto_mouse_hiding_enabled := true:
+	set(val):
+		auto_mouse_hiding_enabled = val
+		if not auto_mouse_hiding_enabled:
+			mouse_hide_timer.stop()
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 var user_sfx := {}
 
 func _ready():
+	get_window().window_input.connect(self.window_input)
 	add_child(debounce_timer)
 	debounce_timer.wait_time = 1.0
 	debounce_timer.one_shot = true
 	debounce_timer.connect("timeout", Callable(self, "_save_user_settings"))
 
 	add_child(mouse_hide_timer)
-	#TODO GD4
-	mouse_hide_timer.wait_time = 1.0
+	mouse_hide_timer.wait_time = MOUSE_HIDE_TIME
 	mouse_hide_timer.one_shot = true
-	mouse_hide_timer.connect("timeout", Callable(Input, "set_mouse_mode").bind(Input.MOUSE_MODE_HIDDEN))
-	# Godot simulates joy connections on startup, this makes sure we skip them
-
+	mouse_hide_timer.timeout.connect(Input.set_mouse_mode.bind(Input.MOUSE_MODE_HIDDEN))
+	mouse_hide_timer.start()
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
 #	TODO: This hangs the game, why? God knows
 #	if controller_device_idx != -1:
@@ -376,20 +381,19 @@ enum PROMPT_MODE {
 }
 	
 var current_mode = PROMPT_MODE.KEYBOARD
-func _input(event):
-	process_mode = Node.PROCESS_MODE_ALWAYS
-	if event is InputEventJoypadButton or event is InputEventKey:
-		if event is InputEventMouseMotion or event is InputEventMouseButton:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		elif mouse_hide_timer.time_left == 0:
-			mouse_hide_timer.start()
-		if event is InputEventKey and (current_mode != PROMPT_MODE.KEYBOARD):
-			current_mode = PROMPT_MODE.KEYBOARD
-		elif event is InputEventJoypadButton and (current_mode != PROMPT_MODE.JOYPAD):
-			current_mode = PROMPT_MODE.JOYPAD
-	elif (event is InputEventMouseMotion and event.relative.is_equal_approx(Vector2.ZERO)) or event is InputEventMouseButton:
+func window_input(event):
+	if not auto_mouse_hiding_enabled:
+		return
+	if event is InputEventMouse:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		mouse_hide_timer.stop()
+	if event is InputEventKey:
+		mouse_hide_timer.start()
+		current_mode = PROMPT_MODE.KEYBOARD
+	elif event is InputEventJoypadButton:
+		mouse_hide_timer.start()
+		current_mode = PROMPT_MODE.JOYPAD
+
 func load_user_settings():
 	var usp = HBGame.platform_settings.user_dir_redirect(USER_SETTINGS_PATH)
 	var file := FileAccess.open(usp, FileAccess.READ)
