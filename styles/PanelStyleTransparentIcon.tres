@@ -11,6 +11,5 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-shadow_draw_center = false
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
