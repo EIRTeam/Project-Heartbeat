@@ -72,16 +72,28 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
+clip_contents = false
 layout_mode = 2
 focus_mode = 2
 script = ExtResource("6")
-container_path = NodePath("VBoxContainer")
+container_path = NodePath("PanelContainer/ModifierButtonContainer")
 horizontal_step = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer"]
+[node name="PanelContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="ModifierButtonContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 7
 
 [node name="Panel2" type="HBPanelContainerBlurEX" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -115,17 +127,25 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 theme_override_styles/panel = ExtResource("2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/Panel2"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/Panel2"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("8")
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer"]
+[node name="LeaderboardLegalLabel" type="Label" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
