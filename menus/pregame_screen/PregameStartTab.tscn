@@ -38,7 +38,6 @@ size_flags_vertical = 3
 script = ExtResource("3")
 
 [node name="Panel" type="Control" parent="."]
-clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -128,10 +127,13 @@ stretch_mode = 5
 
 [node name="Label" type="Label" parent="Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("1")
 text = "Modifiers are not allowed in the leaderboard"
+horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="Panel2" type="HBPanelContainerBlurEX" parent="."]
 layout_mode = 2
