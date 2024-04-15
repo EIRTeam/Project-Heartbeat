@@ -27,6 +27,10 @@ func _on_viewport_size_changed():
 	var default_169 = 16/9.0
 	var ratio: float = get_viewport().size.x / float(get_viewport().size.y)
 	$Camera3D.fov = 47.0 * max(default_169/ratio, 0.90)
+	
+	var scaling: Vector3 = max(1.0/(ratio/default_169), 1.0) * Vector3.ONE
+	$Node3D.scale = scaling
+	$Node3D2.scale = scaling
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")
 	left_menu_container = get_node("Node3D/CanvasLayer3D/MenuLeftContainer")
