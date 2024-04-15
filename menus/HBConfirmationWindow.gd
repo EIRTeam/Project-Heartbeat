@@ -11,6 +11,7 @@ signal cancel
 @onready var cancel_button = get_node("%CancelButton")
 func _ready():
 	hide()
+	top_level = true
 	_connect_button_signals()
 	connect("cancel", Callable(self, "hide"))
 	connect("accept", Callable(self, "hide"))
@@ -61,5 +62,5 @@ func popup_centered_ratio(ratio := 0.5):
 	popup_centered()
 func popup_centered():
 	_on_Control_about_to_show()
-	global_position = get_viewport().size * 0.5 - size * 0.5 
 	show()
+	global_position = get_window().content_scale_size * 0.5 - size*0.5
