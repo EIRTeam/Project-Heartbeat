@@ -433,12 +433,15 @@ func set_enable_menu_fps_limits(val):
 	enable_menu_fps_limits = val
 	_update_fps_limits()
 func _update_fps_limits():
+	# TODO rename this function so taking care of MSAA makes sense
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if (user_settings.vsync_enabled) else DisplayServer.VSYNC_DISABLED)
 	Engine.max_fps = 0
 	if enable_menu_fps_limits:
 		Engine.max_fps = 0
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+		get_viewport().msaa_2d = Viewport.MSAA_2X
 	else:
+		get_viewport().msaa_2d = Viewport.MSAA_DISABLED
 		Engine.max_fps = int(user_settings.fps_limit)
 func get_current_display():
 	return min(UserSettings.user_settings.display, DisplayServer.get_screen_count()-1)
