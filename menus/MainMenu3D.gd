@@ -20,6 +20,7 @@ func _ready():
 	get_viewport().connect("size_changed", Callable(self, "_on_viewport_size_changed"))
 	_on_viewport_size_changed()
 	UserSettings.enable_menu_fps_limits = true
+	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
 	
 func _on_viewport_size_changed():
 	# this scales shit for more squareish resolutions, it's a bit hacky so you might need

@@ -1726,8 +1726,6 @@ func reveal_ui(extended: bool = true):
 
 func exit():
 	get_tree().change_scene_to_packed(load("res://menus/MainMenu3D.tscn"))
-	
-	get_window().mode = Window.MODE_MAXIMIZED if (false) else Window.MODE_WINDOWED
 	UserSettings.apply_display_mode()
 	
 	Diagnostics.fps_label.add_theme_font_size_override("font_size", 23)
