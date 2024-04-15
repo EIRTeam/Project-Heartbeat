@@ -9,7 +9,7 @@ const LYRIC_MARGIN = 200
 
 var last_time = 0
 
-@export var font: FontFile
+@export var font: Font
 
 const BASE_FONT_SIZE = 45
 const BASE_OUTLINE_SIZE = 5
@@ -91,6 +91,7 @@ func _ready():
 	
 	$Label2.add_theme_color_override("font_color", UserSettings.user_settings.get_lyrics_color())
 	add_theme_font_override("font", font)
+	$Label2.add_theme_font_override("font", font)
 	
 	
 func update_labels():
