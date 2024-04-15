@@ -201,6 +201,7 @@ func process_note(time_usec: int):
 					if not should_create:
 						continue
 					chain_piece_drawers[piece] = create_note_drawer(piece)
+					chain_piece_drawers[piece].play_appear_animation()
 				var drawer := chain_piece_drawers[piece] as HBNewNoteDrawer
 				drawer.process_note(time_usec)
 				
