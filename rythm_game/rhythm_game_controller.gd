@@ -103,7 +103,6 @@ func start_fade_in():
 	pause_menu_disabled = true
 	HBGame.song_stats.song_played(song.id)
 	HBGame.song_stats.save_song_stats()
-	game.game_input_manager.set_process_input(false)
 
 func start_session(game_info: HBGameInfo, assets: SongAssetLoader.AssetLoadToken = null):
 	current_assets = assets
@@ -259,6 +258,7 @@ func _on_resumed():
 	UserSettings.enable_menu_fps_limits = false
 	get_tree().paused = false
 	$PauseMenu.hide()
+	game.game_input_manager.set_process_input(true)
 	
 	set_process(true)
 	if not rollback_on_resume:
@@ -278,6 +278,7 @@ func _on_resumed():
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
 		video_player.stream_position = (last_pause_time - ROLLBACK_TIME) / 1000.0
+		game.game_input_manager.set_process_input(false)
 		if game.time_msec < 0:
 			video_player.paused = true
 		vhs_panel.show()
