@@ -53,15 +53,6 @@ func _gui_input(event):
 		prev_action = "gui_up"
 		left_action = "gui_left"
 		right_action = "gui_right"
-	var f := FileAccess.open("user://cock.txt", FileAccess.WRITE)
-	for action in InputMap.get_actions():
-		f.store_string(action)
-		f.store_string("\n")
-		for out_ev in InputMap.action_get_events(action):
-			f.store_string("\t")
-			f.store_string(out_ev.as_text())
-			f.store_string("\n")
-		f.store_string("\n")
 	if orientation == ORIENTATION.VERTICAL:
 		if selected_button_i == get_child_count() - 1:
 			if event.is_action_pressed("gui_down"):
