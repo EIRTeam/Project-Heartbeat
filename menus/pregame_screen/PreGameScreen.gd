@@ -321,7 +321,8 @@ func _unhandled_input(event):
 		if modifier_scroll_container.has_focus():
 			var selected = modifier_scroll_container.get_selected_item()
 			if selected:
-				selected.gui_input.emit(event)
+				if selected.has_method("_gui_input"):
+					selected._gui_input(event)
 
 func _on_BackButton_pressed():
 	per_song_settings_editor.hide()
