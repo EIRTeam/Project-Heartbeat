@@ -28,7 +28,7 @@ func _input(event):
 		if event is InputEventMouseMotion and Input.is_action_pressed("editor_select"):
 			emit_signal("dragged", event.relative)
 		if event.is_action_released("editor_select") and not event.is_echo():
-			emit_signal("finish_dragging")
+			finished_dragging.emit()
 
 func finish_dragging():
 	hovering = false
