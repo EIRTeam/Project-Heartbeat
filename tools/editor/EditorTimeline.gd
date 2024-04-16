@@ -563,21 +563,8 @@ func get_time_being_hovered() -> int:
 func get_selection_rect():
 	var origin = _area_select_start
 	var end_point = get_local_mouse_position()
-	if get_local_mouse_position().y > _area_select_start.y and get_local_mouse_position().x < _area_select_start.x:
-		# Bottom left
-		origin = Vector2(get_local_mouse_position().x, _area_select_start.y)
-		end_point = Vector2(_area_select_start.x, get_local_mouse_position().y)
-	if get_local_mouse_position().y < _area_select_start.y and get_local_mouse_position().x < _area_select_start.x:
-		# Top left
-		origin = get_local_mouse_position()
-		end_point = _area_select_start
-	if get_local_mouse_position().y < _area_select_start.y and get_local_mouse_position().x > _area_select_start.x:
-		# Top right
-		origin = Vector2(_area_select_start.x, get_local_mouse_position().y)
-		end_point = Vector2(get_local_mouse_position().x, _area_select_start.y)
-	var size = end_point - origin
-	size.y = clamp(size.y, scroll_container.position.y - _area_select_start.y, size.y - origin.y)
-	return Rect2(get_global_transform() * (origin), size)
+	var r := Rect2(origin, Vector2())
+	return get_global_transform() * r.expand(end_point)
 
 func is_playhead_visible():
 	var x = calculate_playhead_position().x
@@ -597,7 +584,6 @@ func _do_area_select():
 	for layer in get_layers():
 		if not layer.visible:
 			continue
-		
 		for item in layer.get_editor_items():
 			if timeline_rect.has_point(item.global_position):
 				if item.visible:
@@ -628,14 +614,14 @@ func _draw_area_select():
 		mouse_position.y = clamp(mouse_position.y, bounds.position.y, bounds.position.y + bounds.size.y)
 		mouse_position = get_global_transform().affine_inverse() * (mouse_position) # Make local
 		
-		var size = mouse_position - _area_select_start
-		var rect = Rect2(_area_select_start, size)
+		var rect_size = mouse_position - _area_select_start
+		var rect = Rect2(_area_select_start, rect_size)
 		
 		var color = Color.TURQUOISE
 		color.a = 0.25
-		draw_rect(rect, color, true, 1.0)# false) TODOGODOT4 Antialiasing argument is missing
+		draw_rect(rect, color, true)# false) TODOGODOT4 Antialiasing argument is missing
 		color.a = 0.5
-		draw_rect(rect, color, false, 1.0)# false) TODOGODOT4 Antialiasing argument is missing
+		draw_rect(rect, color, false)# false) TODOGODOT4 Antialiasing argument is missing
 		
 		modifier_texture.position = _area_select_start - Vector2(10, 10)
 
