@@ -241,7 +241,7 @@ func request_asset_load(song: HBSong, assets: Array[ASSET_TYPES], variant := -1)
 	for i in range(assets.size()-1, -1, -1):
 		var asset := assets[i]
 		var asset_name := ASSET_TYPES.find_key(asset)
-		if _has_asset(song, asset):
+		if _has_asset(song, asset, variant):
 			assets.remove_at(i)
 			var asset_cache: SongAssetCache = assets_cache[variant_id]
 			token.loaded_assets[asset] = asset_cache.assets[asset].get_ref()

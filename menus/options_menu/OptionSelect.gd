@@ -7,6 +7,8 @@ var options_pretty = []
 var selected_option = -1
 var text : set = set_text
 
+signal pressed
+
 func set_text(value):
 	text = value
 	$HBoxContainer/Label.text = value
@@ -31,11 +33,12 @@ func _ready():
 		option_button.add_item(option_text, option_value)
 	set_value(value)
 	option_button.connect("selected", Callable(self, "_on_option_selected"))
+	pressed.connect(option_button._on_pressed)
 
 func _on_option_selected(id):
 	var options_str := []
-	for option in options:
-		options_str.append(option as String)
+	for opt in options:
+		options_str.append(str(opt))
 	var i := options_str.find(id) as int
 	if i != -1:
 		selected_option = i
@@ -48,11 +51,6 @@ func stop_hover():
 	if is_inside_tree():
 		option_button.stop_hover()
 	
-func _gui_input(event):
-	if event.is_action_pressed("gui_accept"):
-		get_viewport().set_input_as_handled()
-		option_button._on_pressed()
-
 func _on_OptionButton_selected(id):
 	change_value(id)
 	value = id
