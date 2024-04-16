@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c1ovx7e2yqrtk"]
 
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="1"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="2"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://cai6nkgeq8ftu" path="res://graphics/icons/icon_information_sign.svg" id="4"]
 [ext_resource type="Script" path="res://menus/ModifierSelector.gd" id="5"]
@@ -18,6 +18,8 @@ offset_left = -361.0
 offset_top = -267.0
 offset_right = 361.0
 offset_bottom = 267.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("6")
 script = ExtResource("5")
 
@@ -69,11 +71,12 @@ layout_mode = 2
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/Panel2/MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("4")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="DescriptionLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -83,3 +86,4 @@ theme_override_fonts/font = ExtResource("3")
 text = "Makes everyone sound like anime girls, who would have thought?"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
