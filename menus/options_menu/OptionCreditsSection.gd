@@ -8,6 +8,8 @@ signal back
 @onready var button_container: HBSimpleMenu = get_node("VBoxContainer/HBoxContainer")
 @onready var scroll_container: ScrollContainer = get_node("VBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer")
 
+const BLACK_FONT: Font = preload("res://fonts/default_font_black.tres")
+
 const TITLE_TEMPLATE = "[font name=res://fonts/default_font_black.tres size=35]%s[/font]\n\n"
 const SCROLL_SPEED = 1500.0
 
@@ -146,80 +148,109 @@ const ENGINE_COPYRIGHT_INFO_ADDITIONS = [
 func make_credits_simple(label: RichTextLabel, credits: Dictionary):
 	for ind in credits:
 		var oc = credits[ind]
-		label.text += "[u]%s[/u][indent]%s[/indent]\n" % [ind, oc]
+		label.push_underline()
+		label.append_text(ind)
+		label.pop()
+		
+		label.push_indent(1)
+		label.append_text(oc)
+		label.pop()
+		label.newline()
 
 func make_credits_links(label: RichTextLabel, credits: Dictionary):
 	for ind in credits:
 		var oc = credits[ind][0]
-		label.text += "[u]%s[/u][indent]%s[/indent]\n" % [ind, oc]
+		label.push_underline()
+		label.append_text(ind)
+		label.pop()
+		
+		label.push_indent(1)
+		label.append_text(oc)
+		label.pop()
+		label.newline()
 
 func make_credits_list(label: RichTextLabel, credits: Dictionary):
 	for ind in credits:
-		label.text += "[u]%s[/u]\n" % [ind]
+		label.push_underline()
+		label.append_text(ind)
+		label.pop()
+		label.newline()
 		for oc in credits[ind]:
-			label.text += "[indent]%s[/indent]\n" % [oc]
+			label.push_indent(1)
+			label.append_text(oc)
+			label.pop()
+			label.newline()
 
 func make_credits_dumb(label: RichTextLabel, credits: Array):
 	for credit in credits:
-		label.text += "%s\n" % [credit]
+		label.append_text(credit)
+		label.newline()
 
 func make_title(label: RichTextLabel, title: String):
-	label.text += TITLE_TEMPLATE % title
+	label.push_font(BLACK_FONT)
+	label.append_text(title)
+	label.pop()
+	label.newline()
+	label.newline()
 
 func show_ph_credits(label: RichTextLabel):
 	scroll_container.scroll_vertical = 0
-	label.text = ""
+	label.clear()
 	
-	var newl := "\n"
-	label.text += newl
 	make_title(label, tr("Patrons"))
 	make_credits_dumb(label, PH_AUTHORS.Patrons)
 	
-	label.text += newl
+	label.newline()
 	make_title(label, tr("Programming"))
 	make_credits_simple(label, PH_AUTHORS.Programming)
 
-	label.text += newl
+	label.newline()
 	make_title(label, tr("Art"))
 	make_credits_links(label, PH_AUTHORS.Art)
 
-	label.text += newl
+	label.newline()
 	make_title(label, tr("Music"))
 	make_credits_list(label, PH_AUTHORS.Music)
 
-	label.text += newl
+	label.newline()
 	make_title(label, tr("Charting"))
 	make_credits_list(label, PH_AUTHORS.Charting)
 
-	label.text += newl
+	label.newline()
 	make_title(label, tr("Localization"))
 	make_credits_list(label, PH_AUTHORS["Localization"])
 
-	label.text += newl
+	label.newline()
 	make_title(label, tr("Charting Software"))
 	make_credits_list(label, PH_AUTHORS["Charting software"])
 
-	label.text += newl
+	label.newline()
 	make_title(label, tr("Licenses"))
 	make_credits_dumb(label, PH_AUTHORS.Licenses)
 
-	label.text += newl
+	label.newline()
 	make_title(label, tr("Others"))
 	make_credits_simple(label, PH_AUTHORS.Others)
 	
 func show_copyright_info_engine(info: Dictionary):
 	var title = info.name
 	make_title(rich_text_label, title)
+	var license_text := tr("License: ")
 	for part in info.parts:
-		rich_text_label.text += tr("License: %s \n") % [part.license]
+		rich_text_label.append_text(license_text)
+		rich_text_label.append_text(part.license)
 		for copyright in part.copyright:
-			rich_text_label.text += "[u][indent]%s[/indent][/u]\n" % [copyright]
-	var newl := "\n"
-	rich_text_label.text += newl
+			rich_text_label.push_underline()
+			rich_text_label.push_indent(1)
+			rich_text_label.append_text(copyright)
+			rich_text_label.pop()
+			rich_text_label.pop()
+			rich_text_label.newline()
+	rich_text_label.newline()
 	
 func show_engine_credits(label: RichTextLabel):
 	scroll_container.scroll_vertical = 0
-	rich_text_label.text = ""
+	rich_text_label.clear()
 	for info in ENGINE_COPYRIGHT_INFO_ADDITIONS:
 		show_copyright_info_engine(info)
 	for info in Engine.get_copyright_info():

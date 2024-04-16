@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionCreditsSection.gd" id="3"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="5"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="5"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
@@ -33,7 +33,7 @@ action_name = &"gui_left"
 
 [node name="GameTab" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Game"
+text = "Project Heartbeat"
 script = ExtResource("1")
 
 [node name="EngineTab" type="Button" parent="VBoxContainer/HBoxContainer"]
@@ -85,3 +85,4 @@ theme_override_styles/normal = SubResource("1")
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
+threaded = true
