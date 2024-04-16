@@ -1,4 +1,4 @@
-extends Popup
+extends Control
 
 class_name HBEditorArrangeMenu
 
@@ -9,7 +9,7 @@ signal angle_changed(new_angle, reverse, autoangle_toggle)
 @onready var reverse_indicator = get_node("Control/ReverseIndicator")
 
 var editor : set = set_editor
-var rotation := 0.0 # In radians
+var menu_rotation := 0.0 # In radians
 var reverse := false
 var autoangle_toggle := false
 
@@ -26,19 +26,19 @@ func _input(event):
 		if Input.is_key_pressed(KEY_SHIFT) != reverse:
 			reverse = Input.is_key_pressed(KEY_SHIFT)
 			reverse_indicator.visible = reverse
-			emit_signal("angle_changed", rotation, reverse, autoangle_toggle)
+			emit_signal("angle_changed", menu_rotation, reverse, autoangle_toggle)
 		
 		if Input.is_key_pressed(KEY_CTRL) != autoangle_toggle:
 			autoangle_toggle = Input.is_key_pressed(KEY_CTRL)
-			emit_signal("angle_changed", rotation, reverse, autoangle_toggle)
+			emit_signal("angle_changed", menu_rotation, reverse, autoangle_toggle)
 		
 		if event is InputEventMouseMotion:
 			var mouse_pos := get_viewport().get_mouse_position() - Vector2(120, 120)
-			var mouse_distance := mouse_pos.distance_to(position)
+			var mouse_distance := mouse_pos.distance_to(global_position)
 			
-			var new_rotation := rotation
+			var new_rotation := menu_rotation
 			if mouse_distance > 10:
-				new_rotation = mouse_pos.angle_to_point(position)
+				new_rotation = mouse_pos.angle_to_point(global_position) + PI
 			
 			mode_info = {
 				"mode": UserSettings.user_settings.editor_arrange_inner_mode,
@@ -105,13 +105,13 @@ func _input(event):
 				HBUserSettings.EDITOR_ARRANGE_MODES.FREE:
 					pass
 			
-			if new_rotation != rotation:
+			if new_rotation != menu_rotation:
 				emit_signal("angle_changed", new_rotation, reverse, autoangle_toggle)
 			
-			rotation = new_rotation
+			menu_rotation = new_rotation
 			set_process(true)
 	else:
-		rotation = 0.0
+		menu_rotation = 0.0
 
 func _process(delta):
 	var parent = get_parent()
@@ -129,12 +129,12 @@ func _process(delta):
 	
 	if visible:
 		var mouse_pos := get_viewport().get_mouse_position() - Vector2(120, 120)
-		arc_drawer.mouse_distance = mouse_pos.distance_to(position)
-		arc_drawer.arc_rotation = rotation
+		arc_drawer.mouse_distance = mouse_pos.distance_to(global_position)
+		arc_drawer.arc_rotation = menu_rotation
 		arc_drawer.queue_redraw()
 	set_process(false)
 func get_angle():
-	return rotation
+	return menu_rotation
 
 func set_editor(_editor):
 	editor = _editor

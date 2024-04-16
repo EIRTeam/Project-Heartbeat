@@ -97,15 +97,13 @@ func _input(event: InputEvent):
 			original_notes.sort_custom(Callable(self, "_order_timing_points"))
 			
 			arranging = true
-			arrange_menu.popup()
+			arrange_menu.show()
 			var old_angle_translation := Vector2.ZERO
 			
 			if UserSettings.user_settings.editor_save_arrange_angle:
 				var old_angle = arrange_angle_spinbox.value
-				if old_angle > 180:
-					old_angle = old_angle - 360
 				
-				old_angle = deg_to_rad(-old_angle)
+				old_angle = deg_to_rad(old_angle)
 				
 				var old_distance
 				match selected_ring:
@@ -118,7 +116,7 @@ func _input(event: InputEvent):
 				
 				old_angle_translation = Vector2(old_distance, 0).rotated(old_angle)
 				
-				arrange_menu.rotation = old_angle
+				arrange_menu.menu_rotation = old_angle
 				
 				arrange_selected_notes_by_time(old_angle, false, false)
 			
