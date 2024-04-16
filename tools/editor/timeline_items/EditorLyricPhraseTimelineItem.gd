@@ -47,6 +47,7 @@ func get_click_rect():
 		return start_end_label.get_global_rect()
 
 func _draw():
+	super._draw()
 	if not data is HBLyricsLyric:
 		var color = Color.RED
 		

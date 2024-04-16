@@ -24,6 +24,7 @@ func set_texture():
 	_on_end_time_changed()
 
 func _draw():
+	super._draw()
 	if data is HBSustainNote:
 		var width = 5
 		

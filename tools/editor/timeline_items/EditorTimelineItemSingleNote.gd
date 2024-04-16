@@ -68,6 +68,7 @@ func connect_widget(widget: HBEditorWidget):
 	super.connect_widget(widget)
 
 func _draw():
+	super._draw()
 	if data is HBNoteData and data.hold:
 		var y = $TextureRect.size.y/2.0
 		var target = Vector2(editor.scale_msec(editor.get_hold_size(data)), y)
