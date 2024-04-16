@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://fawgnyddv8a"]
+[gd_scene load_steps=44 format=3 uid="uid://fawgnyddv8a"]
 
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]
@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://tools/editor/WidgetArea.gd" id="21"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorSimpleButton.gd" id="22"]
 [ext_resource type="Texture2D" uid="uid://4n5ul7evfpul" path="res://tools/icons/settings.svg" id="23"]
+[ext_resource type="Texture2D" uid="uid://3uy0cfhna545" path="res://tools/icons/VideoPlayer.svg" id="23_rurvd"]
 [ext_resource type="Texture2D" uid="uid://b5xq42tyjw82p" path="res://tools/icons/Help.svg" id="24"]
 [ext_resource type="PackedScene" uid="uid://deyiv4k2u7l01" path="res://tools/editor/SongSelectorDialog.tscn" id="25"]
 [ext_resource type="Texture2D" uid="uid://csrcioil1qbjp" path="res://tools/icons/gamepad-time.svg" id="26"]
@@ -329,6 +330,7 @@ action = "editor_toggle_bg"
 layout_mode = 2
 tooltip_text = "Show video"
 toggle_mode = true
+icon = ExtResource("23_rurvd")
 flat = true
 script = ExtResource("22")
 action = "editor_toggle_video"
@@ -377,8 +379,6 @@ script = ExtResource("50")
 
 [node name="RythmGameUI" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" instance=ExtResource("2")]
 layout_mode = 1
-grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview"]
@@ -411,6 +411,7 @@ self_modulate = Color(1, 1, 1, 0.5)
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+current_tab = 0
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer" instance=ExtResource("31")]
 layout_mode = 2

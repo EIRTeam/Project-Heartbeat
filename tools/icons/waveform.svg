@@ -6,7 +6,7 @@
    version="1.1"
    id="svg830"
    sodipodi:docname="waveform.svg"
-   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,37 +23,18 @@
      inkscape:pagecheckerboard="0"
      showgrid="false"
      inkscape:zoom="51.5"
-     inkscape:cx="9.2718447"
-     inkscape:cy="8.223301"
-     inkscape:window-width="2560"
-     inkscape:window-height="1009"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
+     inkscape:cx="3.7184466"
+     inkscape:cy="9.7281553"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg830" />
-  <linearGradient
-     id="a"
-     gradientUnits="userSpaceOnUse"
-     x1="8"
-     x2="8"
-     y1="1"
-     y2="15">
-    <stop
-       offset="0"
-       stop-color="#ff7a7a"
-       id="stop821" />
-    <stop
-       offset=".5"
-       stop-color="#e1da5b"
-       id="stop823" />
-    <stop
-       offset="1"
-       stop-color="#66ff9e"
-       id="stop825" />
-  </linearGradient>
+     inkscape:current-layer="svg830"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#d1d1d1" />
   <path
      d="m11.971 1.002c-.08326.00207-.16593.014541-.24609.037109l-7 2c-.42881.12287-.7244.51487-.72461.96094v5.5508c-.16454-.033679-.33205-.050692-.5-.050781-1.3807 0-2.5 1.1193-2.5 2.5-.00000475 1.3807 1.1193 2.5 2.5 2.5 1.3456-.0013 2.4488-1.0674 2.4961-2.4121.0025906-.029226.003894-.058551.0039062-.087891v-7.2441l5-1.4277v3.1719l2-1v-3.5c-.000916-.56314-.4664-1.0145-1.0293-.99805zm-1.4707 6.998c-.277 0-.5.223-.5.5v5c0 .277.223.5.5.5s.5-.223.5-.5v-5c0-.277-.223-.5-.5-.5zm2 1c-.277 0-.5.223-.5.5v3c0 .277.223.5.5.5s.5-.223.5-.5v-3c0-.277-.223-.5-.5-.5zm-4 1c-.277 0-.5.223-.5.5v1c0 .277.223.5.5.5s.5-.223.5-.5v-1c0-.277-.223-.5-.5-.5zm6 0c-.277 0-.5.223-.5.5v1c0 .277.223.5.5.5s.5-.223.5-.5v-1c0-.277-.223-.5-.5-.5z"
-     fill="url(#a)"
      id="path828"
      style="fill:#e0e0e0;fill-opacity:1" />
 </svg>
