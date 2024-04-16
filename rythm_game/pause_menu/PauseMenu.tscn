@@ -1,70 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://q7lxigfdjdkq"]
+[gd_scene load_steps=6 format=3 uid="uid://q7lxigfdjdkq"]
 
 [ext_resource type="PackedScene" uid="uid://b8q7hs3athysl" path="res://rythm_game/pause_menu/PauseMenu3D.tscn" id="1"]
 [ext_resource type="Script" path="res://rythm_game/pause_menu/PauseMenu.gd" id="2"]
+[ext_resource type="Shader" path="res://rythm_game/pause_menu/blur_shader.gdshader" id="2_esbus"]
 [ext_resource type="PackedScene" uid="uid://mk4i5mpqt4hy" path="res://menus/PerSongSettingsEditor.tscn" id="3"]
 
-[sub_resource type="Shader" id="4"]
-code = "shader_type canvas_item;
-
-const float radius = 9.0;
-uniform sampler2D screen_tex: hint_screen_texture, filter_linear_mipmap;
-
-void fragment() {
-	vec2 px = SCREEN_PIXEL_SIZE;
-	vec4 col = vec4(0.0);
-	float n = 0.0015;
-	float weight;
-	float norm;
-	
-	for (float i = -radius; i <= radius; i++) {
-		col += texture(screen_tex, SCREEN_UV + px * vec2(i, 0.0)) * n;
-		if (i <= 0.0) {
-			n += 0.0015;
-		}
-		if (i > 0.0) {
-			n -= 0.0015;
-		}
-		weight += n;
-	}
-	norm = 1.0/weight;
-	
-	COLOR = col * norm;
-}"
-
-[sub_resource type="ShaderMaterial" id="5"]
-shader = SubResource("4")
-
-[sub_resource type="Shader" id="6"]
-code = "shader_type canvas_item;
-
-const float radius = 9.0;
-uniform sampler2D screen_tex: hint_screen_texture, filter_linear_mipmap;
-
-void fragment() {
-	vec2 px = SCREEN_PIXEL_SIZE;
-	vec4 col = vec4(0.0);
-	float n = 0.0015;
-	float weight;
-	float norm;
-	
-	for (float i = -radius; i <= radius; i++) {
-		col += texture(screen_tex, SCREEN_UV + px * vec2(0.0, i)) * n;
-		if (i <= 0.0) {
-			n += 0.0015;
-		}
-		if (i > 0.0) {
-			n -= 0.0015;
-		}
-		weight += n;
-	}
-	norm = 1.0/weight;
-	
-	COLOR = col * norm;
-}"
-
-[sub_resource type="ShaderMaterial" id="7"]
-shader = SubResource("6")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j064j"]
+shader = ExtResource("2_esbus")
 
 [node name="Control2" type="Control"]
 layout_mode = 3
@@ -75,32 +17,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2")
 
-[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
-rect = Rect2(0, 0, 1920, 1080)
-
-[node name="ColorRect" type="ColorRect" parent="BackBufferCopy"]
-material = SubResource("5")
+[node name="TextureRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_j064j")
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -100.0
-offset_right = -100.0
-offset_bottom = -100.0
-
-[node name="BackBufferCopy2" type="BackBufferCopy" parent="."]
-position = Vector2(0, -1)
-rect = Rect2(0, 0, 1920, 1080)
-
-[node name="ColorRect" type="ColorRect" parent="BackBufferCopy2"]
-material = SubResource("7")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -100.0
-offset_right = 788.0
-offset_bottom = 564.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 layout_mode = 0
