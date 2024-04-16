@@ -21,6 +21,13 @@ var down_arrow_override_enabled = false
 var show_latency = true
 var enable_voice_fade = true
 var input_map = {}
+
+enum InputMapVersion {
+	V1 = 0,
+	V2 = 1
+}
+
+var input_map_version: InputMapVersion = InputMapVersion.V2
 var fps_limit: int = 180 # 0 is unlimited
 var display_mode = "borderless"
 var display_mode__possibilities = [
@@ -297,7 +304,7 @@ func _init():
 		"lag_compensation", 
 		"icon_pack", "resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 		"ui_skin",
-		"note_size", "input_map",
+		"note_size", "input_map", "input_map_version",
 		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
 		"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
 		"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
@@ -361,15 +368,37 @@ func get_lyrics_valign():
 		alignment = VERTICAL_ALIGNMENT_BOTTOM
 	return alignment
 
+static func migrate_v1_input_map(input_map: Dictionary) -> Dictionary:
+	var result := {}
+	for action_name in input_map:
+		result[action_name] = []
+		const old_spkey: int = (1 << 24)
+		for action: String in input_map[action_name]:
+			var action_candidate: InputEvent = str_to_var(action)
+			if action_candidate and action_candidate is InputEventKey:
+				var action_new := action.replace("\"scancode\"", "\"keycode\"")
+				action_candidate = str_to_var(action_new)
+				# Convert 3.x special keycode to 4.x special keycode
+				if action_candidate.keycode & old_spkey:
+					action_candidate.keycode = (action_candidate.keycode & ~old_spkey) | KEY_SPECIAL
+			if not action_candidate:
+				push_error("ERROR DECODING V1 INPUT MAP ACTION: %d (Invalid action event?)" % [action])
+				continue
+			result[action_name].append(action_candidate)
+	return result
+
 static func deserialize(data: Dictionary):
 	var result = super.deserialize(data)
 	result.input_map = {}
+	var input_map_version := data.get("input_map_version", InputMapVersion.V1)
 	if data.has("input_map"):
-		for action_name in data.input_map:
-			result.input_map[action_name] = []
-			for action in data.input_map[action_name]:
-				result.input_map[action_name].append(str_to_var(action))
-				print(str_to_var(action))
+		if input_map_version == InputMapVersion.V1:
+			result.input_map = migrate_v1_input_map(data.input_map)
+		else:
+			for action_name in data.input_map:
+				result.input_map[action_name] = []
+				for action in data.input_map[action_name]:
+					result.input_map[action_name].append(str_to_var(action))
 	
 	result.root_folder.folder_name = "Root"
 	
@@ -394,6 +423,8 @@ func serialize(serialize_defaults=false):
 		for action in base_data.input_map[action_name]:
 			new_input_map[action_name].append(var_to_str(action))
 	base_data.input_map = new_input_map
+	# Input map version must always be serialized
+	base_data["input_map_version"] = InputMapVersion.V2
 	
 	var pss = {}
 	
