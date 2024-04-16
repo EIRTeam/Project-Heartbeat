@@ -407,7 +407,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 func _on_difficulty_selected(song, difficulty):
 	emit_signal("difficulty_selected", song, difficulty)
 
-func _input(event: InputEvent):
+func _unhandled_input(event: InputEvent):
 	super._input(event)
 	if event is InputEventKey and event.shift_pressed:
 		var c = char(event.unicode)
