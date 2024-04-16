@@ -406,7 +406,6 @@ func _on_PauseMenu_restarted():
 	set_process(true)
 	game.set_process(true)
 	game.editing = false
-	game.game_input_manager.set_process_input(false)
 	await get_tree().process_frame
 	start_fade_in()
 
