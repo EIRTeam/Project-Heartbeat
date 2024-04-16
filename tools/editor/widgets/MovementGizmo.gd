@@ -8,6 +8,7 @@ signal start_dragging()
 signal finished_dragging()
 
 var hovering = false
+var dragging = false
 func _draw():
 	var border_color = Color.YELLOW
 	if hovering:
@@ -25,10 +26,13 @@ func _input(event):
 	if hovering:
 		if event.is_action_pressed("editor_select") and not event.is_echo():
 			emit_signal("start_dragging")
+			dragging = true
+	if dragging:
 		if event is InputEventMouseMotion and Input.is_action_pressed("editor_select"):
 			emit_signal("dragged", event.relative)
 		if event.is_action_released("editor_select") and not event.is_echo():
 			finished_dragging.emit()
+			dragging = false
 
 func finish_dragging():
 	hovering = false
