@@ -4,8 +4,8 @@ var game_info: HBGameInfo: set = set_game_info
 
 var chart: HBChart
 
-var image = Image.new()
-var texture = ImageTexture.new()
+var image: Image
+var texture: ImageTexture
 
 const CIRCLE_SIZE = 4
 const TOP_MARGIN = 0.0
@@ -31,8 +31,8 @@ func _redraw_items():
 		return
 	if abs(size.x) == 0:
 		return
-	if size.is_equal_approx(image.get_size()):
-		image.create(size.x, size.y, false, Image.FORMAT_RGBA8)
+	if not image or Vector2i(size) != image.get_size():
+		image = Image.create(size.x, size.y, false, Image.FORMAT_RGBA8)
 		texture_size_changed = true
 	else:
 		image.fill(base_color)
@@ -86,20 +86,13 @@ func _redraw_items():
 										image.set_pixel(pos*size.x + x, y_pos + TOP_MARGIN + y, note_color)
 		layer_i += 1
 
-	if texture_size_changed:
-		texture.create_from_image(image) #,0
+	if texture_size_changed or not texture:
+		texture = ImageTexture.create_from_image(image) #,0
 	else:
 		texture.update(image)
 	var time_end = Time.get_ticks_usec()
 	print("_renegerate_minimap took %d microseconds" % [(time_end - time_start)])
 	draw_texture(texture, Vector2.ZERO)
 	
-var _redraw_referred = false
-	
 func _draw():
-	if not _redraw_referred:
-		_redraw_referred = true
-		call_deferred("queue_redraw")
-	else:
-		_redraw_items()
-		_redraw_referred = false
+	_redraw_items()
