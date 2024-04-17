@@ -1306,10 +1306,6 @@ msgid "License: "
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
-msgid "Project Heartbeat"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
 msgstr ""
 
