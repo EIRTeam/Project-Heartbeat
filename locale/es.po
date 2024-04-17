@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2024-04-17 10:12\n"
+"PO-Revision-Date: 2024-04-17 10:15\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1221,10 +1221,6 @@ msgid "License: "
 msgstr "Licencia: "
 
 #: menus/options_menu/OptionCreditsSection.tscn
-msgid "Project Heartbeat"
-msgstr "Project Heartbeat"
-
-#: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
 msgstr "Motor"
 
@@ -1854,7 +1850,7 @@ msgstr "Tabla de clasificación"
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Times Played: %d"
-msgstr ""
+msgstr "Veces jugada: %d"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
@@ -2264,7 +2260,7 @@ msgstr "¡Avance rápido!"
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier name"
 msgid "Autoplay"
-msgstr ""
+msgstr "Autoplay"
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier description"
@@ -2445,7 +2441,7 @@ msgstr "Si está activado, mantendrá los corazones individuales y convertirá l
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode property"
 msgid "Sustain note conversion mode"
-msgstr ""
+msgstr "Modo de conversión de notas sostenidas"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode description"
