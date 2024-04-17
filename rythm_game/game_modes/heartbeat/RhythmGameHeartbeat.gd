@@ -172,7 +172,7 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 	connect("shown_slide_hold_score", Callable(ui, "_on_show_slide_hold_score"))
 
 func show_slide_hold_score(piece_position, accumulated_score, is_end):
-	emit_signal("show_slide_hold_score", piece_position, accumulated_score, is_end)
+	emit_signal("shown_slide_hold_score", piece_position, accumulated_score, is_end)
 
 func _pre_process_game():
 	super._pre_process_game()
