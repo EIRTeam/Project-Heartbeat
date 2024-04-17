@@ -84,6 +84,10 @@
 # scripts/HBSong.gd
 # scripts/new_ui/HBUISkipIntroIndicator.gd
 # scripts/new_ui/SkipIntroIndicator.tscn
+# res://rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+# res://rythm_game/modifiers/chaos/chaos.gd
+# res://rythm_game/modifiers/hidden/hidden.gd
+# res://rythm_game/modifiers/randomizer/randomizer.gd
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -141,7 +145,6 @@ msgstr ""
 #: menus/HBTextInput.gd
 #: menus/HBTextInput.tscn
 #: menus/options_menu/OptionControlsSectionEvent.gd
-#: menus/options_menu/OptionCreditsSection.tscn
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid ""
 msgstr ""
@@ -896,7 +899,6 @@ msgid "Notes"
 msgstr ""
 
 #: autoloads/UserSettings.gd
-#: menus/options_menu/OptionCreditsSection.tscn
 #: menus/options_menu/OptionsMenu.gd
 msgid "Game"
 msgstr ""
@@ -1300,7 +1302,11 @@ msgid "Others"
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
-msgid "License: %s \n"
+msgid "License: "
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
+msgid "Project Heartbeat"
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
@@ -1929,16 +1935,7 @@ msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
-msgid "Never played"
-msgstr ""
-
-#: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
-msgid ""
-"Times Played: %d\n"
-"\n"
-"Highest score:\n"
-"%s"
+msgid "Times Played: %d\n"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
@@ -2172,7 +2169,7 @@ msgid "Slide chains are slides that you can hold for extra points. Slide chains 
 msgstr ""
 
 #: menus/tutorial/page4/Page4.tscn
-msgid "Hold notes are notes that give you extra points by holding them after you hit them,, if you manage to hold them for long enough you'll get a nice bonus!"
+msgid "Hold notes are notes that give you extra points by holding them after you hit them, if you manage to hold them for long enough you'll get a nice bonus!"
 msgstr ""
 
 #: menus/tutorial/page5/Page5.tscn
@@ -2346,18 +2343,37 @@ msgid "Fast forward!"
 msgstr ""
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
+msgctxt "Autoplay modifier name"
+msgid "Autoplay."
+msgstr ""
+
+#: rythm_game/modifiers/autoplay/autoplay.gd
+msgctxt "Autoplay modifier description"
 msgid "Makes the game play itself."
 msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier name"
+msgid "Nightcore"
+msgstr ""
+
+#: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier list name, %d is the percentage amount of speed applied"
+msgid "Nightcore %d %%"
+msgstr ""
+
+#: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier description"
 msgid "Turns your manly voices into anime girls."
 msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier speed property name"
 msgid "Speed"
 msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier speed property desciption"
 msgid "Percentage of speed to increase (or decrease) the song's playback"
 msgstr ""
 
@@ -2463,11 +2479,15 @@ msgid "Level up!"
 msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "TOTAL NOTES"
+msgid "MAX COMBO"
 msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "COMBO"
+msgid "NOTES HIT"
+msgstr ""
+
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn
+msgid "TOTAL NOTES"
 msgstr ""
 
 #: rythm_game/rhythm_game_controller.tscn
@@ -2476,4 +2496,84 @@ msgstr ""
 
 #: rythm_game/rhythm_game_multiplayer.tscn
 msgid "Waiting for other players to load!"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier name"
+msgid "Console to arcade"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier name when keeping hearts"
+msgid "Console to arcade (Keep hearts)"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier description"
+msgid "Converts console-style songs to be compatible with arcade controllers"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier keep_heartrs property"
+msgid "Keep hearts"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier keep_hearts property description"
+msgid "If enabled, will keep single hearts and convert double hearts to single hearts."
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode property"
+msgid "Sustain mode"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode description"
+msgid "Changes how to convert sustain notes."
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode two note option"
+msgid "Replace with two notes"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode hold option"
+msgid "Replace with hold"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode single note option"
+msgid "Replace with one note"
+msgstr ""
+
+#: rythm_game/modifiers/chaos/chaos.gd
+msgctxt "Chaos modifier name"
+msgid "Chaos"
+msgstr ""
+
+#: rythm_game/modifiers/chaos/chaos.gd
+msgctxt "Chaos modifier description"
+msgid "Good luck."
+msgstr ""
+
+#: rythm_game/modifiers/hidden/hidden.gd
+msgctxt "Hidden modifier name"
+msgid "Hidden"
+msgstr ""
+
+#: rythm_game/modifiers/hidden/hidden.gd
+msgctxt "Hidden modifier description"
+msgid "Hides notes a few moments after they spawn."
+msgstr ""
+
+#: rythm_game/modifiers/randomizer/randomizer.gd
+msgctxt "Randomizer modifier name"
+msgid "Randomizer"
+msgstr ""
+
+#: rythm_game/modifiers/randomizer/randomizer.gd
+msgctxt "Randomizer modifier description"
+msgid "Randomizes the type of some notes."
 msgstr ""
