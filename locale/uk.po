@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
-"PO-Revision-Date: 2024-04-17 10:12\n"
+"PO-Revision-Date: 2024-04-17 10:15\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1215,10 +1215,6 @@ msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "License: "
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Project Heartbeat"
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
