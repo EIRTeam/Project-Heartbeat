@@ -25,6 +25,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -1.12246
 offset_bottom = -1.12244
+current_tab = 0
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
 layout_mode = 2
@@ -490,31 +491,49 @@ text = "Add variant"
 icon = ExtResource("4")
 
 [node name="AudioFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 filters = PackedStringArray("*.ogg; OGG")
 show_hidden_files = true
 
 [node name="VoiceAudioFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 filters = PackedStringArray("*.ogg; OGG")
 show_hidden_files = true
 
 [node name="PreviewFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
 
 [node name="BackgroundFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
 
 [node name="CircleFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
 
 [node name="CircleLogoFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
