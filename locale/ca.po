@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2024-04-17 10:02\n"
+"PO-Revision-Date: 2024-04-17 10:12\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1853,7 +1853,7 @@ msgstr "Classificació"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
-msgid "Times Played: %d\n"
+msgid "Times Played: %d"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
@@ -2263,7 +2263,7 @@ msgstr "Avanç ràpid!"
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier name"
-msgid "Autoplay."
+msgid "Autoplay"
 msgstr ""
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
@@ -2444,7 +2444,7 @@ msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode property"
-msgid "Sustain mode"
+msgid "Sustain note conversion mode"
 msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
