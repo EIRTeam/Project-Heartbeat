@@ -59,3 +59,4 @@ texture = ExtResource("1")
 libraries = {
 "": SubResource("AnimationLibrary_mjxw5")
 }
+speed_scale = 4.0
