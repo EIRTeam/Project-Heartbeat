@@ -206,10 +206,10 @@ func _ready():
 	# Set up tree
 	tree.set_column_expand(0, true)
 	tree.set_column_expand(1, true)
-	tree.set_column_expand(2, true)
+	tree.set_column_expand(2, false)
 	tree.set_column_custom_minimum_width(0, 20)
 	tree.set_column_custom_minimum_width(1, 1)
-	tree.set_column_custom_minimum_width(2, 1)
+	tree.set_column_custom_minimum_width(2, 20)
 	
 	tree.connect("item_activated", Callable(self, "_on_item_double_clicked"))
 	tree.connect("button_clicked", Callable(self, "_on_button_pressed"))
