@@ -28,15 +28,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -48,16 +46,14 @@ focus_mode = 2
 script = ExtResource("1")
 orientation = 1
 
-[node name="Panel2" type="Panel" parent="VBoxContainer"]
+[node name="Panel2" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.35
 theme_override_styles/panel = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 
