@@ -48,14 +48,14 @@ func _preprocess_timing_points(points: Array) -> Array:
 				point.entry_angle = generator.randf_range(0, 360)
 	return points
 static func get_modifier_name():
-	return "Chaos"
+	return TranslationServer.tr("Chaos", &"Chaos modifier name")
 
 # Some modifiers might use a different name based on settings
 func get_modifier_list_name():
-	return "Chaos"
+	return TranslationServer.tr("Chaos", &"Chaos modifier name")
 
 static func get_modifier_description():
-	return "Good luck."
+	return TranslationServer.tr("Good luck.", &"Chaos modifier description")
 static func get_modifier_settings_class() -> Script:
 	return RandomizerSettings
 static func get_option_settings() -> Dictionary:

@@ -37,14 +37,14 @@ func _process_note(note_drawers: Array, time: float, bpm: float):
 					
 	
 static func get_modifier_name():
-	return "Hidden"
+	return TranslationServer.tr("Hidden", &"Hidden modifier name")
 
 # Some modifiers might use a different name based on settings
 func get_modifier_list_name():
-	return "Hidden"
+	return TranslationServer.tr("Hidden", &"Hidden modifier name")
 
 static func get_modifier_description():
-	return "Hides notes a few moments after they spawn."
+	return TranslationServer.tr("Hides notes a few moments after they spawn.", &"Hidden modifier description")
 static func get_modifier_settings_class() -> Script:
 	return HiddenSettings
 static func get_option_settings() -> Dictionary:

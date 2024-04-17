@@ -20,21 +20,21 @@ func _post_game(song: HBSong, game: HBRhythmGame):
 		game.voice_audio_playback.set_pitch_scale(1.0)
 	
 static func get_modifier_name():
-	return "Nightcore"
+	return TranslationServer.tr("Nightcore", &"Nightcore modifier name")
 	
 # Some modifiers might use a different name based on settings
 func get_modifier_list_name():
-	return "Nightcore %d %%" % [modifier_settings.speed]
+	return TranslationServer.tr("Nightcore %d %%", &"Nightcore modifier list name, %d is the percentage amount of speed applied") % [modifier_settings.speed]
 
 static func get_modifier_description():
-	return TranslationServer.tr("Turns your manly voices into anime girls.")
+	return TranslationServer.tr("Turns your manly voices into anime girls.", &"Nightcore modifier description")
 static func get_modifier_settings_class() -> Script:
 	return NightcoreSettings
 static func get_option_settings() -> Dictionary:
 	return {
 		"speed": {
-			"name": TranslationServer.tr("Speed"),
-			"description": TranslationServer.tr("Percentage of speed to increase (or decrease) the song's playback"),
+			"name": TranslationServer.tr("Speed", &"Nightcore modifier speed property name"),
+			"description": TranslationServer.tr("Percentage of speed to increase (or decrease) the song's playback", &"Nightcore modifier speed property desciption"),
 			"minimum": 10,
 			"maximum": 1000,
 			"step": 5,

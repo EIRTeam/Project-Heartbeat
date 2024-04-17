@@ -25,14 +25,14 @@ func _preprocess_timing_points(points: Array) -> Array:
 				point.note_type = note_remap_dict[point.note_type]
 	return points
 static func get_modifier_name():
-	return "Randomizer"
+	return TranslationServer.tr("Randomizer", &"Randomizer modifier name")
 
 # Some modifiers might use a different name based on settings
 func get_modifier_list_name():
-	return "Randomizer"
+	return TranslationServer.tr("Randomizer", &"Randomizer modifier name")
 
 static func get_modifier_description():
-	return "Randomizes the notes."
+	return TranslationServer.tr("Randomizes the type of some notes.", &"Randomizer modifier description")
 static func get_modifier_settings_class() -> Script:
 	return RandomizerSettings
 static func get_option_settings() -> Dictionary:
