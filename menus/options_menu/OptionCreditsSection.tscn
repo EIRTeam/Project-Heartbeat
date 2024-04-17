@@ -32,7 +32,9 @@ action_text = ""
 action_name = &"gui_left"
 
 [node name="GameTab" type="Button" parent="VBoxContainer/HBoxContainer"]
+auto_translate_mode = 2
 layout_mode = 2
+auto_translate = false
 text = "Project Heartbeat"
 script = ExtResource("1")
 

@@ -159,7 +159,7 @@ func _on_song_history_received(entries: Array[HBBackend.BackendLeaderboardHistor
 		
 func update_song_stats_label():
 	var stats = HBGame.song_stats.get_song_stats(current_song.id)
-	var text = tr("Times Played: %d\n") % [stats.times_played]
+	var text = tr("Times Played: %d") % [stats.times_played]
 	stats_label.text = text
 	
 func _on_button_list_out_from_top():

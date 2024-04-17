@@ -1935,7 +1935,7 @@ msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
-msgid "Times Played: %d\n"
+msgid "Times Played: %d"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
@@ -2344,7 +2344,7 @@ msgstr ""
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier name"
-msgid "Autoplay."
+msgid "Autoplay"
 msgstr ""
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
@@ -2525,7 +2525,7 @@ msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode property"
-msgid "Sustain mode"
+msgid "Sustain note conversion mode"
 msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd

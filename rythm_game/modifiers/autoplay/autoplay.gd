@@ -14,10 +14,10 @@ func _pre_game(song: HBSong, game: HBRhythmGame):
 func _post_game(song: HBSong, game: HBRhythmGame):
 	pass
 static func get_modifier_name():
-	return TranslationServer.tr("Autoplay.", &"Autoplay modifier name")
+	return TranslationServer.tr("Autoplay", &"Autoplay modifier name")
 	
 func get_modifier_list_name():
-	return TranslationServer.tr("Autoplay.", &"Autoplay modifier name")
+	return TranslationServer.tr("Autoplay", &"Autoplay modifier name")
 	
 static func get_modifier_description():
 	return TranslationServer.tr("Makes the game play itself.", &"Autoplay modifier description")

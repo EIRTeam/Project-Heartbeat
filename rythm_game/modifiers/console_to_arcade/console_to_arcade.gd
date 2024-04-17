@@ -60,7 +60,7 @@ static func get_option_settings() -> Dictionary:
 			"default_value": false
 		},
 		"sustain_mode": {
-			"name": TranslationServer.tr("Sustain mode", &"Console to arcade modifier sustain_mode property"),
+			"name": TranslationServer.tr("Sustain note conversion mode", &"Console to arcade modifier sustain_mode property"),
 			"description": TranslationServer.tr("Changes how to convert sustain notes.", &"Console to arcade modifier sustain_mode description"),
 			"default_value": HBConsoleToArcadeModifierSettings.SUSTAIN_MODE.TWO_NOTES,
 			"options_pretty": [
