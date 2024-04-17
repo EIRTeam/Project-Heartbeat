@@ -37,8 +37,7 @@ func set_points(val):
 	queue_redraw()
 
 func _ready():
-	pass
-	
+	resized.connect(self.queue_redraw)
 	
 func val_to_rect_pos(val: Vector2):
 	val.x /= value_max
