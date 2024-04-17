@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2024-04-17 10:15\n"
+"PO-Revision-Date: 2024-04-17 10:26\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1218,7 +1218,7 @@ msgstr "Altres"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "License: "
-msgstr ""
+msgstr "Llicència: "
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
@@ -1850,7 +1850,7 @@ msgstr "Classificació"
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Times Played: %d"
-msgstr ""
+msgstr "Vegades jugada: %d"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
@@ -2085,7 +2085,7 @@ msgstr "Les cadenes de slides són slides que podeu aguantar per obtenir punts a
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Hold notes are notes that give you extra points by holding them after you hit them, if you manage to hold them for long enough you'll get a nice bonus!"
-msgstr ""
+msgstr "Les notes hold són notes que et donen punts addicionals mantenint-les després de ser encertades, si aconsegueixes mantenir-les el temps suficient, obtindràs una bonificació!"
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "Double and sustain notes"
@@ -2260,37 +2260,37 @@ msgstr "Avanç ràpid!"
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier name"
 msgid "Autoplay"
-msgstr ""
+msgstr "Autoplay"
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier description"
 msgid "Makes the game play itself."
-msgstr ""
+msgstr "Fa que el joc es jugui sol."
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier name"
 msgid "Nightcore"
-msgstr ""
+msgstr "Nightcore"
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier list name, %d is the percentage amount of speed applied"
 msgid "Nightcore %d %%"
-msgstr ""
+msgstr "Nightcore %d %%"
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier description"
 msgid "Turns your manly voices into anime girls."
-msgstr ""
+msgstr "Converteix les teves veus masculines en veus de noies d’anime."
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier speed property name"
 msgid "Speed"
-msgstr ""
+msgstr "Velocitat"
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier speed property desciption"
 msgid "Percentage of speed to increase (or decrease) the song's playback"
-msgstr ""
+msgstr "Percentatge de velocitat per augmentar (o disminuir) la velocitat de reproducció de la cançó"
 
 #: rythm_game/modifiers/timing/timing.gd
 msgid "Timing Window"
@@ -2395,11 +2395,11 @@ msgstr "Pujada de nivell!"
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "MAX COMBO"
-msgstr ""
+msgstr "COMBO MAX"
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "NOTES HIT"
-msgstr ""
+msgstr "NOTES ENCERTADES"
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "TOTAL NOTES"
@@ -2416,80 +2416,80 @@ msgstr "Esperant que es carreguin altres jugadors!"
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name"
 msgid "Console to arcade"
-msgstr ""
+msgstr "Consola a arcade"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name when keeping hearts"
 msgid "Console to arcade (Keep hearts)"
-msgstr ""
+msgstr "Consola a arcade (Mantenir cors)"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier description"
 msgid "Converts console-style songs to be compatible with arcade controllers"
-msgstr ""
+msgstr "Converteix cançons d'estil consola per ser compatible amb controladors d'arcade"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier keep_heartrs property"
 msgid "Keep hearts"
-msgstr ""
+msgstr "Mantenir cors"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier keep_hearts property description"
 msgid "If enabled, will keep single hearts and convert double hearts to single hearts."
-msgstr ""
+msgstr "Quan està activat, mantindrà els cors individuals i convertirà els cors dobles en cors individuals."
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode property"
 msgid "Sustain note conversion mode"
-msgstr ""
+msgstr "Mode de conversió de notes sostingudes"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode description"
 msgid "Changes how to convert sustain notes."
-msgstr ""
+msgstr "Canvia com convertir les notes sostingudes."
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode two note option"
 msgid "Replace with two notes"
-msgstr ""
+msgstr "Reemplaça amb dues notes"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode hold option"
 msgid "Replace with hold"
-msgstr ""
+msgstr "Reemplaça amb hold"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode single note option"
 msgid "Replace with one note"
-msgstr ""
+msgstr "Reemplaça amb una nota"
 
 #: rythm_game/modifiers/chaos/chaos.gd
 msgctxt "Chaos modifier name"
 msgid "Chaos"
-msgstr ""
+msgstr "Caos"
 
 #: rythm_game/modifiers/chaos/chaos.gd
 msgctxt "Chaos modifier description"
 msgid "Good luck."
-msgstr ""
+msgstr "Bona sort."
 
 #: rythm_game/modifiers/hidden/hidden.gd
 msgctxt "Hidden modifier name"
 msgid "Hidden"
-msgstr ""
+msgstr "Ocult"
 
 #: rythm_game/modifiers/hidden/hidden.gd
 msgctxt "Hidden modifier description"
 msgid "Hides notes a few moments after they spawn."
-msgstr ""
+msgstr "Oculta les notes un moment després que apareguin."
 
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier name"
 msgid "Randomizer"
-msgstr ""
+msgstr "Aleatoritzador"
 
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier description"
 msgid "Randomizes the type of some notes."
-msgstr ""
+msgstr "Aleatoritza el tipus d'algunes notes."
 
