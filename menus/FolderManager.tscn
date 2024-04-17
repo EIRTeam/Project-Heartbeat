@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://c4tvo47nahi4h"]
 
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="1"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="3"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="4"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="5"]
-[ext_resource type="Script" uid="uid://bbysc60udeqve" path="res://menus/FolderManager.gd" id="6"]
+[ext_resource type="Script" path="res://menus/FolderManager.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="9"]
 
@@ -112,7 +112,7 @@ action_text = "Back"
 action_name = &"gui_cancel"
 
 [node name="DeleteConfirmationWindow" parent="." instance=ExtResource("8")]
-visible = false
+layout_mode = 2
 text = "Do you want to delete this folder?"
 
 [node name="Panel" type="Panel" parent="."]
@@ -138,9 +138,11 @@ orientation = 1
 
 [node name="TextInputCreate" parent="." instance=ExtResource("9")]
 visible = false
+layout_mode = 2
 
 [node name="TextInputRename" parent="." instance=ExtResource("9")]
 visible = false
+layout_mode = 2
 
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel4"]
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel5"]

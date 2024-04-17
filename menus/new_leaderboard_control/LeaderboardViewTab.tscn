@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://2awhj4v6887w"]
+[gd_scene load_steps=11 format=3 uid="uid://2awhj4v6887w"]
 
 [ext_resource type="PackedScene" path="res://menus/new_leaderboard_control/LeaderboardLabels.tscn" id="1"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_x8lvk"]
 [ext_resource type="Script" path="res://menus/new_leaderboard_control/LeaderboardViewTab.gd" id="2"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
-[ext_resource type="PackedScene" path="res://menus/new_leaderboard_control/LeaderboardView.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://q54rj3w4rhcg" path="res://menus/new_leaderboard_control/LeaderboardView.tscn" id="5"]
 [ext_resource type="Texture2D" uid="uid://u7u60edt283r" path="res://graphics/icons/menu-right.svg" id="7"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="7_ne01l"]
 [ext_resource type="Texture2D" uid="uid://bpgc6vwbd27s7" path="res://graphics/icons/menu-left.svg" id="8"]
@@ -15,8 +16,11 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("1_x8lvk")
 script = ExtResource("2")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]

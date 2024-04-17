@@ -7,11 +7,11 @@
 [ext_resource type="Script" path="res://menus/workshop_browser/WorkshopItemDetailView.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://6phu22pv2pdj" path="res://graphics/icons/5-star.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://7g6fr4u55qd8" path="res://graphics/icons/0-star.png" id="7"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="8"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="9"]
 [ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="9_jse5m"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="10"]
-[ext_resource type="FontFile" uid="uid://igqm8fnnmk4q" path="res://fonts/orbitron-bold.otf" id="10_cnllk"]
+[ext_resource type="FontFile" uid="uid://k13xkyrstrw6" path="res://fonts/orbitron-bold.otf" id="10_cnllk"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
@@ -211,7 +211,6 @@ action_name = "gui_cancel"
 text = "Back"
 
 [node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource("10")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_left = 0.0

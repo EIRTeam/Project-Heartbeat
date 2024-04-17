@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dssxtjqhuhlbn"]
 
 [ext_resource type="Texture2D" uid="uid://dui0a71scapf5" path="res://graphics/slide_fx_star.png" id="1"]
-[ext_resource type="Script" uid="uid://bx4ofak8m5q6b" path="res://graphics/effects/SlideParticles.gd" id="2"]
+[ext_resource type="Script" path="res://graphics/effects/SlideParticles.gd" id="2"]
 
 [sub_resource type="Gradient" id="Gradient_u1ssq"]
 offsets = PackedFloat32Array(0.668203, 1)

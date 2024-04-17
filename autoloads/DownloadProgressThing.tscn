@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c3tsw7u3rh8h0"]
 
-[ext_resource type="Script" uid="uid://cj8al5gllmy6x" path="res://autoloads/DownloadProgressThing.gd" id="1"]
+[ext_resource type="Script" path="res://autoloads/DownloadProgressThing.gd" id="1"]
 [ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="2"]
 [ext_resource type="Texture2D" uid="uid://b3lvuimnbuc7f" path="res://graphics/check.svg" id="3"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="5"]
