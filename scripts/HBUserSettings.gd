@@ -368,24 +368,94 @@ func get_lyrics_valign():
 		alignment = VERTICAL_ALIGNMENT_BOTTOM
 	return alignment
 
-static func migrate_v1_input_map(input_map: Dictionary) -> Dictionary:
-	var result := {}
-	for action_name in input_map:
-		result[action_name] = []
-		const old_spkey: int = (1 << 24)
-		for action: String in input_map[action_name]:
-			var action_candidate: InputEvent = str_to_var(action)
-			if action_candidate and action_candidate is InputEventKey:
-				var action_new := action.replace("\"scancode\"", "\"keycode\"")
-				action_candidate = str_to_var(action_new)
-				# Convert 3.x special keycode to 4.x special keycode
-				if action_candidate.keycode & old_spkey:
-					action_candidate.keycode = (action_candidate.keycode & ~old_spkey) | KEY_SPECIAL
-			if not action_candidate:
-				push_error("ERROR DECODING V1 INPUT MAP ACTION: %d (Invalid action event?)" % [action])
-				continue
-			result[action_name].append(action_candidate)
-	return result
+class InputMapMigrator:
+	const JOYPAD_BUTTON_MAPPINGS: Array[int] = [0, 1, 2, 3, 9, 10, -1, -1, 7, 8, 4, 6, 11, 12, 13, 14, 5, 15, 16, 17, 18, 19, 20]
+	var joypad_button_index_regex := RegEx.create_from_string("\\b,\"button_index\":(\\d+),(\"pressure\":\\d+\\.\\d+,\"pressed\":(false|true))\\b")
+	var joypad_axis_regex := RegEx.create_from_string("\\b,\"axis\":(\\d+)\\b")
+	var keycode_regex := RegEx.create_from_string("\\b,\"((physical_)?)scancode\":(\\d+)\\b");
+	
+	const INPUT_MAP_RENAMES := [
+		[ ",\"alt\":", ",\"alt_pressed\":" ],
+		[ ",\"shift\":", ",\"shift_pressed\":" ],
+		[ ",\"control\":", ",\"ctrl_pressed\":" ],
+		[ ",\"meta\":", ",\"meta_pressed\":" ],
+		[ ",\"scancode\":", ",\"keycode\":" ],
+		[ ",\"physical_scancode\":", ",\"physical_keycode\":" ],
+		[ ",\"doubleclick\":", ",\"double_click\":"]
+	]
+	
+	func migrate(input_map: Dictionary):
+		var new_input_map := {}
+		
+		var input_map_renames_regex: Array[RegEx] = []
+		
+		for rename in INPUT_MAP_RENAMES:
+			input_map_renames_regex.push_back(RegEx.create_from_string(String("\\b") + rename[0] + "\\b"))
+		
+		for event_name in input_map:
+			new_input_map[event_name] = []
+			for ev_line: String in input_map[event_name]:
+				if ev_line.contains("InputEventJoypad"):
+					ev_line = _migrate_joypad_event(ev_line)
+				elif ev_line.contains("InputEventKey"):
+					ev_line = _migrate_key_event(ev_line)
+				
+				for i in range(INPUT_MAP_RENAMES.size()):
+					if ev_line.contains(INPUT_MAP_RENAMES[i][0]):
+						ev_line = input_map_renames_regex[i].sub(ev_line, INPUT_MAP_RENAMES[i][1], true)
+				
+				var new_event: InputEvent = str_to_var(ev_line)
+				
+				if not new_event:
+					push_error("Error migrating input event: ", ev_line)
+					continue
+				new_input_map[event_name].push_back(new_event)
+		return new_input_map
+
+	func _migrate_key_event(line: String) -> String:
+		var reg_match := keycode_regex.search_all(line)
+		var old_spkey: int = (1 << 24)
+		for m in reg_match:
+			var strings := m.get_strings()
+			var key := strings[3].to_int()
+			
+			if key & old_spkey:
+				key = (key & ~old_spkey) | KEY_SPECIAL
+				line = line.replace(strings[0], String(",\"") + strings[1] + "scancode\":" + String.num_int64(key))
+		return line
+
+	# Index represents Godot 3's value, entry represents Godot 4 value equivalency.
+	# i.e: Button4(L1 - Godot3) -> joypad_button_mappings[4]=9 -> Button9(L1 - Godot4).
+	# Entries for L2 and R2 are -1 since they match to joypad axes and no longer to joypad buttons in Godot 4.
+	func _migrate_joypad_event(line: String):
+		var matches := joypad_button_index_regex.search_all(line)
+		for m in matches:
+			var strings := m.get_strings()
+			var button_index_entry := strings[0]
+			var button_index_value := strings[1].to_int()
+			# L2/R2 mapping
+			if button_index_value == 6:
+				line = line.replace("InputEventJoypadButton", "InputEventJoypadMotion")
+				line = line.replace(button_index_entry, ",\"axis\":4,\"axis_value\":1.0")
+			elif button_index_value == 7:
+				line = line.replace("InputEventJoypadButton", "InputEventJoypadMotion")
+				line = line.replace(button_index_entry, ",\"axis\":5,\"axis_value\":1.0")
+			elif button_index_value < 22:
+				var pressure_and_pressed_properties := strings[2]
+				line = line.replace(button_index_entry, ",\"button_index\":" + String.num_int64(JOYPAD_BUTTON_MAPPINGS[button_index_value]) + "," + pressure_and_pressed_properties)
+		
+		# Remap axes. Only L2 and R2 need remapping.
+		var reg_match := joypad_axis_regex.search_all(line)
+		for m in reg_match:
+			var strings := m.get_strings()
+			var axis_entry := strings[0]
+			var axis_value := strings[1].to_int()
+			if axis_value == 6:
+				line = line.replace(axis_entry, ",\"axis\":4")
+			elif axis_value == 7:
+				line = line.replace(axis_entry, ",\"axis\":5")
+		
+		return line
 
 static func deserialize(data: Dictionary):
 	var result = super.deserialize(data)
@@ -393,7 +463,8 @@ static func deserialize(data: Dictionary):
 	var input_map_version := data.get("input_map_version", InputMapVersion.V1)
 	if data.has("input_map"):
 		if input_map_version == InputMapVersion.V1:
-			result.input_map = migrate_v1_input_map(data.input_map)
+			var migrator := InputMapMigrator.new()
+			result.input_map = migrator.migrate(data.input_map)
 		else:
 			for action_name in data.input_map:
 				result.input_map[action_name] = []
