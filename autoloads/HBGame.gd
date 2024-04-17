@@ -82,6 +82,7 @@ var serializable_types = {
 	"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
 	"AutoplaySettings": load("res://rythm_game/modifiers/autoplay/autoplay_settings.gd"),
 	"HiddenSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
+	"ConsoleToArcadeSettings": load("res://rythm_game/modifiers/console_to_arcade/console_to_arcade_settings.gd"),
 	"PerSongSettings": load("res://scripts/HBPerSongSettings.gd"),
 	"SongStats": load("res://scripts/HBSongStats.gd"),
 	"Folder": load("res://scripts/HBFolder.gd"),
@@ -104,7 +105,7 @@ var serializable_types = {
 	"SkinResources": load("res://scripts/new_ui/HBSkinResources.gd"),
 	"Skin": load("res://scripts/new_ui/HBUISkin.gd"),
 	"SkinScreen": load("res://scripts/new_ui/HBUISkinScreen.gd"),
-	"EditorTemplate": load("res://scripts/HBEditorTemplate.gd")
+	"EditorTemplate": load("res://scripts/HBEditorTemplate.gd"),
 }
 
 const EXCELLENT_THRESHOLD = 0.95
