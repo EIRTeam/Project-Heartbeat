@@ -16,12 +16,6 @@ func _ready():
 	hide()
 	song_settings_editor.connect("back", Callable(list_container, "grab_focus"))
 	
-	connect("resized", Callable(self, "_on_resized"))
-
-func _on_resized():
-	$BackBufferCopy.rect = get_rect()
-	$BackBufferCopy2.rect = get_rect()
-	
 func _on_resumed():
 	$SubViewportContainer/SubViewport/Node3D/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.hide()
 	$SubViewportContainer/SubViewport/Node3D/RestartPopup.hide()
