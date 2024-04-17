@@ -4,55 +4,55 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "X-Crowdin-Project: project-heartbeat\n"
 "X-Crowdin-Project-ID: 662912\n"
-"X-Crowdin-Language: ca\n"
+"X-Crowdin-Language: uk\n"
 "X-Crowdin-File: /[EIRTeam.Project-Heartbeat] godot4/messages.pot\n"
 "X-Crowdin-File-ID: 8\n"
-"Language-Team: Catalan\n"
-"Language: ca_ES\n"
-"PO-Revision-Date: 2024-04-17 10:26\n"
+"Language-Team: Ukrainian\n"
+"Language: uk_UA\n"
+"PO-Revision-Date: 2024-04-17 10:15\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
-msgstr "Error desconegut"
+msgstr ""
 
 #: autoloads/HBGame.gd
 msgid "Fatal error loading data from the game, please see below"
-msgstr "Error fatal en carregar dades del joc, vegeu més avall"
+msgstr ""
 
 #: autoloads/HBGame.gd
 msgid "Steam reports MM+ is not installed"
-msgstr "Steam informa que MM+ no està instal·lat"
+msgstr ""
 
 #: autoloads/HBGame.gd
 msgid "Your steam account does not own MM+"
-msgstr "El teu compte de Steam no és propietari de MM+"
+msgstr ""
 
 #: autoloads/HBGame.gd
 msgid "Steam couldn't be found, is it closed?"
-msgstr "No s'ha pogut trobar Steam, està tancat?"
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
-msgstr "Aquesta cançó requereix baixar fitxers de vídeo/àudio de YouTube, els voleu baixar?"
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "Yes (audio only)"
-msgstr "Sí (només àudio)"
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "Downloading..."
-msgstr "Descarregant..."
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "Media for this song is currently being downloaded."
-msgstr "Actualment s'estan baixant els medis d'aquesta cançó."
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "OGG"
-msgstr "OGG"
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 #: menus/FolderManager.gd
@@ -69,818 +69,816 @@ msgstr ""
 msgid "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n\n"
 "The recommended way to share and play community charts is to use the Workshop, PPD suport is provided as a courtesy for transitioning players.\n\n"
 "You can either input a YouTube URL or select an ogg file from disk to use as audio."
-msgstr "Per motius legals i de llicència, Project Heartbeat no pot utilitzar fitxers MP4 per a cançons PPD. Llegiu més informació sobre el perquè aquí.\n\n"
-"La forma recomanada de compartir i jugar gràfics de la comunitat és fer servir la Workshop, el suport de PPD es proporciona com a cortesia de jugadors en transició.\n\n"
-"Podeu introduir un URL de YouTube o seleccionar un fitxer ogg del disc per utilitzar-lo com a àudio."
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "Use YouTube Video"
-msgstr "Utilitzar video de youtube"
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "Select from disk"
-msgstr "Seleccioneu del disc"
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "Invalid URL, ensure you are using a YouTube URL and that it is valid."
-msgstr "URL no valida, assegureu-vos que feu servir un URL de YouTube i que sigui vàlid."
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Cross, Xbox A, Nintendo B"
-msgstr "Creu del DualShock, A de Xbox, B de Nintendo"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Circle, Xbox B, Nintendo A"
-msgstr "Cercle del DualShock, B de Xbox, A de Nintendo"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Square, Xbox X, Nintendo Y"
-msgstr "Quadrat del DualShock, X de Xbox, Y de Nintendo"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Triangle, Xbox Y, Nintendo X"
-msgstr "Triangle del DualShock, Y de Xbox, X de Nintendo"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select, DualShock Share, Nintendo -"
-msgstr "Select, Share del DualShock, - de Nintendo"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Start, DualShock Options, Nintendo +"
-msgstr "Start, Options del DualShock, + de Nintendo"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Up"
-msgstr "Pad direccional amunt"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Down"
-msgstr "Pad direccional avall"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Left"
-msgstr "Pad direccional esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Right"
-msgstr "Pad direccional dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid " (Left Stick Left)"
-msgstr " (Stick esquerre cap a l'esquerra)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid " (Left Stick Right)"
-msgstr " (Stick esquerre cap a la dreta)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid " (Left Stick Up)"
-msgstr " (Stick esquerre cap amunt)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid " (Left Stick Down)"
-msgstr " (Stick esquerre cap avall)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid " (Right Stick Left)"
-msgstr " (Stick dret cap a l'esquerra)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid " (Right Stick Right)"
-msgstr " (Stick dret cap a la dreta)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid " (Right Stick Up)"
-msgstr " (Stick dret cap amunt)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid " (Right Stick Down)"
-msgstr " (Stick dret cap avall)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Note up"
-msgstr "Nota amunt"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Note down"
-msgstr "Nota abaix"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Note left"
-msgstr "Nota esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Note right"
-msgstr "Nota dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Slide left"
-msgstr "Slide esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Slide right"
-msgstr "Slide dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Heart note"
-msgstr "Nota de cor"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Set waypoint"
-msgstr "Mode de pràctica: establir el marcador"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Go to waypoint"
-msgstr "Mode de pràctica: anar al marcador"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Last mode"
-msgstr "Mode de pràctica: Mode anterior"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Next mode"
-msgstr "Mode de pràctica: Mode següent"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Apply calculated latency"
-msgstr "Mode de pràctica: aplicar la latència calculada"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Pause"
-msgstr "Pausar"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu up"
-msgstr "Menú amunt"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu down"
-msgstr "Menú abaix"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu left"
-msgstr "Menú esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu right"
-msgstr "Menú dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Tab left"
-msgstr "Pestanya esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Tab right"
-msgstr "Pestanya dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu accept"
-msgstr "Menú acceptar"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu cancel"
-msgstr "Menú cancelar"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "(Song list) Page up"
-msgstr "(Llista de cançons) Pàgina amunt"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "(Song list) Page down"
-msgstr "(Llista de cançons) Pàgina avall"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Show currently playing song"
-msgstr "Mostrar cançó"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu sort by"
-msgstr "Menú ordena per"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu search"
-msgstr "Cerca"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Contextual option"
-msgstr "Opció contextual"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Undo"
-msgstr "Desfer"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Redo"
-msgstr "Refer"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select notes"
-msgstr "Seleccion notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Show contextual menu"
-msgstr "Mostrar el menú contextual"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Scale up"
-msgstr "Augmentar escala"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Scale down"
-msgstr "Reduir escala"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Pan the timeline"
-msgstr "Desplaçar la línia del temps"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move playhead to the left"
-msgstr "Mou el capçal de reproducció cap a l'esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move playhead to the right"
-msgstr "Mou el capçal de reproducció cap a la dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the settings menu"
-msgstr "Obriu/tanqueu el menú de configuració"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open the editor docs"
-msgstr "Obriu la documentació de l'editor"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open the script manager"
-msgstr "Obriu el gestor d'scripts"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open the diagnostics menu"
-msgstr "Obriu el menú de diagnòstic"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the fps counter"
-msgstr "Commuta el comptador de fps"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Show hidden charts"
-msgstr "Mostra els charts ocults"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the layer visibility menu"
-msgstr "Obre/Tanca el menú de visibilitat de la capa"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open a chart"
-msgstr "Obre un chart"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open the scripts directory"
-msgstr "Obriu el directori d'scripts"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Save the chart / script"
-msgstr "Deseu el chart / script"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Save the chart / script as"
-msgstr "Anomena i desa el gràfic / script"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Create a new script"
-msgstr "Creeu un script nou"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Play / Pause"
-msgstr "Reproduir / Pausa"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Playtest"
-msgstr "Playtest"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Playtest at time"
-msgstr "Playtest al temps actual"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle metronome"
-msgstr "Alterna el metrònom"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle background"
-msgstr "Alterna el fons"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle video"
-msgstr "Alterna el vídeo"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select all"
-msgstr "Selecciona tot"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Deselect"
-msgstr "Desseleccioneu"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Shift selection left"
-msgstr "Desplaça la selecció cap a l'esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Shift selection right"
-msgstr "Desplaça la selecció cap a la dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select every 2nd note"
-msgstr "Seleccioneu cada 2a nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select every 3rd note"
-msgstr "Seleccioneu cada 3a nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select every 4th note"
-msgstr "Seleccioneu cada 4a nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select only notes"
-msgstr "Seleccioneu només notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select only double notes"
-msgstr "Seleccioneu només notes dobles"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select only sustains"
-msgstr "Seleccioneu només sustains"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select only sections"
-msgstr "Seleccioneu només seccions"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select only tempo changes"
-msgstr "Seleccioneu només els canvis de tempo"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Select only speed changes"
-msgstr "Seleccioneu només els canvis de velocitat"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Cut notes"
-msgstr "Retalla notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Copy notes"
-msgstr "Copia notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Paste notes"
-msgstr "Enganxa notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Delete notes"
-msgstr "Suprimeix notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Convert to normal note"
-msgstr "Converteix a nota normal"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle hold"
-msgstr "Alterna hold"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle sustain"
-msgstr "Alterna sustain"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle double"
-msgstr "Alterna doble"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Make slide chain"
-msgstr "Fer una cadena de slide"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Increase note type"
-msgstr "Augmenta el tipus de nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Decrease note type"
-msgstr "Disminueix el tipus de nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 4ths"
-msgstr "Estableix la resolució a 4ts"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 6ths"
-msgstr "Estableix la resolució en 6es"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 8ths"
-msgstr "Estableix la resolució en 8ens"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 12ths"
-msgstr "Estableix la resolució a 12"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 16ths"
-msgstr "Estableix la resolució a 16"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 24ths"
-msgstr "Estableix la resolució a 24"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 32nds"
-msgstr "Estableix la resolució a 32"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle timeline snap"
-msgstr "Alterna l'ajust de la línia de temps"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Increase timeline resolution"
-msgstr "Augmentar la resolució de la línia de temps"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Decrease timeline resolution"
-msgstr "Disminuir la resolució de la línia de temps"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the hitsound sfxs"
-msgstr "Alterna els sons de cop"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the waveform display"
-msgstr "Canvia la visualització de la forma d'ona"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Tap metronome"
-msgstr "Toqueu el metrònom"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle grid"
-msgstr "Alterna la graella"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Toggle grid snap"
-msgstr "Alterna l'ajust de la graella"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Show arrange menu"
-msgstr "Mostra el menú d'ordenació"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Arrange left"
-msgstr "Organitza a l'esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Arrange right"
-msgstr "Organitza a la dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up"
-msgstr "Organitza cap amunt"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down"
-msgstr "Organitza cap avall"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up left"
-msgstr "Organitza cap amunt a l'esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up right"
-msgstr "Organitza cap amunt a la dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down left"
-msgstr "Organitza cap avall a l'esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down right"
-msgstr "Organitza cap avall a la dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Stack notes"
-msgstr "Apilar notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes left"
-msgstr "Fine position notes up"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes right"
-msgstr "Fine position notes right"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes up"
-msgstr "Fine position notes up"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes down"
-msgstr "Fine position notes down"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move notes left"
-msgstr "Mou les notes cap a l'esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move notes right"
-msgstr "Mou les notes cap a la dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move notes up"
-msgstr "Mou les notes cap amunt"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move notes down"
-msgstr "Mou les notes cap avall"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Interpolate angles"
-msgstr "Interpola angles"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Interpolate distances"
-msgstr "Interpola distàncies"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Flip angle"
-msgstr "Inverteix l'angle"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Flip oscillation"
-msgstr "Inverteix la oscil·lació"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move angles towards the first note"
-msgstr "Mou els angles cap a la primera nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move angles away from the first note"
-msgstr "Allunya els angles de la primera nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move angles towards the last note"
-msgstr "Mou els angles cap a l'última nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Move angles away from the last note"
-msgstr "Allunya els angles de l'última nota"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 180º"
-msgstr "Estableix l'angle a 180º"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 0º"
-msgstr "Estableix l'angle a 0º"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 270º"
-msgstr "Estableix l'angle a 270º"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 90º"
-msgstr "Estableix l'angle a 90º"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 225º"
-msgstr "Estableix l'angle a 225º"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 315º"
-msgstr "Estableix l'angle a 315º"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 135º"
-msgstr "Estableix l'angle a 135º"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 45º"
-msgstr "Estableix l'angle a 45º"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Mirror horizontally"
-msgstr "Reflectir horitzontalment"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Mirror vertically"
-msgstr "Reflectir verticalment"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Flip horizontally"
-msgstr "Voltejar horitzontalment"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Flip vertically"
-msgstr "Voltejar verticalment"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Make circle clockwise"
-msgstr "Feu un cercle en el sentit de les agulles del rellotge"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Make circle counter-clockwise"
-msgstr "Feu un cercle en sentit contrari a les agulles del rellotge"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Make circle clockwise from the inside"
-msgstr "Feu un cercle des de dins en el sentit de les agulles del rellotge"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Make circle counter-clockwise from the inside"
-msgstr "Feu un cercle des de dins en sentit contrari a les agulles del rellotge"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Circle size bigger"
-msgstr "Feu el cercle més gran"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Circle size smaller"
-msgstr "Feu el cercle més petit"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the selection center"
-msgstr "Gireu al voltant del centre de selecció"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the leftmost note"
-msgstr "Gireu al voltant de la nota més a l'esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the rightmost note"
-msgstr "Gireu al voltant de la nota més dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the screen center"
-msgstr "Gireu al voltant del centre de la pantalla"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Vertical multi left"
-msgstr "Multi vertical esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Vertical multi right"
-msgstr "Multi vertical dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Straight vertical multi"
-msgstr "Multi vertical recte"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Horizontal multi top"
-msgstr "Multi horitzontal a la part superior"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Horizontal multi bottom"
-msgstr "Multi horitzontal a la part inferior"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Diagonal multi"
-msgstr "Multi diagonal"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Quad"
-msgstr "Quad"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Quad (From inside)"
-msgstr "Quad (des de dins)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Sideways quad"
-msgstr "Quad de costat"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Triangle"
-msgstr "Triangle"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Inverted triangle"
-msgstr "Triangle invertit"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Create template"
-msgstr "Crea plantilla"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Refresh templates"
-msgstr "Actualitzar plantilles"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open the templates dir (to manage them)"
-msgstr "Obriu el directori de plantilles (per gestionar-les)"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Create timing change"
-msgstr "Crea un canvi de temps"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Create speed change"
-msgstr "Crea un canvi de velocitat"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Create a smooth speed transition"
-msgstr "Creeu una transició de velocitat suau"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Create intro skip"
-msgstr "Crea un salt d'introducció"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Create chart section"
-msgstr "Crea una secció de chart"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Quick lyric"
-msgstr "Lletra ràpida"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Quick phrase start"
-msgstr "Inici de frase ràpid"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Quick phrase end"
-msgstr "Final de frase ràpid"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Notes"
-msgstr "Notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 #: menus/options_menu/OptionsMenu.gd
 msgid "Game"
-msgstr "Joc"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "GUI"
-msgstr "Interficie"
+msgstr ""
 
 #: autoloads/YoutubeDL.gd
 msgid "Processing audio for %s"
-msgstr "Processant l'àudio per a %s"
+msgstr ""
 
 #: autoloads/YoutubeDL.gd
 msgid "audio"
-msgstr "audio"
+msgstr ""
 
 #: autoloads/YoutubeDL.gd
 msgid "video"
-msgstr "vídeo"
+msgstr ""
 
 #: autoloads/YoutubeDL.gd
 msgid " of %s"
-msgstr " de %s"
+msgstr ""
 
 #: autoloads/YoutubeDL.gd
 msgid "Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
-msgstr "Descarregant {download_type} per a {song_title} ({percentage}{size}{speed})"
+msgstr ""
 
 #: base_scene.tscn
 #: menus/LoadingScreen.gd
 #: menus/LoadingScreen.tscn
 #: multiplayer/lobby/LobbyList.tscn
 msgid "Loadingu..."
-msgstr "Carregantgu..."
+msgstr ""
 
 #: menus/FolderManager.gd
 #: menus/FolderManager.tscn
 msgid "Enter the new folder name"
-msgstr "Introduïu el nom de la nova carpeta"
+msgstr ""
 
 #: menus/FolderManager.gd
 #: menus/FolderManager.tscn
 msgid "Add subfolder"
-msgstr "Afegeix una subcarpeta"
+msgstr ""
 
 #: menus/FolderManager.gd
 #: menus/FolderManager.tscn
 msgid "Rename folder"
-msgstr "Crea una carpeta nova"
+msgstr ""
 
 #: menus/FolderManager.gd
 #: menus/FolderManager.tscn
 msgid "Delete folder"
-msgstr "Crea una carpeta nova"
+msgstr ""
 
 #: menus/FolderManager.tscn
 msgid "Close"
-msgstr "Tancar"
+msgstr ""
 
 #: menus/FolderManager.tscn
 msgid "Open"
-msgstr "Obrir"
+msgstr ""
 
 #: menus/FolderManager.tscn
 #: menus/song_list/SongList.tscn
 msgid "Select"
-msgstr "Seleccionar"
+msgstr ""
 
 #: menus/FolderManager.tscn
 #: menus/media_download_queue/MediaDownloadQueue.tscn
@@ -888,891 +886,888 @@ msgstr "Seleccionar"
 #: menus/song_list/SongList.tscn
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Back"
-msgstr "Enrere"
+msgstr ""
 
 #: menus/FolderManager.tscn
 msgid "Do you want to delete this folder?"
-msgstr "Vols eliminar aquesta carpeta?"
+msgstr ""
 
 #: menus/FolderManagerFolderButton.tscn
 #: menus/pregame_screen/ModifierButton.tscn
 #: menus/pregame_screen/PregameStartTab.tscn
 msgid "Start"
-msgstr "Iniciar"
+msgstr ""
 
 #: menus/HBConfirmationWindow.tscn
 msgid "Are you sure you want to do this?"
-msgstr "Estàs segur de voler fer això?"
+msgstr ""
 
 #: menus/HBConfirmationWindow.tscn
 msgid "Yes"
-msgstr "Si"
+msgstr ""
 
 #: menus/HBConfirmationWindow.tscn
 msgid "No"
-msgstr "No"
+msgstr ""
 
 #: menus/HBTextInput.gd
 #: menus/HBTextInput.tscn
 msgid "Input text"
-msgstr "Text de entrada"
+msgstr ""
 
 #: menus/HBTextInput.tscn
 msgid "Please enter the folder's name:"
-msgstr "Per favor introdueix el nom de la carpeta:"
+msgstr ""
 
 #: menus/HBTextInput.tscn
 msgid "Accept"
-msgstr "Acceptar"
+msgstr ""
 
 #: menus/HBTextInput.tscn
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #: menus/LoadingScreen.gd
 #: menus/LoadingScreen.tscn
 msgid "Downloadingu UI Skin..."
-msgstr "Descarregantgu skin de interfície..."
+msgstr ""
 
 #: menus/LoadingScreen.tscn
 #: menus/song_list/SongList.tscn
 msgid "Title"
-msgstr "Títol"
+msgstr ""
 
 #: menus/LoadingScreen.tscn
 msgid "This chart's video contains scenes with rapidly flashing colours.\n"
 "Please take caution if you are affected by epilepsy."
-msgstr "El vídeo d'aquest mapa conté escenes amb colors que parpellegen ràpidament.\n"
-" Tingueu precaució si us afecta l'epilèpsia."
+msgstr ""
 
 #: menus/MainMenuUserInfo.gd
 #: menus/MainMenuUserInfo.tscn
 msgid "Lvl. %d"
-msgstr "Nvl. %d"
+msgstr ""
 
 #: menus/ModifierSelector.tscn
 msgid "Makes everyone sound like anime girls, who would have thought?"
-msgstr "Fa que tothom soni com una noia d'anime, qui ho hauria pensat?"
+msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
 #: menus/options_menu/OptionsMenu.gd
 msgid "Latency compensation"
-msgstr "Compensació de latència"
+msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
 #: menus/options_menu/OptionsMenu.gd
 msgid "Delay applied to note timing, in miliseconds, higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."
-msgstr "Retard aplicat al temps de la nota, en mil·lisegons. Valors més alts significa que les notes arriben més tard. Tingueu en compte que el joc ja compensa una mica el retard del maquinari (per exemple, ja compensant la latència de pulseaudio)."
+msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Song volume"
-msgstr "Volum de cançó"
+msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Volume of the song, relative."
-msgstr "Volum de la cançó, relatiu."
+msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Video enabled"
-msgstr "Vídeo habilitat"
+msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Enables or disables video for this song."
-msgstr "Activa o desactiva el vídeo d'aquesta cançó."
+msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Use the song's recommended skin"
-msgstr "Utilitza la skin recomanada per la cançó"
+msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
 msgid "When enabled, makes the game use the skin chosen by the song's creator for this particular song, will download it if it is not installed already."
-msgstr "Quan està activat, fa que el joc utilitzi el skin escollit pel creador de la cançó per a aquesta cançó en concret, el baixarà si encara no està instal·lat."
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Normal notes"
-msgstr "Notes normals"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold notes"
-msgstr "Notes hold"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide notes"
-msgstr "Notes slide"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide chains"
-msgstr "Cadenes de slides"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Double notes"
-msgstr "Notes dobles"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Sustain notes"
-msgstr "Notes sustingudes"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 #: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes"
-msgstr "Notes de cor"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated button!"
-msgstr "Prem el botó indicat!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold these notes for as long as you can!"
-msgstr "Manté aquestes notes tot el temps que puguis!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated direction!"
-msgstr "Prem la direcció indicada!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold the indicated direction!"
-msgstr "Manté en la direcció indicada!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated note on two different buttons!"
-msgstr "Prem la nota indicada en dos botons diferents!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold and release when the time is right!"
-msgstr "Manté i deixa anar quan arribi el moment!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Flick in any direction!"
-msgstr "Dona un cop a qualsevol direcció!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "This chart includes:"
-msgstr "Aquest mapa inclou:"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press"
-msgstr "Prem"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "to continue"
-msgstr "per continuar"
+msgstr ""
 
 #: menus/StartMenu.tscn
 msgid "Press any key"
-msgstr "Prem qualsevol botó"
+msgstr ""
 
 #: menus/leaderboard_control/LeaderboardControl.tscn
 msgid "Leaderboard not available for this song"
-msgstr "Taula de classificació no disponible per aquesta cançó"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "HeartbeatNET: Not connected"
-msgstr "HeartbeatNET: Connectat"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "HeartbeatNET: Connected"
-msgstr "HeartbeatNET: Connectat"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Free Play"
-msgstr "Joc Lliure"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Workshop"
-msgstr "Workshop"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "How to play"
-msgstr "Com Jugar"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Multiplayer"
-msgstr "Multijugador"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Downloads"
-msgstr "Descàrregues"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Discord Server"
-msgstr "Servidor de Discord"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Options"
-msgstr "Opcions"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Tools"
-msgstr "Eines"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Exit"
-msgstr "Sortir"
+msgstr ""
 
 #: menus/media_download_queue/MediaDownloadQueue.tscn
 msgid "No downloads queued!"
-msgstr "No hi ha cap descàrrega a la cua!"
+msgstr ""
 
 #: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "Error fetching leaderboard items"
-msgstr "Error obtenint informació de la taula classificatoria"
+msgstr ""
 
 #: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "Leaderboards are not available for this song"
-msgstr "Les taules classificatories no estan disponibles per a aquesta cançó"
+msgstr ""
 
 #: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "There are no entries for this song yet, soyez le premier! (be the first!)"
-msgstr "Encara no hi ha entrades per a aquesta cançó, soyez le premier! (sigueu el primer!)"
+msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "My profile"
-msgstr "El meu perfil"
+msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "Join the Discord server!"
-msgstr "Uniu-vos al servidor de Discord!"
+msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "Follow us on Twitter!"
-msgstr "Segueix-nos al twitter!"
+msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "@PHeartbeatGame"
-msgstr "@PHeartbeatGame"
+msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
-msgstr "NOTÍCIES"
+msgstr ""
 
 #: menus/options_menu/OptionControlsSection.tscn
 msgid "Note: You can assign the same button to more than one action to create macros!"
-msgstr "Nota: podeu assignar el mateix botó a més d'una acció per crear macros!"
+msgstr ""
 
 #: menus/options_menu/OptionControlsSection.tscn
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Press the Key/Button/Axis to bind"
-msgstr "Premeu la tecla / botó / eix per lligar"
+msgstr ""
 
 #: menus/options_menu/OptionControlsSection.tscn
 msgid "Are you sure you want to reset all controls to default?"
-msgstr "Esteu segur que voleu restablir tots els controls per defecte?"
+msgstr ""
 
 #: menus/options_menu/OptionControlsSectionEvent.gd
 msgid " (Disabled due to Input -> Use direct joystick access)"
-msgstr " (Desactivat a causa de Entrada -> Utilitzar l'accés directe al joystick)"
+msgstr ""
 
 #: menus/options_menu/OptionControlsSectionReset.tscn
 msgid "Reset default settings"
-msgstr "Restableix la configuració predeterminada"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Patrons"
-msgstr "Mecenes"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Programming"
-msgstr "Programació"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Art"
-msgstr "Artista"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Music"
-msgstr "Música"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Charting"
-msgstr "Mapes"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Localization"
-msgstr "Localització"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Charting Software"
-msgstr "Programari de charting"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Licenses"
-msgstr "Llicències"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Others"
-msgstr "Altres"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "License: "
-msgstr "Llicència: "
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
-msgstr "Motor"
+msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.gd
 #: menus/options_menu/OptionResourcePacksSection.tscn
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Note Packs"
-msgstr "Paquets de notes"
+msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.gd
 #: menus/options_menu/OptionResourcePacksSection.tscn
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Skins"
-msgstr "Skins"
+msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.tscn
 msgid "Rebuilding note atlas..."
-msgstr "Reconstruint l'atles de notes..."
+msgstr ""
 
 #: menus/options_menu/OptionSoundSelectDropdown.gd
 msgid "Default"
-msgstr "Per defecte"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Language"
-msgstr "Idioma"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Selects the language to use (requires restart)"
-msgstr "Selecciona l'idioma que s'utilitzarà (cal reiniciar)"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Auto detect"
-msgstr "Auto detectar"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
-msgstr "Activa el mode streamer"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "If enabled, saves the title, background and preview image to the user folder so they can be used on a streaming software"
-msgstr "Si està activat, desa el títol, el fons i la imatge de vista prèvia a la carpeta de l'usuari perquè es puguin utilitzar en un programari de transmissió"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable health system"
-msgstr "Habilitar el sistema de salut"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "If enabled the game enables the optional health system where a song can be failed."
-msgstr "Si està activat, el joc habilita el sistema de salut opcional on es pot fallar una cançó."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Download audio only from workshop"
-msgstr "Descarrega només àudio de la workshop"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser"
-msgstr "Si està activat, només descarrega l'àudio quan et subscrius a articles de la Workshop des del navegador de la Workshop del joc"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Maximum simultaneous media downloads"
-msgstr "Màxim de descàrregues multimèdia simultànies"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "How many media files can be downloaded at the same time by the game"
-msgstr "Quants fitxers multimèdia es poden descarregar al mateix temps pel joc"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Pause on focus loss"
-msgstr "Pausa per perdre el focus"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Automatically pause the game when the focus to the game's window is lost."
-msgstr "Posa en pausa el joc automàticament quan es perd el focus a la finestra del joc."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show note types before playing"
-msgstr "Mostra els tipus de notes abans de començar una cançó"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Shows a list of notes and how to hit them before the song starts"
-msgstr "Mostra una llista de notes i com tocar-les abans que comenci la cançó"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show latency"
-msgstr "Mostra latència"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Shows how late or how early you were when hitting notes."
-msgstr "Mostra la diferencia de temps a l'hora de donar-li a una nota."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Input"
-msgstr "Entrada"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use direct joystick access with known controllers"
-msgstr "Utilitzar l'accés directe al joystick amb controladors coneguts"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Allows the game to access controller joysticks directly, used to make slide and heart notes more consistent, only available on controllers marked as known"
-msgstr "Permet que el joc accedeixi directament als joysticks dels controladors, que s'utilitza per fer que les notes slide i de cor siguin més consistents, només disponible als controladors marcats com a coneguts"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Analog filter factor"
-msgstr "Factor de filtre analògic"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Factor used when filtering analog inputs, higher means less filtering\n"
 "Note: This only works with direct joystick access."
-msgstr "Factor utilitzat en filtrar les entrades analògiques, més alt significa menys filtrat.\n"
-" Nota: això només funciona amb l'accés directe amb el joystick."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Analog slider angle deadzone"
-msgstr "Zona morta analògica"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Angle used to define the angular deadzone of sliders\n"
 "Note: This only works with direct joystick access."
-msgstr "Angle utilitzat per definir la zona morta angular dels controls lliscants\n"
-" Nota: això només funciona amb l'accés directe amb el joystick."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable vibration"
-msgstr "Activa la vibració"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "If enabled allows the controller to vibrate."
-msgstr "Si està activat, permet que el comandament vibri."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Analog deadzone"
-msgstr "Zona morta analògica"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
-msgstr "De 0 a 1, quant viatge es necessita perquè els sticks analògics (i altres entrades analògiques) es considerin activats/desactivats."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Controls"
-msgstr "Controls"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Content"
-msgstr "Contingut"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Audio"
-msgstr "Audio"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Target audio buffer size (Requires restart)"
-msgstr "Mida del buffer d'àudio objectiu (requereix reinici)"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "In milliseconds, how big should the requested audio buffer be, lower means lower latency and more smoothness but also higher CPU usage, this is just a target value, your OS might force a different value."
-msgstr "En mil·lisegons, quina mida hauria de ser la memòria intermèdia d'àudio sol·licitada, menor significa una menor latència i més suavitat, però també un ús més elevat de CPU, aquest és només un valor objectiu, el vostre sistema operatiu pot forçar un valor diferent."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Play hit sounds only when a note is hit"
-msgstr "Reprodueix sons de notes només quan s'encerta"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Makes note hit sounds only get emitted when a note is actually hit, disables \"empty\" button press sounds."
-msgstr "Fa que els sons de cop de nota només s'emeten quan realment es toquen una nota, desactiva els sons de prémer el botó \\\"buit\"\\."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Master volume"
-msgstr "Volum mestre"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Global game volume"
-msgstr "Volum global del joc"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Sound effects volume"
-msgstr "Volum d'efectes sonors"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for the sound effects"
-msgstr "Volum per als efectes de so"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Music volume"
-msgstr "Volum de música"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for the music"
-msgstr "Volum per a la música"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Voice fade"
-msgstr "Esvaniment de veu"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Make the voice fade when missing a note (only on supported charts)."
-msgstr "Feu que la veu s'esvaeixi quan es falla una nota (només als mapes compatibles)."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disable menu music"
-msgstr "Desactivar cançons al menú"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disables all music in menus"
-msgstr "Desactiva tota la música dels menús"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Video"
-msgstr "Vídeo"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Display mode"
-msgstr "Mode de visualització"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Whether or not the game should use all the available screen, this should have no difference in performance, except on Windows."
-msgstr "Tant si el joc hauria d'utilitzar tota la pantalla disponible o no, això no hauria de tenir cap diferència de rendiment, excepte a Windows."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Borderless fullscreen"
-msgstr "Pantalla completa sense vores"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Fullscreen"
-msgstr "Pantalla completa"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Windowed"
-msgstr "En finestra"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Display"
-msgstr "Monitor"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Display to display the game in"
-msgstr "Monitor al qual mostrar el joc"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Current"
-msgstr "Actual"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable VSync"
-msgstr "Activar la sincronització vertical"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Waits for vertical synchronization to render frame, can reduce screen tearing but will introduce extra input lag."
-msgstr "Espera la sincronització vertical per renderitzar el fotograma, pot reduir el trencament de la pantalla, però introduirà un retard d'entrada addicional."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disable Video"
-msgstr "Desactivar vídeo"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disables video playback and download, might yield more performance on some systems."
-msgstr "Desactiva la reproducció i la descàrrega de vídeo, pot millorar el rendiment en alguns sistemes."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disable Video for PPD songs"
-msgstr "Desactiva el vídeo per a cançons del PPD"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disables video playback and download for PPD songs, might yield more performance on some systems."
-msgstr "Desactiva la reproducció i la descàrrega de vídeo per a cançons del PPD, això pot millorar el rendiment en alguns sistemes."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Desired Video FPS"
-msgstr "FPS de vídeo desitjat"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "The desired video framerate for downloaded videos."
-msgstr "La freqüència de fotogrames de vídeo desitjada per als vídeos baixats."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Desired Video Resolution"
-msgstr "Resolució de vídeo desitjada"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."
-msgstr "La resolució de vídeo desitjada per als vídeos baixats, si la resolució exacta que heu sol·licitat no està disponible, s'utilitzarà la resolució més petita següent."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use visualizer with video"
-msgstr "Utilitzar visualitzador amb vídeo"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Whether or not the game should display the visualizer on top of videos."
-msgstr "Si el joc ha de mostrar o no el visualitzador a sobre dels vídeos."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Visualizer"
-msgstr "Visualitzador"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems."
-msgstr "Els efectes de visualització d'àudio integrats, la desactivació d'aquesta configuració podria augmentar considerablement el rendiment en sistemes més modestos."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Visualizer Resolution"
-msgstr "Resolució del visualitzador"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."
-msgstr "Quants punts de dades fan servir els efectes de visualització d'àudio, reduir aquesta configuració podria augmentar considerablement el rendiment en sistemes més modests."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "FPS Limit"
-msgstr "Límit de FPS"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Limits the framerate, this might be useful to limit battery consumption on portable systems."
-msgstr "Limita la velocitat de fotogrames, això pot ser útil per limitar el consum de bateria en sistemes portàtils."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Visual"
-msgstr "Visual"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Button prompts"
-msgstr "Gràfics de botons"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Overrides the button prompts shown for your controller to the specified type."
-msgstr "Substitueix les indicacions de botó que es mostren per al comandament pel tipus especificat."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Color remap"
-msgstr "Mapejat de colors"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "For color-blindness, remaps colors on the screen with others, it's an imperfect solution but it might be useful."
-msgstr "Per al daltonisme, reasigna els colors de la pantalla amb altres, és una solució imperfecta, però pot ser útil."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable lyrics"
-msgstr "Activar lletra de cançó"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enables showing lyrics in-game."
-msgstr "Permet mostrar la lletra de les cançons al joc."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Lyrics position"
-msgstr "Posició de la lletra"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Changes where the lyrics are shown."
-msgstr "Canvis on es mostra la lletra."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Top left"
-msgstr "Esquerra superior"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Top center"
-msgstr "Centre superior"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Top right"
-msgstr "Dreta superior"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Bottom left"
-msgstr "Esquerra inferior"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Bottom center"
-msgstr "Centre inferior"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Bottom right"
-msgstr "Dreta inferior"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Lyrics color"
-msgstr "Color de la lletra"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Changes the color used to show the lyrics."
-msgstr "Canvia el color utilitzat per mostrar la lletra."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Orange"
-msgstr "Taronja"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Purple"
-msgstr "Lila"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Blue"
-msgstr "Blau"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Red"
-msgstr "Vermell"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Green"
-msgstr "Verd"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Note Size"
-msgstr "Mida de la nota"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "How big the notes will appear in the game."
-msgstr "Quant de grans apareixeran les notes al joc."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Background dim"
-msgstr "Fosquedat del fons"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Dims the background, a higher percentage will make it darker, note this also includes video background."
-msgstr "Atenua el fons, un percentatge més alt el farà més fosc, tingueu en compte que això també inclou el fons del vídeo."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable multi note indicator"
-msgstr "Activa l'indicador de notes múltiples"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enables showing an indicator in the middle of the screen for what buttons should be pressed for a multi-note."
-msgstr "Permet mostrar un indicador al mig de la pantalla per saber quins botons s'han de prémer per a una nota múltiple."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show clock arms"
-msgstr "Mostra els braços del rellotge"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enables using clock arms instead of circles to show you when it's time to press a note."
-msgstr "Permet utilitzar els braços del rellotge en lloc dels cercles per mostrar-vos quan és el moment de prémer una nota."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable leading lines"
-msgstr "Activar cola de nota al davant"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enables lines that show where the notes are going to go."
-msgstr "Activa les línies que mostren cap a on aniran les notes."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of left icon"
-msgstr "Utilitzar la fletxa en lloc de la icona cap a l'esquerra"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Replaces all instances of the left icon of the selected icon pack with a left arrow."
-msgstr "Substitueix totes les instàncies de la icona esquerra del paquet d'icones seleccionat per una fletxa esquerra."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of right icon"
-msgstr "Utilitzar la fletxa en lloc de la icona cap a la dreta"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Replaces all instances of the right icon of the selected icon pack with a right arrow."
-msgstr "Substitueix totes les instàncies de la icona dreta del paquet d'icones seleccionat per una fletxa dreta."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of up icon"
-msgstr "Utilitzar la fletxa en lloc de la icona cap amunt"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Replaces all instances of the up icon of the selected icon pack with a up arrow."
-msgstr "Substitueix totes les instàncies de la icona amunt del paquet d'icones seleccionat per una fletxa amunt."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of down icon"
-msgstr "Utilitzar la fletxa en lloc de la icona cap avall"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Replaces all instances of the down icon of the selected icon pack with a down arrow."
-msgstr "Substitueix totes les instàncies de la icona avall del paquet d'icones seleccionat per una fletxa cap avall."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Romanized titles"
-msgstr "Títols romanitzats"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Shows romanized versions of foreign titles when available."
-msgstr "Mostra versions romanitzades de títols estrangers quan estiguin disponibles."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Multi laser opacity"
-msgstr "Opacitat del làser per notes múltiples"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Changes the opacity of the laser that connects multi notes."
-msgstr "Canvia la opacitat del làser que connecta les notes múltiples."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Explicit ratings"
-msgstr "Valoracions explícites"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show the full name of the rating on the song list (Doesn't apply for a CHEAP rating)."
-msgstr "Mostra el nom complet de la classificació a la llista de cançons (no s'aplica a una classificació CHEAP)."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Res. Packs"
-msgstr "Paq. de Rec."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Credits"
-msgstr "Credits"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "{sound_pretty_name} sound"
-msgstr "so {sound_pretty_name}"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Sound to use. (Place custom sounds inside the custom_sounds folder in your user folder, only 16-bit WAV files are supported)"
-msgstr "So per utilitzar. (Coloqueu sons personalitzats a la carpeta custom_sounds de la vostra carpeta d'usuari, només s'admeten fitxers WAV de 16 bits)"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "{sound_pretty_name} sound volume"
-msgstr "volum de so {sound_pretty_name}"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for this sound effect"
-msgstr "Volum per aquest efecte de so"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Detected controllers:"
-msgstr "Comandaments detectats:"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
-msgstr "Directori de contingut"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content "
-msgstr "Contingut "
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Change"
-msgstr "Canviar"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.gd
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "A restart is needed for changes to apply"
-msgstr "Cal un reinici perquè els canvis s'apliquin"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.gd
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "MM+ loaded succesfully from:"
-msgstr "MM+ s'ha carregat correctament des de:"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "Enable mounting Project DIVA MegaMix+ from Steam"
-msgstr "Activa el muntatge del Projecte DIVA MegaMix+ des de Steam"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "\n"
@@ -1780,716 +1775,702 @@ msgid "\n"
 "Project DIVA MegaMix+, Project DIVA and other similar trademarks are the property of SEGA, Crypton Future media and others.\n\n"
 "Project Heartbeat does not encourage piracy, as loading data from Project DIVA MegaMix+ requires ownership the game, which is verified through the Steamworks API.\n"
 "Project Heartbeat is simply another engine in which the user can play their legally purchased content, in a similar vein to how the same MP3 file can be played in different MP3 players."
-msgstr "\n"
-" EXENCIÓ DE RESPONSABILITAT\n"
-" \n"
-" Project DIVA MegaMix+, Project DIVA i altres marques comercials similars són propietat de SEGA, Crypton Future media i altres.\n"
-" \n"
-" Project Heartbeat no fomenta la pirateria, ja que la càrrega de dades del Project DIVA MegaMix+ requereix la propietat del joc, que es verifica mitjançant l'API de Steamworks.\n"
-" Project Heartbeat és simplement un altre motor en què l'usuari pot reproduir el seu contingut comprat legalment, de manera similar a com es pot reproduir el mateix fitxer MP3 en diferents reproductors de MP3."
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reset content directory to default"
-msgstr "Restableix el directori de contingut al valor predeterminat"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reload all songs"
-msgstr "Recarregar totes les cançons"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Clear cache"
-msgstr "Netejar cau"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Download all song media"
-msgstr "Baixar tots els continguts multimèdia de cançons"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Clean unused song media"
-msgstr "Neteja el continguts multimèdia de cançons no utilitzats"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reloading content..."
-msgstr "Recarregant contingut."
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Selecting a new content directory requires using the mouse, would you like to continue?"
-msgstr "Per seleccionar un directori de contingut nou cal utilitzar el ratolí, voleu continuar?"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Are you sure you want to reset the content directory to the default?"
-msgstr "Esteu segur que voleu restablir el directori de contingut al valor predeterminat?"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Songs reloaded succesfully"
-msgstr "Cançons recarregades correctament"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Cache cleared succesfully, please re-run the game."
-msgstr "La memòria cau s'ha esborrat correctament. Torneu a executar el joc."
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Unused song media cleaned successful!"
-msgstr "El contingut multimèdia de cançons no utilitzats s'han netejat correctament!"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song"
-msgstr "Cançó"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Leaderboard"
-msgstr "Classificació"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Times Played: %d"
-msgstr "Vegades jugada: %d"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "View leaderboards on the website"
-msgstr "Veure classificació a la web"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Video/Audio variant"
-msgstr "Variant de vídeo/àudio"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "The current song and settings will count towards leaderboard scores"
-msgstr "La cançó i la configuració actuals comptaran per a les puntuacions de la classificació"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "The current song will not count towards leaderboard scores"
-msgstr "La cançó actual no comptarà per a les puntuacions de la classificació"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Only workshop or PPD songs can have their scores uploaded!"
-msgstr "Només les cançons de Workshop o PPD poden tenir les seves puntuacions penjades!"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song settings"
-msgstr "Configuració de la cançó"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Change PPD video URL"
-msgstr "Canvia l'URL del vídeo de PPD"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Delete song media"
-msgstr "Neteja el continguts multimèdia de cançons no utilitzats"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Add modifier"
-msgstr "Afegeix un modificador"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Are you sure you want to change this song's video URL? this requires you use the mouse."
-msgstr "Confirmes que vols canviar l'URL del vídeo d'aquesta cançó? això requereix que utilitzeu el ratolí."
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Are you sure you want to delete this song's media?"
-msgstr "Confirmes que vols suprimir el contingut multimèdia d'aquesta cançó?"
+msgstr ""
 
 #: menus/pregame_screen/PregameStartTab.tscn
 msgid "Modifiers are not allowed in the leaderboard"
-msgstr "No es permeten modificadors a la taula classificatòria"
+msgstr ""
 
 #: menus/pregame_screen/PregameStartTab.tscn
 msgid "Start Practice"
-msgstr "Iniciar pràctica"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Artist"
-msgstr "Artista"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Highest Difficulty"
-msgstr "Dificultat més lta"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Lowest Difficulty"
-msgstr "Dificultat més baixa"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Chart Creator"
-msgstr "Creador del mapa"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "BPM"
-msgstr "PPM"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Last Subscribed"
-msgstr "Darrer subscrit"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Times played"
-msgstr "Vegades jugada"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Last released"
-msgstr "Últim llançament"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Last updated"
-msgstr "Última actualització"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Sorting by %s"
-msgstr "Ordenant per %s"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Difficulty"
-msgstr "Dificultat"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "No folders found, add some!"
-msgstr "No s'ha trobat cap carpeta, afegiu-ne algunes!"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Sort"
-msgstr "Ordenar"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Search"
-msgstr "Cercar"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Add to..."
-msgstr "Afegir a..."
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Manage"
-msgstr "Gestionar"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Remove"
-msgstr "Treure"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
-msgstr "La cançó que heu seleccionat és una cançó PPD sense un fitxer d'àudio existent, en voleu seleccionar-ne un (del disc o de YouTube)? Això requerirà que utilitzeu el ratolí."
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Sort & filter settings"
-msgstr "Configuració d'ordenació i filtració"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Has downloaded media"
-msgstr "Té multimèdia descarregada"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Enter the search term:"
-msgstr "Introduïu el terme de cerca:"
+msgstr ""
 
 #: menus/song_list/SongListFolderBack.tscn
 msgid "Go back"
-msgstr "Torna"
+msgstr ""
 
 #: menus/song_list/SongListNewFolder.tscn
 msgid "Create new folder"
-msgstr "Crea una carpeta nova"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Song Editor"
-msgstr "Editor de cançons"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Resource Pack Editor"
-msgstr "Editor de paquets de recursos"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Open Logs Directory"
-msgstr "Obrir el directori de registres"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Open Songs Directory"
-msgstr "Obrir el directori de cançons"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Open User Directory"
-msgstr "Obrir el directori del usuari"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "PPD Manager"
-msgstr "Gestor PPD"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
-msgstr "Comprovador de latència"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "DJA Debug"
-msgstr "DJA Debug"
+msgstr ""
 
 #: menus/tutorial/page1/page1.tscn
 msgid "How to play: Normal notes"
-msgstr "Com es juga: notes normals"
+msgstr ""
 
 #: menus/tutorial/page1/page1.tscn
 msgid "Hit normal notes by pressing the corresponding face button or d-pad direction when they go over their target\n\n"
 "The d-pad and the face buttons are interchangeable!\n\n"
 "(All key bindings can be changed in the options)"
-msgstr "Premeu les notes normals prement el botó corresponent o la direcció del d-pad quan passen per sobre del seu objectiu\n"
-" \n"
-" El d-pad i els botons de cara són intercanviables!\n"
-" \n"
-" (Totes les vinculacions de tecles es poden canviar a les opcions)"
+msgstr ""
 
 #: menus/tutorial/page1/page1.tscn
 msgid "You can hit slide notes using the analog sticks on your controler."
-msgstr "Pots utilitzar les notes \\slide\\ utilitzant els sticks analògics del teu comandament."
+msgstr ""
 
 #: menus/tutorial/page2/page2.tscn
 msgid "Default keyboard controls"
-msgstr "Controls predeterminats del teclat"
+msgstr ""
 
 #: menus/tutorial/page3/page3.tscn
 msgid "Multi notes"
-msgstr "Notes multiples"
+msgstr ""
 
 #: menus/tutorial/page3/page3.tscn
 msgid "Hitting multis requires you to hit different notes at the same time.\n\n"
 "Multi notes are denoted by being red in color."
-msgstr "Per tocar multis, cal que premeu diferents notes al mateix temps.\n"
-" \n"
-" Les notes múltiples es denoten per el color vermell."
+msgstr ""
 
 #: menus/tutorial/page3/page3.tscn
 msgid "Multi slides also exist and might require you press the same direction on the two analog sticks."
-msgstr "També existeixen els slides múltiples i potser requereixen que premeu la mateixa direcció als dos sticks analògics."
+msgstr ""
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Slide chains and hold notes"
-msgstr "Notes \\slide\\ i \\holds\\"
+msgstr ""
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Slide chains are slides that you can hold for extra points. Slide chains will progressively become blue, if the slide is fully blue you can let go of it."
-msgstr "Les cadenes de slides són slides que podeu aguantar per obtenir punts addicionals. Les cadenes de slides es tornaran blaves progressivament, si la cadena és totalment blava, podeu deixar-la anar."
+msgstr ""
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Hold notes are notes that give you extra points by holding them after you hit them, if you manage to hold them for long enough you'll get a nice bonus!"
-msgstr "Les notes hold són notes que et donen punts addicionals mantenint-les després de ser encertades, si aconsegueixes mantenir-les el temps suficient, obtindràs una bonificació!"
+msgstr ""
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "Double and sustain notes"
-msgstr "Notes dobles i sostingudes"
+msgstr ""
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "Double notes are notes that require you to press the same direction on two different buttons, for example by pressing the B/Circle button and right on the d-pad at the same time."
-msgstr "Les notes dobles són notes que requereixen que premeu la mateixa direcció en dos botons diferents, per exemple, prement el botó B/Circle i la dreta al pad direccional alhora."
+msgstr ""
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "In order to hit sustain notes press the note when the first mark hits the target and release when the second one does."
-msgstr "Per fer les notes sustain, premeu la nota quan la primera marca toqui l'objectiu i deixeu-la anar quan ho faci la segona."
+msgstr ""
 
 #: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes are notes that can be hit by tapping any direction on the joystick or hitting any slide button, double hearts also exist."
-msgstr "Les notes del cor són notes que es poden fer tocant qualsevol direcció del joystick o prement qualsevol botó slide, també existeixen cors dobles."
+msgstr ""
 
 #: menus/tutorial/pagefinal/page_final.tscn
 msgid "That's all you need to know to play project heartbeat, have fun!"
-msgstr "Això és tot el que heu de saber per jugar al Project Heartbeat, divertiu-vos!"
+msgstr ""
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Charts"
-msgstr "Mapes"
+msgstr ""
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Most popular for the last week"
-msgstr "El més popular de la darrera setmana"
+msgstr ""
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Filter by Difficulty"
-msgstr "Filtrar per dificultat"
+msgstr ""
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Sort by..."
-msgstr "Ordenar per..."
+msgstr ""
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Subscribe"
-msgstr "Subscriure"
+msgstr ""
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Unsubscribe"
-msgstr "Desuscriure"
+msgstr ""
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Show in song list"
-msgstr "Mostra a la llista de cançons"
+msgstr ""
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Item unsubscribed succesfully, will be removed after you restart the game."
-msgstr "Article desuscrit correctament, serà eliminat quan reiniciïs el joc."
+msgstr ""
 
 #: multiplayer/lobby/LobbyList.tscn
 msgid "Create"
-msgstr "Crear"
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "\n"
 "waiting for song to be downloaded automatically by their game..."
-msgstr "\n"
-" esperant que la cançó es descarregui automàticament pel seu joc..."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Downloading song..."
-msgstr "Descarregant dades de la música..."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "ERROR STARTING GAME: Error downloading workshop song."
-msgstr "ERROR EN INICIAR EL JOC: S'ha produït un error en baixar la cançó de la Workshop."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "ERROR STARTING GAME: You don't seem to have the currently selected song."
-msgstr "ERROR EN INICIAR EL JOC: sembla que no tens la cançó seleccionada actualment."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Downloading song media..."
-msgstr "Descarregant dades de la música..."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
-msgstr "ERROR EN INICIAR EL JOC: Sembla que no teniu el vídeo/àudio de la cançó seleccionat actualment, torneu a la llista de cançons de joc lliure i descarregueu-lo."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Select Song..."
-msgstr "Seleccionar Cançó..."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Invite friend..."
-msgstr "Invitar amic..."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Start Game"
-msgstr "Iniciar Partida"
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Leave This Lobby"
-msgstr "Deixa aquest vestíbul"
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Send"
-msgstr "Enviar"
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Checking if other users have this song..."
-msgstr "S'està comprovant si altres usuaris tenen aquesta cançó ..."
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Song not owned by:"
-msgstr "Els següents usuaris no tenen la cançó:"
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Downloading song data..."
-msgstr "Descarregant dades de la música..."
+msgstr ""
 
 #: multiplayer/lobby/LobbySongSelector.tscn
 msgid "Selecting song for"
-msgstr "Selecció de la cançó per a"
+msgstr ""
 
 #: multiplayer/lobby/Member.tscn
 msgid "Set as host"
-msgstr "Fer amfitrió"
+msgstr ""
 
 #: rythm_game/ResultsScreen.gd
 #: rythm_game/ResultsScreen.tscn
 msgid "Results"
-msgstr "Resultats"
+msgstr ""
 
 #: rythm_game/ResultsScreen.gd
 #: rythm_game/ResultsScreen.tscn
 msgid "Graph"
-msgstr "Gràfic"
+msgstr ""
 
 #: rythm_game/ResultsScreen.gd
 #: rythm_game/ResultsScreen.tscn
 msgid "results"
-msgstr "resultats"
+msgstr ""
 
 #: rythm_game/ResultsScreen.gd
 #: rythm_game/ResultsScreen.tscn
 msgid "graph"
-msgstr "gràfic"
+msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Retry"
-msgstr "Reintentar"
+msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Share"
-msgstr "Compartir"
+msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Return"
-msgstr "Tornar"
+msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
 msgid "What did you think of the song you just played?"
-msgstr "Què t'ha semblat la cançó que acabes de jugar?"
+msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
 msgid "No opinion"
-msgstr "Cap opinió"
+msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Don't ask me again"
-msgstr "No m'ho tornis a preguntar"
+msgstr ""
 
 #: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
 msgid "Fast forward!"
-msgstr "Avanç ràpid!"
+msgstr ""
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier name"
 msgid "Autoplay"
-msgstr "Autoplay"
+msgstr ""
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier description"
 msgid "Makes the game play itself."
-msgstr "Fa que el joc es jugui sol."
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier name"
 msgid "Nightcore"
-msgstr "Nightcore"
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier list name, %d is the percentage amount of speed applied"
 msgid "Nightcore %d %%"
-msgstr "Nightcore %d %%"
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier description"
 msgid "Turns your manly voices into anime girls."
-msgstr "Converteix les teves veus masculines en veus de noies d’anime."
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier speed property name"
 msgid "Speed"
-msgstr "Velocitat"
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier speed property desciption"
 msgid "Percentage of speed to increase (or decrease) the song's playback"
-msgstr "Percentatge de velocitat per augmentar (o disminuir) la velocitat de reproducció de la cançó"
+msgstr ""
 
 #: rythm_game/modifiers/timing/timing.gd
 msgid "Timing Window"
-msgstr "Finestra de temps"
+msgstr ""
 
 #: rythm_game/modifiers/timing/timing.gd
 msgid "Duration of the overall timing window (in ms)"
-msgstr "Durada de la finestra de temps global (en ms)"
+msgstr ""
 
 #: rythm_game/pause_menu/PauseMenu3D.tscn
 msgid "Are you sure you want to restart?"
-msgstr "Estàs segur de voler reiniciar?"
+msgstr ""
 
 #: rythm_game/pause_menu/PauseMenu3D.tscn
 #: rythm_game/practice_mode.tscn
 msgid "Are you sure you want to quit?"
-msgstr "Estàs segur de voler abandonar?"
+msgstr ""
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "PAUSED"
-msgstr "PAUSAT"
+msgstr ""
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 #: rythm_game/practice_mode.tscn
 msgid "Resume"
-msgstr "Continuar"
+msgstr ""
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "Restart"
-msgstr "Reiniciar"
+msgstr ""
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "Song Settings"
-msgstr "Configuració de la cançó"
+msgstr ""
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 #: rythm_game/practice_mode.tscn
 msgid "Quit"
-msgstr "Sortir"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "No section"
-msgstr "Següent secció"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Game info:\n"
-msgstr "Informació del joc:\n"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "\n"
 "Accuracy:\n"
-msgstr "\n"
-" Precisió:\n"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Previous mode"
-msgstr "Mode anterior"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Seek Left"
-msgstr "Avançar a l'esquerra"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Set Waypoint"
-msgstr "Estableix el marcador"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Go to waypoint"
-msgstr "Anar al marcador"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Seek Right"
-msgstr "Avançar cap a la detra"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Next mode"
-msgstr "Següent mode"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Previous section"
-msgstr "Secció anterior"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Next section"
-msgstr "Següent secció"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Apply latency"
-msgstr "Aplicar latència"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Slow down"
-msgstr "Ralentitzar"
+msgstr ""
 
 #: rythm_game/practice_mode.tscn
 msgid "Speed up"
-msgstr "Accelerar"
+msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "Level up!"
-msgstr "Pujada de nivell!"
+msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "MAX COMBO"
-msgstr "COMBO MAX"
+msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "NOTES HIT"
-msgstr "NOTES ENCERTADES"
+msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "TOTAL NOTES"
-msgstr "NOTES TOTALS"
+msgstr ""
 
 #: rythm_game/rhythm_game_controller.tscn
 msgid "Rolling back!"
-msgstr "Tornant enrere!"
+msgstr ""
 
 #: rythm_game/rhythm_game_multiplayer.tscn
 msgid "Waiting for other players to load!"
-msgstr "Esperant que es carreguin altres jugadors!"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name"
 msgid "Console to arcade"
-msgstr "Consola a arcade"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name when keeping hearts"
 msgid "Console to arcade (Keep hearts)"
-msgstr "Consola a arcade (Mantenir cors)"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier description"
 msgid "Converts console-style songs to be compatible with arcade controllers"
-msgstr "Converteix cançons d'estil consola per ser compatible amb controladors d'arcade"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier keep_heartrs property"
 msgid "Keep hearts"
-msgstr "Mantenir cors"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier keep_hearts property description"
 msgid "If enabled, will keep single hearts and convert double hearts to single hearts."
-msgstr "Quan està activat, mantindrà els cors individuals i convertirà els cors dobles en cors individuals."
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode property"
 msgid "Sustain note conversion mode"
-msgstr "Mode de conversió de notes sostingudes"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode description"
 msgid "Changes how to convert sustain notes."
-msgstr "Canvia com convertir les notes sostingudes."
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode two note option"
 msgid "Replace with two notes"
-msgstr "Reemplaça amb dues notes"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode hold option"
 msgid "Replace with hold"
-msgstr "Reemplaça amb hold"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode single note option"
 msgid "Replace with one note"
-msgstr "Reemplaça amb una nota"
+msgstr ""
 
 #: rythm_game/modifiers/chaos/chaos.gd
 msgctxt "Chaos modifier name"
 msgid "Chaos"
-msgstr "Caos"
+msgstr ""
 
 #: rythm_game/modifiers/chaos/chaos.gd
 msgctxt "Chaos modifier description"
 msgid "Good luck."
-msgstr "Bona sort."
+msgstr ""
 
 #: rythm_game/modifiers/hidden/hidden.gd
 msgctxt "Hidden modifier name"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr ""
 
 #: rythm_game/modifiers/hidden/hidden.gd
 msgctxt "Hidden modifier description"
 msgid "Hides notes a few moments after they spawn."
-msgstr "Oculta les notes un moment després que apareguin."
+msgstr ""
 
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier name"
 msgid "Randomizer"
-msgstr "Aleatoritzador"
+msgstr ""
 
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier description"
 msgid "Randomizes the type of some notes."
-msgstr "Aleatoritza el tipus d'algunes notes."
+msgstr ""
 

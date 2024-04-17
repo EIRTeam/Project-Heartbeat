@@ -4,51 +4,51 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: project-heartbeat\n"
 "X-Crowdin-Project-ID: 662912\n"
-"X-Crowdin-Language: ca\n"
+"X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /[EIRTeam.Project-Heartbeat] godot4/messages.pot\n"
 "X-Crowdin-File-ID: 8\n"
-"Language-Team: Catalan\n"
-"Language: ca_ES\n"
-"PO-Revision-Date: 2024-04-17 10:26\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-04-17 10:15\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
-msgstr "Error desconegut"
+msgstr "未知错误"
 
 #: autoloads/HBGame.gd
 msgid "Fatal error loading data from the game, please see below"
-msgstr "Error fatal en carregar dades del joc, vegeu més avall"
+msgstr "加载游戏数据出错，请参阅下文"
 
 #: autoloads/HBGame.gd
 msgid "Steam reports MM+ is not installed"
-msgstr "Steam informa que MM+ no està instal·lat"
+msgstr "Steam报告没有安装MM+"
 
 #: autoloads/HBGame.gd
 msgid "Your steam account does not own MM+"
-msgstr "El teu compte de Steam no és propietari de MM+"
+msgstr "你的Steam账号没有MM+"
 
 #: autoloads/HBGame.gd
 msgid "Steam couldn't be found, is it closed?"
-msgstr "No s'ha pogut trobar Steam, està tancat?"
+msgstr "没有找到正在运行的 Steam"
 
 #: autoloads/MouseTrap.tscn
 msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
-msgstr "Aquesta cançó requereix baixar fitxers de vídeo/àudio de YouTube, els voleu baixar?"
+msgstr "这首歌需要从 Youtube 下载视频/音频文件，你想要下载它们吗？"
 
 #: autoloads/MouseTrap.tscn
 msgid "Yes (audio only)"
-msgstr "Sí (només àudio)"
+msgstr "是（仅音频）"
 
 #: autoloads/MouseTrap.tscn
 msgid "Downloading..."
-msgstr "Descarregant..."
+msgstr "正在下载中……"
 
 #: autoloads/MouseTrap.tscn
 msgid "Media for this song is currently being downloaded."
-msgstr "Actualment s'estan baixant els medis d'aquesta cançó."
+msgstr "已经开始下载此歌曲的媒体文件"
 
 #: autoloads/MouseTrap.tscn
 msgid "OGG"
@@ -69,818 +69,818 @@ msgstr ""
 msgid "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n\n"
 "The recommended way to share and play community charts is to use the Workshop, PPD suport is provided as a courtesy for transitioning players.\n\n"
 "You can either input a YouTube URL or select an ogg file from disk to use as audio."
-msgstr "Per motius legals i de llicència, Project Heartbeat no pot utilitzar fitxers MP4 per a cançons PPD. Llegiu més informació sobre el perquè aquí.\n\n"
-"La forma recomanada de compartir i jugar gràfics de la comunitat és fer servir la Workshop, el suport de PPD es proporciona com a cortesia de jugadors en transició.\n\n"
-"Podeu introduir un URL de YouTube o seleccionar un fitxer ogg del disc per utilitzar-lo com a àudio."
+msgstr "由于法律和许可证原因，Project Heartbeat 不能直接使用 PPD歌曲 的 MP4 文件。请阅读这里的内容了解原因\n\n"
+"建议使用创意工坊游玩社区谱面。PPD 支持仅提供给玩家用于过渡\n\n"
+"您也可以输入 YouTube 链接或者从磁盘选择 ogg 文件来使用音频"
 
 #: autoloads/MouseTrap.tscn
 msgid "Use YouTube Video"
-msgstr "Utilitzar video de youtube"
+msgstr "使用 YouTube 视频"
 
 #: autoloads/MouseTrap.tscn
 msgid "Select from disk"
-msgstr "Seleccioneu del disc"
+msgstr "从磁盘中选择"
 
 #: autoloads/MouseTrap.tscn
 msgid "Invalid URL, ensure you are using a YouTube URL and that it is valid."
-msgstr "URL no valida, assegureu-vos que feu servir un URL de YouTube i que sigui vàlid."
+msgstr "无效的链接，请确保使用的是有效的 YouTube 链接"
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Cross, Xbox A, Nintendo B"
-msgstr "Creu del DualShock, A de Xbox, B de Nintendo"
+msgstr "DualShock ×, Xbox A, Nintendo B"
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Circle, Xbox B, Nintendo A"
-msgstr "Cercle del DualShock, B de Xbox, A de Nintendo"
+msgstr "DualShock ◯, Xbox B, Nintendo A"
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Square, Xbox X, Nintendo Y"
-msgstr "Quadrat del DualShock, X de Xbox, Y de Nintendo"
+msgstr "DualShock □, Xbox X, Nintendo Y"
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Triangle, Xbox Y, Nintendo X"
-msgstr "Triangle del DualShock, Y de Xbox, X de Nintendo"
+msgstr "DualShock △, Xbox Y, Nintendo X"
 
 #: autoloads/UserSettings.gd
 msgid "Select, DualShock Share, Nintendo -"
-msgstr "Select, Share del DualShock, - de Nintendo"
+msgstr "Select, DualShock Share, Nintendo -"
 
 #: autoloads/UserSettings.gd
 msgid "Start, DualShock Options, Nintendo +"
-msgstr "Start, Options del DualShock, + de Nintendo"
+msgstr "Start, DualShock Options, Nintendo +"
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Up"
-msgstr "Pad direccional amunt"
+msgstr "十字键 上"
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Down"
-msgstr "Pad direccional avall"
+msgstr "十字键 下"
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Left"
-msgstr "Pad direccional esquerra"
+msgstr "十字键 左"
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Right"
-msgstr "Pad direccional dreta"
+msgstr "十字键 右"
 
 #: autoloads/UserSettings.gd
 msgid " (Left Stick Left)"
-msgstr " (Stick esquerre cap a l'esquerra)"
+msgstr " (左摇杆 左)"
 
 #: autoloads/UserSettings.gd
 msgid " (Left Stick Right)"
-msgstr " (Stick esquerre cap a la dreta)"
+msgstr " (左摇杆 右)"
 
 #: autoloads/UserSettings.gd
 msgid " (Left Stick Up)"
-msgstr " (Stick esquerre cap amunt)"
+msgstr " (左摇杆 上)"
 
 #: autoloads/UserSettings.gd
 msgid " (Left Stick Down)"
-msgstr " (Stick esquerre cap avall)"
+msgstr " (左摇杆 下)"
 
 #: autoloads/UserSettings.gd
 msgid " (Right Stick Left)"
-msgstr " (Stick dret cap a l'esquerra)"
+msgstr " (右摇杆 左)"
 
 #: autoloads/UserSettings.gd
 msgid " (Right Stick Right)"
-msgstr " (Stick dret cap a la dreta)"
+msgstr " (右摇杆 右)"
 
 #: autoloads/UserSettings.gd
 msgid " (Right Stick Up)"
-msgstr " (Stick dret cap amunt)"
+msgstr " (右摇杆 上)"
 
 #: autoloads/UserSettings.gd
 msgid " (Right Stick Down)"
-msgstr " (Stick dret cap avall)"
+msgstr " (右摇杆 下)"
 
 #: autoloads/UserSettings.gd
 msgid "Note up"
-msgstr "Nota amunt"
+msgstr "Note 上"
 
 #: autoloads/UserSettings.gd
 msgid "Note down"
-msgstr "Nota abaix"
+msgstr "Note 下"
 
 #: autoloads/UserSettings.gd
 msgid "Note left"
-msgstr "Nota esquerra"
+msgstr "Note 左"
 
 #: autoloads/UserSettings.gd
 msgid "Note right"
-msgstr "Nota dreta"
+msgstr "Note 右"
 
 #: autoloads/UserSettings.gd
 msgid "Slide left"
-msgstr "Slide esquerra"
+msgstr "滑键 左"
 
 #: autoloads/UserSettings.gd
 msgid "Slide right"
-msgstr "Slide dreta"
+msgstr "滑键 右"
 
 #: autoloads/UserSettings.gd
 msgid "Heart note"
-msgstr "Nota de cor"
+msgstr "心形Note"
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Set waypoint"
-msgstr "Mode de pràctica: establir el marcador"
+msgstr "练习模式：设置起始点"
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Go to waypoint"
-msgstr "Mode de pràctica: anar al marcador"
+msgstr "练习模式：回到起始点"
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Last mode"
-msgstr "Mode de pràctica: Mode anterior"
+msgstr "练习模式：最后一个模式"
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Next mode"
-msgstr "Mode de pràctica: Mode següent"
+msgstr "练习模式：下一页模式"
 
 #: autoloads/UserSettings.gd
 msgid "Practice mode: Apply calculated latency"
-msgstr "Mode de pràctica: aplicar la latència calculada"
+msgstr "练习模式：应用计算的延迟"
 
 #: autoloads/UserSettings.gd
 msgid "Pause"
-msgstr "Pausar"
+msgstr "暂停"
 
 #: autoloads/UserSettings.gd
 msgid "Menu up"
-msgstr "Menú amunt"
+msgstr "菜单 上"
 
 #: autoloads/UserSettings.gd
 msgid "Menu down"
-msgstr "Menú abaix"
+msgstr "菜单 下"
 
 #: autoloads/UserSettings.gd
 msgid "Menu left"
-msgstr "Menú esquerra"
+msgstr "菜单 左"
 
 #: autoloads/UserSettings.gd
 msgid "Menu right"
-msgstr "Menú dreta"
+msgstr "菜单 右"
 
 #: autoloads/UserSettings.gd
 msgid "Tab left"
-msgstr "Pestanya esquerra"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Tab right"
-msgstr "Pestanya dreta"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Menu accept"
-msgstr "Menú acceptar"
+msgstr "菜单 确认"
 
 #: autoloads/UserSettings.gd
 msgid "Menu cancel"
-msgstr "Menú cancelar"
+msgstr "菜单 取消"
 
 #: autoloads/UserSettings.gd
 msgid "(Song list) Page up"
-msgstr "(Llista de cançons) Pàgina amunt"
+msgstr "(Song list) 向上翻页"
 
 #: autoloads/UserSettings.gd
 msgid "(Song list) Page down"
-msgstr "(Llista de cançons) Pàgina avall"
+msgstr "(Song list) 向下翻页"
 
 #: autoloads/UserSettings.gd
 msgid "Show currently playing song"
-msgstr "Mostrar cançó"
+msgstr "显示正在游玩的歌曲"
 
 #: autoloads/UserSettings.gd
 msgid "Menu sort by"
-msgstr "Menú ordena per"
+msgstr "菜单排序方式"
 
 #: autoloads/UserSettings.gd
 msgid "Menu search"
-msgstr "Cerca"
+msgstr "搜索菜单"
 
 #: autoloads/UserSettings.gd
 msgid "Contextual option"
-msgstr "Opció contextual"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Undo"
-msgstr "Desfer"
+msgstr "撤销"
 
 #: autoloads/UserSettings.gd
 msgid "Redo"
-msgstr "Refer"
+msgstr "恢复"
 
 #: autoloads/UserSettings.gd
 msgid "Select notes"
-msgstr "Seleccion notes"
+msgstr "选择Note"
 
 #: autoloads/UserSettings.gd
 msgid "Show contextual menu"
-msgstr "Mostrar el menú contextual"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Scale up"
-msgstr "Augmentar escala"
+msgstr "放大"
 
 #: autoloads/UserSettings.gd
 msgid "Scale down"
-msgstr "Reduir escala"
+msgstr "缩小"
 
 #: autoloads/UserSettings.gd
 msgid "Pan the timeline"
-msgstr "Desplaçar la línia del temps"
+msgstr "平移时间轴"
 
 #: autoloads/UserSettings.gd
 msgid "Move playhead to the left"
-msgstr "Mou el capçal de reproducció cap a l'esquerra"
+msgstr "将播放头移至左侧"
 
 #: autoloads/UserSettings.gd
 msgid "Move playhead to the right"
-msgstr "Mou el capçal de reproducció cap a la dreta"
+msgstr "将播放头移至右侧"
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the settings menu"
-msgstr "Obriu/tanqueu el menú de configuració"
+msgstr "打开/关闭设置菜单"
 
 #: autoloads/UserSettings.gd
 msgid "Open the editor docs"
-msgstr "Obriu la documentació de l'editor"
+msgstr "打开编辑器文档"
 
 #: autoloads/UserSettings.gd
 msgid "Open the script manager"
-msgstr "Obriu el gestor d'scripts"
+msgstr "打开脚本管理器"
 
 #: autoloads/UserSettings.gd
 msgid "Open the diagnostics menu"
-msgstr "Obriu el menú de diagnòstic"
+msgstr "打开诊断菜单"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the fps counter"
-msgstr "Commuta el comptador de fps"
+msgstr "切换帧率显示"
 
 #: autoloads/UserSettings.gd
 msgid "Show hidden charts"
-msgstr "Mostra els charts ocults"
+msgstr "显示隐藏的谱面"
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the layer visibility menu"
-msgstr "Obre/Tanca el menú de visibilitat de la capa"
+msgstr "打开/关闭可视图层菜单"
 
 #: autoloads/UserSettings.gd
 msgid "Open a chart"
-msgstr "Obre un chart"
+msgstr "打开一个谱面"
 
 #: autoloads/UserSettings.gd
 msgid "Open the scripts directory"
-msgstr "Obriu el directori d'scripts"
+msgstr "打开脚本文件夹"
 
 #: autoloads/UserSettings.gd
 msgid "Save the chart / script"
-msgstr "Deseu el chart / script"
+msgstr "保存谱面/脚本"
 
 #: autoloads/UserSettings.gd
 msgid "Save the chart / script as"
-msgstr "Anomena i desa el gràfic / script"
+msgstr "谱面/脚本 另存为"
 
 #: autoloads/UserSettings.gd
 msgid "Create a new script"
-msgstr "Creeu un script nou"
+msgstr "新建脚本"
 
 #: autoloads/UserSettings.gd
 msgid "Play / Pause"
-msgstr "Reproduir / Pausa"
+msgstr "播放/暂停"
 
 #: autoloads/UserSettings.gd
 msgid "Playtest"
-msgstr "Playtest"
+msgstr "试玩"
 
 #: autoloads/UserSettings.gd
 msgid "Playtest at time"
-msgstr "Playtest al temps actual"
+msgstr "从当前时间试玩"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle metronome"
-msgstr "Alterna el metrònom"
+msgstr "切换节拍器开关"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle background"
-msgstr "Alterna el fons"
+msgstr "切换背景图显示"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle video"
-msgstr "Alterna el vídeo"
+msgstr "切换视频显示"
 
 #: autoloads/UserSettings.gd
 msgid "Select all"
-msgstr "Selecciona tot"
+msgstr "全选"
 
 #: autoloads/UserSettings.gd
 msgid "Deselect"
-msgstr "Desseleccioneu"
+msgstr "取消选择"
 
 #: autoloads/UserSettings.gd
 msgid "Shift selection left"
-msgstr "Desplaça la selecció cap a l'esquerra"
+msgstr "左移选区"
 
 #: autoloads/UserSettings.gd
 msgid "Shift selection right"
-msgstr "Desplaça la selecció cap a la dreta"
+msgstr "右移选区"
 
 #: autoloads/UserSettings.gd
 msgid "Select every 2nd note"
-msgstr "Seleccioneu cada 2a nota"
+msgstr "仅选择每个第二个Note"
 
 #: autoloads/UserSettings.gd
 msgid "Select every 3rd note"
-msgstr "Seleccioneu cada 3a nota"
+msgstr "仅选择每个第三个Note"
 
 #: autoloads/UserSettings.gd
 msgid "Select every 4th note"
-msgstr "Seleccioneu cada 4a nota"
+msgstr "仅选择每个第四个Note"
 
 #: autoloads/UserSettings.gd
 msgid "Select only notes"
-msgstr "Seleccioneu només notes"
+msgstr "仅选择Note"
 
 #: autoloads/UserSettings.gd
 msgid "Select only double notes"
-msgstr "Seleccioneu només notes dobles"
+msgstr "仅选择双押Note"
 
 #: autoloads/UserSettings.gd
 msgid "Select only sustains"
-msgstr "Seleccioneu només sustains"
+msgstr "仅选择长按Note"
 
 #: autoloads/UserSettings.gd
 msgid "Select only sections"
-msgstr "Seleccioneu només seccions"
+msgstr "仅选择标记"
 
 #: autoloads/UserSettings.gd
 msgid "Select only tempo changes"
-msgstr "Seleccioneu només els canvis de tempo"
+msgstr "仅选择节奏变化"
 
 #: autoloads/UserSettings.gd
 msgid "Select only speed changes"
-msgstr "Seleccioneu només els canvis de velocitat"
+msgstr "仅选择速度变化"
 
 #: autoloads/UserSettings.gd
 msgid "Cut notes"
-msgstr "Retalla notes"
+msgstr "剪贴Note"
 
 #: autoloads/UserSettings.gd
 msgid "Copy notes"
-msgstr "Copia notes"
+msgstr "复制Note"
 
 #: autoloads/UserSettings.gd
 msgid "Paste notes"
-msgstr "Enganxa notes"
+msgstr "粘贴Note"
 
 #: autoloads/UserSettings.gd
 msgid "Delete notes"
-msgstr "Suprimeix notes"
+msgstr "删除Note"
 
 #: autoloads/UserSettings.gd
 msgid "Convert to normal note"
-msgstr "Converteix a nota normal"
+msgstr "转换为普通Note"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle hold"
-msgstr "Alterna hold"
+msgstr "切换Hold状态"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle sustain"
-msgstr "Alterna sustain"
+msgstr "切换长按状态"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle double"
-msgstr "Alterna doble"
+msgstr "切换双压状态"
 
 #: autoloads/UserSettings.gd
 msgid "Make slide chain"
-msgstr "Fer una cadena de slide"
+msgstr "创建长滑条"
 
 #: autoloads/UserSettings.gd
 msgid "Increase note type"
-msgstr "Augmenta el tipus de nota"
+msgstr "更改Note类型（上移）"
 
 #: autoloads/UserSettings.gd
 msgid "Decrease note type"
-msgstr "Disminueix el tipus de nota"
+msgstr "更改Note类型（下移）"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 4ths"
-msgstr "Estableix la resolució a 4ts"
+msgstr "将时间线间距设为4分音"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 6ths"
-msgstr "Estableix la resolució en 6es"
+msgstr "将时间线间距设为6分音"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 8ths"
-msgstr "Estableix la resolució en 8ens"
+msgstr "将时间线间距设为8分音"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 12ths"
-msgstr "Estableix la resolució a 12"
+msgstr "将时间线间距设为12分音"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 16ths"
-msgstr "Estableix la resolució a 16"
+msgstr "将时间线间距设为16分音"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 24ths"
-msgstr "Estableix la resolució a 24"
+msgstr "将时间线间距设为24分音"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 32nds"
-msgstr "Estableix la resolució a 32"
+msgstr "将时间线间距设为32分音"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle timeline snap"
-msgstr "Alterna l'ajust de la línia de temps"
+msgstr "切换时间线对齐"
 
 #: autoloads/UserSettings.gd
 msgid "Increase timeline resolution"
-msgstr "Augmentar la resolució de la línia de temps"
+msgstr "增大时间线密度"
 
 #: autoloads/UserSettings.gd
 msgid "Decrease timeline resolution"
-msgstr "Disminuir la resolució de la línia de temps"
+msgstr "减小时间线密度"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the hitsound sfxs"
-msgstr "Alterna els sons de cop"
+msgstr "切换打击音效开关"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle the waveform display"
-msgstr "Canvia la visualització de la forma d'ona"
+msgstr "切换声波显示"
 
 #: autoloads/UserSettings.gd
 msgid "Tap metronome"
-msgstr "Toqueu el metrònom"
+msgstr "点击节拍器"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle grid"
-msgstr "Alterna la graella"
+msgstr "切换网格显示"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle grid snap"
-msgstr "Alterna l'ajust de la graella"
+msgstr "切换网格对齐"
 
 #: autoloads/UserSettings.gd
 msgid "Show arrange menu"
-msgstr "Mostra el menú d'ordenació"
+msgstr "显示排序菜单"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange left"
-msgstr "Organitza a l'esquerra"
+msgstr "向左排版"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange right"
-msgstr "Organitza a la dreta"
+msgstr "向右排版"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up"
-msgstr "Organitza cap amunt"
+msgstr "向上排版"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down"
-msgstr "Organitza cap avall"
+msgstr "向下排版"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up left"
-msgstr "Organitza cap amunt a l'esquerra"
+msgstr "向左上排版"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange up right"
-msgstr "Organitza cap amunt a la dreta"
+msgstr "向右上排版"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down left"
-msgstr "Organitza cap avall a l'esquerra"
+msgstr "向左下排版"
 
 #: autoloads/UserSettings.gd
 msgid "Arrange down right"
-msgstr "Organitza cap avall a la dreta"
+msgstr "向右下排版"
 
 #: autoloads/UserSettings.gd
 msgid "Stack notes"
-msgstr "Apilar notes"
+msgstr "重叠Note"
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes left"
-msgstr "Fine position notes up"
+msgstr "精确Note位置左移"
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes right"
-msgstr "Fine position notes right"
+msgstr "精确Note位置右移"
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes up"
-msgstr "Fine position notes up"
+msgstr "精确Note位置上移"
 
 #: autoloads/UserSettings.gd
 msgid "Fine position notes down"
-msgstr "Fine position notes down"
+msgstr "精确Note位置下移"
 
 #: autoloads/UserSettings.gd
 msgid "Move notes left"
-msgstr "Mou les notes cap a l'esquerra"
+msgstr "Note左移"
 
 #: autoloads/UserSettings.gd
 msgid "Move notes right"
-msgstr "Mou les notes cap a la dreta"
+msgstr "Note右移"
 
 #: autoloads/UserSettings.gd
 msgid "Move notes up"
-msgstr "Mou les notes cap amunt"
+msgstr "Note上移"
 
 #: autoloads/UserSettings.gd
 msgid "Move notes down"
-msgstr "Mou les notes cap avall"
+msgstr "Note下移"
 
 #: autoloads/UserSettings.gd
 msgid "Interpolate angles"
-msgstr "Interpola angles"
+msgstr "角度插值"
 
 #: autoloads/UserSettings.gd
 msgid "Interpolate distances"
-msgstr "Interpola distàncies"
+msgstr "距离插值"
 
 #: autoloads/UserSettings.gd
 msgid "Flip angle"
-msgstr "Inverteix l'angle"
+msgstr "翻转角度"
 
 #: autoloads/UserSettings.gd
 msgid "Flip oscillation"
-msgstr "Inverteix la oscil·lació"
+msgstr "翻转飞入轨迹"
 
 #: autoloads/UserSettings.gd
 msgid "Move angles towards the first note"
-msgstr "Mou els angles cap a la primera nota"
+msgstr "调整飞入角度逐渐靠近第一个Note"
 
 #: autoloads/UserSettings.gd
 msgid "Move angles away from the first note"
-msgstr "Allunya els angles de la primera nota"
+msgstr "调整飞入角度逐渐远离第一个Note"
 
 #: autoloads/UserSettings.gd
 msgid "Move angles towards the last note"
-msgstr "Mou els angles cap a l'última nota"
+msgstr "调整飞入角度逐渐远离最后一个Note"
 
 #: autoloads/UserSettings.gd
 msgid "Move angles away from the last note"
-msgstr "Allunya els angles de l'última nota"
+msgstr "调整飞入角度逐渐靠近第一个Note"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 180º"
-msgstr "Estableix l'angle a 180º"
+msgstr "设置角度为180º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 0º"
-msgstr "Estableix l'angle a 0º"
+msgstr "设置角度为0º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 270º"
-msgstr "Estableix l'angle a 270º"
+msgstr "设置角度为270º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 90º"
-msgstr "Estableix l'angle a 90º"
+msgstr "设置角度为90º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 225º"
-msgstr "Estableix l'angle a 225º"
+msgstr "设置角度为225º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 315º"
-msgstr "Estableix l'angle a 315º"
+msgstr "设置角度为315º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 135º"
-msgstr "Estableix l'angle a 135º"
+msgstr "设置角度为135º"
 
 #: autoloads/UserSettings.gd
 msgid "Set angle to 45º"
-msgstr "Estableix l'angle a 45º"
+msgstr "设置角度为45º"
 
 #: autoloads/UserSettings.gd
 msgid "Mirror horizontally"
-msgstr "Reflectir horitzontalment"
+msgstr "水平镜像"
 
 #: autoloads/UserSettings.gd
 msgid "Mirror vertically"
-msgstr "Reflectir verticalment"
+msgstr "垂直镜像"
 
 #: autoloads/UserSettings.gd
 msgid "Flip horizontally"
-msgstr "Voltejar horitzontalment"
+msgstr "水平翻转"
 
 #: autoloads/UserSettings.gd
 msgid "Flip vertically"
-msgstr "Voltejar verticalment"
+msgstr "垂直翻转"
 
 #: autoloads/UserSettings.gd
 msgid "Make circle clockwise"
-msgstr "Feu un cercle en el sentit de les agulles del rellotge"
+msgstr "创建顺时针圆环"
 
 #: autoloads/UserSettings.gd
 msgid "Make circle counter-clockwise"
-msgstr "Feu un cercle en sentit contrari a les agulles del rellotge"
+msgstr "创建逆时针圆环"
 
 #: autoloads/UserSettings.gd
 msgid "Make circle clockwise from the inside"
-msgstr "Feu un cercle des de dins en el sentit de les agulles del rellotge"
+msgstr "创建从内侧飞入的顺时针圆环"
 
 #: autoloads/UserSettings.gd
 msgid "Make circle counter-clockwise from the inside"
-msgstr "Feu un cercle des de dins en sentit contrari a les agulles del rellotge"
+msgstr "创建从内侧飞入的逆时针圆环"
 
 #: autoloads/UserSettings.gd
 msgid "Circle size bigger"
-msgstr "Feu el cercle més gran"
+msgstr "增大圆环尺寸"
 
 #: autoloads/UserSettings.gd
 msgid "Circle size smaller"
-msgstr "Feu el cercle més petit"
+msgstr "减小圆环尺寸"
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the selection center"
-msgstr "Gireu al voltant del centre de selecció"
+msgstr "以选区为中心进行旋转"
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the leftmost note"
-msgstr "Gireu al voltant de la nota més a l'esquerra"
+msgstr "以左侧Note为中心旋转"
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the rightmost note"
-msgstr "Gireu al voltant de la nota més dreta"
+msgstr "以右侧Note为中心旋转"
 
 #: autoloads/UserSettings.gd
 msgid "Rotate around the screen center"
-msgstr "Gireu al voltant del centre de la pantalla"
+msgstr "以屏幕为中心进行旋转"
 
 #: autoloads/UserSettings.gd
 msgid "Vertical multi left"
-msgstr "Multi vertical esquerra"
+msgstr "左侧飞入垂直多押"
 
 #: autoloads/UserSettings.gd
 msgid "Vertical multi right"
-msgstr "Multi vertical dreta"
+msgstr "右侧飞入垂直多押"
 
 #: autoloads/UserSettings.gd
 msgid "Straight vertical multi"
-msgstr "Multi vertical recte"
+msgstr "垂直飞入垂直多押"
 
 #: autoloads/UserSettings.gd
 msgid "Horizontal multi top"
-msgstr "Multi horitzontal a la part superior"
+msgstr "上方飞入水平多押"
 
 #: autoloads/UserSettings.gd
 msgid "Horizontal multi bottom"
-msgstr "Multi horitzontal a la part inferior"
+msgstr "下方飞入水平多押"
 
 #: autoloads/UserSettings.gd
 msgid "Diagonal multi"
-msgstr "Multi diagonal"
+msgstr "斜对角多押"
 
 #: autoloads/UserSettings.gd
 msgid "Quad"
-msgstr "Quad"
+msgstr "矩形多押"
 
 #: autoloads/UserSettings.gd
 msgid "Quad (From inside)"
-msgstr "Quad (des de dins)"
+msgstr "矩形多押（内侧飞入）"
 
 #: autoloads/UserSettings.gd
 msgid "Sideways quad"
-msgstr "Quad de costat"
+msgstr "菱形多押"
 
 #: autoloads/UserSettings.gd
 msgid "Triangle"
-msgstr "Triangle"
+msgstr "三角形多押"
 
 #: autoloads/UserSettings.gd
 msgid "Inverted triangle"
-msgstr "Triangle invertit"
+msgstr "倒三角形多押"
 
 #: autoloads/UserSettings.gd
 msgid "Create template"
-msgstr "Crea plantilla"
+msgstr "创建模板"
 
 #: autoloads/UserSettings.gd
 msgid "Refresh templates"
-msgstr "Actualitzar plantilles"
+msgstr "刷新模板"
 
 #: autoloads/UserSettings.gd
 msgid "Open the templates dir (to manage them)"
-msgstr "Obriu el directori de plantilles (per gestionar-les)"
+msgstr "打开模板目录（进行管理）"
 
 #: autoloads/UserSettings.gd
 msgid "Create timing change"
-msgstr "Crea un canvi de temps"
+msgstr "创建时间轴变化"
 
 #: autoloads/UserSettings.gd
 msgid "Create speed change"
-msgstr "Crea un canvi de velocitat"
+msgstr "创建速度变化"
 
 #: autoloads/UserSettings.gd
 msgid "Create a smooth speed transition"
-msgstr "Creeu una transició de velocitat suau"
+msgstr "创建平滑的速度变化过渡"
 
 #: autoloads/UserSettings.gd
 msgid "Create intro skip"
-msgstr "Crea un salt d'introducció"
+msgstr "创建跳过前奏"
 
 #: autoloads/UserSettings.gd
 msgid "Create chart section"
-msgstr "Crea una secció de chart"
+msgstr "创建谱面标记"
 
 #: autoloads/UserSettings.gd
 msgid "Quick lyric"
-msgstr "Lletra ràpida"
+msgstr "快速歌词"
 
 #: autoloads/UserSettings.gd
 msgid "Quick phrase start"
-msgstr "Inici de frase ràpid"
+msgstr "快速短语开始"
 
 #: autoloads/UserSettings.gd
 msgid "Quick phrase end"
-msgstr "Final de frase ràpid"
+msgstr "快速短语结束"
 
 #: autoloads/UserSettings.gd
 msgid "Notes"
-msgstr "Notes"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 #: menus/options_menu/OptionsMenu.gd
 msgid "Game"
-msgstr "Joc"
+msgstr "游戏"
 
 #: autoloads/UserSettings.gd
 msgid "GUI"
-msgstr "Interficie"
+msgstr "界面"
 
 #: autoloads/YoutubeDL.gd
 msgid "Processing audio for %s"
-msgstr "Processant l'àudio per a %s"
+msgstr "正在处理音频：%s"
 
 #: autoloads/YoutubeDL.gd
 msgid "audio"
-msgstr "audio"
+msgstr "音频"
 
 #: autoloads/YoutubeDL.gd
 msgid "video"
-msgstr "vídeo"
+msgstr "视频"
 
 #: autoloads/YoutubeDL.gd
 msgid " of %s"
-msgstr " de %s"
+msgstr " 的 %s"
 
 #: autoloads/YoutubeDL.gd
 msgid "Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
-msgstr "Descarregant {download_type} per a {song_title} ({percentage}{size}{speed})"
+msgstr "正在下载 {song_title}的{download_type}({percentage}{size}{speed})"
 
 #: base_scene.tscn
 #: menus/LoadingScreen.gd
 #: menus/LoadingScreen.tscn
 #: multiplayer/lobby/LobbyList.tscn
 msgid "Loadingu..."
-msgstr "Carregantgu..."
+msgstr ""
 
 #: menus/FolderManager.gd
 #: menus/FolderManager.tscn
 msgid "Enter the new folder name"
-msgstr "Introduïu el nom de la nova carpeta"
+msgstr "输入新的文件夹名称"
 
 #: menus/FolderManager.gd
 #: menus/FolderManager.tscn
 msgid "Add subfolder"
-msgstr "Afegeix una subcarpeta"
+msgstr "添加子文件夹"
 
 #: menus/FolderManager.gd
 #: menus/FolderManager.tscn
 msgid "Rename folder"
-msgstr "Crea una carpeta nova"
+msgstr "重命名文件夹"
 
 #: menus/FolderManager.gd
 #: menus/FolderManager.tscn
 msgid "Delete folder"
-msgstr "Crea una carpeta nova"
+msgstr "删除文件夹"
 
 #: menus/FolderManager.tscn
 msgid "Close"
-msgstr "Tancar"
+msgstr "关闭"
 
 #: menus/FolderManager.tscn
 msgid "Open"
-msgstr "Obrir"
+msgstr "打开"
 
 #: menus/FolderManager.tscn
 #: menus/song_list/SongList.tscn
 msgid "Select"
-msgstr "Seleccionar"
+msgstr "选择"
 
 #: menus/FolderManager.tscn
 #: menus/media_download_queue/MediaDownloadQueue.tscn
@@ -888,891 +888,891 @@ msgstr "Seleccionar"
 #: menus/song_list/SongList.tscn
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Back"
-msgstr "Enrere"
+msgstr "返回"
 
 #: menus/FolderManager.tscn
 msgid "Do you want to delete this folder?"
-msgstr "Vols eliminar aquesta carpeta?"
+msgstr "你想要删除这个文件夹吗？"
 
 #: menus/FolderManagerFolderButton.tscn
 #: menus/pregame_screen/ModifierButton.tscn
 #: menus/pregame_screen/PregameStartTab.tscn
 msgid "Start"
-msgstr "Iniciar"
+msgstr "开始"
 
 #: menus/HBConfirmationWindow.tscn
 msgid "Are you sure you want to do this?"
-msgstr "Estàs segur de voler fer això?"
+msgstr "你确定要这么做吗？"
 
 #: menus/HBConfirmationWindow.tscn
 msgid "Yes"
-msgstr "Si"
+msgstr "是"
 
 #: menus/HBConfirmationWindow.tscn
 msgid "No"
-msgstr "No"
+msgstr "否"
 
 #: menus/HBTextInput.gd
 #: menus/HBTextInput.tscn
 msgid "Input text"
-msgstr "Text de entrada"
+msgstr "输入文本"
 
 #: menus/HBTextInput.tscn
 msgid "Please enter the folder's name:"
-msgstr "Per favor introdueix el nom de la carpeta:"
+msgstr "请输入文件夹名称"
 
 #: menus/HBTextInput.tscn
 msgid "Accept"
-msgstr "Acceptar"
+msgstr "接受"
 
 #: menus/HBTextInput.tscn
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "取消"
 
 #: menus/LoadingScreen.gd
 #: menus/LoadingScreen.tscn
 msgid "Downloadingu UI Skin..."
-msgstr "Descarregantgu skin de interfície..."
+msgstr "正在下载UI皮肤……"
 
 #: menus/LoadingScreen.tscn
 #: menus/song_list/SongList.tscn
 msgid "Title"
-msgstr "Títol"
+msgstr "标题"
 
 #: menus/LoadingScreen.tscn
 msgid "This chart's video contains scenes with rapidly flashing colours.\n"
 "Please take caution if you are affected by epilepsy."
-msgstr "El vídeo d'aquest mapa conté escenes amb colors que parpellegen ràpidament.\n"
-" Tingueu precaució si us afecta l'epilèpsia."
+msgstr "这个谱面的视频存在闪烁场景\n"
+"如果你有癫痫症状请务必注意"
 
 #: menus/MainMenuUserInfo.gd
 #: menus/MainMenuUserInfo.tscn
 msgid "Lvl. %d"
-msgstr "Nvl. %d"
+msgstr ""
 
 #: menus/ModifierSelector.tscn
 msgid "Makes everyone sound like anime girls, who would have thought?"
-msgstr "Fa que tothom soni com una noia d'anime, qui ho hauria pensat?"
+msgstr "让每个人的声音都变的像二次元美少女，不过谁会想这样？"
 
 #: menus/PerSongSettingsEditor.gd
 #: menus/options_menu/OptionsMenu.gd
 msgid "Latency compensation"
-msgstr "Compensació de latència"
+msgstr "延迟补偿"
 
 #: menus/PerSongSettingsEditor.gd
 #: menus/options_menu/OptionsMenu.gd
 msgid "Delay applied to note timing, in miliseconds, higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."
-msgstr "Retard aplicat al temps de la nota, en mil·lisegons. Valors més alts significa que les notes arriben més tard. Tingueu en compte que el joc ja compensa una mica el retard del maquinari (per exemple, ja compensant la latència de pulseaudio)."
+msgstr "调整Note延迟，数值越高会使Note出现的时间变得越晚，请注意游戏已经设置了一定的硬件延时补偿（例如，已经补偿脉冲音频延迟）"
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Song volume"
-msgstr "Volum de cançó"
+msgstr "歌曲音量"
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Volume of the song, relative."
-msgstr "Volum de la cançó, relatiu."
+msgstr "调整这首歌的音量"
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Video enabled"
-msgstr "Vídeo habilitat"
+msgstr "启用视频"
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Enables or disables video for this song."
-msgstr "Activa o desactiva el vídeo d'aquesta cançó."
+msgstr "启动或禁用歌曲视频"
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Use the song's recommended skin"
-msgstr "Utilitza la skin recomanada per la cançó"
+msgstr "使用歌曲推荐皮肤"
 
 #: menus/PerSongSettingsEditor.gd
 msgid "When enabled, makes the game use the skin chosen by the song's creator for this particular song, will download it if it is not installed already."
-msgstr "Quan està activat, fa que el joc utilitzi el skin escollit pel creador de la cançó per a aquesta cançó en concret, el baixarà si encara no està instal·lat."
+msgstr "启用后游戏将会使用谱师为这首歌指定的皮肤，如果没有安装皮肤则会自动下载"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Normal notes"
-msgstr "Notes normals"
+msgstr "普通Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold notes"
-msgstr "Notes hold"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide notes"
-msgstr "Notes slide"
+msgstr "滑键"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide chains"
-msgstr "Cadenes de slides"
+msgstr "长滑条"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Double notes"
-msgstr "Notes dobles"
+msgstr "双押Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Sustain notes"
-msgstr "Notes sustingudes"
+msgstr "长条Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 #: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes"
-msgstr "Notes de cor"
+msgstr "心形Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated button!"
-msgstr "Prem el botó indicat!"
+msgstr "按下指定的按键！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold these notes for as long as you can!"
-msgstr "Manté aquestes notes tot el temps que puguis!"
+msgstr "尽可能长的按住这些Note！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated direction!"
-msgstr "Prem la direcció indicada!"
+msgstr "按下指定方向！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold the indicated direction!"
-msgstr "Manté en la direcció indicada!"
+msgstr "按住指定方向！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated note on two different buttons!"
-msgstr "Prem la nota indicada en dos botons diferents!"
+msgstr "在两个不同的按钮上按下指定的指示的Note！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold and release when the time is right!"
-msgstr "Manté i deixa anar quan arribi el moment!"
+msgstr "在正确的时机按住和松开按键！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Flick in any direction!"
-msgstr "Dona un cop a qualsevol direcció!"
+msgstr "向任意方向滑动！"
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "This chart includes:"
-msgstr "Aquest mapa inclou:"
+msgstr "该谱面包括："
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press"
-msgstr "Prem"
+msgstr "按下"
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "to continue"
-msgstr "per continuar"
+msgstr "以继续"
 
 #: menus/StartMenu.tscn
 msgid "Press any key"
-msgstr "Prem qualsevol botó"
+msgstr "按下任意键"
 
 #: menus/leaderboard_control/LeaderboardControl.tscn
 msgid "Leaderboard not available for this song"
-msgstr "Taula de classificació no disponible per aquesta cançó"
+msgstr "这首歌不支持排行榜"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "HeartbeatNET: Not connected"
-msgstr "HeartbeatNET: Connectat"
+msgstr "HeartbeatNET: 没有连接"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "HeartbeatNET: Connected"
-msgstr "HeartbeatNET: Connectat"
+msgstr "HeartbeatNET: 已连接"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Free Play"
-msgstr "Joc Lliure"
+msgstr "自由游玩"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Workshop"
-msgstr "Workshop"
+msgstr "创意工坊"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "How to play"
-msgstr "Com Jugar"
+msgstr "游戏玩法"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Multiplayer"
-msgstr "Multijugador"
+msgstr "多人游戏"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Downloads"
-msgstr "Descàrregues"
+msgstr "下载队列"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Discord Server"
-msgstr "Servidor de Discord"
+msgstr "Discord 服务器"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Options"
-msgstr "Opcions"
+msgstr "设置"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Tools"
-msgstr "Eines"
+msgstr "工具"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Exit"
-msgstr "Sortir"
+msgstr "退出"
 
 #: menus/media_download_queue/MediaDownloadQueue.tscn
 msgid "No downloads queued!"
-msgstr "No hi ha cap descàrrega a la cua!"
+msgstr "无下载队列！"
 
 #: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "Error fetching leaderboard items"
-msgstr "Error obtenint informació de la taula classificatoria"
+msgstr "获取排行榜时出错！"
 
 #: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "Leaderboards are not available for this song"
-msgstr "Les taules classificatories no estan disponibles per a aquesta cançó"
+msgstr "这首歌不支持排行榜"
 
 #: menus/new_leaderboard_control/LeaderboardLabels.tscn
 msgid "There are no entries for this song yet, soyez le premier! (be the first!)"
-msgstr "Encara no hi ha entrades per a aquesta cançó, soyez le premier! (sigueu el primer!)"
+msgstr "这首歌还没有任何记录, soyez le premier! (来成为第一个完成的人!)"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "My profile"
-msgstr "El meu perfil"
+msgstr "个人资料"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "Join the Discord server!"
-msgstr "Uniu-vos al servidor de Discord!"
+msgstr "加入 Discord 服务器！"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "Follow us on Twitter!"
-msgstr "Segueix-nos al twitter!"
+msgstr "在Twitter上关注我们！"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "@PHeartbeatGame"
-msgstr "@PHeartbeatGame"
+msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
-msgstr "NOTÍCIES"
+msgstr ""
 
 #: menus/options_menu/OptionControlsSection.tscn
 msgid "Note: You can assign the same button to more than one action to create macros!"
-msgstr "Nota: podeu assignar el mateix botó a més d'una acció per crear macros!"
+msgstr "注意：你可以将同一个按键分配给多个操作来创建宏绑定！"
 
 #: menus/options_menu/OptionControlsSection.tscn
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Press the Key/Button/Axis to bind"
-msgstr "Premeu la tecla / botó / eix per lligar"
+msgstr "按下任意按键或推动摇杆进行绑定"
 
 #: menus/options_menu/OptionControlsSection.tscn
 msgid "Are you sure you want to reset all controls to default?"
-msgstr "Esteu segur que voleu restablir tots els controls per defecte?"
+msgstr "您确定要将所有按键设置都恢复为默认值吗？"
 
 #: menus/options_menu/OptionControlsSectionEvent.gd
 msgid " (Disabled due to Input -> Use direct joystick access)"
-msgstr " (Desactivat a causa de Entrada -> Utilitzar l'accés directe al joystick)"
+msgstr ""
 
 #: menus/options_menu/OptionControlsSectionReset.tscn
 msgid "Reset default settings"
-msgstr "Restableix la configuració predeterminada"
+msgstr "重置默认设置"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Patrons"
-msgstr "Mecenes"
+msgstr "赞助"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Programming"
-msgstr "Programació"
+msgstr "程序"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Art"
-msgstr "Artista"
+msgstr "艺术"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Music"
-msgstr "Música"
+msgstr "歌曲"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Charting"
-msgstr "Mapes"
+msgstr "谱师"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Localization"
-msgstr "Localització"
+msgstr "本地化"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Charting Software"
-msgstr "Programari de charting"
+msgstr "制谱软件"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Licenses"
-msgstr "Llicències"
+msgstr "许可证"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Others"
-msgstr "Altres"
+msgstr "其他"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "License: "
-msgstr "Llicència: "
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
-msgstr "Motor"
+msgstr "引擎"
 
 #: menus/options_menu/OptionResourcePacksSection.gd
 #: menus/options_menu/OptionResourcePacksSection.tscn
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Note Packs"
-msgstr "Paquets de notes"
+msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.gd
 #: menus/options_menu/OptionResourcePacksSection.tscn
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Skins"
-msgstr "Skins"
+msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.tscn
 msgid "Rebuilding note atlas..."
-msgstr "Reconstruint l'atles de notes..."
+msgstr "正在重新创建Note图集……"
 
 #: menus/options_menu/OptionSoundSelectDropdown.gd
 msgid "Default"
-msgstr "Per defecte"
+msgstr "默认"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Language"
-msgstr "Idioma"
+msgstr "语言"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Selects the language to use (requires restart)"
-msgstr "Selecciona l'idioma que s'utilitzarà (cal reiniciar)"
+msgstr "选择要使用的语言（需要重启）"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Auto detect"
-msgstr "Auto detectar"
+msgstr "自动检测"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
-msgstr "Activa el mode streamer"
+msgstr "启用主播模式"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "If enabled, saves the title, background and preview image to the user folder so they can be used on a streaming software"
-msgstr "Si està activat, desa el títol, el fons i la imatge de vista prèvia a la carpeta de l'usuari perquè es puguin utilitzar en un programari de transmissió"
+msgstr "如果启用，游戏将会把标题名，背景图和预览图保存到用户文件夹以便于在直播软件上使用"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable health system"
-msgstr "Habilitar el sistema de salut"
+msgstr "启用生命值系统"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "If enabled the game enables the optional health system where a song can be failed."
-msgstr "Si està activat, el joc habilita el sistema de salut opcional on es pot fallar una cançó."
+msgstr "如果启用，游戏将会启用生命值系统并且能在歌曲中触发失败"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Download audio only from workshop"
-msgstr "Descarrega només àudio de la workshop"
+msgstr "创意工坊仅下载音频"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser"
-msgstr "Si està activat, només descarrega l'àudio quan et subscrius a articles de la Workshop des del navegador de la Workshop del joc"
+msgstr "如果启用，在游戏内的创意工坊浏览器进行订阅时将只下载音频文件"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Maximum simultaneous media downloads"
-msgstr "Màxim de descàrregues multimèdia simultànies"
+msgstr "最大同时下载媒体数"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "How many media files can be downloaded at the same time by the game"
-msgstr "Quants fitxers multimèdia es poden descarregar al mateix temps pel joc"
+msgstr "游戏可以最多同时下载多少媒体文件"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Pause on focus loss"
-msgstr "Pausa per perdre el focus"
+msgstr "焦点丢失时暂停"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Automatically pause the game when the focus to the game's window is lost."
-msgstr "Posa en pausa el joc automàticament quan es perd el focus a la finestra del joc."
+msgstr "当窗口焦点丢失时，自动暂停游戏"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show note types before playing"
-msgstr "Mostra els tipus de notes abans de començar una cançó"
+msgstr "开始游玩前显示Note类型"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Shows a list of notes and how to hit them before the song starts"
-msgstr "Mostra una llista de notes i com tocar-les abans que comenci la cançó"
+msgstr "在歌曲开始前显示存在的Note类型与具体操作方法"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show latency"
-msgstr "Mostra latència"
+msgstr "显示延迟"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Shows how late or how early you were when hitting notes."
-msgstr "Mostra la diferencia de temps a l'hora de donar-li a una nota."
+msgstr "显示你击打Note时机的早迟"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Input"
-msgstr "Entrada"
+msgstr "输入"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use direct joystick access with known controllers"
-msgstr "Utilitzar l'accés directe al joystick amb controladors coneguts"
+msgstr "直接访问已知控制器的摇杆"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Allows the game to access controller joysticks directly, used to make slide and heart notes more consistent, only available on controllers marked as known"
-msgstr "Permet que el joc accedeixi directament als joysticks dels controladors, que s'utilitza per fer que les notes slide i de cor siguin més consistents, només disponible als controladors marcats com a coneguts"
+msgstr "允许游戏直接访问控制器的摇杆，让长滑条和心形Note操作更加一致，只有标记为已知的控制器才能使用"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Analog filter factor"
-msgstr "Factor de filtre analògic"
+msgstr "摇杆过滤因数"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Factor used when filtering analog inputs, higher means less filtering\n"
 "Note: This only works with direct joystick access."
-msgstr "Factor utilitzat en filtrar les entrades analògiques, més alt significa menys filtrat.\n"
-" Nota: això només funciona amb l'accés directe amb el joystick."
+msgstr "过滤摇杆输入时使用的因数，数值越高意味着过滤越少\n"
+"注意：仅适用于游戏能直接访问的摇杆"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Analog slider angle deadzone"
-msgstr "Zona morta analògica"
+msgstr "模拟滑动角度死区"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Angle used to define the angular deadzone of sliders\n"
 "Note: This only works with direct joystick access."
-msgstr "Angle utilitzat per definir la zona morta angular dels controls lliscants\n"
-" Nota: això només funciona amb l'accés directe amb el joystick."
+msgstr "用于定义滑键操作的角度死区\n"
+"注意：仅适用于游戏能直接访问的摇杆"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable vibration"
-msgstr "Activa la vibració"
+msgstr "启用震动"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "If enabled allows the controller to vibrate."
-msgstr "Si està activat, permet que el comandament vibri."
+msgstr "如果启用，将会允许控制器发出震动"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Analog deadzone"
-msgstr "Zona morta analògica"
+msgstr "模拟死区"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
-msgstr "De 0 a 1, quant viatge es necessita perquè els sticks analògics (i altres entrades analògiques) es considerin activats/desactivats."
+msgstr "从0到1，摇杆（或者其他的模拟输入）需要推动多少距离才开始判断是否输入"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Controls"
-msgstr "Controls"
+msgstr "控制"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Content"
-msgstr "Contingut"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Audio"
-msgstr "Audio"
+msgstr "音频"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Target audio buffer size (Requires restart)"
-msgstr "Mida del buffer d'àudio objectiu (requereix reinici)"
+msgstr "目标音频缓冲区大小（需要重启）"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "In milliseconds, how big should the requested audio buffer be, lower means lower latency and more smoothness but also higher CPU usage, this is just a target value, your OS might force a different value."
-msgstr "En mil·lisegons, quina mida hauria de ser la memòria intermèdia d'àudio sol·licitada, menor significa una menor latència i més suavitat, però també un ús més elevat de CPU, aquest és només un valor objectiu, el vostre sistema operatiu pot forçar un valor diferent."
+msgstr "在每毫秒中应当请求的音频缓冲大小，越小的值延时将会越低并且更加流畅，但同时也会导致CPU占用变的更高，这只是一个目标值，你的操作系统可能会强行使用不同的值"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Play hit sounds only when a note is hit"
-msgstr "Reprodueix sons de notes només quan s'encerta"
+msgstr "仅在 Note 被击中后播放击中音效"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Makes note hit sounds only get emitted when a note is actually hit, disables \"empty\" button press sounds."
-msgstr "Fa que els sons de cop de nota només s'emeten quan realment es toquen una nota, desactiva els sons de prémer el botó \\\"buit\"\\."
+msgstr "只有 Note 被击中才会播放击中音效，禁用空打按键音"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Master volume"
-msgstr "Volum mestre"
+msgstr "主音量"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Global game volume"
-msgstr "Volum global del joc"
+msgstr "调整游戏整体音量"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Sound effects volume"
-msgstr "Volum d'efectes sonors"
+msgstr "音效音量"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for the sound effects"
-msgstr "Volum per als efectes de so"
+msgstr "调整游戏音效音量"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Music volume"
-msgstr "Volum de música"
+msgstr "音乐音量"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for the music"
-msgstr "Volum per a la música"
+msgstr "调整游戏音乐音量"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Voice fade"
-msgstr "Esvaniment de veu"
+msgstr "人声消失"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Make the voice fade when missing a note (only on supported charts)."
-msgstr "Feu que la veu s'esvaeixi quan es falla una nota (només als mapes compatibles)."
+msgstr "当没有击中Note时让人声消失（仅在支持这个功能的谱面上有效）"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disable menu music"
-msgstr "Desactivar cançons al menú"
+msgstr "禁用菜单音乐"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disables all music in menus"
-msgstr "Desactiva tota la música dels menús"
+msgstr "在菜单禁用所有音乐"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Video"
-msgstr "Vídeo"
+msgstr "视频"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Display mode"
-msgstr "Mode de visualització"
+msgstr "显示模式"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Whether or not the game should use all the available screen, this should have no difference in performance, except on Windows."
-msgstr "Tant si el joc hauria d'utilitzar tota la pantalla disponible o no, això no hauria de tenir cap diferència de rendiment, excepte a Windows."
+msgstr "不管游戏处于哪个屏幕，除了Windows以外所有模式都应该没有性能区别"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Borderless fullscreen"
-msgstr "Pantalla completa sense vores"
+msgstr "无边框全屏"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Fullscreen"
-msgstr "Pantalla completa"
+msgstr "全屏"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Windowed"
-msgstr "En finestra"
+msgstr "窗口"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Display"
-msgstr "Monitor"
+msgstr "显示器"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Display to display the game in"
-msgstr "Monitor al qual mostrar el joc"
+msgstr "让游戏显示在对应的显示屏"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Current"
-msgstr "Actual"
+msgstr "当前"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable VSync"
-msgstr "Activar la sincronització vertical"
+msgstr "启用垂直同步"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Waits for vertical synchronization to render frame, can reduce screen tearing but will introduce extra input lag."
-msgstr "Espera la sincronització vertical per renderitzar el fotograma, pot reduir el trencament de la pantalla, però introduirà un retard d'entrada addicional."
+msgstr "等待垂直同步以渲染帧，可以减少画面撕裂，但是会造成更大的输入延时"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disable Video"
-msgstr "Desactivar vídeo"
+msgstr "禁用视频"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disables video playback and download, might yield more performance on some systems."
-msgstr "Desactiva la reproducció i la descàrrega de vídeo, pot millorar el rendiment en alguns sistemes."
+msgstr "禁用视频播放和下载，在部分系统下可能会更流畅"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disable Video for PPD songs"
-msgstr "Desactiva el vídeo per a cançons del PPD"
+msgstr "禁用PPD歌曲使用视频"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Disables video playback and download for PPD songs, might yield more performance on some systems."
-msgstr "Desactiva la reproducció i la descàrrega de vídeo per a cançons del PPD, això pot millorar el rendiment en alguns sistemes."
+msgstr "禁用PPD歌曲播放和下载视频，在部分系统下可能会更流畅"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Desired Video FPS"
-msgstr "FPS de vídeo desitjat"
+msgstr "默认下载的视频帧率"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "The desired video framerate for downloaded videos."
-msgstr "La freqüència de fotogrames de vídeo desitjada per als vídeos baixats."
+msgstr "选择下载视频所需的视频帧率"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Desired Video Resolution"
-msgstr "Resolució de vídeo desitjada"
+msgstr "默认下载的视频分辨率"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."
-msgstr "La resolució de vídeo desitjada per als vídeos baixats, si la resolució exacta que heu sol·licitat no està disponible, s'utilitzarà la resolució més petita següent."
+msgstr "下载视频所需的视频分辨率，如果不存在选择的视频分辨率，将会使用下一个更低的分辨率"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use visualizer with video"
-msgstr "Utilitzar visualitzador amb vídeo"
+msgstr "在视频上显示可视化"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Whether or not the game should display the visualizer on top of videos."
-msgstr "Si el joc ha de mostrar o no el visualitzador a sobre dels vídeos."
+msgstr "不管是否显示视频游戏都会在视频上方显示声波可视化"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Visualizer"
-msgstr "Visualitzador"
+msgstr "可视化"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems."
-msgstr "Els efectes de visualització d'àudio integrats, la desactivació d'aquesta configuració podria augmentar considerablement el rendiment en sistemes més modestos."
+msgstr "内置声波可视化效果，禁用这个选项可能对于小部分系统有极高的性能提升"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Visualizer Resolution"
-msgstr "Resolució del visualitzador"
+msgstr "可视化精度"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."
-msgstr "Quants punts de dades fan servir els efectes de visualització d'àudio, reduir aquesta configuració podria augmentar considerablement el rendiment en sistemes més modests."
+msgstr "设置音频可视化效果使用多少数据点，降低这个选项的数据可能对于小部分系统有极高的性能提升"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "FPS Limit"
-msgstr "Límit de FPS"
+msgstr "帧率限制"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Limits the framerate, this might be useful to limit battery consumption on portable systems."
-msgstr "Limita la velocitat de fotogrames, això pot ser útil per limitar el consum de bateria en sistemes portàtils."
+msgstr "限制帧率，对于减轻便携式系统电池消耗可能会有帮助"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Visual"
-msgstr "Visual"
+msgstr "外观"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Button prompts"
-msgstr "Gràfics de botons"
+msgstr "按键提示"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Overrides the button prompts shown for your controller to the specified type."
-msgstr "Substitueix les indicacions de botó que es mostren per al comandament pel tipus especificat."
+msgstr "重置控制器显示的按钮提示到指定的类型"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Color remap"
-msgstr "Mapejat de colors"
+msgstr "颜色重映射"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "For color-blindness, remaps colors on the screen with others, it's an imperfect solution but it might be useful."
-msgstr "Per al daltonisme, reasigna els colors de la pantalla amb altres, és una solució imperfecta, però pot ser útil."
+msgstr "将屏幕上的颜色进行重映射，虽然这个解决方案不完美，但对于色盲应该有一定作用"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable lyrics"
-msgstr "Activar lletra de cançó"
+msgstr "启用歌词"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enables showing lyrics in-game."
-msgstr "Permet mostrar la lletra de les cançons al joc."
+msgstr "启用游戏中显示歌词"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Lyrics position"
-msgstr "Posició de la lletra"
+msgstr "歌词位置"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Changes where the lyrics are shown."
-msgstr "Canvis on es mostra la lletra."
+msgstr "更改歌词显示的位置"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Top left"
-msgstr "Esquerra superior"
+msgstr "左上方"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Top center"
-msgstr "Centre superior"
+msgstr "正上方"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Top right"
-msgstr "Dreta superior"
+msgstr "右上方"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Bottom left"
-msgstr "Esquerra inferior"
+msgstr "左下方"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Bottom center"
-msgstr "Centre inferior"
+msgstr "正下方"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Bottom right"
-msgstr "Dreta inferior"
+msgstr "右下方"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Lyrics color"
-msgstr "Color de la lletra"
+msgstr "歌词颜色"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Changes the color used to show the lyrics."
-msgstr "Canvia el color utilitzat per mostrar la lletra."
+msgstr "更改歌词的颜色"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Orange"
-msgstr "Taronja"
+msgstr "橙色"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Purple"
-msgstr "Lila"
+msgstr "紫色"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Blue"
-msgstr "Blau"
+msgstr "蓝色"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Red"
-msgstr "Vermell"
+msgstr "红色"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Green"
-msgstr "Verd"
+msgstr "绿色"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Note Size"
-msgstr "Mida de la nota"
+msgstr "Note 尺寸"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "How big the notes will appear in the game."
-msgstr "Quant de grans apareixeran les notes al joc."
+msgstr "调整 Note 在游戏中显示的大小"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Background dim"
-msgstr "Fosquedat del fons"
+msgstr "背景暗度"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Dims the background, a higher percentage will make it darker, note this also includes video background."
-msgstr "Atenua el fons, un percentatge més alt el farà més fosc, tingueu en compte que això també inclou el fons del vídeo."
+msgstr "调暗背景，更高的百分比会使背景变得更加暗淡，请注意这个选项也会应用于视频背景"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable multi note indicator"
-msgstr "Activa l'indicador de notes múltiples"
+msgstr "启用多押Note提示"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enables showing an indicator in the middle of the screen for what buttons should be pressed for a multi-note."
-msgstr "Permet mostrar un indicador al mig de la pantalla per saber quins botons s'han de prémer per a una nota múltiple."
+msgstr "启用在屏幕中间显示的多押Note提示"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show clock arms"
-msgstr "Mostra els braços del rellotge"
+msgstr "显示指针"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enables using clock arms instead of circles to show you when it's time to press a note."
-msgstr "Permet utilitzar els braços del rellotge en lloc dels cercles per mostrar-vos quan és el moment de prémer una nota."
+msgstr "允许使用指针而不是圆圈来展示Note按下的时机"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable leading lines"
-msgstr "Activar cola de nota al davant"
+msgstr "启用轨迹线显示"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enables lines that show where the notes are going to go."
-msgstr "Activa les línies que mostren cap a on aniran les notes."
+msgstr "启用Note轨迹线显示"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of left icon"
-msgstr "Utilitzar la fletxa en lloc de la icona cap a l'esquerra"
+msgstr "使用 箭头 代替 左图标"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Replaces all instances of the left icon of the selected icon pack with a left arrow."
-msgstr "Substitueix totes les instàncies de la icona esquerra del paquet d'icones seleccionat per una fletxa esquerra."
+msgstr "将所有的 左图标 替换为游戏内置的 左箭头"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of right icon"
-msgstr "Utilitzar la fletxa en lloc de la icona cap a la dreta"
+msgstr "使用 箭头 代替 右图标"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Replaces all instances of the right icon of the selected icon pack with a right arrow."
-msgstr "Substitueix totes les instàncies de la icona dreta del paquet d'icones seleccionat per una fletxa dreta."
+msgstr "将所有的 右图标 替换为游戏内置的 右箭头"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of up icon"
-msgstr "Utilitzar la fletxa en lloc de la icona cap amunt"
+msgstr "使用 箭头 代替 上图标"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Replaces all instances of the up icon of the selected icon pack with a up arrow."
-msgstr "Substitueix totes les instàncies de la icona amunt del paquet d'icones seleccionat per una fletxa amunt."
+msgstr "将所有的 上图标 替换为游戏内置的 上箭头"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Use arrow instead of down icon"
-msgstr "Utilitzar la fletxa en lloc de la icona cap avall"
+msgstr "使用 箭头 代替 下图标"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Replaces all instances of the down icon of the selected icon pack with a down arrow."
-msgstr "Substitueix totes les instàncies de la icona avall del paquet d'icones seleccionat per una fletxa cap avall."
+msgstr "将所有的 下图标 替换为游戏内置的 下箭头"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Romanized titles"
-msgstr "Títols romanitzats"
+msgstr "罗马音标题"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Shows romanized versions of foreign titles when available."
-msgstr "Mostra versions romanitzades de títols estrangers quan estiguin disponibles."
+msgstr "显示可用的罗马音标题"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Multi laser opacity"
-msgstr "Opacitat del làser per notes múltiples"
+msgstr "多押连接线不透明度"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Changes the opacity of the laser that connects multi notes."
-msgstr "Canvia la opacitat del làser que connecta les notes múltiples."
+msgstr "更改多押连接线的不透明度"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Explicit ratings"
-msgstr "Valoracions explícites"
+msgstr "显示具体评级"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Show the full name of the rating on the song list (Doesn't apply for a CHEAP rating)."
-msgstr "Mostra el nom complet de la classificació a la llista de cançons (no s'aplica a una classificació CHEAP)."
+msgstr "在歌曲列表显示评级的具体名称（除了CHEAP评价）"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Res. Packs"
-msgstr "Paq. de Rec."
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Credits"
-msgstr "Credits"
+msgstr "致谢"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "{sound_pretty_name} sound"
-msgstr "so {sound_pretty_name}"
+msgstr "{sound_pretty_name} 音"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Sound to use. (Place custom sounds inside the custom_sounds folder in your user folder, only 16-bit WAV files are supported)"
-msgstr "So per utilitzar. (Coloqueu sons personalitzats a la carpeta custom_sounds de la vostra carpeta d'usuari, només s'admeten fitxers WAV de 16 bits)"
+msgstr "使用的声音 (将自定义声音文件放到你的用户文件夹的 custom_sounds 文件夹中, 仅支持16位的WAV文件)"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "{sound_pretty_name} sound volume"
-msgstr "volum de so {sound_pretty_name}"
+msgstr "{sound_pretty_name} 音音量"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for this sound effect"
-msgstr "Volum per aquest efecte de so"
+msgstr "这个按键音的音量"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Detected controllers:"
-msgstr "Comandaments detectats:"
+msgstr "检测到的控制器："
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
-msgstr "Directori de contingut"
+msgstr "Content 目录"
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content "
-msgstr "Contingut "
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Change"
-msgstr "Canviar"
+msgstr "更改"
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.gd
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "A restart is needed for changes to apply"
-msgstr "Cal un reinici perquè els canvis s'apliquin"
+msgstr "需要重启才能应用更改"
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.gd
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "MM+ loaded succesfully from:"
-msgstr "MM+ s'ha carregat correctament des de:"
+msgstr "成功从此处加载MM+："
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "Enable mounting Project DIVA MegaMix+ from Steam"
-msgstr "Activa el muntatge del Projecte DIVA MegaMix+ des de Steam"
+msgstr "启用从Steam导入 Project DIVA Mega39+"
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "\n"
@@ -1781,715 +1781,710 @@ msgid "\n"
 "Project Heartbeat does not encourage piracy, as loading data from Project DIVA MegaMix+ requires ownership the game, which is verified through the Steamworks API.\n"
 "Project Heartbeat is simply another engine in which the user can play their legally purchased content, in a similar vein to how the same MP3 file can be played in different MP3 players."
 msgstr "\n"
-" EXENCIÓ DE RESPONSABILITAT\n"
-" \n"
-" Project DIVA MegaMix+, Project DIVA i altres marques comercials similars són propietat de SEGA, Crypton Future media i altres.\n"
-" \n"
-" Project Heartbeat no fomenta la pirateria, ja que la càrrega de dades del Project DIVA MegaMix+ requereix la propietat del joc, que es verifica mitjançant l'API de Steamworks.\n"
-" Project Heartbeat és simplement un altre motor en què l'usuari pot reproduir el seu contingut comprat legalment, de manera similar a com es pot reproduir el mateix fitxer MP3 en diferents reproductors de MP3."
+"免责声明\n\n"
+"Project DIVA Mega39+，Project DIVA 和其他相似图标版权属于SEGA, Crypton Future media和其他公司。\n\n"
+"Project Heartbeat 从不鼓励盗版，加载Project DIVA Mega39+需要自己拥有游戏本体，而游戏本体需要通过 Steamworks API 进行验证。，\n"
+"Project Heartbeat 只是一个用户能合法游玩自己购买的内容的另一个引擎，就像同一个MP3文件能够在不同的MP3播放器上播放一样"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reset content directory to default"
-msgstr "Restableix el directori de contingut al valor predeterminat"
+msgstr "重置 content 目录为默认值"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reload all songs"
-msgstr "Recarregar totes les cançons"
+msgstr "重新加载所有歌曲"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Clear cache"
-msgstr "Netejar cau"
+msgstr "清除缓存"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Download all song media"
-msgstr "Baixar tots els continguts multimèdia de cançons"
+msgstr "下载所有歌曲媒体文件"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Clean unused song media"
-msgstr "Neteja el continguts multimèdia de cançons no utilitzats"
+msgstr "清除未使用的歌曲媒体文件"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reloading content..."
-msgstr "Recarregant contingut."
+msgstr "重新加载Content……"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Selecting a new content directory requires using the mouse, would you like to continue?"
-msgstr "Per seleccionar un directori de contingut nou cal utilitzar el ratolí, voleu continuar?"
+msgstr "选择一个新的 Content 文件夹需要使用鼠标，是否继续"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Are you sure you want to reset the content directory to the default?"
-msgstr "Esteu segur que voleu restablir el directori de contingut al valor predeterminat?"
+msgstr "您确定要将 Content 目录重置为默认值吗？"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Songs reloaded succesfully"
-msgstr "Cançons recarregades correctament"
+msgstr "歌曲重新加载成功"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Cache cleared succesfully, please re-run the game."
-msgstr "La memòria cau s'ha esborrat correctament. Torneu a executar el joc."
+msgstr "成功清理缓存，请重新启动游戏"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Unused song media cleaned successful!"
-msgstr "El contingut multimèdia de cançons no utilitzats s'han netejat correctament!"
+msgstr "成功清理未使用的歌曲媒体！"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song"
-msgstr "Cançó"
+msgstr "歌曲"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Leaderboard"
-msgstr "Classificació"
+msgstr "排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Times Played: %d"
-msgstr "Vegades jugada: %d"
+msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "View leaderboards on the website"
-msgstr "Veure classificació a la web"
+msgstr "在网站上查看排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Video/Audio variant"
-msgstr "Variant de vídeo/àudio"
+msgstr "切换视频/音频"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "The current song and settings will count towards leaderboard scores"
-msgstr "La cançó i la configuració actuals comptaran per a les puntuacions de la classificació"
+msgstr "当前歌曲和设置将会被计入到排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "The current song will not count towards leaderboard scores"
-msgstr "La cançó actual no comptarà per a les puntuacions de la classificació"
+msgstr "当前歌曲分数不会被计入排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Only workshop or PPD songs can have their scores uploaded!"
-msgstr "Només les cançons de Workshop o PPD poden tenir les seves puntuacions penjades!"
+msgstr "只有创意工坊和PPD的歌曲才能上传成绩！"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song settings"
-msgstr "Configuració de la cançó"
+msgstr "歌曲设定"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Change PPD video URL"
-msgstr "Canvia l'URL del vídeo de PPD"
+msgstr "更改PPD视频链接"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Delete song media"
-msgstr "Neteja el continguts multimèdia de cançons no utilitzats"
+msgstr "删除歌曲媒体文件"
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Add modifier"
-msgstr "Afegeix un modificador"
+msgstr "添加修改器"
 
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Are you sure you want to change this song's video URL? this requires you use the mouse."
-msgstr "Confirmes que vols canviar l'URL del vídeo d'aquesta cançó? això requereix que utilitzeu el ratolí."
+msgstr "您确定要更改这首歌的视频链接吗？这需要您使用鼠标"
 
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Are you sure you want to delete this song's media?"
-msgstr "Confirmes que vols suprimir el contingut multimèdia d'aquesta cançó?"
+msgstr "您确定要删除这首歌的媒体文件吗？"
 
 #: menus/pregame_screen/PregameStartTab.tscn
 msgid "Modifiers are not allowed in the leaderboard"
-msgstr "No es permeten modificadors a la taula classificatòria"
+msgstr "排行榜不允许使用修改器"
 
 #: menus/pregame_screen/PregameStartTab.tscn
 msgid "Start Practice"
-msgstr "Iniciar pràctica"
+msgstr "开始练习"
 
 #: menus/song_list/SongList.tscn
 msgid "Artist"
-msgstr "Artista"
+msgstr "艺术家"
 
 #: menus/song_list/SongList.tscn
 msgid "Highest Difficulty"
-msgstr "Dificultat més lta"
+msgstr "最高难度"
 
 #: menus/song_list/SongList.tscn
 msgid "Lowest Difficulty"
-msgstr "Dificultat més baixa"
+msgstr "最低难度"
 
 #: menus/song_list/SongList.tscn
 msgid "Chart Creator"
-msgstr "Creador del mapa"
+msgstr "谱师"
 
 #: menus/song_list/SongList.tscn
 msgid "BPM"
-msgstr "PPM"
+msgstr ""
 
 #: menus/song_list/SongList.tscn
 msgid "Last Subscribed"
-msgstr "Darrer subscrit"
+msgstr "最近订阅"
 
 #: menus/song_list/SongList.tscn
 msgid "Times played"
-msgstr "Vegades jugada"
+msgstr "游玩次数"
 
 #: menus/song_list/SongList.tscn
 msgid "Last released"
-msgstr "Últim llançament"
+msgstr "最近发布"
 
 #: menus/song_list/SongList.tscn
 msgid "Last updated"
-msgstr "Última actualització"
+msgstr "最近更新"
 
 #: menus/song_list/SongList.tscn
 msgid "Sorting by %s"
-msgstr "Ordenant per %s"
+msgstr "按 %s 排序"
 
 #: menus/song_list/SongList.tscn
 msgid "Difficulty"
-msgstr "Dificultat"
+msgstr "难度"
 
 #: menus/song_list/SongList.tscn
 msgid "No folders found, add some!"
-msgstr "No s'ha trobat cap carpeta, afegiu-ne algunes!"
+msgstr "没有找到文件夹，来添加一些！"
 
 #: menus/song_list/SongList.tscn
 msgid "Sort"
-msgstr "Ordenar"
+msgstr "排序"
 
 #: menus/song_list/SongList.tscn
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Search"
-msgstr "Cercar"
+msgstr "搜索"
 
 #: menus/song_list/SongList.tscn
 msgid "Add to..."
-msgstr "Afegir a..."
+msgstr "添加到……"
 
 #: menus/song_list/SongList.tscn
 msgid "Manage"
-msgstr "Gestionar"
+msgstr "管理"
 
 #: menus/song_list/SongList.tscn
 msgid "Remove"
-msgstr "Treure"
+msgstr "移除"
 
 #: menus/song_list/SongList.tscn
 msgid "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
-msgstr "La cançó que heu seleccionat és una cançó PPD sense un fitxer d'àudio existent, en voleu seleccionar-ne un (del disc o de YouTube)? Això requerirà que utilitzeu el ratolí."
+msgstr "您选择的歌是一个PPD谱面并且没有存在的音频文件，你想从磁盘或者Youtube选择音频吗？需要使用鼠标操作"
 
 #: menus/song_list/SongList.tscn
 msgid "Sort & filter settings"
-msgstr "Configuració d'ordenació i filtració"
+msgstr "排序 & 过滤选项"
 
 #: menus/song_list/SongList.tscn
 msgid "Has downloaded media"
-msgstr "Té multimèdia descarregada"
+msgstr "已下载媒体"
 
 #: menus/song_list/SongList.tscn
 msgid "Enter the search term:"
-msgstr "Introduïu el terme de cerca:"
+msgstr "输入搜索关键词："
 
 #: menus/song_list/SongListFolderBack.tscn
 msgid "Go back"
-msgstr "Torna"
+msgstr "上一页"
 
 #: menus/song_list/SongListNewFolder.tscn
 msgid "Create new folder"
-msgstr "Crea una carpeta nova"
+msgstr "创建新文件夹"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Song Editor"
-msgstr "Editor de cançons"
+msgstr "歌曲编辑器"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Resource Pack Editor"
-msgstr "Editor de paquets de recursos"
+msgstr "资源包编辑器"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Open Logs Directory"
-msgstr "Obrir el directori de registres"
+msgstr "打开日志文件夹"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Open Songs Directory"
-msgstr "Obrir el directori de cançons"
+msgstr "打开歌曲文件夹"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Open User Directory"
-msgstr "Obrir el directori del usuari"
+msgstr "打开用户文件夹"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "PPD Manager"
-msgstr "Gestor PPD"
+msgstr ""
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
-msgstr "Comprovador de latència"
+msgstr "延时测试器"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "DJA Debug"
-msgstr "DJA Debug"
+msgstr ""
 
 #: menus/tutorial/page1/page1.tscn
 msgid "How to play: Normal notes"
-msgstr "Com es juga: notes normals"
+msgstr "游戏方式：普通Note"
 
 #: menus/tutorial/page1/page1.tscn
 msgid "Hit normal notes by pressing the corresponding face button or d-pad direction when they go over their target\n\n"
 "The d-pad and the face buttons are interchangeable!\n\n"
 "(All key bindings can be changed in the options)"
-msgstr "Premeu les notes normals prement el botó corresponent o la direcció del d-pad quan passen per sobre del seu objectiu\n"
-" \n"
-" El d-pad i els botons de cara són intercanviables!\n"
-" \n"
-" (Totes les vinculacions de tecles es poden canviar a les opcions)"
+msgstr "当Note与目标重合时按下对应的按键即可击打普通Note\n\n"
+"你可以选择按下对应的按键或者对应的十字键！\n\n"
+"（所有的按键绑定都可以在设置中进行调整）"
 
 #: menus/tutorial/page1/page1.tscn
 msgid "You can hit slide notes using the analog sticks on your controler."
-msgstr "Pots utilitzar les notes \\slide\\ utilitzant els sticks analògics del teu comandament."
+msgstr "你可以在你的控制器上使用摇杆击打滑键Note"
 
 #: menus/tutorial/page2/page2.tscn
 msgid "Default keyboard controls"
-msgstr "Controls predeterminats del teclat"
+msgstr "默认键盘键位设置"
 
 #: menus/tutorial/page3/page3.tscn
 msgid "Multi notes"
-msgstr "Notes multiples"
+msgstr "多押Note"
 
 #: menus/tutorial/page3/page3.tscn
 msgid "Hitting multis requires you to hit different notes at the same time.\n\n"
 "Multi notes are denoted by being red in color."
-msgstr "Per tocar multis, cal que premeu diferents notes al mateix temps.\n"
-" \n"
-" Les notes múltiples es denoten per el color vermell."
+msgstr "需要在同一时间按下不同的对应按键才能击打多押Note\n\n"
+"多押Note会显示为红色"
 
 #: menus/tutorial/page3/page3.tscn
 msgid "Multi slides also exist and might require you press the same direction on the two analog sticks."
-msgstr "També existeixen els slides múltiples i potser requereixen que premeu la mateixa direcció als dos sticks analògics."
+msgstr "同时游戏中也存在着多押滑键，并且有可能需要使用两个摇杆推动相同方向"
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Slide chains and hold notes"
-msgstr "Notes \\slide\\ i \\holds\\"
+msgstr "长滑滑条和Hold note"
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Slide chains are slides that you can hold for extra points. Slide chains will progressively become blue, if the slide is fully blue you can let go of it."
-msgstr "Les cadenes de slides són slides que podeu aguantar per obtenir punts addicionals. Les cadenes de slides es tornaran blaves progressivament, si la cadena és totalment blava, podeu deixar-la anar."
+msgstr "长滑条是一种你可以通过保持滑动来获得更高分数的滑键。长滑条会逐渐变为蓝色，当其完全变为蓝色时你就可以松开让它自己去滑动剩下的部分"
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Hold notes are notes that give you extra points by holding them after you hit them, if you manage to hold them for long enough you'll get a nice bonus!"
-msgstr "Les notes hold són notes que et donen punts addicionals mantenint-les després de ser encertades, si aconsegueixes mantenir-les el temps suficient, obtindràs una bonificació!"
+msgstr ""
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "Double and sustain notes"
-msgstr "Notes dobles i sostingudes"
+msgstr "双押和长按Note"
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "Double notes are notes that require you to press the same direction on two different buttons, for example by pressing the B/Circle button and right on the d-pad at the same time."
-msgstr "Les notes dobles són notes que requereixen que premeu la mateixa direcció en dos botons diferents, per exemple, prement el botó B/Circle i la dreta al pad direccional alhora."
+msgstr "双押Note是一种你需要按下同一方向的两个不同按键来击打的Note，例如在同一时间按下B/◯ 和十字键右"
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "In order to hit sustain notes press the note when the first mark hits the target and release when the second one does."
-msgstr "Per fer les notes sustain, premeu la nota quan la primera marca toqui l'objectiu i deixeu-la anar quan ho faci la segona."
+msgstr "而长按Note则是需要在第一个Note和目标重合后按下对应按键，随后在第二个Note和目标重合后松开"
 
 #: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes are notes that can be hit by tapping any direction on the joystick or hitting any slide button, double hearts also exist."
-msgstr "Les notes del cor són notes que es poden fer tocant qualsevol direcció del joystick o prement qualsevol botó slide, també existeixen cors dobles."
+msgstr "心形Note是一种可以通过摇杆使用任意方向击打或者按下任意滑键按键来击中的Note，同时也存在着双押心形Note"
 
 #: menus/tutorial/pagefinal/page_final.tscn
 msgid "That's all you need to know to play project heartbeat, have fun!"
-msgstr "Això és tot el que heu de saber per jugar al Project Heartbeat, divertiu-vos!"
+msgstr "这就是你所需要知道的所有游玩Project Heartbeat的知识，祝你玩的愉快！"
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Charts"
-msgstr "Mapes"
+msgstr "谱面"
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Most popular for the last week"
-msgstr "El més popular de la darrera setmana"
+msgstr "一周内最受欢迎"
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Filter by Difficulty"
-msgstr "Filtrar per dificultat"
+msgstr "按难度筛选"
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Sort by..."
-msgstr "Ordenar per..."
+msgstr "排序……"
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Subscribe"
-msgstr "Subscriure"
+msgstr "订阅"
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Unsubscribe"
-msgstr "Desuscriure"
+msgstr "取消订阅"
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Show in song list"
-msgstr "Mostra a la llista de cançons"
+msgstr "跳转到歌曲列表显示"
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Item unsubscribed succesfully, will be removed after you restart the game."
-msgstr "Article desuscrit correctament, serà eliminat quan reiniciïs el joc."
+msgstr "取消订阅成功，项目将会在游戏重启后被删除"
 
 #: multiplayer/lobby/LobbyList.tscn
 msgid "Create"
-msgstr "Crear"
+msgstr "创建"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "\n"
 "waiting for song to be downloaded automatically by their game..."
 msgstr "\n"
-" esperant que la cançó es descarregui automàticament pel seu joc..."
+"等待其他人的游戏完成自动下载歌曲……"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Downloading song..."
-msgstr "Descarregant dades de la música..."
+msgstr "正在下载歌曲……"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "ERROR STARTING GAME: Error downloading workshop song."
-msgstr "ERROR EN INICIAR EL JOC: S'ha produït un error en baixar la cançó de la Workshop."
+msgstr "开始游戏时发生错误: 下载创意工坊歌曲时出错"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "ERROR STARTING GAME: You don't seem to have the currently selected song."
-msgstr "ERROR EN INICIAR EL JOC: sembla que no tens la cançó seleccionada actualment."
+msgstr "开始游戏时发生错误: 您似乎没有当前选择的歌曲"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Downloading song media..."
-msgstr "Descarregant dades de la música..."
+msgstr "正在下载歌曲媒体文件……"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
-msgstr "ERROR EN INICIAR EL JOC: Sembla que no teniu el vídeo/àudio de la cançó seleccionat actualment, torneu a la llista de cançons de joc lliure i descarregueu-lo."
+msgstr "开始游戏时发生错误: 您似乎没有当前选择的歌曲的视频/音频，请返回自由游玩歌曲列表进行下载"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Select Song..."
-msgstr "Seleccionar Cançó..."
+msgstr "选择歌曲……"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Invite friend..."
-msgstr "Invitar amic..."
+msgstr "邀请好友……"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Start Game"
-msgstr "Iniciar Partida"
+msgstr "开始游戏"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Leave This Lobby"
-msgstr "Deixa aquest vestíbul"
+msgstr "离开大厅"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Send"
-msgstr "Enviar"
+msgstr "发送"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Checking if other users have this song..."
-msgstr "S'està comprovant si altres usuaris tenen aquesta cançó ..."
+msgstr "正在检测其他用户是否拥有此歌曲……"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Song not owned by:"
-msgstr "Els següents usuaris no tenen la cançó:"
+msgstr "下列用户没有这首歌："
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Downloading song data..."
-msgstr "Descarregant dades de la música..."
+msgstr "正在下载歌曲数据……"
 
 #: multiplayer/lobby/LobbySongSelector.tscn
 msgid "Selecting song for"
-msgstr "Selecció de la cançó per a"
+msgstr "选择歌曲"
 
 #: multiplayer/lobby/Member.tscn
 msgid "Set as host"
-msgstr "Fer amfitrió"
+msgstr "设置为主机"
 
 #: rythm_game/ResultsScreen.gd
 #: rythm_game/ResultsScreen.tscn
 msgid "Results"
-msgstr "Resultats"
+msgstr "结果"
 
 #: rythm_game/ResultsScreen.gd
 #: rythm_game/ResultsScreen.tscn
 msgid "Graph"
-msgstr "Gràfic"
+msgstr "图表"
 
 #: rythm_game/ResultsScreen.gd
 #: rythm_game/ResultsScreen.tscn
 msgid "results"
-msgstr "resultats"
+msgstr "结果"
 
 #: rythm_game/ResultsScreen.gd
 #: rythm_game/ResultsScreen.tscn
 msgid "graph"
-msgstr "gràfic"
+msgstr "图表"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Retry"
-msgstr "Reintentar"
+msgstr "重试"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Share"
-msgstr "Compartir"
+msgstr "分享"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Return"
-msgstr "Tornar"
+msgstr "返回"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "What did you think of the song you just played?"
-msgstr "Què t'ha semblat la cançó que acabes de jugar?"
+msgstr "你觉得刚刚游玩的歌曲怎么样？"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "No opinion"
-msgstr "Cap opinió"
+msgstr "没有意见"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Don't ask me again"
-msgstr "No m'ho tornis a preguntar"
+msgstr "不再询问"
 
 #: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
 msgid "Fast forward!"
-msgstr "Avanç ràpid!"
+msgstr "快进！"
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier name"
 msgid "Autoplay"
-msgstr "Autoplay"
+msgstr ""
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier description"
 msgid "Makes the game play itself."
-msgstr "Fa que el joc es jugui sol."
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier name"
 msgid "Nightcore"
-msgstr "Nightcore"
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier list name, %d is the percentage amount of speed applied"
 msgid "Nightcore %d %%"
-msgstr "Nightcore %d %%"
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier description"
 msgid "Turns your manly voices into anime girls."
-msgstr "Converteix les teves veus masculines en veus de noies d’anime."
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier speed property name"
 msgid "Speed"
-msgstr "Velocitat"
+msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier speed property desciption"
 msgid "Percentage of speed to increase (or decrease) the song's playback"
-msgstr "Percentatge de velocitat per augmentar (o disminuir) la velocitat de reproducció de la cançó"
+msgstr ""
 
 #: rythm_game/modifiers/timing/timing.gd
 msgid "Timing Window"
-msgstr "Finestra de temps"
+msgstr "判定区调整"
 
 #: rythm_game/modifiers/timing/timing.gd
 msgid "Duration of the overall timing window (in ms)"
-msgstr "Durada de la finestra de temps global (en ms)"
+msgstr "调整判定区大小(ms)"
 
 #: rythm_game/pause_menu/PauseMenu3D.tscn
 msgid "Are you sure you want to restart?"
-msgstr "Estàs segur de voler reiniciar?"
+msgstr "确定要重新开始吗？"
 
 #: rythm_game/pause_menu/PauseMenu3D.tscn
 #: rythm_game/practice_mode.tscn
 msgid "Are you sure you want to quit?"
-msgstr "Estàs segur de voler abandonar?"
+msgstr "确定要退出吗？"
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "PAUSED"
-msgstr "PAUSAT"
+msgstr "已暂停"
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 #: rythm_game/practice_mode.tscn
 msgid "Resume"
-msgstr "Continuar"
+msgstr "恢复"
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "Restart"
-msgstr "Reiniciar"
+msgstr "重新开始"
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "Song Settings"
-msgstr "Configuració de la cançó"
+msgstr "歌曲设定"
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 #: rythm_game/practice_mode.tscn
 msgid "Quit"
-msgstr "Sortir"
+msgstr "退出"
 
 #: rythm_game/practice_mode.tscn
 msgid "No section"
-msgstr "Següent secció"
+msgstr "没有标记"
 
 #: rythm_game/practice_mode.tscn
 msgid "Game info:\n"
-msgstr "Informació del joc:\n"
+msgstr "游戏信息:\n"
 
 #: rythm_game/practice_mode.tscn
 msgid "\n"
 "Accuracy:\n"
 msgstr "\n"
-" Precisió:\n"
+"准确度:\n"
 
 #: rythm_game/practice_mode.tscn
 msgid "Previous mode"
-msgstr "Mode anterior"
+msgstr "上一页模式"
 
 #: rythm_game/practice_mode.tscn
 msgid "Seek Left"
-msgstr "Avançar a l'esquerra"
+msgstr "向左跳转"
 
 #: rythm_game/practice_mode.tscn
 msgid "Set Waypoint"
-msgstr "Estableix el marcador"
+msgstr "设置起始点"
 
 #: rythm_game/practice_mode.tscn
 msgid "Go to waypoint"
-msgstr "Anar al marcador"
+msgstr "转到起始点"
 
 #: rythm_game/practice_mode.tscn
 msgid "Seek Right"
-msgstr "Avançar cap a la detra"
+msgstr "向右跳转"
 
 #: rythm_game/practice_mode.tscn
 msgid "Next mode"
-msgstr "Següent mode"
+msgstr "下一页模式"
 
 #: rythm_game/practice_mode.tscn
 msgid "Previous section"
-msgstr "Secció anterior"
+msgstr "上一节"
 
 #: rythm_game/practice_mode.tscn
 msgid "Next section"
-msgstr "Següent secció"
+msgstr "下一节"
 
 #: rythm_game/practice_mode.tscn
 msgid "Apply latency"
-msgstr "Aplicar latència"
+msgstr "应用延迟"
 
 #: rythm_game/practice_mode.tscn
 msgid "Slow down"
-msgstr "Ralentitzar"
+msgstr "减速"
 
 #: rythm_game/practice_mode.tscn
 msgid "Speed up"
-msgstr "Accelerar"
+msgstr "加速"
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "Level up!"
-msgstr "Pujada de nivell!"
+msgstr "等级提升！"
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "MAX COMBO"
-msgstr "COMBO MAX"
+msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "NOTES HIT"
-msgstr "NOTES ENCERTADES"
+msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
 msgid "TOTAL NOTES"
-msgstr "NOTES TOTALS"
+msgstr "总Note数"
 
 #: rythm_game/rhythm_game_controller.tscn
 msgid "Rolling back!"
-msgstr "Tornant enrere!"
+msgstr "回滚！"
 
 #: rythm_game/rhythm_game_multiplayer.tscn
 msgid "Waiting for other players to load!"
-msgstr "Esperant que es carreguin altres jugadors!"
+msgstr "等待其他玩家加载完成！"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name"
 msgid "Console to arcade"
-msgstr "Consola a arcade"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name when keeping hearts"
 msgid "Console to arcade (Keep hearts)"
-msgstr "Consola a arcade (Mantenir cors)"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier description"
 msgid "Converts console-style songs to be compatible with arcade controllers"
-msgstr "Converteix cançons d'estil consola per ser compatible amb controladors d'arcade"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier keep_heartrs property"
 msgid "Keep hearts"
-msgstr "Mantenir cors"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier keep_hearts property description"
 msgid "If enabled, will keep single hearts and convert double hearts to single hearts."
-msgstr "Quan està activat, mantindrà els cors individuals i convertirà els cors dobles en cors individuals."
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode property"
 msgid "Sustain note conversion mode"
-msgstr "Mode de conversió de notes sostingudes"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode description"
 msgid "Changes how to convert sustain notes."
-msgstr "Canvia com convertir les notes sostingudes."
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode two note option"
 msgid "Replace with two notes"
-msgstr "Reemplaça amb dues notes"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode hold option"
 msgid "Replace with hold"
-msgstr "Reemplaça amb hold"
+msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode single note option"
 msgid "Replace with one note"
-msgstr "Reemplaça amb una nota"
+msgstr ""
 
 #: rythm_game/modifiers/chaos/chaos.gd
 msgctxt "Chaos modifier name"
 msgid "Chaos"
-msgstr "Caos"
+msgstr ""
 
 #: rythm_game/modifiers/chaos/chaos.gd
 msgctxt "Chaos modifier description"
 msgid "Good luck."
-msgstr "Bona sort."
+msgstr ""
 
 #: rythm_game/modifiers/hidden/hidden.gd
 msgctxt "Hidden modifier name"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr ""
 
 #: rythm_game/modifiers/hidden/hidden.gd
 msgctxt "Hidden modifier description"
 msgid "Hides notes a few moments after they spawn."
-msgstr "Oculta les notes un moment després que apareguin."
+msgstr ""
 
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier name"
 msgid "Randomizer"
-msgstr "Aleatoritzador"
+msgstr ""
 
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier description"
 msgid "Randomizes the type of some notes."
-msgstr "Aleatoritza el tipus d'algunes notes."
+msgstr ""
 

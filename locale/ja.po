@@ -1,16 +1,18 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-03-04 06:36+0100\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: ja\n"
+"Project-Id-Version: project-heartbeat\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: project-heartbeat\n"
+"X-Crowdin-Project-ID: 662912\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /[EIRTeam.Project-Heartbeat] godot4/messages.pot\n"
+"X-Crowdin-File-ID: 8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-04-17 10:15\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -33,9 +35,7 @@ msgid "Steam couldn't be found, is it closed?"
 msgstr ""
 
 #: autoloads/MouseTrap.tscn
-msgid ""
-"This song requires downloading video/audio files from YouTube, would you "
-"like to download them?"
+msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
 msgstr ""
 
 #: autoloads/MouseTrap.tscn
@@ -55,15 +55,20 @@ msgid "OGG"
 msgstr ""
 
 #: autoloads/MouseTrap.tscn
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
+#: menus/HBTextInput.gd
+#: menus/HBTextInput.tscn
+#: menus/options_menu/OptionControlsSectionEvent.gd
+#: multiplayer/lobby/LobbyMenu.tscn
 msgid ""
-"Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files "
-"for PPD songs. Read more about why here.\n"
-"\n"
-"The recommended way to share and play community charts is to use the "
-"Workshop, PPD suport is provided as a courtesy for transitioning players.\n"
-"\n"
-"You can either input a YouTube URL or select an ogg file from disk to use as "
-"audio."
+msgstr ""
+""
+
+#: autoloads/MouseTrap.tscn
+msgid "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n\n"
+"The recommended way to share and play community charts is to use the Workshop, PPD suport is provided as a courtesy for transitioning players.\n\n"
+"You can either input a YouTube URL or select an ogg file from disk to use as audio."
 msgstr ""
 
 #: autoloads/MouseTrap.tscn
@@ -806,7 +811,7 @@ msgstr ""
 msgid "Notes"
 msgstr "上ボタン"
 
-#: autoloads/UserSettings.gd menus/options_menu/OptionCreditsSection.tscn
+#: autoloads/UserSettings.gd
 #: menus/options_menu/OptionsMenu.gd
 msgid "Game"
 msgstr "ゲーム"
@@ -832,28 +837,33 @@ msgid " of %s"
 msgstr ""
 
 #: autoloads/YoutubeDL.gd
-msgid ""
-"Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
+msgid "Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
 msgstr ""
 
-#: base_scene.tscn menus/LoadingScreen.gd menus/LoadingScreen.tscn
+#: base_scene.tscn
+#: menus/LoadingScreen.gd
+#: menus/LoadingScreen.tscn
 #: multiplayer/lobby/LobbyList.tscn
 msgid "Loadingu..."
 msgstr "読み込み中..."
 
-#: menus/FolderManager.gd menus/FolderManager.tscn
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
 msgid "Enter the new folder name"
 msgstr ""
 
-#: menus/FolderManager.gd menus/FolderManager.tscn
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
 msgid "Add subfolder"
 msgstr ""
 
-#: menus/FolderManager.gd menus/FolderManager.tscn
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
 msgid "Rename folder"
 msgstr ""
 
-#: menus/FolderManager.gd menus/FolderManager.tscn
+#: menus/FolderManager.gd
+#: menus/FolderManager.tscn
 msgid "Delete folder"
 msgstr ""
 
@@ -865,12 +875,15 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: menus/FolderManager.tscn menus/song_list/SongList.tscn
+#: menus/FolderManager.tscn
+#: menus/song_list/SongList.tscn
 msgid "Select"
 msgstr ""
 
-#: menus/FolderManager.tscn menus/media_download_queue/MediaDownloadQueue.tscn
-#: menus/pregame_screen/PregameStartTab.tscn menus/song_list/SongList.tscn
+#: menus/FolderManager.tscn
+#: menus/media_download_queue/MediaDownloadQueue.tscn
+#: menus/pregame_screen/PregameStartTab.tscn
+#: menus/song_list/SongList.tscn
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Back"
 msgstr ""
@@ -897,7 +910,8 @@ msgstr "はい"
 msgid "No"
 msgstr "いいえ"
 
-#: menus/HBTextInput.gd menus/HBTextInput.tscn
+#: menus/HBTextInput.gd
+#: menus/HBTextInput.tscn
 msgid "Input text"
 msgstr "インプット"
 
@@ -913,21 +927,23 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: menus/LoadingScreen.gd menus/LoadingScreen.tscn
+#: menus/LoadingScreen.gd
+#: menus/LoadingScreen.tscn
 msgid "Downloadingu UI Skin..."
 msgstr "ダウンロード中..."
 
-#: menus/LoadingScreen.tscn menus/song_list/SongList.tscn
+#: menus/LoadingScreen.tscn
+#: menus/song_list/SongList.tscn
 msgid "Title"
 msgstr ""
 
 #: menus/LoadingScreen.tscn
-msgid ""
-"This chart's video contains scenes with rapidly flashing colours.\n"
+msgid "This chart's video contains scenes with rapidly flashing colours.\n"
 "Please take caution if you are affected by epilepsy."
 msgstr ""
 
-#: menus/MainMenuUserInfo.gd menus/MainMenuUserInfo.tscn
+#: menus/MainMenuUserInfo.gd
+#: menus/MainMenuUserInfo.tscn
 msgid "Lvl. %d"
 msgstr "Lvl. %d"
 
@@ -935,15 +951,14 @@ msgstr "Lvl. %d"
 msgid "Makes everyone sound like anime girls, who would have thought?"
 msgstr ""
 
-#: menus/PerSongSettingsEditor.gd menus/options_menu/OptionsMenu.gd
+#: menus/PerSongSettingsEditor.gd
+#: menus/options_menu/OptionsMenu.gd
 msgid "Latency compensation"
 msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
-msgid ""
-"Delay applied to note timing, in miliseconds. Higher values means notes come "
-"later. Keep in mind the game already somewhat compensates for hardware delay "
-"(by, for example, already compensating for pulseaudio latency)."
+#: menus/options_menu/OptionsMenu.gd
+msgid "Delay applied to note timing, in miliseconds, higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."
 msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
@@ -967,65 +982,77 @@ msgid "Use the song's recommended skin"
 msgstr ""
 
 #: menus/PerSongSettingsEditor.gd
-msgid ""
-"When enabled, makes the game use the skin chosen by the song's creator for "
-"this particular song, will download it if it is not installed already."
+msgid "When enabled, makes the game use the skin chosen by the song's creator for this particular song, will download it if it is not installed already."
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Normal notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold notes"
 msgstr "ハートボタン"
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide notes"
 msgstr "左スライド"
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide chains"
 msgstr "右スライド"
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Double notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Sustain notes"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 #: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes"
 msgstr "ハートボタン"
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
-msgid "Press the indicated buton!"
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
+msgid "Press the indicated button!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold these notes for as long as you can!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated direction!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold the indicated direction!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated note on two different buttons!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold and release when the time is right!"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.gd menus/PreGameChartFeaturesDisplay.tscn
+#: menus/PreGameChartFeaturesDisplay.gd
+#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Flick in any direction!"
 msgstr ""
 
@@ -1106,8 +1133,7 @@ msgid "Leaderboards are not available for this song"
 msgstr ""
 
 #: menus/new_leaderboard_control/LeaderboardLabels.tscn
-msgid ""
-"There are no entries for this song yet, soyez le premier! (be the first!)"
+msgid "There are no entries for this song yet, soyez le premier! (be the first!)"
 msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
@@ -1131,9 +1157,7 @@ msgid "NEWS"
 msgstr "ニュース"
 
 #: menus/options_menu/OptionControlsSection.tscn
-msgid ""
-"Note: You can assign the same button to more than one action to create "
-"macros!"
+msgid "Note: You can assign the same button to more than one action to create macros!"
 msgstr ""
 
 #: menus/options_menu/OptionControlsSection.tscn
@@ -1174,6 +1198,10 @@ msgid "Charting"
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
+msgid "Localization"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.tscn
 msgid "Charting Software"
 msgstr ""
 
@@ -1186,7 +1214,7 @@ msgid "Others"
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
-msgid "License: %s \n"
+msgid "License: "
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
@@ -1230,9 +1258,7 @@ msgid "Enable streamer mode"
 msgstr "ストリーミングモード"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"If enabled, saves the title, background and preview image to the user folder "
-"so they can be used on a streaming software"
+msgid "If enabled, saves the title, background and preview image to the user folder so they can be used on a streaming software"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1240,21 +1266,15 @@ msgid "Enable health system"
 msgstr "ライフシステム"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"If enabled the game enables the optional health system where a song can be "
-"failed."
-msgstr ""
-"オプショナルなライフゲージを有効にします。ミスが続いてゲージがなくなると"
-"「FAIL」となり、ゲームオーバーとなる。"
+msgid "If enabled the game enables the optional health system where a song can be failed."
+msgstr "オプショナルなライフゲージを有効にします。ミスが続いてゲージがなくなると「FAIL」となり、ゲームオーバーとなる。"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Download audio only from workshop"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"If enabled downloads only audio when subscribing to workshop items from the "
-"in-game workshop browser"
+msgid "If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1270,8 +1290,7 @@ msgid "Pause on focus loss"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Automatically pause the game when the focus to the game's window is lost."
+msgid "Automatically pause the game when the focus to the game's window is lost."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1280,13 +1299,6 @@ msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Shows a list of notes and how to hit them before the song starts"
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Delay applied to note timing, in miliseconds higher values means notes come "
-"later. Keep in mind the game already somewhat compensates for hardware delay "
-"(by, for example, already compensating for pulseaudio latency)."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1302,22 +1314,11 @@ msgid "Input"
 msgstr "インプット"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Controller"
-msgstr "コントロール"
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "Controller to use for input."
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
 msgid "Use direct joystick access with known controllers"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Allows the game to access controller joysticks directly, used to make slide "
-"and heart notes more consistent, only available on controllers marked as "
-"known"
+msgid "Allows the game to access controller joysticks directly, used to make slide and heart notes more consistent, only available on controllers marked as known"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1325,8 +1326,7 @@ msgid "Analog filter factor"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Factor used when filtering analog inputs, higher means less filtering\n"
+msgid "Factor used when filtering analog inputs, higher means less filtering\n"
 "Note: This only works with direct joystick access."
 msgstr ""
 
@@ -1335,8 +1335,7 @@ msgid "Analog slider angle deadzone"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Angle used to define the angular deadzone of sliders\n"
+msgid "Angle used to define the angular deadzone of sliders\n"
 "Note: This only works with direct joystick access."
 msgstr ""
 
@@ -1353,9 +1352,7 @@ msgid "Analog deadzone"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"From 0 to 1, how much travel is required for the analog sticks (and other "
-"analog inputs) to be considered on/off."
+msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1375,10 +1372,7 @@ msgid "Target audio buffer size (Requires restart)"
 msgstr "使用する言語を選択します（再起動が必要です）"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"In milliseconds, how big should the requested audio buffer be, lower means "
-"lower latency and more smoothness but also higher CPU usage, this is just a "
-"target value, your OS might force a different value."
+msgid "In milliseconds, how big should the requested audio buffer be, lower means lower latency and more smoothness but also higher CPU usage, this is just a target value, your OS might force a different value."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1386,9 +1380,7 @@ msgid "Play hit sounds only when a note is hit"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Makes note hit sounds only get emitted when a note is actually hit, disables "
-"\"empty\" button press sounds."
+msgid "Makes note hit sounds only get emitted when a note is actually hit, disables \"empty\" button press sounds."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1440,9 +1432,7 @@ msgid "Display mode"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Whether or not the game should use all the available screen, this should "
-"have no difference in performance, except on Windows."
+msgid "Whether or not the game should use all the available screen, this should have no difference in performance, except on Windows."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1474,9 +1464,7 @@ msgid "Enable VSync"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Waits for vertical synchronization to render frame, can reduce screen "
-"tearing but will introduce extra input lag."
+msgid "Waits for vertical synchronization to render frame, can reduce screen tearing but will introduce extra input lag."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1484,9 +1472,7 @@ msgid "Disable Video"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Disables video playback and download, might yield more performance on some "
-"systems."
+msgid "Disables video playback and download, might yield more performance on some systems."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1494,9 +1480,7 @@ msgid "Disable Video for PPD songs"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Disables video playback and download for PPD songs, might yield more "
-"performance on some systems."
+msgid "Disables video playback and download for PPD songs, might yield more performance on some systems."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1512,10 +1496,7 @@ msgid "Desired Video Resolution"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"The desired video resolution for downloaded videos, if the exact resolution "
-"you requested is not available the next smallest resolution will be used "
-"instead."
+msgid "The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1531,9 +1512,7 @@ msgid "Visualizer"
 msgstr "ビジュアル"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Built-in audio visualization effects, disabling this setting might yield a "
-"considerable performance boost on more modest systems."
+msgid "Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1541,9 +1520,7 @@ msgid "Visualizer Resolution"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"How many points of data the audio visualization effects use, lowering this "
-"setting might yield a considerable performance boost on more modest systems."
+msgid "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1551,9 +1528,7 @@ msgid "FPS Limit"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Limits the framerate, this might be useful to limit battery consumption on "
-"portable systems."
+msgid "Limits the framerate, this might be useful to limit battery consumption on portable systems."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1565,8 +1540,7 @@ msgid "Button prompts"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Overrides the button prompts shown for your controller to the specified type."
+msgid "Overrides the button prompts shown for your controller to the specified type."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1574,9 +1548,7 @@ msgid "Color remap"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"For color-blindness, remaps colors on the screen with others, it's an "
-"imperfect solution but it might be useful."
+msgid "For color-blindness, remaps colors on the screen with others, it's an imperfect solution but it might be useful."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1660,9 +1632,7 @@ msgid "Background dim"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Dims the background, a higher percentage will make it darker, note this also "
-"includes video background."
+msgid "Dims the background, a higher percentage will make it darker, note this also includes video background."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1670,9 +1640,7 @@ msgid "Enable multi note indicator"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Enables showing an indicator in the middle of the screen for what buttons "
-"should be pressed for a multi-note."
+msgid "Enables showing an indicator in the middle of the screen for what buttons should be pressed for a multi-note."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1680,9 +1648,7 @@ msgid "Show clock arms"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Enables using clock arms instead of circles to show you when it's time to "
-"press a note."
+msgid "Enables using clock arms instead of circles to show you when it's time to press a note."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1698,9 +1664,7 @@ msgid "Use arrow instead of left icon"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Replaces all instances of the left icon of the selected icon pack with a "
-"left arrow."
+msgid "Replaces all instances of the left icon of the selected icon pack with a left arrow."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1708,9 +1672,7 @@ msgid "Use arrow instead of right icon"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Replaces all instances of the right icon of the selected icon pack with a "
-"right arrow."
+msgid "Replaces all instances of the right icon of the selected icon pack with a right arrow."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1718,9 +1680,7 @@ msgid "Use arrow instead of up icon"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Replaces all instances of the up icon of the selected icon pack with a up "
-"arrow."
+msgid "Replaces all instances of the up icon of the selected icon pack with a up arrow."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1728,9 +1688,7 @@ msgid "Use arrow instead of down icon"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Replaces all instances of the down icon of the selected icon pack with a "
-"down arrow."
+msgid "Replaces all instances of the down icon of the selected icon pack with a down arrow."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1754,9 +1712,7 @@ msgid "Explicit ratings"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Show the full name of the rating on the song list (Doesn't apply for a CHEAP "
-"rating)."
+msgid "Show the full name of the rating on the song list (Doesn't apply for a CHEAP rating)."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1772,9 +1728,7 @@ msgid "{sound_pretty_name} sound"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid ""
-"Sound to use. (Place custom sounds inside the custom_sounds folder in your "
-"user folder, only 16-bit WAV files are supported)"
+msgid "Sound to use. (Place custom sounds inside the custom_sounds folder in your user folder, only 16-bit WAV files are supported)"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1783,6 +1737,10 @@ msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Volume for this sound effect"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Detected controllers:"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
@@ -1812,19 +1770,11 @@ msgid "Enable mounting Project DIVA MegaMix+ from Steam"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
-msgid ""
-"\n"
-"DISCLAIMER\n"
-"\n"
-"Project DIVA MegaMix+, Project DIVA and other similar trademarks are the "
-"property of SEGA, Crypton Future media and others.\n"
-"\n"
-"Project Heartbeat does not encourage piracy, as loading data from Project "
-"DIVA MegaMix+ requires ownership the game, which is verified through the "
-"Steamworks API.\n"
-"Project Heartbeat is simply another engine in which the user can play their "
-"legally purchased content, in a similar vein to how the same MP3 file can be "
-"played in different MP3 players."
+msgid "\n"
+"DISCLAIMER\n\n"
+"Project DIVA MegaMix+, Project DIVA and other similar trademarks are the property of SEGA, Crypton Future media and others.\n\n"
+"Project Heartbeat does not encourage piracy, as loading data from Project DIVA MegaMix+ requires ownership the game, which is verified through the Steamworks API.\n"
+"Project Heartbeat is simply another engine in which the user can play their legally purchased content, in a similar vein to how the same MP3 file can be played in different MP3 players."
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
@@ -1857,9 +1807,7 @@ msgid "Reloading content..."
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
-msgid ""
-"Selecting a new content directory requires using the mouse, would you like "
-"to continue?"
+msgid "Selecting a new content directory requires using the mouse, would you like to continue?"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
@@ -1890,16 +1838,7 @@ msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
 #: menus/pregame_screen/PreGameScreen.tscn
-msgid "Never played"
-msgstr ""
-
-#: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
-msgid ""
-"Times Played: %d\n"
-"\n"
-"Highest score:\n"
-"%s"
+msgid "Times Played: %d"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
@@ -1948,9 +1887,7 @@ msgid "Add modifier"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.tscn
-msgid ""
-"Are you sure you want to change this song's video URL? this requires you use "
-"the mouse."
+msgid "Are you sure you want to change this song's video URL? this requires you use the mouse."
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.tscn
@@ -2017,7 +1954,8 @@ msgstr ""
 msgid "Sort"
 msgstr ""
 
-#: menus/song_list/SongList.tscn menus/workshop_browser/WorkshopBrowser.tscn
+#: menus/song_list/SongList.tscn
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Search"
 msgstr ""
 
@@ -2034,10 +1972,7 @@ msgid "Remove"
 msgstr ""
 
 #: menus/song_list/SongList.tscn
-msgid ""
-"The song you selected is a PPD song without an existing audio file, would "
-"you like to select one (from disk or YouTube)? This will require yo to use "
-"the mouse."
+msgid "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
 msgstr ""
 
 #: menus/song_list/SongList.tscn
@@ -2097,12 +2032,8 @@ msgid "How to play: Normal notes"
 msgstr "チュートリアル"
 
 #: menus/tutorial/page1/page1.tscn
-msgid ""
-"Hit normal notes by pressing the corresponding face button or d-pad "
-"direction when they go over their target\n"
-"\n"
-"The d-pad and the face buttons are interchangeable!\n"
-"\n"
+msgid "Hit normal notes by pressing the corresponding face button or d-pad direction when they go over their target\n\n"
+"The d-pad and the face buttons are interchangeable!\n\n"
 "(All key bindings can be changed in the options)"
 msgstr ""
 
@@ -2119,16 +2050,12 @@ msgid "Multi notes"
 msgstr ""
 
 #: menus/tutorial/page3/page3.tscn
-msgid ""
-"Hitting multis requires you to hit different notes at the same time.\n"
-"\n"
+msgid "Hitting multis requires you to hit different notes at the same time.\n\n"
 "Multi notes are denoted by being red in color."
 msgstr ""
 
 #: menus/tutorial/page3/page3.tscn
-msgid ""
-"Multi slides also exist and might require you press the same direction on "
-"the two analog sticks."
+msgid "Multi slides also exist and might require you press the same direction on the two analog sticks."
 msgstr ""
 
 #: menus/tutorial/page4/Page4.tscn
@@ -2136,17 +2063,11 @@ msgid "Slide chains and hold notes"
 msgstr ""
 
 #: menus/tutorial/page4/Page4.tscn
-msgid ""
-"Slide chains are slides that you can hold for extra points. Slide chains "
-"will progressively become blue, if the slide is fully blue you can let go of "
-"it."
+msgid "Slide chains are slides that you can hold for extra points. Slide chains will progressively become blue, if the slide is fully blue you can let go of it."
 msgstr ""
 
 #: menus/tutorial/page4/Page4.tscn
-msgid ""
-"Hold notes are notes that give you extra points by holding them after you "
-"hit them,, if you manage to hold them for long enough you'll get a nice "
-"bonus!"
+msgid "Hold notes are notes that give you extra points by holding them after you hit them, if you manage to hold them for long enough you'll get a nice bonus!"
 msgstr ""
 
 #: menus/tutorial/page5/Page5.tscn
@@ -2154,22 +2075,15 @@ msgid "Double and sustain notes"
 msgstr ""
 
 #: menus/tutorial/page5/Page5.tscn
-msgid ""
-"Double notes are notes that require you to press the same direction on two "
-"different buttons, for example by pressing the B/Circle button and right on "
-"the d-pad at the same time."
+msgid "Double notes are notes that require you to press the same direction on two different buttons, for example by pressing the B/Circle button and right on the d-pad at the same time."
 msgstr ""
 
 #: menus/tutorial/page5/Page5.tscn
-msgid ""
-"In order to hit sustain notes press the note when the first mark hits the "
-"target and release when the second one does."
+msgid "In order to hit sustain notes press the note when the first mark hits the target and release when the second one does."
 msgstr ""
 
 #: menus/tutorial/page6/Page6.tscn
-msgid ""
-"Heart notes are notes that can be hit by tapping any direction on the "
-"joystick or hitting any slide button, double hearts also exist."
+msgid "Heart notes are notes that can be hit by tapping any direction on the joystick or hitting any slide button, double hearts also exist."
 msgstr ""
 
 #: menus/tutorial/pagefinal/page_final.tscn
@@ -2205,8 +2119,7 @@ msgid "Show in song list"
 msgstr ""
 
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
-msgid ""
-"Item unsubscribed succesfully, will be removed after you restart the game."
+msgid "Item unsubscribed succesfully, will be removed after you restart the game."
 msgstr ""
 
 #: multiplayer/lobby/LobbyList.tscn
@@ -2214,8 +2127,7 @@ msgid "Create"
 msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
-msgid ""
-"\n"
+msgid "\n"
 "waiting for song to be downloaded automatically by their game..."
 msgstr ""
 
@@ -2228,8 +2140,7 @@ msgid "ERROR STARTING GAME: Error downloading workshop song."
 msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
-msgid ""
-"ERROR STARTING GAME: You don't seem to have the currently selected song."
+msgid "ERROR STARTING GAME: You don't seem to have the currently selected song."
 msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
@@ -2237,9 +2148,7 @@ msgid "Downloading song media..."
 msgstr "ダウンロード中..."
 
 #: multiplayer/lobby/LobbyMenu.tscn
-msgid ""
-"ERROR STARTING GAME: You don't seem to have the video/audio for the song "
-"currently selected, please return to the free play song list and download it."
+msgid "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
 msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
@@ -2282,19 +2191,23 @@ msgstr ""
 msgid "Set as host"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd rythm_game/ResultsScreen.tscn
+#: rythm_game/ResultsScreen.gd
+#: rythm_game/ResultsScreen.tscn
 msgid "Results"
 msgstr "ゲームに戻る"
 
-#: rythm_game/ResultsScreen.gd rythm_game/ResultsScreen.tscn
+#: rythm_game/ResultsScreen.gd
+#: rythm_game/ResultsScreen.tscn
 msgid "Graph"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd rythm_game/ResultsScreen.tscn
+#: rythm_game/ResultsScreen.gd
+#: rythm_game/ResultsScreen.tscn
 msgid "results"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd rythm_game/ResultsScreen.tscn
+#: rythm_game/ResultsScreen.gd
+#: rythm_game/ResultsScreen.tscn
 msgid "graph"
 msgstr ""
 
@@ -2327,18 +2240,37 @@ msgid "Fast forward!"
 msgstr ""
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
+msgctxt "Autoplay modifier name"
+msgid "Autoplay"
+msgstr ""
+
+#: rythm_game/modifiers/autoplay/autoplay.gd
+msgctxt "Autoplay modifier description"
 msgid "Makes the game play itself."
 msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier name"
+msgid "Nightcore"
+msgstr ""
+
+#: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier list name, %d is the percentage amount of speed applied"
+msgid "Nightcore %d %%"
+msgstr ""
+
+#: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier description"
 msgid "Turns your manly voices into anime girls."
 msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier speed property name"
 msgid "Speed"
 msgstr ""
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
+msgctxt "Nightcore modifier speed property desciption"
 msgid "Percentage of speed to increase (or decrease) the song's playback"
 msgstr ""
 
@@ -2354,7 +2286,8 @@ msgstr ""
 msgid "Are you sure you want to restart?"
 msgstr "リトライしますか？"
 
-#: rythm_game/pause_menu/PauseMenu3D.tscn rythm_game/practice_mode.tscn
+#: rythm_game/pause_menu/PauseMenu3D.tscn
+#: rythm_game/practice_mode.tscn
 msgid "Are you sure you want to quit?"
 msgstr "リトライしますか？"
 
@@ -2362,7 +2295,8 @@ msgstr "リトライしますか？"
 msgid "PAUSED"
 msgstr "一時停止"
 
-#: rythm_game/pause_menu/PauseMenuLeft.tscn rythm_game/practice_mode.tscn
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
+#: rythm_game/practice_mode.tscn
 msgid "Resume"
 msgstr "ゲームに戻る"
 
@@ -2374,7 +2308,8 @@ msgstr "リトライ"
 msgid "Song Settings"
 msgstr "音楽設定"
 
-#: rythm_game/pause_menu/PauseMenuLeft.tscn rythm_game/practice_mode.tscn
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
+#: rythm_game/practice_mode.tscn
 msgid "Quit"
 msgstr ""
 
@@ -2387,8 +2322,7 @@ msgid "Game info:\n"
 msgstr ""
 
 #: rythm_game/practice_mode.tscn
-msgid ""
-"\n"
+msgid "\n"
 "Accuracy:\n"
 msgstr ""
 
@@ -2441,12 +2375,16 @@ msgid "Level up!"
 msgstr "レベルアップ！"
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "TOTAL NOTES"
-msgstr "TOTAL NOTES"
+msgid "MAX COMBO"
+msgstr ""
 
 #: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "COMBO"
-msgstr "COMBO"
+msgid "NOTES HIT"
+msgstr ""
+
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn
+msgid "TOTAL NOTES"
+msgstr "TOTAL NOTES"
 
 #: rythm_game/rhythm_game_controller.tscn
 msgid "Rolling back!"
@@ -2455,3 +2393,84 @@ msgstr ""
 #: rythm_game/rhythm_game_multiplayer.tscn
 msgid "Waiting for other players to load!"
 msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier name"
+msgid "Console to arcade"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier name when keeping hearts"
+msgid "Console to arcade (Keep hearts)"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier description"
+msgid "Converts console-style songs to be compatible with arcade controllers"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier keep_heartrs property"
+msgid "Keep hearts"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier keep_hearts property description"
+msgid "If enabled, will keep single hearts and convert double hearts to single hearts."
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode property"
+msgid "Sustain note conversion mode"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode description"
+msgid "Changes how to convert sustain notes."
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode two note option"
+msgid "Replace with two notes"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode hold option"
+msgid "Replace with hold"
+msgstr ""
+
+#: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
+msgctxt "Console to arcade modifier sustain_mode single note option"
+msgid "Replace with one note"
+msgstr ""
+
+#: rythm_game/modifiers/chaos/chaos.gd
+msgctxt "Chaos modifier name"
+msgid "Chaos"
+msgstr ""
+
+#: rythm_game/modifiers/chaos/chaos.gd
+msgctxt "Chaos modifier description"
+msgid "Good luck."
+msgstr ""
+
+#: rythm_game/modifiers/hidden/hidden.gd
+msgctxt "Hidden modifier name"
+msgid "Hidden"
+msgstr ""
+
+#: rythm_game/modifiers/hidden/hidden.gd
+msgctxt "Hidden modifier description"
+msgid "Hides notes a few moments after they spawn."
+msgstr ""
+
+#: rythm_game/modifiers/randomizer/randomizer.gd
+msgctxt "Randomizer modifier name"
+msgid "Randomizer"
+msgstr ""
+
+#: rythm_game/modifiers/randomizer/randomizer.gd
+msgctxt "Randomizer modifier description"
+msgid "Randomizes the type of some notes."
+msgstr ""
+
