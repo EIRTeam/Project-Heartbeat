@@ -527,7 +527,7 @@ func _process_game(_delta):
 						var drw = group.note_drawers.get(note, null)
 						if drw:
 							drawers.append(drw)
-					modifier._process_note(drawers, time_usec / 1000.0, get_note_speed_at_time(time_msec))
+					modifier._process_note(drawers, time_usec / 1000_000.0, get_note_speed_at_time(time_msec))
 	
 	emit_signal("time_changed", time_usec / 1000_000.0)
 	

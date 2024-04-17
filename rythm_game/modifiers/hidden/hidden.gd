@@ -17,7 +17,15 @@ func _set_note_drawer_a(note_drawer, time: float, bpm: float):
 	var perc: float = 1.0 - ((note_time - time) / (note_drawer.note_data.get_time_out(bpm) / 1000.0))
 #			var a_o = clamp(, 0.0, HIDDEN_DURATION) / HIDDEN_DURATION
 	var a_o = 1.0 - smoothstep(HIDDEN_PERCENTAGE_START, HIDDEN_PERCENTAGE_START+HIDDEN_DURATION, perc)
+	a_o = clamp(a_o, 0.0, 1.0)
 	
+	if note_drawer.note_data is HBSustainNote and note_drawer is HBSustainNoteDrawer:
+		if note_drawer.pressed:
+			a_o = 1.0
+			var note_end_time: float = note_drawer.note_data.end_time / 1000.0
+			var perc_sustain: float = 1.0 - ((note_end_time - time) / (note_drawer.note_data.get_time_out(bpm) / 1000.0))
+			a_o = 1.0 - smoothstep(HIDDEN_PERCENTAGE_START, HIDDEN_PERCENTAGE_START+HIDDEN_DURATION, perc_sustain)
+	a_o = clamp(a_o, 0.0, 1.0)
 	for node_data in note_drawer.layer_bound_node_datas:
 		if node_data is HBNewNoteDrawer.LayerBoundNodeData:
 			if node_data.layer_name != "HitParticles" and node_data.layer_name != "SlideChainPieces":
@@ -25,16 +33,8 @@ func _set_note_drawer_a(note_drawer, time: float, bpm: float):
 	note_drawer.modulate.a = a_o
 	
 func _process_note(note_drawers: Array, time: float, bpm: float):
-	# TODO: this
-	pass
-	#for note_drawer in note_drawers:
-	#	if note_drawer is HBSlideN:
-	#		for drw in note_drawer.slide_chain_drawers.values():
-	#			_set_note_drawer_a(drw, time, bpm)
-	#	_set_note_drawer_a(note_drawer, time, bpm)
-			
-
-					
+	for note_drawer in note_drawers:
+		_set_note_drawer_a(note_drawer, time, bpm)
 	
 static func get_modifier_name():
 	return TranslationServer.tr("Hidden", &"Hidden modifier name")
