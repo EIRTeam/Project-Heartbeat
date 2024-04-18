@@ -146,8 +146,8 @@ func play_at_pos(pos: float):
 
 func _draw():
 	var origin = game.remap_coords(Vector2())
-	var size = game.playing_field_size
-	_draw_game_area(origin, size)
+	var field_size := game.playing_field_size as Vector2
+	_draw_game_area(origin + Vector2(0, 1), field_size - Vector2(0, 1))
 	_draw_safe_area()
 func _draw_game_area(origin, size):
 	draw_rect(Rect2(origin, size), Color(1.0, 1.0, 1.0), false, 1.0)# true) TODOGODOT4 Antialiasing argument is missing
