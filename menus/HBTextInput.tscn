@@ -64,6 +64,11 @@ offset_bottom = 200.0
 theme = ExtResource("3")
 script = ExtResource("2")
 
+[node name="MouseTrapPanel" type="Panel" parent="."]
+auto_translate_mode = 1
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
 [node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 2
 theme_override_styles/panel = SubResource("1")

@@ -63,4 +63,6 @@ func popup_centered_ratio(ratio := 0.5):
 func popup_centered():
 	_on_Control_about_to_show()
 	show()
-	global_position = get_window().content_scale_size * 0.5 - size*0.5
+	print(get_window().get_visible_rect())
+	var center := get_window().get_visible_rect().get_center()
+	global_position = center - size*0.5

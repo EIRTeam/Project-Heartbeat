@@ -5,8 +5,8 @@
 [ext_resource type="Script" path="res://autoloads/CacheSongOverlay.gd" id="3"]
 [ext_resource type="Script" path="res://autoloads/PPDDialog.gd" id="4"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="5"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="6"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="7"]
+[ext_resource type="StyleBox" uid="uid://b21324ii6ky3l" path="res://styles/PanelStyleTransparentIcon.tres" id="6"]
+[ext_resource type="StyleBox" uid="uid://cp7yh4stt825r" path="res://styles/PanelStyleTransparentIconHover.tres" id="7"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="8"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
@@ -32,20 +32,22 @@ theme = ExtResource("5")
 show_hidden_files = true
 
 [node name="CacheSongOverlay" type="Control" parent="MouseTrap"]
-anchors_preset = 0
+visible = false
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("3")
 
 [node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
 visible = false
 layout_mode = 1
-offset_left = -671.0
-offset_top = -730.0
-offset_right = 450.0
-offset_bottom = 223.0
 text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
+
+[node name="MouseTrapPanel" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup" index="0"]
+mouse_filter = 2
 
 [node name="TextLabel" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" index="0"]
 text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
@@ -62,36 +64,14 @@ script = ExtResource("8")
 
 [node name="DownloadingPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
 visible = false
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 518.5
-offset_top = 150.0
-offset_right = 1180.5
-offset_bottom = 423.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 1
 has_cancel = false
 has_accept = false
 text = "Downloading..."
 
 [node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
 visible = false
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 518.5
-offset_top = -20.0
-offset_right = 1180.5
-offset_bottom = 593.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 1
 has_cancel = false
 text = "Media for this song is currently being downloaded."
 accept_text = "Ok"

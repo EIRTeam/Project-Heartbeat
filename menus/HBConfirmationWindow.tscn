@@ -24,28 +24,44 @@ corner_detail = 20
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[node name="HBConfirmationWindow" type="PanelContainer"]
+[node name="HBConfirmationWindow" type="Control"]
 visible = false
 top_level = true
 custom_minimum_size = Vector2(650, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme = ExtResource("1")
+script = ExtResource("4")
+
+[node name="MouseTrapPanel" type="Panel" parent="."]
+self_modulate = Color(1, 0, 0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -325.0
-offset_top = -204.5
-offset_right = 325.0
-offset_bottom = 204.5
+offset_left = -361.0
+offset_top = -111.0
+offset_right = 361.0
+offset_bottom = 112.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme = ExtResource("1")
-script = ExtResource("4")
-
-[node name="Panel" type="PanelContainer" parent="."]
-layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("1")
 
