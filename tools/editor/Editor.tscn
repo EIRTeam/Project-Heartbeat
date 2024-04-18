@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://fawgnyddv8a"]
+[gd_scene load_steps=44 format=4 uid="uid://fawgnyddv8a"]
 
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]
@@ -182,6 +182,10 @@ layout_mode = 2
 layout_mode = 2
 tooltip_text = "Editor manual"
 icon = ExtResource("24")
+item_count = 2
+popup/item_0/text = "Editor manual"
+popup/item_1/text = "Community charting guide"
+popup/item_1/id = 1
 
 [node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
 unique_name_in_owner = true
@@ -254,6 +258,7 @@ script = ExtResource("36")
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D"]
 offset_right = 40.0
 offset_bottom = 40.0
+expand = true
 script = ExtResource("51")
 metadata/_edit_use_anchors_ = true
 
@@ -418,6 +423,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
+metadata/_tab_index = 0
 
 [node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer/VSplitContainer"]
 self_modulate = Color(1, 1, 1, 0)
