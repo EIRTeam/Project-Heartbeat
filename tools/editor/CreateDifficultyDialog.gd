@@ -1,6 +1,6 @@
 extends ConfirmationDialog
 
-@onready var custom_difficulty_checkbox = get_node("VBoxContainer/HBoxContainer2/CustomDifficultyCheckbox")
+@onready var custom_difficulty_checkbox: CheckBox = get_node("VBoxContainer/HBoxContainer2/CustomDifficultyCheckbox")
 @onready var custom_difficulty_line_edit = get_node("VBoxContainer/HBoxContainer2/CustomDifficultyLineEdit")
 @onready var difficulty_select_option_button = get_node("VBoxContainer/HBoxContainer/DifficultySelectOptionButton")
 @onready var stars_spinbox = get_node("VBoxContainer/HBoxContainer3/StarsSpinBox")
@@ -24,7 +24,7 @@ func _on_CustomDifficultyCheckbox_toggled(pressed: bool):
 
 func _on_confirmed():
 	var difficulty = difficulty_select_option_button.get_item_text(difficulty_select_option_button.selected)
-	if custom_difficulty_checkbox.pressed:
+	if custom_difficulty_checkbox.button_pressed:
 		difficulty = custom_difficulty_line_edit.text
 	var uses_console_style = chart_style_option_button.get_selected_id() == 1
 	emit_signal("difficulty_created", difficulty, stars_spinbox.value, uses_console_style)
