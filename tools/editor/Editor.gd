@@ -706,11 +706,11 @@ func apply_fine_position():
 		undo_redo.commit_action()
 
 func show_contextual_menu():
-	contextual_menu.popup()
 	var popup_offset = get_global_mouse_position() + Vector2(contextual_menu.size) - get_viewport_rect().size
 	popup_offset.x = max(popup_offset.x, 0)
 	popup_offset.y = max(popup_offset.y, 0)
 	contextual_menu.position = get_global_mouse_position() - popup_offset
+	contextual_menu.popup.call_deferred()
 
 # Changes the properties of the selected items, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary, thus undoing constant 
