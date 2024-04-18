@@ -240,11 +240,10 @@ func create_item(option, parent):
 			
 			return item
 
-func update(ignore = []):
-	var root := tree.get_root()
-	
+func _update_settings_tree(root: TreeItem, ignore := []):
 	for item in root.get_children():
 		if item in ignore or not item.has_meta("property_name"):
+			_update_settings_tree(item, ignore)
 			continue
 		
 		var property_name := item.get_meta("property_name") as String
@@ -279,7 +278,12 @@ func update(ignore = []):
 				item.set_text(1, "#" + value.to_html(false))
 				var color_picker = item.get_meta("color_picker")
 				color_picker.color = value
-		
+		_update_settings_tree(item, ignore)
+
+func update(ignore = []):
+	var root := tree.get_root()
+	_update_settings_tree(root, ignore)
+	
 func _hide():
 	var item = tree.get_selected()
 	
@@ -331,7 +335,12 @@ func _on_custom_popup_edited(_arrow_pressed: bool):
 	match type:
 		"List":
 			var popup_menu = edited.get_meta("popup_menu") as PopupMenu
-			popup_menu.popup(tree.get_custom_popup_rect())
+			var bounds := tree.get_custom_popup_rect()
+			bounds.position += get_window().global_canvas_transform.origin
+			bounds.size *= get_window().global_canvas_transform.get_scale()
+			if !get_window().is_embedding_subwindows():
+				bounds.position += Vector2(get_window().get_position())
+			popup_menu.popup(bounds)
 
 func _on_list_item_selected(idx: int, edited: TreeItem):
 	var data = call(edited.get_meta("data_callback"))
