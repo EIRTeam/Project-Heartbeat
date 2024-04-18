@@ -165,24 +165,45 @@ func is_autoplay_enabled() -> bool:
 	# Hardcoded GAME_MODE.AUTOPLAY because godot 3 doesn't support cyclic references
 	return game.game_mode == 2 and not disable_autoplay
 
+func calculate_note_position(note_data: HBBaseNote, note_time_msec: int, game_time_usec: int) -> Vector2:
+	# HACK: Some old charts use high frequency + high amplitude that are multiples of 1000
+	# to create funny effects so we must fall back to msec precision for those to preserve the old behavior
+	var time_out_msec := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
+	var time_out := time_out_msec * 1000
+	var time_out_distance = time_out - (note_time_msec * 1000 - game_time_usec)
+
+	var use_millisecond_precision_hack: bool = note_data.oscillation_frequency % 1000 == 0 \
+		and int(note_data.oscillation_amplitude) % 1000 == 0 and abs(note_data.oscillation_amplitude) > 10000 \
+		and abs(note_data.oscillation_frequency) >= 1000
+	if self is HBSustainNoteDrawer:
+		print(use_millisecond_precision_hack)
+	if use_millisecond_precision_hack:
+		var game_time_msec := game_time_usec / 1000
+		var time_out_distance_msec := time_out_msec - (note_time_msec - game_time_msec)
+		return HBUtils.calculate_note_sine(
+			time_out_distance_msec/float(time_out_msec),
+			note_data.position,
+			note_data.entry_angle,
+			note_data.oscillation_frequency,
+			note_data.oscillation_amplitude,
+			note_data.distance
+		)
+	else:
+		return HBUtils.calculate_note_sine(
+			time_out_distance/float(time_out),
+			note_data.position,
+			note_data.entry_angle,
+			note_data.oscillation_frequency,
+			note_data.oscillation_amplitude,
+			note_data.distance
+		)
+
+
 func update_graphic_positions_and_scale(time_usec: int):
 	note_target_graphics.position = note_data.position
 	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
-	var time_out_distance = time_out - (note_data.time * 1000 - time_usec)
-	
-	# HACK: Some old charts use high frequency + high amplitude that are multiples of 1000
-	# to create funny effects so we must fall back to msec precision for those to preserve the old behavior
-	var use_millisecond_precision_hack := not note_data.auto_time_out \
-		and note_data.time_out % 1000 == 0 and note_data.oscillation_frequency % 1000 == 0 \
-		and int(note_data.oscillation_amplitude) % 1000 == 0 
-	if use_millisecond_precision_hack:
-		var time_out_msec := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
-		var time_msec := time_usec / 1000
-		var time_out_distance_msec := time_out_msec - (note_data.time - time_msec)
-		note_graphics.position = HBUtils.calculate_note_sine(time_out_distance_msec/float(time_out_msec), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
-	else:
-		note_graphics.position = HBUtils.calculate_note_sine(time_out_distance/float(time_out), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
-		
+
+	note_graphics.position = calculate_note_position(note_data, note_data.time, time_usec)
 
 	note_graphics.scale = Vector2.ONE * UserSettings.user_settings.note_size
 	if time_usec > note_data.time * 1000:

@@ -139,10 +139,10 @@ func process_note(time_usec: int):
 
 func update_graphic_positions_and_scale(time_usec: int):
 	super.update_graphic_positions_and_scale(time_usec)
-	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
+	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.end_time)) * 1000
 	
-	var time_out_distance = time_out - (note_data.time * 1000 - time_usec) - note_data.get_duration() * 1000
-	note_graphic2.position = HBUtils.calculate_note_sine(time_out_distance/float(time_out), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+	var time_out_distance = time_out - (note_data.end_time * 1000 - time_usec) - note_data.get_duration() * 1000
+	note_graphic2.position = calculate_note_position(note_data, note_data.end_time, time_usec)
 	note_graphic2.scale = Vector2.ONE * UserSettings.user_settings.note_size
 	if time_usec > note_data.end_time * 1000:
 		var disappereance_time = note_data.end_time * 1000 + (game.judge.get_target_window_usec())
