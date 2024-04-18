@@ -455,7 +455,8 @@ class MDATALoader:
 func parse_pvdb(pvdb: String) -> Dictionary:
 	var pv_datas := {}
 	for line in pvdb.split("\n"):
-		if not line.strip_edges() or line.begins_with("#"):
+		line = line.strip_edges()
+		if line.is_empty() or line.begins_with("#"):
 			continue
 		var spl = line.split("=")
 		if spl.size() != 2:
@@ -583,7 +584,7 @@ func load_songs_mmplus() -> Array:
 	var mod_filesystems := []
 	
 	# Load and merge mods DBs
-	if DirAccess.dir_exists_absolute(mods_config_path):
+	if FileAccess.file_exists(mods_config_path):
 		var mods_toml := TOMLParser.from_file(mods_config_path)
 		
 		var mods_path := GAME_LOCATION.path_join(mods_toml.default.get("mods", "mods")) as String
