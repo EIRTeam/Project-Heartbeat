@@ -16,6 +16,7 @@ offsets = PackedFloat32Array(0.47861, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="SliderPieceParticle" type="CPUParticles2D"]
+modulate = Color(0.75, 0.75, 0.75, 1)
 material = SubResource("CanvasItemMaterial_6kaqy")
 position = Vector2(831, 343)
 amount = 2
@@ -41,8 +42,9 @@ color_ramp = SubResource("Gradient_ce7rh")
 script = ExtResource("2_jhinx")
 
 [node name="GPUParticles2D" type="CPUParticles2D" parent="."]
-material = SubResource("CanvasItemMaterial_6kaqy")
+use_parent_material = true
 scale = Vector2(1, 0.5)
+emitting = false
 amount = 1
 lifetime = 0.35
 one_shot = true

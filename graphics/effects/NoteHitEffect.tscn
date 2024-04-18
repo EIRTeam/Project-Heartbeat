@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c73hmv1ny7bc4"]
+[gd_scene load_steps=10 format=3 uid="uid://c73hmv1ny7bc4"]
 
 [ext_resource type="Texture2D" uid="uid://cfmgrqdhgpbb5" path="res://graphics/effects/flare.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://2rdevke1bns4" path="res://graphics/effects/bubble.png" id="2"]
 [ext_resource type="PackedScene" path="res://rythm_game/note_drawers/NoteGraphic.tscn" id="3"]
 [ext_resource type="Script" path="res://graphics/effects/NoteHitEffect.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://b6drgmmh83lrh" path="res://graphics/effects/loop.png" id="4_jlta4"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xwbid"]
 blend_mode = 1
@@ -93,10 +94,10 @@ tracks/0/path = NodePath("NoteIcon:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.116667, 0.466667),
-"transitions": PackedFloat32Array(0.5, 1),
+"times": PackedFloat32Array(0.1002, 0.2004, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.05, 0.05), Vector2(1, 1)]
+"values": [Vector2(0.05, 0.05), Vector2(0.65, 0.65), Vector2(1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -105,7 +106,7 @@ tracks/1/path = NodePath("NoteIcon:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.116667, 0.416667, 0.466667),
+"times": PackedFloat32Array(0, 0.1002, 0.416667, 0.466667),
 "transitions": PackedFloat32Array(0, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.75), Color(1, 1, 1, 0.75), Color(1, 1, 1, 0)]
@@ -118,9 +119,9 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"transitions": PackedFloat32Array(2, 1),
 "update": 0,
-"values": [Vector2(0.05, 0.05), Vector2(1, 1)]
+"values": [Vector2(0.05, 0.05), Vector2(1.98, 1.98)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -142,7 +143,7 @@ tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.116667, 0.466667),
-"transitions": PackedFloat32Array(1, 1, 1),
+"transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
 "values": [Vector2(0.033, 0.033), Vector2(0.413, 0.413), Vector2(4, 4)]
 }
@@ -166,7 +167,7 @@ _data = {
 }
 
 [node name="NoteHitEffect" type="Node2D"]
-modulate = Color(0.752941, 0.752941, 0.752941, 1)
+modulate = Color(0.5, 0.5, 0.5, 1)
 z_index = -1
 material = SubResource("CanvasItemMaterial_xwbid")
 position = Vector2(944, 441)
@@ -186,6 +187,7 @@ texture = ExtResource("1")
 [node name="Loop" type="Sprite2D" parent="."]
 use_parent_material = true
 scale = Vector2(0.033, 0.033)
+texture = ExtResource("4_jlta4")
 
 [node name="NoteIcon" type="Sprite2D" parent="."]
 use_parent_material = true
