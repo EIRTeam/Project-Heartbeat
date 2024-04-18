@@ -1,17 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://cjqi0anrhoxv"]
 
-[ext_resource path="res://autoloads/gamepad_visualizer/AnalogGamepadVisualizer.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://autoloads/gamepad_visualizer/AnalogGamepadVisualizer.gd" id="1"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0, 0, 0.5 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0, 0, 0, 0.5)
 
 [node name="Panel" type="Panel"]
+custom_minimum_size = Vector2(40, 0)
 offset_left = 620.0
 offset_right = 660.0
 offset_bottom = 40.0
-custom_minimum_size = Vector2( 40, 0 )
-theme_override_styles/panel = SubResource( 1 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = SubResource("1")
+script = ExtResource("1")
