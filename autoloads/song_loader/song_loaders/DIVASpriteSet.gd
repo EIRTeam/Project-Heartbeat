@@ -58,11 +58,11 @@ class DIVASprite:
 	func get_material() -> ShaderMaterial:
 		var shader_mat := ShaderMaterial.new()
 		if is_ycbcr():
-			shader_mat.shader = preload("res://menus/diva_ycbcr.gdshader")
+			shader_mat.shader = load("res://menus/diva_ycbcr.gdshader")
 			shader_mat.set_shader_parameter("texture_ya", self)
 			shader_mat.set_shader_parameter("texture_cbcr", ycbcr_atlas)
 		else:
-			shader_mat.shader = preload("res://menus/diva_sprite.gdshader")
+			shader_mat.shader = load("res://menus/diva_sprite.gdshader")
 		return shader_mat
 func propagate_error(error_msg: String):
 	has_error = true
