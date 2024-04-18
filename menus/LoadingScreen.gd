@@ -91,7 +91,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoade
 						skin_downloading_item = song.skin_ugc_id
 						Steamworks.ugc.item_installed.connect(self._on_item_downloaded)
 						start_now = false
-					elif item_state & Steam.ITEM_STATE_INSTALLED:
+					elif item_state & SteamworksConstants.ITEM_STATE_INSTALLED:
 						_load_ugc_skin(song.skin_ugc_id)
 				else:
 					_load_ugc_skin(song.skin_ugc_id)
