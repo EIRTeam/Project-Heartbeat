@@ -1405,7 +1405,7 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	song_editor_settings.connect("property_changed", Callable(self, "emit_signal").bind("song_editor_settings_changed"))
 	
 	song_settings_editor.load_settings(settings)
-	update_media()
+	await update_media()
 	
 	timeline_snap_button.button_pressed = settings.timeline_snap
 	
@@ -1444,6 +1444,9 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 	selected = []
 	current_notes = []
 	timeline.send_time_cull_changed_signal()
+	
+	if not ignore_settings:
+		await load_settings(chart.editor_settings)
 	
 	for layer in chart.layers:
 		var layer_scene
@@ -1539,9 +1542,6 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 		for timing_change in current_song.timing_changes:
 			if timing_change is HBTimingChange:
 				add_item(tempo_layer_n, timing_change.get_timeline_item(), false)
-	
-	if not ignore_settings:
-		load_settings(chart.editor_settings)
 	
 	_on_timing_points_changed()
 	_on_timing_information_changed()
@@ -1647,8 +1647,7 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	
 	get_window().set_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
-	from_chart(chart)
-	current_difficulty = difficulty
+	await from_chart(chart)
 	current_difficulty = difficulty
 	
 	save_button.disabled = editor_hidden
@@ -1671,7 +1670,7 @@ func get_selected_variant() -> int:
 		return song_editor_settings.selected_variant
 func update_media():
 	game_preview.set_song(current_song, get_selected_variant())
-	game_playback.set_song(current_song, get_selected_variant())
+	await game_playback.set_song(current_song, get_selected_variant())
 	timeline.set_audio_stream(game_playback.godot_audio_stream)
 	seek(playhead_position)
 	timeline.send_time_cull_changed_signal()
