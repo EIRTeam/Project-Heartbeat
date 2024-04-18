@@ -111,9 +111,7 @@ func _on_ugc_item_installed(item_type, item):
 				UserSettings.user_settings.per_song_settings[item.id].video_enabled = false
 				UserSettings.save_user_settings()
 			if not item.is_cached():
-				#TODOSW4 fix ytdlp
-				pass
-				#item.cache_data()
+				item.cache_data()
 			show_in_song_list_button.show()
 
 
