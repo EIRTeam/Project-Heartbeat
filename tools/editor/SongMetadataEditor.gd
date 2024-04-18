@@ -379,7 +379,7 @@ func user_add_variant(id: String):
 	variant_editor.song = song_meta
 	variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
 	variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
-	var ss := Shinobu.register_sound_from_memory("meta_editor_norm_temp", HBUtils.load_ogg(YoutubeDL.get_audio_path(id)).data)
+	var ss := Shinobu.register_sound_from_memory("meta_editor_norm_temp", HBUtils.load_ogg(YoutubeDL.get_audio_path(id)).get_meta("raw_file_data"))
 	var res = ss.ebur128_get_loudness()
 	variant_editor.variant.variant_url = "https://www.youtube.com/watch?v=%s" % [id]
 	variant_editor.variant.variant_normalization = res
