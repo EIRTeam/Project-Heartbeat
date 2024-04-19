@@ -1,8 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://cr4ygsnm3cu5s"]
+[gd_scene load_steps=20 format=4 uid="uid://cr4ygsnm3cu5s"]
 
 [ext_resource type="PackedScene" uid="uid://cf2jxkpomwvf3" path="res://rythm_game/rhythm_game_controller.tscn" id="1"]
 [ext_resource type="Script" path="res://rythm_game/practice_mode.gd" id="2"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="3"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
 [ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="5"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="6"]
@@ -124,6 +124,9 @@ _data = {
 
 [sub_resource type="FontFile" id="8"]
 fallbacks = Array[Font]([ExtResource("5")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -138,6 +141,9 @@ cache/0/30/0/scale = 1.0
 
 [sub_resource type="FontFile" id="FontFile_5u356"]
 fallbacks = Array[Font]([ExtResource("3")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -255,20 +261,14 @@ alignment = 2
 [node name="Label" type="Label" parent="PracticeModeUIIngame/HBoxContainer" index="0"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("8")
 text = "asdad"
 
 [node name="QuitConfirmation" parent="." index="12" instance=ExtResource("6")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
@@ -276,7 +276,6 @@ grow_vertical = 1
 text = "Are you sure you want to quit?"
 
 [node name="SeekGUI" type="MarginContainer" parent="." index="13"]
-visible = false
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -296,7 +295,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="SeekGUI/VBoxContainer/VBoxContainer" index="0"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1:20/1:23"
 
@@ -324,7 +322,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = SubResource("GDScript_q7pkj")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SeekGUI/VBoxContainer" index="1"]
+[node name="HBoxContainer" type="HFlowContainer" parent="SeekGUI/VBoxContainer" index="1"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 alignment = 1
@@ -438,7 +436,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="0"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1:20/1:23"
 
@@ -469,7 +466,6 @@ script = SubResource("GDScript_q7pkj")
 [node name="Label2" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="2"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "Default"
 
@@ -651,7 +647,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="SpeedControlGUI/VBoxContainer/VBoxContainer" index="0"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1x"
 
