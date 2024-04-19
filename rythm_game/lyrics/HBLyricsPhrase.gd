@@ -6,6 +6,7 @@ var lyrics = []
 var end_time: int = 0
 
 func _init():
+	super._init()
 	serializable_fields += ["lyrics", "end_time", "time"]
 
 func get_serialized_type():

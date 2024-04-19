@@ -3,6 +3,7 @@ extends HBTimingPoint
 class_name HBLyricsPhraseEnd
 
 func _init():
+	super._init()
 	_class_name = "HBLyricsPhraseEnd" # Workaround for godot#4708
 	_inheritance.append("HBTimingPoint")
 

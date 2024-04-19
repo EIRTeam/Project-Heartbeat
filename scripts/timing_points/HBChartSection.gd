@@ -17,6 +17,7 @@ const palette = [
 ]
 
 func _init():
+	super._init()
 	_class_name = "HBChartSection" # Workaround for godot#4708
 	_inheritance.append("HBTimingPoint")
 	
