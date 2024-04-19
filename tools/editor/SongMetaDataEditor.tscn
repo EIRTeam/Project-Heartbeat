@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://lhyypajs7taw"]
+[gd_scene load_steps=10 format=4 uid="uid://lhyypajs7taw"]
 
 [ext_resource type="Script" path="res://tools/editor/ChartDiffEditor.gd" id="1"]
 [ext_resource type="Script" path="res://tools/editor/SongMetadataEditor.gd" id="2"]
@@ -29,6 +29,7 @@ current_tab = 0
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Metadata"]
 custom_minimum_size = Vector2(280, 664)
@@ -60,14 +61,14 @@ layout_mode = 2
 text = "Romanized title"
 
 [node name="TextureRect" type="TextureRect" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label10"]
-custom_minimum_size = Vector2(15, 25)
+custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "Title transliterated to use the latin script.
 
 For example, a japanese song's title transliterated to romaji."
 texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 6
+expand_mode = 4
+stretch_mode = 5
 
 [node name="SongRomanizedTitle" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -103,12 +104,12 @@ layout_mode = 2
 text = "Original title"
 
 [node name="TextureRect" type="TextureRect" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label6"]
-custom_minimum_size = Vector2(15, 25)
+custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "Title used for songs that are based on others, such as remixes."
 texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 6
+expand_mode = 4
+stretch_mode = 5
 
 [node name="SongOriginalTitle" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -176,6 +177,7 @@ text = "Clear"
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Technical Data"]
 layout_mode = 2
@@ -213,14 +215,14 @@ layout_mode = 2
 text = "Voice audio file"
 
 [node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label10"]
-custom_minimum_size = Vector2(15, 25)
+custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "(Optional) Audio for the voice, separated from the original instrumental, this makes the voice audio channel fade when the user fails a note.
 
 If you use this, please ensure the audio file is instrumental only."
 texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 6
+expand_mode = 4
+stretch_mode = 5
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -312,12 +314,12 @@ layout_mode = 2
 text = "Allows intro skip"
 
 [node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11"]
-custom_minimum_size = Vector2(15, 25)
+custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "Allows the user to skip the song's intro, see also intro skip time"
 texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 6
+expand_mode = 4
+stretch_mode = 5
 
 [node name="Label12" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -327,12 +329,12 @@ layout_mode = 2
 text = "Intro skip minimum time"
 
 [node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label12"]
-custom_minimum_size = Vector2(15, 25)
+custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "Minimum time in seconds  to the first timing point where the intro skip option will appear"
 texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 6
+expand_mode = 4
+stretch_mode = 5
 
 [node name="IntroSkipTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -354,6 +356,7 @@ text = "Use YouTube for video"
 visible = false
 layout_mode = 2
 script = ExtResource("1")
+metadata/_tab_index = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Charts"]
 layout_mode = 2
@@ -375,6 +378,7 @@ size_flags_vertical = 3
 [node name="Graphics" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Graphics"]
 layout_mode = 2
@@ -468,6 +472,7 @@ text = "Show epilepsy warning before playing"
 [node name="Alternative Videos" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Alternative Videos"]
 layout_mode = 2
