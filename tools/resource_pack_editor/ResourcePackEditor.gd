@@ -64,6 +64,7 @@ var resource_images_per_atlas = {
 var first_time_save_atlases = []
 
 func _ready():
+	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	top_level_tab_container.set_tab_title(0, "Resource Pack")
 	#get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	tree.connect("button_pressed", Callable(self, "_on_button_pressed"))

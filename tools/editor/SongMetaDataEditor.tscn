@@ -561,8 +561,12 @@ script = ExtResource("6")
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
-[node name="DownloadingSongPopup" type="Popup" parent="."]
+[node name="DownloadingSongPopup" type="Window" parent="."]
+size = Vector2i(565, 190)
+visible = false
+transient = true
 exclusive = true
+borderless = true
 
 [node name="Panel" type="Panel" parent="DownloadingSongPopup"]
 anchors_preset = 15

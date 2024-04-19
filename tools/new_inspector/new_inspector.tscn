@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dycvec2jy0kmy"]
+[gd_scene load_steps=3 format=4 uid="uid://dycvec2jy0kmy"]
 
 [ext_resource type="Script" path="res://tools/new_inspector/new_inspector.gd" id="1"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="2"]
@@ -12,9 +12,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2")
 script = ExtResource("1")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2

@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Script" path="res://tools/editor/EditorOpenChartPopup.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://bi00tlp38rnc3" path="res://tools/editor/WorkshopUploadForm.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://tools/editor/CreateDifficultyDialog.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bogchj2lurtn7" path="res://tools/editor/CreateDifficultyDialog.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://tools/editor/SongVerificationPopup.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://lhyypajs7taw" path="res://tools/editor/SongMetaDataEditor.tscn" id="6"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="7"]

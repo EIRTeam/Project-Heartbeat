@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bg77snqocggfy"]
+[gd_scene load_steps=13 format=4 uid="uid://bg77snqocggfy"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_4vcqj"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="9"]
@@ -55,6 +55,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 auto_height = true
 script = ExtResource("19")
+metadata/_tab_index = 0
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/HBoxContainer/Control"]
 layout_mode = 2
@@ -63,6 +64,7 @@ current_tab = 0
 
 [node name="Components" type="ScrollContainer" parent="HSplitContainer/HBoxContainer/Control/TabContainer"]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="HBSkinEditorComponentPicker" type="VBoxContainer" parent="HSplitContainer/HBoxContainer/Control/TabContainer/Components"]
 layout_mode = 2
@@ -73,6 +75,7 @@ script = ExtResource("18")
 [node name="Resources" type="Control" parent="HSplitContainer/HBoxContainer/Control/TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Button" type="Button" parent="HSplitContainer/HBoxContainer"]
 layout_mode = 2
@@ -173,6 +176,7 @@ current_tab = 0
 
 [node name="Inspector" parent="HSplitContainer/HSplitContainer/TabContainer" instance=ExtResource("17")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [connection signal="component_picked" from="HSplitContainer/HBoxContainer/Control/TabContainer/Components/HBSkinEditorComponentPicker" to="." method="_on_HBSkinEditorComponentPicker_component_picked"]
 [connection signal="pressed" from="HSplitContainer/HBoxContainer/Button" to="HSplitContainer/HBoxContainer/Button" method="hide"]

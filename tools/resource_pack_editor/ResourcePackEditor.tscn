@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://2e1c78lgxfkv"]
+[gd_scene load_steps=23 format=4 uid="uid://2e1c78lgxfkv"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://l36o42nwrfnr" path="res://tools/icons/icon_back.svg" id="2"]
@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c0fe7cjb2bknm" path="res://tools/icons/icon_save.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="6"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" id="7"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="8"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://bi00tlp38rnc3" path="res://tools/editor/WorkshopUploadForm.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://cln670qlnyiv6" path="res://graphics/background.png" id="10"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="11"]
@@ -47,10 +47,12 @@ anchor_bottom = 1.0
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 
 [node name="Textures" type="Panel" parent="VBoxContainer/TabContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures"]
 layout_mode = 0
@@ -79,6 +81,7 @@ columns = 2
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+current_tab = 0
 
 [node name="Metadata" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer"]
 layout_mode = 2
@@ -86,6 +89,7 @@ theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
+metadata/_tab_index = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata"]
 layout_mode = 2
@@ -180,6 +184,7 @@ theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
+metadata/_tab_index = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview"]
 layout_mode = 2
@@ -207,6 +212,7 @@ self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("22")
+metadata/_tab_index = 1
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/TabContainer/Skin"]
 layout_mode = 0
@@ -226,9 +232,11 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.5
+current_tab = 0
 
 [node name="Outline" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2"]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2/Outline"]
 layout_mode = 0
@@ -244,9 +252,11 @@ script = ExtResource("24")
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control"]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 
 [node name="Components" type="ScrollContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer"]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="HBSkinEditorComponentPicker" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Components"]
 layout_mode = 2
@@ -257,6 +267,7 @@ script = ExtResource("12")
 [node name="Resources" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="HBSkinResourceEditor" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Resources"]
 layout_mode = 0
@@ -365,6 +376,8 @@ visible = false
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="EditLayer" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
 anchors_preset = 0
@@ -385,9 +398,11 @@ theme_override_styles/panel = SubResource("3")
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer"]
 layout_mode = 2
+current_tab = 0
 
 [node name="Inspector" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/TabContainer" instance=ExtResource("23")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
@@ -412,15 +427,16 @@ icon = ExtResource("5")
 
 [node name="OpenResourcePackDialog" type="ConfirmationDialog" parent="."]
 position = Vector2i(0, 24)
-size = Vector2i(200, 166)
+size = Vector2i(450, 236)
+visible = true
 dialog_hide_on_ok = false
 script = ExtResource("4")
 
 [node name="VBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog"]
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 192.0
-offset_bottom = 115.0
+offset_right = 442.0
+offset_bottom = 188.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
 layout_mode = 2
@@ -510,7 +526,7 @@ dialog_text = "This will delete the file for this graphic, do you want to do thi
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 314.0
-offset_bottom = 592.0
+offset_bottom = 591.0
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 position = Vector2i(0, 24)

@@ -217,7 +217,6 @@ rms_size_multiplier = 0.25
 [node name="PopupMenu" type="PopupMenu" parent="."]
 item_count = 3
 item_0/text = "Elemento 0"
-item_0/id = 0
 item_1/text = "Elemento 1"
 item_1/id = 1
 item_2/text = "Elemento 2"
