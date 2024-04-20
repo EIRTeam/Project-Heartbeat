@@ -285,9 +285,8 @@ func _on_file_manager_button_pressed(item: TreeItem, column: int, id: int, mouse
 		_delete_file_name = file_name
 		delete_confirmation_dialog.popup_centered()
 
-func _on_script_runner_button_pressed(item: TreeItem, column: int, id: int):
+func _on_script_runner_button_pressed(item: TreeItem, column: int, id: int, mouse_button_index: int):
 	var file_name = item.get_meta("script_name")
-	
 	if column == 1:
 		# Execute script
 		run_script(HBUtils.join_path(EDITOR_SCRIPTS_PATH, file_name))
@@ -436,11 +435,10 @@ func _close_script_editor():
 	if modified:
 		# Request confirmation
 		requested_action = "force_close"
-		script_editor_dialog.popup()
 		save_confirmation_dialog.popup_centered()
 	else:
+		script_editor_dialog.hide()
 		reveal_ui()
-		
 		watcher.scan_delay = 3.0
 
 func force_close():

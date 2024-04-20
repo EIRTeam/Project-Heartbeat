@@ -66,11 +66,15 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 title = "Script editor"
 size = Vector2i(955, 400)
+visible = false
+transient = true
 exclusive = true
 theme = ExtResource("1")
 
 [node name="SaveDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="0"]
 unique_name_in_owner = true
+transient_to_focused = true
+always_on_top = true
 theme = ExtResource("1")
 dialog_text = "This file has been modified.
 Do you really want to close it?"
@@ -78,6 +82,7 @@ dialog_autowrap = true
 
 [node name="DeleteDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="1"]
 unique_name_in_owner = true
+always_on_top = true
 theme = ExtResource("1")
 dialog_text = "Do you really want to delete this script?
 This action cannot be undone."
@@ -85,6 +90,7 @@ dialog_autowrap = true
 
 [node name="ReloadDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="2"]
 unique_name_in_owner = true
+always_on_top = true
 theme = ExtResource("1")
 dialog_text = "This script has been modified by an external source.
 Do you want to reload it?"
@@ -185,7 +191,7 @@ offset_right = 48.0
 offset_bottom = -14.0
 script = ExtResource("9")
 
-[node name="ScriptEditor" type="TextEdit" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="1" groups=["prevent_focus"]]
+[node name="ScriptEditor" type="CodeEdit" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="1" groups=["prevent_focus"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -197,6 +203,7 @@ highlight_current_line = true
 draw_tabs = true
 script = ExtResource("5")
 
+[connection signal="button_clicked" from="MarginContainer/ScrollContainer/VBoxContainer/ScriptRunnerTree" to="." method="_on_script_runner_button_pressed"]
 [connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/ScriptManagerButton" to="." method="_popup_script_editor"]
 [connection signal="confirmed" from="ScriptEditorDialog/SaveDialog" to="." method="_do_requested_action"]
 [connection signal="confirmed" from="ScriptEditorDialog/DeleteDialog" to="." method="delete_file"]

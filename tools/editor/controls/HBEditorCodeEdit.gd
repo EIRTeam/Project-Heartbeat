@@ -722,13 +722,17 @@ const GLOBALSCOPE_ENUM_ITEMS = [
 	"OP_MAX",
 ]
 
-const KEYWORD_COLOR := Color("#EE6B7E")
+const KEYWORD_COLOR := Color("#FF7085")
 const CONTROL_FLOW_COLOR := Color("#F989C9")
 const CLASS_COLOR := Color("#7FE0C3")
 const TYPE_COLOR := Color("#41F8BD")
 const ENUM_COLOR := Color("#F88868")
 const STRING_COLOR := Color("#E7D795")
 const COMMENT_COLOR := Color("#666A74")
+const SYMBOL_COLOR := Color("#ABC9FF")
+const MEMBER_VARIABLE_COLOR := Color("#BCE0FF")
+const FUNCTION_COLOR := Color("#57B3FF")
+const NUMBER_COLOR := Color("#A1FFE0")
 
 const FONT_LICENSE := """
 This software contains a copy of the Ubunto Mono font. The license for this font is given below:
@@ -840,6 +844,12 @@ func _init():
 
 func _ready():
 	syntax_highlighter = CodeHighlighter.new()
+	
+	syntax_highlighter.symbol_color = SYMBOL_COLOR
+	syntax_highlighter.member_variable_color = MEMBER_VARIABLE_COLOR
+	syntax_highlighter.function_color = FUNCTION_COLOR
+	syntax_highlighter.number_color = NUMBER_COLOR
+	
 	for keyword in KEYWORDS:
 		syntax_highlighter.keyword_colors[keyword] = KEYWORD_COLOR
 	
