@@ -12,7 +12,7 @@ const PATH_SCENE = preload("res://menus/options_menu/content_dirs_menu/ContentDi
 @onready var content_reload_success_popup = get_node("ContentReloadSuccessPopup")
 @onready var reset_content_directory_confirmation_window = get_node("ResetContentDirectoryConfirmationWindow")
 @onready var cache_clear_success_popup = get_node("CacheClearSucccessPopup")
-@onready var song_media_clear_success_popup: PanelContainer = get_node("%SongMediaClearSuccessPopup")
+@onready var song_media_clear_success_popup: Control = get_node("%SongMediaClearSuccessPopup")
 var content_directory_control
 var action_being_bound = ""
 

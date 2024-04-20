@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://mgckvs6bfy7m"]
+[gd_scene load_steps=6 format=4 uid="uid://mgckvs6bfy7m"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="2"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="3"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="4"]
 [ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd" id="5"]
@@ -77,15 +77,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SetContentDirectoryConfirmationWindow" parent="." instance=ExtResource("3")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
@@ -93,15 +88,10 @@ grow_vertical = 1
 text = "Selecting a new content directory requires using the mouse, would you like to continue?"
 
 [node name="ResetContentDirectoryConfirmationWindow" parent="." instance=ExtResource("3")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
@@ -109,15 +99,10 @@ grow_vertical = 1
 text = "Are you sure you want to reset the content directory to the default?"
 
 [node name="ContentReloadSuccessPopup" parent="." instance=ExtResource("3")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
@@ -127,15 +112,10 @@ text = "Songs reloaded succesfully"
 accept_text = "Alright"
 
 [node name="CacheClearSucccessPopup" parent="." instance=ExtResource("3")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
@@ -146,15 +126,10 @@ accept_text = "Alright"
 
 [node name="SongMediaClearSuccessPopup" parent="." instance=ExtResource("3")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
