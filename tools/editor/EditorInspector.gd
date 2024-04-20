@@ -164,17 +164,17 @@ func sync_value(property_name: String, inputs: Array):
 	update_label()
 
 func inspect(items: Array):
+	queued_items_to_inspect = items
 	if not inspector_update_queued:
 		inspector_update_queued = true
 		_inspector_update_deferred.call_deferred()
-	else:
-		queued_items_to_inspect = items
 
 func _inspector_update_deferred():
 	inspect_internal(queued_items_to_inspect)
 	inspector_update_queued = false
 
 func inspect_internal(items: Array):
+	print(items)
 	if inspecting_items == items:
 		return
 	else:
