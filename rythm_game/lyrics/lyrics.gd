@@ -67,7 +67,7 @@ func _on_game_time_changed(time: int):
 		var first = true
 		for phrase in current_phrase.lyrics:
 			if time >= phrase.time:
-				curr_visible_characters += phrase.value.length() - phrase.value.count(" ")
+				curr_visible_characters += phrase.value.length()
 				if first and phrase.value.begins_with(" "):
 					curr_visible_characters += 1
 			first = false
@@ -97,6 +97,7 @@ func _ready():
 func update_labels():
 	if current_phrase:
 		var ps = current_phrase.get_phrase_string()
+		print(ps)
 		text = ps
 		overlay_label.text = ps
 		overlay_label.visible_characters = 0
