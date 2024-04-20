@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8216blwtxqlo"]
+[gd_scene load_steps=11 format=4 uid="uid://c8216blwtxqlo"]
 
 [ext_resource type="Texture2D" uid="uid://xfs0cidycw2w" path="res://graphics/icons/refresh-biggest.svg" id="1"]
 [ext_resource type="Script" path="res://tools/editor/editor_modules/SyncModule.gd" id="2"]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="2_15yse"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="3"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://2fruys8sge51" path="res://graphics/icons/metronome.svg" id="5"]
@@ -11,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="9"]
 
 [node name="EditorModule" instance=ExtResource("9")]
+theme = ExtResource("2_15yse")
 script = ExtResource("2")
 module_location = "right_panel"
 module_name = "Sync"
@@ -37,7 +39,7 @@ layout_mode = 2
 script = ExtResource("6")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(355, 359)
+custom_minimum_size = Vector2(354, 984)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -50,7 +52,7 @@ function_name = "show_timing_change_dialog"
 action = "editor_create_timing_change"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(355, 397)
+custom_minimum_size = Vector2(354, 984)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -111,7 +113,7 @@ layout_mode = 2
 script = ExtResource("6")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(176, 218)
+custom_minimum_size = Vector2(176, 984)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -125,7 +127,7 @@ function_name = "calculator_pressed"
 action = "editor_tap_metronome"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(176, 149)
+custom_minimum_size = Vector2(176, 984)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -173,15 +175,25 @@ size_flags_horizontal = 3
 tooltip_text = "Apply offset."
 text = "Apply"
 
-[node name="TempoDialog" type="Popup" parent="." index="1"]
+[node name="TempoDialog" type="PopupPanel" parent="." index="1"]
 title = "Add tempo change..."
+position = Vector2i(0, 32)
+size = Vector2i(740, 145)
+visible = true
+unresizable = false
+borderless = false
+theme = ExtResource("2_15yse")
 
-[node name="MarginContainer" type="MarginContainer" parent="TempoDialog" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="TempoDialog" index="1"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_right = -10.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_bottom = 15
 
@@ -244,5 +256,6 @@ size_flags_horizontal = 3
 text = "Add tempo change"
 
 [connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/Button" to="." method="offset_notes"]
+[connection signal="close_requested" from="TempoDialog" to="TempoDialog" method="hide"]
 [connection signal="pressed" from="TempoDialog/MarginContainer/VBoxContainer/Button" to="." method="add_timing_change"]
 [connection signal="pressed" from="TempoDialog/MarginContainer/VBoxContainer/Button" to="TempoDialog" method="hide"]

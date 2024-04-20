@@ -8,7 +8,7 @@ extends HBEditorModule
 @onready var time_sig_denominator_spinbox := get_node("%TimeSigDenSpinBox")
 @onready var create_timing_change_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer/HBEditorButton")
 @onready var offset_spinbox := get_node("%OffsetSpinBox")
-@onready var offset_notes_only_checkbox := get_node("%OffsetNotesOnlyCheckbox")
+@onready var offset_notes_only_checkbox: CheckBox = get_node("%OffsetNotesOnlyCheckbox")
 
 var bpm := 150.0
 var offset := 0
@@ -243,7 +243,7 @@ func offset_notes():
 	
 	for item in get_timeline_items():
 		var timing_point = item.data as HBTimingPoint
-		if offset_notes_only_checkbox.pressed and not timing_point is HBBaseNote:
+		if offset_notes_only_checkbox.button_pressed and not timing_point is HBBaseNote:
 			continue
 		
 		var new_time = max(timing_point.time + offset, 0)
