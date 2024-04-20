@@ -14,7 +14,7 @@ const OPT_META_FILE_NAME = "ph_ext.json"
 func _init_loader() -> int:
 	PPD_YOUTUBE_URL_LIST_PATH = HBGame.platform_settings.user_dir_redirect(PPD_YOUTUBE_URL_LIST_PATH)
 		
-	if DirAccess.dir_exists_absolute(PPD_YOUTUBE_URL_LIST_PATH):
+	if FileAccess.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
 		load_ppd_youtube_url_list()
 	return OK
 

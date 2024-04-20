@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cql4su5gauqwp"]
+[gd_scene load_steps=11 format=4 uid="uid://cql4su5gauqwp"]
 
 [ext_resource type="Script" path="res://autoloads/MouseTrap.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="2"]
@@ -42,7 +42,6 @@ grow_vertical = 2
 script = ExtResource("3")
 
 [node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
-visible = false
 layout_mode = 1
 text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
 
@@ -63,21 +62,21 @@ text = "Yes (audio only)"
 script = ExtResource("8")
 
 [node name="DownloadingPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
-visible = false
 layout_mode = 1
 has_cancel = false
 has_accept = false
 text = "Downloading..."
 
 [node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
-visible = false
 layout_mode = 1
 has_cancel = false
 text = "Media for this song is currently being downloaded."
 accept_text = "Ok"
 
 [node name="PPDDialog" type="Window" parent="MouseTrap"]
-visible = false
+position = Vector2i(0, 32)
+size = Vector2i(387, 100)
+wrap_controls = true
 exclusive = true
 theme = ExtResource("5")
 script = ExtResource("4")
@@ -86,6 +85,8 @@ script = ExtResource("4")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -132,6 +133,7 @@ theme = ExtResource("5")
 access = 2
 show_hidden_files = true
 
+[connection signal="close_requested" from="MouseTrap/PPDDialog" to="MouseTrap/PPDDialog" method="hide"]
 [connection signal="meta_clicked" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Label" to="." method="_on_Label_meta_clicked"]
 [connection signal="pressed" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Button" to="MouseTrap/PPDFileDialog" method="popup_centered"]
 
