@@ -997,7 +997,7 @@ func paste(time: int):
 			
 			var new_item = timing_point.get_timeline_item() as EditorTimelineItem
 			
-			undo_redo.add_do_method(self.add_item_to_layer.bind(timeline_item._layer, new_item))
+			undo_redo.add_do_method(self.add_item_to_layer.bind(timeline_item._layer, new_item, false))
 			undo_redo.add_undo_method(self.remove_item_from_layer.bind(timeline_item._layer, new_item))
 			
 			if copy.item is EditorSectionTimelineItem:
@@ -1014,6 +1014,7 @@ func paste(time: int):
 		undo_redo.add_undo_method(self._on_timing_points_changed)
 		undo_redo.add_do_method(self.sync_lyrics)
 		undo_redo.add_undo_method(self.sync_lyrics)
+		undo_redo.add_do_method(self.sort_groups)
 		
 		undo_redo.commit_action()
 		check_for_multi_changes(multi_check_times)
@@ -1039,7 +1040,7 @@ func delete_selected():
 			selected_item.deselect()
 			
 			undo_redo.add_do_method(self.remove_item_from_layer.bind(selected_item._layer, selected_item))
-			undo_redo.add_undo_method(self.add_item_to_layer.bind(selected_item._layer, selected_item))
+			undo_redo.add_undo_method(self.add_item_to_layer.bind(selected_item._layer, selected_item, false))
 			
 			if selected_item is EditorSectionTimelineItem:
 				undo_redo.add_do_method(timeline.queue_redraw)
@@ -1065,6 +1066,7 @@ func delete_selected():
 		if sync_timing:
 			undo_redo.add_do_method(self._on_timing_information_changed)
 			undo_redo.add_undo_method(self._on_timing_information_changed)
+		undo_redo.add_undo_method(self.sort_groups)
 		
 		selected = []
 		undo_redo.commit_action()
