@@ -97,7 +97,6 @@ func _ready():
 func update_labels():
 	if current_phrase:
 		var ps = current_phrase.get_phrase_string()
-		print(ps)
 		text = ps
 		overlay_label.text = ps
 		overlay_label.visible_characters = 0
