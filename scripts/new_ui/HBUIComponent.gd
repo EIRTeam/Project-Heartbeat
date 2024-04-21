@@ -153,7 +153,6 @@ func serialize_stylebox(style_box: StyleBox, resource_manager: HBInspectorResour
 func deserialize_stylebox(dict: Dictionary, cache: HBSkinResourcesCache, fallback = null) -> StyleBox:
 	var stylebox: StyleBox = null
 	if not "stylebox_type" in dict:
-		print("FALLING BACK", fallback)
 		return fallback
 		
 	match dict.get("stylebox_type"):

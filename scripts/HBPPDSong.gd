@@ -19,7 +19,6 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 	var dict = HBINIParser.parse(content)
 	var song := load(script).new() as HBSong
 	song.title = id
-	print("ID!!!!", song.title)
 	song.artist = "[PPD]"
 	if dict.setting.has("authorname"):
 		song.creator = dict.setting.authorname

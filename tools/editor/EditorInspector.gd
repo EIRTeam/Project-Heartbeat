@@ -174,7 +174,6 @@ func _inspector_update_deferred():
 	inspector_update_queued = false
 
 func inspect_internal(items: Array):
-	print(items)
 	if inspecting_items == items:
 		return
 	else:

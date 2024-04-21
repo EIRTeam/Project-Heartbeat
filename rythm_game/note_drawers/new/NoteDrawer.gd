@@ -175,8 +175,6 @@ func calculate_note_position(note_data: HBBaseNote, note_time_msec: int, game_ti
 	var use_millisecond_precision_hack: bool = note_data.oscillation_frequency % 1000 == 0 \
 		and int(note_data.oscillation_amplitude) % 1000 == 0 and abs(note_data.oscillation_amplitude) > 10000 \
 		and abs(note_data.oscillation_frequency) >= 1000
-	if self is HBSustainNoteDrawer:
-		print(use_millisecond_precision_hack)
 	if use_millisecond_precision_hack:
 		var game_time_msec := game_time_usec / 1000
 		var time_out_distance_msec := time_out_msec - (note_time_msec - game_time_msec)

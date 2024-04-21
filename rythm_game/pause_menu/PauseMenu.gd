@@ -47,7 +47,6 @@ func _on_restart():
 	
 func resume():
 	emit_signal("resumed")
-	print("RESUMED!!")
 	
 func disable_restart():
 	$SubViewportContainer/SubViewport/Node3D/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/RestartButton.queue_free()

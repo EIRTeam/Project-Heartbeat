@@ -44,7 +44,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		up_vote_label.text = str(item.votes_up)
 		down_vote_label.text = str(item.votes_down)
 		description_label.text = item.description
-		print(item.description)
 		
 		star_progress.visible = (item.votes_up + item.votes_down) != 0
 		if item.votes_up + item.votes_down != 0:

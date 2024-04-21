@@ -172,10 +172,8 @@ func fit_hold_count_label():
 	var string_size := test_f.get_string_size(hold_count_label.text, 0, -1, test_f.target_size)
 	hold_count_label.size = string_size
 	hold_count_label.position.x = -string_size.x * 0.5
-	print(string_size)
 	hold_count_label.position.y = main_panel.size.y * 0.5
 	hold_count_label.position.y -= hold_count_label.size.y*0.5
-	print(hold_count_label.position.y)
 
 func _on_vbox_container_resized():
 	custom_minimum_size = vbox_container.get_minimum_size()
