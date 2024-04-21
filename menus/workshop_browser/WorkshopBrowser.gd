@@ -11,7 +11,7 @@ var query_handle
 const RESULTS_PER_PAGE = 50.0
 
 @onready var grid_container = get_node("MarginContainer/Control/ScrollContainer/GridContainer")
-@onready var scroll_container = get_node("MarginContainer/Control/ScrollContainer")
+@onready var scroll_container: HBUniversalScrollList = get_node("MarginContainer/Control/ScrollContainer")
 @onready var pagination_label = get_node("MarginContainer/Control/HBoxContainer/Label")
 @onready var pagination_container = get_node("MarginContainer/Control/HBoxContainer")
 @onready var loading_spinner = get_node("MarginContainer/CenterContainer2")
@@ -142,8 +142,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
 	pagination_debounce_timer.stop()
 	current_page = _debounced_page
-	filter_tag = "Charts"
 	if not "no_fetch" in args or args.no_fetch == false:
+		filter_tag = "Charts"
 		tag_button_container.select_button(0, false)
 		navigate_to_page(current_page, QueryRequestAll.get_default(get_filter_tags()))
 	scroll_container.grab_focus()
@@ -287,3 +287,7 @@ func _on_sort_by_button_pressed(sort_by_mode: int):
 
 func _on_item_selected(scene):
 	change_to_menu("workshop_browser_detail_view", false, {"item": scene.data, "item_image": scene.texture_rect.texture, "request": scene.request})
+
+func _on_pagination_out_from_top() -> void:
+	scroll_container.select_item(scroll_container.item_container.get_child_count()-1)
+	scroll_container.grab_focus()

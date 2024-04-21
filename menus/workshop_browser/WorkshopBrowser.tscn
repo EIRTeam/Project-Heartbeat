@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d1ybtyf1sffqy"]
+[gd_scene load_steps=15 format=4 uid="uid://d1ybtyf1sffqy"]
 
 [ext_resource type="Script" path="res://menus/workshop_browser/WorkshopBrowser.gd" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
@@ -11,7 +11,7 @@
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="9"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="11"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="12"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="12"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "spin"
@@ -147,7 +147,6 @@ script = ExtResource("2")
 [node name="Label" type="Label" parent="MarginContainer/Control/HBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = ExtResource("8_57xkq")
 text = "1/1"
 
@@ -223,9 +222,10 @@ orientation = 1
 enable_wrap_around = true
 
 [connection signal="out_from_bottom" from="MarginContainer/Control/ScrollContainer" to="." method="_on_ScrollContainer_out_from_bottom"]
+[connection signal="out_from_top" from="MarginContainer/Control/ScrollContainer" to="." method="_on_ScrollContainer_out_from_bottom"]
 [connection signal="bottom" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
 [connection signal="bottom" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="select_item" binds= [0]]
-[connection signal="out_from_top" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
+[connection signal="out_from_top" from="MarginContainer/Control/HBoxContainer" to="." method="_on_pagination_out_from_top"]
 [connection signal="cancel" from="HBConfirmationWindow" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
 [connection signal="entered" from="HBConfirmationWindow" to="." method="_on_text_search_entered"]
 
