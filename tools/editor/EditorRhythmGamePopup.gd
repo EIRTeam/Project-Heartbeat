@@ -276,3 +276,10 @@ func add_pitch_effect():
 	pitch_shift_effect.connect_to_endpoint()
 func remove_pitch_effect():
 	HBGame.spectrum_analyzer.connect_to_endpoint()
+
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_ENTER_TREE:
+			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+		NOTIFICATION_EXIT_TREE:
+			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
