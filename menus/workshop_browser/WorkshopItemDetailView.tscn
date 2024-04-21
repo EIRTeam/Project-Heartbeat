@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b4rr5jg5duobg"]
+[gd_scene load_steps=15 format=4 uid="uid://b4rr5jg5duobg"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="3"]
@@ -53,7 +53,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 custom_minimum_size = Vector2(1000, 0)
@@ -75,7 +75,6 @@ theme_override_constants/separation = -7
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
-auto_translate = false
 theme_override_fonts/font = ExtResource("3_3gro8")
 theme_override_font_sizes/font_size = 25
 text = "aasdasdasdsadsadsa"
@@ -85,7 +84,6 @@ horizontal_alignment = 2
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
-auto_translate = false
 text = "aasdasdasdsadsadsa"
 horizontal_alignment = 2
 
@@ -119,20 +117,17 @@ layout_mode = 2
 [node name="UpVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 text = "1"
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 text = "/"
 
 [node name="DownVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "1"
 
@@ -171,7 +166,6 @@ theme_override_constants/margin_bottom = 15
 [node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_fonts/normal_font = ExtResource("9_jse5m")
 theme_override_fonts/bold_font = ExtResource("10_cnllk")
@@ -213,12 +207,8 @@ text = "Back"
 [node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource("10")]
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
