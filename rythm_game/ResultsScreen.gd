@@ -85,6 +85,10 @@ func _on_lobby_loading_start():
 	rhythm_game_multiplayer_scene.lobby = mp_lobby
 	rhythm_game_multiplayer_scene.start_loading()
 	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("gui_cancel"):
+		_on_return_button_pressed()
+	
 func _ready():
 	super._ready()
 	error_window.connect("accept", Callable(buttons, "grab_focus"))
