@@ -251,11 +251,23 @@ z_index = -2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 expand_mode = 1
-stretch_mode = 7
+stretch_mode = 6
 script = ExtResource("36")
 
+[node name="ReferenceRect" type="ReferenceRect" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+editor_only = false
+
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D"]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 expand = true
@@ -263,6 +275,7 @@ script = ExtResource("51")
 metadata/_edit_use_anchors_ = true
 
 [node name="Visualizer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D" instance=ExtResource("1")]
+visible = false
 mouse_filter = 2
 
 [node name="GridRenderer" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D"]
