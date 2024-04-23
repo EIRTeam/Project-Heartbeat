@@ -773,6 +773,11 @@ func seek_new(new_position_msec: int, reset_notes := false):
 		current_note_groups.clear()
 		finished_note_groups.clear()
 
+func editor_rebuild_interval_tree():
+	note_group_interval_tree.clear()
+	for group: HBNoteGroup in note_groups:
+		note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+
 func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point

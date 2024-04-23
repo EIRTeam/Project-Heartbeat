@@ -1450,40 +1450,19 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 	if not ignore_settings:
 		await load_settings(chart.editor_settings)
 	
-	for layer in chart.layers:
-		var layer_scene
-		var layer_n
-		if not in_place:
+	# Create note layers first to ensure they go at the top
+	if not in_place:
+		for layer in chart.layers:
+			var layer_scene
+			var layer_n
 			layer_scene = EDITOR_LAYER_SCENE.instantiate()
 			layer_scene.layer_name = layer.name
 			
 			timeline.add_layer(layer_scene)
 			layer_n = timeline.get_layers().size()-1
-		else:
-			layer_scene = timeline.find_layer_by_name(layer.name)
-			layer_n = timeline.get_layers().find(layer_scene)
-		
-		for item_d in layer.timing_points:
-			var item = item_d.get_timeline_item()
-			item.data = item_d
-			
-			add_item(layer_n, item, false)
-			
-			if item_d is HBSustainNote:
-				item.sync_value("end_time")
-			
-			if in_place:
-				selected.append(item)
-				item.select()
-		
-		if not in_place:
-			var layer_visible = not layer.name in song_editor_settings.hidden_layers
-			if not ignore_settings:
-				layer_visible = not layer.name in chart.editor_settings.hidden_layers
-			
-			song_settings_editor.add_layer(layer.name, layer_visible)
-			timeline.change_layer_visibility(layer_visible, layer.name)
-	
+
+	# Create and insert non-note layers such as tempo map, this is so that insertion
+	# of notes later works because it needs to know the tempo map to build the note group interval tree
 	if not in_place:
 		# Lyrics layer
 		var lyrics_layer_scene = EDITOR_LAYER_SCENE.instantiate()
@@ -1544,6 +1523,33 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 		for timing_change in current_song.timing_changes:
 			if timing_change is HBTimingChange:
 				add_item(tempo_layer_n, timing_change.get_timeline_item(), false)
+
+	for layer in chart.layers:
+		var layer_scene
+		var layer_n
+		layer_scene = timeline.find_layer_by_name(layer.name)
+		layer_n = timeline.get_layers().find(layer_scene)
+		
+		for item_d in layer.timing_points:
+			var item = item_d.get_timeline_item()
+			item.data = item_d
+			
+			add_item(layer_n, item, false)
+			
+			if item_d is HBSustainNote:
+				item.sync_value("end_time")
+			
+			if in_place:
+				selected.append(item)
+				item.select()
+		
+		if not in_place:
+			var layer_visible = not layer.name in song_editor_settings.hidden_layers
+			if not ignore_settings:
+				layer_visible = not layer.name in chart.editor_settings.hidden_layers
+			
+			song_settings_editor.add_layer(layer.name, layer_visible)
+			timeline.change_layer_visibility(layer_visible, layer.name)
 	
 	_on_timing_points_changed()
 	_on_timing_information_changed()
@@ -1872,6 +1878,7 @@ func _on_timing_information_changed(f=null):
 	release_owned_focus()
 	timeline.queue_redraw()
 	emit_signal("timing_information_changed")
+	rhythm_game.editor_rebuild_interval_tree()
 
 
 func _on_SaveButton_pressed():
