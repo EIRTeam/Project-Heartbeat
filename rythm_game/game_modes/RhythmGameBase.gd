@@ -772,10 +772,10 @@ func seek_new(new_position_msec: int, reset_notes := false):
 		current_note_groups.clear()
 		finished_note_groups.clear()
 
-func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
+func editor_add_timing_point(point: HBTimingPoint, build_interval_tree: bool = true):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point
-		var group := editor_find_group_at_time(note_data.time, sort_groups)
+		var group := editor_find_group_at_time(note_data.time)
 		var had_group := false
 		var original_start_msec := 0
 		var original_end_msec := 0
@@ -789,19 +789,16 @@ func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 			original_end_msec = group.get_end_time_msec()
 		group.note_datas.append(note_data)
 		group.reset_group()
-		var group_interval_changed := had_group and (group.get_start_time_msec() != original_start_msec or group.get_end_time_msec() != original_end_msec) 
-		if group_interval_changed:
-			note_group_interval_tree.erase(original_start_msec, original_end_msec, group.get_instance_id())
-			note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
-		elif not had_group:
-			note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+		if build_interval_tree:
+			var group_interval_changed := had_group and (group.get_start_time_msec() != original_start_msec or group.get_end_time_msec() != original_end_msec) 
+			if group_interval_changed:
+				note_group_interval_tree.erase(original_start_msec, original_end_msec, group.get_instance_id())
+				note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+			elif not had_group:
+				note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
 			
 		note_data.set_meta("editor_group", group)
 		
-		if sort_groups:
-			_editor_sort_groups()
-			
-			last_culled_note_group = -1
 	else:
 		if point is HBBPMChange:
 			bpm_changes.insert(bpm_changes.bsearch_custom(point, self._sort_notes_by_time), point)
@@ -812,11 +809,16 @@ func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 		else:
 			print("TODO: Handle addition of non note timing points")
 
+## VERY COSTLY, only call when absolutely necessary
+func editor_rebuild_interval_tree():
+	note_group_interval_tree.clear()
+	for group: HBNoteGroup in note_groups:
+		note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
 func _editor_sort_groups():
 	# Since insertion trees this goes unused
 	return
 
-func editor_find_group_at_time(time_msec: int, sorted_groups: bool = true) -> HBNoteGroup:
+func editor_find_group_at_time(time_msec: int) -> HBNoteGroup:
 	var groups := note_group_interval_tree.query_point(time_msec)
 	for group: HBNoteGroup in groups:
 		if group.get_end_time_msec() == time_msec:

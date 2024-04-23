@@ -638,11 +638,11 @@ func select_all():
 	release_owned_focus()
 	notify_selected_changed()
 
-func add_item(layer_n: int, item: EditorTimelineItem, sort_groups: bool = true):
+func add_item(layer_n: int, item: EditorTimelineItem, build_interval_tree: bool = true):
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
 	
-	add_item_to_layer(layer, item, sort_groups)
+	add_item_to_layer(layer, item, build_interval_tree)
 
 # property values for continuously updating undo_redo actions like angle changes
 var old_property_values = {}
@@ -877,7 +877,7 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 					l._drop_data(null, selected)
 					break
 
-func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem, sort_groups: bool = true):
+func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem, build_interval_tree: bool = true):
 	if item.update_affects_timing_points:
 		if not item.is_connected("property_changed", Callable(self, "_on_timing_point_property_changed")):
 			item.connect("property_changed", Callable(self, "_on_timing_point_property_changed").bind(item, true))
@@ -890,7 +890,7 @@ func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem, sort_groups
 	if item in _removed_items:
 		_removed_items.erase(item)
 	
-	rhythm_game.editor_add_timing_point(item.data, sort_groups)
+	rhythm_game.editor_add_timing_point(item.data, build_interval_tree)
 	force_game_process()
 
 func add_event_timing_point(timing_point_class: GDScript):
@@ -997,7 +997,7 @@ func paste(time: int):
 			
 			var new_item = timing_point.get_timeline_item() as EditorTimelineItem
 			
-			undo_redo.add_do_method(self.add_item_to_layer.bind(timeline_item._layer, new_item, false))
+			undo_redo.add_do_method(self.add_item_to_layer.bind(timeline_item._layer, new_item))
 			undo_redo.add_undo_method(self.remove_item_from_layer.bind(timeline_item._layer, new_item))
 			
 			if copy.item is EditorSectionTimelineItem:
@@ -1014,7 +1014,6 @@ func paste(time: int):
 		undo_redo.add_undo_method(self._on_timing_points_changed)
 		undo_redo.add_do_method(self.sync_lyrics)
 		undo_redo.add_undo_method(self.sync_lyrics)
-		undo_redo.add_do_method(self.sort_groups)
 		
 		undo_redo.commit_action()
 		check_for_multi_changes(multi_check_times)
@@ -1040,7 +1039,7 @@ func delete_selected():
 			selected_item.deselect()
 			
 			undo_redo.add_do_method(self.remove_item_from_layer.bind(selected_item._layer, selected_item))
-			undo_redo.add_undo_method(self.add_item_to_layer.bind(selected_item._layer, selected_item, false))
+			undo_redo.add_undo_method(self.add_item_to_layer.bind(selected_item._layer, selected_item))
 			
 			if selected_item is EditorSectionTimelineItem:
 				undo_redo.add_do_method(timeline.queue_redraw)
@@ -1066,7 +1065,6 @@ func delete_selected():
 		if sync_timing:
 			undo_redo.add_do_method(self._on_timing_information_changed)
 			undo_redo.add_undo_method(self._on_timing_information_changed)
-		undo_redo.add_undo_method(self.sort_groups)
 		
 		selected = []
 		undo_redo.commit_action()
@@ -1418,7 +1416,7 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	_on_playback_speed_changed(playback_speed_slider.value)
 	
 	if not skip_settings_menu:
-		emit_signal("song_editor_settings_changed")
+		song_editor_settings_changed.emit()
 	
 	emit_signal("modules_update_settings", settings)
 
@@ -1561,8 +1559,8 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 		notify_selected_changed() 
 	
 	sync_lyrics()
-	sort_groups()
 	force_game_process()
+	rhythm_game.editor_rebuild_interval_tree()
 
 func paste_note_data(notes: Array):
 	undo_redo.create_action("Paste note data")
@@ -2361,9 +2359,6 @@ func force_game_process():
 	if not force_game_process_queued:
 		force_game_process_queued = true
 		call_deferred("_force_game_process_impl")
-
-func sort_groups():
-	rhythm_game._editor_sort_groups()
 
 func _on_Sfx_toggled(button_pressed: bool):
 	rhythm_game.sfx_enabled = button_pressed
