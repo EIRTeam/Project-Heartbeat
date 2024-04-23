@@ -332,6 +332,7 @@ func _set_timing_points(points):
 		if point is HBIntroSkipMarker:
 			intro_skip_marker = point
 	
+	note_group_interval_tree.clear()
 	note_groups = _process_timing_points_into_groups(points)
 	for group in note_groups:
 		if not group or not group is HBNoteGroup:
