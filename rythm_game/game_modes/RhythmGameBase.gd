@@ -19,11 +19,10 @@ const MAX_NOTE_SFX = 4
 const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when doing intro skip 
 
 var timing_points = []: set = _set_timing_points
-var note_groups := []
+var note_groups: Array = []
 var finished_note_groups := []
+var note_group_interval_tree := HBIntervalTree.new()
 
-# Note group indices sorted by end time
-var note_groups_by_end_time := []
 # TPs that were previously hit
 var result = HBResult.new()
 var judge = preload("res://rythm_game/judge.gd").new()
@@ -308,7 +307,7 @@ func get_time_to_intro_skip_to():
 		return earliest_note_time - INTRO_SKIP_MARGIN
 	
 func _sort_groups_by_start_time(a, b):
-	return a.get_end_time_msec() < b.get_end_time_msec()
+	return a.get_start_time_msec() < b.get_start_time_msec()
 	
 func _sort_groups_by_end_time(a, b):
 	return a.get_end_time_msec() < b.get_end_time_msec()
@@ -334,8 +333,10 @@ func _set_timing_points(points):
 			intro_skip_marker = point
 	
 	note_groups = _process_timing_points_into_groups(points)
-	note_groups_by_end_time = note_groups.duplicate()
-	note_groups_by_end_time.sort_custom(Callable(self, "_sort_groups_by_end_time"))
+	for group in note_groups:
+		if not group or not group is HBNoteGroup:
+			breakpoint
+		note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
 	
 	var song_length = audio_playback.get_length_msec() + audio_playback.offset
 	if current_song.end_time > 0:
@@ -468,22 +469,16 @@ var current_note_groups := []
 func _sort_groups_by_hit_time(a, b):
 	return a.get_hit_time_msec() < b.get_hit_time_msec()
 
+func query_points():
+	return note_group_interval_tree.query_point(time_usec / 1000)
 func _process_groups():
 	if note_groups.size() == 0:
 		return
-	# Find the first group that is still alive in our window
-	var final_search_point := note_groups.bsearch_custom(time_usec, self._group_compare_start, false)
-	var first_search_point := note_groups_by_end_time.bsearch_custom(time_usec, self._group_compare_end, true)
-	if first_search_point == note_groups_by_end_time.size():
-		first_search_point -= 1
-	first_search_point = note_groups.find(note_groups_by_end_time[first_search_point])
-	
-	if last_culled_note_group != -1:
-		first_search_point = min(first_search_point, last_culled_note_group)
-	
+		
+	var new_note_groups := query_points() as Array
+		
 	var group_order_dirty := false
-	for i in range(first_search_point, final_search_point):
-		var group := note_groups[i] as HBNoteGroup
+	for group: HBNoteGroup in new_note_groups:
 		if not group in current_note_groups and not group in finished_note_groups:
 			if group.get_start_time_msec() * 1000 <= time_usec and group.get_end_time_msec() * 1000 >= time_usec:
 				current_note_groups.append(group)
@@ -492,7 +487,7 @@ func _process_groups():
 	if group_order_dirty:
 		current_note_groups.sort_custom(Callable(self, "_sort_groups_by_start_time"))
 		
-	last_culled_note_group = final_search_point-1
+	last_culled_note_group = -1
 	
 	for i in range(current_note_groups.size()-1, -1, -1):
 		var note_group := current_note_groups[i] as HBNoteGroup
@@ -781,16 +776,26 @@ func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point
 		var group := editor_find_group_at_time(note_data.time, sort_groups)
-		
+		var had_group := false
+		var original_start_msec := 0
+		var original_end_msec := 0
 		if not group:
 			group = HBNoteGroup.new()
 			group.game = self
 			note_groups.append(group)
-			note_groups_by_end_time.append(group)
-		
+		else:
+			had_group = true
+			original_start_msec = group.get_start_time_msec()
+			original_end_msec = group.get_end_time_msec()
 		group.note_datas.append(note_data)
 		group.reset_group()
-		
+		var group_interval_changed := had_group and (group.get_start_time_msec() != original_start_msec or group.get_end_time_msec() != original_end_msec) 
+		if group_interval_changed:
+			note_group_interval_tree.erase(original_start_msec, original_end_msec, group.get_instance_id())
+			note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+		elif not had_group:
+			note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+			
 		note_data.set_meta("editor_group", group)
 		
 		if sort_groups:
@@ -808,38 +813,14 @@ func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 			print("TODO: Handle addition of non note timing points")
 
 func _editor_sort_groups():
-	note_groups.sort_custom(Callable(self, "_sort_groups_by_start_time"))
-	note_groups_by_end_time.sort_custom(Callable(self, "_sort_groups_by_end_time"))
+	# Since insertion trees this goes unused
+	return
 
 func editor_find_group_at_time(time_msec: int, sorted_groups: bool = true) -> HBNoteGroup:
-	var group_i := -1
-	
-	if sorted_groups:
-		group_i = note_groups_by_end_time.bsearch_custom(time_msec * 1000, self._group_compare_end)
-	else:
-		for i in range(note_groups_by_end_time.size()):
-			var group = note_groups_by_end_time[i]
-			var _time: int
-			
-			if group is HBNoteGroup:
-				_time = group.get_end_time_msec()
-			else:
-				_time = group
-			
-			if _time == time_msec:
-				group_i = i
-				break
-	
-	if note_groups.size() > 0:
-		# walk backwards
-		if group_i == note_groups.size():
-			group_i -= 1
-		
-		while group_i >= 0 and note_groups[group_i].get_end_time_msec() >= time_msec:
-			if note_groups[group_i].get_hit_time_msec() == time_msec:
-				return note_groups[group_i]
-			
-			group_i -= 1
+	var groups := note_group_interval_tree.query_point(time_msec)
+	for group: HBNoteGroup in groups:
+		if group.get_end_time_msec() == time_msec:
+			return group
 	
 	return null
 
@@ -849,11 +830,13 @@ func editor_remove_timing_point(point: HBTimingPoint):
 		var group: HBNoteGroup = note_data.get_meta("editor_group")
 		
 		if group:
+			var prev_start := group.get_start_time_msec()
+			var prev_end := group.get_end_time_msec()
 			group.note_datas.erase(note_data)
 			group.reset_group()
 			if group.note_datas.size() == 0:
+				note_group_interval_tree.erase(prev_start, prev_end, group.get_instance_id())
 				note_groups.erase(group)
-				note_groups_by_end_time.erase(group)
 
 		note_data.set_meta("editor_group", null)
 
@@ -879,7 +862,7 @@ func editor_clear_notes():
 		group.reset_group()
 	
 	note_groups.clear()
-	note_groups_by_end_time.clear()
+	note_group_interval_tree.clear()
 	current_note_groups.clear()
 	finished_note_groups.clear()
 	last_culled_note_group = -1
