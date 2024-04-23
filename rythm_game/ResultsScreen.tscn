@@ -1,11 +1,9 @@
-[gd_scene load_steps=19 format=4 uid="uid://batn8iey4yeus"]
+[gd_scene load_steps=15 format=4 uid="uid://batn8iey4yeus"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
-[ext_resource type="Script" path="res://scripts/RichTextWordRainbow.gd" id="2"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="4"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="5"]
-[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="6"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="7"]
 [ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="8"]
 [ext_resource type="Texture2D" uid="uid://crfv6jol2l5x3" path="res://graphics/icons/thumb-down.svg" id="9"]
@@ -14,11 +12,6 @@
 [ext_resource type="Script" path="res://rythm_game/ResultsScreen.gd" id="12"]
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://u7xd1sepbnm5" path="res://menus/tabbed_container/TabbedContainer.tscn" id="14"]
-
-[sub_resource type="StyleBoxEmpty" id="1"]
-
-[sub_resource type="RichTextEffect" id="6"]
-script = ExtResource("2")
 
 [sub_resource type="StyleBoxFlat" id="4"]
 content_margin_left = 10.0
@@ -90,34 +83,6 @@ self_modulate = Color(0, 0, 1, 1)
 material = null
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
-layout_mode = 2
-theme_override_constants/separation = 30
-
-[node name="ResultRatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
-auto_translate_mode = 2
-layout_mode = 2
-theme_override_fonts/font = ExtResource("6")
-text = "(NT)PERFECT"
-
-[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_fonts/normal_font = ExtResource("6")
-theme_override_styles/normal = SubResource("1")
-bbcode_enabled = true
-text = "HI-SCORE!!!"
-custom_effects = [SubResource("6")]
-
-[node name="PercentageLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("6")
-text = "(NT)100.00%"
-horizontal_alignment = 2
 
 [node name="TabbedContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" instance=ExtResource("14")]
 layout_mode = 2

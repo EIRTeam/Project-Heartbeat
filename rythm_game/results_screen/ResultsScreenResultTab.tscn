@@ -1,21 +1,21 @@
-[gd_scene load_steps=13 format=3 uid="uid://b8speakm7hc8h"]
+[gd_scene load_steps=12 format=4 uid="uid://b8speakm7hc8h"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
-[ext_resource type="Texture2D" uid="uid://c0but4q8m0shn" path="res://graphics/icons/chevron-double-up.svg" id="4"]
-[ext_resource type="Texture2D" uid="uid://cuekflm7vmt0v" path="res://graphics/icons/plus-thick.svg" id="5"]
 [ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenResultTab.gd" id="6"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="6_qqm8m"]
 [ext_resource type="Script" path="res://scripts/RichTextWordRainbow.gd" id="7"]
-[ext_resource type="Texture2D" uid="uid://blv1embpiu5dr" path="res://graphics/icons/score_update_arrow.svg" id="8"]
 [ext_resource type="StyleBox" uid="uid://5p3tgk5ls5ia" path="res://styles/ResultRatingStyleOdd.tres" id="9_bk6uf"]
 [ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="9_j7obq"]
 
-[sub_resource type="StyleBoxEmpty" id="5"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_106dr"]
 
-[sub_resource type="RichTextEffect" id="8"]
-script = ExtResource("7")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6yucv"]
 
-[sub_resource type="RichTextEffect" id="9"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_umqy4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3l76"]
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_2tagr"]
 script = ExtResource("7")
 
 [node name="VBoxContainer" type="HBoxContainer"]
@@ -67,9 +67,9 @@ theme_override_styles/panel = ExtResource("3")
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
 layout_mode = 2
 theme_override_constants/margin_left = 1
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="RatingResultsContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer"]
 layout_mode = 2
@@ -77,222 +77,264 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="LevelUpContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer"]
-layout_mode = 2
-texture = ExtResource("4")
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("6_qqm8m")
-text = "Level up!"
-
-[node name="ExperienceContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
-custom_minimum_size = Vector2(150, 150)
-layout_mode = 2
-texture = ExtResource("5")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ExperienceLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
+[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
+size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("6_qqm8m")
-theme_override_font_sizes/font_size = 45
-text = "Gained 
-1000xp!"
+theme_override_font_sizes/font_size = 100
+text = "EXCELLENT"
+horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PercentContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("9_j7obq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = -20
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Previous" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer/HBoxContainer"]
+[node name="PercentageNewRecordLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-auto_translate = false
-theme_override_fonts/font = ExtResource("6_qqm8m")
-theme_override_font_sizes/font_size = 72
-text = "106.38 %"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("8")
-stretch_mode = 5
-
-[node name="Current" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer/HBoxContainer"]
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-auto_translate = false
-theme_override_fonts/normal_font = ExtResource("6_qqm8m")
-theme_override_font_sizes/normal_font_size = 72
-theme_override_styles/normal = SubResource("5")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
+theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_n3l76")
 bbcode_enabled = true
-text = "106.86%"
+text = "[center]New record![/center]"
 fit_content = true
-custom_effects = [SubResource("8")]
+custom_effects = [SubResource("RichTextEffect_2tagr")]
 
-[node name="ScoreContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Previous" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer/HBoxContainer"]
+[node name="NewPercentageLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-auto_translate = false
-theme_override_fonts/font = ExtResource("6_qqm8m")
-theme_override_font_sizes/font_size = 72
-text = "961203"
-horizontal_alignment = 2
-vertical_alignment = 1
+theme_override_font_sizes/font_size = 86
+text = "100.00%"
+horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("8")
-stretch_mode = 1
-
-[node name="Current" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer/HBoxContainer"]
+[node name="PercentageDeltaLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-auto_translate = false
-theme_override_fonts/normal_font = ExtResource("6_qqm8m")
-theme_override_font_sizes/normal_font_size = 72
-theme_override_styles/normal = SubResource("5")
+text = "+1.31%"
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/separation = -20
+alignment = 1
+
+[node name="ScoreNewRecordLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
+theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_n3l76")
 bbcode_enabled = true
-text = "969610"
+text = "[center]New record![/center]"
 fit_content = true
-custom_effects = [SubResource("9")]
+custom_effects = [SubResource("RichTextEffect_2tagr")]
 
-[node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer"]
+[node name="NewScoreLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 86
+text = "3.000.000"
+horizontal_alignment = 1
+
+[node name="ScoreDeltaLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+text = "+1.120.000"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2"]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("9_bk6uf")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer3"]
 auto_translate_mode = 1
 layout_mode = 2
 alignment = 1
 
-[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
+[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 text = "MAX COMBO"
 vertical_alignment = 1
 
-[node name="ComboLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
+[node name="ComboLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-auto_translate = false
 text = "(NT)700"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PanelContainer4" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+[node name="PanelContainer4" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("9_j7obq")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer4"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer4"]
 auto_translate_mode = 1
 layout_mode = 2
 alignment = 1
 
-[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
+[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 text = "NOTES HIT"
 
-[node name="NotesHitLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
+[node name="NotesHitLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-auto_translate = false
 text = "(NT)700"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("9_bk6uf")
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 alignment = 1
 
-[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
+[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 text = "TOTAL NOTES"
 
-[node name="TotalNotesLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
+[node name="TotalNotesLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-auto_translate = false
 text = "(NT)700"
 horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ExperienceInfoContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("3")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("9_bk6uf")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+alignment = 1
+
+[node name="ExperienceGainLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+text = "(NT)700"
+vertical_alignment = 1
+
+[node name="PanelContainer4" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("9_j7obq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer4"]
+auto_translate_mode = 1
+layout_mode = 2
+alignment = 1
+
+[node name="ExperienceBreakdownLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+text = "(NT)700"
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("9_bk6uf")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="ToNextLevelLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+text = "(NT)700"
 vertical_alignment = 1
