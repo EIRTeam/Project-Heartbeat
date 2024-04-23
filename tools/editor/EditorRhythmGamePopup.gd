@@ -100,7 +100,6 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 	rhythm_game.start()
 	
 	show()
-	set_game_size()
 
 func set_audio(song: HBSong, audio: ShinobuSoundSource, voice: ShinobuSoundSource, variant := -1):
 	if rhythm_game.audio_playback:
@@ -281,5 +280,6 @@ func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_ENTER_TREE:
 			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+			set_game_size.call_deferred()
 		NOTIFICATION_EXIT_TREE:
 			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED

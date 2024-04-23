@@ -152,10 +152,9 @@ func _on_note_judged(judgement_info):
 	else:
 		rating_label.hide()
 func _on_size_changed():
-	if game:
-		$UnderNotesUI/Control.set_deferred("size", game.size)
-		$AboveNotesUI/Control.set_deferred("size", game.size)
-		$Lyrics/Control.set_deferred("size", game.size)
+	$UnderNotesUI/Control.set_deferred("size", size)
+	$AboveNotesUI/Control.set_deferred("size", size)
+	$Lyrics/Control.set_deferred("size", size)
 		
 func _on_reset():
 	reset_score_counter()
