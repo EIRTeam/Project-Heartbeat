@@ -537,7 +537,7 @@ func make_spam(note_type: int, layer_name: String):
 		
 		var timeline_item = note.get_timeline_item()
 		
-		editor.undo_redo.add_do_method(editor.add_item_to_layer.bind(layer, timeline_item))
+		editor.undo_redo.add_do_method(editor.add_item_to_layer.bind(layer, timeline_item, false))
 		editor.undo_redo.add_do_method(editor.select_item.bind(timeline_item, (i != 0)))
 		editor.undo_redo.add_undo_method(editor.remove_item_from_layer.bind(layer, timeline_item))
 		
