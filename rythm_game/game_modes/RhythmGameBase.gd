@@ -335,8 +335,6 @@ func _set_timing_points(points):
 	note_group_interval_tree.clear()
 	note_groups = _process_timing_points_into_groups(points)
 	for group in note_groups:
-		if not group or not group is HBNoteGroup:
-			breakpoint
 		note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
 	
 	var song_length = audio_playback.get_length_msec() + audio_playback.offset
@@ -851,9 +849,11 @@ func editor_remove_timing_point(point: HBTimingPoint):
 		if point is HBBPMChange:
 			bpm_changes.erase(point)
 			update_bpm_map()
+			editor_rebuild_interval_tree()
 		elif point is HBTimingChange:
 			timing_changes.erase(point)
 			update_bpm_map()
+			editor_rebuild_interval_tree()
 		else:
 			print("TODO: Handle removal of non note timing points")
 
