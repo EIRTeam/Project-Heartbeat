@@ -334,8 +334,7 @@ func _set_timing_points(points):
 	
 	note_group_interval_tree.clear()
 	note_groups = _process_timing_points_into_groups(points)
-	for group in note_groups:
-		note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+
 	
 	var song_length = audio_playback.get_length_msec() + audio_playback.offset
 	if current_song.end_time > 0:
@@ -344,7 +343,8 @@ func _set_timing_points(points):
 	update_bpm_map()
 	
 	timing_points = _process_timing_points_into_groups(points)
-
+	for group in note_groups:
+		note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
 # Previously get_bpm_at_time
 func get_note_speed_at_time(bpm_time: int) -> float:
 	if not bpm_map:
@@ -484,7 +484,7 @@ func _process_groups():
 				group_order_dirty = true
 	
 	if group_order_dirty:
-		current_note_groups.sort_custom(Callable(self, "_sort_groups_by_start_time"))
+		current_note_groups.sort_custom(Callable(self, "_sort_groups_by_end_time"))
 		
 	last_culled_note_group = -1
 	
@@ -493,7 +493,6 @@ func _process_groups():
 		if note_group.process_group(time_usec):
 			current_note_groups.erase(note_group)
 			finished_note_groups.append(note_group)
-
 # We need to split _process into it's own function so we can override it because
 # godot is stupid and calls _process on both parent and child
 func _process_game(_delta):
@@ -838,10 +837,12 @@ func editor_remove_timing_point(point: HBTimingPoint):
 			var prev_end := group.get_end_time_msec()
 			group.note_datas.erase(note_data)
 			group.reset_group()
-			if group.note_datas.size() == 0:
-				note_group_interval_tree.erase(prev_start, prev_end, group.get_instance_id())
+			note_group_interval_tree.erase(prev_start, prev_end, group.get_instance_id())
+			if group.note_datas.size() > 0:
+				note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+			else:
 				note_groups.erase(group)
-
+				
 		note_data.set_meta("editor_group", null)
 
 		last_culled_note_group = -1
