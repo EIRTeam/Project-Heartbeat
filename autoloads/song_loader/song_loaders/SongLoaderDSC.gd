@@ -45,6 +45,7 @@ class HBSongDSC:
 				var vari := HBSongVariantData.new()
 				var name: String = variant.get("name", "")
 				vari.variant_name = name if name else "Variant %d" % j
+				vari.variant_normalization = -13.0
 				song_variants.push_back(vari)
 			j += 1
 	func get_song_audio_res_path():
