@@ -19,8 +19,6 @@ var current_event: InputEvent # Current event being converted to action
 var current_actions: Array = []
 var last_axis_values = {}
 
-var current_sending_actions_count = 0
-
 const DJA_SLIDE_DOT_THRESHOLD = 0.5
 class DJAAxisValues:
 	var left := Vector2()
@@ -33,7 +31,6 @@ var dja_joystick_wma_history := {}
 
 func reset():
 	super.reset()
-	current_sending_actions_count = 0
 	last_axis_values = {}
 	current_actions = []
 	digital_action_tracking = {}
@@ -121,7 +118,6 @@ func _handle_direct_axis_input():
 func _handle_direct_axis_input_for_device(device_idx: int):
 	var deadzone = _get_action_deadzone("heart_note")
 
-	current_sending_actions_count = 0
 	var press_actions_to_send = []
 	var press_actions_event_uids = []
 	var action_state = []
@@ -183,16 +179,16 @@ func _handle_direct_axis_input_for_device(device_idx: int):
 			action_state.push_back(true)
 		# Heart note release
 		if (curr_length < deadzone and prev_length > deadzone) or (prev_length > deadzone and is_opposite):
-			press_actions_to_send.push_back("heart_note")
-			press_actions_event_uids.push_back(event_uid)
-			action_state.push_back(false)
+			if _get_analog_action_held_count("heart_note") == 1:
+				press_actions_to_send.push_back("heart_note")
+				press_actions_event_uids.push_back(event_uid)
+				action_state.push_back(false)
 		if joystick == 0:
 			dja_lfa.left = filtered_input
 		else:
 			dja_lfa.right = filtered_input
 	
 	if press_actions_to_send.size() > 0:
-		current_sending_actions_count = press_actions_to_send.size()
 		for i in range(press_actions_to_send.size()):
 			last_action_device_idx = device_idx
 			last_action_device_type = DEVICE_TYPE.JOYPAD
@@ -279,7 +275,6 @@ func _input_received(event: InputEvent):
 			current_actions.append(action_data.action)
 		for action_data in actions_to_send:
 			current_event = action_data.event
-			current_sending_actions_count = actions_to_send.size()
 			var device_type := DEVICE_TYPE.OTHER
 			var device_idx := -1
 			
