@@ -5,17 +5,17 @@ class_name HBResult
 const MAX_SCORE_FROM_HOLD_BONUS = 0.075
 const MAX_SCORE_FROM_SLIDE_BONUS = 0.075
 # Total score (includes hold_bonus and slide_bonus)
-var score = 0
+var score := 0
 # Score from holds
-var hold_bonus = 0
+var hold_bonus := 0
 # Score from chain slides
-var slide_bonus = 0
-var max_combo = 0
-var total_notes = 0
-var notes_hit = 0
-var max_score = 1
-var failed = false # if user failed, currently unused
-var used_cheats = false # if user used autoplay
+var slide_bonus := 0
+var max_combo := 0
+var total_notes := 0
+var notes_hit := 0
+var max_score := 1
+var failed := false # if user failed, currently unused
+var used_cheats := false # if user used autoplay
 
 var _percentage_graph = []
 var _combo_break_points = []

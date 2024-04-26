@@ -17,9 +17,6 @@ var game_info : HBGameInfo: set = set_game_info
 @onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
 @onready var share_on_twitter_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/ShareOnTwitterButton")
 @onready var error_window = get_node("HBConfirmationWindow")
-var rating_results_scenes = {}
-const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
-const BASE_HEIGHT = 720.0
 
 signal show_song_results(song_id, difficulty)
 signal show_song_results_mp(entries)
@@ -33,13 +30,15 @@ var current_assets
 var score_web_id := -1
 
 @onready var tabbed_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/TabbedContainer")
-@onready var results_tab = preload("res://rythm_game/results_screen/ResultsScreenResultTab.tscn").instantiate()
+@onready var results_tab: HBResultsScreenResultTab = preload("res://rythm_game/results_screen/ResultsScreenResultTab.tscn").instantiate()
 @onready var chart_tab = preload("res://rythm_game/results_screen/ResultsScreenGraphTab.tscn").instantiate()
 
 func custom_sort_mp_entries(a: HBBackend.BackendLeaderboardEntry, b: HBBackend.BackendLeaderboardEntry):
 	return b.game_info.result.score > b.game_info.result.score
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
+	results_tab.prev_result = null
+	results_tab.experience_gain = null
 	buttons.grab_focus()
 	if args.has("assets"):
 		current_assets = args.assets
@@ -51,12 +50,11 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 		retry_button.show()
 	if args.has("mp_entries"):
 		mp_entries = args.mp_entries
-		var lb_entries = []
+		var lb_entries: Array[HBBackend.BackendLeaderboardEntry]
 		for member in mp_entries:
 			var entry = mp_entries[member] as HBResult
 			var lb_entry = HBBackend.BackendLeaderboardEntry.new(member, 0, HBGameInfo.new())
-			lb_entry.game_info.result.score = entry.get_capped_score()
-			lb_entry = entry.get_percentage()
+			lb_entry.game_info.result = entry
 			lb_entries.append(lb_entry)
 		lb_entries.sort_custom(Callable(self, "custom_sort_mp_entries"))
 		for entry_i in lb_entries.size():
@@ -97,14 +95,6 @@ func _ready():
 	var values = HBJudge.JUDGE_RATINGS.values()
 	tabbed_container.add_tab("results", tr("Results"), results_tab)
 	tabbed_container.add_tab("graph", tr("Graph"), chart_tab)
-	
-	for i in range(values.size()-1, -1, -1):
-		var rating = values[i]
-		var rating_scene = ResultRating.instantiate()
-		rating_scene.odd = i % 2 == 0
-		results_tab.rating_results_container.add_child(rating_scene)
-		rating_results_scenes[rating] = rating_scene
-		rating_scene.rating = rating
 	return_button.connect("pressed", Callable(self, "_on_return_button_pressed"))
 	retry_button.connect("pressed", Callable(self, "_on_retry_button_pressed"))
 	share_on_twitter_button.connect("pressed", Callable(self, "_on_share_on_twitter_pressed"))
@@ -119,9 +109,14 @@ func _ready():
 func _on_share_on_twitter_pressed():
 	var song = SongLoader.songs[game_info.song_id] as HBSong
 	var result_pretty = HBUtils.thousands_sep(game_info.result.score)
-	var tweet_message = "I just obtained %s (%.2f %%25) points in %s in @PHeartbeatGame" % [result_pretty, game_info.result.get_percentage() * 100.0, song.get_visible_title()]
+	var percentage_pretty := "%.2f" % [game_info.result.get_percentage() * 100.0]
+	var tweet_message = tr("I just obtained {score} ({percentage} %%25) points in {song_title} in @PHeartbeatGame!", &"Results screen share tweet contents").format({
+		"score": result_pretty,
+		"percentage": percentage_pretty,
+		"song_title": song.get_visible_title()
+	})
 	if score_web_id != -1:
-		tweet_message += "! https://ph.eirteam.moe/score/%d" % [score_web_id]
+		tweet_message += "https://ph.eirteam.moe/score/%d" % [score_web_id]
 	
 	OS.shell_open("https://twitter.com/intent/tweet?text=%s&hashtags=ProjectHeartbeat" % [tweet_message])
 
@@ -129,27 +124,6 @@ func _on_vote_button_pressed(vote):
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 		ugc.set_user_item_vote(current_song.ugc_id, vote)
-	
-func _set_score(had_prev_score: bool, prev_score: int, new_score: int):
-	results_tab.score_new_record_label.visible = prev_score < new_score
-	results_tab.new_score_label.text = HBUtils.thousands_sep(new_score)
-	if had_prev_score:
-		results_tab.score_delta_label.show()
-		var sign := "-" if sign(new_score - prev_score) == -1 else "+"
-		results_tab.score_delta_label.text = sign + HBUtils.thousands_sep(abs(new_score-prev_score))
-	else:
-		results_tab.score_delta_label.hide()
-	results_tab.new_score_label.text = HBUtils.thousands_sep(new_score)
-	
-func _set_percentage(had_prev_percentage: bool, prev_percentage: float, new_percentage: float):
-	results_tab.percentage_new_record_label.visible = prev_percentage < new_percentage
-	results_tab.new_percentage_label.text = "%.2f%%" % [new_percentage*100.0]
-	if had_prev_percentage:
-		results_tab.percentage_delta_label.show()
-		var sign := "-" if sign(new_percentage - prev_percentage) == -1 else "+"
-		results_tab.percentage_delta_label.text = sign + "%.2f%%" % [abs(new_percentage-prev_percentage)]
-	else:
-		results_tab.score_delta_label.hide()
 	
 func _on_retry_button_pressed():
 	
@@ -173,36 +147,23 @@ func set_game_info(val: HBGameInfo):
 	chart_tab.set_game_info(val)
 	var result = game_info.result as HBResult
 	
-	var previous_entry = ScoreHistory.get_data(game_info.song_id, game_info.difficulty)
+	var previous_entry := ScoreHistory.get_data(game_info.song_id, game_info.difficulty)
 	
-	for rating in rating_results_scenes:
-		var rating_scene = rating_results_scenes[rating]
-		rating_scene.percentage = 0
-		if float(result.total_notes) > 0:
-			var results = result.note_ratings[rating]
-			if rating == HBJudge.JUDGE_RATINGS.WORST:
-				# Add wrong notes
-				for r in result.wrong_note_ratings.values():
-					results += r
-			rating_scene.percentage = results  / float(result.total_notes)
-			rating_scene.total_notes = results
+
 	var score_percentage = 0
 	if result.total_notes > 0:
 		score_percentage = result.get_percentage()
-	results_tab.combo_label.text = str(result.max_combo)
-	results_tab.total_notes_label.text = str(result.total_notes)
-	results_tab.notes_hit_label.text = str(result.notes_hit)
-	
 	var highest_percentage = previous_entry.highest_percentage if previous_entry else 0.0
 	var highest_score = previous_entry.highest_score if previous_entry else 0
 	
 	# We first set the things up without taking care of experience
 	var has_previous_entry := previous_entry != null
-	_set_percentage(has_previous_entry, highest_percentage, score_percentage)
-	_set_score(has_previous_entry, highest_score, result.score)
-	results_tab.experience_info_container.hide()
+	results_tab.result = result
+	if previous_entry:
+		results_tab.prev_result = previous_entry.highest_score_info.result
+	else:
+		results_tab.prev_result = null 
 
-	results_tab.rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
 	if game_info.is_leaderboard_legal():
 		# add result to history
 		ScoreHistory.add_result_to_history(game_info)
@@ -257,39 +218,10 @@ func set_game_info(val: HBGameInfo):
 						rating_buttons_container.grab_focus()
 		
 	
-func _on_score_uploaded(result):
-	var leveled_up := false
-	if "experience_change" in result:
-		leveled_up = "level_change" in result and result.level_change > 0
-	
-	var beat_previous_record := "beat_previous_record" in result and result.beat_previous_record as bool
-	#var previous_record_score := 
-	#_set_percentage(beat_previous_record,  game_info.result.get_percentage())
-		
-	var web_prev_result: HBResult
-	if "previous_record" in result:
-		if "entry_data" in result.previous_record:
-			if "result" in result.previous_record.entry_data:
-				web_prev_result = HBSerializable.deserialize(result.previous_record.entry_data.result)
-	if web_prev_result:
-		_set_percentage(true, web_prev_result.get_percentage(), game_info.result.get_percentage())
-		_set_score(true, web_prev_result.score, game_info.result.score)
-	score_web_id = result.get("score_id", -1)
-	if "experience_gain_breakdown" in result:
-		results_tab.experience_info_container.show()
-		results_tab.experience_gain_label.text = tr("Gained {experience_gain}!", &"Results screen experience gain label")
-		var rating_text := HBUtils.find_key(HBResult.RESULT_RATING, game_info.result.get_result_rating()) as String
-		results_tab.experience_breakdown_label.text = rating_text.capitalize() + " " + str(result.experience_gain_breakdown.rating_experience_gain) + tr("xp", &"shorthand for experience")
-		if result.experience_gain_breakdown.first_time:
-			var first_clear_str := tr("First clear {first_clear_exp}xp", &"Results screen first clear")
-			first_clear_str = first_clear_str.format({
-					"first_clear_exp": result.experience_gain_breakdown.first_time_experience_gain
-				})
-			results_tab.experience_breakdown_label.text = first_clear_str + "+" + results_tab.experience_breakdown_label.text
-		results_tab.experience_gain_label.text = tr("Gained {experience_gain}xp!", &"Results screen experience gain label").format({"experience_gain": result.experience_change})
-		var total_exp := HBUtils.get_experience_to_next_level(HBBackend.user_info.level)
-		var exp_to_next_level: int = total_exp - HBBackend.user_info.experience + result.experience_change
-		results_tab.to_next_level_label.text = tr("Next level: {exp_to_next_level}xp left", &"Results screen experience to next level").format({"exp_to_next_level": exp_to_next_level})
+func _on_score_uploaded(result: HBBackend.LeaderboardScoreUploadedResult):
+	results_tab.prev_result = result.previous_record
+	score_web_id = result.score_id
+	results_tab.experience_gain = result.experience_gain_breakdown
 	HBBackend.refresh_user_info()
 	
 func _on_score_upload_failed(reason):

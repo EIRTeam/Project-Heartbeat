@@ -1,20 +1,43 @@
 extends TabbedContainerTab
 
-@onready var rating_results_container = get_node("%RatingResultsContainer")
-@onready var combo_label = get_node("%ComboLabel")
-@onready var total_notes_label = get_node("%TotalNotesLabel")
-@onready var notes_hit_label = get_node("%NotesHitLabel")
+class_name HBResultsScreenResultTab
 
-@onready var rating_label: Label = get_node("%RatingLabel")
-@onready var percentage_new_record_label: RichTextLabel = get_node("%PercentageNewRecordLabel")
-@onready var new_percentage_label: Label = get_node("%NewPercentageLabel")
-@onready var percentage_delta_label: Label = get_node("%PercentageDeltaLabel")
+@onready var rating_results_container: HBRatingResultsDisplay = get_node("%RatingResultsContainer")
+@onready var score_info_display: HBResultsScreenScoreInfoDisplay = get_node("%ScoreInfoDisplay")
+@onready var experience_info_container: HBResultsScreenExperienceInfoDisplay = get_node("%ExperienceInfoContainer")
+@onready var note_hit_totals_container: HBResultsScreenNoteHitTotalsDisplay = get_node("%NoteHitTotalsContainer")
 
-@onready var score_new_record_label: RichTextLabel = get_node("%ScoreNewRecordLabel")
-@onready var new_score_label: Label = get_node("%NewScoreLabel")
-@onready var score_delta_label: Label = get_node("%ScoreDeltaLabel")
+var _result_update_queued := false
+func _queue_result_update():
+	if not _result_update_queued:
+		_result_update_queued = true
+		_update_result.call_deferred()
 
-@onready var experience_info_container: Control = get_node("%ExperienceInfoContainer")
-@onready var experience_gain_label: Label = get_node("%ExperienceGainLabel")
-@onready var experience_breakdown_label: Label = get_node("%ExperienceBreakdownLabel")
-@onready var to_next_level_label: Label = get_node("%ToNextLevelLabel")
+var result: HBResult:
+	set(val):
+		result = val
+		_queue_result_update()
+var prev_result: HBResult:
+	set(val):
+		prev_result = val
+		_queue_result_update()
+
+var experience_gain: HBBackend.LeaderboardScoreUploadedResult.ExperienceGainBreakdown:
+	set(val):
+		experience_gain = val
+		_queue_result_update()
+
+func _update_result():
+	_result_update_queued = false
+	rating_results_container.result = result
+	score_info_display.result = result
+	experience_info_container.game_result = result
+	note_hit_totals_container.result = result
+	if not experience_gain:
+		experience_info_container.hide()
+	else:
+		experience_info_container.show()
+		experience_info_container.experience_gain_info = experience_gain
+	
+	if prev_result:
+		score_info_display.prev_result = prev_result

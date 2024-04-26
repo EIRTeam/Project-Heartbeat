@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=4 uid="uid://cr1o5njxo20m5"]
+
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1_yoxj3"]
+[ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenExperienceInfoDisplay.gd" id="2_d1ggw"]
+[ext_resource type="StyleBox" uid="uid://5p3tgk5ls5ia" path="res://styles/ResultRatingStyleOdd.tres" id="3_ko1qe"]
+[ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="4_0myhw"]
+
+[node name="ExperienceInfoContainer" type="HBPanelContainerBlurEX"]
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("1_yoxj3")
+script = ExtResource("2_d1ggw")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("3_ko1qe")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+alignment = 1
+
+[node name="ExperienceGainLabel" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+text = "(NT)700"
+vertical_alignment = 1
+
+[node name="PanelContainer4" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("4_0myhw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer4"]
+auto_translate_mode = 1
+layout_mode = 2
+alignment = 1
+
+[node name="ExperienceBreakdownLabel" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+text = "(NT)700"
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("3_ko1qe")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="ToNextLevelLabel" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+text = "(NT)700"
+vertical_alignment = 1

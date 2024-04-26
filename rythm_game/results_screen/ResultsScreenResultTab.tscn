@@ -1,22 +1,11 @@
-[gd_scene load_steps=12 format=4 uid="uid://b8speakm7hc8h"]
+[gd_scene load_steps=7 format=4 uid="uid://b8speakm7hc8h"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
+[ext_resource type="Script" path="res://rythm_game/results_screen/RatingResultsDisplay.gd" id="3_bmra6"]
+[ext_resource type="PackedScene" uid="uid://cj2kb1mby645f" path="res://rythm_game/results_screen/ResultsScreenScoreInfoDisplay.tscn" id="4_t8pfl"]
+[ext_resource type="PackedScene" uid="uid://dnppdwihquoxv" path="res://rythm_game/results_screen/NoteHitTotalsDisplay.tscn" id="5_l60sv"]
 [ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenResultTab.gd" id="6"]
-[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="6_qqm8m"]
-[ext_resource type="Script" path="res://scripts/RichTextWordRainbow.gd" id="7"]
-[ext_resource type="StyleBox" uid="uid://5p3tgk5ls5ia" path="res://styles/ResultRatingStyleOdd.tres" id="9_bk6uf"]
-[ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="9_j7obq"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_106dr"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6yucv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_umqy4"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3l76"]
-
-[sub_resource type="RichTextEffect" id="RichTextEffect_2tagr"]
-script = ExtResource("7")
+[ext_resource type="PackedScene" uid="uid://cr1o5njxo20m5" path="res://rythm_game/results_screen/ResultsScreenExperienceInfoDisplay.tscn" id="7_afo2l"]
 
 [node name="VBoxContainer" type="HBoxContainer"]
 anchors_preset = 15
@@ -57,6 +46,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
+script = ExtResource("3_bmra6")
 
 [node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -64,104 +54,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
-layout_mode = 2
-theme_override_constants/margin_left = 1
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="RatingResultsContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+[node name="ScoreInfoDisplay" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2" instance=ExtResource("4_t8pfl")]
 unique_name_in_owner = true
-auto_translate_mode = 2
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("6_qqm8m")
-theme_override_font_sizes/font_size = 100
-text = "EXCELLENT"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("9_j7obq")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/separation = -20
-alignment = 1
-
-[node name="PercentageNewRecordLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer/VBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
-theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_n3l76")
-bbcode_enabled = true
-text = "[center]New record![/center]"
-fit_content = true
-custom_effects = [SubResource("RichTextEffect_2tagr")]
-
-[node name="NewPercentageLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer/VBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-theme_override_font_sizes/font_size = 86
-text = "100.00%"
-horizontal_alignment = 1
-
-[node name="PercentageDeltaLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer/VBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-text = "+1.31%"
-horizontal_alignment = 1
-
-[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer2"]
-layout_mode = 2
-theme_override_constants/separation = -20
-alignment = 1
-
-[node name="ScoreNewRecordLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer2/VBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
-theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_n3l76")
-bbcode_enabled = true
-text = "[center]New record![/center]"
-fit_content = true
-custom_effects = [SubResource("RichTextEffect_2tagr")]
-
-[node name="NewScoreLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer2/VBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-theme_override_font_sizes/font_size = 86
-text = "3.000.000"
-horizontal_alignment = 1
-
-[node name="ScoreDeltaLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PanelContainer2/VBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-text = "+1.120.000"
-horizontal_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
@@ -172,169 +67,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2"]
-layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("9_bk6uf")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer3"]
-auto_translate_mode = 1
-layout_mode = 2
-alignment = 1
-
-[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-text = "MAX COMBO"
-vertical_alignment = 1
-
-[node name="ComboLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-text = "(NT)700"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="PanelContainer4" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("9_j7obq")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer4"]
-auto_translate_mode = 1
-layout_mode = 2
-alignment = 1
-
-[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-text = "NOTES HIT"
-
-[node name="NotesHitLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-text = "(NT)700"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("9_bk6uf")
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-alignment = 1
-
-[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-text = "TOTAL NOTES"
-
-[node name="TotalNotesLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-text = "(NT)700"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="ExperienceInfoContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="NoteHitTotalsContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2" instance=ExtResource("5_l60sv")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("9_bk6uf")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer3"]
-auto_translate_mode = 1
-layout_mode = 2
-alignment = 1
-
-[node name="ExperienceGainLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer3/HBoxContainer"]
+[node name="ExperienceInfoContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2" instance=ExtResource("7_afo2l")]
 unique_name_in_owner = true
-auto_translate_mode = 2
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-text = "(NT)700"
-vertical_alignment = 1
-
-[node name="PanelContainer4" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("9_j7obq")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer4"]
-auto_translate_mode = 1
-layout_mode = 2
-alignment = 1
-
-[node name="ExperienceBreakdownLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer4/HBoxContainer"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-text = "(NT)700"
-vertical_alignment = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("9_bk6uf")
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-
-[node name="ToNextLevelLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/ExperienceInfoContainer/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer3"]
-unique_name_in_owner = true
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-text = "(NT)700"
-vertical_alignment = 1

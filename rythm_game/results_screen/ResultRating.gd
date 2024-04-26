@@ -1,6 +1,8 @@
 @tool
 extends PanelContainer
 
+class_name HBResultScreenRating
+
 @export var rating: HBJudge.JUDGE_RATINGS : set = set_rating
 var total_notes : set = set_total_notes
 var percentage : set = set_percentage

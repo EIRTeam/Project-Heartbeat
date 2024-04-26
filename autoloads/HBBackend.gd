@@ -1,6 +1,6 @@
 extends Node
 
-signal result_entered(result)
+signal result_entered(result: LeaderboardScoreUploadedResult)
 signal entries_received(handle, entries, total_pages)
 
 signal user_data_received
@@ -82,6 +82,23 @@ class BackendLeaderboardHistoryEntry:
 		game_info = _game_info
 		rank = _rank
 		
+class LeaderboardScoreUploadedResult:
+	class ExperienceGainBreakdown:
+		var first_time: bool
+		var first_time_experience_gain: int
+		var rating_experience_gain: int
+		func get_total_experience_gain() -> int:
+			var val := rating_experience_gain
+			if first_time:
+				val += first_time_experience_gain
+			return val
+	var level_change: int
+	var experience_change: int
+	var beat_previous_record: bool
+	var previous_record: HBResult
+	var experience_gain_breakdown: ExperienceGainBreakdown
+	var score_id: int
+		
 func _ready():
 	add_child(timer)
 	
@@ -143,7 +160,6 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 		
 		if request_type == REQUEST_TYPE.LOGIN:
 			timer.start()
-			print("TIMER ON!!!")
 		if request_type == REQUEST_TYPE.ENTER_RESULT:
 			var failure_reason = "Unknown error (%d)" % [response_code]
 			var test_json_conv = JSON.new()
@@ -225,7 +241,24 @@ func login_steam():
 	return make_request("/auth/steam-login", payload, HTTPClient.METHOD_POST, REQUEST_TYPE.LOGIN, {}, true, true)
 
 func _on_result_entered(result, _params):
-	emit_signal("result_entered", result)
+	print("RESULT IN!")
+	var entry_result := LeaderboardScoreUploadedResult.new()
+	entry_result.beat_previous_record = result.get("beat_previous_record", false)
+	entry_result.experience_change = result.get("experience_change", 0)
+	entry_result.level_change = result.get("level_change", 0)
+	entry_result.experience_gain_breakdown = LeaderboardScoreUploadedResult.ExperienceGainBreakdown.new()
+	entry_result.score_id = result.get("score_id", -1)
+	assert("experience_gain_breakdown" in result)
+	if "experience_gain_breakdown" in result:
+		entry_result.experience_gain_breakdown.first_time = result.experience_gain_breakdown.get("first_time", false)
+		entry_result.experience_gain_breakdown.first_time_experience_gain = result.experience_gain_breakdown.get("first_time_experience_gain", 0)
+		entry_result.experience_gain_breakdown.rating_experience_gain = result.experience_gain_breakdown.get("rating_experience_gain", 0)
+		
+	if "previous_record" in result:
+		if "entry_data" in result.previous_record:
+			if "result" in result.previous_record.entry_data:
+				entry_result.previous_record = HBSerializable.deserialize(result.previous_record.entry_data.result)
+	emit_signal("result_entered", entry_result)
 
 func can_have_scores_uploaded(song: HBSong) -> bool:
 	if song is HBPPDSong:

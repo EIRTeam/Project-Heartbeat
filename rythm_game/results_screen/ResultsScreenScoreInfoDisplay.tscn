@@ -1,0 +1,116 @@
+[gd_scene load_steps=10 format=4 uid="uid://cj2kb1mby645f"]
+
+[ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenScoreInfoDisplay.gd" id="1_4j7sx"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1_xj01d"]
+[ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="2_1ep3h"]
+[ext_resource type="Script" path="res://scripts/RichTextWordRainbow.gd" id="3_0qvw4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_106dr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6yucv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_umqy4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3l76"]
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_2tagr"]
+script = ExtResource("3_0qvw4")
+
+[node name="MarginContainer" type="MarginContainer"]
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+script = ExtResource("1_4j7sx")
+
+[node name="RatingResultsContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="RatingLabel" type="Label" parent="RatingResultsContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_xj01d")
+theme_override_font_sizes/font_size = 100
+text = "EXCELLENT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="RatingResultsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_1ep3h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RatingResultsContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = -20
+alignment = 1
+
+[node name="PercentageNewRecordLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
+theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_n3l76")
+bbcode_enabled = true
+text = "[center]New record![/center]"
+fit_content = true
+custom_effects = [SubResource("RichTextEffect_2tagr")]
+
+[node name="NewPercentageLabel" type="Label" parent="RatingResultsContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 86
+text = "100.00%"
+horizontal_alignment = 1
+
+[node name="PercentageDeltaLabel" type="Label" parent="RatingResultsContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+text = "+1.31%"
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="RatingResultsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RatingResultsContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/separation = -20
+alignment = 1
+
+[node name="ScoreNewRecordLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
+theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_n3l76")
+bbcode_enabled = true
+text = "[center]New record![/center]"
+fit_content = true
+custom_effects = [SubResource("RichTextEffect_2tagr")]
+
+[node name="NewScoreLabel" type="Label" parent="RatingResultsContainer/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 86
+text = "3.000.000"
+horizontal_alignment = 1
+
+[node name="ScoreDeltaLabel" type="Label" parent="RatingResultsContainer/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+text = "+1.120.000"
+horizontal_alignment = 1
