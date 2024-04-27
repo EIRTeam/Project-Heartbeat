@@ -23,7 +23,7 @@ const EDITOR_MODULES_DIR = "res://tools/editor/editor_modules"
 @onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer")
 @onready var inspector = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Inspector")
 @onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
-@onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
+@onready var open_chart_popup_dialog: ConfirmationDialog = get_node("Popups/OpenChartPopupDialog")
 @onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhythmGamePopup.tscn").instantiate()
 @onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton")
 @onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
@@ -185,6 +185,7 @@ func _ready():
 	open_chart_popup_dialog.connect("chart_selected", Callable(self, "load_song"))
 	open_chart_popup_dialog.close_requested.connect(self.reveal_ui)
 	open_chart_popup_dialog.confirmed.connect(self.reveal_ui)
+	open_chart_popup_dialog.canceled.connect(self.reveal_ui)
 	rhythm_game_playtest_popup.connect("quit", Callable(self, "_on_playtest_quit"))
 	editor_help_button.get_popup().connect("index_pressed", Callable(self, "_on_editor_help_button_pressed"))
 	

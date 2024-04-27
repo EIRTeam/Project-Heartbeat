@@ -6,7 +6,7 @@
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="4"]
 [ext_resource type="Script" path="res://tools/editor/EditorGamePreview.gd" id="5"]
 [ext_resource type="Script" path="res://tools/editor/EditorBottomBar.gd" id="6"]
-[ext_resource type="PackedScene" path="res://tools/editor/EditorRhythmGamePopup.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://cubtw5u6jiuth" path="res://tools/editor/EditorRhythmGamePopup.tscn" id="7"]
 [ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="8"]
 [ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="9"]
 [ext_resource type="PackedScene" uid="uid://bbf5jr2js4svr" path="res://tools/editor/EditorOpenChartPopup.tscn" id="10"]
@@ -620,6 +620,10 @@ dialog_autowrap = true
 [node name="RhythmGamePlaytestPopup" parent="." instance=ExtResource("7")]
 visible = false
 anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="FocusTrap" type="Control" parent="."]
 anchors_preset = 0
@@ -652,6 +656,10 @@ mouse_filter = 2
 [connection signal="item_selected" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/GridResolutionOptionButton" to="." method="set_resolution"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider" to="." method="_on_PlaybackSpeedSlider_value_changed"]
 [connection signal="about_to_popup" from="Popups/SaveAsSongSelector" to="." method="obscure_ui"]
+[connection signal="canceled" from="Popups/SaveAsSongSelector" to="." method="reveal_ui"]
+[connection signal="chart_selected" from="Popups/SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
+[connection signal="close_requested" from="Popups/SaveAsSongSelector" to="." method="reveal_ui"]
+[connection signal="confirmed" from="Popups/SaveAsSongSelector" to="." method="reveal_ui"]
 [connection signal="about_to_popup" from="Popups/SaveConfirmationDialog" to="." method="obscure_ui"]
 [connection signal="confirmed" from="Popups/SaveConfirmationDialog" to="." method="_on_SaveConfirmationDialog_confirmed"]
 [connection signal="about_to_popup" from="Popups/OpenChartPopupDialog" to="." method="obscure_ui"]
