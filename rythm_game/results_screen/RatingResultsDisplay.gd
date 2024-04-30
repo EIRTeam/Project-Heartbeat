@@ -20,11 +20,12 @@ var result: HBResult:
 
 func _ready() -> void:
 	var values = HBJudge.JUDGE_RATINGS.values()
-	for i in range(values.size()-1, -1, -1):
+	for i in range(values.size()):
 		var rating = values[i]
 		var rating_scene: HBResultScreenRating = ResultRatingScene.instantiate()
 		rating_scene.odd = i % 2 == 0
 		add_child(rating_scene)
+		move_child(rating_scene, 0)
 		result_rating_scenes.push_back(rating_scene)
 		rating_scene.rating = rating
 
