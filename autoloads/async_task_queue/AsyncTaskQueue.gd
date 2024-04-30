@@ -73,8 +73,6 @@ func _thread_function(_userdata):
 		if current_task._task_process():
 			mutex.lock()
 			if not current_task._aborted:
-				print("EMIT SIGNAL", current_task.get_signal_connection_list("task_done"))
-				
 				current_task.call_deferred("emit_signal", "task_done", current_task.get_task_output_data())
 			queue.erase(current_task)
 			mutex.unlock()
@@ -86,6 +84,7 @@ func _end_thread():
 		return
 	exit_thread = true # Protect with Mutex.
 	mutex.unlock()
+	thread.wait_to_finish()
 
 func _exit_tree():
 	_end_thread()
