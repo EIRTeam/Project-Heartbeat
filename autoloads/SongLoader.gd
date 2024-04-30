@@ -39,7 +39,7 @@ func load_song_meta(path: String, id: String) -> HBSong:
 		var song_json = test_json_conv.get_data()
 		if json_error == OK:
 			
-			var song_instance = HBSerializable.deserialize(song_json) as HBSong
+			var song_instance = HBSong.deserialize(song_json) as HBSong
 			song_instance.id = id
 			song_instance.path = path.get_base_dir()
 			Log.log(self, "Loaded song %s succesfully from %s" % [song_instance.get_visible_title(), path.get_base_dir()])

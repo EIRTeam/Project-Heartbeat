@@ -16,6 +16,15 @@ var note_usage_cache = {"modified": -1, "note_usages": {}}
 func _init():
 	serializable_fields += ["note_usage_cache"]
 
+static func deserialize(data: Dictionary):
+	# Yet another HACK to survive the fact that godot 4 is now actually respecting 
+	# json numbers being all floats...
+	if "note_usage_cache" in data:
+		if "note_usages" in data.note_usage_cache:
+			for diff in data.note_usage_cache.note_usages:
+				data.note_usage_cache.note_usages[diff].map(func (a): int(a))
+	return super.deserialize(data)
+
 func get_song():
 	if song_id in SongLoader.songs:
 		return SongLoader.songs[song_id]

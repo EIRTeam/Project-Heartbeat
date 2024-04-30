@@ -1,11 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bs014ypkeybga"]
+[gd_scene load_steps=9 format=4 uid="uid://bs014ypkeybga"]
 
 [ext_resource type="PackedScene" uid="uid://bk36n81tgbx1g" path="res://menus/SongTitle.tscn" id="1"]
-[ext_resource type="StyleBox" path="res://styles/SongListItemNormal.tres" id="2"]
+[ext_resource type="StyleBox" uid="uid://3yhfuv7t5wgf" path="res://styles/SongListItemNormal.tres" id="2"]
 [ext_resource type="Script" path="res://menus/song_list/SongListItem.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://cqsegv1wyr5o7" path="res://graphics/icons/menu_star.png" id="4"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="5"]
-[ext_resource type="StyleBox" path="res://styles/SongListItemHover.tres" id="6"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="5"]
+[ext_resource type="StyleBox" uid="uid://bpo43s4bcd0gr" path="res://styles/SongListItemHover.tres" id="6"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="8"]
 
@@ -41,6 +41,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -80,13 +82,13 @@ theme_override_constants/separation = -10
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 expand_mode = 1
-stretch_mode = 7
+stretch_mode = 5
 
 [node name="TextureRect2" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 expand_mode = 1
-stretch_mode = 7
+stretch_mode = 5
 
 [node name="DownloadTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(48, 0)

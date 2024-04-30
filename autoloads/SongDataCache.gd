@@ -43,7 +43,7 @@ func load_cache():
 				var meta_caches = test_json_conv.data.song_meta
 				if meta_caches is Dictionary:
 					for song_id in meta_caches:
-						var r = HBSerializable.deserialize(meta_caches[song_id])
+						var r = HBSongCacheEntry.deserialize(meta_caches[song_id])
 						if r is HBSongCacheEntry:
 							r.song_id = song_id
 							song_meta_cache[song_id] = r

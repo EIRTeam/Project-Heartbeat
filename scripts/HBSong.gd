@@ -325,6 +325,15 @@ func generate_chart_hash(chart: String) -> String:
 			return f.get_as_text().sha1_text()
 	return ""
 
+static func deserialize(data: Dictionary):
+	# HACK: Because godot no longer does ints in json files (because JSON doesn't support ints)
+	var charts: Dictionary = data.get("charts", {})
+	for diff: String in charts:
+		var chart_data: Dictionary = charts.get(diff, {})
+		if "note_usage" in chart_data:
+			var note_usage: Array = chart_data.get("note_usage", [])
+			chart_data["note_usage"] = note_usage.map(func(a): return int(a))
+	return super.deserialize(data)
 func save_chart_info():
 	if not SongDataCache.is_song_audio_loudness_cached(self):
 		var token := SongAssetLoader.request_asset_load(self, [SongAssetLoader.ASSET_TYPES.AUDIO, SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS])
