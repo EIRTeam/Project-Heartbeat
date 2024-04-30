@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=4 uid="uid://bsax0rf0shie"]
+[gd_scene load_steps=20 format=4 uid="uid://bsax0rf0shie"]
 
 [ext_resource type="Script" path="res://menus/MainMenu3D.gd" id="1"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2"]
+[ext_resource type="Script" path="res://menus/CanvasLayer3DTransformer.gd" id="2_xwqwr"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://d2xoywdaxsuvs" path="res://menus/MainMenuVisualizer.tscn" id="5"]
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="6"]
@@ -81,9 +82,10 @@ fov = 47.0
 size = 0.9
 
 [node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -1.12763, 0.479316, -0.488259)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -1.19051, 0.479316, -0.488259)
+script = ExtResource("2_xwqwr")
 
-[node name="CanvasLayer3D" type="CanvasLayer3D" parent="Node3D"]
+[node name="CanvasLayer3D" type="CanvasLayer" parent="Node3D"]
 
 [node name="MenuLeftContainer" type="MarginContainer" parent="Node3D/CanvasLayer3D"]
 custom_minimum_size = Vector2(1760, 1080)
@@ -95,8 +97,9 @@ theme_override_constants/margin_left = 0
 
 [node name="Node3D2" type="Node3D" parent="."]
 transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 0.583074, 0.640945, -0.791488)
+script = ExtResource("2_xwqwr")
 
-[node name="CanvasLayer3D" type="CanvasLayer3D" parent="Node3D2"]
+[node name="CanvasLayer3D" type="CanvasLayer" parent="Node3D2"]
 
 [node name="MenuRightContainer" type="MarginContainer" parent="Node3D2/CanvasLayer3D"]
 custom_minimum_size = Vector2(720, 1440)

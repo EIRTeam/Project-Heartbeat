@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=4 uid="uid://cm5g41krj37em"]
+
+[ext_resource type="Script" path="res://menus/pregame_screen/PreGameLeaderboardHistoryDisplay.gd" id="1_4rgxr"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1_afpbg"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="2_rb7ws"]
+
+[node name="MarginContainer" type="MarginContainer"]
+offset_right = 568.0
+offset_bottom = 306.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 15
+script = ExtResource("1_4rgxr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="StatsLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_afpbg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LeaderboardHistoryContainer" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("2_rb7ws")
+orientation = 1
+
+[node name="LoadingLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "..."
+horizontal_alignment = 1
