@@ -9,7 +9,7 @@ signal diagnostics_created_request(request_data)
 signal request_failed(handle, code, total_pages)
 signal score_enter_failed(handle, reason)
 signal connection_status_changed
-signal song_history_received(entries: Array[BackendLeaderboardHistoryEntry])
+signal song_history_received(entries: BackendLeaderboardHistoryEntries)
 var enable_diagnostics = false
 
 const SERVICE_ENVIRONMENTS = {
@@ -75,12 +75,23 @@ class BackendLeaderboardEntry:
 		rank = _rank
 		game_info = _game_info
 		
+class BackendLeaderboardHistoryEntries:
+	var song_ugc_id: String
+	var difficulty: String
+	var entries: Array[BackendLeaderboardHistoryEntry]
+	func _init(_song_ugc_id: String, _difficulty: String, _entries: Array[BackendLeaderboardHistoryEntry]):
+		song_ugc_id = _song_ugc_id
+		difficulty = _difficulty
+		entries = _entries
+	
 class BackendLeaderboardHistoryEntry:
+	var id: int
 	var rank: int
 	var game_info: HBGameInfo
-	func _init(_rank: int, _game_info: HBGameInfo):
+	func _init(_id: int, _rank: int, _game_info: HBGameInfo):
 		game_info = _game_info
 		rank = _rank
+		id = _id
 		
 class LeaderboardScoreUploadedResult:
 	class ExperienceGainBreakdown:
@@ -322,7 +333,8 @@ func _convert_note_ratings(data_dict: Dictionary):
 func _on_user_song_history_received(result: Dictionary, params):
 	var entries: Array[BackendLeaderboardHistoryEntry]
 	for entry in result.get("leaderboard_entries", []):
-		var entry_data := entry.get("entry", {}).get("entry_data") as Dictionary
+		entry = entry.get("entry", {})
+		var entry_data := entry.get("entry_data") as Dictionary
 		var entry_result := entry_data.get("result", {}) as Dictionary
 		const RATING_MAP := {
 			"Cool": HBJudge.JUDGE_RATINGS.COOL,
@@ -342,8 +354,9 @@ func _on_user_song_history_received(result: Dictionary, params):
 		var game_info := HBSerializable.deserialize(entry_data) as HBGameInfo
 		if not game_info:
 			continue
-		entries.push_back(BackendLeaderboardHistoryEntry.new(entry.get("rank", 0), game_info))
-	song_history_received.emit(entries)
+		entries.push_back(BackendLeaderboardHistoryEntry.new(entry.get("id", 0), entry.get("rank", 0), game_info))
+	var entries_container := BackendLeaderboardHistoryEntries.new(result.get("song_ugc_id", ""), result.get("difficulty", ""), entries)
+	song_history_received.emit(entries_container)
 	
 	
 func _on_entries_received(result, params):

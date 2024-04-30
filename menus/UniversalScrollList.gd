@@ -61,7 +61,7 @@ func _ready():
 		var fade_mat = ShaderMaterial.new()
 		fade_mat.shader = FADE_SHADER
 		item_container.material = fade_mat
-		RenderingServer.canvas_item_set_canvas_group_mode(item_container.get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 10.0, true, 10.0, false)
+		RenderingServer.canvas_item_set_canvas_group_mode(item_container.get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 5.0, true)
 	_on_resized()
 	
 func _on_scroll_changed(_new_scroll: float):
@@ -74,8 +74,6 @@ func _on_scroll_changed(_new_scroll: float):
 					if child.get_index() + ii >= item_container.get_child_count():
 						break
 					var child2 = item_container.get_child(child.get_index() + ii) as HBUniversalListItem
-					if child2:
-						child2._become_visible()
 				found_visible_item = true
 			if found_visible_item:
 				break
@@ -163,8 +161,6 @@ func select_item(item_i: int):
 		item_visibility_report_max = min(item_visibility_report_max, item_container.get_child_count())
 		for i in range(item_visiblity_report_min, item_visibility_report_max):
 			var visible_child = item_container.get_child(i)
-			if visible_child is HBUniversalListItem:
-				visible_child._become_visible()
 	call_deferred("update_fade")
 	
 func force_scroll():
@@ -212,6 +208,9 @@ func _gui_input(event):
 		if horizontal_step != 0:
 			position_change += horizontal_step
 			get_viewport().set_input_as_handled()
+		else:
+			if focus_neighbor_right and get_node(focus_neighbor_right):
+				get_node(focus_neighbor_right).grab_focus()
 	if event.is_action_pressed("gui_left"):
 		if horizontal_step != 0:
 			position_change -= horizontal_step

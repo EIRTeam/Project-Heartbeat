@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj3tiwnqie15n"]
+[gd_scene load_steps=7 format=4 uid="uid://bj3tiwnqie15n"]
 
 [ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="1_1kq0a"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_vx2hw"]
 [ext_resource type="Script" path="res://menus/pregame_screen/PreGameLeaderboardHistoryEntry.gd" id="1_xqhus"]
+[ext_resource type="Texture2D" uid="uid://d2kjl2b11qmqm" path="res://graphics/icons/earth.svg" id="3_87j3f"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4_ntul7"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="5_glo25"]
 
 [node name="PreGameLeaderboardRank" type="PanelContainer"]
 anchors_preset = 15
@@ -9,9 +13,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_vx2hw")
 theme_override_styles/panel = ExtResource("1_1kq0a")
 script = ExtResource("1_xqhus")
-diff = null
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -40,3 +44,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 horizontal_alignment = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+script = ExtResource("4_ntul7")
+
+[node name="OpenScoreInBrowserButton" type="Button" parent="MarginContainer/HBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GameButton"
+icon = ExtResource("3_87j3f")
+script = ExtResource("5_glo25")

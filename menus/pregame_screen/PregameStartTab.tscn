@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dwcd6tgw5po4y"]
+[gd_scene load_steps=11 format=4 uid="uid://dwcd6tgw5po4y"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
 [ext_resource type="Script" path="res://menus/pregame_screen/PregameStartTab.gd" id="3"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
+[ext_resource type="PackedScene" uid="uid://cm5g41krj37em" path="res://menus/pregame_screen/PreGameLeaderboardHistoryDisplay.tscn" id="4_43v3t"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="5"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://cai6nkgeq8ftu" path="res://graphics/icons/icon_information_sign.svg" id="8"]
@@ -14,15 +15,16 @@ content_margin_top = 10.0
 content_margin_right = 10.0
 content_margin_bottom = 10.0
 bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+anti_aliasing_size = 3.0
 
 [sub_resource type="StyleBoxEmpty" id="3"]
 content_margin_left = 10.0
@@ -74,6 +76,7 @@ theme_override_constants/margin_bottom = 10
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
 clip_contents = false
 layout_mode = 2
+focus_neighbor_right = NodePath("../../../Panel2/HistoryDisplay")
 focus_mode = 2
 script = ExtResource("6")
 container_path = NodePath("PanelContainer/ModifierButtonContainer")
@@ -100,26 +103,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2"]
-layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 15
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer"]
-layout_mode = 2
-
-[node name="StatsLabel" type="Label" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+[node name="HistoryDisplay" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2" instance=ExtResource("4_43v3t")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LeaderboardHistoryContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
+focus_neighbor_left = NodePath("../../Panel/MarginContainer/ScrollContainer")
 
 [node name="Panel2" type="HBPanelContainerBlurEX" parent="Panel/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -170,6 +157,7 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel2/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+focus_neighbor_right = NodePath("../../../Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2/HistoryDisplay")
 focus_mode = 2
 alignment = 1
 script = ExtResource("5")
@@ -209,3 +197,5 @@ normal_style = SubResource("3")
 hover_style = SubResource("4")
 
 [connection signal="out_from_bottom" from="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer" to="Panel2/MarginContainer/VBoxContainer" method="grab_focus"]
+
+[editable path="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2/HistoryDisplay"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://1i2h228g0br"]
+[gd_scene load_steps=8 format=4 uid="uid://1i2h228g0br"]
 
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="3"]
 [ext_resource type="Script" path="res://menus/pregame_screen/PreGameScreen.gd" id="4"]
@@ -41,8 +41,6 @@ size_flags_vertical = 3
 
 [node name="ModifierLoader" parent="." instance=ExtResource("6")]
 layout_mode = 1
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="ModifierSettingsOptionSection" parent="." instance=ExtResource("7")]
 visible = false
@@ -70,12 +68,8 @@ offset_bottom = -1.49835
 [node name="VideoURLChangePopup" parent="." instance=ExtResource("12")]
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
@@ -86,12 +80,8 @@ text = "Are you sure you want to change this song's video URL? this requires you
 unique_name_in_owner = true
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1

@@ -5,11 +5,12 @@ extends TabbedContainerTab
 @onready var modifier_scroll_container = get_node("Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer")
 @onready var button_panel = get_node("Panel2")
 @onready var leaderboard_legal_text = get_node("%LeaderboardLegalLabel")
-@onready var stats_label = get_node("%StatsLabel")
+
 @onready var start_button = get_node("Panel2/MarginContainer/VBoxContainer/StartButton")
 @onready var start_practice_button = get_node("Panel2/MarginContainer/VBoxContainer/StartPractice")
 @onready var back_button = get_node("Panel2/MarginContainer/VBoxContainer/BackButton")
-@onready var leaderboard_history_container = get_node("%LeaderboardHistoryContainer")
+
+@onready var history_display: HBPreGameLeaderboardHistoryDisplay = get_node("%HistoryDisplay")
 
 func _enter_tab():
 	button_container.grab_focus()

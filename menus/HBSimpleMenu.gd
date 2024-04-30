@@ -65,7 +65,14 @@ func _gui_input(event):
 				var neighbor_up = get_node(focus_neighbor_top) as Control
 				neighbor_up.grab_focus()
 				HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
-
+			out_from_top.emit()
+			return
+		if event.is_action_pressed("gui_down"):
+			get_viewport().set_input_as_handled()
+			if focus_neighbor_bottom:
+				var neighbor_up = get_node(focus_neighbor_bottom) as Control
+				neighbor_up.grab_focus()
+				HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 	if event.is_action_pressed(prev_action):
 		if selected_button:
 			if selected_button_i == 0 and not enable_wrap_around:
