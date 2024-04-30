@@ -39,10 +39,19 @@ class DummySongListEntry:
 	signal dummy_sighted
 	
 	var song: HBSong
-
+	@onready var notifier := VisibleOnScreenNotifier2D.new()
 	func _init():
 		set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 		custom_minimum_size.y = 100
+	func _ready() -> void:
+		add_child(notifier)
+		notifier.screen_entered.connect(self._become_visible)
+		resized.connect(self._size_changed)
+		notifier.set_block_signals(true)
+		_size_changed.call_deferred()
+	func _size_changed() -> void:
+		notifier.rect = Rect2(Vector2.ZERO, size)
+		notifier.set_block_signals(false)
 	func hover():
 		pass
 	func stop_hover():
@@ -101,6 +110,7 @@ func _create_song_item(song: HBSong):
 	item.set_song(song)
 	item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	item.connect("pressed", Callable(self, "_on_song_selected").bind(song))
+	item.ready.connect(item._become_visible)
 	return item
 func update_items():
 	for i in item_container.get_children():
