@@ -194,6 +194,16 @@ func _position_change_input(position_change: int):
 				select_item(new_pos)
 				HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 
+func _try_focus_neighbor(neighbor: NodePath) -> bool:
+	if neighbor:
+		var control := get_node(neighbor) as Control
+		if not control:
+			return false
+		if control.focus_mode != Control.FOCUS_ALL:
+			return false
+		control.grab_focus()
+		return true
+	return false
 func _gui_input(event):
 	var position_change = 0
 	if event.is_action_pressed("gui_down"):
@@ -209,8 +219,8 @@ func _gui_input(event):
 			position_change += horizontal_step
 			get_viewport().set_input_as_handled()
 		else:
-			if focus_neighbor_right and get_node(focus_neighbor_right):
-				get_node(focus_neighbor_right).grab_focus()
+			if _try_focus_neighbor(focus_neighbor_right):
+				return
 	if event.is_action_pressed("gui_left"):
 		if horizontal_step != 0:
 			position_change -= horizontal_step

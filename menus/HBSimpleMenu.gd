@@ -44,7 +44,16 @@ func _on_focus_entered():
 				if child.visible and child is BaseButton:
 					select_button(child_i)
 					break
-
+func _try_focus_neighbor(neighbor: NodePath) -> bool:
+	if neighbor:
+		var control := get_node(neighbor) as Control
+		if not control:
+			return false
+		if control.focus_mode != Control.FOCUS_ALL:
+			return false
+		control.grab_focus()
+		return true
+	return false
 func _gui_input(event):
 	var left_action = "gui_up"
 	var right_action = "gui_down"
@@ -61,31 +70,23 @@ func _gui_input(event):
 	if orientation == ORIENTATION.HORIZONTAL:
 		if event.is_action_pressed("gui_up"):
 			get_viewport().set_input_as_handled()
-			if focus_neighbor_top:
-				var neighbor_up = get_node(focus_neighbor_top) as Control
-				neighbor_up.grab_focus()
+			if _try_focus_neighbor(focus_neighbor_top):
 				HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 			out_from_top.emit()
 			return
 		if event.is_action_pressed("gui_down"):
 			get_viewport().set_input_as_handled()
-			if focus_neighbor_bottom:
-				var neighbor_up = get_node(focus_neighbor_bottom) as Control
-				neighbor_up.grab_focus()
+			if _try_focus_neighbor(focus_neighbor_bottom):
 				HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 	if event.is_action_pressed(prev_action):
 		if selected_button:
 			if selected_button_i == 0 and not enable_wrap_around:
 				get_viewport().set_input_as_handled()
 				if orientation == ORIENTATION.HORIZONTAL:
-					if focus_neighbor_left:
-						var neighbor_left = get_node(focus_neighbor_left) as Control
-						neighbor_left.grab_focus()
+					if _try_focus_neighbor(focus_neighbor_left):
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 				else:
-					if focus_neighbor_top:
-						var neighbor_up = get_node(focus_neighbor_top) as Control
-						neighbor_up.grab_focus()
+					if _try_focus_neighbor(focus_neighbor_top):
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 				emit_signal("out_from_top")
 			else:
@@ -103,14 +104,10 @@ func _gui_input(event):
 			if selected_button_i == get_child_count()-1 and not enable_wrap_around:
 				get_viewport().set_input_as_handled()
 				if orientation == ORIENTATION.HORIZONTAL:
-					if focus_neighbor_right:
-						var neighbor_right = get_node(focus_neighbor_right) as Control
-						neighbor_right.grab_focus()
+					if _try_focus_neighbor(focus_neighbor_right):
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 				else:
-					if focus_neighbor_bottom:
-						var neighbor_bottom = get_node(focus_neighbor_bottom) as Control
-						neighbor_bottom.grab_focus()
+					if _try_focus_neighbor(focus_neighbor_bottom):
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 			else:
 				get_viewport().set_input_as_handled()
