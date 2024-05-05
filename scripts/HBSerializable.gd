@@ -166,7 +166,11 @@ func get_sanitized_field(field_name: String) -> String:
 func clone() -> HBSerializable:
 	var c = get_script().new()
 	for property in serializable_fields:
-		c.set(property, self.get(property))
+		var prop := self.get(property)
+		if (prop is Object and prop.has_method("duplicate")) or prop is Dictionary or prop is Array:
+			c.set(property, prop.duplicate())
+		else:
+			c.set(property, prop)
 	return c
 
 func _to_string():
