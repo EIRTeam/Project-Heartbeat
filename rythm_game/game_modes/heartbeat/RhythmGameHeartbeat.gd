@@ -37,6 +37,49 @@ var precalculated_note_trails = {}
 
 var health_system_enabled := true
 
+var csv_timing_dump_enabled := "--ph-dump-timing" in OS.get_cmdline_args()
+
+class CSVTimingDump:
+	var file: FileAccess
+	const FIELDS: Array[String] = [
+		"judgement",
+		"note_types",
+		"multi_judgements",
+		"target_time_msec",
+		"game_time_usec",
+		"wrong"
+	]
+	func reset():
+		file = FileAccess.open("user://timing.csv", FileAccess.WRITE)
+		#final_judgement: int, judgements: Array, judgement_target_time: int, wrong: bool
+		file.store_line(",".join(FIELDS.map(func (a: String): return '"' + a + '"')))
+	func store_data(game_time_usec: int, final_judgement: int, judgements: Array, judgement_target_time: int, wrong: bool):
+		var note_datas: Array = judgements.map(func (a) -> HBBaseNote: return a.note_data as HBBaseNote)
+		var multi_judgements: PackedStringArray = PackedStringArray(judgements.map(
+			func (a) -> String:
+				return (HBJudge.JUDGE_RATINGS.find_key(a.judgement)) as String
+		))
+		var final_judgement_name := HBJudge.JUDGE_RATINGS.find_key(final_judgement) as String
+		
+		var note_type_names: PackedStringArray
+		for data: HBBaseNote in note_datas:
+			var note_type_name := HBBaseNote.NOTE_TYPE.find_key(data.note_type) as String
+			note_type_names.push_back(note_type_name)
+		var csv_values := PackedStringArray(
+			[
+				'"' + final_judgement_name + '"',
+				'"' + ",".join(note_type_names) + '"',
+				'"' + (",".join(multi_judgements)) + '"',
+				str(judgement_target_time),
+				str(game_time_usec),
+				"1" if wrong else "0"
+			]
+		)
+		file.store_line(",".join(csv_values))
+		file.flush()
+		
+var csv_timing_dump := CSVTimingDump.new()
+		
 func precalculate_note_trails(points):
 	precalculated_note_trails = {}
 	var prev_point: HBBaseNote = null
@@ -106,6 +149,8 @@ func set_chart(chart: HBChart):
 	_potential_result = HBResult.new()
 	_potential_result.max_score = chart.get_max_score()
 	super.set_chart(chart)
+	if csv_timing_dump_enabled:
+		csv_timing_dump.reset()
 
 func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 	super.set_song(song, difficulty, assets, modifiers)
@@ -219,6 +264,9 @@ func increase_health():
 func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_target_time: int, wrong: bool):
 	super._on_notes_judged_new(final_judgement, judgements, judgement_target_time, wrong)
 	
+	if csv_timing_dump_enabled:
+		csv_timing_dump.store_data(time_usec, final_judgement, judgements, judgement_target_time, wrong)
+	
 	if health_system_enabled:
 		if final_judgement < HBJudge.JUDGE_RATINGS.FINE or wrong:
 			remove_health()
@@ -278,6 +326,8 @@ func restart():
 	if health_system_enabled:
 		health = 50
 		game_ui.set_health(50, false)
+	if csv_timing_dump_enabled:
+		csv_timing_dump.reset()
 	super.restart()
 
 var _potential_result = HBResult.new()
