@@ -182,8 +182,8 @@ var editor_migrated_shortcuts := false
 var editor_autosave_enabled: bool = true
 
 var use_direct_joystick_access: bool = true
-var direct_joystick_filter_factor := 1.0
-var direct_joystick_slider_angle_window := 90
+var direct_joystick_deadzone := 0.4
+var direct_joystick_slider_angle_window := 100
 
 var color_presets = []
 
@@ -313,7 +313,7 @@ func _init():
 		"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
 		"lyrics_color", "locale", "workshop_download_audio_only", "multi_laser_opacity",
 		"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",
-		"use_direct_joystick_access", "direct_joystick_filter_factor", "direct_joystick_slider_angle_window", "use_explicit_rating", "editor_autosave_enabled", "editor_import_warning_accepted",
+		"use_direct_joystick_access", "direct_joystick_deadzone", "direct_joystick_slider_angle_window", "use_explicit_rating", "editor_autosave_enabled", "editor_import_warning_accepted",
 		"editor_grid_snap", "editor_show_grid", "editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 		"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 		"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir", "last_csfm_dir",

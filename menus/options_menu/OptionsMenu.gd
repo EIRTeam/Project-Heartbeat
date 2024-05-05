@@ -61,15 +61,15 @@ var OPTIONS = {
 			"name": tr("Use direct joystick access with known controllers"),
 			"description": tr("Allows the game to access controller joysticks directly, used to make slide and heart notes more consistent, only available on controllers marked as known")
 		},
-		"direct_joystick_filter_factor": {
-			"name": tr("Analog filter factor"),
-			"description": tr("Factor used when filtering analog inputs, higher means less filtering\nNote: This only works with direct joystick access."),
+		"direct_joystick_deadzone": {
+			"name": tr("Direct joystick slider deadzone outer"),
+			"description": tr("From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."),
 			"minimum": 0.1,
 			"maximum": 1.0,
 			"step": 0.05
 		},
 		"direct_joystick_slider_angle_window": {
-			"name": tr("Analog slider angle deadzone"),
+			"name": tr("Direct joystick angle deadzone"),
 			"description": tr("Angle used to define the angular deadzone of sliders\nNote: This only works with direct joystick access."),
 			"minimum": 15,
 			"maximum": 120,
@@ -479,5 +479,7 @@ func _detected_controllers_callback() -> String:
 	var text := tr("Detected controllers:") + "\n\n"
 	
 	for gamepad_i in Input.get_connected_joypads():
-		text += Input.get_joy_name(gamepad_i) + "\n"
+		if PHNative.is_sdl_device_game_controller(gamepad_i):
+			text += tr("{joypad_name} (Game Controller)".format({"joypad_name": Input.get_joy_name(gamepad_i)}), &"Used when a joypad is detected as a game controller")
+		text += "\n"
 	return text

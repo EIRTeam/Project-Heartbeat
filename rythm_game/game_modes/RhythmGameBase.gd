@@ -409,8 +409,12 @@ func _process_input(event):
 					start()
 					# call ui on intro skip
 					emit_signal("intro_skipped", get_time_to_intro_skip_to() / 1000.0)
+	var slide_empty_fired = false
 	if event is InputEventHB and not game_mode == GAME_MODE.EDITOR_SEEK:
 		var input_handled := false
+		if not slide_empty_fired and (event.action == "heart_note" or event.action == "slide_left" or event.action == "slide_right") and event.pressed:
+			slide_empty_fired = true
+			sfx_pool.play_sfx("slide_empty")
 		for group in current_note_groups:
 			if group.process_input(event):
 				input_handled = true
@@ -701,11 +705,9 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 func _play_empty_note_sound(event: InputEventHB):
 	if event.is_pressed():
 		if not event.event_uid in handled_event_uids_this_frame:
-			if event.action in ["slide_left", "slide_right", "heart_note"]:
-				sfx_pool.play_sfx("slide_empty")
-			elif not event.action == "heart_note":
+			if not event.action == "heart_note":
 				sfx_pool.play_sfx("note_hit")
-			handled_event_uids_this_frame.append(event.event_uid)
+				handled_event_uids_this_frame.append(event.event_uid)
 
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score

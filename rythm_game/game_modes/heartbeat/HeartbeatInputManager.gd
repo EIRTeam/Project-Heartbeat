@@ -19,15 +19,40 @@ var current_event: InputEvent # Current event being converted to action
 var current_actions: Array = []
 var last_axis_values = {}
 
-const DJA_SLIDE_DOT_THRESHOLD = 0.5
-class DJAAxisValues:
-	var left := Vector2()
-	var right := Vector2()
-var dja_last_filtered_axis_values := {}
-class DJAJoystickWMA:
-	var left := PackedVector2Array()
-	var right := PackedVector2Array()
-var dja_joystick_wma_history := {}
+func _ready() -> void:
+	Input.joy_connection_changed.connect(self._on_joy_connection_changed)
+
+class JoypadDeviceData:
+	var device_idx := 0
+	var direct_joysticks: Array[HBJoystickData]
+	var debug_windows: Array[HBAnalogInputProcessorDebug]
+	
+	func uses_direct_joypad_access() -> bool:
+		return UserSettings.should_use_direct_joystick_access(device_idx)
+	
+	func _init(_device_idx: int) -> void:
+		device_idx = _device_idx
+		direct_joysticks = [
+			HBJoystickData.new(device_idx, JOY_AXIS_LEFT_X, JOY_AXIS_LEFT_Y),
+			HBJoystickData.new(device_idx, JOY_AXIS_RIGHT_X, JOY_AXIS_RIGHT_Y)
+		]
+
+var joypad_device_datas: Dictionary
+
+func get_or_create_joypad_device_data(device: int) -> JoypadDeviceData:
+	if not device in joypad_device_datas:
+		assert(device in Input.get_connected_joypads())
+		var dv := JoypadDeviceData.new(device)
+		joypad_device_datas[device] = dv
+		for joystick in dv.direct_joysticks:
+			var debug_w := HBAnalogInputProcessorDebug.new()
+			joystick.set_meta("debug_w", debug_w)
+			dv.debug_windows.push_back(debug_w)
+		
+		for w in dv.debug_windows:
+			w.hide()
+			add_child(w)
+	return joypad_device_datas[device]
 
 func reset():
 	super.reset()
@@ -61,43 +86,48 @@ func _get_action_deadzone(action: String):
 	var deadzone = UserSettings.user_settings.analog_deadzone
 	return deadzone
 	
-func get_last_filtered_axis_values_for_joy(joy_idx: int) -> DJAAxisValues:
-	if joy_idx in dja_last_filtered_axis_values:
-		return dja_last_filtered_axis_values[joy_idx]
-	dja_last_filtered_axis_values[joy_idx] = DJAAxisValues.new()
-	return dja_last_filtered_axis_values[joy_idx]
+func _get_analog_action_bit(action: String) -> int:
+	var bit := 0
 	
-func get_dja_wma_history_for_joy(joy_idx: int) -> DJAJoystickWMA:
-	if joy_idx in dja_joystick_wma_history:
-		return dja_joystick_wma_history[joy_idx]
-	dja_joystick_wma_history[joy_idx] = DJAJoystickWMA.new()
-	return dja_joystick_wma_history[joy_idx]
+	match action:
+		"slide_left":
+			bit = HBJoystickData.EVENT_STATES.SLIDE_LEFT
+		"slide_right":
+			bit = HBJoystickData.EVENT_STATES.SLIDE_RIGHT
+		"heart_note":
+			bit = HBJoystickData.EVENT_STATES.HEART
+	
+	assert(bit != 0)
+	return bit
+	
+func _get_analog_action_name(action: int) -> String:
+	var bit := ""
+	
+	match action:
+		HBJoystickData.EVENT_STATES.SLIDE_LEFT:
+			bit = "slide_left"
+		HBJoystickData.EVENT_STATES.SLIDE_RIGHT:
+			bit = "slide_right"
+		HBJoystickData.EVENT_STATES.HEART:
+			bit = "heart_note"
+	
+	assert(not bit.is_empty())
+	return bit
+	
+func _on_joy_connection_changed(gamepad_i: int, connected: bool):
+	if not connected:
+		if gamepad_i in joypad_device_datas:
+			joypad_device_datas.erase(gamepad_i)
 	
 func _get_analog_action_held_count(action):
 	var count = 0
 	if action in DIRECT_AXIS_ACTIONS:
-		for device in dja_last_filtered_axis_values:
-			if not device in Input.get_connected_joypads() or not UserSettings.should_use_direct_joystick_access(device):
-				continue
-			var dja_lfa := get_last_filtered_axis_values_for_joy(device)
-			var v1 = dja_lfa.left
-			var v2 = dja_lfa.right
-			var deadzone = _get_action_deadzone(action)
-			if action == "heart_note":
-				if v1.length() > deadzone:
+		var bit := _get_analog_action_bit(action)
+		for device: JoypadDeviceData in joypad_device_datas.values():
+			for joy in device.direct_joysticks:
+				if bit & joy.event_states:
 					count += 1
-				if v2.length() > deadzone:
-					count += 1
-			elif action == "slide_left":
-				if v1.x < 0 and v1.length() > deadzone and _is_in_slide_range(v1):
-					count += 1
-				if v2.x < 0 and v2.length() > deadzone and _is_in_slide_range(v2):
-					count += 1
-			elif action == "slide_right":
-				if v1.x > 0 and v1.length() > deadzone and _is_in_slide_range(v1):
-					count += 1
-				if v2.x > 0 and v2.length() > deadzone and _is_in_slide_range(v2):
-					count += 1
+		
 	for device in last_axis_values:
 		if action in last_axis_values[device]:
 			for axis in last_axis_values[device][action]:
@@ -111,94 +141,102 @@ func _is_action_held_analog(action):
 func _is_in_slide_range(value: Vector2):
 	return abs((Vector2.RIGHT * sign(value.x)).angle_to(value)) < deg_to_rad(UserSettings.user_settings.direct_joystick_slider_angle_window) * 0.5
 
-func _handle_direct_axis_input():
-	for device in Input.get_connected_joypads():
-		_handle_direct_axis_input_for_device(device)
+class ProcessedAnalogInputEvent:
+	var device: int
+	var joystick: int
+	var action: int
+	var actions: Array
+	var used_extrapolation := false
+	var pressed := false
+	var timestamp: int
 
-func _handle_direct_axis_input_for_device(device_idx: int):
-	var deadzone = _get_action_deadzone("heart_note")
-
-	var press_actions_to_send = []
-	var press_actions_event_uids = []
-	var action_state = []
-	var dja_lfa := get_last_filtered_axis_values_for_joy(device_idx)
-	var dja_wma := get_dja_wma_history_for_joy(device_idx)
-	for joystick in range(2):
-		var event_uid := get_dja_event_uid(device_idx, joystick)
-		var off := 2 * joystick
-		var axis_x := JOY_AXIS_LEFT_X + off
-		var axis_y := JOY_AXIS_LEFT_Y + off
-		var x1 := Input.get_joy_axis(device_idx, axis_x)
-		var y1 := Input.get_joy_axis(device_idx, axis_y)
-		var curr_value := Vector2(x1, y1)
+func process_joystick_events(joystick: HBJoystickData) -> Array[ProcessedAnalogInputEvent]:
+	var merged_events := joystick.merge_events()
+	var out_merged_events: Array[ProcessedAnalogInputEvent]
+	var debug_w := joystick.get_meta("debug_w") as HBAnalogInputProcessorDebug
+	for event in merged_events:
+		var val := event.value
+		var prev_joystick_state := joystick.joy_value
+		if event.axises & HBJoystickData.AXIS_BITFIELD.X:
+			joystick.joy_value.x = event.value.x
+		if event.axises & HBJoystickData.AXIS_BITFIELD.Y:
+			joystick.joy_value.y = event.value.y
+		debug_w.display_input(joystick.joy_value)
+		var just_hearted := false
+		var heart_just_released := false
+		var heart_release_event: ProcessedAnalogInputEvent
+		var heart_press_event: ProcessedAnalogInputEvent
+		var deadzone_inner: float = UserSettings.user_settings.direct_joystick_deadzone - 0.1
+		var deadzone_outer: float = UserSettings.user_settings.direct_joystick_deadzone
+		if joystick.event_states & HBJoystickData.EVENT_STATES.HEART && (joystick.joy_value.length() < deadzone_inner or HBJoystickData.event_intersects_deadzone(deadzone_inner, prev_joystick_state, joystick.joy_value)):
+			joystick.event_states = joystick.event_states &(~HBJoystickData.EVENT_STATES.HEART)
+			heart_just_released = true
+			if get_action_press_count(_get_analog_action_name(HBJoystickData.EVENT_STATES.HEART)) == 0:
+				heart_release_event = ProcessedAnalogInputEvent.new()
+				heart_release_event.pressed = false
+				heart_release_event.action = HBJoystickData.EVENT_STATES.HEART
+				heart_release_event.joystick = joystick.x_axis_idx
+				heart_release_event.device = joystick.device_idx
+				heart_release_event.timestamp = event.timestamp
+			
+				if joystick.joy_value.length() > deadzone_inner and HBJoystickData.event_intersects_deadzone(deadzone_inner, prev_joystick_state, joystick.joy_value):
+					heart_release_event.used_extrapolation = true
+				out_merged_events.push_back(heart_release_event)
+		if (joystick.event_states & HBJoystickData.EVENT_STATES.HEART == 0) && joystick.joy_value.length() > deadzone_outer:
+			heart_press_event = ProcessedAnalogInputEvent.new()
+			heart_press_event.pressed = true
+			heart_press_event.action = HBJoystickData.EVENT_STATES.HEART
+			heart_press_event.joystick = joystick.x_axis_idx
+			heart_press_event.device = joystick.device_idx
+			heart_press_event.timestamp = event.timestamp
+			out_merged_events.push_back(heart_press_event)
+			
+			just_hearted = true
+			joystick.event_states = joystick.event_states | HBJoystickData.EVENT_STATES.HEART
 		
-		var prev_filtered_input := dja_lfa.left if joystick == 0 else dja_lfa.right as Vector2
-		var filtered_input := curr_value
-		var factor: float = UserSettings.user_settings.direct_joystick_filter_factor
-		
-		# WMA
-		var pva := dja_wma.left if joystick == 0 else dja_wma.right as PackedVector2Array
-		if pva.size() != 20:
-			pva.resize(20)
-			pva.fill(Vector2.ZERO)
-		var wma_total := 0.0
-		var wma_sum := Vector2()
-		# Move WMA to the right and do WMA computation
-		for i in range(1, pva.size()):
-			wma_total += (i * i * i)
-			wma_sum += pva[i] * (i * i * i)
-			pva[i-1] = pva[i]
-		wma_sum += curr_value * (pva.size() * pva.size() * pva.size())
-		wma_total += (pva.size() * pva.size() * pva.size())
-		wma_sum /= wma_total
-		
-		pva[pva.size()-1] = curr_value
-		if joystick == 0:
-			dja_wma.left = pva
-		else:
-			dja_wma.right = pva
-		
-		filtered_input = wma_sum
-		
-		var is_in_slide_window: bool = abs((Vector2.RIGHT * sign(filtered_input.x)).angle_to(filtered_input)) < deg_to_rad(UserSettings.user_settings.direct_joystick_slider_angle_window) * 0.5
-		var curr_length := filtered_input.length()
-		var prev_length := prev_filtered_input.length()
-		# We need to check for the sign here to make sure we don't compare against 0, since that could be an issue
-		if sign(filtered_input.x) != 0 and is_in_slide_window:
-			if curr_length > deadzone and (prev_length < deadzone or sign(prev_filtered_input.x) != sign(filtered_input.x)):
-				press_actions_to_send.push_back("slide_right" if filtered_input.x > 0.0 else "slide_left")
-				press_actions_event_uids.push_back(event_uid)
-				action_state.push_back(true)
-		
-		# Sometimes, when quickly turning the stick to the opposite direction the whole deadzone is skipped
-		# this ensures that we still trigger those events if necessary
-		var is_opposite: bool = abs(prev_filtered_input.angle_to(-filtered_input)) < deg_to_rad(90.0 * 0.5)
-		if curr_length > deadzone and (prev_length < deadzone or is_opposite):
-			press_actions_to_send.push_back("heart_note")
-			press_actions_event_uids.push_back(event_uid)
-			action_state.push_back(true)
-		# Heart note release
-		if (curr_length < deadzone and prev_length > deadzone) or (prev_length > deadzone and is_opposite):
-			if _get_analog_action_held_count("heart_note") == 1:
-				press_actions_to_send.push_back("heart_note")
-				press_actions_event_uids.push_back(event_uid)
-				action_state.push_back(false)
-		if joystick == 0:
-			dja_lfa.left = filtered_input
-		else:
-			dja_lfa.right = filtered_input
-	
-	if press_actions_to_send.size() > 0:
-		for i in range(press_actions_to_send.size()):
-			last_action_device_idx = device_idx
-			last_action_device_type = DEVICE_TYPE.JOYPAD
-			send_input(press_actions_to_send[i], action_state[i], press_actions_to_send.size(), press_actions_event_uids[i], press_actions_to_send)
+		var angular_deadzone := deg_to_rad(UserSettings.user_settings.direct_joystick_slider_angle_window)
+		for slide_side in [HBJoystickData.EVENT_STATES.SLIDE_LEFT, HBJoystickData.EVENT_STATES.SLIDE_RIGHT]:
+			var dir := Vector2.RIGHT if slide_side == HBJoystickData.EVENT_STATES.SLIDE_RIGHT else Vector2.LEFT
+			if joystick.event_states & slide_side == 0 and just_hearted && abs(dir.angle_to(joystick.joy_value)) < angular_deadzone * 0.5:
+				var ev := ProcessedAnalogInputEvent.new()
+				ev.pressed = true
+				ev.action = slide_side
+				ev.actions = [slide_side, HBJoystickData.EVENT_STATES.HEART]
+				heart_press_event.actions = [slide_side, HBJoystickData.EVENT_STATES.HEART]
+				ev.joystick = joystick.x_axis_idx
+				ev.device = joystick.device_idx
+				ev.timestamp = event.timestamp
+				out_merged_events.push_back(ev)
+				
+				joystick.event_states = joystick.event_states |  slide_side
+			if joystick.event_states & slide_side and ((heart_just_released and not just_hearted) or abs(dir.angle_to(joystick.joy_value)) >= angular_deadzone * 0.5):
+				joystick.event_states = joystick.event_states & (~slide_side)
+				
+			
+	return out_merged_events
 
 func flush_inputs(prev_game_time_usec: float, new_game_time_usec: float, last_frame_time_usec: int):
-	if is_processing_input():
-		_handle_direct_axis_input()
+	for joystick_v in joypad_device_datas.values():
+		var joystick_device := joystick_v as JoypadDeviceData
+		if not joystick_device.uses_direct_joypad_access():
+			continue
+		for joystick in joystick_device.direct_joysticks:
+			var events := process_joystick_events(joystick)
+			for event in events:
+				var actions := event.actions.map(func(a: int): return _get_analog_action_name(a))
+				
+				send_input(_get_analog_action_name(event.action), event.pressed, event.actions.size(), get_dja_event_uid(joystick_device.device_idx, event.joystick), actions, event.timestamp)
 	super.flush_inputs(prev_game_time_usec, new_game_time_usec, last_frame_time_usec)
 
+func _input(event: InputEvent) -> void:
+	super._input(event)
+	if event is InputEventKey:
+		if event.keycode == KEY_F10:
+			get_window().gui_embed_subwindows = false
+			for device_d in joypad_device_datas.values():
+				var device: JoypadDeviceData = device_d
+				for w in device.debug_windows:
+					w.popup_centered()
 func _input_received(event: InputEvent):
 	var actions_to_send = []
 	var releases_to_send = []
@@ -214,6 +252,13 @@ func _input_received(event: InputEvent):
 							
 		current_input_handled = false
 							
+		if event is InputEventJoypadMotion:
+			if event.axis in DIRECT_AXIS:
+				var device := get_or_create_joypad_device_data(event.device)
+				if device.uses_direct_joypad_access():
+					for joystick in device.direct_joysticks:
+						if joystick.push_input(event):
+							return
 		for action in found_actions:
 			if event is InputEventJoypadMotion:
 				var digital_action = action
