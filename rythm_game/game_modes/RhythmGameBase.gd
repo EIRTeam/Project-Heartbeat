@@ -399,6 +399,7 @@ func _on_viewport_size_changed():
 var handled_event_uids_this_frame := []
 var unhandled_input_events_this_frame := []
 
+var slide_empty_fired_this_frame = false
 func _process_input(event):
 	if event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 		if Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
@@ -409,11 +410,10 @@ func _process_input(event):
 					start()
 					# call ui on intro skip
 					emit_signal("intro_skipped", get_time_to_intro_skip_to() / 1000.0)
-	var slide_empty_fired = false
 	if event is InputEventHB and not game_mode == GAME_MODE.EDITOR_SEEK:
 		var input_handled := false
-		if not slide_empty_fired and (event.action == "heart_note" or event.action == "slide_left" or event.action == "slide_right") and event.pressed:
-			slide_empty_fired = true
+		if not slide_empty_fired_this_frame and (event.action == "heart_note" or event.action == "slide_left" or event.action == "slide_right") and event.pressed:
+			slide_empty_fired_this_frame = true
 			sfx_pool.play_sfx("slide_empty")
 		for group in current_note_groups:
 			if group.process_input(event):
@@ -581,6 +581,7 @@ func _pre_process_game():
 func _process(delta):
 	_pre_process_game()
 	_process_game(delta)
+	slide_empty_fired_this_frame = false
 	notes_judged_this_frame = []
 	game_input_manager._frame_end()
 	last_frame_time_usec = Time.get_ticks_usec()
@@ -705,7 +706,7 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 func _play_empty_note_sound(event: InputEventHB):
 	if event.is_pressed():
 		if not event.event_uid in handled_event_uids_this_frame:
-			if not event.action == "heart_note":
+			if not event.action in ["heart_note", "slide_left", "slide_right"]:
 				sfx_pool.play_sfx("note_hit")
 				handled_event_uids_this_frame.append(event.event_uid)
 
