@@ -744,7 +744,8 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	if create_action:
 		undo_redo.create_action(action_name)
 
-	if property_name == "time":
+	var timing_changed := property_name in ["time", "time_out", "auto_time_out"]
+	if timing_changed:
 		for selected_item in selected:
 			undo_redo.add_do_method(rhythm_game.editor_remove_timing_point.bind(selected_item.data))
 			undo_redo.add_undo_method(rhythm_game.editor_remove_timing_point.bind(selected_item.data))
@@ -811,7 +812,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	undo_redo.add_do_method(self.sync_lyrics)
 	undo_redo.add_undo_method(self.sync_lyrics)
 	
-	if property_name == "time":
+	if timing_changed:
 		undo_redo.add_do_method(self.sort_current_items)
 		
 		for selected_item in selected:
@@ -858,8 +859,12 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 		undo_redo.add_do_method(child.update_widget_data)
 		undo_redo.add_undo_method(child.update_widget_data)
 	
-	if  property_name == "bpm" or property_name == "time_signature" or \
-		(property_name == "time" and child.data is HBTimingChange):
+	const TIMING_PROPERTIES := ["time", "auto_time_out", "time_out"]
+	
+	var timing_changed := property_name == "bpm" or property_name == "time_signature" \
+		or (property_name in TIMING_PROPERTIES and child.data is HBTimingChange)
+	
+	if  timing_changed:
 		undo_redo.add_do_method(self._on_timing_information_changed)
 		undo_redo.add_undo_method(self._on_timing_information_changed)
 	

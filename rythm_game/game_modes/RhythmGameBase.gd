@@ -344,7 +344,7 @@ func _set_timing_points(points):
 	
 	timing_points = _process_timing_points_into_groups(points)
 	for group in note_groups:
-		note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+		_insert_group_into_interval_tree(group)
 # Previously get_bpm_at_time
 func get_note_speed_at_time(bpm_time: int) -> float:
 	if not bpm_map:
@@ -400,6 +400,8 @@ var handled_event_uids_this_frame := []
 var unhandled_input_events_this_frame := []
 
 var slide_empty_fired_this_frame = false
+var has_empty_event := false
+var should_fire_empty := true
 func _process_input(event):
 	if event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 		if Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
@@ -412,18 +414,24 @@ func _process_input(event):
 					emit_signal("intro_skipped", get_time_to_intro_skip_to() / 1000.0)
 	if event is InputEventHB and not game_mode == GAME_MODE.EDITOR_SEEK:
 		var input_handled := false
+		var is_empty_event := false
 		if not slide_empty_fired_this_frame and (event.action == "heart_note" or event.action == "slide_left" or event.action == "slide_right") and event.pressed:
-			slide_empty_fired_this_frame = true
-			sfx_pool.play_sfx("slide_empty")
+			has_empty_event = true
+			is_empty_event = true
 		for group in current_note_groups:
 			if group.process_input(event):
 				input_handled = true
 				handled_event_uids_this_frame.append(event.event_uid)
+				if is_empty_event:
+					should_fire_empty = false
 				break
 			elif group.is_blocking_input():
 				break
+			
 		if not input_handled:
 			unhandled_input_events_this_frame.append(event)
+	if has_empty_event and should_fire_empty:
+		sfx_pool.play_sfx("slide_empty")
 func _on_input_received(event: InputEventHB):
 	_process_input(event)
 
@@ -582,6 +590,8 @@ func _process(delta):
 	_pre_process_game()
 	_process_game(delta)
 	slide_empty_fired_this_frame = false
+	has_empty_event = false
+	should_fire_empty = true
 	notes_judged_this_frame = []
 	game_input_manager._frame_end()
 	last_frame_time_usec = Time.get_ticks_usec()
@@ -773,10 +783,18 @@ func seek_new(new_position_msec: int, reset_notes := false):
 		current_note_groups.clear()
 		finished_note_groups.clear()
 
+func _remove_group_from_interval_tree(group: HBNoteGroup):
+	note_group_interval_tree.erase(group.get_meta("inserted_interval_start"), group.get_meta("inserted_interval_end"), group.get_instance_id())
+	
+func _insert_group_into_interval_tree(group: HBNoteGroup):
+	note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+	group.set_meta("inserted_interval_start", group.get_start_time_msec())
+	group.set_meta("inserted_interval_end", group.get_end_time_msec())
+
 func editor_rebuild_interval_tree():
 	note_group_interval_tree.clear()
 	for group: HBNoteGroup in note_groups:
-		note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+		_insert_group_into_interval_tree(group)
 
 func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 	if point is HBBaseNote:
@@ -797,10 +815,10 @@ func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 		group.reset_group()
 		var group_interval_changed := had_group and (group.get_start_time_msec() != original_start_msec or group.get_end_time_msec() != original_end_msec) 
 		if group_interval_changed:
-			note_group_interval_tree.erase(original_start_msec, original_end_msec, group.get_instance_id())
-			note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+			_remove_group_from_interval_tree(group)
+			_insert_group_into_interval_tree(group)
 		elif not had_group:
-			note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+			_insert_group_into_interval_tree(group)
 			
 		note_data.set_meta("editor_group", group)
 		
@@ -840,9 +858,9 @@ func editor_remove_timing_point(point: HBTimingPoint):
 			var prev_end := group.get_end_time_msec()
 			group.note_datas.erase(note_data)
 			group.reset_group()
-			note_group_interval_tree.erase(prev_start, prev_end, group.get_instance_id())
+			_remove_group_from_interval_tree(group)
 			if group.note_datas.size() > 0:
-				note_group_interval_tree.insert(group.get_start_time_msec(), group.get_end_time_msec(), group.get_instance_id())
+				_insert_group_into_interval_tree(group)
 			else:
 				note_groups.erase(group)
 				
