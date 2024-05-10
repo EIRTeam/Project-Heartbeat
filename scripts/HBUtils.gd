@@ -592,6 +592,29 @@ static func bsearch_linear(array: Array, value: int) -> float:
 	var decimal = inverse_lerp(array[idx], array[idx + 1], value)
 	return idx + decimal
 
+
+class RequestImageURLResponse:
+	var result := OK
+	var texture: Texture2D
+
+static func request_image_url(url: String) -> RequestImageURLResponse:
+	var req := HTTPRequestQueue.add_request(url)
+	var res := await req.request_completed as Array
+	var req_result := res[0] as int
+	var response_code := res[1] as int
+	var _headers := res[2] as PackedStringArray
+	var body := res[3] as PackedByteArray
+
+	var out := RequestImageURLResponse.new()
+
+	if req_result != OK or response_code != HTTPClient.RESPONSE_OK:
+		out.result = FAILED
+		printerr("Image request (%s) failed with error code %d and response code %d (%s)" % [url, req_result, response_code, body.get_string_from_utf8()])
+		return
+	out.texture = HBUtils.array2texture(body)
+	return out
+	
+
 static func get_clear_badge(rating: HBResult.RESULT_RATING) -> Texture2D:
 	const clear_badges = {
 		HBResult.RESULT_RATING.CHEAP: preload("res://graphics/icons/clearBadge-Cheap.png"),

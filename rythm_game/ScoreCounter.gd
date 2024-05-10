@@ -1,5 +1,7 @@
 extends Label
 
+class_name HBScoreCounter
+
 var score = 0: set = set_score
 
 var _display_score = 0.0

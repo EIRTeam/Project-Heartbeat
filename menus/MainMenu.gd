@@ -41,7 +41,7 @@ func _init():
 		},
 		"pre_game": {
 			"left": preload("res://menus/pregame_screen/PreGameScreen.tscn").instantiate(),
-			"right": "mp_leaderboard"
+			"right": "empty"
 		},
 		"download_queue" : {
 			"left": preload("res://menus/media_download_queue/MediaDownloadQueue.tscn").instantiate(),
@@ -56,7 +56,7 @@ func _init():
 			"right": "song_list_preview"
 		},
 		"mp_leaderboard": {
-			"right": preload("res://menus/RightLeaderboard.tscn").instantiate()
+			"right": preload("res://menus/MultiplayerLeaderboard.tscn").instantiate()
 		},
 		"song_list": {
 			"left": preload("res://menus/song_list/SongList.tscn").instantiate(),
@@ -136,12 +136,14 @@ func _ready():
 	
 	MENUS["song_list"].left.connect("song_hovered", Callable(MENUS["song_list_preview"].right, "select_song"))
 	MENUS["lobby"].left.connect("song_selected", Callable(MENUS["song_list_preview"].right, "select_song"))
+	MENUS["lobby"].left.connect("ugc_song_selected", Callable(MENUS["song_list_preview"].right, "select_ugc_song"))
 	MENUS["song_list"].left.connect("song_hovered", Callable(MENUS["pre_game"].left, "select_song"))
 	#MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "fetch_entries")
 	
 	MENUS["results"].left.connect("select_song", Callable(MENUS["song_list_preview"].right, "select_song"))
+	MENUS["results_mp"].left.show_song_results_mp.connect(MENUS["mp_leaderboard"].right.set_lobby)
 	
-	MENUS["results_mp"].left.connect("show_song_results_mp", Callable(MENUS["mp_leaderboard"].right.get_leadearboard_control(), "set_entries"))
+	#MENUS["results_mp"].left.connect("show_song_results_mp", Callable(MENUS["mp_leaderboard"].right.get_leadearboard_control(), "set_entries"))
 	
 	#MENUS["pre_game"].left.connect("song_selected", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
 	MENUS["pre_game"].left.connect("begin_loading", Callable(self, "_on_loading_begun"))

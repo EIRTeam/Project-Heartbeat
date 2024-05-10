@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://r6cc2m204dqw"]
+[gd_scene load_steps=8 format=4 uid="uid://r6cc2m204dqw"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]

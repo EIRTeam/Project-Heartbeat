@@ -71,6 +71,7 @@ class CachingQueueEntry:
 	var aborted := false
 	var task_id := -1
 	signal download_progress_changed(download_progress, download_speed)
+	signal download_finished(result: int, error_message: String)
 	var extension := ""
 	var download_video: bool
 	var download_audio: bool
@@ -473,7 +474,7 @@ func _download_video(userdata: CachingQueueEntry):
 	Log.log(self, "Video download finish!")
 	call_deferred("_video_downloaded", entry, result)
 	
-func show_error(output: String, message: String, song: HBSong):
+func show_error(output: String, message: String, song: HBSong) -> String:
 	var progress_thing = PROGRESS_THING.instantiate()
 	DownloadProgress.add_notification(progress_thing, true)
 	progress_thing.type = HBDownloadProgressThing.TYPE.ERROR
@@ -491,7 +492,9 @@ func show_error(output: String, message: String, song: HBSong):
 	progress_thing.life_timer = 10.0
 	
 	# We log the whole output to disk just in case
-	Log.log(self, message.format({"song_title": song.get_visible_title(), "error_message": output}), Log.LogLevel.ERROR)
+	var out_err := message.format({"song_title": song.get_visible_title(), "error_message": output})
+	Log.log(self, out_err, Log.LogLevel.ERROR)
+	return out_err
 	
 func _video_downloaded(entry: CachingQueueEntry, result):
 	if entry.task_id != -1:
@@ -508,14 +511,15 @@ func _video_downloaded(entry: CachingQueueEntry, result):
 	var has_error = false
 	var current_song := tracked_video_downloads[result.video_id].song as HBSong
 	var song = current_song
+	var out_error := ""
 	if result.has("video"):
 		if not result.video:
 			has_error = true
-			show_error(result.video_out, "Error downloading video for {song_title}. ({error_message})", current_song)
+			out_error = show_error(result.video_out, "Error downloading video for {song_title}. ({error_message})", current_song)
 	if result.has("audio"):
 		if not result.audio:
 			has_error = true
-			show_error(result.audio_out, "Error downloading audio forxº {song_title}. ({error_message})", current_song)
+			out_error = show_error(result.audio_out, "Error downloading audio forxº {song_title}. ({error_message})", current_song)
 	if not has_error:
 		var progress_thing = PROGRESS_THING.instantiate()
 		DownloadProgress.add_notification(progress_thing, true)
@@ -527,9 +531,11 @@ func _video_downloaded(entry: CachingQueueEntry, result):
 		tracked_video_downloads.erase(result.video_id)
 	caching_queue.erase(result.cache_entry)
 	if not has_error:
-		song.emit_signal("song_cached")
+		entry.download_finished.emit(OK, out_error)
+		song.song_cached.emit()
 		emit_signal("song_cached", song)
 	else:
+		entry.download_finished.emit(FAILED, out_error)
 		emit_signal("song_caching_failed", song)
 	process_queue()
 	emit_signal("video_downloaded",  result.video_id, result)
@@ -616,7 +622,7 @@ func get_cache_status(url: String, video=true, audio=true):
 	cache_meta_mutex.unlock()
 	return cache_status
 
-func cache_song(song: HBSong, variant := -1):
+func cache_song(song: HBSong, variant := -1) -> CachingQueueEntry:
 	var entry = CachingQueueEntry.new()
 	entry.song = song
 	entry.variant = variant
@@ -626,12 +632,24 @@ func cache_song(song: HBSong, variant := -1):
 		entry.video_id = video_id
 		caching_queue.append(entry)
 		process_queue()
+		return entry
 	else:
 		var progress_thing = PROGRESS_THING.instantiate()
 		DownloadProgress.add_notification(progress_thing)
 		progress_thing.set_type(HBDownloadProgressThing.TYPE.ERROR)
 		progress_thing.life_timer = 2.0
 		progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
+		return null
+func get_caching_entry(song: HBSong, variant: int) -> CachingQueueEntry:
+	for dict in YoutubeDL.tracked_video_downloads.values():
+		var entry: CachingQueueEntry = dict.entry
+		if entry.song == song and entry.variant == variant:
+			return entry
+		
+	for entry in YoutubeDL.caching_queue:
+		if entry.song == song and entry.variant == variant:
+			return entry
+	return null
 
 func process_queue(offset := 0):
 	if YoutubeDL.status != YoutubeDL.YOUTUBE_DL_STATUS.READY:

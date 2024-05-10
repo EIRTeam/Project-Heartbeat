@@ -1,6 +1,8 @@
 @tool
 extends Control
 
+class_name HBConfirmationWindow
+
 signal accept
 signal cancel
 @export var has_cancel: bool = true 
@@ -63,6 +65,5 @@ func popup_centered_ratio(ratio := 0.5):
 func popup_centered():
 	_on_Control_about_to_show()
 	show()
-	print(get_window().get_visible_rect())
 	var center := get_window().get_visible_rect().get_center()
 	global_position = center - size*0.5

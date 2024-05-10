@@ -4,7 +4,7 @@ var lobby_name: String = "I can't believe my little lobby can be this cute": set
 var lobby_max_members: int = 10: set = set_lobby_max_members
 var lobby_members: int = 1: set = set_lobby_members
 
-var lobby: HBLobby
+var lobby: HBSteamLobby
 
 @onready var lobby_title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/LobbyTitleLabel")
 @onready var lobby_member_count_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/MemberCountLabel")
@@ -25,14 +25,16 @@ func set_lobby_max_members(val):
 	lobby_member_count_label.text = "%d/%d" % [lobby_members, lobby_max_members]
 
 
-func set_lobby(_lobby: HBLobby):
+func set_lobby(_lobby: HBSteamLobby):
 	lobby = _lobby
-	if lobby.get_song() == null or not lobby.get_song().has_audio():
-		song_status_icon.texture = NOTE_ERR_ICON
-	else:
-		song_status_icon.texture = NOTE_OK_ICON
-	
-	song_name_label.text = lobby.get_song_name()
-	set_lobby_name(lobby.lobby_name)
-	set_lobby_members(lobby.member_count)
-	set_lobby_max_members(lobby.max_members)
+	var lobby_data := lobby.get_data(HeartbeatSteamLobby.LOBBY_DATA_KEY)
+	if lobby_data.is_empty():
+		return
+	var data_dict: Dictionary = str_to_var(lobby_data)
+
+	var data := HeartbeatSteamLobbyData.from_dictionary(data_dict)
+	if data:
+		set_lobby_name(data.lobby_name)
+		song_name_label.text = data.song_title
+		set_lobby_members(lobby.get_members_count())
+		set_lobby_max_members(lobby.max_members)

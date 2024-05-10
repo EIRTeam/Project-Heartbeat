@@ -87,6 +87,11 @@ func _ready():
 	set_process_input(false)
 	RenderingServer.canvas_item_set_z_index(items_panel_container.get_canvas_item(), 100)
 
+func get_selected_item_id() -> int:
+	if buttons.size() == 0:
+		return -1
+	return buttons[selected_item].get_meta("id", selected_item)
+
 func _notification(what):
 	match what:
 		NOTIFICATION_ENTER_TREE:

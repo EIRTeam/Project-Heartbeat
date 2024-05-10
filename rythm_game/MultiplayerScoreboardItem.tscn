@@ -1,10 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://uod8mukngj86"]
+[gd_scene load_steps=10 format=4 uid="uid://uod8mukngj86"]
 
-[ext_resource type="FontVariation" path="res://fonts/noto/NotoSans-Regular.tres" id="1"]
+[ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="1"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="2"]
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="3"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="4"]
-[ext_resource type="FontFile" uid="uid://bp300py43a3w8" path="res://fonts/orbitron-black-mono.otf" id="5"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="4"]
 [ext_resource type="Script" path="res://rythm_game/MultiplayerScoreboardItem.gd" id="6"]
 [ext_resource type="Script" path="res://rythm_game/ScoreCounter.gd" id="7"]
 
@@ -24,19 +23,9 @@ shadow_size = 10
 
 [sub_resource type="FontFile" id="2"]
 fallbacks = Array[Font]([ExtResource("2"), ExtResource("1")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-
-[sub_resource type="FontFile" id="3"]
-fallbacks = Array[Font]([ExtResource("5")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -50,6 +39,9 @@ cache/0/30/0/scale = 1.0
 
 [sub_resource type="FontFile" id="4"]
 fallbacks = Array[Font]([ExtResource("4")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -60,19 +52,28 @@ cache/0/30/0/descent = 0.0
 cache/0/30/0/underline_position = 0.0
 cache/0/30/0/underline_thickness = 0.0
 cache/0/30/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
 
-[node name="MultiplayerScoreboardItem" type="Panel"]
+[node name="MultiplayerScoreboardItem" type="HBPanelContainerBlurEX"]
 custom_minimum_size = Vector2(0, 83)
 offset_top = 322.0
-offset_right = 256.0
-offset_bottom = 398.0
+offset_right = 291.0
+offset_bottom = 438.0
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("1")
 script = ExtResource("6")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
@@ -82,41 +83,44 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 theme_override_constants/separation = 13
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+[node name="AvatarTextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(73, 0)
 layout_mode = 2
 texture = ExtResource("3")
 expand_mode = 1
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 2
+theme_override_constants/separation = -20
 alignment = 1
 
 [node name="MemberNameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("2")
-text = "(NT)EIREXE"
+text = "EIREXE"
 
-[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="ScoreCounter" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
-theme_override_fonts/font = SubResource("3")
-text = "(NT)0000000"
+theme_override_fonts/font = ExtResource("4")
+text = "1000000"
 vertical_alignment = 1
 script = ExtResource("7")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="RatingLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("4")
+theme_override_font_sizes/font_size = 20
 text = "(NT)COOL"
 vertical_alignment = 1

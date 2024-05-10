@@ -237,9 +237,10 @@ func save_song():
 	
 	save_to_file(get_meta_path())
 
-func cache_data(variant := -1):
+func cache_data(variant := -1) -> YoutubeDL.CachingQueueEntry:
 	if youtube_url:
 		return YoutubeDL.cache_song(self, variant)
+	return null
 
 func has_audio():
 	if audio != "" or (use_youtube_for_audio and is_cached()):

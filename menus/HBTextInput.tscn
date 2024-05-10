@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dtchd3yrqrcbd"]
+[gd_scene load_steps=8 format=4 uid="uid://dtchd3yrqrcbd"]
 
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="1"]
 [ext_resource type="Script" path="res://menus/HBTextInput.gd" id="2"]

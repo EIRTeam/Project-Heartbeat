@@ -1,14 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://dg1viq66ci7cl"]
+[gd_scene load_steps=13 format=4 uid="uid://dg1viq66ci7cl"]
 
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="1"]
-[ext_resource type="PackedScene" path="res://multiplayer/lobby/MemberList.tscn" id="2"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
+[ext_resource type="PackedScene" uid="uid://bjxa2hpnq0raa" path="res://multiplayer/lobby/MemberList.tscn" id="2"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4"]
-[ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="5"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="7"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_medium.tres" id="8"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="8"]
+[ext_resource type="PackedScene" uid="uid://cy0nvbceaj51i" path="res://multiplayer/lobby/LobbyChat.tscn" id="8_d1lvb"]
 [ext_resource type="Script" path="res://multiplayer/lobby/LobbyMenu.gd" id="9"]
+[ext_resource type="PackedScene" uid="uid://8x1aoqn11c4h" path="res://multiplayer/lobby/LobbyMenuDebug.tscn" id="10_jpq1t"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 content_margin_left = 10.0
@@ -32,10 +33,6 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxEmpty" id="3"]
-
-[sub_resource type="StyleBoxEmpty" id="4"]
-
 [node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -57,10 +54,10 @@ theme_override_constants/margin_bottom = 30
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="LobbyNameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = ExtResource("1")
 text = "(NT)LOBBY_NAME"
 
@@ -71,38 +68,49 @@ size_flags_vertical = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.5
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Panel" type="HBPanelContainerBlurEX" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 theme_override_styles/panel = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel"]
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LobbyMainMenu" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_bottom = NodePath("../../../../../../LobbyChat")
 focus_mode = 2
 alignment = 2
 script = ExtResource("4")
 orientation = 1
 
-[node name="SelectSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=["owner_only"]]
+[node name="SelectSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" groups=["owner_only"]]
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8")
@@ -112,8 +120,7 @@ script = ExtResource("6")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
 
-[node name="InviteFriendButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=["owner_only", "steam_only"]]
-visible = false
+[node name="InviteFriendButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" groups=["owner_only", "steam_only"]]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8")
 theme_override_styles/normal = SubResource("1")
@@ -122,7 +129,7 @@ script = ExtResource("6")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
 
-[node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=["owner_only"]]
+[node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" groups=["owner_only"]]
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8")
@@ -132,7 +139,7 @@ script = ExtResource("6")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
 
-[node name="LeaveLobbyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer"]
+[node name="LeaveLobbyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu"]
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8")
@@ -142,62 +149,21 @@ script = ExtResource("6")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
 
-[node name="MemberList" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2")]
+[node name="LobbyChat" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("8_d1lvb")]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu")
+
+[node name="MemberList" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="Chat" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("3")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Chat"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 0
-
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Chat/MarginContainer"]
-layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("8")
-theme_override_styles/focus = SubResource("3")
-theme_override_styles/normal = SubResource("4")
-bbcode_enabled = true
-scroll_active = false
-scroll_following = true
-custom_effects = [null]
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 1
-theme_override_styles/focus = ExtResource("3")
-theme_override_styles/read_only = ExtResource("3")
-theme_override_styles/normal = ExtResource("3")
-
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-focus_mode = 1
-theme_override_styles/normal = ExtResource("5")
-text = "Send"
 
 [node name="WaitingForSongConfirmation" parent="." instance=ExtResource("7")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 650.0
 offset_bottom = 409.0
 grow_horizontal = 1
@@ -208,11 +174,8 @@ accept_text = ""
 cancel_text = "Cancel"
 
 [node name="SongConfirmationError" parent="." instance=ExtResource("7")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = -509.0
@@ -227,11 +190,8 @@ accept_text = "Okay"
 cancel_text = ""
 
 [node name="DownloadingMesssage" parent="." instance=ExtResource("7")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = -509.0
@@ -246,9 +206,31 @@ text = "Downloading song data..."
 accept_text = "Okay"
 cancel_text = ""
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer/SelectSongButton" to="." method="_on_SelectSongButton_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer/InviteFriendButton" to="." method="_on_InviteFriendButton_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer/LeaveLobbyButton" to="." method="_on_LeaveLobbyButton_pressed"]
-[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_LineEdit_gui_input"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button" to="." method="send_chat_message"]
+[node name="LobbyMenuDebugWindow" type="Window" parent="."]
+unique_name_in_owner = true
+size = Vector2i(1625, 755)
+visible = false
+
+[node name="LobbyMenuDebug" parent="LobbyMenuDebugWindow" instance=ExtResource("10_jpq1t")]
+unique_name_in_owner = true
+
+[node name="SendUGCDownloadSongRequestDialog" parent="." instance=ExtResource("7")]
+unique_name_in_owner = true
+layout_mode = 1
+text = "Looks like some players lack the needed Workshop song or media for the songs, would you like to ask them to download them?"
+
+[node name="DownloadUGCSongDialog" parent="." instance=ExtResource("7")]
+unique_name_in_owner = true
+layout_mode = 1
+text = "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
+
+[node name="ErrorMessage" parent="." instance=ExtResource("7")]
+unique_name_in_owner = true
+layout_mode = 1
+has_cancel = false
+text = "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu/SelectSongButton" to="." method="_on_song_select_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu/InviteFriendButton" to="." method="_on_invite_friend_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu/StartGameButton" to="." method="_attempt_start"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu/LeaveLobbyButton" to="." method="_leave_lobby"]

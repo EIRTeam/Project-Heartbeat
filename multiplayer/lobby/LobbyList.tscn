@@ -1,127 +1,130 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=4 uid="uid://cf08sm38s5w0b"]
 
-[ext_resource path="res://graphics/icons/refresh.svg" type="Texture2D" id=1]
-[ext_resource path="res://multiplayer/lobby/LobbyList.gd" type="Script" id=2]
-[ext_resource path="res://fonts/default_font_black.tres" type="FontVariation" id=3]
-[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
-[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture2D" id=5]
-[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=6]
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
-[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=8]
+[ext_resource type="Texture2D" uid="uid://8xswd8cqdah8" path="res://graphics/icons/refresh.svg" id="1"]
+[ext_resource type="Script" path="res://multiplayer/lobby/LobbyList.gd" id="2"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="5"]
+[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="6"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
+[ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://by2ja0itsxao3" path="res://multiplayer/lobby/CreateLobbyPrompt.tscn" id="9_5f20n"]
 
-[sub_resource type="Animation" id=1]
-loop = true
+[sub_resource type="Animation" id="1"]
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("../CenterContainer2/TextureRect2:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 0.5, 1 ),
-"transitions": PackedFloat32Array( 1, 1, 1e-05 ),
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1e-05),
 "update": 0,
-"values": [ 180.0, 0.0, -180.0 ]
+"values": [180.0, 0.0, -180.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_skgb7"]
+_data = {
+"Nueva Animación": SubResource("1")
 }
 
 [node name="LobbyListMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
 theme_override_constants/margin_top = 35
 theme_override_constants/margin_bottom = 35
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_top = 35.0
-offset_right = 1920.0
-offset_bottom = 1045.0
+layout_mode = 2
 theme_override_constants/separation = 28
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LobbiesFoundLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-offset_right = 1920.0
-offset_bottom = 47.0
-theme_override_fonts/font = ExtResource( 3 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3")
 
 [node name="CreateLobbyMenu" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-offset_top = 75.0
-offset_right = 1920.0
-offset_bottom = 125.0
+layout_mode = 2
 focus_mode = 2
 theme_override_constants/separation = 9
-script = ExtResource( 7 )
+script = ExtResource("7")
 
 [node name="CreateLobbyButton" type="Button" parent="MarginContainer/VBoxContainer/CreateLobbyMenu"]
-offset_right = 53.0
-offset_bottom = 50.0
-custom_minimum_size = Vector2( 50, 50 )
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
 text = "Create"
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="RefreshLobbyListButton" type="Button" parent="MarginContainer/VBoxContainer/CreateLobbyMenu"]
-offset_left = 62.0
-offset_right = 112.0
-offset_bottom = 50.0
-custom_minimum_size = Vector2( 50, 50 )
-icon = ExtResource( 1 )
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+icon = ExtResource("1")
 expand_icon = true
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
-offset_top = 153.0
-offset_right = 1920.0
-offset_bottom = 1010.0
-focus_mode = 2
+layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource( 6 )
+focus_mode = 2
+script = ExtResource("6")
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 scroll_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
-offset_right = 1920.0
-offset_bottom = 857.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/ScrollContainer/CenterContainer"]
-offset_left = 960.0
-offset_top = 428.0
-offset_right = 960.0
-offset_bottom = 428.0
-texture = ExtResource( 5 )
-expand = true
+layout_mode = 2
+texture = ExtResource("5")
+expand_mode = 1
 stretch_mode = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/VBoxContainer/ScrollContainer/CenterContainer"]
-playback_speed = -1.0
-"anims/Nueva Animación" = SubResource( 1 )
+libraries = {
+"": SubResource("AnimationLibrary_skgb7")
+}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
-offset_right = 1920.0
-offset_bottom = 857.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="StatusPrompt" parent="." instance=ExtResource( 8 )]
+[node name="StatusPrompt" parent="." instance=ExtResource("8")]
+layout_mode = 1
 has_cancel = false
 has_accept = false
 
-[node name="ErrorPrompt" parent="." instance=ExtResource( 8 )]
+[node name="ErrorPrompt" parent="." instance=ExtResource("8")]
+layout_mode = 1
 has_cancel = false
 accept_text = "Okay"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/CreateLobbyMenu/CreateLobbyButton" to="." method="_on_CreateLobbyButton_pressed"]
+[node name="KickedPrompt" parent="." instance=ExtResource("8")]
+unique_name_in_owner = true
+layout_mode = 1
+has_cancel = false
+text = "You were kicked from the lobby"
+accept_text = "Okay"
+
+[node name="CreateLobbyPrompt" parent="." instance=ExtResource("9_5f20n")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+grow_horizontal = 2
+grow_vertical = 2

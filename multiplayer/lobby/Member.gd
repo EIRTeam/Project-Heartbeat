@@ -1,40 +1,78 @@
 extends MarginContainer
 
-var member: HBServiceMember: set = set_member
-var lobby: HBLobby
-var is_owner: bool: set = set_is_owner
-var owned_by_local_user: bool: set = set_local_user_is_owner
+class_name LobbyMemberListMember
 
-@onready var member_name_label = get_node("VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/Label")
-@onready var avatar_texture_rect = get_node("VBoxContainer/HBoxContainer/TextureRect")
-@onready var owner_crown = get_node("VBoxContainer/HBoxContainer/HBoxContainer/TextureRect")
-@onready var set_as_host_button = get_node("VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer/SetAsHostButton")
+var member: HeartbeatSteamLobby.MemberMetadata:
+	set(val):
+		if member:
+			member.member.information_updated.disconnect(self._queue_update)
+			member.song_availability_meta.updated.disconnect(self._queue_update)
+			
+		member = val
+		member.member.information_updated.connect(self._queue_update)
+		member.song_availability_meta.updated.connect(self._queue_update)
+		_queue_update()
 
-func set_member(val: HBServiceMember):
-	# FIXME: joining while selecting song is funky
-	member = val
-	member_name_label.text = member.member_name
-	if not member.is_connected("persona_state_change", Callable(self, "_on_persona_state_changed")):
-		member.connect("persona_state_change", Callable(self, "_on_persona_state_changed"))
-	if not set_as_host_button.is_connected("pressed", Callable(lobby, "set_lobby_owner")):
-		set_as_host_button.connect("pressed", Callable(lobby, "set_lobby_owner").bind(member.member_id))
-	avatar_texture_rect.texture = member.avatar
-	
-func set_is_owner(val):
-	is_owner = val
-	owner_crown.visible = is_owner
-func set_local_user_is_owner(val):
-	owned_by_local_user = val
-	set_as_host_button.visible = (not is_owner) and owned_by_local_user
-	
-	
-func _ready():
-	connect("resized", Callable(self, "_on_resized"))
-	
-func _on_persona_state_changed(flags):
-	set_member(member)
-	
-func _on_resized():
-	var new_size = clamp(size.y, 25, 50)
-	avatar_texture_rect.custom_minimum_size = Vector2(new_size, new_size)
-	avatar_texture_rect.size = Vector2(new_size, new_size)
+var is_owner := false:
+	set(val):
+		is_owner = val
+		_queue_update()
+var is_lobby_owned_by_local_user := false:
+	set(val):
+		is_lobby_owned_by_local_user = val
+		_queue_update()
+
+signal make_owner_button_pressed
+signal kick_member_button_pressed
+
+@onready var member_name_label = get_node("%PersonaNameLabel")
+@onready var avatar_texture_rect = get_node("%AvatarTextureRect")
+@onready var owner_crown: TextureRect = get_node("%OwnerCrown")
+@onready var make_host_button: Button = get_node("%MakeHostButton")
+@onready var kick_member_button: Button = get_node("%KickButton")
+@onready var data_status_label: Label = get_node("%DataStatusLabel")
+@onready var meta_reloading_icon: TextureRect = get_node("%MetaReloadingIcon")
+
+var update_queued := false
+
+func _ready() -> void:
+	set_process(false)
+	make_host_button.pressed.connect(make_owner_button_pressed.emit)
+	kick_member_button.pressed.connect(kick_member_button_pressed.emit)
+
+func _process(delta: float) -> void:
+	meta_reloading_icon.rotation_degrees += delta * 180.0
+
+func _update():
+	update_queued = false
+	if member:
+		member_name_label.text = member.member.persona_name
+		avatar_texture_rect.texture = member.member.avatar
+		
+		owner_crown.visible = is_owner
+		make_host_button.visible = !is_owner && is_lobby_owned_by_local_user
+		kick_member_button.visible = !is_owner && is_lobby_owned_by_local_user
+		
+		if member.song_availability_meta._song_availability_dirty:
+			meta_reloading_icon.show()
+			data_status_label.hide()
+			set_process(true)
+		else:
+			meta_reloading_icon.hide()
+			data_status_label.show()
+			set_process(false)
+			match member.song_availability_meta.song_availability_status:
+				HeartbeatSteamLobby.SongAvailabilityStatus.HAS_DATA:
+					data_status_label.text = tr("OK!", &"Used in the lobby menu for when the player has all song data")
+				HeartbeatSteamLobby.SongAvailabilityStatus.NEEDS_UGC_SONG_DOWNLOAD:
+					data_status_label.text = tr("SONG MISSING", &"Used in the lobby menu for when the player doesn't have a workshop song")
+				HeartbeatSteamLobby.SongAvailabilityStatus.NEEDS_UGC_MEDIA_DOWNLOAD:
+					data_status_label.text = tr("SONG MEDIA MISSING", &"Used in the lobby menu for when the player doesn't have the media for a workshop song")
+				HeartbeatSteamLobby.SongAvailabilityStatus.MISSING_SONG:
+					data_status_label.text = tr("SONG MISSING", &"Used in the lobby menu for when the player doesn't have a non-workshop song")
+				HeartbeatSteamLobby.SongAvailabilityStatus.MISSING_SONG_MEDIA:
+					data_status_label.text = tr("SONG MEDIA MISSING", &"Used in the lobby menu for when the player doesn't have a non-workshop song")
+func _queue_update():
+	if not update_queued:
+		update_queued = true
+		_update.call_deferred()

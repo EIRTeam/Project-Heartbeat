@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=4 uid="uid://p8h1ee35bnxy"]
+
+[ext_resource type="Script" path="res://multiplayer/lobby/MultiplayerLeaderboardItem.gd" id="1_5k8d1"]
+[ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="1_6ew5b"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2_5j662"]
+[ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="3_egqxh"]
+
+[node name="MultiplayerLeaderboardItem" type="PanelContainer"]
+offset_left = 45.0
+offset_top = 19.0
+offset_right = 462.0
+offset_bottom = 135.0
+script = ExtResource("1_5k8d1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RankingLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "99"
+horizontal_alignment = 1
+
+[node name="AvatarTextureRect" type="TextureRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_6ew5b")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5j662")
+text = "Score"
+
+[node name="PercentageLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_egqxh")
+text = "Score"

@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=4 uid="uid://by2ja0itsxao3"]
+
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_idr6v"]
+[ext_resource type="Script" path="res://multiplayer/lobby/CreateLobbyPrompt.gd" id="2_70uwc"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="2_sotpd"]
+[ext_resource type="PackedScene" uid="uid://dhyyvctuvaunk" path="res://menus/HBHovereableOptionButton.tscn" id="3_ghbe2"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="5_kvywe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bfu4o"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0.74902)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 10
+
+[node name="CreateLobbyPrompt" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource("1_idr6v")
+script = ExtResource("2_70uwc")
+
+[node name="SortByPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_bfu4o")
+
+[node name="MarginContainer" type="MarginContainer" parent="SortByPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="SortByPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="ButtonContainer" type="VBoxContainer" parent="SortByPanel/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_neighbor_bottom = NodePath("../AcceptCancelButtonContainer")
+focus_mode = 2
+theme_override_constants/separation = 20
+script = ExtResource("2_sotpd")
+orientation = 1
+
+[node name="Label" type="Label" parent="SortByPanel/MarginContainer/VBoxContainer2/ButtonContainer"]
+layout_mode = 2
+text = "Create lobby"
+horizontal_alignment = 1
+
+[node name="LobbyPrivacy" parent="SortByPanel/MarginContainer/VBoxContainer2/ButtonContainer" instance=ExtResource("3_ghbe2")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Public"
+
+[node name="AcceptCancelButtonContainer" type="BoxContainer" parent="SortByPanel/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../ButtonContainer")
+focus_mode = 2
+theme_override_constants/separation = 15
+script = ExtResource("2_sotpd")
+
+[node name="CancelButton" type="Button" parent="SortByPanel/MarginContainer/VBoxContainer2/AcceptCancelButtonContainer"]
+layout_mode = 2
+text = "Cancel"
+script = ExtResource("5_kvywe")
+
+[node name="AcceptButton" type="Button" parent="SortByPanel/MarginContainer/VBoxContainer2/AcceptCancelButtonContainer"]
+layout_mode = 2
+text = "Accept"
+script = ExtResource("5_kvywe")
+
+[connection signal="pressed" from="SortByPanel/MarginContainer/VBoxContainer2/AcceptCancelButtonContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="SortByPanel/MarginContainer/VBoxContainer2/AcceptCancelButtonContainer/AcceptButton" to="." method="_on_accept_button_pressed"]

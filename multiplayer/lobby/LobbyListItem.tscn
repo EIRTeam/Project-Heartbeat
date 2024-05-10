@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://chxel0tx6rsfi"]
+[gd_scene load_steps=7 format=4 uid="uid://chxel0tx6rsfi"]
 
 [ext_resource type="Texture2D" uid="uid://dyuopeorlq6bt" path="res://graphics/icons/account.svg" id="1"]
 [ext_resource type="Texture2D" uid="uid://backmy8xbm3iy" path="res://graphics/icons/icon_note_OK.svg" id="3"]
@@ -38,9 +38,12 @@ theme_override_styles/normal = SubResource("2")
 script = ExtResource("8")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 36
 theme_override_constants/margin_top = 0
 
@@ -51,6 +54,7 @@ theme_override_constants/separation = -15
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = -10
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
@@ -73,7 +77,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 texture = ExtResource("3")
-expand_mode = 1
+expand_mode = 2
+stretch_mode = 5
 
 [node name="SongNameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
 layout_mode = 2

@@ -1,14 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://k6ydqqj6cf3j"]
+[gd_scene load_steps=9 format=4 uid="uid://k6ydqqj6cf3j"]
 
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="1"]
-[ext_resource type="FontVariation" path="res://fonts/noto/NotoSans-Regular.tres" id="2"]
+[ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2"]
 [ext_resource type="Script" path="res://multiplayer/lobby/Member.gd" id="3"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="4"]
 [ext_resource type="Texture2D" uid="uid://c8s20e88p3ig7" path="res://graphics/icons/crown.svg" id="5"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="6"]
+[ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="6_fgn7g"]
 
 [sub_resource type="FontFile" id="1"]
 fallbacks = Array[Font]([ExtResource("4"), ExtResource("2")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -21,12 +25,13 @@ cache/0/30/0/underline_thickness = 0.0
 cache/0/30/0/scale = 1.0
 
 [node name="MarginContainer" type="MarginContainer"]
-custom_minimum_size = Vector2(300, 50)
-offset_right = 327.0
-offset_bottom = 60.0
+custom_minimum_size = Vector2(300, 75)
+offset_right = 971.0
+offset_bottom = 62.0
 size_flags_horizontal = 0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 70
 theme_override_constants/margin_bottom = 10
 script = ExtResource("3")
 
@@ -37,44 +42,76 @@ size_flags_horizontal = 3
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 27
+size_flags_vertical = 3
+theme_override_constants/separation = 20
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+[node name="AvatarTextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("1")
-expand_mode = 1
-stretch_mode = 6
+expand_mode = 3
+stretch_mode = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 55
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PersonaNameLabel" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 5
-auto_translate = false
 theme_override_fonts/font = SubResource("1")
 text = "(NT)EIREXE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="OwnerCrown" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("5")
-stretch_mode = 6
+stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+
+[node name="MetaReloadingIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture = ExtResource("6_fgn7g")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="DataStatusLabel" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+visible = false
+layout_mode = 2
+text = "WORKSHOP SONG DOWNLOAD NEEDED"
+
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
 alignment = 1
 
-[node name="SetAsHostButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="MakeHostButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Set as host"
+script = ExtResource("6")
+
+[node name="KickButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Kick"
 script = ExtResource("6")

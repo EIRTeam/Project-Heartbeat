@@ -19,11 +19,10 @@ var game_info : HBGameInfo: set = set_game_info
 @onready var error_window = get_node("HBConfirmationWindow")
 
 signal show_song_results(song_id, difficulty)
-signal show_song_results_mp(entries)
+signal show_song_results_mp(lobby: HeartbeatSteamLobby)
 signal select_song(song)
 
-var mp_lobby: HBLobby
-var mp_entries = {}
+var mp_lobby: HeartbeatSteamLobby
 var current_song: HBSong
 var current_assets
 
@@ -48,24 +47,18 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 		retry_button.hide()
 	else:
 		retry_button.show()
-	if args.has("mp_entries"):
-		mp_entries = args.mp_entries
-		var lb_entries: Array[HBBackend.BackendLeaderboardEntry]
-		for member in mp_entries:
-			var entry = mp_entries[member] as HBResult
-			var lb_entry = HBBackend.BackendLeaderboardEntry.new(member, 0, HBGameInfo.new())
-			lb_entry.game_info.result = entry
-			lb_entries.append(lb_entry)
-		lb_entries.sort_custom(Callable(self, "custom_sort_mp_entries"))
-		for entry_i in lb_entries.size():
-			lb_entries[entry_i].rank = entry_i+1
-		emit_signal("show_song_results_mp", lb_entries)
 	if args.has("lobby"):
 		mp_lobby = args.lobby
+		mp_lobby.kicked.connect(self._on_kicked_from_lobby)
 		buttons.select_button(return_button.get_index())
-		# To be able to handle a song starting while we look at results		
-		mp_lobby.connect("lobby_loading_start", Callable(self, "_on_lobby_loading_start"))
+		# To be able to handle a song starting while we look at results
+		show_song_results_mp.emit(mp_lobby)
 	
+func _on_kicked_from_lobby():
+	change_to_menu("lobby_list", false, {"kicked": true})
+	
+func _return_to_lobby():
+	change_to_menu("lobby", false, {"lobby": mp_lobby})
 	
 func _on_menu_exit(force_hard_transition=false):
 	super._on_menu_exit(force_hard_transition)

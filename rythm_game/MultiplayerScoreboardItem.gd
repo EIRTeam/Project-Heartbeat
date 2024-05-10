@@ -1,24 +1,46 @@
-extends Panel
+extends PanelContainer
 
-var member: HBServiceMember: set = set_member
+class_name MultiplayerScoreboardItem
 
-@onready var member_name_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/MemberNameLabel")
-@onready var avatar_texture_rect = get_node("MarginContainer/HBoxContainer/TextureRect")
-@onready var rating_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Label2")
-@onready var score_counter = get_node("MarginContainer/HBoxContainer/VBoxContainer/Label3")
-func set_member(val):
-	member = val
-	member_name_label.text = member.member_name
-	avatar_texture_rect.texture = member.avatar
+@onready var member_name_label: Label = get_node("%MemberNameLabel")
+@onready var avatar_texture_rect: TextureRect = get_node("%AvatarTextureRect")
+@onready var rating_label: Label = get_node("%RatingLabel")
+@onready var score_counter: HBScoreCounter = get_node("%ScoreCounter")
 
-var last_rating : set = set_last_rating
-var score = 0: set = set_score
-func set_last_rating(val):
-	last_rating = val
-	rating_label.add_theme_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[last_rating]))
-	rating_label.add_theme_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[last_rating])
-	rating_label.text = HBJudge.JUDGE_RATINGS.keys()[last_rating]
+var score := 0
 
-func set_score(val):
-	score = val
+var _update_queued := false
+
+func _update():
+	if _update_queued:
+		_update_queued = false
+		member_name_label.text = member.member.persona_name
+		avatar_texture_rect.texture = member.member.avatar
+
+func _queue_update():
+	if not _update_queued:
+		_update_queued = true
+		if not is_node_ready():
+			await ready
+		_update.call_deferred()
+
+var member: HeartbeatSteamLobby.MemberMetadata:
+	set(val):
+		if member:
+			member.note_hit_received.disconnect(self._on_note_hit_received)
+		member = val
+		member.note_hit_received.connect(self._on_note_hit_received)
+		_queue_update()
+
+func _on_note_hit_received(rating: HBJudge.JUDGE_RATINGS, score: int):
+	update_rating(rating)
+	update_score(score)
+
+func update_rating(rating: HBJudge.JUDGE_RATINGS):
+	rating_label.add_theme_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[rating]))
+	rating_label.add_theme_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[rating])
+	rating_label.text = HBJudge.JUDGE_RATINGS.keys()[rating]
+
+func update_score(new_score: int):
+	score = new_score
 	score_counter.score = score

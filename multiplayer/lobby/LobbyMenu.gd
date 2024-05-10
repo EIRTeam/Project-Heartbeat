@@ -1,278 +1,208 @@
 extends HBMenu
 
-@onready var chat_box = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Chat/MarginContainer/RichTextLabel")
-@onready var member_list = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MemberList")
-@onready var lobby_name_label = get_node("MarginContainer/VBoxContainer/Label")
-@onready var chat_line_edit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit")
-@onready var options_vertical_menu = get_node ("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer")
-@onready var waiting_for_song_confirmation_prompt = get_node("WaitingForSongConfirmation")
-@onready var song_confirmation_error_prompt = get_node("SongConfirmationError")
-@onready var downloading_message_prompt = get_node("DownloadingMesssage")
+class_name LobbyMenu
 
-var lobby: HBLobby
-var selected_song: HBSong
-var selected_difficulty: String
+signal ugc_song_selected(ugc_id: int)
+signal song_selected(song: HBSong)
 
-signal song_selected(song)
+@onready var member_list: LobbyMemberList = get_node("%MemberList")
 
-var song_availabilities = {}
-var checking_song_availabilities = false
-var waiting_for_ugc_downloads_to_complete = false
+@onready var lobby_debug_window: Window = get_node("%LobbyMenuDebugWindow")
+@onready var lobby_menu_debug: LobbyMenuDebug = get_node("%LobbyMenuDebug")
+@onready var lobby_main_menu: HBSimpleMenu = get_node("%LobbyMainMenu")
+@onready var lobby_chat: LobbyChat = get_node("%LobbyChat")
+@onready var lobby_name_label: Label = get_node("%LobbyNameLabel")
+@onready var send_ugc_download_request_dialog: HBConfirmationWindow = get_node("%SendUGCDownloadSongRequestDialog")
+@onready var download_ugc_song_dialog: HBConfirmationWindow = get_node("%DownloadUGCSongDialog")
+@onready var error_message_window: HBConfirmationWindow = get_node("%ErrorMessage")
 
-func _ready():
-	super._ready()
-	var starting_song = SongLoader.songs.values()[0]
-	select_song(starting_song, starting_song.charts.keys()[0])
-	options_vertical_menu.connect("bottom", Callable(self, "_options_vertical_menu_from_bottom"))
-	waiting_for_song_confirmation_prompt.connect("cancel", Callable(self, "_on_song_availability_check_cancelled"))
-	waiting_for_song_confirmation_prompt.connect("cancel", Callable(options_vertical_menu, "grab_focus"))
-	song_confirmation_error_prompt.connect("accept", Callable(options_vertical_menu, "grab_focus"))
-func select_song(song: HBSong, difficulty: String):
-	selected_song = song
-	selected_difficulty = difficulty
-	emit_signal("song_selected", selected_song)
+var lobby: HeartbeatSteamLobby
+
+enum LobbyMenuAction {
+	CHANGE_SONG,
+	LOBBY_MENU_ACTION_MAX,
+}
+
+func _show_error(error: String):
+	error_message_window.text = error
+	error_message_window.popup_centered()
+
+func _on_lobby_data_updated(data: HeartbeatSteamLobbyData):
+	if data.song_id in SongLoader.songs:
+		song_selected.emit(SongLoader.songs[data.song_id])
+	elif data.is_song_from_ugc:
+		ugc_song_selected.emit(data.song_ugc_id)
 	
-func _on_menu_exit(force_hard_transition=false):
-	super._on_menu_exit(force_hard_transition)
+	lobby_name_label.text = data.lobby_name
 	
-func _on_menu_enter(force_hard_transition=false, args={}):
-	super._on_menu_enter(force_hard_transition, args)
-	if lobby:
-		connect_lobby(lobby)
-	if args.has("lobby"):
-		set_lobby(args.lobby)
-	chat_line_edit.clear()
-	# Sets the song wen returning from lobby song select, or not if we are just joining
-	if args.has("song"):
-		var song = args.song as HBSong
-		lobby.song_name = song.get_visible_title()
-		lobby.song_id = song.id
-		lobby.song_difficulty = args.difficulty
-		lobby.send_game_info_update()
-	else:
-		if lobby.get_song():
-			select_song(lobby.get_song(), lobby.song_difficulty)
-	# HACK! Else we select the wrong button when we don't do this
-	await get_tree().process_frame
-	options_vertical_menu.grab_focus()
-	update_member_list()
-	_check_ownership_changed()
-
-func _check_ownership_changed():
-	if is_inside_tree():
-		if lobby.is_owned_by_local_user():
-			get_tree().call_group("owner_only", "show")
-		else:
-			get_tree().call_group("owner_only", "hide")
-
-func _on_song_availability_check_cancelled():
-	checking_song_availabilities = false
-
-func update_member_list():
-	if is_inside_tree():
-		member_list.clear_members()
-		for member in lobby.members.values():
-			var is_owner = false
-			if lobby.get_lobby_owner() == member:
-				is_owner = true
-			member_list.add_member(member, is_owner, lobby.is_owned_by_local_user())
-
-func update_lobby_data_display():
-	lobby_name_label.text = lobby.lobby_name
-	if lobby.get_song():
-		select_song(lobby.get_song(), lobby.song_difficulty)
-
-func _on_host_changed():
-	update_member_list()
-	_check_ownership_changed()
-	var msg = lobby.get_lobby_owner().member_name + " is the new host."
-	append_service_message(msg, Color.GREEN)
-
-func connect_lobby(_lobby: HBLobby):
-	if not _lobby.is_connected("lobby_chat_message", Callable(self, "_on_chat_message_received")):
-		_lobby.connect("lobby_chat_message", Callable(self, "_on_chat_message_received"))
-		_lobby.connect("lobby_chat_update", Callable(self, "_on_lobby_chat_update"))
-		_lobby.connect("lobby_data_updated", Callable(self, "update_lobby_data_display"))
-		_lobby.connect("lobby_loading_start", Callable(self, "_on_lobby_loading_start"))
-		_lobby.connect("user_song_availability_update", Callable(self, "_on_user_song_availability_update"))
-		_lobby.connect("check_songs_request_received", Callable(self, "_on_check_songs_request_received"))
-		_lobby.connect("reported_ugc_song_downloaded", Callable(self, "_on_ugc_song_downloaded"))
-		_lobby.connect("host_changed", Callable(self, "_on_host_changed"))
+	member_list.lobby_owner = lobby.steam_lobby.owner
+	member_list.is_owned_by_local_user = lobby.steam_lobby.is_owned_by_local_user()
 	
-func disconnect_lobby(_lobby: HBLobby):
-	if _lobby.is_connected("lobby_chat_message", Callable(self, "_on_chat_message_received")):
-		_lobby.disconnect("lobby_chat_message", Callable(self, "_on_chat_message_received"))
-		_lobby.disconnect("lobby_chat_update", Callable(self, "_on_lobby_chat_update"))
-		_lobby.disconnect("lobby_data_updated", Callable(self, "update_lobby_data_display"))
-		_lobby.disconnect("lobby_loading_start", Callable(self, "_on_lobby_loading_start"))
-		_lobby.disconnect("user_song_availability_update", Callable(self, "_on_user_song_availability_update"))
-		_lobby.disconnect("check_songs_request_received", Callable(self, "_on_check_songs_request_received"))
-		_lobby.disconnect("reported_ugc_song_downloaded", Callable(self, "_on_ugc_song_downloaded"))
-		_lobby.disconnect("host_changed", Callable(self, "_on_host_changed"))
-	
-func set_lobby(_lobby: HBLobby):
-	if self.lobby:
-		disconnect_lobby(_lobby)
-	self.lobby = _lobby
+func _on_lobby_song_download_data_request_received():
+	var availability_status := lobby.get_song_availability_status(lobby.lobby_data.is_song_from_ugc, lobby.lobby_data.song_id, lobby.lobby_data.song_variant)
+	match availability_status:
+		HeartbeatSteamLobby.SongAvailabilityStatus.HAS_DATA:
+			return
+		HeartbeatSteamLobby.SongAvailabilityStatus.NEEDS_UGC_SONG_DOWNLOAD, HeartbeatSteamLobby.SongAvailabilityStatus.NEEDS_UGC_MEDIA_DOWNLOAD:
+			# Prompt user for download
+			download_ugc_song_dialog.popup_centered()
+		HeartbeatSteamLobby.SongAvailabilityStatus.MISSING_SONG:
+			_show_error(tr("Looks like you are currently missing the non-workshop song used in this lobby!", &"Used in the lobby when a non-Workshop song is missing"))
+		HeartbeatSteamLobby.SongAvailabilityStatus.MISSING_SONG_MEDIA:
+			_show_error(tr("You have the non-workshop song used in this lobby, but you haven't downloaded the media for it!", &"Used in the lobby when a non-Workshop song's media is missing"))
 
-	connect_lobby(_lobby)
-	
-	member_list.lobby = self.lobby
-	update_member_list()
-	update_lobby_data_display()
-#	if not lobby is SteamLobby:
-#		get_tree().call_group("steam_only", "hide")
-func _on_chat_message_received(member: HBServiceMember, message, type):
-	match type:
-		HBLobby.CHAT_MESSAGE_TYPE.MESSAGE:
-			chat_box.text += "\n" + member.get_member_name() + ": " + str(message)
+func _attempt_start():
+	var start_data := lobby.check_game_can_be_started()
+	var st := start_data.status
+	match st:
+		HeartbeatSteamLobby.GameStartResponseStatus.OK:
+			lobby.send_begin_game_load_request()
+		HeartbeatSteamLobby.GameStartResponseStatus.USER_LACKS_MEDIA:
+			send_ugc_download_request_dialog.popup_centered()
+		HeartbeatSteamLobby.GameStartResponseStatus.SONG_AVAILABILITY_METADATA_DIRTY:
+			# Do nothing
+			pass
 
-func append_service_message(message: String, color=Color.RED):
-	chat_box.text += "\n[color=#%s]%s[/color]" % [color.to_html(false).to_upper(), message]
+func _on_kicked_from_lobby():
+	disconnect_lobby()
+	change_to_menu("lobby_list", false, {"kicked": true})
 
-func _on_lobby_chat_update(changed: HBServiceMember, making_change: HBServiceMember, state):
-	var msg
-	var color = Color.RED
-	if state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.JOINED:
-		msg = " has joined."
-		color = Color.GREEN
-	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.LEFT:
-		msg = " has left."
-	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.DISCONNECTED:
-		msg = " has disconnected."
-	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.KICKED:
-		msg = " has been kicked."
-	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.BANNED:
-		msg = " has been banned."
-	else:
-		color = Color.PURPLE
-		msg = " has managed to break space-time."
-	
-	msg = str(changed.member_name) + msg
-	append_service_message(msg, color)
-	update_member_list()
-	_check_ownership_changed()
-	
-func send_chat_message():
-	var text = chat_line_edit.text.strip_edges()
-	if text != "" and not text.begins_with("/"):
-		lobby.send_chat_message(text)
-	chat_line_edit.text = ""
-
-func _on_LeaveLobbyButton_pressed():
-	disconnect_lobby(lobby)
-	lobby.leave_lobby()
-	change_to_menu("lobby_list")
-
-func _on_ugc_song_downloaded(user: HBServiceMember, ugc_id: int):
-	if ugc_id == selected_song.ugc_id:
-		song_availabilities[user] = true
-	var found_false = false
-	for lobby_user in song_availabilities:
-		if not song_availabilities[lobby_user]:
-			found_false = true
-	if not found_false:
-		start_multiplayer_session_authority()
-func _on_user_song_availability_update(sender_user: HBServiceMember, song_id, available: bool):
-	if not checking_song_availabilities:
-		return
-	if song_id != selected_song.id:
-		return
-	song_availabilities[sender_user] = available
-	var not_owned_by_users = []
-	if song_availabilities.size() >= lobby.get_lobby_member_count():
-		for user in song_availabilities:
-			var owned = song_availabilities[user]
-			if not owned:
-				not_owned_by_users.append(user)
-				
-	if song_availabilities.size() >= lobby.get_lobby_member_count():
-		var struwu = ""
-		for i in range(not_owned_by_users.size()):
-			var user = not_owned_by_users[i]
-			if i != 0:
-				struwu += ","
-			struwu += " %s" % user.get_member_name()
-		waiting_for_song_confirmation_prompt.hide()
-		if not_owned_by_users.size() > 0:
-			song_confirmation_error_prompt.text = "ERROR: The following users don't have this song: %s" % [struwu]
-			checking_song_availabilities = false
-			waiting_for_ugc_downloads_to_complete = true
-			if selected_song.comes_from_ugc():
-				downloading_message_prompt.text = song_confirmation_error_prompt.text
-				downloading_message_prompt.text += "\nwaiting for song to be downloaded automatically by their game..."
-				downloading_message_prompt.popup_centered()
-			else:
-				song_confirmation_error_prompt.popup_centered()
-		else:
-			start_multiplayer_session_authority()
-
-func _on_check_songs_request_received(song_id: String):
-	if not song_id in SongLoader.songs:
-		if song_id.begins_with("ugc_"):
-			downloading_message_prompt.text = "Downloading song..."
-			downloading_message_prompt.popup_centered()
-			var o = PlatformService.service_provider.ugc_provider.download_item(int(song_id.substr(4, -1)))
-			if not o:
-				downloading_message_prompt.hide()
-				song_confirmation_error_prompt.text = "ERROR STARTING GAME: Error downloading workshop song."
-				song_confirmation_error_prompt.popup_centered()
-		else:
-			song_confirmation_error_prompt.text = "ERROR STARTING GAME: You don't seem to have the currently selected song."
-			song_confirmation_error_prompt.popup_centered()
-	else:
-		var song = SongLoader.songs[song_id] as HBSong
-		if not song.is_cached():
-			if not YoutubeDL.is_already_downloading(song):
-				song.cache_data() 
-			if song_id.begins_with("ugc_"):
-				downloading_message_prompt.text = "Downloading song media..."
-				downloading_message_prompt.popup_centered()
-			else:
-				song_confirmation_error_prompt.text = "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
-				song_confirmation_error_prompt.popup_centered()
-func _on_InviteFriendButton_pressed():
-	lobby.invite_friend_to_lobby()
-
-func _options_vertical_menu_from_bottom():
-	chat_line_edit.grab_focus()
-
-func _on_SelectSongButton_pressed():
-	change_to_menu("song_list_lobby", false, {"lobby": lobby, "song": lobby.get_song_id(), "song_difficulty": lobby.get_song_difficulty()})
-
-func _on_LineEdit_gui_input(event: InputEvent):
-	if event.is_action_pressed("gui_up") and not event.is_echo():
-		get_viewport().set_input_as_handled()
-		options_vertical_menu.grab_focus()
-		options_vertical_menu.select_button(options_vertical_menu.get_child_count()-1)
-	if event.is_action_pressed("gui_accept") and not event.is_echo():
-		send_chat_message()
+func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
-		get_viewport().set_input_as_handled()
+		if event.keycode == KEY_F10 and event.is_pressed() and not event.is_echo():
+			lobby_menu_debug.lobby = lobby
+			lobby_debug_window.popup_centered()
 
-func start_multiplayer_session_authority():
+func setup_lobby():
+	member_list.clear()
+	lobby.member_joined.connect(member_list.add_member)
+	lobby.member_joined.connect(lobby_chat.notify_member_joined)
+	lobby.member_left.connect(lobby_chat.notify_member_left)
+	lobby.member_left.connect(member_list.remove_member)
+	lobby.chat_message_received.connect(lobby_chat.add_chat_line)
+	lobby.lobby_data_updated.connect(self._on_lobby_data_updated)
+	lobby.download_song_media_request_received.connect(self._on_lobby_song_download_data_request_received)
+	lobby.begin_loading_game_request_received.connect(self._begin_loading_game)
+	lobby.kicked.connect(self._on_kicked_from_lobby)
+	member_list.lobby_owner_change_pressed.connect(lobby.steam_lobby.set_lobby_owner)
+	member_list.kick_member_pressed.connect(lobby.kick_member)
+	send_ugc_download_request_dialog.accept.connect(lobby.send_download_song_data_request)
+	_on_lobby_data_updated(lobby.lobby_data)
+	
+	for member in lobby.get_all_members_metadata():
+		member_list.add_member(member)
+
+func disconnect_lobby():
+	if lobby:
+		lobby.member_joined.disconnect(member_list.add_member)
+		lobby.member_joined.disconnect(lobby_chat.notify_member_joined)
+		lobby.member_left.disconnect(lobby_chat.notify_member_left)
+		lobby.member_left.disconnect(member_list.remove_member) 
+		lobby.chat_message_received.disconnect(lobby_chat.add_chat_line)
+		lobby.lobby_data_updated.disconnect(self._on_lobby_data_updated)
+		lobby.download_song_media_request_received.disconnect(self._on_lobby_song_download_data_request_received)
+		lobby.begin_loading_game_request_received.disconnect(self._begin_loading_game)
+		lobby.kicked.disconnect(self._on_kicked_from_lobby)
+		member_list.lobby_owner_change_pressed.disconnect(lobby.steam_lobby.set_lobby_owner)
+		member_list.kick_member_pressed.disconnect(lobby.kick_member)
+		send_ugc_download_request_dialog.accept.disconnect(lobby.send_download_song_data_request)
+
+func _ready() -> void:
+	super._ready()
+	lobby_chat.chat_message_submitted.connect(self._on_lobby_chat_message_submitted)
+	download_ugc_song_dialog.accept.connect(self._on_ugc_song_download_data_request_accepted)
+	
+func _cache_ugc_song_data(song_id: String, variant: int):
+	var song: HBSong = SongLoader.songs[lobby.lobby_data.song_id] if lobby.lobby_data.song_id in SongLoader.songs else null
+	if song:
+		var entry := song.cache_data(variant) as YoutubeDL.CachingQueueEntry
+		if not entry:
+			return
+		var entry_res := await entry.download_finished as Array
+		if entry_res[0] != OK and entry.song.id != lobby.lobby_data.song_id or entry.variant != variant:
+			# Must have failed or we changed song while we downloaded meta...
+			# do nothing?
+			return
+		lobby._update_song_availability_information()
+	else:
+		_show_error(tr("Something went terribly wrong: Song missing after download?", &"Lobby error message"))
+
+func _on_ugc_song_download_data_request_accepted():
+	var availability_status := lobby.get_song_availability_status(lobby.lobby_data.is_song_from_ugc, lobby.lobby_data.song_id, lobby.lobby_data.song_variant)
+	if not lobby.lobby_data.is_song_from_ugc:
+		pass
+	var song_id := lobby.lobby_data.song_id
+	var song_ugc_id := lobby.lobby_data.song_ugc_id
+	var song_variant := lobby.lobby_data.song_variant
+	match availability_status:
+		HeartbeatSteamLobby.SongAvailabilityStatus.NEEDS_UGC_SONG_DOWNLOAD:
+			var item := HBSteamUGCItem.from_id(lobby.lobby_data.song_ugc_id)
+			if not item.item_state & SteamworksConstants.ITEM_STATE_INSTALLED or \
+					item.item_state & SteamworksConstants.ITEM_STATE_NEEDS_UPDATE:
+				if item.download(true):
+					var result := await item.item_installed as int
+					if result == OK:
+						_cache_ugc_song_data(song_id, lobby.lobby_data.song_variant)
+					else:
+						_show_error(
+							tr("Something went wrong with the song installation: download failed (Error: {error_code})", &"Lobby song download error") \
+								.format({"error_code": result})
+						)
+						pass
+				else:
+					_show_error(tr("Something went wrong with the song installation: download failed to start", &"Lobby song download start error"))
+					pass
+		HeartbeatSteamLobby.SongAvailabilityStatus.NEEDS_UGC_MEDIA_DOWNLOAD:
+			_cache_ugc_song_data(song_id, lobby.lobby_data.song_variant)
+
+func _on_lobby_chat_message_submitted(message: String):
+	if lobby.send_chat_text_message(message):
+		lobby_chat.clear_chat_line()
+
+func _on_song_select_button_pressed():
+	if lobby.lobby_data.song_id.is_empty():
+		change_to_menu("song_list_lobby", false, {"lobby": lobby, "song": lobby.lobby_data.song_id, "song_difficulty": lobby.lobby_data.difficulty})
+	else:
+		change_to_menu("song_list_lobby")
+
+func _begin_loading_game():
+	return
 	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instantiate()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(rhythm_game_multiplayer_scene)
 	get_tree().current_scene = rhythm_game_multiplayer_scene
 	rhythm_game_multiplayer_scene.lobby = lobby
 	rhythm_game_multiplayer_scene.start_game()
-	lobby.game_results = {}
 
-func _on_StartGameButton_pressed():
-	lobby.check_if_lobby_members_have_song()
-	song_availabilities = {lobby.get_lobby_owner(): selected_song.is_cached()}
-	if not selected_song.is_cached():
-		selected_song.cache_data()
-	checking_song_availabilities = true
-	waiting_for_song_confirmation_prompt.popup_centered()
+func _on_menu_enter(force_hard_transition=false, args = {}):
+	super._on_menu_enter(force_hard_transition, args)
 	
-# called when authority sends a game start packet, sets up mp and starts loading
-func _on_lobby_loading_start():
-	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instantiate()
-	get_tree().current_scene.queue_free()
-	get_tree().root.add_child(rhythm_game_multiplayer_scene)
-	get_tree().current_scene = rhythm_game_multiplayer_scene
-	rhythm_game_multiplayer_scene.lobby = lobby
-	rhythm_game_multiplayer_scene.start_loading()
-	lobby.game_results = {}
+	lobby_debug_window.hide()
+	
+	if args.has("action"):
+		var action := args.get("action", LobbyMenuAction.LOBBY_MENU_ACTION_MAX) as int
+		assert(action < LobbyMenuAction.LOBBY_MENU_ACTION_MAX)
+		match action:
+			LobbyMenuAction.CHANGE_SONG:
+				var song := args.get("song", null) as HBSong
+				var difficulty := args.get("difficulty", "") as String
+				assert(song)
+				assert(not difficulty.is_empty())
+				lobby.update_lobby_song_data(song, -1, difficulty)
+				lobby.send_lobby_data_update()
+	
+	if args.has("lobby"):
+		disconnect_lobby()
+		lobby = args.lobby
+		setup_lobby()
+	assert(lobby)
+	lobby_main_menu.grab_focus()
+
+func _leave_lobby():
+	disconnect_lobby()
+	lobby.steam_lobby.leave_lobby()
+	lobby = null
+	change_to_menu("lobby_list")
+
+func _on_invite_friend_button_pressed() -> void:
+	Steamworks.friends.activate_game_overlay_invite_dialog(lobby.steam_lobby)
