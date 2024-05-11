@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b654vfqndxbc5"]
+[gd_scene load_steps=7 format=4 uid="uid://b654vfqndxbc5"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="2"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionControlsSection.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="6"]
@@ -23,7 +23,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Panel2" type="Panel" parent="VBoxContainer"]
+[node name="Panel2" type="HBPanelBlurEX" parent="VBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -31,11 +31,7 @@ theme_override_styles/panel = ExtResource("3")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
 clip_contents = true
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 1.0
-offset_bottom = 1.0
+layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
@@ -97,6 +93,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ResetConfirmationWindow" parent="." instance=ExtResource("5")]
-size = Vector2i(500, 500)
-visible = false
+layout_mode = 1
+offset_left = -325.0
+offset_right = 325.0
+offset_bottom = 500.0
 text = "Are you sure you want to reset all controls to default?"

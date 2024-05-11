@@ -1,10 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://mq8cvko6co3o"]
+[gd_scene load_steps=25 format=4 uid="uid://mq8cvko6co3o"]
 
 [ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
-[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="6"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="7_fawyf"]
 [ext_resource type="Texture2D" uid="uid://dq1i623nxlj8v" path="res://graphics/icons/sort-ascending.png" id="8"]
@@ -12,9 +11,10 @@
 [ext_resource type="Script" path="res://menus/song_list/SongListSongContainer.gd" id="10"]
 [ext_resource type="PackedScene" uid="uid://c4tvo47nahi4h" path="res://menus/FolderManager.tscn" id="11"]
 [ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="12"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="12_787qn"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="12_787qn"]
 [ext_resource type="PackedScene" uid="uid://dpp05jvqww62" path="res://menus/HBHovereableCheckbox.tscn" id="14"]
 [ext_resource type="PackedScene" uid="uid://dhyyvctuvaunk" path="res://menus/HBHovereableOptionButton.tscn" id="15"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="15_3x86c"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="16"]
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="17"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="18"]
@@ -121,7 +121,7 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("6")
+theme = ExtResource("15_3x86c")
 script = ExtResource("2")
 
 [node name="SpinnerContainer" type="CenterContainer" parent="."]
@@ -156,7 +156,7 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 alignment = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="PanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("5")
 
@@ -246,7 +246,7 @@ layout_mode = 2
 size_flags_stretch_ratio = 1.25
 alignment = 1
 
-[node name="HBoxContainer" type="PanelContainer" parent="VBoxContainer/Prompts"]
+[node name="HBoxContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/Prompts"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
@@ -302,11 +302,8 @@ action_name = "gui_cancel"
 text = "Back"
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource("5")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 508.5
@@ -322,7 +319,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource("6")
+theme = ExtResource("15_3x86c")
 
 [node name="SortByPanel" type="PanelContainer" parent="CenterContainer"]
 layout_mode = 2
@@ -382,7 +379,6 @@ anchor_bottom = 1.0
 offset_left = 0.200001
 offset_top = 12.4
 offset_right = 290.2
-auto_translate = false
 theme_override_fonts/font = ExtResource("18")
 text = "123/123"
 vertical_alignment = 1

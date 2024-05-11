@@ -295,6 +295,8 @@ func _unhandled_input(event):
 			if not get_tree().paused:
 				if not pause_disabled:
 					_on_paused()
+				else:
+					$PauseMenu.show_pause(current_game_info.song_id)
 	
 			else:
 				_on_resumed()

@@ -29,6 +29,7 @@ func _update_history():
 	
 	for child in leaderboard_history_container.get_children():
 		child.queue_free()
+	focus_mode = FOCUS_NONE
 	
 	_update_song_stats_label()
 	if song and not difficulty.is_empty() and HBBackend.can_have_scores_uploaded(song):
@@ -45,7 +46,7 @@ func _update_song_stats_label():
 
 func _ready() -> void:
 	focus_entered.connect(self._focus_entered)
-	focus_mode = FOCUS_ALL
+	focus_mode = FOCUS_NONE
 
 func _focus_entered():
 	if leaderboard_history_container.get_child_count() > 0:
@@ -67,6 +68,7 @@ func _on_song_history_received(entry_container: HBBackend.BackendLeaderboardHist
 	var prev_entry: HBBackend.BackendLeaderboardHistoryEntry
 	var prev_entry_scene: HBPregameLeaderboardHistoryEntry
 	for entry in entries:
+		focus_mode = FOCUS_ALL
 		var scene := HISTORY_ENTRY_SCENE.instantiate() as HBPregameLeaderboardHistoryEntry
 		scene.game_info = entry.game_info
 		scene.score_id = entry.id

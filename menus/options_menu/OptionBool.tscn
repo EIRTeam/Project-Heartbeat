@@ -1,15 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dci2lt4rkyjn8"]
+[gd_scene load_steps=8 format=4 uid="uid://dci2lt4rkyjn8"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionBool.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://bwhiiioudwqlb" path="res://graphics/icons/checkbox-marked.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://di30jv0le85ua" path="res://graphics/icons/checkbox-blank-outline.png" id="5"]
-
-[sub_resource type="StyleBoxFlat" id="2"]
-bg_color = Color(0.929412, 0.219608, 0.8, 0)
-
-[sub_resource type="StyleBoxFlat" id="3"]
-bg_color = Color(0.188235, 0.0705882, 0.301961, 0)
 
 [sub_resource type="StyleBoxFlat" id="4"]
 bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
@@ -18,7 +12,13 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="Control" type="Panel"]
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0)
+
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.929412, 0.219608, 0.8, 0)
+
+[node name="Control2" type="Panel"]
 use_parent_material = true
 custom_minimum_size = Vector2(0, 64)
 anchors_preset = 10
@@ -55,11 +55,11 @@ alignment = 2
 [node name="CheckBox" type="CheckBox" parent="HBoxContainer/Control"]
 layout_mode = 2
 focus_mode = 0
+theme_override_styles/hover_pressed = SubResource("4")
+theme_override_styles/hover = SubResource("4")
+theme_override_styles/pressed = SubResource("3")
+theme_override_styles/normal = SubResource("2")
 theme_override_icons/checked = ExtResource("3")
 theme_override_icons/unchecked = ExtResource("5")
-theme_override_styles/normal = SubResource("2")
-theme_override_styles/pressed = SubResource("3")
-theme_override_styles/hover = SubResource("4")
-theme_override_styles/hover_pressed = SubResource("4")
 
 [connection signal="toggled" from="HBoxContainer/Control/CheckBox" to="." method="_on_CheckBox_toggled"]

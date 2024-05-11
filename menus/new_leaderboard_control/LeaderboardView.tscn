@@ -1,12 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://q54rj3w4rhcg"]
 
-[ext_resource path="res://menus/new_leaderboard_control/LeaderboardView.gd" type="Script" id=3]
+[ext_resource type="Script" path="res://menus/new_leaderboard_control/LeaderboardView.gd" id="3"]
 
 [node name="VBoxContainer" type="VBoxContainer"]
 use_parent_material = true
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("3")

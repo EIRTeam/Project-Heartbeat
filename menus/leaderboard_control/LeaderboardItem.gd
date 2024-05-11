@@ -6,9 +6,8 @@ const style_even = preload("res://styles/ResultRatingStyleOdd.tres")
 var odd = false
 class Entry:
 	var member: SteamServiceMember
+	var game_info: HBGameInfo
 	var rank: int
-	var score: int
-	var percentage: float
 
 var entry : Entry
 @onready var percentage_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/ValueLabel3/PercentageLabel")
@@ -25,12 +24,12 @@ func _ready():
 func set_values():
 	if not odd:
 		add_theme_stylebox_override("panel", style_even)
-	percentage_label.text = "%s (%.2f%%)" % [HBUtils.thousands_sep(entry.score), entry.percentage*100]
+	percentage_label.text = "%s (%.2f%%)" % [HBUtils.thousands_sep(entry.game_info.result.score), entry.game_info.result.get_percentage()*100.0]
 	username_label.text = entry.member.member_name
 	rank_label.text = str(entry.rank)
 	user_avatar_texture_rect.texture = entry.member.avatar
 	if not entry.member.is_connected("persona_state_change", Callable(self, "_persona_state_change")):
 		entry.member.connect("persona_state_change", Callable(self, "_persona_state_change"))
 	
-func _persona_state_change(flags):
+func _persona_state_change():
 	set_values()

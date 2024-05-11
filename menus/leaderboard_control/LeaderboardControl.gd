@@ -12,16 +12,20 @@ signal entries_set
 func _ready():
 	$CenterContainer2/AnimationPlayer.play("spin")
 
-func set_entries(entries: Array):
+func set_entries(entries: Array[HBBackend.BackendLeaderboardEntry]):
 	_on_leaderboard_entries_downloaded(0, entries)
 	emit_signal("entries_set")
 
-func _on_leaderboard_entries_downloaded(handle, entries: Array):
+func _on_leaderboard_entries_downloaded(handle, entries: Array[HBBackend.BackendLeaderboardEntry]):
 	loading_texture_rect.hide()
 	not_found_label.hide()
 	for i in range(entries.size()):
 		var entry = entries[i]
+		var mp_entry := HBMPLeaderboardEntry.Entry.new()
+		mp_entry.game_info = entry.game_info
+		mp_entry.member = entry.user
+		mp_entry.rank = entry.rank
 		var item = LeaderboardItem.instantiate()
-		item.entry = entry
+		item.entry = mp_entry
 		item.odd = i % 2 == 0
 		entries_container.add_child(item)

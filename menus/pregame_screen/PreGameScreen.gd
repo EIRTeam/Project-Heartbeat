@@ -166,6 +166,7 @@ func _on_StartButton_pressed():
 func add_modifier_control(modifier_id: String):
 	var modifier_class = ModifierLoader.get_modifier_by_id(modifier_id)
 	var button = preload("res://menus/pregame_screen/ModifierButton.tscn").instantiate()
+	button.focus_neighbor_right = history_display.get_path()
 	modifier_button_container.add_child(button)
 	
 	var modifier = modifier_class.new() as HBModifier
@@ -285,16 +286,17 @@ func update_modifiers():
 	draw_leaderboard_legality()
 func _on_add_modifier_pressed():
 	modifier_selector.popup()
-func _unhandled_input(event):
+func _input(event):
 	if event.is_action_pressed("gui_cancel"):
 		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		get_viewport().set_input_as_handled()
 		_on_BackButton_pressed()
 	else:
-		if modifier_scroll_container.has_focus():
+		if modifier_scroll_container.has_focus() and (event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right")):
 			var selected = modifier_scroll_container.get_selected_item()
 			if selected:
 				if selected.has_method("_gui_input"):
+					get_viewport().set_input_as_handled()
 					selected._gui_input(event)
 
 func _on_BackButton_pressed():

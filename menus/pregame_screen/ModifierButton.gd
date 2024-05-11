@@ -20,6 +20,7 @@ func _ready():
 	settings_button.connect("pressed", Callable(self, "_on_settings_button_pressed"))
 	connect("pressed", Callable(self, "_on_pressed"))
 	remove_button.connect("pressed", Callable(self, "_on_remove_button_pressed"))
+	buttons_container.focus_neighbor_right = focus_neighbor_right
 	
 func _on_settings_button_pressed():
 	emit_signal("edit_modifier")

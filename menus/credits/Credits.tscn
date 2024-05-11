@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bw8h1qsupd4h3"]
 
-[ext_resource type="PackedScene" path="res://menus/StaffRoll.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://vxo20bkhp7h3" path="res://menus/StaffRoll.tscn" id="2"]
 
 [sub_resource type="GDScript" id="1"]
 script/source = "extends HBMenu
@@ -83,81 +83,13 @@ script = SubResource("4")
 
 [node name="Control" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel" instance=ExtResource("2")]
 anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 
 [node name="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control" index="0"]
-layout_mode = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 0.0
 offset_right = 0.0
-
-[node name="TextureRect" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="0"]
-layout_mode = 2
-expand_mode = 1
-
-[node name="TextureRect2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="1"]
-layout_mode = 2
-expand_mode = 1
-
-[node name="Label2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="2"]
-layout_mode = 2
-
-[node name="HBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="3"]
-layout_mode = 2
-
-[node name="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="0"]
-layout_mode = 2
-
-[node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
-layout_mode = 2
-
-[node name="Label2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
-layout_mode = 2
-
-[node name="VBoxContainer2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="1"]
-layout_mode = 2
-
-[node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer2" index="0"]
-layout_mode = 2
-
-[node name="Label3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer2" index="1"]
-layout_mode = 2
-
-[node name="VBoxContainer3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="2"]
-layout_mode = 2
-
-[node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer3" index="0"]
-layout_mode = 2
-
-[node name="TextureRect" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer3" index="1"]
-layout_mode = 2
-expand_mode = 1
-
-[node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="4"]
-layout_mode = 2
-
-[node name="HBoxContainer2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="5"]
-layout_mode = 2
-
-[node name="VBoxContainer3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="0"]
-layout_mode = 2
-
-[node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer3" index="0"]
-layout_mode = 2
-
-[node name="VBoxContainer4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="1"]
-layout_mode = 2
-
-[node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer4" index="0"]
-layout_mode = 2
-
-[node name="VBoxContainer5" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="2"]
-layout_mode = 2
-
-[node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer5" index="0"]
-layout_mode = 2
-
-[node name="TextureRect3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="6"]
-layout_mode = 2
 
 [editable path="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control"]
