@@ -1445,7 +1445,10 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 		timeline.clear_layers()
 		song_settings_editor.clear_layers()
 		rhythm_game.editor_clear_notes()
-	
+		timing_changes.clear()
+		timing_map.clear()
+		signature_map.clear()
+		metronome_map.clear()
 	if not importing:
 		undo_redo.clear_history()
 	
