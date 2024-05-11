@@ -186,7 +186,8 @@ func process_note(time_usec: int):
 				add_child(current_slide_chain_sound)
 			ensure_vibration()
 		
-		var blue_notes = (max(0, float(last_hold_time - (note_data.time * 1000))*1000.0) * (BLUE_SLIDE_PIECES_PER_SECOND / 1000.0))
+		var lht_msec := last_hold_time / 1000 
+		var blue_notes = (max(0, float(lht_msec - (note_data.time))) * (BLUE_SLIDE_PIECES_PER_SECOND / 1000.0))
 		var slide_chain_pieces := get_slide_chain_pieces()
 		
 		for i in range(slide_chain_pieces.size()):
