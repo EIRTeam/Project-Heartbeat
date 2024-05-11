@@ -120,7 +120,7 @@ func load_all_songs_meta():
 			for song in s:
 				add_song(song)
 	initial_load_done = true
-	emit_signal("all_songs_loaded")
+	all_songs_loaded.emit.call_deferred()
 func load_all_songs_async():
 	songs = {}
 #	load_all_songs_meta()
