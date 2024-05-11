@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6wjcp48egif0"]
+[gd_scene load_steps=5 format=4 uid="uid://b6wjcp48egif0"]
 
 [ext_resource type="Texture2D" uid="uid://cegib828gt41n" path="res://graphics/effects/appear.png" id="1"]
 [ext_resource type="Script" path="res://menus/AppearParticles.gd" id="1_oldk0"]
@@ -39,7 +39,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.94, 1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(0.00392157, 0.00392157, 0.00392157, 0.415686), Color(1, 1, 1, 0.419608), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0.415686), Color(1, 1, 1, 0.419608), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mjxw5"]

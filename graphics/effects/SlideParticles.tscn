@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dssxtjqhuhlbn"]
+[gd_scene load_steps=4 format=4 uid="uid://dssxtjqhuhlbn"]
 
 [ext_resource type="Texture2D" uid="uid://dui0a71scapf5" path="res://graphics/slide_fx_star.png" id="1"]
 [ext_resource type="Script" path="res://graphics/effects/SlideParticles.gd" id="2"]
@@ -9,7 +9,7 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="Node2D" type="CPUParticles2D"]
 emitting = false
-amount = 24
+amount = 12
 lifetime = 0.4
 one_shot = true
 explosiveness = 1.0

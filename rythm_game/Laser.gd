@@ -30,6 +30,7 @@ func set_positions(val):
 		line_2d.texture = ResourcePackLoader.get_graphic("multi_laser.png")
 		line_2d.points = PackedVector2Array([Vector2.ZERO, Vector2.ZERO])
 		line_2d.texture_mode = Line2D.LINE_TEXTURE_STRETCH
+		line_2d.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 		
 		line_2d.default_color = Color.WHITE
 		if not disable_animation:
