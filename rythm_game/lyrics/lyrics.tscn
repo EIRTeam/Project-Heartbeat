@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bpsdlmoc167hx"]
+[gd_scene load_steps=3 format=4 uid="uid://bpsdlmoc167hx"]
 
 [ext_resource type="Script" path="res://rythm_game/lyrics/lyrics.gd" id="2"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2_x0a8r"]
@@ -8,7 +8,6 @@ auto_translate_mode = 2
 offset_top = 29.0
 offset_right = 1890.0
 offset_bottom = 90.0
-auto_translate = false
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
@@ -24,9 +23,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-auto_translate = false
 theme_override_colors/font_color = Color(1, 0.666667, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("2_x0a8r")
 text = "asdsadas"
+visible_characters_behavior = 1
+visible_ratio = -0.125
