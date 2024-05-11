@@ -286,18 +286,20 @@ func update_modifiers():
 	draw_leaderboard_legality()
 func _on_add_modifier_pressed():
 	modifier_selector.popup()
-func _input(event):
+	
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("gui_cancel"):
 		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		get_viewport().set_input_as_handled()
 		_on_BackButton_pressed()
-	else:
-		if modifier_scroll_container.has_focus() and (event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right")):
-			var selected = modifier_scroll_container.get_selected_item()
-			if selected:
-				if selected.has_method("_gui_input"):
-					get_viewport().set_input_as_handled()
-					selected._gui_input(event)
+	
+func _input(event):
+	if modifier_scroll_container.has_focus() and (event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right")):
+		var selected = modifier_scroll_container.get_selected_item()
+		if selected:
+			if selected.has_method("_gui_input"):
+				get_viewport().set_input_as_handled()
+				selected._gui_input(event)
 
 func _on_BackButton_pressed():
 	per_song_settings_editor.hide()
