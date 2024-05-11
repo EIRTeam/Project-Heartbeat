@@ -1,10 +1,10 @@
-[gd_scene load_steps=20 format=4 uid="uid://cr4ygsnm3cu5s"]
+[gd_scene load_steps=19 format=4 uid="uid://cr4ygsnm3cu5s"]
 
 [ext_resource type="PackedScene" uid="uid://cf2jxkpomwvf3" path="res://rythm_game/rhythm_game_controller.tscn" id="1"]
 [ext_resource type="Script" path="res://rythm_game/practice_mode.gd" id="2"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3"]
+[ext_resource type="FontVariation" uid="uid://ugx6x1yrliyq" path="res://fonts/mono.tres" id="3_1ic2e"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
-[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="5"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://mk4i5mpqt4hy" path="res://menus/PerSongSettingsEditor.tscn" id="7"]
 
@@ -122,23 +122,6 @@ _data = {
 
 [sub_resource type="Environment" id="7"]
 
-[sub_resource type="FontFile" id="8"]
-fallbacks = Array[Font]([ExtResource("5")])
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-
 [sub_resource type="FontFile" id="FontFile_5u356"]
 fallbacks = Array[Font]([ExtResource("3")])
 subpixel_positioning = 0
@@ -189,6 +172,27 @@ shadow_size = 10
 [node name="RhythmGame" instance=ExtResource("1")]
 script = ExtResource("2")
 
+[node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="0"]
+z_index = -1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PracticeModeUIIngame" index="0"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="PracticeModeUIIngame/HBoxContainer" index="0"]
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("3_1ic2e")
+text = "asdad"
+horizontal_alignment = 2
+
 [node name="TextureRect" parent="Node2D" index="0"]
 offset_right = 0.0
 offset_bottom = 0.0
@@ -206,20 +210,20 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FadeIn" parent="." index="3"]
+[node name="FadeIn" parent="." index="4"]
 anchor_right = 0.0
 anchor_bottom = 0.0
 theme_override_styles/panel = SubResource("2")
 
-[node name="FadeToBlack" parent="." index="4"]
+[node name="FadeToBlack" parent="." index="5"]
 anchor_right = 0.0
 anchor_bottom = 0.0
 theme_override_styles/panel = SubResource("2")
 
-[node name="Label" parent="." index="6"]
+[node name="Label" parent="." index="7"]
 offset_bottom = 23.0
 
-[node name="VHS" parent="." index="7"]
+[node name="VHS" parent="." index="8"]
 material = SubResource("4")
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -235,7 +239,7 @@ anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 0.0
 
-[node name="PauseMenu" parent="." index="9"]
+[node name="PauseMenu" parent="." index="10"]
 visible = false
 anchors_preset = 0
 anchor_right = 0.0
@@ -243,26 +247,8 @@ anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="WorldEnvironment" parent="." index="10"]
+[node name="WorldEnvironment" parent="." index="11"]
 environment = SubResource("7")
-
-[node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="11"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-theme_override_constants/margin_right = 25
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PracticeModeUIIngame" index="0"]
-layout_mode = 2
-mouse_filter = 2
-alignment = 2
-
-[node name="Label" type="Label" parent="PracticeModeUIIngame/HBoxContainer" index="0"]
-auto_translate_mode = 2
-layout_mode = 2
-theme_override_fonts/font = SubResource("8")
-text = "asdad"
 
 [node name="QuitConfirmation" parent="." index="12" instance=ExtResource("6")]
 layout_mode = 0
@@ -295,6 +281,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="SeekGUI/VBoxContainer/VBoxContainer" index="0"]
 auto_translate_mode = 2
 layout_mode = 2
+theme_override_constants/outline_size = 15
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1:20/1:23"
 
@@ -335,6 +322,7 @@ action_name = "practice_last_mode"
 text = "Previous mode"
 
 [node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+theme_override_constants/action_text_font_outline_size = 15
 action_text = "Previous mode"
 action_name = &"practice_last_mode"
 
@@ -346,6 +334,7 @@ action_name = "gui_left"
 text = "Seek Left"
 
 [node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+theme_override_constants/action_text_font_outline_size = 15
 action_text = "Seek Left"
 action_name = &"gui_left"
 
@@ -357,6 +346,7 @@ action_name = "practice_set_waypoint"
 text = "Set Waypoint"
 
 [node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+theme_override_constants/action_text_font_outline_size = 15
 action_text = "Set Waypoint"
 action_name = &"practice_set_waypoint"
 
@@ -368,6 +358,7 @@ action_name = "practice_go_to_waypoint"
 text = "Go to waypoint"
 
 [node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+theme_override_constants/action_text_font_outline_size = 15
 action_text = "Go to waypoint"
 action_name = &"practice_go_to_waypoint"
 
@@ -379,6 +370,7 @@ action_name = "pause"
 text = "Resume"
 
 [node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+theme_override_constants/action_text_font_outline_size = 15
 action_text = "Resume"
 action_name = &"pause"
 
@@ -390,6 +382,7 @@ action_name = "contextual_option"
 text = "Quit"
 
 [node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+theme_override_constants/action_text_font_outline_size = 15
 action_text = "Quit"
 action_name = &"contextual_option"
 
@@ -401,6 +394,7 @@ action_name = "gui_right"
 text = "Seek Right"
 
 [node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
+theme_override_constants/action_text_font_outline_size = 15
 action_text = "Seek Right"
 action_name = &"gui_right"
 
@@ -412,6 +406,7 @@ action_name = "practice_next_mode"
 text = "Next mode"
 
 [node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
+theme_override_constants/action_text_font_outline_size = 15
 action_text = "Next mode"
 action_name = &"practice_next_mode"
 
