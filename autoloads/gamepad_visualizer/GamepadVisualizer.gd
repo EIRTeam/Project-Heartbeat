@@ -22,6 +22,7 @@ func get_slider_axis(axis, device):
 	visualizer.axis = axis
 	return visualizer
 func create_controller_map(joypad):
+	current_device = joypad
 	#for i in range(JOY_BUTTON_MAX):
 	for i in item_controls.get_children():
 		i.queue_free()
