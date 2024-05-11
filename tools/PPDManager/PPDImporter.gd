@@ -2,17 +2,17 @@ extends Control
 
 signal error(error)
 
-@onready var wait_dialog = get_node("WaitDialog")
-@onready var wait_dialog_label = get_node("WaitDialog/Label")
-@onready var window_dialog = get_node("Window")
-@onready var PPD_folders_checkbox = get_node("Window/MarginContainer/VBoxContainer/PPDFoldersCheckbox")
-@onready var PPD_ogg_checkbox = get_node("Window/MarginContainer/VBoxContainer/PPDOGGCheckbox")
-@onready var PPD_folder_name_line_edit = get_node("Window/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
-@onready var PPD_hide_songs_checkbox = get_node("Window/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox")
-@onready var close_button = get_node("Window/MarginContainer/VBoxContainer/CloseButton")
-@onready var current_install_label = get_node("Window/MarginContainer/VBoxContainer/Label2")
-@onready var remove_installation_button = get_node("Window/MarginContainer/VBoxContainer/RemoveInstallationButton")
-@onready var PPD_importer_file_dialog = get_node("PPDImporterFileDialog")
+@onready var wait_dialog: Window = get_node("WaitDialog")
+@onready var wait_dialog_label: Label = get_node("WaitDialog/Label")
+@onready var window_dialog: Window = get_node("Window")
+@onready var PPD_folders_checkbox: CheckBox = get_node("Window/MarginContainer/VBoxContainer/PPDFoldersCheckbox")
+@onready var PPD_ogg_checkbox: CheckBox = get_node("Window/MarginContainer/VBoxContainer/PPDOGGCheckbox")
+@onready var PPD_folder_name_line_edit: LineEdit = get_node("Window/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
+@onready var PPD_hide_songs_checkbox: CheckBox = get_node("Window/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox")
+@onready var close_button: Button = get_node("Window/MarginContainer/VBoxContainer/CloseButton")
+@onready var current_install_label: Label = get_node("Window/MarginContainer/VBoxContainer/Label2")
+@onready var remove_installation_button: Button = get_node("Window/MarginContainer/VBoxContainer/RemoveInstallationButton")
+@onready var PPD_importer_file_dialog: FileDialog = get_node("PPDImporterFileDialog")
 
 func _on_import_pressed():
 	pass
@@ -40,21 +40,21 @@ func create_folder_path(path: String) -> HBFolder:
 	return curr_folder
 			
 func _on_PPDImporterFileDialog_dir_selected(dir: String):
-	if PPD_folders_checkbox.pressed and not PPD_folder_name_line_edit.text.strip_edges():
+	if PPD_folders_checkbox.button_pressed and not PPD_folder_name_line_edit.text.strip_edges():
 		show_error("PPD Folder needs a name")
 	var predir = UserSettings.user_settings.ppd_songs_directory
 	UserSettings.user_settings.ppd_songs_directory = dir
-	UserSettings.user_settings.hide_ppd_ex_songs = PPD_hide_songs_checkbox.pressed
+	UserSettings.user_settings.hide_ppd_ex_songs = PPD_hide_songs_checkbox.button_pressed
 	var sl = SongLoaderPPDEXT.new()
 	var err = sl._init_loader()
 	if err != OK:
 		show_error("Error importing songs, does the folder exist?")
 	
-	if PPD_folders_checkbox.pressed or PPD_ogg_checkbox.pressed:
+	if PPD_folders_checkbox.button_pressed or PPD_ogg_checkbox.button_pressed:
 		show_wait("Finding your songs...")
 		await get_tree().process_frame
 		var songs := sl.load_songs() as Array
-		if PPD_ogg_checkbox.pressed:
+		if PPD_ogg_checkbox.button_pressed:
 			for i in range(songs.size()):
 				var song := songs[i] as HBPPDSongEXT
 				# this means the song has an mp4 we need to extract audio from
@@ -66,7 +66,7 @@ func _on_PPDImporterFileDialog_dir_selected(dir: String):
 						UserSettings.user_settings.ppd_songs_directory = predir
 						show_error("There was a problem importing the song %s, call a programmer." % [song.title])
 						return
-		if PPD_folders_checkbox.pressed:
+		if PPD_folders_checkbox.button_pressed:
 			var root_folder := UserSettings.user_settings.root_folder as HBFolder
 			if root_folder.has_subfolder(PPD_folder_name_line_edit.text):
 				var sf = root_folder.get_subfolder(PPD_folder_name_line_edit.text)
@@ -85,7 +85,7 @@ func _on_PPDImporterFileDialog_dir_selected(dir: String):
 
 
 func show_panel():
-	$Window.popup_centered()
+	$Window.popup_centered_ratio()
 	current_install_label.visible = false
 	remove_installation_button.disabled = true
 	if UserSettings.user_settings.ppd_songs_directory:

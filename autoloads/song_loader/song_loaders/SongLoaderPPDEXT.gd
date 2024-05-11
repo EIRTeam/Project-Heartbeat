@@ -6,7 +6,7 @@ class_name SongLoaderPPDEXT
 const OPT_META_FILE_NAME = "ph_ext.json"
 
 func _init_loader() -> int:
-	if not HBGame.has_mp4_support or not UserSettings.user_settings.ppd_songs_directory or \
+	if not UserSettings.user_settings.ppd_songs_directory or \
 			not DirAccess.dir_exists_absolute(UserSettings.user_settings.ppd_songs_directory):
 		return -1
 	return OK

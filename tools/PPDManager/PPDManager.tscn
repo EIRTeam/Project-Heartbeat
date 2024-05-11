@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://f1jy7yowfayo"]
+[gd_scene load_steps=11 format=4 uid="uid://f1jy7yowfayo"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
@@ -42,7 +42,7 @@ mouse_filter = 2
 
 [node name="ToolsPopup" type="Window" parent="CenterContainer"]
 position = Vector2i(0, 32)
-size = Vector2i(980, 100)
+size = Vector2i(980, 375)
 script = ExtResource("4_oui4o")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/ToolsPopup"]
@@ -71,7 +71,7 @@ icon = ExtResource("7")
 [node name="PPDImporter" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "Import PPD Songs DirAccess"
+text = "Import PPD Songs Directory"
 icon = ExtResource("7")
 
 [node name="PPDDownloader" type="Control" parent="."]
@@ -154,6 +154,7 @@ script = ExtResource("8")
 
 [node name="Window" type="Window" parent="PPDImporter"]
 position = Vector2i(0, 24)
+size = Vector2i(780, 385)
 visible = false
 exclusive = true
 
@@ -199,7 +200,7 @@ text = "Convert all song audio to OGG now (Uncheck if you have a lot of songs, t
 
 [node name="Button" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Select PPD Songs DirAccess & Import"
+text = "Select PPD Songs Directory & Import"
 
 [node name="Label2" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -216,10 +217,15 @@ text = "Close"
 
 [node name="PPDImporterFileDialog" type="FileDialog" parent="PPDImporter"]
 mode = 2
+title = "Open a Directory"
+size = Vector2i(717, 162)
+ok_button_text = "Select Current Folder"
+file_mode = 2
 access = 2
 show_hidden_files = true
 
 [node name="WaitDialog" type="Window" parent="PPDImporter"]
+size = Vector2i(250, 100)
 visible = false
 exclusive = true
 
@@ -232,6 +238,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RestartAcceptDialog" type="AcceptDialog" parent="PPDImporter"]
+position = Vector2i(0, 32)
 size = Vector2i(343, 100)
 dialog_text = "Import complete, please restart the game."
 

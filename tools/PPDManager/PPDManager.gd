@@ -6,7 +6,7 @@ extends Control
 @onready var ppd_downloader_panel = get_node("PPDDownloader")
 @onready var ppd_importer_panel = get_node("PPDImporter")
 func _ready():
-	await get_tree().process_frame
+	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	await get_tree().process_frame
 	
 	tools_panel.popup_centered_ratio(0.5)
@@ -16,10 +16,6 @@ func _ready():
 	ppd_downloader_panel.connect("error", Callable(self, "show_error"))
 	ppd_importer_panel.connect("error", Callable(self, "show_error"))
 	
-	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
-	
-	if not HBGame.has_mp4_support:
-		$CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDImporter.hide()
 	
 func show_error(error: String):
 	error_dialog.dialog_text = error

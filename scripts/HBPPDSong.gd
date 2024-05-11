@@ -142,8 +142,7 @@ func is_cached(variant := -1):
 
 func get_video_stream(variant := -1):
 	if uses_native_video:
-		# TODOGD4: Replace This
-		var video_stream = VideoStreamTheora.new()
+		var video_stream = FFmpegVideoStream.new()
 		video_stream.set_file(get_song_video_res_path())
 		return video_stream
 	else:

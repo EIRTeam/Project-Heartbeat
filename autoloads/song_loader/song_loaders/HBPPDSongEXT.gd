@@ -40,7 +40,6 @@ func get_audio_stream(variant := -1):
 		return null
 	
 func get_video_stream(variant := -1):
-	# TODOGD4: This
-	var video_stream = VideoStreamTheora.new()
+	var video_stream = FFmpegVideoStream.new()
 	video_stream.set_file(get_song_video_res_path())
 	return video_stream
