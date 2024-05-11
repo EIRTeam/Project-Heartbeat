@@ -15,6 +15,7 @@ func setup():
 	super.setup()
 	line.texture = ResourcePackLoader.get_graphic("sustain_trail.png")
 	line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
+	line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	line.default_color = Color.WHITE
 	line.material.shader = preload("res://rythm_game/SustainTrailShader.gdshader")
 	line.material.set_shader_parameter("trail_color", ResourcePackLoader.get_note_trail_color(note_data.note_type))

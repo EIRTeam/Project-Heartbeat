@@ -59,6 +59,7 @@ func setup():
 	line.texture = ResourcePackLoader.get_graphic("note_trail.png")
 	
 	line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
+	line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	if not line in get_children():
 		add_child(line)
 
