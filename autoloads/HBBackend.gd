@@ -10,6 +10,7 @@ signal request_failed(handle, code, total_pages)
 signal score_enter_failed(handle, reason)
 signal connection_status_changed
 signal song_history_received(entries: BackendLeaderboardHistoryEntries)
+signal wrong_timezone_detected
 var enable_diagnostics = false
 
 const SERVICE_ENVIRONMENTS = {
@@ -27,6 +28,7 @@ var connected = false
 var waiting_for_auth = false
 var has_user_data = false
 var auth_ticket: HBAuthTicketForWebAPI
+var _notified_wrong_timezone := false
 
 var queued_requests = []
 
@@ -183,6 +185,13 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 		Log.log(self, "Error doing request " + HBUtils.find_key(REQUEST_TYPE, request_type) + " " + str(response_code) + body.get_string_from_utf8())
 func _on_logged_in(json, _params):
 	jwt_token = json.token
+	# Check if the token is immediately invalid, if so, we might have the wrong system timezone
+	if not _notified_wrong_timezone and (get_jwt_data()["exp"] - Time.get_unix_time_from_system() < 60):
+		wrong_timezone_detected.emit()
+		_notified_wrong_timezone = true
+		return
+	else:
+		_notified_wrong_timezone = false
 	connected = true
 	emit_signal("connection_status_changed")
 	waiting_for_auth = false
@@ -198,8 +207,10 @@ func get_jwt_data():
 	var test_json_conv = JSON.new()
 	test_json_conv.parse(Marshalls.base64_to_utf8(jwt_token.split(".")[1]) + "}")
 	return test_json_conv.data
-	
+
 func make_request(url: String, payload: Dictionary, method, type, params = {}, no_auth = false, ignore_jwt_expiration = false):
+	if not ignore_jwt_expiration and _notified_wrong_timezone:
+		return
 	
 	request_handle_i += 1
 	

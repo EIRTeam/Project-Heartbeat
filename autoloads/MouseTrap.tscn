@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://cql4su5gauqwp"]
+[gd_scene load_steps=11 format=3 uid="uid://cql4su5gauqwp"]
 
 [ext_resource type="Script" path="res://autoloads/MouseTrap.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="2"]
@@ -133,6 +133,13 @@ mode = 2
 theme = ExtResource("5")
 access = 2
 show_hidden_files = true
+
+[node name="WrongTimezoneConfirmationWindow" parent="MouseTrap" instance=ExtResource("2")]
+unique_name_in_owner = true
+layout_mode = 1
+has_cancel = false
+text = "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"
+accept_text = "Okay"
 
 [connection signal="close_requested" from="MouseTrap/PPDDialog" to="MouseTrap/PPDDialog" method="hide"]
 [connection signal="meta_clicked" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Label" to="." method="_on_Label_meta_clicked"]
