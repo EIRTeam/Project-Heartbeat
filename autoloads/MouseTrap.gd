@@ -18,7 +18,7 @@ func show_wrong_timezone_window():
 
 func _ready():
 	disable_mouse_trap()
-	HBBackend.wrong_timezone_detected.connect(self.queue_show_wrong_timezone_window)
+	HBBackend.wrong_timezone_detected.connect(self.show_wrong_timezone_window)
 	wrong_timezone_confirmation_window.accept.connect(
 		func():
 			if last_focus_before_wrong_timezone_window:
