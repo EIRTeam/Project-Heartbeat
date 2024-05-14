@@ -76,6 +76,7 @@ func _setup_fallback_pack(fallback: HBResourcePack):
 	for file_name in GRAPHICS_FILE_NAMES:
 		var image := fallback.get_graphic_image(file_name)
 		if image:
+			image.generate_mipmaps()
 			var texture = ImageTexture.create_from_image(image)
 			atlas_increment += 1
 			texture.resource_path = "PH_RPL_" + file_name + "_" + str(atlas_increment)
@@ -130,6 +131,7 @@ func rebuild_final_atlases():
 		if pack:
 			var image := pack.get_graphic_image(file_name)
 			if image:
+				image.generate_mipmaps()
 				var texture := ImageTexture.create_from_image(image)
 				selected_pack_textures[file_name] = texture
 	soft_rebuild_final_atlas()
