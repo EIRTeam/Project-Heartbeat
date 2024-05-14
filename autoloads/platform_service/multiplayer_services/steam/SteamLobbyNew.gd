@@ -1,5 +1,3 @@
-extends Node
-
 class_name HeartbeatSteamLobby
 
 signal lobby_disconnected

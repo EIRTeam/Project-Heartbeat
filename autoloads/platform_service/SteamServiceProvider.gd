@@ -34,41 +34,47 @@ func init_platform() -> int:
 		local_user = Steamworks.user.get_local_user()
 		friendly_username = local_user.persona_name
 		user_id = local_user.steam_id
-		multiplayer_provider = SteamMultiplayerService.new()
 		ugc_provider = SteamUGCService.new()
-		multiplayer_provider.connect("lobby_join_requested", Callable(self, "_on_lobby_join_requested"))
 		Steamworks.utils.gamepad_text_input_dismissed.connect(self._on_gamepad_input_dismissed)
 		
 		super.init_platform()
 		
+		Steamworks.friends.lobby_join_requested.connect(self._on_lobby_join_requested)
+		_check_cmd()
 		return OK
 	else:
 		Log.log(self, "Engine was not built with Steam support, aborting...")
 		return ERR_METHOD_NOT_FOUND
+		
+func _check_cmd():
+	var arguments = OS.get_cmdline_args()
+	
+	# Steam argument detection shit
+	if arguments.size() > 1:
+		for i in range(arguments.size()):
+			var argument = arguments[i]
+			if argument == "+connect_lobby" and i < arguments.size()-1:
+				_on_lobby_join_requested(HBSteamLobby.from_id(arguments[i+1]))
+				break
+		
+func _on_lobby_join_requested(steam_lobby: HBSteamLobby):
+	var lobby := await HeartbeatSteamLobby.join_lobby(steam_lobby)
+	var MainMenu = load("res://menus/MainMenu3D.tscn")
+
+	var scene = MainMenu.instantiate()
+	get_tree().current_scene.queue_free()
+	scene.starting_menu = "lobby"
+	scene.starting_menu_args = {
+		"lobby": lobby
+	}
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
 		
 func _post_game_init():
 	if UserSettings.user_settings.enable_system_mmplus_loading:
 		setup_system_mm_plus()
 
 var MainMenu = load("res://menus/MainMenu3D.tscn")
-		
-func _on_lobby_join_requested(lobby: HBLobby):
-	lobby.join_lobby()
-	lobby.connect("lobby_joined", Callable(self, "_on_lobby_joined_from_invite").bind(lobby))
-func _on_lobby_joined_from_invite(response, lobby: HBLobby):
-	var args = { "lobby": lobby }
-	
-	if response == HBLobby.LOBBY_ENTER_RESPONSE.SUCCESS:
-		if get_tree().current_scene is HBMainMenu:
-			var menu: HBMainMenu = get_tree().current_scene
-			menu._on_change_to_menu("lobby", false, args)
-		else:
-			var scene = MainMenu.instantiate()
-			get_tree().current_scene.queue_free()
-			scene.starting_menu = "lobby"
-			scene.starting_menu_args = args
-			get_tree().root.add_child(scene)
-			get_tree().current_scene = scene
 		
 func run_callbacks():
 	Steamworks.run_callbacks()

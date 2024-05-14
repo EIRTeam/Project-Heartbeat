@@ -8,7 +8,6 @@ const FILES_TO_SYNC_ON_STARTUP = ["user_settings.json", "history.json", "song_st
 
 var friendly_username = "Player"
 var user_id = "Player" # unique user id, can be a number
-var multiplayer_provider: HBMultiplayerService
 var ugc_provider: HBUGCService
 var implements_lobby_list = false
 var implements_leaderboards = false
@@ -32,8 +31,6 @@ func init_platform() -> int:
 		for file_path in FILES_TO_SYNC_ON_STARTUP:
 			read_remote_file_to_path(file_path, "user://" + file_path.get_file())
 #		write_remote_file_from_path(file_path, "user://" + file_path.get_file())
-	if multiplayer_provider:
-		add_child(multiplayer_provider)
 	return 0
 
 func get_avatar() -> Texture2D:
