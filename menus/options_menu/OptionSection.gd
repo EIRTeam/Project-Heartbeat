@@ -91,7 +91,7 @@ func _set_section_data(val):
 				var binds = []
 				if "signal_binds" in section_data[option_name]:
 					binds = section_data[option_name].signal_binds
-				option_scene.connect("changed", Callable(section_data[option_name].signal_object, section_data[option_name].signal_method).bind(binds))
+				option_scene.connect("changed", Callable(section_data[option_name].signal_object, section_data[option_name].signal_method).bindv(binds))
 			option_scene.connect("hovered", Callable(self, "_on_option_hovered").bind(option_name))
 			if option_scene.has_signal("back"):
 				option_scene.connect("back", Callable(self, "_on_option_back"))

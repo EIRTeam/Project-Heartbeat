@@ -320,7 +320,7 @@ const OptionSection = preload("res://menus/options_menu/OptionSection.tscn")
 
 var section_name_to_section_control = {}
 
-func _set_sound_volume(volume, sound: String):
+func _set_sound_volume(volume: float, sound: String):
 	UserSettings.user_settings.custom_sound_volumes[sound] = volume
 	UserSettings.save_user_settings()
 
