@@ -9,15 +9,10 @@ const PATCH = 0
 
 const status = "Early Access"
 const ver_name = "Project Heartbeat: Goth Girl Racing Department"
+const VERSION_FILE_PATH := "res://version.json"
 
 static func get_version_string(with_line_breaks := false):
-	var result = "{ver_name} - {status} ({video_driver} {api_version}, {audio_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time}) - {video_adapter}"
-	if with_line_breaks:
-		result = result.replace(" - ", "\n")
 	var sha = ProjectSettings.get("application/config/build_commit").substr(0, 7)
-	var datetime = Time.get_datetime_dict_from_unix_time(ProjectSettings.get("application/config/build_time")) 
-	var date = "%02d/%02d/%02d" % [datetime.day, datetime.month, datetime.year]
-	var time = " %02d:%02d:%d" % [datetime.hour, datetime.minute, datetime.second]
 	
 	var version = "%d.%d.%d" % [MAJOR, MINOR, PATCH]
 	
@@ -30,7 +25,7 @@ static func get_version_string(with_line_breaks := false):
 	
 	if HBGame.is_on_steam_deck():
 		os_name += " on Steam Deck"
-	result = result.format({
+	var format_info := {
 		"ver_name": ver_name + demo_string,
 		"status": status,
 		"audio_driver": Shinobu.get_current_backend_name(),
@@ -39,8 +34,31 @@ static func get_version_string(with_line_breaks := false):
 		"video_adapter": RenderingServer.get_video_adapter_name(),
 		"os_name": os_name,
 		"version": version,
-		"commit": sha,
-		"build_date": date,
-		"build_time": time,
-	})
+		"commit": "",
+		"build_date": "",
+		"build_time": "",
+	}
+
+	var has_date_info := false
+	
+	if FileAccess.file_exists(VERSION_FILE_PATH):
+		var f := FileAccess.open(VERSION_FILE_PATH, FileAccess.READ)
+		var json := JSON.parse_string(f.get_as_text()) as Dictionary
+		has_date_info = json and json.has("build_time") and json.has("is_dirty") and json.has("commit_hash")
+		if has_date_info:
+			var datetime = Time.get_datetime_dict_from_unix_time(json.build_time + Time.get_time_zone_from_system().bias * 60)
+			var date = "%02d/%02d/%02d" % [datetime.day, datetime.month, datetime.year]
+			var time = " %02d:%02d:%d" % [datetime.hour, datetime.minute, datetime.second]
+			has_date_info = true
+			format_info["build_time"] = time
+			format_info["commit"] = json.commit_hash
+			format_info["dirty"] = "-dirty" if json.is_dirty else ""
+		
+	var result = "{ver_name} - {status} ({video_driver} {api_version}, {audio_driver}, {os_name}) - {version} (build {commit}{dirty}, {build_date} {build_time}) - {video_adapter}"
+	if not has_date_info:
+		result = "{ver_name} - {status} ({video_driver} {api_version}, {audio_driver}, {os_name}) - {version} - {video_adapter}"
+		
+	result = result.format(format_info)
+	if with_line_breaks:
+		result = result.replace(" - ", "\n")
 	return result
