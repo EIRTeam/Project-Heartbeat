@@ -220,14 +220,7 @@ var OPTIONS = {
 			"name": tr("Button prompts"),
 			"description": tr("Overrides the button prompts shown for your controller to the specified type."),
 			"options": ["default", "xbox", "playstation", "nintendo"],
-			"options_pretty": ["Auto-detect", "Xbox™", "PlayStation™", "Nintendo™"],
-			"type": "options"
-		},
-		"color_remap": {
-			"name": tr("Color remap"),
-			"description": tr("For color-blindness, remaps colors on the screen with others, it's an imperfect solution but it might be useful."),
-			"options": [HBUserSettings.COLORBLIND_COLOR_REMAP.NONE, HBUserSettings.COLORBLIND_COLOR_REMAP.GBR, HBUserSettings.COLORBLIND_COLOR_REMAP.BRG, HBUserSettings.COLORBLIND_COLOR_REMAP.BGR],
-			"options_pretty": ["None (Red/Green/Blue)", "Red/Green/Blue -> Green/Blue/Red", "Red/Green/Blue -> Blue/Red/Green", "Red/Green/Blue -> Blue/Green/Red"],
+			"options_pretty": [tr("Auto-detect", &"Button prompt auto detect option"), "Xbox™", "PlayStation™", "Nintendo™"],
 			"type": "options"
 		},
 		"lyrics_enabled": {
