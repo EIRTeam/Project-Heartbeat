@@ -89,10 +89,10 @@ func set_resource_pack(resource_pack: HBResourcePack):
 	if resource_pack.ugc_service_name == ugc.get_ugc_service_name():
 		changelog_label.show()
 		changelog_line_edit.show()
-		ugc.get_item_details(resource_pack.ugc_id)
-		Log.log(self, "Song has been uploaded previously, requesting data.")
+		Log.log(self, "Resource pack has been uploaded previously, requesting data.")
+		_on_ugc_details_request_done(await _request_item_details(resource_pack.ugc_id))
 	else:
-		Log.log(self, "Song hasn't been uploaded before to UGC.")
+		Log.log(self, "Resource pack hasn't been uploaded before to UGC.")
 		changelog_label.hide()
 		changelog_line_edit.hide()
 		title_line_edit.text = resource_pack.pack_name
@@ -107,8 +107,8 @@ func set_song(song: HBSong):
 	if song.ugc_service_name == ugc.get_ugc_service_name():
 		changelog_label.show()
 		changelog_line_edit.show()
-		ugc.get_item_details(song.ugc_id)
 		Log.log(self, "Song has been uploaded previously, requesting data.")
+		_on_ugc_details_request_done(await _request_item_details(song.ugc_id))
 	else:
 		Log.log(self, "Song hasn't been uploaded before to UGC.")
 		changelog_label.hide()
@@ -149,7 +149,12 @@ func start_upload():
 					upload_song(current_song, current_song.ugc_id)
 		if not has_service_name:
 			uploading_new = true
-			ugc.create_item()
+			var item := HBSteamUGCEditor.new_community_file()
+			item.submit()
+			var create_result: Array = await item.file_submitted
+			var result := create_result[0] as int
+			var tos := create_result[1] as bool
+			_on_item_created(result, item.file_id, tos)
 func _on_item_created(result, file_id, tos):
 	var ugc = PlatformService.service_provider.ugc_provider
 	if result == 1:
@@ -165,17 +170,27 @@ func _on_item_created(result, file_id, tos):
 				current_resource_pack.save_pack()
 				upload_resource_pack(current_resource_pack, file_id)
 	else:
-		print("CREATION ERR!", result)
 		pass
 		
-func _on_ugc_details_request_done(result, data):
-	if result == 1:
-		if (current_resource_pack and current_resource_pack.ugc_id == data.item_id) \
-				or (current_song and data.item_id == current_song.ugc_id):
-			data_label.text = "Updating existing item: %s" % data.title
-			title_line_edit.text = data.title
-			description_line_edit.text = data.description
-	elif result == 9: # File not found, possibly because the user deleted it
+func _request_item_details(item_id: int) -> HBSteamUGCItem:
+	var query := HBSteamUGCQuery.create_query(SteamworksConstants.UGC_MATCHING_UGC_TYPE_ITEMS_READY_TO_USE) \
+		.with_file_ids([item_id])
+		
+	query.request_page(0)
+	var result: HBSteamUGCQueryPageResult = await query.query_completed
+	if result:
+		if result.results.size() > 0:
+			return result.results[0]
+		else:
+			return null
+	return null
+		
+func _on_ugc_details_request_done(data: HBSteamUGCItem):
+	if data:
+		data_label.text = "Updating existing item: %s" % data.title
+		title_line_edit.text = data.title
+		description_line_edit.text = data.description
+	else: # File not found, possibly because the user deleted it
 		file_not_found_dialog.popup_centered()
 		
 func _process(delta):
@@ -235,8 +250,13 @@ func upload_song(song: HBSong, ugc_id: int):
 		update.with_changelog("Initial upload")
 	else:
 		update.with_changelog(changelog_line_edit.text)
-	update.file_submitted.connect(_on_item_updated.bind(HBSteamUGCItem.from_id(ugc_id)))
 	upload_dialog.popup_centered()
+	
+	upload_dialog.popup_centered()
+	update.submit()
+	item_update = update
+	var update_result := await update.file_submitted as Array
+	_on_item_updated(update_result[0], update_result[1], HBSteamUGCItem.from_id(ugc_id))
 	
 func upload_resource_pack(resource_pack: HBResourcePack, ugc_id):
 	item_update = null
@@ -259,8 +279,9 @@ func upload_resource_pack(resource_pack: HBResourcePack, ugc_id):
 	else:
 		item_update.with_changelog(changelog_line_edit.text)
 	item_update.submit()
-	item_update.file_submitted.connect(_on_item_updated.bind(HBSteamUGCItem.from_id(ugc_id)))
 	upload_dialog.popup_centered()
+	var update_result := await item_update.file_submitted as Array
+	_on_item_updated(update_result[0], update_result[1], HBSteamUGCItem.from_id(ugc_id))
 	
 func _on_item_updated(result: int, tos: bool, item: HBSteamUGCItem):
 	upload_dialog.hide()
@@ -268,7 +289,7 @@ func _on_item_updated(result: int, tos: bool, item: HBSteamUGCItem):
 	if result == SteamworksConstants.RESULT_OK:
 		var text = """Item uploaded succesfully, you wil now be redirected to your item's workshop page,
 		if this is the first time you upload this item you will need to set your song's visibility and if you've never uploaded
-		a workshop item before you will need to accept the workshop's terms of service.'"""
+		a workshop item before you will need to accept the workshop's terms of service."""
 		post_upload_dialog.dialog_text = text
 		post_upload_dialog.popup_centered()
 		match mode:
@@ -297,7 +318,6 @@ func _on_item_updated(result: int, tos: bool, item: HBSteamUGCItem):
 func _on_post_upload_accepted():
 	match mode:
 		MODE.SONG:
-			Steamworks.friends.game
 			Steamworks.friends.activate_game_overlay_to_web_page("steam://url/CommunityFilePage/%d" % [current_song.ugc_id], true)
 		MODE.RESOURCE_PACK:
 			Steamworks.friends.activate_game_overlay_to_web_page("steam://url/CommunityFilePage/%d" % [current_resource_pack.ugc_id], true)

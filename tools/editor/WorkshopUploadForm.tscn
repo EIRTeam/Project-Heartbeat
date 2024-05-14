@@ -14,6 +14,7 @@ border_width_bottom = 1
 border_color = Color(0.462745, 0.478431, 0.52549, 1)
 
 [node name="Window" type="Window"]
+position = Vector2i(0, 32)
 theme = ExtResource("1")
 script = ExtResource("2")
 
@@ -81,6 +82,7 @@ disabled = true
 text = "Upload"
 
 [node name="UploadDialog" type="Popup" parent="."]
+size = Vector2i(400, 100)
 exclusive = true
 
 [node name="Panel" type="Panel" parent="UploadDialog"]
