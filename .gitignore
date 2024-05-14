@@ -15,4 +15,4 @@ songs/
 # System/tool-specific ignores
 .directory
 *~
-
+version.json
