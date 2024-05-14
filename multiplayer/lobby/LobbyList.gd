@@ -65,10 +65,11 @@ func refresh_lobby_list():
 	for child in scroll_list.item_container.get_children():
 		scroll_list.item_container.remove_child(child)
 		child.queue_free()
-	var mp_provider = PlatformService.service_provider.multiplayer_provider
 	loadingu.show()
 	lobbies_found_label.text = "Loadingu..."
-	var lobbies := await (mp_provider.request_lobby_list() as HBLobbyListQuery).received_lobby_list as Array[HBSteamLobby]
+	var query := Steamworks.matchmaking.create_lobby_list_query()
+	query.filter_distance_worldwide()
+	var lobbies := await (query.request_lobby_list() as HBLobbyListQuery).received_lobby_list as Array[HBSteamLobby]
 	_on_get_lobby_list(lobbies)
 func _on_out_from_top():
 	create_lobby_menu.grab_focus()

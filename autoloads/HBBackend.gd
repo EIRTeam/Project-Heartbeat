@@ -263,7 +263,6 @@ func login_steam():
 	return make_request("/auth/steam-login", payload, HTTPClient.METHOD_POST, REQUEST_TYPE.LOGIN, {}, true, true)
 
 func _on_result_entered(result, _params):
-	print("RESULT IN!")
 	var entry_result := LeaderboardScoreUploadedResult.new()
 	entry_result.beat_previous_record = result.get("beat_previous_record", false)
 	entry_result.experience_change = result.get("experience_change", 0)

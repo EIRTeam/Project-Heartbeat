@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://b6wjcp48egif0"]
+[gd_scene load_steps=5 format=3 uid="uid://b6wjcp48egif0"]
 
 [ext_resource type="Texture2D" uid="uid://cegib828gt41n" path="res://graphics/effects/appear.png" id="1"]
 [ext_resource type="Script" path="res://menus/AppearParticles.gd" id="1_oldk0"]
