@@ -140,6 +140,7 @@ func start_upload():
 					has_service_name = true
 					uploading_new = false
 					upload_resource_pack(current_resource_pack, current_resource_pack.ugc_id)
+					return
 			MODE.SONG:
 				if not do_metadata_size_check(get_song_meta_dict()):
 					return
@@ -147,6 +148,7 @@ func start_upload():
 					has_service_name = true
 					uploading_new = false
 					upload_song(current_song, current_song.ugc_id)
+					return
 		if not has_service_name:
 			uploading_new = true
 			var item := HBSteamUGCEditor.new_community_file()
