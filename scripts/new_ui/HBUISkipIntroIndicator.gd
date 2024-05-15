@@ -16,7 +16,7 @@ var font := HBUIFont.new(): set = set_font
 @onready var prompt_input_action_1 := InputGlyphRect.new()
 @onready var prompt_input_action_2 := InputGlyphRect.new()
 
-@onready var tween := Threen.new()
+var tween: Tween
 
 var _starting_margin_left := 0
 
@@ -27,7 +27,8 @@ func _ready():
 	prompt_input_action_1.action_text = ""
 	prompt_input_action_2.action_text = ""
 	labels[0].text = tr("Press ")
-	labels[1].text = "+"
+	var plus := "+" # Hack to prevent translation
+	labels[1].text = plus
 	labels[2].text = tr("to skip the intro")
 	
 	for label in labels:
@@ -50,9 +51,6 @@ func _ready():
 	set_stylebox(stylebox)
 	set_font(font)
 	
-	add_child(tween)
-	
-
 func set_font(val):
 	font = val
 	if is_inside_tree():
@@ -97,14 +95,25 @@ func get_hb_inspector_whitelist() -> Array:
 	])
 	return whitelist
 
+func _set_appear_progress(progress: float):
+	position.x = lerp((_starting_margin_left-base_container.size.x), float(_starting_margin_left), progress)
+
 func appear():
-	tween.remove_all()
+	if tween:
+		tween.kill()
+		tween = null
 	show()
-	position.x = _starting_margin_left - base_container.size.x
-	tween.interpolate_property(self, "position:x", _starting_margin_left-base_container.size.x, _starting_margin_left, 1.0, Threen.TRANS_CUBIC, Threen.EASE_OUT, 1.0)
-	tween.start()
+	tween = create_tween()
+	tween.tween_method(self._set_appear_progress, 0.0, 1.0, 1.0) \
+		.set_ease(Tween.EASE_OUT) \
+		.set_trans(Tween.TRANS_CUBIC)
 
 func disappear():
-	tween.remove_all()
-	tween.interpolate_property(self, "position:x", _starting_margin_left, _starting_margin_left-base_container.size.x, 1.0, Threen.TRANS_CUBIC, Threen.EASE_OUT)
-	tween.start()
+	if tween:
+		tween.kill()
+		tween = null
+	tween = create_tween()
+	tween.tween_method(self._set_appear_progress, 1.0, 0.0, 1.0) \
+		.set_ease(Tween.EASE_OUT) \
+		.set_trans(Tween.TRANS_CUBIC)
+	tween.tween_callback(self.hide)
