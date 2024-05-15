@@ -14,6 +14,9 @@ var scores = {}
 # Contains song loaders in a dict key:loader
 var song_loaders = {}
 
+# video id -> songs
+var video_users: Dictionary
+
 func init_song_loader():
 	for dir_name in UserSettings.get_content_directories():
 		var dir := DirAccess.open(dir_name)
@@ -55,6 +58,23 @@ func difficulty_sort(a: String, b: String):
 	var a_i = BASE_DIFFICULTY_ORDER.find(a.to_lower())
 	var b_i = BASE_DIFFICULTY_ORDER.find(b.to_lower())
 	return a_i > b_i
+	
+func add_video_ownership(song: HBSong, video_url: String):
+	var video_id := YoutubeDL.get_video_id(video_url) as String
+	if not video_id.is_empty():
+		var empty_arr: Array[HBSong]
+		var list: Array[HBSong] = video_users.get_or_add(video_id, empty_arr)
+		if not song in list:
+			list.push_back(song)
+	
+func remove_video_ownership(song: HBSong, video_url: String):
+	var video_id := YoutubeDL.get_video_id(video_url) as String
+	if not video_id.is_empty():
+		var empty_arr: Array[HBSong]
+		var list: Array[HBSong] = video_users.get_or_add(video_id, empty_arr)
+		if song in list:
+			list.erase(song)
+	
 func add_song(song: HBSong):
 	songs[song.id] = song
 	var keys = song.charts.keys()
@@ -66,6 +86,15 @@ func add_song(song: HBSong):
 		charts[key] = song.charts[key]
 	
 	song.charts = charts
+	for variant: HBSongVariantData in song.song_variants:
+		add_video_ownership(song, variant.variant_url)
+	if song.youtube_url:
+		add_video_ownership(song, song.youtube_url)
+			
+func get_video_users(video_id: String) -> Array[HBSong]:
+	var empty_arr: Array[HBSong]
+	return video_users.get(video_id, empty_arr)
+			
 func load_songs_from_path(path):
 	var value = {}
 	var dir := DirAccess.open(path)

@@ -175,7 +175,10 @@ func save_meta():
 	song_meta.preview_end = preview_end_edit.value
 	song_meta.background_image = background_image_filename_edit.text
 	song_meta.preview_image = preview_image_filename_edit.text
-	song_meta.youtube_url = youtube_url_line_edit.text
+	if song_meta.youtube_url != youtube_url_line_edit.text:
+		SongLoader.remove_video_ownership(song_meta, song_meta.youtube_url)
+		song_meta.youtube_url = youtube_url_line_edit.text
+		SongLoader.add_video_ownership(song_meta, song_meta.youtube_url)
 	song_meta.use_youtube_for_audio = use_youtube_as_audio.button_pressed
 	song_meta.use_youtube_for_video = use_youtube_as_video.button_pressed
 	
@@ -205,6 +208,8 @@ func save_meta():
 		variants.append(variant_editor.variant)
 		
 	song_meta.song_variants = variants
+	for variant in song_meta.song_variants:
+		SongLoader.add_video_ownership(song_meta, variant.variant_url)
 	
 	song_meta.save_song()
 	

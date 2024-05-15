@@ -12,7 +12,7 @@ const PATH_SCENE = preload("res://menus/options_menu/content_dirs_menu/ContentDi
 @onready var content_reload_success_popup = get_node("ContentReloadSuccessPopup")
 @onready var reset_content_directory_confirmation_window = get_node("ResetContentDirectoryConfirmationWindow")
 @onready var cache_clear_success_popup = get_node("CacheClearSucccessPopup")
-@onready var song_media_clear_success_popup: Control = get_node("%SongMediaClearSuccessPopup")
+@onready var song_media_clear_success_popup: HBConfirmationWindow = get_node("%SongMediaClearSuccessPopup")
 var content_directory_control
 var action_being_bound = ""
 
@@ -46,9 +46,11 @@ func _ready():
 	reset_content_directory_confirmation_window.connect("cancel", Callable(self, "grab_focus"))
 	content_reload_success_popup.connect("accept", Callable(self, "grab_focus"))
 	cache_clear_success_popup.connect("accept", Callable(get_tree(), "quit"))
-	file_dialog.connect("dir_selected", Callable(self, "_on_path_selected"))
-	file_dialog.connect("popup_hide", Callable(self, "grab_focus"))
-	song_media_clear_success_popup.connect("popup_hide", Callable(self, "grab_focus"))
+	file_dialog.dir_selected.connect(self._on_path_selected)
+	file_dialog.dir_selected.connect(self.grab_focus)
+	file_dialog.canceled.connect(self.grab_focus)
+	file_dialog.close_requested.connect(self.grab_focus)
+	song_media_clear_success_popup.accept.connect(self.grab_focus)
 	SongLoader.connect("all_songs_loaded", Callable(self, "_on_content_reload_complete"))
 func populate():
 	var children = scroll_container.item_container.get_children()
@@ -77,7 +79,6 @@ func populate():
 	download_all_song_media.connect("pressed", Callable(self, "_on_download_all_song_media"))
 	
 	clear_unused_media_button = HBHovereableButton.new()
-	clear_unused_media_button.text = tr("Clean unused song media") + " (%s)" % ["".humanize_size(YoutubeDL.unused_cache_size)]
 	clear_unused_media_button.connect("pressed", Callable(self, "_on_clear_unused_media"))
 	
 	scroll_container.item_container.add_child(reload_content_button)
@@ -96,6 +97,8 @@ func populate():
 	mmplus_button.set_value(UserSettings.user_settings.enable_system_mmplus_loading)
 	mmplus_button.connect("changed", Callable(self, "_on_mmplus_option_changed"))
 	mmplus_button.update_error()
+	
+	_update_clean_unused_media_label(YoutubeDL.get_unused_videos_data())
 	
 func _on_mmplus_option_changed(new_value: bool):
 	UserSettings.user_settings.enable_system_mmplus_loading = new_value
@@ -135,11 +138,20 @@ func _on_content_directory_reset():
 	_on_content_reload()
 	content_directory_control.dir = UserSettings.user_settings.content_path
 
+func _update_clean_unused_media_label(unused_data: YoutubeDL.UnusedVideosData):
+	var text := tr("Clean unused media for {unused_video_count} songs ({unused_size})", &"Used for the options -> content label for clearing song media")
+	clear_unused_media_button.text = text.format(
+		{
+			"unused_size": String.humanize_size(unused_data.unused_size),
+			"unused_video_count": unused_data.unused_videos.size(),
+		}
+	)
+
 func _on_clear_unused_media():
-	YoutubeDL.clear_unused_media()
-	clear_unused_media_button.text = tr("Clean unused song media") + " (%s)" % ["".humanize_size(YoutubeDL.unused_cache_size)]
+	var unused_data := YoutubeDL.get_unused_videos_data()
+	YoutubeDL.clear_unused_media(unused_data)
+	_update_clean_unused_media_label(YoutubeDL.get_unused_videos_data())
 	song_media_clear_success_popup.popup_centered()
-	song_media_clear_success_popup.grab_focus()
 
 func _on_download_all_song_media():
 	for song_id in SongLoader.songs:

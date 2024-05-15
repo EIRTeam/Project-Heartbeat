@@ -15,6 +15,7 @@ var song: HBSong
 
 func _on_DeleteButton_pressed():
 	emit_signal("deleted")
+	SongLoader.remove_video_ownership(song, variant.variant_url)
 	
 func set_variant(_variant: HBSongVariantData):
 	variant = _variant
@@ -27,6 +28,7 @@ func save_variant():
 	variant.variant_url = line_edit_url.text
 	variant.audio_only = checkbox_audio_only.button_pressed
 	variant.variant_offset = offset_spinbox.value
+	SongLoader.add_video_ownership(song, variant.variant_url)
 
 func _on_ButtonSync_pressed():
 	if YoutubeDL.get_cache_status(variant.variant_url, false, true) != YoutubeDL.CACHE_STATUS.OK:

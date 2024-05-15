@@ -42,9 +42,6 @@ var caching_queue = []
 const PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
 # We use a fake user agent for privacy and to fool google drivez
 
-var unused_cache_size := 0
-var unused_video_ids := []
-
 enum CACHING_STAGE {
 	STARTING,
 	DOWNLOADING_AUDIO,
@@ -223,23 +220,29 @@ func _init_ytdl():
 	else:
 		update_youtube_dl()
 	
+class UnusedVideosData:
+	var unused_size: int
+	var unused_videos: Array[String]
+
+func get_unused_videos_data() -> UnusedVideosData:
 	var cache_dir := get_cache_dir() as String
-	
 	var d := DirAccess.open(cache_dir)
+	var out_data := UnusedVideosData.new()
 	if DirAccess.get_open_error() == OK:
-		d.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
+		d.list_dir_begin()
 		var curr := d.get_next()
 		while not curr.is_empty():
 			var video_id := curr.get_file().get_basename()
 			if curr.get_extension() in ["webm", "ogg", "mp4"]:
-				if not video_id in cache_meta.cache:
+				if not video_id in cache_meta.cache or SongLoader.get_video_users(video_id).is_empty():
 					var f := FileAccess.open(cache_dir.path_join(curr), FileAccess.READ)
 					if FileAccess.get_open_error() == OK:
-						unused_cache_size += f.get_length()
-						if not video_id in unused_video_ids:
-							unused_video_ids.append(video_id)
+						out_data.unused_size += f.get_length()
+						if not video_id in out_data.unused_videos:
+							out_data.unused_videos.append(video_id)
 					f.close()
 			curr = d.get_next()
+	return out_data
 
 func save_cache():
 	var video_cache_str := JSON.stringify(cache_meta, "  ")
@@ -800,11 +803,9 @@ func get_video_info_json(video_url: String):
 	
 	return out_dict
 
-func clear_unused_media():
-	for video_id in unused_video_ids:
-		cleanup_video_media(video_id)
-	unused_cache_size = 0
-	unused_video_ids.clear()
+func clear_unused_media(unused_data: UnusedVideosData):
+	for video_id in unused_data.unused_videos:
+		cleanup_video_media(video_id, true, true)
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
