@@ -109,7 +109,7 @@ func set_song_meta(value):
 		variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
 		variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
 	
-	chart_ed.populate(value, not hidden)
+	chart_ed.populate(value, not show_hidden)
 	
 	skin_picker.populate_list()
 	skin_picker.selected_value = song_meta.skin_ugc_id
