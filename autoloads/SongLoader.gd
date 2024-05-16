@@ -60,8 +60,8 @@ func difficulty_sort(a: String, b: String):
 	return a_i > b_i
 	
 func add_video_ownership(song: HBSong, video_url: String):
-	var video_id := YoutubeDL.get_video_id(video_url) as String
-	if not video_id.is_empty():
+	var video_id: String = YoutubeDL.get_video_id(video_url)
+	if video_id and not video_id.is_empty():
 		var empty_arr: Array[HBSong]
 		var list: Array[HBSong] = video_users.get_or_add(video_id, empty_arr)
 		if not song in list:
