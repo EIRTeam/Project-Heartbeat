@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2024-05-16 08:45\n"
+"PO-Revision-Date: 2024-05-16 10:10\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -842,23 +842,23 @@ msgid "Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
 msgstr "Descargando {download_type} para {song_title} ({percentage}{size}{speed})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "Couldn't load game data from %s"
+msgid "Couldn't load game data from {game_location}"
 msgstr ""
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "Song ID %s's (%s) difficulty %s did not have a DSC script path"
+msgid "Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path"
 msgstr ""
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "Couldn't find audio data for song ID %s (%s)"
+msgid "Couldn't find audio data for song ID {song_id} ({song_title})"
 msgstr ""
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "PVDB does not exist (%s)"
+msgid "PVDB does not exist ({pvdb_path})"
 msgstr ""
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "Song ID %s's audio path (%s) did not exist"
+msgid "Song ID {song_id}'s audio path ({audio_path}) did not exist"
 msgstr ""
 
 #: base_scene.tscn
@@ -1698,10 +1698,6 @@ msgstr "Volumen para este efecto de sonido"
 #: menus/options_menu/OptionsMenu.gd
 msgid "Detected controllers:"
 msgstr "Mandos detectados:"
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "\n"
-msgstr ""
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
