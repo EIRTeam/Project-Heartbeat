@@ -13,7 +13,7 @@ var current_resource_pack: HBResourcePack
 @onready var upload_dialog = get_node("UploadDialog")
 @onready var post_upload_dialog = get_node("PostUploadDialog")
 @onready var error_dialog = get_node("ErrorDialog")
-@onready var file_not_found_dialog = get_node("FileNotFoundDialog")
+@onready var workshop_file_not_found_dialog = get_node("%WorkshopFileNotFoundDialog")
 @onready var upload_status_label = get_node("UploadDialog/Panel/MarginContainer/VBoxContainer/Label")
 @onready var upload_progress_bar = get_node("UploadDialog/Panel/MarginContainer/VBoxContainer/ProgressBar")
 const LOG_NAME = "WorkshopUploadForm"
@@ -56,8 +56,8 @@ func _ready():
 	compliance_checkbox.connect("toggled", Callable(self, "_on_compliance_checkbox_toggled"))
 	post_upload_dialog.connect("confirmed", Callable(self, "_on_post_upload_accepted"))
 	upload_button.connect("pressed", Callable(self, "start_upload"))
-	file_not_found_dialog.connect("confirmed", Callable(self, "_on_file_not_found_confirmed"))
-	file_not_found_dialog.get_cancel_button().connect("pressed", Callable(self, "hide"))
+	workshop_file_not_found_dialog.connect("confirmed", Callable(self, "_on_file_not_found_confirmed"))
+	workshop_file_not_found_dialog.get_cancel_button().connect("pressed", Callable(self, "hide"))
 func _on_compliance_checkbox_toggled(pressed):
 	upload_button.disabled = !pressed
 	
@@ -194,7 +194,7 @@ func _on_ugc_details_request_done(data: HBSteamUGCItem):
 		title_line_edit.text = data.title
 		description_line_edit.text = data.description
 	else: # File not found, possibly because the user deleted it
-		file_not_found_dialog.popup_centered()
+		workshop_file_not_found_dialog.popup_centered()
 		
 func _process(delta):
 	if item_update:

@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bi00tlp38rnc3"]
+[gd_scene load_steps=6 format=3 uid="uid://bi00tlp38rnc3"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Script" path="res://tools/editor/WorkshopUploadForm.gd" id="2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85hbi"]
+bg_color = Color(0.2, 0.231373, 0.309804, 1)
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
@@ -17,6 +20,14 @@ border_color = Color(0.462745, 0.478431, 0.52549, 1)
 position = Vector2i(0, 32)
 theme = ExtResource("1")
 script = ExtResource("2")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_85hbi")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -119,9 +130,15 @@ step = 0.0
 [node name="PostUploadDialog" type="AcceptDialog" parent="."]
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
+position = Vector2i(0, 32)
+size = Vector2i(117, 100)
 dialog_text = "There "
 
-[node name="FileNotFoundDialog" type="ConfirmationDialog" parent="."]
-size = Vector2i(200, 273)
+[node name="WorkshopFileNotFoundDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+position = Vector2i(0, 32)
+size = Vector2i(440, 158)
 dialog_text = "This song appears to have been uploaded previously, but we cannot find it on the workshop anymore, would you like to instead upload it from scratch?"
 dialog_autowrap = true
+
+[connection signal="close_requested" from="." to="." method="hide"]

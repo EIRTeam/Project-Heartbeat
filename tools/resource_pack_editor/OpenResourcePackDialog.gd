@@ -68,7 +68,7 @@ func _unhandled_input(event):
 
 func _on_UploadToWorkshopButton_pressed():
 	workshop_upload_dialog.set_resource_pack(tree.get_selected().get_meta("pack"))
-	workshop_upload_dialog.popup_centered()
+	workshop_upload_dialog.popup_centered_ratio()
 
 func _on_Tree_item_selected():
 	workshop_upload_button.disabled = false

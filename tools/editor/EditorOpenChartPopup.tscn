@@ -10,6 +10,7 @@
 
 [node name="Control" type="ConfirmationDialog"]
 size = Vector2i(275, 289)
+visible = true
 theme = ExtResource("1")
 script = ExtResource("2")
 
@@ -20,7 +21,7 @@ anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 267.0
-offset_bottom = 240.0
+offset_bottom = 241.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
