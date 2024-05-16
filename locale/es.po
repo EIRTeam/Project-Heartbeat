@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2024-05-16 10:10\n"
+"PO-Revision-Date: 2024-05-16 10:51\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -52,7 +52,7 @@ msgstr "Los medios de esta canción se están descargando actualmente."
 
 #: autoloads/MouseTrap.tscn
 msgid "Ok"
-msgstr ""
+msgstr "Vale"
 
 #: autoloads/MouseTrap.tscn
 msgid "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n\n"
@@ -76,13 +76,13 @@ msgstr "URL no válida. Asegúrese de estar utilizando una URL de YouTube y de q
 
 #: autoloads/MouseTrap.tscn
 msgid "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"
-msgstr ""
+msgstr "Parece que la hora de tu sistema no es válida, ¡por favor asegúrate de que tanto tu zona horaria como la hora local están configuradas correctamente! ¡Específicamente si estás haciendo arranque doble con Linux!"
 
 #: autoloads/MouseTrap.tscn
 #: multiplayer/lobby/LobbyList.tscn
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Okay"
-msgstr ""
+msgstr "Vale"
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Cross, Xbox A, Nintendo B"
@@ -843,23 +843,23 @@ msgstr "Descargando {download_type} para {song_title} ({percentage}{size}{speed}
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Couldn't load game data from {game_location}"
-msgstr ""
+msgstr "No se pudieron cargar los datos del juego desde {game_location}"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path"
-msgstr ""
+msgstr "La canción con ID {song_id} ({song_title}) en la dificultad {difficulty} no tiene una ruta de mapa DSC"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Couldn't find audio data for song ID {song_id} ({song_title})"
-msgstr ""
+msgstr "No se pudieron encontrar datos de audio para la canción con ID {song_id} ({song_title})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "PVDB does not exist ({pvdb_path})"
-msgstr ""
+msgstr "La PVDB no existe ({pvdb_path})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Song ID {song_id}'s audio path ({audio_path}) did not exist"
-msgstr ""
+msgstr "La ruta de audio de la canción con ID {song_id} ({audio_path}) no existe"
 
 #: base_scene.tscn
 #: menus/LoadingScreen.gd
@@ -1505,7 +1505,7 @@ msgstr "Reemplaza las indicaciones de botón que se muestran para tu mando al ti
 #: menus/options_menu/OptionsMenu.gd
 msgctxt "Button prompt auto detect option"
 msgid "Auto-detect"
-msgstr ""
+msgstr "Autodetectar"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable lyrics"
@@ -1756,7 +1756,7 @@ msgstr "Descargar todos los medios de canción"
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
 msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
-msgstr ""
+msgstr "Limpiar medios no utilizados para {unused_video_count} canciones ({unused_size})"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reloading content..."
@@ -1777,7 +1777,7 @@ msgstr "Canciones recargadas correctamente"
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Alright"
-msgstr ""
+msgstr "Vale"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Cache cleared succesfully, please re-run the game."
@@ -2079,7 +2079,7 @@ msgstr "Crear"
 
 #: multiplayer/lobby/LobbyList.tscn
 msgid "You were kicked from the lobby"
-msgstr ""
+msgstr "Te han expulsado del lobby"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Select Song..."
@@ -2111,11 +2111,11 @@ msgstr "Descargando datos de canción..."
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Looks like some players lack the needed Workshop song or media for the songs, would you like to ask them to download them?"
-msgstr ""
+msgstr "Parece que algunos jugadores carecen de la canción de la Workshop o de los datos de estas, ¿te gustaría pedirles que los descarguen?"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
-msgstr ""
+msgstr "Parece que no tienes la canción actual usada en este lobby, ¿quieres descargar la canción y/o sus datos?"
 
 #: multiplayer/lobby/LobbySongSelector.tscn
 msgid "Selecting song for"
@@ -2127,7 +2127,7 @@ msgstr "Hacer anfitrión"
 
 #: multiplayer/lobby/Member.tscn
 msgid "Kick"
-msgstr ""
+msgstr "Expulsar"
 
 #: rythm_game/ResultsScreen.gd
 msgid "Results"
@@ -2140,7 +2140,7 @@ msgstr "Grafico"
 #: rythm_game/ResultsScreen.gd
 msgctxt "Results screen share tweet contents"
 msgid "I just obtained {score} ({percentage} %%25) points in {song_title} in @PHeartbeatGame!"
-msgstr ""
+msgstr "Acabo de obtener {score} ({percentage} %%25) puntos en {song_title} en @PHeartbeatGame!"
 
 #: rythm_game/ResultsScreen.gd
 msgid "results"
@@ -2308,27 +2308,27 @@ msgstr "¡Esperando a que otros jugadores carguen!"
 
 #: scripts/HBSong.gd
 msgid "Written by: "
-msgstr ""
+msgstr "Escrito por: "
 
 #: scripts/HBSong.gd
 msgid "Vocals by: "
-msgstr ""
+msgstr "Vocales por: "
 
 #: scripts/HBSong.gd
 msgid "Composed by: "
-msgstr ""
+msgstr "Compuesto por: "
 
 #: scripts/HBSong.gd
 msgid "Chart by: %s"
-msgstr ""
+msgstr "Mapa por: %s"
 
 #: scripts/new_ui/HBUISkipIntroIndicator.gd
 msgid "Press "
-msgstr ""
+msgstr "Pulsa "
 
 #: scripts/new_ui/HBUISkipIntroIndicator.gd
 msgid "to skip the intro"
-msgstr ""
+msgstr "para saltar la intro"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name"
@@ -2412,7 +2412,7 @@ msgstr "Aleatoriza el tipo de algunas notas."
 
 #: multiplayer/lobby/LobbyChat.tscn
 msgid "Say something nice..."
-msgstr ""
+msgstr "Di algo bonito..."
 
 #: multiplayer/lobby/LobbyChat.tscn
 msgid "Send"
