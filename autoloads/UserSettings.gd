@@ -443,6 +443,8 @@ func _update_fps_limits():
 	else:
 		get_viewport().msaa_2d = Viewport.MSAA_DISABLED
 		fps_limit = int(user_settings.fps_limit)
+	if DisplayServer.window_get_vsync_mode(0) != vsync_mode:
+		DisplayServer.window_set_vsync_mode(vsync_mode, 0)
 	Engine.max_fps = fps_limit
 func get_current_display():
 	return min(UserSettings.user_settings.display, DisplayServer.get_screen_count()-1)
