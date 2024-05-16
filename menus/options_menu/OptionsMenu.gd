@@ -469,10 +469,10 @@ func _version_info_callback():
 	return HBVersion.get_version_string(true)
 
 func _detected_controllers_callback() -> String:
-	var text := tr("Detected controllers:") + "\n\n"
+	var text_out := tr("Detected controllers:") + "\n\n"
 	
 	for gamepad_i in Input.get_connected_joypads():
 		if PHNative.is_sdl_device_game_controller(gamepad_i):
-			text += tr("{joypad_name} (Game Controller)".format({"joypad_name": Input.get_joy_name(gamepad_i)}), &"Used when a joypad is detected as a game controller")
-		text += "\n"
-	return text
+			text_out += tr("{joypad_name} (Game Controller)".format({"joypad_name": Input.get_joy_name(gamepad_i)}), &"Used when a joypad is detected as a game controller")
+		text_out += "\n"
+	return text_out
