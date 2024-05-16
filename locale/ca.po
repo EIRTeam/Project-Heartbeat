@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2024-05-16 08:45\n"
+"PO-Revision-Date: 2024-05-16 10:10\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -52,7 +52,7 @@ msgstr "Actualment s'estan baixant els medis d'aquesta cançó."
 
 #: autoloads/MouseTrap.tscn
 msgid "Ok"
-msgstr ""
+msgstr "Vale"
 
 #: autoloads/MouseTrap.tscn
 msgid "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n\n"
@@ -76,13 +76,13 @@ msgstr "URL no valida, assegureu-vos que feu servir un URL de YouTube i que sigu
 
 #: autoloads/MouseTrap.tscn
 msgid "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"
-msgstr ""
+msgstr "Sembla que l'hora del vostre sistema no és vàlida. Assegureu-vos que tant la zona horària com l'hora local estiguin configurades correctament. Especialment si esteu utilitzant Linux amb arrencada dual!"
 
 #: autoloads/MouseTrap.tscn
 #: multiplayer/lobby/LobbyList.tscn
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Okay"
-msgstr ""
+msgstr "Vale"
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Cross, Xbox A, Nintendo B"
@@ -842,23 +842,23 @@ msgid "Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
 msgstr "Descarregant {download_type} per a {song_title} ({percentage}{size}{speed})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "Couldn't load game data from %s"
+msgid "Couldn't load game data from {game_location}"
 msgstr ""
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "Song ID %s's (%s) difficulty %s did not have a DSC script path"
+msgid "Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path"
 msgstr ""
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "Couldn't find audio data for song ID %s (%s)"
+msgid "Couldn't find audio data for song ID {song_id} ({song_title})"
 msgstr ""
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "PVDB does not exist (%s)"
+msgid "PVDB does not exist ({pvdb_path})"
 msgstr ""
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
-msgid "Song ID %s's audio path (%s) did not exist"
+msgid "Song ID {song_id}'s audio path ({audio_path}) did not exist"
 msgstr ""
 
 #: base_scene.tscn
@@ -1505,7 +1505,7 @@ msgstr "Substitueix les indicacions de botó que es mostren per al comandament p
 #: menus/options_menu/OptionsMenu.gd
 msgctxt "Button prompt auto detect option"
 msgid "Auto-detect"
-msgstr ""
+msgstr "Auto detectar"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable lyrics"
@@ -1699,10 +1699,6 @@ msgstr "Volum per aquest efecte de so"
 msgid "Detected controllers:"
 msgstr "Comandaments detectats:"
 
-#: menus/options_menu/OptionsMenu.gd
-msgid "\n"
-msgstr ""
-
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
 msgstr "Directori de contingut"
@@ -1760,7 +1756,7 @@ msgstr "Baixar tots els continguts multimèdia de cançons"
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
 msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
-msgstr ""
+msgstr "Netejar dades multimèdia de {unused_video_count} cançons ({unused_size})"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reloading content..."
@@ -1781,7 +1777,7 @@ msgstr "Cançons recarregades correctament"
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Alright"
-msgstr ""
+msgstr "Vale"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Cache cleared succesfully, please re-run the game."
@@ -2083,7 +2079,7 @@ msgstr "Crear"
 
 #: multiplayer/lobby/LobbyList.tscn
 msgid "You were kicked from the lobby"
-msgstr ""
+msgstr "T'han fet fora del lobby"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Select Song..."
@@ -2115,11 +2111,11 @@ msgstr "Descarregant dades de la música..."
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Looks like some players lack the needed Workshop song or media for the songs, would you like to ask them to download them?"
-msgstr ""
+msgstr "Sembla que alguns jugadors no tenen la cançó de la Workshop o les dades necessàries per a les cançons, els voleu demanar que les baixin?"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
-msgstr ""
+msgstr "Sembla que no teniu la cançó actual que s'utilitza en aquest lobby, voleu baixar la cançó i/o les seves dades?"
 
 #: multiplayer/lobby/LobbySongSelector.tscn
 msgid "Selecting song for"
@@ -2144,7 +2140,7 @@ msgstr "Gràfic"
 #: rythm_game/ResultsScreen.gd
 msgctxt "Results screen share tweet contents"
 msgid "I just obtained {score} ({percentage} %%25) points in {song_title} in @PHeartbeatGame!"
-msgstr ""
+msgstr "He obtingut {score} ({percentage} %%25) punts en {song_title} a @PHeartbeatGame!"
 
 #: rythm_game/ResultsScreen.gd
 msgid "results"
@@ -2312,27 +2308,27 @@ msgstr "Esperant que es carreguin altres jugadors!"
 
 #: scripts/HBSong.gd
 msgid "Written by: "
-msgstr ""
+msgstr "Escrit per: "
 
 #: scripts/HBSong.gd
 msgid "Vocals by: "
-msgstr ""
+msgstr "Veu de: "
 
 #: scripts/HBSong.gd
 msgid "Composed by: "
-msgstr ""
+msgstr "Composat per: "
 
 #: scripts/HBSong.gd
 msgid "Chart by: %s"
-msgstr ""
+msgstr "Chart per: %s"
 
 #: scripts/new_ui/HBUISkipIntroIndicator.gd
 msgid "Press "
-msgstr ""
+msgstr "Prem "
 
 #: scripts/new_ui/HBUISkipIntroIndicator.gd
 msgid "to skip the intro"
-msgstr ""
+msgstr "per saltar la intro"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name"
@@ -2416,7 +2412,7 @@ msgstr "Aleatoritza el tipus d'algunes notes."
 
 #: multiplayer/lobby/LobbyChat.tscn
 msgid "Say something nice..."
-msgstr ""
+msgstr "Digues alguna cosa bonica..."
 
 #: multiplayer/lobby/LobbyChat.tscn
 msgid "Send"
