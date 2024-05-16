@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2024-04-17 10:15\n"
+"PO-Revision-Date: 2024-05-16 08:45\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -51,19 +51,8 @@ msgid "Media for this song is currently being downloaded."
 msgstr ""
 
 #: autoloads/MouseTrap.tscn
-msgid "OGG"
+msgid "Ok"
 msgstr ""
-
-#: autoloads/MouseTrap.tscn
-#: menus/FolderManager.gd
-#: menus/FolderManager.tscn
-#: menus/HBTextInput.gd
-#: menus/HBTextInput.tscn
-#: menus/options_menu/OptionControlsSectionEvent.gd
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid ""
-msgstr ""
-""
 
 #: autoloads/MouseTrap.tscn
 msgid "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n\n"
@@ -81,6 +70,16 @@ msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "Invalid URL, ensure you are using a YouTube URL and that it is valid."
+msgstr ""
+
+#: autoloads/MouseTrap.tscn
+msgid "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"
+msgstr ""
+
+#: autoloads/MouseTrap.tscn
+#: multiplayer/lobby/LobbyList.tscn
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "Okay"
 msgstr ""
 
 #: autoloads/UserSettings.gd
@@ -840,32 +839,54 @@ msgstr ""
 msgid "Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
 msgstr ""
 
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "Couldn't load game data from %s"
+msgstr ""
+
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "Song ID %s's (%s) difficulty %s did not have a DSC script path"
+msgstr ""
+
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "Couldn't find audio data for song ID %s (%s)"
+msgstr ""
+
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "PVDB does not exist (%s)"
+msgstr ""
+
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "Song ID %s's audio path (%s) did not exist"
+msgstr ""
+
 #: base_scene.tscn
 #: menus/LoadingScreen.gd
 #: menus/LoadingScreen.tscn
-#: multiplayer/lobby/LobbyList.tscn
 msgid "Loadingu..."
 msgstr ""
 
 #: menus/FolderManager.gd
-#: menus/FolderManager.tscn
 msgid "Enter the new folder name"
 msgstr ""
 
 #: menus/FolderManager.gd
-#: menus/FolderManager.tscn
 msgid "Add subfolder"
 msgstr ""
 
 #: menus/FolderManager.gd
-#: menus/FolderManager.tscn
 msgid "Rename folder"
 msgstr ""
 
 #: menus/FolderManager.gd
-#: menus/FolderManager.tscn
 msgid "Delete folder"
 msgstr ""
+
+#: menus/FolderManager.gd
+#: menus/HBTextInput.gd
+#: menus/options_menu/OptionControlsSectionEvent.gd
+msgid ""
+msgstr ""
+""
 
 #: menus/FolderManager.tscn
 msgid "Close"
@@ -911,7 +932,6 @@ msgid "No"
 msgstr ""
 
 #: menus/HBTextInput.gd
-#: menus/HBTextInput.tscn
 msgid "Input text"
 msgstr ""
 
@@ -924,16 +944,17 @@ msgid "Accept"
 msgstr ""
 
 #: menus/HBTextInput.tscn
+#: multiplayer/lobby/LobbyMenu.tscn
+#: rythm_game/pause_menu/PauseMenu3D.tscn
 msgid "Cancel"
 msgstr ""
 
 #: menus/LoadingScreen.gd
-#: menus/LoadingScreen.tscn
 msgid "Downloadingu UI Skin..."
 msgstr ""
 
 #: menus/LoadingScreen.tscn
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Title"
 msgstr ""
 
@@ -943,7 +964,6 @@ msgid "This chart's video contains scenes with rapidly flashing colours.\n"
 msgstr ""
 
 #: menus/MainMenuUserInfo.gd
-#: menus/MainMenuUserInfo.tscn
 msgid "Lvl. %d"
 msgstr ""
 
@@ -986,73 +1006,59 @@ msgid "When enabled, makes the game use the skin chosen by the song's creator fo
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Normal notes"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold notes"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide notes"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide chains"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Double notes"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Sustain notes"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 #: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated button!"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold these notes for as long as you can!"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated direction!"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold the indicated direction!"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated note on two different buttons!"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold and release when the time is right!"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Flick in any direction!"
 msgstr ""
 
@@ -1074,10 +1080,6 @@ msgstr ""
 
 #: menus/leaderboard_control/LeaderboardControl.tscn
 msgid "Leaderboard not available for this song"
-msgstr ""
-
-#: menus/main_menu/MainMenuLeft.tscn
-msgid "HeartbeatNET: Not connected"
 msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
@@ -1178,58 +1180,16 @@ msgid "Reset default settings"
 msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.tscn
-msgid "Patrons"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Programming"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Art"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Music"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Charting"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Localization"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Charting Software"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Licenses"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Others"
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "License: "
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
 msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.gd
-#: menus/options_menu/OptionResourcePacksSection.tscn
-#: menus/workshop_browser/WorkshopBrowser.tscn
+#: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Note Packs"
 msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.gd
-#: menus/options_menu/OptionResourcePacksSection.tscn
-#: menus/workshop_browser/WorkshopBrowser.tscn
+#: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Skins"
 msgstr ""
 
@@ -1322,16 +1282,15 @@ msgid "Allows the game to access controller joysticks directly, used to make sli
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Analog filter factor"
+msgid "Direct joystick slider deadzone outer"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Factor used when filtering analog inputs, higher means less filtering\n"
-"Note: This only works with direct joystick access."
+msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Analog slider angle deadzone"
+msgid "Direct joystick angle deadzone"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1349,10 +1308,6 @@ msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Analog deadzone"
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1544,11 +1499,8 @@ msgid "Overrides the button prompts shown for your controller to the specified t
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Color remap"
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "For color-blindness, remaps colors on the screen with others, it's an imperfect solution but it might be useful."
+msgctxt "Button prompt auto detect option"
+msgid "Auto-detect"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1743,6 +1695,10 @@ msgstr ""
 msgid "Detected controllers:"
 msgstr ""
 
+#: menus/options_menu/OptionsMenu.gd
+msgid "\n"
+msgstr ""
+
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
 msgstr ""
@@ -1756,12 +1712,10 @@ msgid "Change"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.gd
-#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "A restart is needed for changes to apply"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.gd
-#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "MM+ loaded succesfully from:"
 msgstr ""
 
@@ -1778,28 +1732,24 @@ msgid "\n"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reset content directory to default"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reload all songs"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Clear cache"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Download all song media"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
-msgid "Clean unused song media"
+msgctxt "Used for the options -> content label for clearing song media"
+msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
@@ -1819,6 +1769,11 @@ msgid "Songs reloaded succesfully"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
+#: menus/workshop_browser/WorkshopItemDetailView.tscn
+msgid "Alright"
+msgstr ""
+
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Cache cleared succesfully, please re-run the game."
 msgstr ""
 
@@ -1827,62 +1782,46 @@ msgid "Unused song media cleaned successful!"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Leaderboard"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
-msgid "Times Played: %d"
-msgstr ""
-
-#: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "View leaderboards on the website"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Video/Audio variant"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "The current song and settings will count towards leaderboard scores"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "The current song will not count towards leaderboard scores"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Only workshop or PPD songs can have their scores uploaded!"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song settings"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Change PPD video URL"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Delete song media"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Add modifier"
 msgstr ""
 
@@ -1902,43 +1841,43 @@ msgstr ""
 msgid "Start Practice"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Artist"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Highest Difficulty"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Lowest Difficulty"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Chart Creator"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "BPM"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Last Subscribed"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Times played"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Last released"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Last updated"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Sorting by %s"
 msgstr ""
 
@@ -2090,7 +2029,7 @@ msgstr ""
 msgid "That's all you need to know to play project heartbeat, have fun!"
 msgstr ""
 
-#: menus/workshop_browser/WorkshopBrowser.tscn
+#: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Charts"
 msgstr ""
 
@@ -2126,29 +2065,8 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "\n"
-"waiting for song to be downloaded automatically by their game..."
-msgstr ""
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "Downloading song..."
-msgstr ""
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "ERROR STARTING GAME: Error downloading workshop song."
-msgstr ""
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "ERROR STARTING GAME: You don't seem to have the currently selected song."
-msgstr ""
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "Downloading song media..."
-msgstr ""
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
+#: multiplayer/lobby/LobbyList.tscn
+msgid "You were kicked from the lobby"
 msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
@@ -2168,10 +2086,6 @@ msgid "Leave This Lobby"
 msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
-msgid "Send"
-msgstr ""
-
-#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Checking if other users have this song..."
 msgstr ""
 
@@ -2183,6 +2097,14 @@ msgstr ""
 msgid "Downloading song data..."
 msgstr ""
 
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "Looks like some players lack the needed Workshop song or media for the songs, would you like to ask them to download them?"
+msgstr ""
+
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
+msgstr ""
+
 #: multiplayer/lobby/LobbySongSelector.tscn
 msgid "Selecting song for"
 msgstr ""
@@ -2191,23 +2113,28 @@ msgstr ""
 msgid "Set as host"
 msgstr ""
 
+#: multiplayer/lobby/Member.tscn
+msgid "Kick"
+msgstr ""
+
 #: rythm_game/ResultsScreen.gd
-#: rythm_game/ResultsScreen.tscn
 msgid "Results"
 msgstr ""
 
 #: rythm_game/ResultsScreen.gd
-#: rythm_game/ResultsScreen.tscn
 msgid "Graph"
 msgstr ""
 
 #: rythm_game/ResultsScreen.gd
-#: rythm_game/ResultsScreen.tscn
+msgctxt "Results screen share tweet contents"
+msgid "I just obtained {score} ({percentage} %%25) points in {song_title} in @PHeartbeatGame!"
+msgstr ""
+
+#: rythm_game/ResultsScreen.gd
 msgid "results"
 msgstr ""
 
 #: rythm_game/ResultsScreen.gd
-#: rythm_game/ResultsScreen.tscn
 msgid "graph"
 msgstr ""
 
@@ -2287,8 +2214,19 @@ msgid "Are you sure you want to restart?"
 msgstr ""
 
 #: rythm_game/pause_menu/PauseMenu3D.tscn
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
+msgid "Restart"
+msgstr ""
+
+#: rythm_game/pause_menu/PauseMenu3D.tscn
 #: rythm_game/practice_mode.tscn
 msgid "Are you sure you want to quit?"
+msgstr ""
+
+#: rythm_game/pause_menu/PauseMenu3D.tscn
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
+#: rythm_game/practice_mode.tscn
+msgid "Quit"
 msgstr ""
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
@@ -2301,29 +2239,7 @@ msgid "Resume"
 msgstr ""
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
-msgid "Restart"
-msgstr ""
-
-#: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "Song Settings"
-msgstr ""
-
-#: rythm_game/pause_menu/PauseMenuLeft.tscn
-#: rythm_game/practice_mode.tscn
-msgid "Quit"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn
-msgid "No section"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn
-msgid "Game info:\n"
-msgstr ""
-
-#: rythm_game/practice_mode.tscn
-msgid "\n"
-"Accuracy:\n"
 msgstr ""
 
 #: rythm_game/practice_mode.tscn
@@ -2370,28 +2286,36 @@ msgstr ""
 msgid "Speed up"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "Level up!"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "MAX COMBO"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "NOTES HIT"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "TOTAL NOTES"
-msgstr ""
-
 #: rythm_game/rhythm_game_controller.tscn
 msgid "Rolling back!"
 msgstr ""
 
 #: rythm_game/rhythm_game_multiplayer.tscn
 msgid "Waiting for other players to load!"
+msgstr ""
+
+#: scripts/HBSong.gd
+msgid "Written by: "
+msgstr ""
+
+#: scripts/HBSong.gd
+msgid "Vocals by: "
+msgstr ""
+
+#: scripts/HBSong.gd
+msgid "Composed by: "
+msgstr ""
+
+#: scripts/HBSong.gd
+msgid "Chart by: %s"
+msgstr ""
+
+#: scripts/new_ui/HBUISkipIntroIndicator.gd
+msgid "Press "
+msgstr ""
+
+#: scripts/new_ui/HBUISkipIntroIndicator.gd
+msgid "to skip the intro"
 msgstr ""
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
@@ -2472,5 +2396,53 @@ msgstr ""
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier description"
 msgid "Randomizes the type of some notes."
+msgstr ""
+
+#: multiplayer/lobby/LobbyChat.tscn
+msgid "Say something nice..."
+msgstr ""
+
+#: multiplayer/lobby/LobbyChat.tscn
+msgid "Send"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Patrons"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Programming"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Art"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Music"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Charting"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Localization"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Charting Software"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Licenses"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Others"
+msgstr ""
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "License: "
 msgstr ""
 
