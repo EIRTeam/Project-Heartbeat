@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-04-17 10:15\n"
+"PO-Revision-Date: 2024-05-16 08:45\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -20,7 +20,7 @@ msgstr "未知错误"
 
 #: autoloads/HBGame.gd
 msgid "Fatal error loading data from the game, please see below"
-msgstr "加载游戏数据出错，请参阅下文"
+msgstr "加载游戏数据出错，请在下方查看信息"
 
 #: autoloads/HBGame.gd
 msgid "Steam reports MM+ is not installed"
@@ -51,19 +51,8 @@ msgid "Media for this song is currently being downloaded."
 msgstr "已经开始下载此歌曲的媒体文件"
 
 #: autoloads/MouseTrap.tscn
-msgid "OGG"
-msgstr "OGG"
-
-#: autoloads/MouseTrap.tscn
-#: menus/FolderManager.gd
-#: menus/FolderManager.tscn
-#: menus/HBTextInput.gd
-#: menus/HBTextInput.tscn
-#: menus/options_menu/OptionControlsSectionEvent.gd
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid ""
+msgid "Ok"
 msgstr ""
-""
 
 #: autoloads/MouseTrap.tscn
 msgid "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n\n"
@@ -84,6 +73,16 @@ msgstr "从磁盘中选择"
 #: autoloads/MouseTrap.tscn
 msgid "Invalid URL, ensure you are using a YouTube URL and that it is valid."
 msgstr "无效的链接，请确保使用的是有效的 YouTube 链接"
+
+#: autoloads/MouseTrap.tscn
+msgid "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"
+msgstr ""
+
+#: autoloads/MouseTrap.tscn
+#: multiplayer/lobby/LobbyList.tscn
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "Okay"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Cross, Xbox A, Nintendo B"
@@ -842,32 +841,54 @@ msgstr " 的 %s"
 msgid "Downloading {download_type} for {song_title} ({percentage}{size}{speed})"
 msgstr "正在下载 {song_title}的{download_type}({percentage}{size}{speed})"
 
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "Couldn't load game data from %s"
+msgstr ""
+
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "Song ID %s's (%s) difficulty %s did not have a DSC script path"
+msgstr ""
+
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "Couldn't find audio data for song ID %s (%s)"
+msgstr ""
+
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "PVDB does not exist (%s)"
+msgstr ""
+
+#: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
+msgid "Song ID %s's audio path (%s) did not exist"
+msgstr ""
+
 #: base_scene.tscn
 #: menus/LoadingScreen.gd
 #: menus/LoadingScreen.tscn
-#: multiplayer/lobby/LobbyList.tscn
 msgid "Loadingu..."
 msgstr ""
 
 #: menus/FolderManager.gd
-#: menus/FolderManager.tscn
 msgid "Enter the new folder name"
 msgstr "输入新的文件夹名称"
 
 #: menus/FolderManager.gd
-#: menus/FolderManager.tscn
 msgid "Add subfolder"
 msgstr "添加子文件夹"
 
 #: menus/FolderManager.gd
-#: menus/FolderManager.tscn
 msgid "Rename folder"
 msgstr "重命名文件夹"
 
 #: menus/FolderManager.gd
-#: menus/FolderManager.tscn
 msgid "Delete folder"
 msgstr "删除文件夹"
+
+#: menus/FolderManager.gd
+#: menus/HBTextInput.gd
+#: menus/options_menu/OptionControlsSectionEvent.gd
+msgid ""
+msgstr ""
+""
 
 #: menus/FolderManager.tscn
 msgid "Close"
@@ -913,7 +934,6 @@ msgid "No"
 msgstr "否"
 
 #: menus/HBTextInput.gd
-#: menus/HBTextInput.tscn
 msgid "Input text"
 msgstr "输入文本"
 
@@ -926,16 +946,17 @@ msgid "Accept"
 msgstr "接受"
 
 #: menus/HBTextInput.tscn
+#: multiplayer/lobby/LobbyMenu.tscn
+#: rythm_game/pause_menu/PauseMenu3D.tscn
 msgid "Cancel"
 msgstr "取消"
 
 #: menus/LoadingScreen.gd
-#: menus/LoadingScreen.tscn
 msgid "Downloadingu UI Skin..."
 msgstr "正在下载UI皮肤……"
 
 #: menus/LoadingScreen.tscn
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Title"
 msgstr "标题"
 
@@ -946,7 +967,6 @@ msgstr "这个谱面的视频存在闪烁场景\n"
 "如果你有癫痫症状请务必注意"
 
 #: menus/MainMenuUserInfo.gd
-#: menus/MainMenuUserInfo.tscn
 msgid "Lvl. %d"
 msgstr ""
 
@@ -989,73 +1009,59 @@ msgid "When enabled, makes the game use the skin chosen by the song's creator fo
 msgstr "启用后游戏将会使用谱师为这首歌指定的皮肤，如果没有安装皮肤则会自动下载"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Normal notes"
 msgstr "普通Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold notes"
 msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide notes"
 msgstr "滑键"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Slide chains"
 msgstr "长滑条"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Double notes"
 msgstr "双押Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Sustain notes"
 msgstr "长条Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 #: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes"
 msgstr "心形Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated button!"
 msgstr "按下指定的按键！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold these notes for as long as you can!"
 msgstr "尽可能长的按住这些Note！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated direction!"
 msgstr "按下指定方向！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold the indicated direction!"
 msgstr "按住指定方向！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Press the indicated note on two different buttons!"
 msgstr "在两个不同的按钮上按下指定的指示的Note！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Hold and release when the time is right!"
 msgstr "在正确的时机按住和松开按键！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
-#: menus/PreGameChartFeaturesDisplay.tscn
 msgid "Flick in any direction!"
 msgstr "向任意方向滑动！"
 
@@ -1078,10 +1084,6 @@ msgstr "按下任意键"
 #: menus/leaderboard_control/LeaderboardControl.tscn
 msgid "Leaderboard not available for this song"
 msgstr "这首歌不支持排行榜"
-
-#: menus/main_menu/MainMenuLeft.tscn
-msgid "HeartbeatNET: Not connected"
-msgstr "HeartbeatNET: 没有连接"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "HeartbeatNET: Connected"
@@ -1174,65 +1176,23 @@ msgstr "您确定要将所有按键设置都恢复为默认值吗？"
 
 #: menus/options_menu/OptionControlsSectionEvent.gd
 msgid " (Disabled due to Input -> Use direct joystick access)"
-msgstr ""
+msgstr " （由于启用了直接访问摇杆选项而被禁用）"
 
 #: menus/options_menu/OptionControlsSectionReset.tscn
 msgid "Reset default settings"
 msgstr "重置默认设置"
 
 #: menus/options_menu/OptionCreditsSection.tscn
-msgid "Patrons"
-msgstr "赞助"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Programming"
-msgstr "程序"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Art"
-msgstr "艺术"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Music"
-msgstr "歌曲"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Charting"
-msgstr "谱师"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Localization"
-msgstr "本地化"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Charting Software"
-msgstr "制谱软件"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Licenses"
-msgstr "许可证"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "Others"
-msgstr "其他"
-
-#: menus/options_menu/OptionCreditsSection.tscn
-msgid "License: "
-msgstr ""
-
-#: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
 msgstr "引擎"
 
 #: menus/options_menu/OptionResourcePacksSection.gd
-#: menus/options_menu/OptionResourcePacksSection.tscn
-#: menus/workshop_browser/WorkshopBrowser.tscn
+#: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Note Packs"
 msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.gd
-#: menus/options_menu/OptionResourcePacksSection.tscn
-#: menus/workshop_browser/WorkshopBrowser.tscn
+#: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Skins"
 msgstr ""
 
@@ -1325,18 +1285,16 @@ msgid "Allows the game to access controller joysticks directly, used to make sli
 msgstr "允许游戏直接访问控制器的摇杆，让长滑条和心形Note操作更加一致，只有标记为已知的控制器才能使用"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Analog filter factor"
-msgstr "摇杆过滤因数"
+msgid "Direct joystick slider deadzone outer"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Factor used when filtering analog inputs, higher means less filtering\n"
-"Note: This only works with direct joystick access."
-msgstr "过滤摇杆输入时使用的因数，数值越高意味着过滤越少\n"
-"注意：仅适用于游戏能直接访问的摇杆"
+msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
+msgstr "从0到1，摇杆（或者其他的模拟输入）需要推动多少距离才开始判断是否输入"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Analog slider angle deadzone"
-msgstr "模拟滑动角度死区"
+msgid "Direct joystick angle deadzone"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Angle used to define the angular deadzone of sliders\n"
@@ -1357,16 +1315,12 @@ msgid "Analog deadzone"
 msgstr "模拟死区"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
-msgstr "从0到1，摇杆（或者其他的模拟输入）需要推动多少距离才开始判断是否输入"
-
-#: menus/options_menu/OptionsMenu.gd
 msgid "Controls"
 msgstr "控制"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Content"
-msgstr ""
+msgstr "内容"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Audio"
@@ -1549,12 +1503,9 @@ msgid "Overrides the button prompts shown for your controller to the specified t
 msgstr "重置控制器显示的按钮提示到指定的类型"
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Color remap"
-msgstr "颜色重映射"
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "For color-blindness, remaps colors on the screen with others, it's an imperfect solution but it might be useful."
-msgstr "将屏幕上的颜色进行重映射，虽然这个解决方案不完美，但对于色盲应该有一定作用"
+msgctxt "Button prompt auto detect option"
+msgid "Auto-detect"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable lyrics"
@@ -1748,25 +1699,27 @@ msgstr "这个按键音的音量"
 msgid "Detected controllers:"
 msgstr "检测到的控制器："
 
+#: menus/options_menu/OptionsMenu.gd
+msgid "\n"
+msgstr ""
+
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
-msgstr "Content 目录"
+msgstr "内容目录"
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content "
-msgstr ""
+msgstr "内容 "
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Change"
 msgstr "更改"
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.gd
-#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "A restart is needed for changes to apply"
 msgstr "需要重启才能应用更改"
 
 #: menus/options_menu/content_dirs_menu/MMPlusControl.gd
-#: menus/options_menu/content_dirs_menu/MMPlusControl.tscn
 msgid "MM+ loaded succesfully from:"
 msgstr "成功从此处加载MM+："
 
@@ -1787,29 +1740,25 @@ msgstr "\n"
 "Project Heartbeat 只是一个用户能合法游玩自己购买的内容的另一个引擎，就像同一个MP3文件能够在不同的MP3播放器上播放一样"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reset content directory to default"
-msgstr "重置 content 目录为默认值"
+msgstr "重置内容目录为默认值"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reload all songs"
 msgstr "重新加载所有歌曲"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Clear cache"
 msgstr "清除缓存"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Download all song media"
 msgstr "下载所有歌曲媒体文件"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
-msgid "Clean unused song media"
-msgstr "清除未使用的歌曲媒体文件"
+msgctxt "Used for the options -> content label for clearing song media"
+msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reloading content..."
@@ -1817,15 +1766,20 @@ msgstr "重新加载Content……"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Selecting a new content directory requires using the mouse, would you like to continue?"
-msgstr "选择一个新的 Content 文件夹需要使用鼠标，是否继续"
+msgstr "选择一个新的内容目录需要使用鼠标，是否继续？"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Are you sure you want to reset the content directory to the default?"
-msgstr "您确定要将 Content 目录重置为默认值吗？"
+msgstr "您确定要将 内容 目录重置为默认值吗？"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Songs reloaded succesfully"
 msgstr "歌曲重新加载成功"
+
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
+#: menus/workshop_browser/WorkshopItemDetailView.tscn
+msgid "Alright"
+msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Cache cleared succesfully, please re-run the game."
@@ -1836,62 +1790,46 @@ msgid "Unused song media cleaned successful!"
 msgstr "成功清理未使用的歌曲媒体！"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song"
 msgstr "歌曲"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Leaderboard"
 msgstr "排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
-msgid "Times Played: %d"
-msgstr ""
-
-#: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "View leaderboards on the website"
 msgstr "在网站上查看排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Video/Audio variant"
 msgstr "切换视频/音频"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "The current song and settings will count towards leaderboard scores"
 msgstr "当前歌曲和设置将会被计入到排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "The current song will not count towards leaderboard scores"
 msgstr "当前歌曲分数不会被计入排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Only workshop or PPD songs can have their scores uploaded!"
 msgstr "只有创意工坊和PPD的歌曲才能上传成绩！"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Song settings"
 msgstr "歌曲设定"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Change PPD video URL"
 msgstr "更改PPD视频链接"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Delete song media"
 msgstr "删除歌曲媒体文件"
 
 #: menus/pregame_screen/PreGameScreen.gd
-#: menus/pregame_screen/PreGameScreen.tscn
 msgid "Add modifier"
 msgstr "添加修改器"
 
@@ -1911,43 +1849,43 @@ msgstr "排行榜不允许使用修改器"
 msgid "Start Practice"
 msgstr "开始练习"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Artist"
 msgstr "艺术家"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Highest Difficulty"
 msgstr "最高难度"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Lowest Difficulty"
 msgstr "最低难度"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Chart Creator"
 msgstr "谱师"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "BPM"
 msgstr ""
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Last Subscribed"
 msgstr "最近订阅"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Times played"
 msgstr "游玩次数"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Last released"
 msgstr "最近发布"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Last updated"
 msgstr "最近更新"
 
-#: menus/song_list/SongList.tscn
+#: menus/song_list/SongList.gd
 msgid "Sorting by %s"
 msgstr "按 %s 排序"
 
@@ -2080,7 +2018,7 @@ msgstr "长滑条是一种你可以通过保持滑动来获得更高分数的滑
 
 #: menus/tutorial/page4/Page4.tscn
 msgid "Hold notes are notes that give you extra points by holding them after you hit them, if you manage to hold them for long enough you'll get a nice bonus!"
-msgstr ""
+msgstr "Hold note是一种能够在你击打后如果保持按住会给你额外分数的Note，如果你保持按住的时间足够长你将会获得很多的分数奖励！"
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "Double and sustain notes"
@@ -2092,7 +2030,7 @@ msgstr "双押Note是一种你需要按下同一方向的两个不同按键来�
 
 #: menus/tutorial/page5/Page5.tscn
 msgid "In order to hit sustain notes press the note when the first mark hits the target and release when the second one does."
-msgstr "而长按Note则是需要在第一个Note和目标重合后按下对应按键，随后在第二个Note和目标重合后松开"
+msgstr "长按Note需要在第一个Note和目标重合后按下对应按键，随后在第二个Note和目标重合后松开"
 
 #: menus/tutorial/page6/Page6.tscn
 msgid "Heart notes are notes that can be hit by tapping any direction on the joystick or hitting any slide button, double hearts also exist."
@@ -2102,7 +2040,7 @@ msgstr "心形Note是一种可以通过摇杆使用任意方向击打或者按�
 msgid "That's all you need to know to play project heartbeat, have fun!"
 msgstr "这就是你所需要知道的所有游玩Project Heartbeat的知识，祝你玩的愉快！"
 
-#: menus/workshop_browser/WorkshopBrowser.tscn
+#: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Charts"
 msgstr "谱面"
 
@@ -2138,31 +2076,9 @@ msgstr "取消订阅成功，项目将会在游戏重启后被删除"
 msgid "Create"
 msgstr "创建"
 
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "\n"
-"waiting for song to be downloaded automatically by their game..."
-msgstr "\n"
-"等待其他人的游戏完成自动下载歌曲……"
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "Downloading song..."
-msgstr "正在下载歌曲……"
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "ERROR STARTING GAME: Error downloading workshop song."
-msgstr "开始游戏时发生错误: 下载创意工坊歌曲时出错"
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "ERROR STARTING GAME: You don't seem to have the currently selected song."
-msgstr "开始游戏时发生错误: 您似乎没有当前选择的歌曲"
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "Downloading song media..."
-msgstr "正在下载歌曲媒体文件……"
-
-#: multiplayer/lobby/LobbyMenu.tscn
-msgid "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
-msgstr "开始游戏时发生错误: 您似乎没有当前选择的歌曲的视频/音频，请返回自由游玩歌曲列表进行下载"
+#: multiplayer/lobby/LobbyList.tscn
+msgid "You were kicked from the lobby"
+msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Select Song..."
@@ -2181,10 +2097,6 @@ msgid "Leave This Lobby"
 msgstr "离开大厅"
 
 #: multiplayer/lobby/LobbyMenu.tscn
-msgid "Send"
-msgstr "发送"
-
-#: multiplayer/lobby/LobbyMenu.tscn
 msgid "Checking if other users have this song..."
 msgstr "正在检测其他用户是否拥有此歌曲……"
 
@@ -2196,6 +2108,14 @@ msgstr "下列用户没有这首歌："
 msgid "Downloading song data..."
 msgstr "正在下载歌曲数据……"
 
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "Looks like some players lack the needed Workshop song or media for the songs, would you like to ask them to download them?"
+msgstr ""
+
+#: multiplayer/lobby/LobbyMenu.tscn
+msgid "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
+msgstr ""
+
 #: multiplayer/lobby/LobbySongSelector.tscn
 msgid "Selecting song for"
 msgstr "选择歌曲"
@@ -2204,23 +2124,28 @@ msgstr "选择歌曲"
 msgid "Set as host"
 msgstr "设置为主机"
 
+#: multiplayer/lobby/Member.tscn
+msgid "Kick"
+msgstr ""
+
 #: rythm_game/ResultsScreen.gd
-#: rythm_game/ResultsScreen.tscn
 msgid "Results"
 msgstr "结果"
 
 #: rythm_game/ResultsScreen.gd
-#: rythm_game/ResultsScreen.tscn
 msgid "Graph"
 msgstr "图表"
 
 #: rythm_game/ResultsScreen.gd
-#: rythm_game/ResultsScreen.tscn
+msgctxt "Results screen share tweet contents"
+msgid "I just obtained {score} ({percentage} %%25) points in {song_title} in @PHeartbeatGame!"
+msgstr ""
+
+#: rythm_game/ResultsScreen.gd
 msgid "results"
 msgstr "结果"
 
 #: rythm_game/ResultsScreen.gd
-#: rythm_game/ResultsScreen.tscn
 msgid "graph"
 msgstr "图表"
 
@@ -2255,12 +2180,12 @@ msgstr "快进！"
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier name"
 msgid "Autoplay"
-msgstr ""
+msgstr "自动演示"
 
 #: rythm_game/modifiers/autoplay/autoplay.gd
 msgctxt "Autoplay modifier description"
 msgid "Makes the game play itself."
-msgstr ""
+msgstr "让游戏自己进行游玩"
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier name"
@@ -2275,17 +2200,17 @@ msgstr ""
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier description"
 msgid "Turns your manly voices into anime girls."
-msgstr ""
+msgstr "将你男子汉的嗓音变成二次元美少女音"
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier speed property name"
 msgid "Speed"
-msgstr ""
+msgstr "速度"
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier speed property desciption"
 msgid "Percentage of speed to increase (or decrease) the song's playback"
-msgstr ""
+msgstr "加快/减慢歌曲播放速度百分比"
 
 #: rythm_game/modifiers/timing/timing.gd
 msgid "Timing Window"
@@ -2300,9 +2225,20 @@ msgid "Are you sure you want to restart?"
 msgstr "确定要重新开始吗？"
 
 #: rythm_game/pause_menu/PauseMenu3D.tscn
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
+msgid "Restart"
+msgstr "重新开始"
+
+#: rythm_game/pause_menu/PauseMenu3D.tscn
 #: rythm_game/practice_mode.tscn
 msgid "Are you sure you want to quit?"
 msgstr "确定要退出吗？"
+
+#: rythm_game/pause_menu/PauseMenu3D.tscn
+#: rythm_game/pause_menu/PauseMenuLeft.tscn
+#: rythm_game/practice_mode.tscn
+msgid "Quit"
+msgstr "退出"
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "PAUSED"
@@ -2314,31 +2250,8 @@ msgid "Resume"
 msgstr "恢复"
 
 #: rythm_game/pause_menu/PauseMenuLeft.tscn
-msgid "Restart"
-msgstr "重新开始"
-
-#: rythm_game/pause_menu/PauseMenuLeft.tscn
 msgid "Song Settings"
 msgstr "歌曲设定"
-
-#: rythm_game/pause_menu/PauseMenuLeft.tscn
-#: rythm_game/practice_mode.tscn
-msgid "Quit"
-msgstr "退出"
-
-#: rythm_game/practice_mode.tscn
-msgid "No section"
-msgstr "没有标记"
-
-#: rythm_game/practice_mode.tscn
-msgid "Game info:\n"
-msgstr "游戏信息:\n"
-
-#: rythm_game/practice_mode.tscn
-msgid "\n"
-"Accuracy:\n"
-msgstr "\n"
-"准确度:\n"
 
 #: rythm_game/practice_mode.tscn
 msgid "Previous mode"
@@ -2384,22 +2297,6 @@ msgstr "减速"
 msgid "Speed up"
 msgstr "加速"
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "Level up!"
-msgstr "等级提升！"
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "MAX COMBO"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "NOTES HIT"
-msgstr ""
-
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn
-msgid "TOTAL NOTES"
-msgstr "总Note数"
-
 #: rythm_game/rhythm_game_controller.tscn
 msgid "Rolling back!"
 msgstr "回滚！"
@@ -2408,83 +2305,155 @@ msgstr "回滚！"
 msgid "Waiting for other players to load!"
 msgstr "等待其他玩家加载完成！"
 
+#: scripts/HBSong.gd
+msgid "Written by: "
+msgstr ""
+
+#: scripts/HBSong.gd
+msgid "Vocals by: "
+msgstr ""
+
+#: scripts/HBSong.gd
+msgid "Composed by: "
+msgstr ""
+
+#: scripts/HBSong.gd
+msgid "Chart by: %s"
+msgstr ""
+
+#: scripts/new_ui/HBUISkipIntroIndicator.gd
+msgid "Press "
+msgstr ""
+
+#: scripts/new_ui/HBUISkipIntroIndicator.gd
+msgid "to skip the intro"
+msgstr ""
+
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name"
 msgid "Console to arcade"
-msgstr ""
+msgstr "家用机风转街机风"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name when keeping hearts"
 msgid "Console to arcade (Keep hearts)"
-msgstr ""
+msgstr "家用机风转街机风（不替换心形Note）"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier description"
 msgid "Converts console-style songs to be compatible with arcade controllers"
-msgstr ""
+msgstr "将家用机风格歌曲进行转换，使其能与街机控制器兼容"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier keep_heartrs property"
 msgid "Keep hearts"
-msgstr ""
+msgstr "保留心形Note"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier keep_hearts property description"
 msgid "If enabled, will keep single hearts and convert double hearts to single hearts."
-msgstr ""
+msgstr "启用后，将会保留原本的单滑心形Note，并将双滑心形Note转换为单滑心形Note"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode property"
 msgid "Sustain note conversion mode"
-msgstr ""
+msgstr "长按Note转换模式"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode description"
 msgid "Changes how to convert sustain notes."
-msgstr ""
+msgstr "更改转换长按Note的方式"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode two note option"
 msgid "Replace with two notes"
-msgstr ""
+msgstr "替换为两个Note"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode hold option"
 msgid "Replace with hold"
-msgstr ""
+msgstr "替换为Hold"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier sustain_mode single note option"
 msgid "Replace with one note"
-msgstr ""
+msgstr "替换为单个Note"
 
 #: rythm_game/modifiers/chaos/chaos.gd
 msgctxt "Chaos modifier name"
 msgid "Chaos"
-msgstr ""
+msgstr "混沌"
 
 #: rythm_game/modifiers/chaos/chaos.gd
 msgctxt "Chaos modifier description"
 msgid "Good luck."
-msgstr ""
+msgstr "祝你好运"
 
 #: rythm_game/modifiers/hidden/hidden.gd
 msgctxt "Hidden modifier name"
 msgid "Hidden"
-msgstr ""
+msgstr "后隐"
 
 #: rythm_game/modifiers/hidden/hidden.gd
 msgctxt "Hidden modifier description"
 msgid "Hides notes a few moments after they spawn."
-msgstr ""
+msgstr "让Note在出现一段时间后隐藏"
 
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier name"
 msgid "Randomizer"
-msgstr ""
+msgstr "随机化"
 
 #: rythm_game/modifiers/randomizer/randomizer.gd
 msgctxt "Randomizer modifier description"
 msgid "Randomizes the type of some notes."
+msgstr "随机调整一些Note的键型"
+
+#: multiplayer/lobby/LobbyChat.tscn
+msgid "Say something nice..."
+msgstr ""
+
+#: multiplayer/lobby/LobbyChat.tscn
+msgid "Send"
+msgstr "发送"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Patrons"
+msgstr "赞助"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Programming"
+msgstr "程序"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Art"
+msgstr "艺术"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Music"
+msgstr "歌曲"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Charting"
+msgstr "谱面制作"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Localization"
+msgstr "本地化"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Charting Software"
+msgstr "制谱软件"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Licenses"
+msgstr "许可证"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "Others"
+msgstr "其他"
+
+#: menus/options_menu/OptionCreditsSection.gd
+msgid "License: "
 msgstr ""
 
