@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://2e1c78lgxfkv"]
+[gd_scene load_steps=23 format=3 uid="uid://2e1c78lgxfkv"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://l36o42nwrfnr" path="res://tools/icons/icon_back.svg" id="2"]
@@ -426,7 +426,7 @@ shortcut_in_tooltip = false
 icon = ExtResource("5")
 
 [node name="OpenResourcePackDialog" type="ConfirmationDialog" parent="."]
-position = Vector2i(0, 24)
+position = Vector2i(0, 32)
 size = Vector2i(450, 236)
 visible = true
 dialog_hide_on_ok = false
@@ -465,7 +465,7 @@ text = "Upload to Workshop"
 
 [node name="CreateIconPackDialog" type="ConfirmationDialog" parent="OpenResourcePackDialog"]
 position = Vector2i(0, 24)
-size = Vector2i(200, 132)
+size = Vector2i(400, 132)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog"]
 anchors_preset = 15
@@ -476,6 +476,18 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -51.0
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Title"
+
+[node name="TextEdit" type="LineEdit" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "EIREXE's super awesome icon pack"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
 layout_mode = 2
 
@@ -485,11 +497,10 @@ text = "Type"
 
 [node name="PackTypeOptionButton" type="OptionButton" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="TextEdit" type="LineEdit" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "EIREXE's super awesome icon pack"
+item_count = 2
+popup/item_0/text = "Icon Pack"
+popup/item_1/text = "Skin"
+popup/item_1/id = 1
 
 [node name="SkinSpecificOptions" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
 visible = false
@@ -504,12 +515,20 @@ position = Vector2i(0, 24)
 visible = false
 
 [node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+size = Vector2i(760, 430)
 theme_override_colors/folder_icon_color = Color(0, 0, 0, 1)
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 filters = PackedStringArray("*.png ; Portable Network Graphics")
 
 [node name="FileDialogPackIcon" type="FileDialog" parent="."]
+title = "Open a File"
+size = Vector2i(717, 430)
 theme_override_colors/folder_icon_color = Color(0, 0, 0, 1)
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 filters = PackedStringArray("*.png ; Portable Network Graphics")
 
@@ -526,7 +545,7 @@ dialog_text = "This will delete the file for this graphic, do you want to do thi
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 314.0
-offset_bottom = 591.0
+offset_bottom = 459.0
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 position = Vector2i(0, 24)

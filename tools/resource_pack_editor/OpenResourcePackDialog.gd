@@ -1,7 +1,7 @@
 extends ConfirmationDialog
 
 @onready var tree: Tree = get_node("VBoxContainer/VBoxContainer/Tree")
-@onready var create_icon_pack_dialog_text_edit = get_node("CreateIconPackDialog/VBoxContainer/TextEdit")
+@onready var create_icon_pack_dialog_text_edit = get_node("CreateIconPackDialog/VBoxContainer/HBoxContainer2/TextEdit")
 @onready var icon_pack_creator_skin_specific_options := get_node("CreateIconPackDialog/VBoxContainer/SkinSpecificOptions")
 @onready var copy_original_skin_checkbox := get_node("CreateIconPackDialog/VBoxContainer/SkinSpecificOptions/CopyOriginalSkinCheckbox")
 @onready var pack_type_option_button := get_node("CreateIconPackDialog/VBoxContainer/HBoxContainer/PackTypeOptionButton")

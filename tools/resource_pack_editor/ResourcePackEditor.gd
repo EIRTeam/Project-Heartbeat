@@ -66,8 +66,8 @@ var first_time_save_atlases = []
 func _ready():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	top_level_tab_container.set_tab_title(0, "Resource Pack")
-	#get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
-	tree.connect("button_pressed", Callable(self, "_on_button_pressed"))
+	#get_tree().set_screen_stretch(SceneTreed.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
+	tree.connect("button_clicked", Callable(self, "_on_button_pressed"))
 	tree.connect("item_edited", Callable(self, "_on_item_edited"))
 	open_resource_pack_dialog.popup_centered()
 	
@@ -202,7 +202,7 @@ func populate_items():
 		add_graphic_item(misc_item, "Note Hit Loop", "loop.png", "effects", true, Vector2(512, 512))
 		add_graphic_item(misc_item, "Note Appear", "appear.png", "effects", true, Vector2(450, 450))
 	add_graphic_item(misc_item, "Sustain Trail", "sustain_trail.png", "__no_atlas", true, Vector2(128, 128))
-func _on_button_pressed(item: TreeItem, _column: int, id: int):
+func _on_button_pressed(item: TreeItem, _column: int, id: int, mouse_button_index: int):
 	if item.has_meta("resource_name"):
 		_currently_opening_resource = item.get_meta("resource_name")
 	if item.has_meta("property_name"):
@@ -445,7 +445,7 @@ func _replace_preview_image(path: String):
 	
 	UserSettings.user_settings.last_graphics_dir = path.get_base_dir()
 	UserSettings.save_user_settings()
-	$FileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
+	$PreviewSelectFileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
 
 
 func _on_PreviewBBCodeCheckbox_toggled(button_pressed):
