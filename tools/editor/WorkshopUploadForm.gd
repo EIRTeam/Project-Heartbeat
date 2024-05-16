@@ -176,7 +176,8 @@ func _on_item_created(result, file_id, tos):
 		
 func _request_item_details(item_id: int) -> HBSteamUGCItem:
 	var query := HBSteamUGCQuery.create_query(SteamworksConstants.UGC_MATCHING_UGC_TYPE_ITEMS_READY_TO_USE) \
-		.with_file_ids([item_id])
+		.with_file_ids([item_id]) \
+		.with_long_description(true)
 		
 	query.request_page(0)
 	var result: HBSteamUGCQueryPageResult = await query.query_completed

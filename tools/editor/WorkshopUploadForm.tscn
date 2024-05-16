@@ -47,6 +47,7 @@ text = "Description"
 [node name="DescriptionLineEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+wrap_mode = 1
 
 [node name="Label4" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
