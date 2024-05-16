@@ -211,7 +211,7 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		# Prevent softlock when transiton hasn't finished
 		if right_menu.is_connected("transition_finished", Callable(right_menu_container, "remove_child")):
 			right_menu.disconnect("transition_finished", Callable(right_menu_container, "remove_child"))
-		if not right_menu in right_menu_container.get_children():
+		if not right_menu in right_menu_container.get_children() or right_menu.is_mid_transition():
 			# Right side of menus are single instance if they are the same
 			if not right_menu in right_menu_container.get_children():
 				right_menu_container.add_child(right_menu)
