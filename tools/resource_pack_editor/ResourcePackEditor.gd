@@ -445,7 +445,7 @@ func _replace_preview_image(path: String):
 	
 	UserSettings.user_settings.last_graphics_dir = path.get_base_dir()
 	UserSettings.save_user_settings()
-	$PreviewSelectFileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
+	$FileDialogPackIcon.set_current_dir(UserSettings.user_settings.last_graphics_dir)
 
 
 func _on_PreviewBBCodeCheckbox_toggled(button_pressed):

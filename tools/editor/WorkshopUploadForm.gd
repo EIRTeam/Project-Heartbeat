@@ -62,7 +62,7 @@ func _on_compliance_checkbox_toggled(pressed):
 	upload_button.disabled = !pressed
 	
 func _on_file_not_found_confirmed():
-	match mode:
+	match upload_form_mode:
 		MODE.SONG:
 			current_song.ugc_id = 0
 			current_song.ugc_service_name = ""
@@ -82,7 +82,7 @@ func set_resource_pack(resource_pack: HBResourcePack):
 	if not FileAccess.file_exists(resource_pack.get_pack_icon_path()):
 		error_dialog.dialog_text = "Your pack needs an icon to be uploaded to the workshop!"
 		error_dialog.popup_centered()
-		await error_dialog.hide
+		await error_dialog.visibility_changed
 		hide()
 		return
 	
@@ -134,7 +134,7 @@ func start_upload():
 			error_dialog.popup_centered()
 			return
 		var has_service_name = false
-		match mode:
+		match upload_form_mode:
 			MODE.RESOURCE_PACK:
 				if current_resource_pack.ugc_service_name == ugc.get_ugc_service_name():
 					has_service_name = true
@@ -160,7 +160,7 @@ func start_upload():
 func _on_item_created(result, file_id, tos):
 	var ugc = PlatformService.service_provider.ugc_provider
 	if result == 1:
-		match mode:
+		match upload_form_mode:
 			MODE.SONG:
 				current_song.ugc_id = file_id
 				current_song.ugc_service_name = ugc.get_ugc_service_name()
@@ -295,7 +295,7 @@ func _on_item_updated(result: int, tos: bool, item: HBSteamUGCItem):
 		a workshop item before you will need to accept the workshop's terms of service."""
 		post_upload_dialog.dialog_text = text
 		post_upload_dialog.popup_centered()
-		match mode:
+		match upload_form_mode:
 			MODE.SONG:
 				current_song.save_song()
 			MODE.RESOURCE_PACK:
@@ -304,7 +304,7 @@ func _on_item_updated(result: int, tos: bool, item: HBSteamUGCItem):
 		var ugc = PlatformService.service_provider.ugc_provider
 		error_dialog.dialog_text = "There was an error uploading your item, %s" % [ERR_MAP.get(result, "Unknown Error")]
 		if uploading_new:
-			match mode:
+			match upload_form_mode:
 				MODE.SONG:
 					current_song.ugc_id = 0
 					current_song.ugc_service_name = ""
@@ -319,7 +319,7 @@ func _on_item_updated(result: int, tos: bool, item: HBSteamUGCItem):
 		error_dialog.popup_centered()
 	
 func _on_post_upload_accepted():
-	match mode:
+	match upload_form_mode:
 		MODE.SONG:
 			Steamworks.friends.activate_game_overlay_to_web_page("steam://url/CommunityFilePage/%d" % [current_song.ugc_id], true)
 		MODE.RESOURCE_PACK:

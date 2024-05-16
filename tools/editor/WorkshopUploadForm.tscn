@@ -132,6 +132,7 @@ step = 0.0
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 position = Vector2i(0, 32)
 size = Vector2i(117, 100)
+always_on_top = true
 dialog_text = "There "
 
 [node name="WorkshopFileNotFoundDialog" type="ConfirmationDialog" parent="."]
