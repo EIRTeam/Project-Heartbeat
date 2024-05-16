@@ -45,7 +45,6 @@ func _ready():
 	resized.connect(self._on_resized)
 func _on_resized():
 	mp_scoreboard_container.size = size
-	print(mp_scoreboard_container.size)
 func start_loading():
 	var assets_to_load: Array[SongAssetLoader.ASSET_TYPES] = [
 		SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO,
