@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2024-05-16 10:10\n"
+"PO-Revision-Date: 2024-05-16 10:51\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -843,23 +843,23 @@ msgstr "Descarregant {download_type} per a {song_title} ({percentage}{size}{spee
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Couldn't load game data from {game_location}"
-msgstr ""
+msgstr "No s'han pogut carregar les dades del joc de {game_location}"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path"
-msgstr ""
+msgstr "La dificultat de l'identificador de cançó {song_id} ({song_title}) {difficulty} no tenia una ruta d'script DSC"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Couldn't find audio data for song ID {song_id} ({song_title})"
-msgstr ""
+msgstr "No s'han pogut trobar les dades d'àudio per a l'ID de cançó {song_id} ({song_title})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "PVDB does not exist ({pvdb_path})"
-msgstr ""
+msgstr "PVDB no existeix ({pvdb_path})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Song ID {song_id}'s audio path ({audio_path}) did not exist"
-msgstr ""
+msgstr "El directori d'àudio de la cançó amb l'ID {song_id} ({audio_path}) no existeix"
 
 #: base_scene.tscn
 #: menus/LoadingScreen.gd
@@ -2127,7 +2127,7 @@ msgstr "Fer amfitrió"
 
 #: multiplayer/lobby/Member.tscn
 msgid "Kick"
-msgstr ""
+msgstr "Fotre fora"
 
 #: rythm_game/ResultsScreen.gd
 msgid "Results"
