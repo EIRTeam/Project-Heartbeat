@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://bo3yjn1jcs8j5"]
+[gd_scene load_steps=7 format=3 uid="uid://bo3yjn1jcs8j5"]
 
 [ext_resource type="Script" path="res://menus/RandomQuote.gd" id="3"]
 [ext_resource type="Script" path="res://menus/StartMenu.gd" id="4"]
@@ -49,6 +49,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="BirthdayHat" type="TextureRect" parent="PressStart/VBoxContainer/TextureRect3"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
