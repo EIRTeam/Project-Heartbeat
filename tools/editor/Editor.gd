@@ -1713,6 +1713,8 @@ func obscure_ui(extended: bool = true):
 			control.get_line_edit().editable = false
 
 func reveal_ui(extended: bool = true):
+	if not is_inside_tree():
+		return
 	for control in get_tree().get_nodes_in_group("disabled_ui"):
 		if control is BaseButton:
 			control.disabled = false
