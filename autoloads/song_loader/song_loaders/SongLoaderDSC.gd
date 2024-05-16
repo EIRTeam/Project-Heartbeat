@@ -563,7 +563,7 @@ func load_songs_mmplus() -> Array:
 	var songs := {}
 	
 	if not mmplus_file_access.is_valid:
-		propagate_error(tr("Couldn't load game data from %s") % [GAME_LOCATION], true)
+		propagate_error(tr("Couldn't load game data from {game_location}").format({"game_location": GAME_LOCATION}), true)
 		return songs.values()
 	
 	var region_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_CPK_NAME] as CPKArchive
@@ -656,7 +656,12 @@ func load_songs_mmplus() -> Array:
 		for i in range(pv_data.charts.size()-1, -1, -1):
 			var chart_name = pv_data.charts.keys()[i]
 			if not "dsc_path" in pv_data.charts[chart_name] and pv_data.charts[chart_name].get("length", 0) > 0:
-				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, pv_data.title_en, chart_name])
+				var format_data := {
+					"song_id": pv_data.pv_id_str,
+					"song_title": pv_data.title_en,
+					"difficulty": chart_name
+				}
+				propagate_error(tr("Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path").format(format_data))
 				pv_data.charts.erase(chart_name)
 		
 		var song := HBSongMMPLUS.new(pv_data, fs_access, opcode_map)
@@ -672,7 +677,7 @@ func load_songs_mmplus() -> Array:
 		else:
 			if pv_data.has_ex_stage:
 				continue
-			propagate_error(tr("Couldn't find audio data for song ID %s (%s)") % [pv_data.pv_id_str, pv_data.title_en])
+			propagate_error(tr("Couldn't find audio data for song ID {song_id} ({song_title})").format({"song_id": pv_data.pv_id_str, "song_title": pv_data.title_en}))
 			continue
 	
 	return songs.values()
@@ -694,7 +699,7 @@ func load_songs() -> Array:
 		var PVDB_LOCATION = fs_access.get_file_path(pvdb_path)
 		if not PVDB_LOCATION:
 			if pvdb_path == "rom/pv_db.txt":
-				propagate_error(tr("PVDB does not exist (%s)") % ["rom/pv_db.txt"], true)
+				propagate_error(tr("PVDB does not exist ({pvdb_path})").format({"pvdb_path": "rom/pv_db.txt"}), true)
 				return []
 			
 			Log.log(self, "Error loading DSC songs from %s PVDB does not exist (%s)" % [GAME_LOCATION, pvdb_path], Log.LogLevel.ERROR)
@@ -717,14 +722,19 @@ func load_songs() -> Array:
 			var chart_name = pv_data.charts.keys()[i]
 			if not pv_data.charts[chart_name].dsc_path:
 				pv_data.charts.erase(chart_name)
-				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, chart_name, pv_data.title_en])
+				var format_data := {"song_id": pv_data.pv_id_str, "difficulty": chart_name, "song_title": pv_data.title_en}
+				propagate_error(tr("Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path").format(format_data))
 		
 		var song := HBSongDSC.new(pv_data, fs_access, opcode_map)
 		song.id = "pv_" + str(pv_id)
 		
 		if song.has_audio():
-			propagate_error(tr("Song ID %s's audio path (%s) did not exist") % [pv_data.pv_id_str, pv_data.song_file_name])
-			print(tr("Song ID %s's audio path (%s) did not exist") % [pv_data.pv_id_str, pv_data.song_file_name])
+			var format_data := {
+				"song_id": pv_data.pv_id_str,
+				"audio_path": pv_data.song_file_name
+			}
+			propagate_error(tr("Song ID {song_id}'s audio path ({audio_path}) did not exist").format(format_data))
+			print(tr("Song ID {song_id}'s audio path ({audio_path}) did not exist").format(format_data))
 			songs.append(song)
 		
 		var bpm_timing_change := HBTimingChange.new()
