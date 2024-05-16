@@ -23,7 +23,7 @@ texture = SubResource("30")
 region_rect = Rect2(0, 0, 2048, 1)
 
 [sub_resource type="StyleBoxFlat" id="6"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+bg_color = Color(0.184314, 0.0705882, 0.301961, 0.501961)
 border_width_top = 2
 border_width_bottom = 2
 border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
@@ -65,19 +65,18 @@ offset_top = 0.0799561
 offset_bottom = 202.08
 theme_override_styles/panel = SubResource("31")
 
-[node name="Panel" type="TextureRect" parent="LoadingScreenElements/Panel2"]
+[node name="Panel3" type="HBPanelContainerBlurEX" parent="LoadingScreenElements/Panel2"]
+custom_minimum_size = Vector2(0, 202)
+layout_mode = 2
+theme_override_styles/panel = SubResource("6")
+
+[node name="Panel" type="TextureRect" parent="LoadingScreenElements/Panel2/Panel3"]
 self_modulate = Color(0.592157, 0.239216, 0.94902, 0.501961)
-show_behind_parent = true
 texture_repeat = 2
 layout_mode = 2
 texture = ExtResource("4")
 expand_mode = 1
 stretch_mode = 1
-
-[node name="Panel3" type="PanelContainer" parent="LoadingScreenElements/Panel2"]
-custom_minimum_size = Vector2(0, 202)
-layout_mode = 2
-theme_override_styles/panel = SubResource("6")
 
 [node name="MarginContainer" type="MarginContainer" parent="LoadingScreenElements/Panel2/Panel3"]
 layout_mode = 2
@@ -94,8 +93,8 @@ theme_override_constants/separation = 21
 custom_minimum_size = Vector2(153, 0)
 layout_mode = 2
 texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 6
+expand_mode = 2
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
 layout_mode = 2
