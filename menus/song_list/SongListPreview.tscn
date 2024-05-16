@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://lkkru7no1ko1"]
+[gd_scene load_steps=6 format=3 uid="uid://lkkru7no1ko1"]
 
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="2_c1g4p"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2_g2q8y"]
@@ -61,7 +61,7 @@ theme_override_constants/margin_bottom = 87
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 12
+theme_override_constants/separation = -3
 
 [node name="TitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
 unique_name_in_owner = true
@@ -90,6 +90,7 @@ autowrap_mode = 3
 [node name="AuthorInfoContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = -10
 alignment = 1
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfoContainer"]
@@ -187,6 +188,7 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_g2q8y")
 text = "(NT)160 BPM"
 horizontal_alignment = 1
 autowrap_mode = 3
@@ -196,6 +198,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("2_c1g4p")
+theme_override_font_sizes/font_size = 28
 text = "sadsadsadsad"
 horizontal_alignment = 1
 autowrap_mode = 3
