@@ -2280,7 +2280,7 @@ func _on_PlaybackSpeedSlider_value_changed(value):
 func _on_playback_speed_changed(speed: float):
 	if speed == 1.0:
 		if song_editor_settings.show_video:
-			game_preview.video_player.stream_position = playhead_position / 1000.0
+			game_preview.video_player.set_stream_position(playhead_position / 1000.0)
 			game_preview.update_bga()
 	else:
 		if song_editor_settings.show_video:

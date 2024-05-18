@@ -65,7 +65,7 @@ func _ready():
 	$Label.visible = false
 	game.health_system_enabled = UserSettings.user_settings.enable_health
 func _on_intro_skipped(new_time):
-	video_player.stream_position = new_time
+	video_player.set_stream_position(new_time)
 
 func _fade_in_done():
 	video_player.paused = false
@@ -73,7 +73,7 @@ func _fade_in_done():
 	video_player.show()
 	$FadeIn.hide()
 	game.set_process(true)
-	video_player.stream_position = game.time_msec / 1000.0
+	video_player.set_stream_position(game.time_msec / 1000.0)
 	rescale_video_player()
 	print("FFMPEG: Using YUV->RGB compute shader for video", video_player.get_video_texture() is Texture2DRD)
 	
@@ -215,10 +215,10 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				video_player.hide()
 				if not video_player.stream:
 					video_player.stream = stream
-					video_player.stream_position = 0
+					video_player.set_stream_position(0)
 					video_player.paused = true
 				video_player.play()
-				video_player.stream_position = song.get_video_offset(current_game_info.variant) / 1000.0
+				video_player.set_stream_position(song.get_video_offset(current_game_info.variant) / 1000.0)
 				video_player.playback_speed = game.audio_playback.pitch_scale
 				if game.time_msec < 0:
 					video_player.paused = true
@@ -266,7 +266,7 @@ func _on_resumed():
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
-		video_player.stream_position = game.time_msec / 1000.0
+		video_player.set_stream_position(game.time_msec / 1000.0)
 		if game.time_msec < 0:
 			video_player.paused = true
 	else:
@@ -277,7 +277,7 @@ func _on_resumed():
 		game.time_msec = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
-		video_player.stream_position = (last_pause_time - ROLLBACK_TIME) / 1000.0
+		video_player.set_stream_position((last_pause_time - ROLLBACK_TIME) / 1000.0)
 		game.game_input_manager.set_process_input(false)
 		if game.time_msec < 0:
 			video_player.paused = true
@@ -403,7 +403,7 @@ func _on_PauseMenu_restarted():
 	last_pause_time = 0
 	rollback_on_resume = false
 	game.restart()
-	video_player.stream_position = current_game_info.get_song().start_time / 1000.0
+	video_player.set_stream_position(current_game_info.get_song().start_time / 1000.0)
 	#set_song(song, current_game_info.difficulty, modifiers)
 	set_process(true)
 	game.set_process(true)

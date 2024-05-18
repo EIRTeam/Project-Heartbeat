@@ -49,7 +49,7 @@ func _on_game_resized():
 func _on_video_player_finished():
 	video_player.play()
 	video_player.paused = true 
-	video_player.stream_position = 0.0
+	video_player.set_stream_position(0.0)
 func _on_resized():
 	game.size = size
 	game._on_viewport_size_changed()
@@ -78,13 +78,13 @@ func set_visualizer_processing_enabled(enabled):
 		visualizer.set_physics_process(enabled)
 	
 func _video_player_debounce():
-	video_player.stream_position = video_time
+	video_player.set_stream_position(video_time)
 
 func play_video_from_pos(pos: float):
 	if video_player.stream and video_player.visible:
 		video_player.paused = false
 		if not is_equal_approx(video_player.stream_position, pos):
-			video_player.stream_position = pos
+			video_player.set_stream_position(pos)
 
 func set_time(time: float):
 	if video_player.stream and video_player.visible:
@@ -126,7 +126,7 @@ func set_song(song: HBSong, variant=-1):
 				# wait another 5 frames and only then can we pause the player
 				# yeah I don't know why I bother either
 				video_player.stream = stream
-				video_player.stream_position = song.start_time  / 1000.0
+				video_player.set_stream_position(song.start_time  / 1000.0)
 				video_player.play()
 				video_player.paused = true
 				var offset = song.get_video_offset(variant)
