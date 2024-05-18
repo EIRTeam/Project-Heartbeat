@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b1l2m45dswckc"
 path.s3tc="res://.godot/imported/sustain.png-699217351dbcb0261394baa36e5f8314.s3tc.ctex"
+path.etc2="res://.godot/imported/sustain.png-699217351dbcb0261394baa36e5f8314.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://menus/tutorial/page5/sustain.png"
-dest_files=["res://.godot/imported/sustain.png-699217351dbcb0261394baa36e5f8314.s3tc.ctex"]
+dest_files=["res://.godot/imported/sustain.png-699217351dbcb0261394baa36e5f8314.s3tc.ctex", "res://.godot/imported/sustain.png-699217351dbcb0261394baa36e5f8314.etc2.ctex"]
 
 [params]
 

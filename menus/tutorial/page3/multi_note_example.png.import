@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://butm634usaklj"
 path.s3tc="res://.godot/imported/multi_note_example.png-d90f483a66704ad5b7ff97dcfe3d8526.s3tc.ctex"
+path.etc2="res://.godot/imported/multi_note_example.png-d90f483a66704ad5b7ff97dcfe3d8526.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://menus/tutorial/page3/multi_note_example.png"
-dest_files=["res://.godot/imported/multi_note_example.png-d90f483a66704ad5b7ff97dcfe3d8526.s3tc.ctex"]
+dest_files=["res://.godot/imported/multi_note_example.png-d90f483a66704ad5b7ff97dcfe3d8526.s3tc.ctex", "res://.godot/imported/multi_note_example.png-d90f483a66704ad5b7ff97dcfe3d8526.etc2.ctex"]
 
 [params]
 

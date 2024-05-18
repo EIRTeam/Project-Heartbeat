@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://brkyimo6hbqwf"
 path.s3tc="res://.godot/imported/heart.png-bcfa7618f331eb400579343d3262e007.s3tc.ctex"
+path.etc2="res://.godot/imported/heart.png-bcfa7618f331eb400579343d3262e007.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://menus/tutorial/page6/heart.png"
-dest_files=["res://.godot/imported/heart.png-bcfa7618f331eb400579343d3262e007.s3tc.ctex"]
+dest_files=["res://.godot/imported/heart.png-bcfa7618f331eb400579343d3262e007.s3tc.ctex", "res://.godot/imported/heart.png-bcfa7618f331eb400579343d3262e007.etc2.ctex"]
 
 [params]
 
