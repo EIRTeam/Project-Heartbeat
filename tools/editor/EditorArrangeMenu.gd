@@ -65,6 +65,9 @@ func _input(event):
 					"vertical_step": UserSettings.user_settings.editor_arrange_middle_vstep,
 				}
 			
+			new_rotation = remap(rad_to_deg(new_rotation), 0, 360, -180.0, 180.0)
+			new_rotation = deg_to_rad(new_rotation)
+			
 			match mode_info.mode:
 				HBUserSettings.EDITOR_ARRANGE_MODES.SUBDIVIDED:
 					new_rotation /= PI / (mode_info.subdivision / 2.0)
@@ -104,6 +107,8 @@ func _input(event):
 					new_rotation = deg_to_rad(snap_list[new_rotation_idx])
 				HBUserSettings.EDITOR_ARRANGE_MODES.FREE:
 					pass
+			
+			new_rotation += PI
 			
 			if new_rotation != menu_rotation:
 				emit_signal("angle_changed", new_rotation, reverse, autoangle_toggle)
