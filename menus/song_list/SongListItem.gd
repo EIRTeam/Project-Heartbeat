@@ -73,7 +73,7 @@ func _show_note_usage():
 	for difficulty in song.charts:
 		for type in song.get_chart_note_usage(difficulty):
 			if not type in global_note_type_usage:
-				global_note_type_usage.append(type)
+				global_note_type_usage.append(int(type))
 			if global_note_type_usage.size() >= HBChart.ChartNoteUsage.size():
 				break
 	if HBChart.ChartNoteUsage.ARCADE in global_note_type_usage:
