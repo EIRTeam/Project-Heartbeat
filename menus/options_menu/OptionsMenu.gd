@@ -223,6 +223,10 @@ var OPTIONS = {
 			"options_pretty": [tr("Auto-detect", &"Button prompt auto detect option"), "Xbox™", "PlayStation™", "Nintendo™"],
 			"type": "options"
 		},
+		"ui_blur_enabled": {
+			"name": tr("Enable interface blurring", &"UI blur enabled options menu option name"),
+			"description": tr("Enables blurring the background of some interface elements.", &"UI blur enabled options menu description"),
+		},
 		"lyrics_enabled": {
 			"name": tr("Enable lyrics"),
 			"description": tr("Enables showing lyrics in-game.")
@@ -418,6 +422,8 @@ func _on_value_changed(property_name, new_value):
 		ResourcePackLoader.soft_rebuild_final_atlas()
 	if property_name == "button_prompt_override":
 		UserSettings.set_joypad_prompts()
+	if property_name == "ui_blur_enabled":
+		UserSettings.update_ui_blur()
 	UserSettings.apply_user_settings(property_name in ["display_mode", "display"])
 	UserSettings.save_user_settings()
 

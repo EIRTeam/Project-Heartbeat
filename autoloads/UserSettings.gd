@@ -121,6 +121,8 @@ func _init_user_settings():
 	apply_user_settings(true)
 	load_input_map()
 	set_joypad_prompts()
+	update_ui_blur()
+	
 	Input.connect("joy_connection_changed", Callable(self, "_on_joy_connection_changed"))
 
 
@@ -537,6 +539,9 @@ func get_sound_path(sfx_name: String) -> String:
 
 func should_use_direct_joystick_access(device_idx: int) -> bool:
 	return user_settings.use_direct_joystick_access and device_idx in Input.get_connected_joypads()
+
+func update_ui_blur():
+	PHNative.blur_controls_enabled = user_settings.ui_blur_enabled
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

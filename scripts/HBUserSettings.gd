@@ -8,6 +8,7 @@ signal editor_grid_resolution_changed
 
 var visualizer_enabled = true
 var visualizer_resolution = 32
+var ui_blur_enabled := true
 var lag_compensation = 0
 var note_size = 1.0
 var icon_pack = "playstation"
@@ -290,7 +291,7 @@ var editor_templates_visibility := {"__all": true, "__uncategorized": false}
 
 func _init():
 	serializable_fields += [
-		"visualizer_enabled", "visualizer_resolution",
+		"visualizer_enabled", "visualizer_resolution", "ui_blur_enabled",
 		"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", "down_arrow_override_enabled", 
 		"lag_compensation", 
 		"icon_pack", "resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
