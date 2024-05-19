@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-05-16 10:10\n"
+"PO-Revision-Date: 2024-05-19 20:53\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -40,7 +40,7 @@ msgstr "这首歌需要从 Youtube 下载视频/音频文件，你想要下载�
 
 #: autoloads/MouseTrap.tscn
 msgid "Yes (audio only)"
-msgstr "是（仅音频）"
+msgstr "是 (仅音频)"
 
 #: autoloads/MouseTrap.tscn
 msgid "Downloading..."
