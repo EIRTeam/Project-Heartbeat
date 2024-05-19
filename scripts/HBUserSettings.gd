@@ -8,7 +8,7 @@ signal editor_grid_resolution_changed
 
 var visualizer_enabled = true
 var visualizer_resolution = 32
-var ui_blur_enabled := true
+var ui_blur_enabled := false
 var lag_compensation = 0
 var note_size = 1.0
 var icon_pack = "playstation"
