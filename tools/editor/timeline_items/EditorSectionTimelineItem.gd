@@ -27,8 +27,8 @@ func get_ph_editor_description():
 func sync_value(property_name: String):
 	super.sync_value(property_name)
 	if property_name == "color" or property_name == "time":
-		editor.timeline.update()
-		editor.timeline.minimap.update()
+		editor.timeline.queue_redraw()
+		editor.timeline.minimap.queue_redraw()
 	if property_name == "name":
 		label.text = data.name
 
