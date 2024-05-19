@@ -36,7 +36,7 @@ const PAGE_CHANGE_COUNT := 8
 class DummySongListEntry:
 	extends HBUniversalListItem
 
-	signal dummy_sighted
+	signal dummy_sighted(from_visiblity_rect: bool)
 	
 	var song: HBSong
 	@onready var notifier := VisibleOnScreenNotifier2D.new()
@@ -45,7 +45,7 @@ class DummySongListEntry:
 		custom_minimum_size.y = 100
 	func _ready() -> void:
 		add_child(notifier)
-		notifier.screen_entered.connect(self._become_visible)
+		notifier.screen_entered.connect(dummy_sighted.emit.bind(true))
 		resized.connect(self._size_changed)
 		notifier.set_block_signals(true)
 		_size_changed.call_deferred()
@@ -57,7 +57,7 @@ class DummySongListEntry:
 	func stop_hover():
 		pass
 	func _become_visible():
-		emit_signal("dummy_sighted")
+		dummy_sighted.emit(false)
 
 func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 	if path.size() == 0:
@@ -79,9 +79,17 @@ func _ready():
 func _on_selected_item_changed():
 	var selected_item = get_selected_item()
 	if selected_item:
-		if selected_item is DummySongListEntry:
-			pass
-		elif selected_item is HBSongListItem or selected_item is HBSongListItemDifficulty:
+		var start: int = selected_item.get_index() - items_to_report_visibility_to
+		var end: int = selected_item.get_index() + items_to_report_visibility_to
+		end = min(end, item_container.get_child_count())
+		start = max(start, 0)
+		
+		for i in range(start, end):
+			var child := item_container.get_child(i)
+			if child is DummySongListEntry:
+				child._become_visible()
+				
+		if selected_item is HBSongListItem or selected_item is HBSongListItemDifficulty:
 			emit_signal("song_hovered", selected_item.song)
 		else:
 			emit_signal("hover_nonsong")
@@ -295,7 +303,9 @@ func set_filter(filter_name: String):
 				set_songs(songs)
 #				hard_arrange_all()
 		
-func _on_dummy_sighted(song: HBSong):
+func _on_dummy_sighted(from_visibility_rect: bool, song: HBSong):
+	if from_visibility_rect and tween.is_active():
+		return
 	var dummy = filtered_song_items[song]
 	var item = _create_song_item(song)
 	dummy.add_sibling(item)

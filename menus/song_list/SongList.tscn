@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://mq8cvko6co3o"]
+[gd_scene load_steps=25 format=3 uid="uid://mq8cvko6co3o"]
 
 [ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
@@ -222,7 +222,7 @@ container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_fade = true
 enable_wrap_around = true
-items_to_report_visibility_to = 9
+items_to_report_visibility_to = 10
 scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
