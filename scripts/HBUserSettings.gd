@@ -156,6 +156,7 @@ var locale__possibilities = [
 	"ca",
 	"ja",
 	"pt",
+	"zh_CN"
 ]
 
 var workshop_download_audio_only = false

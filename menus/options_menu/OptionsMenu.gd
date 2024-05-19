@@ -8,7 +8,7 @@ var OPTIONS = {
 		"locale": {
 			"name": tr("Language"),
 			"description": tr("Selects the language to use (requires restart)"),
-			"options": ["auto-detect", "en", "es", "ca", "ja", "pt"],
+			"options": ["auto-detect", "en", "es", "ca", "ja", "pt", "zh_CN"],
 			"options_pretty": [tr("Auto detect"), "English", "Español", "Català", "Japanese", "Portuguese", "Chinese (Simplified)"],
 			"type": "options"
 		},
