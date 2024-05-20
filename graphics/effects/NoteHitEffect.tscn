@@ -106,7 +106,7 @@ tracks/1/path = NodePath("NoteIcon:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1002, 0.416667, 0.466667),
+"times": PackedFloat32Array(0, 0.1002, 0.3841, 0.466667),
 "transitions": PackedFloat32Array(0, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.75), Color(1, 1, 1, 0.75), Color(1, 1, 1, 0)]
@@ -154,7 +154,7 @@ tracks/5/path = NodePath("Loop:self_modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.116667, 0.2, 0.416667, 0.466667),
+"times": PackedFloat32Array(0, 0.116667, 0.2, 0.3841, 0.466667),
 "transitions": PackedFloat32Array(0, 1, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.219608), Color(0.580392, 0.580392, 0.580392, 1), Color(0.537255, 0.537255, 0.537255, 1), Color(1, 1, 1, 0)]

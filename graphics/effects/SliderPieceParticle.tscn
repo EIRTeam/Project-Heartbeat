@@ -16,9 +16,10 @@ offsets = PackedFloat32Array(0.47861, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="SliderPieceParticle" type="CPUParticles2D"]
-modulate = Color(0.75, 0.75, 0.75, 1)
+modulate = Color(0.5, 0.5, 0.5, 1)
 material = SubResource("CanvasItemMaterial_6kaqy")
 position = Vector2(831, 343)
+emitting = false
 amount = 2
 lifetime = 0.24
 one_shot = true
