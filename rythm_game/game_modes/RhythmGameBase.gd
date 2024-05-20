@@ -639,9 +639,13 @@ func resume():
 	start()
 func seek(position: int):
 	if audio_playback:
+		if not audio_playback.is_playing():
+			audio_playback.start()
 		audio_playback.seek(position)
 	
 	if voice_audio_playback:
+		if not voice_audio_playback.is_playing():
+			voice_audio_playback.start()
 		voice_audio_playback.seek(position)
 	
 func start():
