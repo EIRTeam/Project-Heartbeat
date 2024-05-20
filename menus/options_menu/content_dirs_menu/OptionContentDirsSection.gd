@@ -40,7 +40,7 @@ func _ready():
 	populate()
 	connect("focus_entered", Callable(self, "_on_focus_entered"))
 	focus_mode = Control.FOCUS_ALL
-	set_directory_confirmation_window.connect("accept", Callable(file_dialog, "popup_centered"))
+	set_directory_confirmation_window.connect("accept", Callable(file_dialog, "popup_centered_ratio"))
 	set_directory_confirmation_window.connect("cancel", Callable(self, "grab_focus"))
 	reset_content_directory_confirmation_window.connect("accept", Callable(self, "_on_content_directory_reset"))
 	reset_content_directory_confirmation_window.connect("cancel", Callable(self, "grab_focus"))
