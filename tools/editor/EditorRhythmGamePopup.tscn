@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://cubtw5u6jiuth"]
+[gd_scene load_steps=12 format=3 uid="uid://cubtw5u6jiuth"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]
@@ -36,6 +36,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 pivot_offset = Vector2(-982.881, -511.008)
 theme = ExtResource("1")
 script = ExtResource("3")
@@ -65,9 +67,10 @@ theme_override_styles/panel = SubResource("3")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Node2D/VideoPlayerPanel"]
 unique_name_in_owner = true
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
+offset_left = 280.0
+offset_right = 1000.0
+offset_bottom = 720.0
 mouse_filter = 2
 volume_db = -80.0
 autoplay = true
