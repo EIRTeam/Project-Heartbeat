@@ -48,6 +48,7 @@ func _on_end_time_changed():
 	queue_redraw()
 
 func _process(delta):
+	super._process(delta)
 	if _end_time_dragging:
 		if abs(get_viewport().get_mouse_position().x - _end_time_drag_start_position.x) > SIDE_MOVEMENT_DEADZONE\
 				or _end_time_drag_moving:
