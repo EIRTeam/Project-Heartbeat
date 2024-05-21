@@ -73,7 +73,6 @@ func _fade_in_done():
 	video_player.show()
 	$FadeIn.hide()
 	game.set_process(true)
-	video_player.set_stream_position(game.time_msec / 1000.0)
 	rescale_video_player()
 	print("FFMPEG: Using YUV->RGB compute shader for video", video_player.get_video_texture() is Texture2DRD)
 	
@@ -98,6 +97,8 @@ func start_fade_in():
 	game.schedule_play_start(start_offset + FADE_OUT_TIME * 1000)
 	game.start()
 	game.time_msec = song.start_time
+	video_player.set_stream_position(song.start_time / 1000.0)
+	video_player.show()
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Threen.TRANS_LINEAR, Threen.EASE_IN_OUT)
 	fade_in_tween.start()
 	pause_menu_disabled = true
@@ -207,7 +208,6 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 		var pss = UserSettings.user_settings.per_song_settings[song.id] as HBPerSongSettings
 		video_enabled_for_song = pss.video_enabled
 		rescale_video_player()
-	start_fade_in()
 	if song.has_video_enabled() and not modifier_disables_video and video_enabled_for_song:
 		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
 			var stream = song.get_video_stream(current_game_info.variant)
@@ -215,10 +215,8 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				video_player.hide()
 				if not video_player.stream:
 					video_player.stream = stream
-					video_player.set_stream_position(0)
 					video_player.paused = true
 				video_player.play()
-				video_player.set_stream_position(song.get_video_offset(current_game_info.variant) / 1000.0)
 				video_player.playback_speed = game.audio_playback.pitch_scale
 				if game.time_msec < 0:
 					video_player.paused = true
@@ -227,6 +225,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 			else:
 				Log.log(self, "Video Stream failed to load")
+	start_fade_in()
 	
 func rescale_video_player():
 	var video_texture = video_player.get_video_texture()

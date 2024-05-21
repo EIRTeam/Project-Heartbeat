@@ -5,7 +5,7 @@ extends Control
 @onready var game_ui = get_node("RythmGameUI")
 @onready var background_rect : TextureRect = get_node("Node2D/TextureRect")
 @onready var visualizer = get_node("Node2D/Visualizer")
-@onready var video_player: VideoStreamPlayer = get_node("Node2D/VideoStreamPlayer")
+@onready var video_player = get_node("Node2D/VideoStreamPlayer")
 @onready var grid_renderer = get_node("Node2D/GridRenderer")
 @onready var transform_preview = get_node("TransformPreview")
 var settings: HBPerSongEditorSettings
