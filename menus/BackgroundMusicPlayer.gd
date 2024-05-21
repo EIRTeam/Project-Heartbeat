@@ -28,6 +28,8 @@ class SongPlayer:
 	var voice_remap: ShinobuChannelRemapEffect
 	var audio_remap: ShinobuChannelRemapEffect
 	
+	var has_assets := false
+	
 	func load_song_assets():
 		if not song.has_audio() or not song.is_cached():
 			return ERR_FILE_NOT_FOUND
@@ -49,7 +51,6 @@ class SongPlayer:
 	func _init(_song: HBSong, _song_idx: int):
 		song = _song
 		song_idx = _song_idx
-		
 		if song.has_audio_loudness or SongDataCache.is_song_audio_loudness_cached(song):
 			var song_loudness = 0.0
 			has_audio_normalization_data = true
@@ -87,6 +88,7 @@ class SongPlayer:
 		return "voice_%s_%d" % [str(song.id), song_idx]
 		
 	func _on_song_assets_loaded(token: SongAssetLoader.AssetLoadToken):
+		has_assets = true
 		var audio: SongAssetLoader.SongAudioData = token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO)
 		var voice: SongAssetLoader.SongAudioData = token.get_asset(SongAssetLoader.ASSET_TYPES.VOICE)
 		var audio_loudness: SongAssetLoader.AudioNormalizationInfo = token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
@@ -144,8 +146,6 @@ class SongPlayer:
 		
 		set_process(true)
 
-	var calls := 0
-		
 	func fade_out():
 		set_process(false) # nothing else should fire while fading out...
 		if audio_playback:
@@ -153,7 +153,8 @@ class SongPlayer:
 			if voice_audio_playback:
 				voice_audio_playback.fade(500, db_to_linear(target_volume), 0.0)
 		
-		get_tree().create_timer(0.5, false).timeout.connect(self.queue_free)
+		var timer := get_tree().create_timer(0.5, false)
+		timer.timeout.connect(self.queue_free)
 
 var current_song_player: SongPlayer
 
@@ -172,9 +173,12 @@ func play_song(song: HBSong):
 	
 	if song_player.load_song_assets() == OK:
 		if current_song_player:
-			current_song_player.fade_out()
 			current_song_player.disconnect("song_assets_loaded", Callable(self, "_on_song_assets_loaded"))
 			current_song_player.disconnect("stream_time_changed", Callable(self, "_on_stream_time_changed"))
+			if not current_song_player.has_assets:
+				current_song_player.queue_free()
+			else:
+				current_song_player.fade_out()
 		current_song_player = song_player
 	else:
 		song_player.queue_free()
