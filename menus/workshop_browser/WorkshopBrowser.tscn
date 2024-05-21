@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://d1ybtyf1sffqy"]
+[gd_scene load_steps=15 format=3 uid="uid://d1ybtyf1sffqy"]
 
 [ext_resource type="Script" path="res://menus/workshop_browser/WorkshopBrowser.gd" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
@@ -102,7 +102,7 @@ alignment = 2
 [node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" instance=ExtResource("11")]
 custom_minimum_size = Vector2(220, 33)
 layout_mode = 2
-action_name = "note_left"
+action_name = "contextual_option"
 text = "Filter by Difficulty"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
@@ -112,7 +112,7 @@ alignment = 2
 [node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer2" instance=ExtResource("11")]
 custom_minimum_size = Vector2(139, 33)
 layout_mode = 2
-action_name = "note_up"
+action_name = "gui_sort_by"
 text = "Sort by..."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control"]

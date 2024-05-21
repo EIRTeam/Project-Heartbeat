@@ -257,7 +257,7 @@ func _unhandled_input(event):
 			change_to_menu("main_menu")
 	elif prompt_visible:
 		pass # do nothing
-	elif event.is_action_pressed("note_left"):
+	elif event.is_action_pressed("contextual_option"):
 		star_filter_panel_container.position = (size / 2.0) - (star_filter_vbox_container.size / 2.0)
 		star_filter_panel_container.show()
 		star_filter_vbox_container.grab_focus()
