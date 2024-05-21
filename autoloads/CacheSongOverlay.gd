@@ -35,7 +35,7 @@ func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_opt
 	}
 	download_confirm_popup.text = messages[variant.get_cache_status()]
 	accept_button_audio.visible = !variant.audio_only and not force_disable_audio_option
-	download_confirm_popup.popup_centered_ratio(0.0)
+	download_confirm_popup.popup_centered()
 	button_menu.select_button(0)
 	
 func _on_error_prompt_accepted():
