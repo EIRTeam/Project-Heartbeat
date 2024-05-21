@@ -390,10 +390,12 @@ func window_input(event):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		mouse_hide_timer.stop()
 	if event is InputEventKey:
-		mouse_hide_timer.start()
+		if mouse_hide_timer.is_stopped():
+			mouse_hide_timer.start()
 		current_mode = PROMPT_MODE.KEYBOARD
 	elif event is InputEventJoypadButton:
-		mouse_hide_timer.start()
+		if mouse_hide_timer.is_stopped():
+			mouse_hide_timer.start()
 		current_mode = PROMPT_MODE.JOYPAD
 
 func load_user_settings():
