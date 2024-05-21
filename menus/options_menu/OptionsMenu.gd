@@ -328,8 +328,13 @@ func _set_sound_volume(volume: float, sound: String):
 	UserSettings.user_settings.custom_sound_volumes[sound] = volume
 	UserSettings.save_user_settings()
 
+func _on_joy_connection_changed(_device_idx: int, _is_connected: bool):
+	for section_name in section_name_to_section_control:
+		call_section_callback(section_name)
+
 func _ready():
 	super._ready()
+	Input.joy_connection_changed.connect(self._on_joy_connection_changed)
 	for sound_type in HBUserSettings.DEFAULT_SOUNDS.keys():
 		var sound_pretty_name = sound_type.capitalize().to_lower()
 		sound_pretty_name = sound_pretty_name.substr(0, 1).to_upper() + sound_pretty_name.substr(1)
@@ -375,13 +380,18 @@ func _ready():
 			sections.add_child(section)
 			section.section_data = OPTIONS[section_name]
 			
-			if "__section_label" in OPTIONS[section_name]:
-				if "label_callback" in OPTIONS[section_name]["__section_label"]:
-					var fr = OPTIONS[section_name]["__section_label"]["label_callback"] as Callable
-					var text = fr.call()
-					section.section_text = text
-			
 			section_name_to_section_control[section_name] = section
+			
+			call_section_callback(section_name)
+		
+func call_section_callback(section_name: String):
+	assert(section_name in OPTIONS)
+	if "__section_label" in OPTIONS[section_name]:
+		if "label_callback" in OPTIONS[section_name]["__section_label"]:
+			var fr = OPTIONS[section_name]["__section_label"]["label_callback"] as Callable
+			var text = fr.call()
+			var section = section_name_to_section_control[section_name]
+			section.section_text = text
 		
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
@@ -457,16 +467,21 @@ func _input(event):
 				code_p = 0
 
 func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		for section_name in section_name_to_section_control:
-			var section = section_name_to_section_control[section_name]
-			if is_instance_valid(section) and not section.is_queued_for_deletion():
-				section.queue_free()
-		for section_name in OPTIONS:
-			if OPTIONS[section_name].has("__section_override"):
-				var section = OPTIONS[section_name].__section_override
+	match what:
+		NOTIFICATION_PREDELETE:
+			for section_name in section_name_to_section_control:
+				var section = section_name_to_section_control[section_name]
 				if is_instance_valid(section) and not section.is_queued_for_deletion():
 					section.queue_free()
+			for section_name in OPTIONS:
+				if OPTIONS[section_name].has("__section_override"):
+					var section = OPTIONS[section_name].__section_override
+					if is_instance_valid(section) and not section.is_queued_for_deletion():
+						section.queue_free()
+		NOTIFICATION_ENTER_TREE:
+			for section_name in section_name_to_section_control:
+				call_section_callback(section_name)
+		
 
 func _audio_buffer_info_callback():
 	return "(%s) Requested/actual buffer size: %d ms/%d ms" % [Shinobu.get_current_backend_name(), Shinobu.desired_buffer_size_msec, Shinobu.get_actual_buffer_size()]
@@ -475,10 +490,15 @@ func _version_info_callback():
 	return HBVersion.get_version_string(true)
 
 func _detected_controllers_callback() -> String:
+	if Input.get_connected_joypads().size() == 0:
+		return ""
+	
 	var text_out := tr("Detected controllers:") + "\n\n"
 	
 	for gamepad_i in Input.get_connected_joypads():
 		if PHNative.is_sdl_device_game_controller(gamepad_i):
 			text_out += tr("{joypad_name} (Game Controller)".format({"joypad_name": Input.get_joy_name(gamepad_i)}), &"Used when a joypad is detected as a game controller")
+		else:
+			text_out += "{joypad_name}".format({"joypad_name": Input.get_joy_name(gamepad_i)})
 		text_out += "\n"
 	return text_out
