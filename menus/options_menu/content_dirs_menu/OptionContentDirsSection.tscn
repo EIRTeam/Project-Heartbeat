@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://mgckvs6bfy7m"]
+[gd_scene load_steps=6 format=3 uid="uid://mgckvs6bfy7m"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
@@ -55,6 +55,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Popup" type="Popup" parent="."]
+size = Vector2i(588, 100)
 
 [node name="Label" type="Label" parent="Popup"]
 anchors_preset = 15
@@ -64,17 +65,18 @@ text = "Press the Key/Button/Axis to bind"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ReloadingContentPopup" type="Popup" parent="."]
-size = Vector2i(328, 100)
-
-[node name="Label" type="Label" parent="ReloadingContentPopup"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="ReloadingContentPopup" parent="." instance=ExtResource("3")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 650.0
+offset_bottom = 409.0
+grow_horizontal = 1
+grow_vertical = 1
+has_cancel = false
+has_accept = false
 text = "Reloading content..."
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="SetContentDirectoryConfirmationWindow" parent="." instance=ExtResource("3")]
 layout_mode = 0
