@@ -4,6 +4,7 @@ extends HBHovereableButton
 @onready var spinner_texture: TextureRect = get_node("%Spinner")
 @onready var animation_player: AnimationPlayer = get_node("Button/AnimationPlayer")
 @onready var progress_bar: ProgressBar = get_node("%ProgressBar")
+@onready var cancel_button: HBHovereableButton = get_node("%CancelButton")
 
 var entry: YoutubeDL.CachingQueueEntry
 
@@ -11,6 +12,8 @@ func _ready():
 	super._ready()
 	connect("resized", Callable(self, "_on_resized"))
 	call_deferred("_on_resized")
+	mouse_filter = MouseFilter.MOUSE_FILTER_IGNORE
+	cancel_button.pressed.connect(self.pressed.emit)
 
 func set_entry(_entry: YoutubeDL.CachingQueueEntry):
 	if entry:
@@ -34,7 +37,7 @@ func _on_resized():
 	animation_player.play("spin")
 
 func hover():
-	super.hover()
+	cancel_button.hover()
 	
 func stop_hover():
-	super.stop_hover()
+	cancel_button.stop_hover()

@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://1wkuf4tpymo8"]
+[gd_scene load_steps=10 format=3 uid="uid://1wkuf4tpymo8"]
 
 [ext_resource type="Texture2D" uid="uid://cfplb8u67lgda" path="res://graphics/icons/icon_close_bg.svg" id="1"]
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="2"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="3"]
 [ext_resource type="Script" path="res://menus/media_download_queue/MediaDownloadQueueButton.gd" id="5"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="7"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="6_as7go"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="7"]
 
 [sub_resource type="Animation" id="3"]
 length = 0.001
@@ -34,7 +35,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0.0, 360.0]
+"values": [0.0, 6.28319]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t2v6s"]
@@ -48,7 +49,7 @@ custom_minimum_size = Vector2(0, 80)
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 1126.0
-offset_bottom = 70.0
+offset_bottom = 90.0
 theme = ExtResource("3")
 theme_override_styles/normal = ExtResource("7")
 script = ExtResource("5")
@@ -71,7 +72,7 @@ libraries = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Button"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 5
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Button/VBoxContainer"]
@@ -81,15 +82,7 @@ mouse_filter = 2
 [node name="TitleLabel" type="Label" parent="Button/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 text = "asdasdasdas"
-
-[node name="TextureRect2" type="TextureRect" parent="Button/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-texture = ExtResource("1")
-expand_mode = 1
-stretch_mode = 6
 
 [node name="Spinner" type="TextureRect" parent="Button/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -97,14 +90,23 @@ custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 texture = ExtResource("2")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
+
+[node name="CancelButton" type="Button" parent="Button/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+icon = ExtResource("1")
+script = ExtResource("6_as7go")
 
 [node name="ProgressBar" type="ProgressBar" parent="Button/VBoxContainer"]
 unique_name_in_owner = true
 show_behind_parent = true
+custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 theme = ExtResource("3")
 theme_type_variation = &"MediaDownloadQueueButtonProgressBar"
 max_value = 1.0
 step = 0.0
 value = 0.371
+show_percentage = false
