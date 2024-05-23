@@ -116,6 +116,7 @@ text = "Import link star parameters"
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Replace the current chart by the imported chart if enabled, or paste notes into the current chart if disabled."
+button_pressed = true
 text = "Replace chart"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
