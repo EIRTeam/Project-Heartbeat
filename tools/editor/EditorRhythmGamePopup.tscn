@@ -74,6 +74,7 @@ offset_bottom = 720.0
 mouse_filter = 2
 volume_db = -80.0
 autoplay = true
+expand = true
 script = ExtResource("7")
 
 [node name="Visualizer" parent="Node2D" instance=ExtResource("6")]
