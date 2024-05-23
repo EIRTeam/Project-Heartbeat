@@ -1,9 +1,9 @@
-[gd_scene load_steps=19 format=4 uid="uid://cr4ygsnm3cu5s"]
+[gd_scene load_steps=19 format=3 uid="uid://cr4ygsnm3cu5s"]
 
 [ext_resource type="PackedScene" uid="uid://cf2jxkpomwvf3" path="res://rythm_game/rhythm_game_controller.tscn" id="1"]
 [ext_resource type="Script" path="res://rythm_game/practice_mode.gd" id="2"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3"]
-[ext_resource type="FontVariation" uid="uid://ugx6x1yrliyq" path="res://fonts/mono.tres" id="3_1ic2e"]
+[ext_resource type="FontVariation" path="res://fonts/mono.tres" id="3_1ic2e"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://mk4i5mpqt4hy" path="res://menus/PerSongSettingsEditor.tscn" id="7"]

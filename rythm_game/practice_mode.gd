@@ -56,6 +56,9 @@ var pitch_shift_effect := Shinobu.instantiate_pitch_shift()
 
 var pre_pause_game_mode: int = HBRhythmGame.GAME_MODE.NORMAL
 
+@onready var video_debounce_seek_timer := Timer.new()
+var video_debounce_seek_time := 0.0
+
 func _ready():
 	super._ready()
 	game.connect("note_judged", Callable(self, "_on_note_judged"))
@@ -69,6 +72,11 @@ func _ready():
 	game.health_system_enabled = false
 	Diagnostics.gamepad_visualizer.show()
 	song_settings_editor.connect("back", Callable(self, "pause"))
+	add_child(video_debounce_seek_timer)
+	video_debounce_seek_timer.process_mode = Node.PROCESS_MODE_ALWAYS
+	video_debounce_seek_timer.process_callback = Timer.TIMER_PROCESS_IDLE
+	video_debounce_seek_timer.one_shot = true
+	video_debounce_seek_timer.timeout.connect(self._on_seek_video_debounce_ended)
 
 func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets=null):
 	super.set_song(song, difficulty, modifiers, true, assets)
@@ -106,6 +114,9 @@ func pause():
 	set_process(true)
 	update_progress_bar()
 	quit_confirmation.hide()
+	if not get_tree().paused:
+		video_player.set_stream_position(game.time_msec / 1000.0)
+		video_debounce_seek_timer.stop()
 	#quit_confirmation.release_focus()
 	
 	if get_tree().paused:
@@ -278,13 +289,21 @@ func update_time_label():
 	seek_time_label.text = "%s/%s" % [time_str, song_length_str]
 	section_seek_time_label.text = "%s/%s" % [time_str, song_length_str]
 
+func _on_seek_video_debounce_ended():
+	video_player.set_stream_position(video_debounce_seek_time)
+	
+
+func seek_video_with_debounce(new_time: float):
+	if video_debounce_seek_timer.is_stopped():
+		video_debounce_seek_timer.start(0.1)
+	video_debounce_seek_time = new_time
 func go_to_time(time: float):
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
 	var end_time = game.audio_playback.get_length_msec()
 	if song.end_time > 0:
 		end_time = song.end_time
 	time = clamp(time, song.start_time, end_time)
-	video_player.play()
+	#video_player.play()
 	if not get_tree().paused:
 		game.editing = false
 		game.seek_new(time, true)
@@ -292,14 +311,15 @@ func go_to_time(time: float):
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
+		video_player.set_stream_position(game.time_msec / 1000.0)
+		video_debounce_seek_timer.stop()
 	else:
 		game.seek_new(time, true)
 		game.time_msec = time
 		game._process(0)
 		update_progress_bar()
 		video_player.paused = true
-		video_player.set_stream_position(game.time_msec / 1000.0)
-	video_player.set_stream_position(game.time_msec / 1000.0)
+		seek_video_with_debounce(game.time_msec / 1000.0)
 
 func reset_stats():
 	stats_passed_notes = 0
