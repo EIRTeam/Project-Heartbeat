@@ -30,14 +30,14 @@ func _draw():
 		
 		var y = ($TextureRect.size.y - width)/2
 		var start = Vector2(0.0, y)
-		var size = Vector2(editor.scale_msec(data.get_duration()), width)
+		var draw_size = Vector2(editor.scale_msec(data.get_duration()), width)
 		var color = ResourcePackLoader.get_note_trail_color(data.note_type).darkened(0.15)
 		
-		draw_rect(Rect2(start, size), color)
+		draw_rect(Rect2(start, draw_size), color)
 		hack.set_enable_hack(false)
 		if global_position.x <= 0.0:
 			hack.set_enable_hack(true)
-			hack.run_uwu_hack(size.x, color)
+			hack.run_uwu_hack(draw_size.x, color)
 		
 func _on_view_port_size_changed():
 	if get_viewport():

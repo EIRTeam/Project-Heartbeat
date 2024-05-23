@@ -17,8 +17,8 @@ func _draw():
 	if enabled:
 		var width = 5
 		
-		var size = Vector2(-length, width)
 		var y = (size.y - width)/2
 		var start = Vector2(size.x/2.0, y)
+		var draw_size = Vector2(-length, width)
 		
-		draw_rect(Rect2(start, size), color)
+		draw_rect(Rect2(start, draw_size), color)
