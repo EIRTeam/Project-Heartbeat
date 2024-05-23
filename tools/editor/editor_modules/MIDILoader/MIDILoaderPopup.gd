@@ -17,6 +17,7 @@ func load_smf(path: String):
 
 func populate_tracks():
 	track_tree.clear()
+	track_tree.set_column_expand(0, false)
 	track_tree.set_column_custom_minimum_width(0, 1)
 	track_tree.set_column_custom_minimum_width(1, 11)
 	

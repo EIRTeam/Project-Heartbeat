@@ -45,9 +45,9 @@ func _ready():
 	
 	# Set up trees
 	file_manager_tree.set_column_expand(0, true)
-	file_manager_tree.set_column_expand(1, true)
-	file_manager_tree.set_column_expand(2, true)
-	file_manager_tree.set_column_expand(3, true)
+	file_manager_tree.set_column_expand(1, false)
+	file_manager_tree.set_column_expand(2, false)
+	file_manager_tree.set_column_expand(3, false)
 	file_manager_tree.set_column_custom_minimum_width(0, 9)
 	file_manager_tree.set_column_custom_minimum_width(1, 1)
 	file_manager_tree.set_column_custom_minimum_width(2, 1)
