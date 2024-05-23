@@ -76,7 +76,15 @@ func _ready():
 	connect("selected_item_changed", Callable(self, "_on_selected_item_changed"))
 	focus_mode = Control.FOCUS_ALL
 
-func _on_selected_item_changed():
+var item_visibility_update_queued := false
+
+func _queue_update_item_visibility():
+	if not item_visibility_update_queued:
+		item_visibility_update_queued = true
+		_update_visibility_stuff.call_deferred()
+
+func _update_visibility_stuff():
+	item_visibility_update_queued = false
 	var selected_item = get_selected_item()
 	if selected_item:
 		var start: int = selected_item.get_index() - items_to_report_visibility_to
@@ -88,7 +96,11 @@ func _on_selected_item_changed():
 			var child := item_container.get_child(i)
 			if child is DummySongListEntry:
 				child._become_visible()
-				
+
+func _on_selected_item_changed():
+	var selected_item = get_selected_item()
+	_queue_update_item_visibility()
+	if selected_item:
 		if selected_item is HBSongListItem or selected_item is HBSongListItemDifficulty:
 			emit_signal("song_hovered", selected_item.song)
 		else:
@@ -390,6 +402,7 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 		
 		
 	emit_signal("end_loading")
+	_queue_update_item_visibility()
 		
 func _on_random_pressed():
 	select_item(1 + (randi() % item_container.get_child_count()-1))
