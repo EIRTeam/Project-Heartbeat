@@ -87,8 +87,8 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 			video_player.stream = stream
 			video_player.play()
 			
-			video_player.set_stream_position(time)
 			video_player.offset = -song.get_video_offset(selected_variant) / 1000.0
+			video_player.set_stream_position(time)
 			
 			if visualizer and UserSettings.user_settings.visualizer_enabled:
 				visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
@@ -268,6 +268,7 @@ func set_velocity(value: float, correction: bool):
 		add_pitch_effect()
 	else:
 		remove_pitch_effect()
+	video_player.playback_speed = playback_speed
 	
 func add_pitch_effect():
 	HBGame.spectrum_analyzer.connect_to_effect(pitch_shift_effect)
