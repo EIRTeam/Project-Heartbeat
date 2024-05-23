@@ -49,6 +49,8 @@ func _redraw_items():
 	var start_time = current_song.start_time / 1000.0
 	var end_time = game_info.result._song_end_time / 1000.0
 	var duration = end_time - start_time
+	if duration <= 0.0:
+		return
 	var wii = (visible_layers / float(visible_layers))
 	var y_pos_max = (float(size.y) * wii)
 	var off_y = (size.y - y_pos_max) / 2.0 + CIRCLE_SIZE / 2.0

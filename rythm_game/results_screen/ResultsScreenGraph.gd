@@ -14,13 +14,6 @@ const fnt = preload("res://fonts/Roboto-Black.ttf")
 @onready var point_nodes_node = get_node("PointNodes")
 
 var points = [
-	Vector2(0, 10),
-	Vector2(10, 20),
-	Vector2(20, 30),
-	Vector2(30, 30),
-	Vector2(50, 50),
-	Vector2(60, 80),
-	Vector2(100, 90),
 ] : set = set_points
 
 var dots = [
@@ -89,6 +82,8 @@ func _draw():
 		colors.append(col)
 		_draw_points_internal[i] = val_to_rect_pos(_draw_points_internal[i])
 		max_x = max(max_x, _draw_points_internal[i].x)
+	if max_x == 0:
+		return
 	_draw_points_internal.append(Vector2(max_x, size.y))
 	_draw_points_internal.append(Vector2(0, size.y))
 	var col_w = Color.POWDER_BLUE
