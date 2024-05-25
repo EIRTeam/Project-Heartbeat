@@ -115,6 +115,8 @@ func pause():
 	update_progress_bar()
 	quit_confirmation.hide()
 	if not get_tree().paused:
+		if not video_player.is_playing():
+			video_player.play()
 		video_player.set_stream_position(game.time_msec / 1000.0)
 		video_debounce_seek_timer.stop()
 	#quit_confirmation.release_focus()
@@ -138,6 +140,8 @@ func pause():
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
+		if not video_player.is_playing():
+			video_player.play()
 		video_player.set_stream_position(game.time_msec / 1000.0)
 
 
@@ -290,6 +294,8 @@ func update_time_label():
 	section_seek_time_label.text = "%s/%s" % [time_str, song_length_str]
 
 func _on_seek_video_debounce_ended():
+	if not video_player.is_playing():
+		video_player.play()
 	video_player.set_stream_position(video_debounce_seek_time)
 	
 
