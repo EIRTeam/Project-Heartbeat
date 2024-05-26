@@ -332,12 +332,19 @@ func upload_result(song: HBSong, game_info: HBGameInfo):
 	request.game_info = game_info_dict
 	return make_request("/api/leaderboard/enter-result", request, HTTPClient.METHOD_POST, REQUEST_TYPE.ENTER_RESULT, { "song": song })
 
-func _convert_note_ratings(data_dict: Dictionary):
-	var out_dict = {}
-	for rating_name in data_dict:
-		for key in HBJudge.JUDGE_RATINGS:
-			if key.to_lower() == rating_name.to_lower():
-				out_dict[str(HBJudge.JUDGE_RATINGS[key])] = data_dict[rating_name]
+func _convert_web_note_ratings(dict: Dictionary) -> Dictionary:
+	var out_dict := {}
+	const RATING_MAP := {
+		"Cool": HBJudge.JUDGE_RATINGS.COOL,
+		"Fine": HBJudge.JUDGE_RATINGS.FINE,
+		"Sad": HBJudge.JUDGE_RATINGS.SAD,
+		"Safe": HBJudge.JUDGE_RATINGS.SAFE,
+		"Worst": HBJudge.JUDGE_RATINGS.WORST
+	}
+	for rating in RATING_MAP:
+		if rating in dict:
+			out_dict[RATING_MAP[rating]] = dict[rating]
+			
 	return out_dict
 	
 func _on_user_song_history_received(result: Dictionary, params):
@@ -346,20 +353,11 @@ func _on_user_song_history_received(result: Dictionary, params):
 		entry = entry.get("entry", {})
 		var entry_data := entry.get("entry_data") as Dictionary
 		var entry_result := entry_data.get("result", {}) as Dictionary
-		const RATING_MAP := {
-			"Cool": HBJudge.JUDGE_RATINGS.COOL,
-			"Fine": HBJudge.JUDGE_RATINGS.FINE,
-			"Sad": HBJudge.JUDGE_RATINGS.SAD,
-			"Safe": HBJudge.JUDGE_RATINGS.SAFE,
-			"Worst": HBJudge.JUDGE_RATINGS.WORST
-		}
-		var note_ratings_copy := (entry_result.get("note_ratings", {}) as Dictionary).duplicate()
-		var note_ratings := (entry_result.get("note_ratings", {}) as Dictionary)
-		note_ratings.clear()
-		for rating in note_ratings_copy:
-			if rating in RATING_MAP:
-				note_ratings[RATING_MAP[rating]] = note_ratings_copy[rating]
-		if not note_ratings.size() == HBJudge.JUDGE_RATINGS.size():
+
+		entry_result["note_ratings"] = _convert_web_note_ratings(entry_result.get("note_ratings", {}) as Dictionary)
+		entry_result["wrong_note_ratings"] = _convert_web_note_ratings(entry_result.get("wrong_note_ratings", {}) as Dictionary)
+		if not entry_result.get("note_ratings", {}).size() == HBJudge.JUDGE_RATINGS.size():
+			printerr("Skipping song with wrong note rating count, bug??", entry_result)
 			continue
 		var game_info := HBSerializable.deserialize(entry_data) as HBGameInfo
 		if not game_info:
@@ -374,8 +372,8 @@ func _on_entries_received(result, params):
 	for item in result.leaderboard_entries:
 		var entry_data = item.entry.entry_data
 		var rank = item.rank
-		entry_data.result.note_ratings = _convert_note_ratings(entry_data.result.note_ratings)
-		entry_data.result.wrong_note_ratings = _convert_note_ratings(entry_data.result.wrong_note_ratings)
+		entry_data.result.note_ratings = _convert_web_note_ratings(entry_data.result.note_ratings)
+		entry_data.result.wrong_note_ratings = _convert_web_note_ratings(entry_data.result.wrong_note_ratings)
 		var game_info = HBGameInfo.deserialize(entry_data)
 		
 		for user in result.users:
