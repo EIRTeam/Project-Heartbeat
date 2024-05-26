@@ -352,6 +352,9 @@ func _notification(what: int):
 			if not note_drawer.is_queued_for_deletion():
 				note_drawer.queue_free()
 		note_drawers.clear()
+		if laser_renderer:
+			laser_renderer.queue_free()
+			laser_renderer = null
 
 # Called by editor, resets all group info
 func reset_group():
