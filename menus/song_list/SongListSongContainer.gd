@@ -162,19 +162,15 @@ func update_items():
 		item.set_folder(subfolder)
 		item_container.add_child(item)
 		
-	sort_by_prop = current_folder.sort_mode
-	
 	var folder_songs = []
 	
 	for song_id in current_folder.songs:
 		if song_id in SongLoader.songs:
 			folder_songs.append(SongLoader.songs[song_id])
-	var old_sort_by_mode = sort_by_prop
-	sort_by_prop = current_folder.sort_mode
 	folder_songs.sort_custom(Callable(self, "sort_array"))
-	sort_by_prop = old_sort_by_mode
-		
 	for song in folder_songs:
+		if UserSettings.user_settings.filter_has_media and not song.is_cached():
+			continue
 		for field in [song.title.to_lower(), song.original_title.to_lower(), song.romanized_title.to_lower()]:
 			if search_term.is_empty() or search_term in field:
 				var item = _create_song_item(song)
@@ -185,7 +181,7 @@ func update_items():
 	if selected_index_stack:
 		prev_selected_item = selected_index_stack[-1]
 	
-	select_item(prev_selected_item)
+	select_item(min(prev_selected_item, item_container.get_child_count()-1))
 	force_scroll()
 #	hard_arrange_all()
 	UserSettings.user_settings.last_folder_path = []

@@ -112,12 +112,15 @@ func _on_ugc_song_meta_updated():
 		song_container.set_songs(SongLoader.songs.values(), null, null, true)
 	
 func set_sort(sort_by):
+	song_container.sort_by_prop = sort_by
+	UserSettings.save_user_settings()
+	if UserSettings.user_settings.filter_mode == "folders":
+		song_container.update_items()
+		return
 	if UserSettings.user_settings.filter_mode == "workshop":
 		UserSettings.user_settings.workshop_tab_sort_mode = sort_by
 	else:
 		UserSettings.user_settings.sort_mode = sort_by
-	UserSettings.save_user_settings()
-	song_container.sort_by_prop = sort_by
 	song_container.set_songs(SongLoader.songs.values(), null, null, true)
 	update_sort_label(sort_by)
 func update_sort_label(sort_by):
@@ -144,8 +147,12 @@ func _on_menu_exit(force_hard_transition = false):
 func set_media_checkbox(pressed: bool):
 	UserSettings.user_settings.filter_has_media = pressed
 	UserSettings.save_user_settings()
-	song_container.set_songs(SongLoader.songs.values(), null, null, true)
+	if UserSettings.user_settings.filter_mode == "folders":
+		song_container.update_items()
+	else:
+		song_container.set_songs(SongLoader.songs.values(), null, null, true)
 	has_media_filter_texture_rect.visible = pressed
+
 func _ready():
 	super._ready()
 	has_media_checkbox.connect("toggled", Callable(self, "set_media_checkbox"))
