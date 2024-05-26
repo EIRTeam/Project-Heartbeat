@@ -515,7 +515,7 @@ func run_script(script_path: String):
 	var err := FileAccess.get_open_error()
 
 	if err == OK:
-		var script = GDScript.new()
+		var script: Script = GDScript.new()
 		script.source_code = file.get_as_text()
 		
 		var reload_err = script.reload()
@@ -530,7 +530,7 @@ func run_script(script_path: String):
 			else:
 				print("Script returned %d, aborting..." % [result])
 		else:
-			prints("Error instancing script,", reload_err)
+			prints("Error instantiating script,", reload_err)
 	else:
 		prints("Error loading script", err)
 
