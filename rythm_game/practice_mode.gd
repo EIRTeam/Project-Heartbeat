@@ -119,6 +119,7 @@ func pause():
 			video_player.play()
 		video_player.set_stream_position(game.time_msec / 1000.0)
 		video_debounce_seek_timer.stop()
+		go_to_time(game.time_msec)
 	#quit_confirmation.release_focus()
 	
 	if get_tree().paused:
