@@ -552,7 +552,10 @@ func audio_exists(video_id):
 ## Starts threaded video download immediately
 func download_video(entry: CachingQueueEntry):
 	var variant = entry.song.get_variant_data(entry.variant)
-	var download_video = entry.song.use_youtube_for_video and not variant.audio_only
+	var download_video: bool = entry.song.use_youtube_for_video and not variant.audio_only
+	if UserSettings.user_settings.per_song_settings.has(entry.song.id):
+		var song_meta := UserSettings.user_settings.per_song_settings[entry.song.id] as HBPerSongSettings
+		download_video = download_video and song_meta.video_enabled
 	var download_audio = entry.song.use_youtube_for_audio
 	var song := entry.song
 	var thread = Thread.new()

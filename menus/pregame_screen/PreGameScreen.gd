@@ -143,13 +143,12 @@ func _on_StartButton_pressed():
 	var selected_variant = -1
 	if variant_select:
 		selected_variant = variant_select.value
-		if selected_variant != -1:
-			if not current_song.is_cached(selected_variant):
-				MouseTrap.cache_song_overlay.show_download_prompt(current_song, selected_variant, true)
-				return
 		var stats = HBGame.song_stats.get_song_stats(current_song.id)
 		stats.selected_variant = selected_variant
 		HBGame.song_stats.song_stats[current_song.id] = stats
+	if not current_song.is_cached(selected_variant):
+		MouseTrap.cache_song_overlay.show_download_prompt(current_song, selected_variant, true)
+		return
 	game_info.variant = selected_variant
 	
 	var new_scene = preload("res://menus/LoadingScreen.tscn")

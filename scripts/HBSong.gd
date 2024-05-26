@@ -165,7 +165,12 @@ func get_meta_path():
 func has_video_enabled():
 	if HBGame.platform_settings is HBPlatformSettingsSwitch:
 		return false
-	return not UserSettings.user_settings.disable_video
+	var video_enabled: bool = not UserSettings.user_settings.disable_video
+	if video_enabled:
+		if UserSettings.user_settings.per_song_settings.has(id):
+			var song_meta := UserSettings.user_settings.per_song_settings[id] as HBPerSongSettings
+			video_enabled = video_enabled and song_meta.video_enabled
+	return video_enabled
 		
 func is_cached(variant=-1):
 	var use_video = use_youtube_for_video
