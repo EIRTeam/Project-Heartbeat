@@ -64,7 +64,6 @@ func _ready():
 	game.connect("note_judged", Callable(self, "_on_note_judged"))
 	quit_confirmation.connect("accept", Callable(Diagnostics.gamepad_visualizer, "hide"))
 	quit_confirmation.connect("accept", Callable(self, "_on_PauseMenu_quit"))
-	quit_confirmation.connect("accept", Callable(song_settings_editor, "toggle_input"))
 	quit_confirmation.connect("cancel", Callable(song_settings_editor, "toggle_input"))
 	update_stats_label()
 	practice_seek_gui.hide()
