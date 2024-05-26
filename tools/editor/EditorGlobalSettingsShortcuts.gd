@@ -201,8 +201,6 @@ const CONFLICT_FREE_GROUPS := [
 var folded := {}
 
 func _ready():
-	set_process_input(false)
-	
 	# Set up tree
 	tree.set_column_expand(0, true)
 	tree.set_column_expand(1, true)
@@ -219,7 +217,7 @@ func _ready():
 		folded[category] = true
 	
 	bind_window.connect("confirmed", Callable(self, "_on_bind_window_confirmed"))
-	bind_window.get_cancel_button().connect("pressed", Callable(self, "set_process_input").bind(false))
+	bind_window.get_cancel_button().pressed.connect(self.set_intercept_window_inputs.bind(false))
 	
 	reset_confirmation_dialog.connect("confirmed", Callable(self, "_reset_impl"))
 	reset_all_confirmation_dialog.connect("confirmed", Callable(self, "reset_all_to_default"))
@@ -232,6 +230,13 @@ func _ready():
 	conflict_dialog.connect("custom_action", Callable(self, "_on_conflict_resolution_selected"))
 	
 	populate()
+
+func set_intercept_window_inputs(intercept_window_inputs: bool):
+	var window := bind_window
+	if window.window_input.is_connected(self._on_window_input):
+		window.window_input.disconnect(self._on_window_input)
+	if intercept_window_inputs:
+		window.window_input.connect(self._on_window_input)
 
 func get_action_text(action) -> String:
 	if action in UserSettings.action_names:
@@ -346,7 +351,7 @@ func _on_item_collapsed(item: TreeItem):
 var selected_item: TreeItem
 func popup_binding_window(item: TreeItem):
 	bind_window.popup_centered()
-	set_process_input(true)
+	set_intercept_window_inputs(true)
 	
 	selected_item = item
 	
@@ -364,7 +369,7 @@ func popup_binding_window(item: TreeItem):
 
 var mapping_conflicts := []
 func _on_bind_window_confirmed():
-	set_process_input(false)
+	set_intercept_window_inputs(false)
 	
 	if mapping_conflicts:
 		conflict_list.clear()
@@ -376,7 +381,9 @@ func _on_bind_window_confirmed():
 		conflict_dialog.popup_centered()
 		return
 	
-	if temp_event and selected_item:
+	var is_temp_event_valid := (temp_event.keycode != 0 if temp_event is InputEventKey else temp_event) as bool
+	
+	if temp_event and is_temp_event_valid and selected_item:
 		var action_name: String = selected_item.get_meta("action_name")
 		
 		if selected_item.get_meta("matches_event", false):
@@ -437,7 +444,7 @@ func set_temp_event(event: InputEvent):
 	
 	combination_label.text = text
 
-func _input(event):
+func _on_window_input(event):
 	if event is InputEventKey:
 		if event.is_pressed():
 			get_viewport().set_input_as_handled()
@@ -445,8 +452,8 @@ func _input(event):
 	elif event is InputEventMouseButton:
 		# I wanna KMS
 		if event.is_pressed() \
-		   and not bind_window.get_ok_button().get_global_rect().has_point(get_global_mouse_position()) \
-		   and not bind_window.get_cancel_button().get_global_rect().has_point(get_global_mouse_position()):
+		   and not bind_window.get_ok_button().get_global_rect().has_point(bind_window.get_mouse_position()) \
+		   and not bind_window.get_cancel_button().get_global_rect().has_point(bind_window.get_mouse_position()):
 			set_temp_event(event)
 
 func erase_shortcut(item: TreeItem):
@@ -483,11 +490,17 @@ func _reset_impl():
 func reset_action(action_name: String):
 	var event_list = InputMap.action_get_events(action_name)
 	
-	for event in event_list:
+	for i in range(event_list.size()-1, -1, -1):
+		var event := event_list[i] as InputEvent
 		if not event is InputEventWithModifiers:
 			continue
 		
-		InputMap.action_erase_event(action_name, event)
+		event_list.remove_at(i)
+	
+	InputMap.action_erase_events(action_name)
+	
+	for event in event_list:
+		InputMap.action_add_event(action_name, event)
 	
 	if not UserSettings.base_input_map.has(action_name):
 		return
