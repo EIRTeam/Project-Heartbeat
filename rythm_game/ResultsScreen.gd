@@ -15,7 +15,7 @@ var game_info : HBGameInfo: set = set_game_info
 @onready var skip_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/SkipButton")
 @onready var no_opinion_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/NoOpinionButton")
 @onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
-@onready var share_on_twitter_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/ShareOnTwitterButton")
+@onready var copy_result_url_button = get_node("%CopyResultURLButton")
 @onready var error_window = get_node("HBConfirmationWindow")
 
 signal show_song_results(song_id, difficulty)
@@ -36,6 +36,7 @@ func custom_sort_mp_entries(a: HBBackend.BackendLeaderboardEntry, b: HBBackend.B
 	return b.game_info.result.score > b.game_info.result.score
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
+	copy_result_url_button.hide()
 	results_tab.prev_result = null
 	results_tab.experience_gain = null
 	buttons.grab_focus()
@@ -90,7 +91,7 @@ func _ready():
 	tabbed_container.add_tab("graph", tr("Graph"), chart_tab)
 	return_button.connect("pressed", Callable(self, "_on_return_button_pressed"))
 	retry_button.connect("pressed", Callable(self, "_on_retry_button_pressed"))
-	share_on_twitter_button.connect("pressed", Callable(self, "_on_share_on_twitter_pressed"))
+	copy_result_url_button.pressed.connect(self._on_copy_result_url_button_pressed)
 	if PlatformService.service_provider.implements_ugc:
 		var rate_buttons = [upvote_button, downvote_button, skip_button, no_opinion_button]
 		for button in rate_buttons:
@@ -99,19 +100,17 @@ func _ready():
 		upvote_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.UPVOTE))
 		downvote_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.DOWNVOTE))
 		skip_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.SKIP))
-func _on_share_on_twitter_pressed():
-	var song = SongLoader.songs[game_info.song_id] as HBSong
-	var result_pretty = HBUtils.thousands_sep(game_info.result.score)
-	var percentage_pretty := "%.2f" % [game_info.result.get_percentage() * 100.0]
-	var tweet_message = tr("I just obtained {score} ({percentage} %%25) points in {song_title} in @PHeartbeatGame!", &"Results screen share tweet contents").format({
-		"score": result_pretty,
-		"percentage": percentage_pretty,
-		"song_title": song.get_visible_title()
-	})
-	if score_web_id != -1:
-		tweet_message += "https://ph.eirteam.moe/score/%d" % [score_web_id]
+
+func _on_copy_result_url_button_pressed():
+	const PROGRESS_THING := preload("res://autoloads/DownloadProgressThing.tscn")
+	var progress_thing: HBDownloadProgressThing = PROGRESS_THING.instantiate()
+	progress_thing.type = HBDownloadProgressThing.TYPE.SUCCESS
+	progress_thing.text = tr("Score URL copied to clipboard!")
+	progress_thing.life_timer = 2.0
+	DownloadProgress.add_notification(progress_thing)
 	
-	OS.shell_open("https://twitter.com/intent/tweet?text=%s&hashtags=ProjectHeartbeat" % [tweet_message])
+	var url := "https://ph.eirteam.moe/score/%d" % [score_web_id]
+	DisplayServer.clipboard_set(url)
 
 func _on_vote_button_pressed(vote):
 	if PlatformService.service_provider.implements_ugc:
@@ -119,7 +118,6 @@ func _on_vote_button_pressed(vote):
 		ugc.set_user_item_vote(current_song.ugc_id, vote)
 	
 func _on_retry_button_pressed():
-	
 	var new_scene = preload("res://menus/LoadingScreen.tscn")
 	game_info.time = Time.get_unix_time_from_system()
 	var scene = new_scene.instantiate()
@@ -216,6 +214,8 @@ func _on_score_uploaded(result: HBBackend.LeaderboardScoreUploadedResult):
 	score_web_id = result.score_id
 	results_tab.experience_gain = result.experience_gain_breakdown
 	HBBackend.refresh_user_info()
+	if score_web_id != -1:
+		copy_result_url_button.show()
 	
 func _on_score_upload_failed(reason):
 	error_window.text = tr("There was an issue uploading your score:\n%s" % [reason])

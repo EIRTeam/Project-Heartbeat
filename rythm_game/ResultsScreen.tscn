@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://batn8iey4yeus"]
+[gd_scene load_steps=14 format=3 uid="uid://batn8iey4yeus"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
@@ -8,7 +8,6 @@
 [ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="8"]
 [ext_resource type="Texture2D" uid="uid://crfv6jol2l5x3" path="res://graphics/icons/thumb-down.svg" id="9"]
 [ext_resource type="Texture2D" uid="uid://84w02fe36br2" path="res://graphics/icons/thumb-up.svg" id="10"]
-[ext_resource type="Texture2D" uid="uid://j24c3y62014l" path="res://graphics/icons/twitter.svg" id="11"]
 [ext_resource type="Script" path="res://rythm_game/ResultsScreen.gd" id="12"]
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://u7xd1sepbnm5" path="res://menus/tabbed_container/TabbedContainer.tscn" id="14"]
@@ -126,12 +125,12 @@ script = ExtResource("5")
 normal_style = ExtResource("8")
 hover_style = SubResource("4")
 
-[node name="ShareOnTwitterButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+[node name="CopyResultURLButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
 theme_override_styles/normal = ExtResource("8")
-text = "Share"
-icon = ExtResource("11")
+text = "Copy Result URL"
 script = ExtResource("5")
 normal_style = ExtResource("8")
 hover_style = SubResource("4")
