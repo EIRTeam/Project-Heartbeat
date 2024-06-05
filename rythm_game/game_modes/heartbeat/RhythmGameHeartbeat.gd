@@ -179,15 +179,16 @@ func _process_input(event):
 			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
 				if not event.event_uid in held_note_event_map[type]:
 					held_note_event_map[type].append(event.event_uid)
+		_hold_process(event.game_time / 1000)
 	super._process_input(event)
 
-func _on_unhandled_action_release(action, event_uid):
+func _on_unhandled_action_release(action, event_uid, game_time):
 	for note_type in held_notes:
 		if event_uid in held_note_event_map[note_type]:
 			if action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
 				held_note_event_map[note_type].erase(event_uid)
 				if held_note_event_map[note_type].size() <= 0:
-					hold_release()
+					hold_release_subtick(game_time / 1000)
 					emit_signal("hold_released_early")
 					break
 
@@ -219,21 +220,15 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 func show_slide_hold_score(piece_position, accumulated_score, is_end):
 	emit_signal("shown_slide_hold_score", piece_position, accumulated_score, is_end)
 
-func _pre_process_game():
-	super._pre_process_game()
-	# Hold combo increasing and shit
+func _update_current_hold_score(game_time_msec: int):
 	if held_notes.size() > 0:
 		var max_time = current_hold_start_time + MAX_HOLD
-		var curr_hold_time = min(time_msec, max_time)
+		var curr_hold_time = min(game_time_msec, max_time)
 		current_hold_score = max(((curr_hold_time - current_hold_start_time)) * held_notes.size(), 0)
-		if time_msec >= max_time:
-			current_hold_score = int(current_hold_score + accumulated_hold_score)
-			emit_signal("max_hold")
-			emit_signal("hold_score_changed", accumulated_hold_score + current_hold_score + MAX_HOLD)
-			hold_release()
-			add_hold_score(MAX_HOLD)
-		else:
-			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
+
+func _pre_process_game():
+	super._pre_process_game()
+
 
 func _process_game(_delta):
 	super._process_game(_delta)
@@ -244,6 +239,21 @@ func _process_game(_delta):
 			result.used_cheats = true
 			Log.log(self, "Disabling leaderboard upload for cheated result")
 	_processed_event_uids = []
+	
+	_hold_process(time_msec)
+func _hold_process(game_time_msec: int):
+	# Hold combo increasing and shit
+	if held_notes.size() > 0:
+		var max_time = current_hold_start_time + MAX_HOLD
+		_update_current_hold_score(game_time_msec)
+		if game_time_msec >= max_time:
+			current_hold_score = int(current_hold_score + accumulated_hold_score)
+			emit_signal("max_hold")
+			emit_signal("hold_score_changed", accumulated_hold_score + current_hold_score + MAX_HOLD)
+			hold_release()
+			add_hold_score(MAX_HOLD)
+		else:
+			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
 
 func remove_health():
 	var old_health := health

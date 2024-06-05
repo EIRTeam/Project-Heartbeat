@@ -28,6 +28,8 @@ var result = HBResult.new()
 var judge = preload("res://rythm_game/judge.gd").new()
 var time_usec: int
 var time_msec: int:
+	set(val):
+		time_usec = val * 1000 
 	get:
 		return time_usec / 1000
 var current_combo = 0
@@ -577,6 +579,8 @@ func _pre_process_game():
 	if (not editing or previewing) and audio_playback:
 		time_usec = audio_playback.get_playback_position_nsec() / 1000
 		time_usec -= latency_compensation * 1000
+		time_usec = max(prev_time_usec, time_usec)
+		
 
 		if not editing:
 			var end_time = audio_playback.get_length_msec() + audio_playback.offset
@@ -634,8 +638,9 @@ func pause_game():
 	
 	if voice_audio_playback:
 		voice_audio_playback.stop()
-
+		
 func resume():
+	game_input_manager.flush_inputs(time_usec, time_usec, time_usec)
 	start()
 func seek(position: int):
 	if audio_playback:

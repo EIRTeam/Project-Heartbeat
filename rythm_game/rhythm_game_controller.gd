@@ -255,6 +255,7 @@ func set_game_size():
 
 func _on_resumed():
 	UserSettings.enable_menu_fps_limits = false
+	game.resume()
 	get_tree().paused = false
 	$PauseMenu.hide()
 	game.game_input_manager.set_process_input(true)
