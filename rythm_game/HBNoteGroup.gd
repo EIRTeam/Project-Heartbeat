@@ -82,7 +82,8 @@ func update_multi_note_renderer():
 		laser_renderer.show()
 
 func is_slide_only_group() -> bool:
-	for note: HBNoteData in note_datas:
+	for note_c in note_datas:
+		var note := note_c as HBNoteData
 		if not note:
 			return false
 		if not note.is_slide_note():
