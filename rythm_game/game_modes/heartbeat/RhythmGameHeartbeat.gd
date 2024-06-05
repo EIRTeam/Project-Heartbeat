@@ -327,6 +327,16 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 			result._combo_break_points.append(point)
 		result._percentage_graph.append(point)
 		result._song_end_time = end_time
+		
+		
+		for judgement in judgements:
+			var ev := judgement.input_event as InputEventHB
+			if ev:
+				var hit_time := ev.game_time / 1000
+				result._hit_times.push_back(judgement_target_time)
+				result._hit_judgements.push_back(final_judgement)
+				result._hit_time_offsets.push_back(clamp(hit_time - judgement_target_time, -128, 128))
+		
 
 func restart():
 	hold_release()

@@ -31,6 +31,7 @@ var score_web_id := -1
 @onready var tabbed_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/TabbedContainer")
 @onready var results_tab: HBResultsScreenResultTab = preload("res://rythm_game/results_screen/ResultsScreenResultTab.tscn").instantiate()
 @onready var chart_tab = preload("res://rythm_game/results_screen/ResultsScreenGraphTab.tscn").instantiate()
+@onready var stats_tab: HBResultsScreenStatsTab = preload("res://rythm_game/results_screen/ResultsScreenStatsTab.tscn").instantiate()
 
 func custom_sort_mp_entries(a: HBBackend.BackendLeaderboardEntry, b: HBBackend.BackendLeaderboardEntry):
 	return b.game_info.result.score > b.game_info.result.score
@@ -88,6 +89,7 @@ func _ready():
 	ScoreHistory.connect("score_upload_failed", Callable(self, "_on_score_upload_failed"))
 	var values = HBJudge.JUDGE_RATINGS.values()
 	tabbed_container.add_tab("results", tr("Results"), results_tab)
+	tabbed_container.add_tab("stats", tr("Accuracy"), stats_tab)
 	tabbed_container.add_tab("graph", tr("Graph"), chart_tab)
 	return_button.connect("pressed", Callable(self, "_on_return_button_pressed"))
 	retry_button.connect("pressed", Callable(self, "_on_retry_button_pressed"))
@@ -137,6 +139,9 @@ func set_game_info(val: HBGameInfo):
 	game_info = val
 	chart_tab.set_game_info(val)
 	var result = game_info.result as HBResult
+	
+	stats_tab.result = result
+	stats_tab.song = game_info.get_song()
 	
 	var previous_entry := ScoreHistory.get_data(game_info.song_id, game_info.difficulty)
 	

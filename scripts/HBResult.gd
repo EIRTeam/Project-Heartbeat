@@ -14,11 +14,14 @@ var max_combo := 0
 var total_notes := 0
 var notes_hit := 0
 var max_score := 1
-var failed := false # if user failed, currently unused
-var used_cheats := false # if user used autoplay
+var failed := false
+var used_cheats := false # if user used autoplaye
 
 var _percentage_graph = []
 var _combo_break_points = []
+var _hit_time_offsets := PackedFloat32Array()
+var _hit_judgements := PackedByteArray()
+var _hit_times := PackedInt32Array()
 var _song_end_time = -1.0
 
 var note_ratings = {

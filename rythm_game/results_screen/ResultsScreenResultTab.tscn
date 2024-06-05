@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=4 uid="uid://b8speakm7hc8h"]
+[gd_scene load_steps=8 format=3 uid="uid://b8speakm7hc8h"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
 [ext_resource type="Script" path="res://rythm_game/results_screen/RatingResultsDisplay.gd" id="3_bmra6"]
+[ext_resource type="PackedScene" uid="uid://cjjhnnhow7e2e" path="res://menus/new_leaderboard_control/LeaderboardItem.tscn" id="4_dxjw0"]
 [ext_resource type="PackedScene" uid="uid://cj2kb1mby645f" path="res://rythm_game/results_screen/ResultsScreenScoreInfoDisplay.tscn" id="4_t8pfl"]
 [ext_resource type="PackedScene" uid="uid://dnppdwihquoxv" path="res://rythm_game/results_screen/NoteHitTotalsDisplay.tscn" id="5_l60sv"]
 [ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenResultTab.gd" id="6"]
@@ -35,26 +36,34 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 15
 
-[node name="Panel" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("3")
 
-[node name="RatingResultsContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel"]
+[node name="RatingResultsContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/VBoxContainer2/Panel"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 script = ExtResource("3_bmra6")
 
-[node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("3")
 
-[node name="ScoreInfoDisplay" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2" instance=ExtResource("4_t8pfl")]
+[node name="ScoreInfoDisplay" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/VBoxContainer/Panel2" instance=ExtResource("4_t8pfl")]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -64,13 +73,35 @@ theme_override_constants/separation = 15
 
 [node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("3")
 
 [node name="NoteHitTotalsContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2" instance=ExtResource("5_l60sv")]
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Panel3" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme_override_styles/panel = ExtResource("3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel3"]
+layout_mode = 2
+
+[node name="NewLeaderboardItem" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel3/VBoxContainer" instance=ExtResource("4_dxjw0")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NewLeaderboardItem2" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel3/VBoxContainer" instance=ExtResource("4_dxjw0")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NewLeaderboardItem3" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel3/VBoxContainer" instance=ExtResource("4_dxjw0")]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="ExperienceInfoContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2" instance=ExtResource("7_afo2l")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
