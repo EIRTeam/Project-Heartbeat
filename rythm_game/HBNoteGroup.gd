@@ -33,6 +33,8 @@ var center = Vector2.ZERO
 
 var last_laser_positions := {}
 
+var slide_wrong_deferred := false
+
 func _point_sort(a, b):
 	if (a.x - center.x >= 0 && b.x - center.x < 0):
 		return true;
@@ -78,6 +80,14 @@ func update_multi_note_renderer():
 		laser_renderer.positions = points
 		laser_renderer.width_scale = 1.0
 		laser_renderer.show()
+
+func is_slide_only_group() -> bool:
+	for note: HBNoteData in note_datas:
+		if not note:
+			return false
+		if not note.is_slide_note():
+			return false
+	return true
 
 # Returns true if the group is done
 func process_group(time_usec: int) -> bool:
@@ -167,7 +177,7 @@ func process_input(event: InputEventHB) -> bool:
 				if not is_analog_note:
 					non_analog_note_count += 1
 		if non_analog_note_count > 0 and non_analog_note_input_count > note_datas.size():
-			_on_wrong()
+			_on_wrong(event)
 			game._play_empty_note_sound(event)
 			return true
 	
@@ -198,7 +208,10 @@ func process_input(event: InputEventHB) -> bool:
 		if not input_was_consumed_by_note and is_input_in_range:
 			if not heart_bypass_hack and not single_in_multi_wrong_bypass:
 				# we got a wrong, pass it to the game
-				_on_wrong()
+				if is_slide_only_group():
+					slide_wrong_deferred = true
+				else:
+					_on_wrong(event)
 				game._play_empty_note_sound(event)
 				input_was_consumed_by_note = true
 	
@@ -238,11 +251,11 @@ func calculate_judgement(judgement_infos: Array) -> int:
 		return HBJudge.JUDGE_RATINGS.COOL
 	return -1
 		
-func _on_wrong():
+func _on_wrong(input_event: InputEventHB):
 	for judgement in note_judgement_infos.values():
 		judgement.wrong = true
 	# Calculate the "average" judgement (see calculate_judgement above)
-	var final_judgement := game.judge.judge_note_usec(game.time_usec, note_datas[0].time * 1000) as int
+	var final_judgement := game.judge.judge_note_usec(input_event.game_time, note_datas[0].time * 1000) as int
 	if note_judgement_infos.size() > 0:
 		var c := calculate_judgement(note_judgement_infos.values())
 		if c != -1:
@@ -256,6 +269,7 @@ func _on_wrong():
 			note_judgement_info.note_data = note
 			note_judgement_info.time_msec = current_time_usec / 1000
 			note_judgement_info.judgement = final_judgement
+			note_judgement_info.input_event = input_event
 			note_judgement_infos[note] = note_judgement_info
 		_on_note_finished(note)
 	notes_judged.emit(final_judgement, note_judgement_infos.values(), get_hit_time_msec(), true)
@@ -297,7 +311,10 @@ func _on_note_judged(judgement: int, independent: bool, judgement_target_time: i
 				game.add_score(HBNoteData.NOTE_SCORES[multi_judgement])
 				for note_drawer in note_drawers.values():
 					note_drawer._on_multi_note_judged(multi_judgement)
-			notes_judged.emit(multi_judgement, note_judgement_infos.values(), get_hit_time_msec(), false)
+			var wrong := false
+			if slide_wrong_deferred and multi_judgement == HBJudge.JUDGE_RATINGS.WORST:
+				wrong = true
+			notes_judged.emit(multi_judgement, note_judgement_infos.values(), get_hit_time_msec(), wrong)
 	else:
 		notes_judged.emit(judgement, [judgement_info], judgement_target_time, false)
 
@@ -359,6 +376,7 @@ func _notification(what: int):
 # Called by editor, resets all group info
 func reset_group():
 	finished_notes.clear()
+	slide_wrong_deferred = false
 	for note_drawer in note_drawers.values():
 		if not note_drawer.is_queued_for_deletion():
 			note_drawer.queue_free()
