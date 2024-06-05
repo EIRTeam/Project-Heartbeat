@@ -2,7 +2,7 @@ extends HBGameInputManager
 
 class_name HeartbeatInputManager
 
-signal unhandled_release(event, event_uid)
+signal unhandled_release(event, event_uid, game_time_usec: int)
 
 var digital_action_tracking = {}
 
@@ -19,8 +19,32 @@ var current_event: InputEvent # Current event being converted to action
 var current_actions: Array = []
 var last_axis_values = {}
 
+const LOG_LOCATION := "user://input_log.txt"
+var should_log_input := "--ph-log-input" in OS.get_cmdline_args()
+
+var log_file: FileAccess
+
+const EVENT_TIMESTAMP_META_KEY := &"event_timestamp"
+
+var _buffered_replay_events: Array[HBReplayEvent]
+class UnhandledRelease:
+	var action: String
+	var timestamp: int
+	var event_uid: int
+var _buffered_unhandled_releases: Array[UnhandledRelease]
+
 func _ready() -> void:
+	super._ready()
 	Input.joy_connection_changed.connect(self._on_joy_connection_changed)
+	if should_log_input:
+		log_file = FileAccess.open(LOG_LOCATION, FileAccess.WRITE)
+
+func send_input(action, pressed, source_event: HBReplayEvent, count = 1, event_uid=0b0, current_actions=[], timestamp := -1):
+	super.send_input(action, pressed, source_event, count, event_uid, current_actions, timestamp)
+
+	if log_file:
+		log_file.store_line("Game event: %s (%s) %d event uid: %X pressed: %s" % [action, str(current_actions), count, event_uid, "yes" if pressed else "no"])
+		log_file.flush()
 
 class JoypadDeviceData:
 	var device_idx := 0
@@ -59,6 +83,7 @@ func reset():
 	last_axis_values = {}
 	current_actions = []
 	digital_action_tracking = {}
+	_buffered_unhandled_releases = []
 	
 
 func get_action_press_count(action):
@@ -149,8 +174,14 @@ class ProcessedAnalogInputEvent:
 	var used_extrapolation := false
 	var pressed := false
 	var timestamp: int
+	func apply_to_replay_event(replay_event: HBReplayEvent):
+		# MUST be used after HeartbeatJoystickData.apply_to_replay_event
+		if pressed:
+			replay_event.press_actions |= HBJoystickData.event_state_to_bitfield(action)
+		else:
+			replay_event.release_actions |= HBJoystickData.event_state_to_bitfield(action)
 
-func process_joystick_events(joystick: HBJoystickData) -> Array[ProcessedAnalogInputEvent]:
+func process_joystick_events(joystick: HBJoystickData, out_replay_events: Array[HBReplayEvent]) -> Array[ProcessedAnalogInputEvent]:
 	var merged_events := joystick.merge_events()
 	var out_merged_events: Array[ProcessedAnalogInputEvent]
 	var debug_w := joystick.get_meta("debug_w") as HBAnalogInputProcessorDebug
@@ -162,16 +193,22 @@ func process_joystick_events(joystick: HBJoystickData) -> Array[ProcessedAnalogI
 		if event.axises & HBJoystickData.AXIS_BITFIELD.Y:
 			joystick.joy_value.y = event.value.y
 		debug_w.display_input(joystick.joy_value)
+		
 		var just_hearted := false
 		var heart_just_released := false
 		var heart_release_event: ProcessedAnalogInputEvent
 		var heart_press_event: ProcessedAnalogInputEvent
 		var deadzone_inner: float = UserSettings.user_settings.direct_joystick_deadzone - 0.1
 		var deadzone_outer: float = UserSettings.user_settings.direct_joystick_deadzone
+		var pushed_event := false
+		var replay_event := HBReplayEvent.new()
+		replay_event.set_meta(EVENT_TIMESTAMP_META_KEY, event.timestamp)
+		joystick.apply_to_replay_event(replay_event)
 		if joystick.event_states & HBJoystickData.EVENT_STATES.HEART && (joystick.joy_value.length() < deadzone_inner or HBJoystickData.event_intersects_deadzone(deadzone_inner, prev_joystick_state, joystick.joy_value)):
 			joystick.event_states = joystick.event_states &(~HBJoystickData.EVENT_STATES.HEART)
 			heart_just_released = true
 			if get_action_press_count(_get_analog_action_name(HBJoystickData.EVENT_STATES.HEART)) == 0:
+				pushed_event = true
 				heart_release_event = ProcessedAnalogInputEvent.new()
 				heart_release_event.pressed = false
 				heart_release_event.action = HBJoystickData.EVENT_STATES.HEART
@@ -182,7 +219,11 @@ func process_joystick_events(joystick: HBJoystickData) -> Array[ProcessedAnalogI
 				if joystick.joy_value.length() > deadzone_inner and HBJoystickData.event_intersects_deadzone(deadzone_inner, prev_joystick_state, joystick.joy_value):
 					heart_release_event.used_extrapolation = true
 				out_merged_events.push_back(heart_release_event)
+					
+				heart_release_event.apply_to_replay_event(replay_event)
 		if (joystick.event_states & HBJoystickData.EVENT_STATES.HEART == 0) && joystick.joy_value.length() > deadzone_outer:
+			pushed_event = true
+			
 			heart_press_event = ProcessedAnalogInputEvent.new()
 			heart_press_event.pressed = true
 			heart_press_event.action = HBJoystickData.EVENT_STATES.HEART
@@ -191,6 +232,8 @@ func process_joystick_events(joystick: HBJoystickData) -> Array[ProcessedAnalogI
 			heart_press_event.timestamp = event.timestamp
 			out_merged_events.push_back(heart_press_event)
 			
+			heart_press_event.apply_to_replay_event(replay_event)
+			
 			just_hearted = true
 			joystick.event_states = joystick.event_states | HBJoystickData.EVENT_STATES.HEART
 		
@@ -198,6 +241,8 @@ func process_joystick_events(joystick: HBJoystickData) -> Array[ProcessedAnalogI
 		for slide_side in [HBJoystickData.EVENT_STATES.SLIDE_LEFT, HBJoystickData.EVENT_STATES.SLIDE_RIGHT]:
 			var dir := Vector2.RIGHT if slide_side == HBJoystickData.EVENT_STATES.SLIDE_RIGHT else Vector2.LEFT
 			if joystick.event_states & slide_side == 0 and just_hearted && abs(dir.angle_to(joystick.joy_value)) < angular_deadzone * 0.5:
+				pushed_event = true
+				
 				var ev := ProcessedAnalogInputEvent.new()
 				ev.pressed = true
 				ev.action = slide_side
@@ -208,10 +253,15 @@ func process_joystick_events(joystick: HBJoystickData) -> Array[ProcessedAnalogI
 				ev.timestamp = event.timestamp
 				out_merged_events.push_back(ev)
 				
+				ev.apply_to_replay_event(replay_event)
+				
 				joystick.event_states = joystick.event_states |  slide_side
 			if joystick.event_states & slide_side and ((heart_just_released and not just_hearted) or abs(dir.angle_to(joystick.joy_value)) >= angular_deadzone * 0.5):
 				joystick.event_states = joystick.event_states & (~slide_side)
-				
+		replay_event.is_extra = replay_event.press_actions == 0 and replay_event.release_actions == 0
+		if not replay_event.is_extra:
+			
+			out_replay_events.push_back(replay_event)
 			
 	return out_merged_events
 
@@ -221,15 +271,33 @@ func flush_inputs(prev_game_time_usec: float, new_game_time_usec: float, last_fr
 		if not joystick_device.uses_direct_joypad_access():
 			continue
 		for joystick in joystick_device.direct_joysticks:
-			var events := process_joystick_events(joystick)
+			var out_replay_events : Array[HBReplayEvent]
+			var events := process_joystick_events(joystick, out_replay_events)
+			for replay_event in out_replay_events:
+				assert(replay_event.has_meta(EVENT_TIMESTAMP_META_KEY))
+				replay_event.game_timestamp = event_time_to_game_time(replay_event.get_meta(EVENT_TIMESTAMP_META_KEY), prev_game_time_usec, new_game_time_usec, last_frame_time_usec)
+				store_replay_event(replay_event)
 			for event in events:
 				var actions := event.actions.map(func(a: int): return _get_analog_action_name(a))
-				
-				send_input(_get_analog_action_name(event.action), event.pressed, event.actions.size(), get_dja_event_uid(joystick_device.device_idx, event.joystick), actions, event.timestamp)
+				var main_action := _get_analog_action_name(event.action)
+				send_input(main_action, event.pressed, null, event.actions.size(), get_dja_event_uid(joystick_device.device_idx, event.joystick), actions, event.timestamp)
+	for replay_event in _buffered_replay_events:
+		assert(replay_event.has_meta(EVENT_TIMESTAMP_META_KEY))
+		replay_event.game_timestamp = event_time_to_game_time(replay_event.get_meta(EVENT_TIMESTAMP_META_KEY), prev_game_time_usec, new_game_time_usec, last_frame_time_usec)
+		store_replay_event(replay_event)
+	_buffered_replay_events.clear()
+	for uh in _buffered_unhandled_releases:
+		uh.timestamp = event_time_to_game_time(uh.timestamp, prev_game_time_usec, new_game_time_usec, last_frame_time_usec)
+		unhandled_release.emit(uh.action, uh.event_uid, uh.timestamp)
+	_buffered_unhandled_releases.clear()
 	super.flush_inputs(prev_game_time_usec, new_game_time_usec, last_frame_time_usec)
 
 func _input(event: InputEvent) -> void:
 	super._input(event)
+	if log_file:
+		if event.is_action_pressed("contextual_option") or (event is InputEventKey and event.keycode == KEY_F2 and event.is_pressed() and not event.is_echo()):
+			log_file.store_line("Telemetry Mark!")
+			log_file.flush()
 	if event is InputEventKey:
 		if event.keycode == KEY_F10:
 			get_window().gui_embed_subwindows = false
@@ -240,8 +308,19 @@ func _input(event: InputEvent) -> void:
 func _input_received(event: InputEvent):
 	var actions_to_send = []
 	var releases_to_send = []
+	
 	if event is InputEventHB:
 		return
+		
+	if log_file and not event is InputEventMouse:
+		var device_name := ""
+		if event is InputEventKey:
+			device_name = "Keyboard"
+		elif event is InputEventJoypadButton or event is InputEventJoypadMotion:
+			device_name = Input.get_joy_name(event.device)
+		if event is InputEventJoypadMotion:
+			log_file.store_line("Engine event: " + event.as_text() + " (%d: %s) pressed: %s" % [event.device, device_name, "yes" if event.is_pressed() else "no"])
+			log_file.flush()
 		
 	if not event is InputEventAction and not event is InputEventMouseMotion:
 		var found_actions = []
@@ -250,8 +329,6 @@ func _input_received(event: InputEvent):
 			if event.is_action(action):
 				found_actions.append(action)
 							
-		current_input_handled = false
-							
 		if event is InputEventJoypadMotion:
 			if event.axis in DIRECT_AXIS:
 				var device := get_or_create_joypad_device_data(event.device)
@@ -259,6 +336,27 @@ func _input_received(event: InputEvent):
 					for joystick in device.direct_joysticks:
 						if joystick.push_input(event):
 							return
+		var extra_replay_events: Array[HBReplayEvent] = []
+		
+		var replay_event := HBReplayEvent.new()
+		
+		if event is InputEventJoypadButton:
+			replay_event.event_type = HBReplay.GAMEPAD_BUTTON
+			replay_event.gamepad_button_pressed = event.is_pressed()
+			replay_event.gamepad_button_index = event.button_index
+			replay_event.device_name = Input.get_joy_name(event.device)
+			replay_event.device_guid = PHNative.get_sdl_device_guid(event.device)
+		elif event is InputEventJoypadMotion:
+			replay_event.event_type = HBReplay.GAMEPAD_JOY_SINGLE_AXIS
+			replay_event.set_joystick_axis(0, event.axis)
+			replay_event.joystick_position = Vector2(event.axis_value, 0.0)
+			replay_event.device_name = Input.get_joy_name(event.device)
+			replay_event.device_guid = PHNative.get_sdl_device_guid(event.device)
+		elif event is InputEventKey:
+			replay_event.event_type = HBReplay.KEYBOARD_KEY
+			replay_event.keyboard_key_pressed = event.is_pressed()
+			replay_event.keyboard_key = event.key_label
+		
 		for action in found_actions:
 			if event is InputEventJoypadMotion:
 				var digital_action = action
@@ -294,8 +392,10 @@ func _input_received(event: InputEvent):
 				var button_i = -1
 				if event is InputEventKey:
 					button_i = event.keycode
+					replay_event.keyboard_key_pressed = event.is_pressed()
 				elif event is InputEventJoypadButton:
 					button_i = event.button_index
+					replay_event.gamepad_button_pressed = event.is_pressed()
 				if button_i != -1:
 					var was_action_pressed = is_action_held(action)
 					var was_button_held_last_time = false
@@ -318,6 +418,7 @@ func _input_received(event: InputEvent):
 		current_actions = []
 		for action_data in actions_to_send:
 			current_actions.append(action_data.action)
+			
 		for action_data in actions_to_send:
 			current_event = action_data.event
 			var device_type := DEVICE_TYPE.OTHER
@@ -326,10 +427,26 @@ func _input_received(event: InputEvent):
 			if event is InputEventJoypadButton or event is InputEventJoypadMotion:
 				device_idx = event.device
 				device_type = DEVICE_TYPE.JOYPAD
-			
+
 			last_action_device_idx = device_idx
 			last_action_device_type = device_type
 			
-			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid, current_actions, event.timestamp)
+			if action_data.pressed:
+				replay_event.press_actions |= action_list_to_bitfield([action_data.action])
+			else:
+				replay_event.release_actions |= action_list_to_bitfield([action_data.action])
+			
+			send_input(action_data.action, action_data.pressed, replay_event, actions_to_send.size(), event_uid, current_actions, event.timestamp)
+		
 		for action in releases_to_send:
-			emit_signal("unhandled_release", action, event_uid)
+			replay_event.release_actions |= action_list_to_bitfield([action])
+			var buffered_uh_release := UnhandledRelease.new()
+			buffered_uh_release.action = action
+			buffered_uh_release.event_uid = event_uid
+			buffered_uh_release.timestamp = event.timestamp
+			_buffered_unhandled_releases.push_back(buffered_uh_release)
+		if found_actions.size() > 0:
+			replay_event.is_extra = replay_event.press_actions == 0 && replay_event.release_actions == 0
+			replay_event.set_meta(EVENT_TIMESTAMP_META_KEY, event.timestamp)
+			if not event is InputEventKey or not event.is_echo():
+				_buffered_replay_events.push_back(replay_event)

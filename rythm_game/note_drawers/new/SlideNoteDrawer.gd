@@ -80,11 +80,12 @@ func is_in_editor_mode():
 
 func process_input(event: InputEventHB):
 	if not pressed:
-		_on_pressed()
+		_on_pressed(event.game_time)
 
-func _on_pressed():
-	var judgement := game.judge.judge_note_usec(game.time_usec, note_data.time * 1000) as int
+func _on_pressed(game_time_usec: int):
+	var judgement := game.judge.judge_note_usec(game_time_usec, note_data.time * 1000) as int
 	judgement = max(HBJudge.JUDGE_RATINGS.FINE, judgement) # Slide notes always give at least a fine
+
 	if is_slide_chain():
 		judgement = HBJudge.JUDGE_RATINGS.COOL # Slide chains can never be a fine
 	
@@ -94,6 +95,7 @@ func _on_pressed():
 	set_pressed(true)
 	
 	if not is_in_editor_mode():
+
 		emit_signal("judged", judgement, false, note_data.time, null)
 		show_note_hit_effect(note_data.position)
 		
@@ -174,7 +176,7 @@ func process_note(time_usec: int):
 		if not pressed:
 			if is_slide_direction_pressed():
 				if time_usec > note_data.time * 1000:
-					_on_pressed()
+					_on_pressed(note_data.time * 1000)
 		if pressed:
 			if current_slide_chain_sound and current_slide_chain_sound.is_at_stream_end():
 				current_slide_chain_sound.queue_free()
@@ -250,7 +252,7 @@ func process_note(time_usec: int):
 				chain_piece_drawers.erase(piece)
 	elif is_autoplay_enabled():
 		if time_usec >= note_data.time * 1000:
-			_on_pressed()
+			_on_pressed(note_data.time * 1000)
 	if not pressed:
 		if time_usec > (note_data.time * 1000 + game.judge.get_target_window_usec()) and not (is_slide_chain() and is_slide_direction_pressed()):
 			emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, false, note_data.time, null)

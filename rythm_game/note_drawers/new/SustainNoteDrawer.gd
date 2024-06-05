@@ -64,7 +64,10 @@ func _on_pressed(event = null, judge := true):
 		sustain_loop.start()
 	if not is_autoplay_enabled():
 		fire_and_forget_user_sfx("note_hit")
-	var judgement := game.judge.judge_note_usec(game.time_usec, note_data.time * 1000) as int
+	var time := game.time_usec
+	if event:
+		time = event.game_time
+	var judgement := game.judge.judge_note_usec(time, note_data.time * 1000) as int
 	if judge:
 		emit_signal("judged", judgement, false, note_data.time, event)
 		if not pressed and judgement < HBJudge.JUDGE_RATINGS.FINE:

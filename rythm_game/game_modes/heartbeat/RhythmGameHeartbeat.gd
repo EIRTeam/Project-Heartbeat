@@ -278,13 +278,23 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 			add_score(0)
 	for j in judgements:
 		if j.note_data.note_type in held_notes:
-			hold_release()
+			var event: InputEventHB = j.input_event
+			hold_release_subtick(event.game_time / 1000)
 			emit_signal("hold_released_early")
 			break
 
 	if final_judgement < judge.JUDGE_RATINGS.FINE or wrong:
-		hold_release()
-		emit_signal("hold_released_early")
+		for j in judgements:
+			if j.input_event:
+				var event: InputEventHB = j.input_event
+				hold_release_subtick(event.game_time / 1000)
+			else:
+				# IMPORTANT TODO: Deterministic hold release times
+				var sad_window_ms = judge.get_window_for_rating(HBJudge.JUDGE_RATINGS.SAD)
+				
+				hold_release_subtick(judgements[0].note_data.time + sad_window_ms)
+			emit_signal("hold_released_early")
+			break
 	else:
 		for j in judgements:
 			if j.note_data is HBNoteData:
@@ -297,7 +307,7 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 					held_note_event_map[n.note_type].append(event.event_uid)
 					# Holds start at (note time-FINE window) regardless of at what time you hit them
 					var fine_window_ms = judge.get_window_for_rating(HBJudge.JUDGE_RATINGS.FINE)
-					start_hold(n.note_type, false, n.time - fine_window_ms)
+					start_hold(n.note_type, n.time - fine_window_ms, n.time - fine_window_ms)
 	if not editing:
 		var start_time = current_song.start_time
 		var end_time = audio_playback.get_length_msec()
@@ -350,6 +360,10 @@ func add_slide_chain_score(score_to_add):
 	_potential_result.score += score_to_add
 	super.add_score(score_to_add)
 
+func hold_release_subtick(game_release_time_msec: int):
+	_update_current_hold_score(game_release_time_msec)
+	hold_release()
+
 func hold_release():
 	if held_notes.size() > 0:
 		add_hold_score(round(current_hold_score + accumulated_hold_score))
@@ -366,9 +380,9 @@ func _on_game_finished():
 				emit_signal("hold_released_early")
 	super._on_game_finished()
 
-func start_hold(note_type, auto_juggle=false, hold_start_time := time_msec):
+func start_hold(note_type, hold_release_time_usec: int, hold_start_time: int):
 	if note_type in held_notes:
-		hold_release()
+		hold_release_subtick(hold_release_time_usec / 1000)
 	if held_notes.size() > 0:
 		accumulated_hold_score += current_hold_score
 	current_hold_score = 0

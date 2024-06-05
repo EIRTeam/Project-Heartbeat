@@ -42,6 +42,19 @@ func _on_device_disconnected():
 	push_input(ev1)
 	push_input(ev2)
 
+static func event_state_to_bitfield(action: int) -> int:
+	var out := 0
+	for event in EVENT_STATES.values():
+		if event & action:
+			match event:
+				EVENT_STATES.SLIDE_LEFT:
+					out |= HBReplay.EventActionBitfield.SLIDE_LEFT_B
+				EVENT_STATES.SLIDE_RIGHT:
+					out |= HBReplay.EventActionBitfield.SLIDE_RIGHT_B
+				EVENT_STATES.HEART:
+					out |= HBReplay.EventActionBitfield.HEART_NOTE_B
+	return out
+
 func _emulate_low_rate_input() -> bool:
 	var ax := Vector2(Input.get_joy_axis(0, x_axis_idx), Input.get_joy_axis(0, y_axis_idx))
 	if ax != joy_value && Engine.get_process_frames() % 60 == 0:
@@ -77,6 +90,14 @@ func merge_events() -> Array[MergedAxis]:
 	
 	event_buffer.clear()
 	return merged_events
+
+func apply_to_replay_event(replay_event: HBReplayEvent):
+	replay_event.event_type = HBReplay.GAMEPAD_JOY
+	replay_event.device_guid = PHNative.get_sdl_device_guid(device_idx)
+	replay_event.device_name = Input.get_joy_name(device_idx)
+	replay_event.set_joystick_axis(0, x_axis_idx)
+	replay_event.set_joystick_axis(1, y_axis_idx)
+	replay_event.joystick_position = joy_value
 func push_input(event: InputEventJoypadMotion) -> bool:
 	if (event.axis == x_axis_idx or event.axis == y_axis_idx) and event.device == device_idx:
 		event_buffer.push_back(event)
@@ -84,6 +105,5 @@ func push_input(event: InputEventJoypadMotion) -> bool:
 	return false
 
 static func event_intersects_deadzone(deadzone: float, prev_pos: Vector2, new_pos: Vector2) -> bool:
-	return false
-	return Geometry2D.segment_intersects_circle(prev_pos, new_pos, Vector2.ZERO, deadzone) != -1
+	return prev_pos.dot(new_pos) < 0
 
