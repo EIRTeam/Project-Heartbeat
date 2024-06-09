@@ -81,6 +81,8 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	super.set_song(song, difficulty, modifiers, true, assets)
 	fade_in_tween.remove_all()
 	_fade_in_done()
+	game.schedule_play_start(0)
+
 	disable_intro_skip = true
 	pause_disabled = true
 	pause_menu_disabled = true
