@@ -268,7 +268,7 @@ func _on_item_selected(item: OutlinerItem):
 
 func _on_contextual_menu_open_request(item: OutlinerItem):
 	popup_menu.popup()
-	popup_menu.global_position = get_global_mouse_position()
+	popup_menu.position = get_global_mouse_position()
 
 #func _on_item_edited():
 #	var item := get_edited()
