@@ -1,11 +1,11 @@
 [gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://nyc27vir054y"]
 
-[ext_resource type="FontFile" uid="uid://deylhnghmpgcx" path="res://fonts/orbitron/Orbitron-VariableFont_wght.ttf" id="1_u8ssr"]
+[ext_resource type="FontFile" uid="uid://bivqnckaepdqh" path="res://fonts/orbitron/Orbitron-Bold.ttf" id="1_xmtq5"]
 [ext_resource type="FontVariation" uid="uid://dtlwpiepskth" path="res://fonts/noto/NotoSans-Bold.tres" id="2_01dcf"]
 
 [resource]
 fallbacks = Array[Font]([ExtResource("2_01dcf")])
-base_font = ExtResource("1_u8ssr")
+base_font = ExtResource("1_xmtq5")
 variation_opentype = {
 2003265652: 700
 }

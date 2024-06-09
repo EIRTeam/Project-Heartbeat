@@ -1,9 +1,0 @@
-[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://xnk50k8wigah"]
-
-[ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2_x844x"]
-
-[resource]
-base_font = ExtResource("2_x844x")
-variation_opentype = {
-2003265652: 300
-}

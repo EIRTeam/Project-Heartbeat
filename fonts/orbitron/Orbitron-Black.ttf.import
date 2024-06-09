@@ -2,20 +2,21 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://deylhnghmpgcx"
-path="res://.godot/imported/Orbitron-VariableFont_wght.ttf-4fcff82a480f4214af9f6276ac562ebe.fontdata"
+uid="uid://dewm1r68477s3"
+path="res://.godot/imported/Orbitron-Black.ttf-2bb04dde04df08f3369ee31154798d42.fontdata"
 
 [deps]
 
-source_file="res://fonts/orbitron/Orbitron-VariableFont_wght.ttf"
-dest_files=["res://.godot/imported/Orbitron-VariableFont_wght.ttf-4fcff82a480f4214af9f6276ac562ebe.fontdata"]
+source_file="res://fonts/orbitron/Orbitron-Black.ttf"
+dest_files=["res://.godot/imported/Orbitron-Black.ttf-2bb04dde04df08f3369ee31154798d42.fontdata"]
 
 [params]
 
 Rendering=null
 antialiasing=1
 generate_mipmaps=false
-multichannel_signed_distance_field=false
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=true
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
