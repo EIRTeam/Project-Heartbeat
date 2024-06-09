@@ -82,6 +82,7 @@ func _create_song_item(song: HBSong):
 	var item = SongListItem.instantiate()
 	item.use_parent_material = true
 	item.set_song(song)
+	assert(song)
 	item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	item.connect("pressed", Callable(self, "_on_song_selected").bind(song))
 	item.ready.connect(item._become_visible)
@@ -203,10 +204,18 @@ static func _sort_by_difficulty(a, b):
 func select_song_by_id(song_id: String, difficulty=null):
 	for child_i in range(item_container.get_child_count()):
 		var child = item_container.get_child(child_i)
-		if "song" in child:
-			if child.song.id == song_id:
+		var song: HBSong
+		if child is HBUniversalScrollList.DummyItem:
+			song = child.get_meta(&"song") as HBSong
+		elif child is HBSongListItem:
+			song = child.song
+		elif child is HBSongListItemDifficulty:
+			song = child.song
+		else:
+			continue
+		if song:
+			if song.id == song_id:
 				if difficulty:
-					var song = SongLoader.songs[song_id]
 					select_item(child_i)
 					if not song in song_difficulty_items_map:
 						_on_song_selected(song)
@@ -313,6 +322,7 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 
 	for song in filtered_songs:
 		var dummy := add_dummy()
+		dummy.set_meta(&"song", song)
 		dummy.custom_minimum_size.y = 100
 		dummy.sighted.connect(self._on_dummy_sighted.bind(song))
 		var placeholder := PLACEHOLDER_SCENE.instantiate()
@@ -346,9 +356,8 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 			select_item(initial_item)
 #	hard_arrange_all()
 		
-		
 	if song_id_to_select:
-		call_deferred("select_song_by_id", song_id_to_select, song_difficulty_to_select)
+		select_song_by_id.call_deferred(song_id_to_select, song_difficulty_to_select)
 		
 		
 	emit_signal("end_loading")
@@ -356,7 +365,7 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 func _on_random_pressed():
 	select_item(1 + (randi() % item_container.get_child_count()-1))
 		
-var current_filter_task: HBTask
+var current_filter_task: HBFilterSongsTask
 		
 func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force_update=false):
 	songs = _songs
@@ -375,16 +384,15 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 		item_container.remove_child(i)
 		i.queue_free()
 	
-	if current_filter_task:
-		AsyncTaskQueueLight.abort_task(current_filter_task)
-		
 	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty, search_term)
-	current_filter_task.connect("songs_filtered", Callable(self, "_on_songs_filtered"))
-
-#	selected_option = null
-	
+	current_filter_task.queue()
 	emit_signal("start_loading")
-	AsyncTaskQueueLight.queue_task(current_filter_task)
+	
+	var filter_task := current_filter_task
+	var cb_data := await current_filter_task.songs_filtered as Array
+	if current_filter_task == filter_task:
+		_on_songs_filtered.callv(cb_data)
+
 	
 func _on_difficulty_selected(song, difficulty):
 	emit_signal("difficulty_selected", song, difficulty)
