@@ -33,32 +33,6 @@ var selected_index_stack = []
 # How many elements to skip on a page change
 const PAGE_CHANGE_COUNT := 8
 
-class DummySongListEntry:
-	extends HBUniversalListItem
-
-	signal dummy_sighted(from_visiblity_rect: bool)
-	
-	var song: HBSong
-	@onready var notifier := VisibleOnScreenNotifier2D.new()
-	func _init():
-		set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-		custom_minimum_size.y = 100
-	func _ready() -> void:
-		add_child(notifier)
-		notifier.screen_entered.connect(dummy_sighted.emit.bind(true))
-		resized.connect(self._size_changed)
-		notifier.set_block_signals(true)
-		_size_changed.call_deferred()
-	func _size_changed() -> void:
-		notifier.rect = Rect2(Vector2.ZERO, size)
-		notifier.set_block_signals(false)
-	func hover():
-		pass
-	func stop_hover():
-		pass
-	func _become_visible():
-		dummy_sighted.emit(false)
-
 func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 	if path.size() == 0:
 		return starting_folders
@@ -78,28 +52,8 @@ func _ready():
 
 var item_visibility_update_queued := false
 
-func _queue_update_item_visibility():
-	if not item_visibility_update_queued:
-		item_visibility_update_queued = true
-		_update_visibility_stuff.call_deferred()
-
-func _update_visibility_stuff():
-	item_visibility_update_queued = false
-	var selected_item = get_selected_item()
-	if selected_item:
-		var start: int = selected_item.get_index() - items_to_report_visibility_to
-		var end: int = selected_item.get_index() + items_to_report_visibility_to
-		end = min(end, item_container.get_child_count())
-		start = max(start, 0)
-		
-		for i in range(start, end):
-			var child := item_container.get_child(i)
-			if child is DummySongListEntry:
-				child._become_visible()
-
 func _on_selected_item_changed():
 	var selected_item = get_selected_item()
-	_queue_update_item_visibility()
 	if selected_item:
 		if selected_item is HBSongListItem or selected_item is HBSongListItemDifficulty:
 			emit_signal("song_hovered", selected_item.song)
@@ -311,15 +265,12 @@ func set_filter(filter_name: String):
 				set_songs(songs)
 #				hard_arrange_all()
 		
-func _on_dummy_sighted(from_visibility_rect: bool, song: HBSong):
-	if from_visibility_rect and tween.is_active():
-		return
-	var dummy = filtered_song_items[song]
+func _on_dummy_sighted(song: HBSong):
+	var dummy = filtered_song_items[song] as Control
 	var item = _create_song_item(song)
 	dummy.add_sibling(item)
-	item_container.remove_child(dummy)
 	dummy.queue_free()
-	item.position = dummy.position
+	item_container.remove_child(dummy)
 	filtered_song_items[song] = item
 	if item.get_index() == current_selected_item:
 		force_scroll()
@@ -358,12 +309,15 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 		rand.connect("pressed", Callable(self, "_on_random_pressed"))
 		item_container.add_child(rand)
 
-	var base_dummy := DummySongListEntry.new()
+	const PLACEHOLDER_SCENE := preload("res://menus/song_list/SongListPlaceholder.tscn")
+
 	for song in filtered_songs:
-		var dummy := base_dummy.duplicate()
-		item_container.add_child(dummy)
-		dummy.song = song
-		dummy.connect("dummy_sighted", Callable(self, "_on_dummy_sighted").bind(song))
+		var dummy := add_dummy()
+		dummy.custom_minimum_size.y = 100
+		dummy.sighted.connect(self._on_dummy_sighted.bind(song))
+		var placeholder := PLACEHOLDER_SCENE.instantiate()
+		dummy.add_child(placeholder)
+		placeholder.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		filtered_song_items[song] = dummy
 	
 
@@ -398,8 +352,7 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 		
 		
 	emit_signal("end_loading")
-	_queue_update_item_visibility()
-		
+	
 func _on_random_pressed():
 	select_item(1 + (randi() % item_container.get_child_count()-1))
 		

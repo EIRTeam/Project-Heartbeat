@@ -5,6 +5,7 @@ class_name HBUniversalScrollList
 signal out_from_bottom
 signal out_from_top
 signal selected_item_changed
+signal scroll_changed
 
 @export var container_path: NodePath
 @export var horizontal_step: int = 1
@@ -35,7 +36,23 @@ var current_selected_item = 0
 @onready var initial_input_debounce_timer = Timer.new()
 @onready var input_debounce_timer = Timer.new()
 
-@onready var item_container: Control = get_node(container_path)
+@onready var item_container: Container = get_node(container_path)
+
+var container_order_dirty := 0
+
+class DummyItem:
+	extends Control
+	signal sighted
+	
+	func _draw() -> void:
+		pass
+	func stop_hover():
+		pass
+	func hover():
+		pass
+
+func _draw() -> void:
+	pass
 
 func _ready():
 	add_child(tween)
@@ -63,6 +80,8 @@ func _ready():
 		item_container.material = fade_mat
 		RenderingServer.canvas_item_set_canvas_group_mode(item_container.get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 5.0, true)
 	_on_resized()
+	scroll_changed.connect(self._queue_clip_update)
+	item_container.sort_children.connect(self._queue_clip_update)
 	
 func _on_scroll_changed(_new_scroll: float):
 	if not tween.is_active():
@@ -78,6 +97,7 @@ func _on_scroll_changed(_new_scroll: float):
 			if found_visible_item:
 				break
 		target_scroll = scroll_vertical
+		scroll_changed.emit()
 		update_fade()
 func _on_initial_input_debounce_timeout():
 	_position_change_input(debounce_step)
@@ -113,7 +133,51 @@ func smooth_scroll_to(target: float):
 	tween.remove_all()
 	tween.interpolate_property(self, "scroll_vertical", scroll_vertical, target, 0.5, Threen.TRANS_CUBIC, Threen.EASE_OUT)
 	target_scroll = target
+	scroll_changed.emit()
 	tween.start()
+
+var clip_update_queued := false
+
+func _queue_clip_update():
+	if not clip_update_queued:
+		clip_update_queued = true
+		_update_clipping.call_deferred()
+
+func _update_clipping():
+	clip_update_queued = false
+	var children_sort := func children_sort(a: Control, b: Control):
+		return a.position.y < b.position.y
+	# hack...
+	var clamped_target_scroll := clamp(target_scroll, 0, item_container.size.y - size.y)
+	var dummy_control := Control.new()
+	dummy_control.position.y = clamped_target_scroll
+	var children := item_container.get_children()
+	if children.size() == 0:
+		return
+	var child_start_i := children.bsearch_custom(dummy_control, children_sort)
+	
+	# Walk backwards to find the first item that shouldn't be visible:
+	for i in range(child_start_i, -1, -1):
+		if children[i].position.y + children[i].size.y < clamped_target_scroll:
+			break
+		child_start_i = i
+	
+	dummy_control.queue_free()
+	
+	for i in range(child_start_i, children.size(), 1):
+		var control := children[i] as Control
+		if control:
+			if control.position.y > clamped_target_scroll + size.y:
+				break
+		var dummy := children[i] as DummyItem
+		if dummy:
+			dummy.sighted.emit()
+
+func add_dummy() -> DummyItem:
+	var dummy := DummyItem.new()
+	item_container.add_child(dummy)
+	container_order_dirty = true
+	return dummy
 
 func update_fade():
 	# Hide top/bottom fade intelligently
