@@ -12,6 +12,7 @@ var fallback_hint: int = FALLBACK_HINT.NORMAL: set = set_fallback_hint
 var target_size := 16
 var outline_size := 0
 var outline_color: Color
+var font_data: FontFile
 
 func set_fallback_hint(val):
 	fallback_hint = val

@@ -100,7 +100,7 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	out_dict["stylebox"] = serialize_stylebox(stylebox, resource_storage)
 	out_dict["dots_pattern"] = dots_pattern
 	out_dict["dots_texture"] = resource_storage.get_texture_name(dots_texture)
-	out_dict["dots_modulate"] = dots_modulate.to_html()
+	out_dict["dots_modulate"] = get_color_string(dots_modulate)
 	out_dict["dots_behind"] = dots_behind
 	return out_dict
 	

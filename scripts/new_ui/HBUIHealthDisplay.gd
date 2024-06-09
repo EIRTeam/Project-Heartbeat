@@ -128,9 +128,9 @@ func set_health(health_value: float, animated := false, old_health := -1):
 
 func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	var out_dict := super._to_dict(resource_storage)
-	out_dict["increase_color"] = increase_color.to_html()
-	out_dict["decrease_color"] = decrease_color.to_html()
-	out_dict["progress_color"] = progress_color.to_html()
+	out_dict["increase_color"] = get_color_string(increase_color)
+	out_dict["decrease_color"] = get_color_string(decrease_color)
+	out_dict["progress_color"] = get_color_string(progress_color)
 	out_dict["progress_texture"] = resource_storage.get_texture_name(progress_texture)
 	out_dict["fill_mode"] = fill_mode
 	return out_dict

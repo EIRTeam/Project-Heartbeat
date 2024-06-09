@@ -115,9 +115,9 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	out_dict["texture_over"] = resource_storage.get_texture_name(texture_over)
 	out_dict["texture_progress"] = resource_storage.get_texture_name(texture_progress)
 	out_dict["fill_mode"] = fill_mode
-	out_dict["tint_under"] = tint_under.to_html()
-	out_dict["tint_over"] = tint_over.to_html()
-	out_dict["tint_progress"] = tint_progress.to_html()
+	out_dict["tint_under"] = get_color_string(tint_under)
+	out_dict["tint_over"] = get_color_string(tint_over)
+	out_dict["tint_progress"] = get_color_string(tint_progress)
 	return out_dict
 
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):

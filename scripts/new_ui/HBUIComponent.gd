@@ -27,7 +27,7 @@ func register_subresource_to_plist(property_list: Array, property_name: String):
 func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	return {
 		"name": name,
-		"modulate": modulate.to_html(),
+		"modulate": get_color_string(modulate),
 		"anchor_bottom": anchor_bottom,
 		"anchor_top": anchor_top,
 		"anchor_left": anchor_left,
@@ -73,11 +73,18 @@ func set_control_font_override(control: Control, property_name: String, font: Fo
 		control.add_theme_font_override(property_name, font)
 	else:
 		var ff := HBGame.fallback_font.duplicate() as Font
-		ff.size = font.size
+		ff.target_size = font.target_size
 		ff.outline_size = font.outline_size
 		ff.outline_color = font.outline_color
 		control.add_theme_font_override(property_name, ff)
 		control.set_meta("%s_font_override" % property_name, ff)
+
+func get_color_string(color: Color) -> String:
+	# Convert to ARGB to match pre-4.0 skins
+	var col := color.to_html()
+	var alpha := col.substr(col.length()-2)
+	col = alpha + col.substr(0, col.length()-2)
+	return col
 
 func get_color_from_dict(dict: Dictionary, key: String, backup: Color):
 	var col := dict.get(key, "") as String
@@ -102,16 +109,17 @@ func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
 	modulate = get_color_from_dict(dict, "modulate", modulate)
 	
 func serialize_font(font: HBUIFont, resource_storage: HBInspectorResourceStorage) -> Dictionary:
-	var font_name := resource_storage.get_font_name(font.font_data) as String
-
+	var font_name := resource_storage.get_font_name(font.base_font) as String
+	
 	var out := {
 		"name": font_name,
-		"size": font.size,
+		"size": font.target_size,
 		"fallback_hint": font.fallback_hint,
 		"outline_size": font.outline_size,
-		"outline_color": font.outline_color.to_html(),
-		"extra_spacing_top": font.spacing_top,
-		"extra_spacing_bottom": font.spacing_bottom,
+		"outline_color": get_color_string(font.outline_color),
+		# Intentional, to keep compat
+		"extra_spacing_top": -font.spacing_bottom,
+		"extra_spacing_bottom": -font.spacing_top,
 		"extra_spacing_char": font.spacing_glyph
 	}
 	
@@ -124,22 +132,22 @@ func serialize_stylebox(style_box: StyleBox, resource_manager: HBInspectorResour
 		out_dict["border_width_bottom"] = style_box.border_width_bottom
 		out_dict["border_width_right"] = style_box.border_width_right
 		out_dict["border_width_left"] = style_box.border_width_left
-		out_dict["bg_color"] = style_box.bg_color.to_html()
-		out_dict["border_color"] = style_box.border_color.to_html()
+		out_dict["bg_color"] = get_color_string(style_box.bg_color)
+		out_dict["border_color"] = get_color_string(style_box.border_color)
 		out_dict["corner_detail"] = style_box.corner_detail
 		out_dict["anti_aliasing"] = style_box.anti_aliasing
 		out_dict["corner_radius_bottom_left"] = style_box.corner_radius_bottom_left
 		out_dict["corner_radius_bottom_right"] = style_box.corner_radius_bottom_right
 		out_dict["corner_radius_top_left"] = style_box.corner_radius_top_left
 		out_dict["corner_radius_top_right"] = style_box.corner_radius_top_right
-		out_dict["shadow_color"] = style_box.shadow_color.to_html()
+		out_dict["shadow_color"] = get_color_string(style_box.shadow_color)
 		out_dict["shadow_size"] = style_box.shadow_size
 		out_dict["stylebox_type"] = "flat"
 	elif style_box is StyleBoxTexture:
 		out_dict["axis_stretch_horizontal"] = style_box.axis_stretch_horizontal
 		out_dict["axis_stretch_vertical"] = style_box.axis_stretch_vertical
 		out_dict["draw_center"] = style_box.draw_center
-		out_dict["modulate_color"] = style_box.modulate_color.to_html()
+		out_dict["modulate_color"] = get_color_string(style_box.modulate_color)
 		out_dict["texture"] = resource_manager.get_texture_name(style_box.texture)
 		out_dict["stylebox_type"] = "texture"
 	# Shared properties
@@ -170,7 +178,7 @@ func deserialize_stylebox(dict: Dictionary, cache: HBSkinResourcesCache, fallbac
 			stylebox.corner_radius_bottom_right = dict.get("corner_radius_bottom_right", 0)
 			stylebox.corner_radius_top_left = dict.get("corner_radius_top_left", 0)
 			stylebox.corner_radius_top_right = dict.get("corner_radius_top_right", 0)
-			stylebox.shadow_color = get_color_from_dict(dict, "bg_color", Color("#000000cc"))
+			stylebox.shadow_color = get_color_from_dict(dict, "shadow_color", Color("#000000cc"))
 			stylebox.shadow_size = dict.get("shadow_size", 0)
 		"texture":
 			stylebox = HBUIStyleboxTexture.new()
@@ -190,6 +198,7 @@ func deserialize_stylebox(dict: Dictionary, cache: HBSkinResourcesCache, fallbac
 func deserialize_font(data: Dictionary, font: HBUIFont, cache: HBSkinResourcesCache):
 	if data:
 		font.base_font = cache.get_font(data.get("name", ""))
+		print(cache.skin_resources.fonts, font.base_font)
 		# Font size 0 crashes the engine... guard against it
 		font.target_size = max(1, data.get("size", font.target_size))
 		font.fallback_hint = data.get("fallback_hint", font.fallback_hint)

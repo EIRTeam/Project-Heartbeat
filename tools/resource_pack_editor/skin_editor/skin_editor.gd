@@ -178,7 +178,7 @@ func skin_to_dict() -> Dictionary:
 	
 func save_skin():
 	var skin_dict := skin_to_dict()
-	var js := JSON.stringify(skin_dict, "  ")
+	var js := JSON.stringify(skin_dict, "  ", false)
 	var f := FileAccess.open(resource_pack.get_skin_config_path(), FileAccess.WRITE)
 	f.store_string(js)
 	f.close()

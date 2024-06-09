@@ -37,10 +37,10 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	
 	out_dict["rating_line_width"] = rating_line_width
 	out_dict["gradient_line_height"] = gradient_line_height
-	out_dict["gradient_color_cool"] = gradient_color_cool.to_html()
-	out_dict["gradient_color_fine"] = gradient_color_fine.to_html()
-	out_dict["gradient_color_safe"] = gradient_color_safe.to_html()
-	out_dict["gradient_color_sad"] = gradient_color_sad.to_html()
+	out_dict["gradient_color_cool"] = get_color_string(gradient_color_cool)
+	out_dict["gradient_color_fine"] = get_color_string(gradient_color_fine)
+	out_dict["gradient_color_safe"] = get_color_string(gradient_color_safe)
+	out_dict["gradient_color_sad"] = get_color_string(gradient_color_sad)
 	return out_dict
 
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):

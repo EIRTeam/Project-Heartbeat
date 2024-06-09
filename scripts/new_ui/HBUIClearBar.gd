@@ -166,10 +166,10 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	out_dict["percentage_font"] = serialize_font(percentage_font, resource_storage)
 	out_dict["top_clear_margin"] = top_clear_margin
 	out_dict["bottom_clear_margin"] = bottom_clear_margin
-	out_dict["clear_separator_color"] = clear_separator_color.to_html()
-	out_dict["excellent_line_color"] = excellent_line_color.to_html()
-	out_dict["great_line_color"] = great_line_color.to_html()
-	out_dict["standard_line_color"] = standard_line_color.to_html()
+	out_dict["clear_separator_color"] = get_color_string(clear_separator_color)
+	out_dict["excellent_line_color"] = get_color_string(excellent_line_color)
+	out_dict["great_line_color"] = get_color_string(great_line_color)
+	out_dict["standard_line_color"] = get_color_string(standard_line_color)
 	out_dict["rating_lines_extra_height"] = rating_lines_extra_height
 	out_dict["clear_line_extra_height"] = clear_line_extra_height
 	return out_dict
