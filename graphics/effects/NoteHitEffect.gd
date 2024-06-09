@@ -18,7 +18,7 @@ func _ready():
 	tween.connect("tween_all_completed", Callable(self, "queue_free"))
 	add_child(tween)
 	play_effect()
-	scale = Vector2.ONE * 0.65
+	scale = Vector2.ONE * 0.40
 	
 func play_effect():
 	$AnimationPlayer.play("play")
