@@ -198,7 +198,6 @@ func deserialize_stylebox(dict: Dictionary, cache: HBSkinResourcesCache, fallbac
 func deserialize_font(data: Dictionary, font: HBUIFont, cache: HBSkinResourcesCache):
 	if data:
 		font.base_font = cache.get_font(data.get("name", ""))
-		print(cache.skin_resources.fonts, font.base_font)
 		# Font size 0 crashes the engine... guard against it
 		font.target_size = max(1, data.get("size", font.target_size))
 		font.fallback_hint = data.get("fallback_hint", font.fallback_hint)
