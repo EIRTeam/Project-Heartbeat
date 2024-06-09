@@ -141,7 +141,8 @@ var clip_update_queued := false
 func _queue_clip_update():
 	if not clip_update_queued:
 		clip_update_queued = true
-		_update_clipping.call_deferred()
+		await get_tree().process_frame
+		_update_clipping()
 
 func _update_clipping():
 	clip_update_queued = false
@@ -171,7 +172,7 @@ func _update_clipping():
 			if control.position.y > clamped_target_scroll + size.y:
 				break
 		var dummy := children[i] as DummyItem
-		if dummy:
+		if dummy and dummy.visible:
 			dummy.sighted.emit()
 
 func add_dummy() -> DummyItem:
