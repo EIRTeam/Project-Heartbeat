@@ -181,11 +181,12 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 	var highest_height = 0
 	var music_start_offset := 0.0
 	
-	var curr_chain_starter = null
-	var last_chain_piece = null
-	var curr_chain_dt = null
+	var curr_chain_starter: HBNoteData = null
+	var last_chain_piece: HBNoteData = null
+	var last_chain_piece_time := -1
 	
 	var current_time_sig := 4
+	var current_bpm := 180
 	var timing_changes = []
 	
 	for opcode in r:
@@ -194,6 +195,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 		
 		if opcode.opcode == opcode_map.opcode_names_to_id.BAR_TIME_SET:
 			var bpm = float(opcode.params[0])
+			current_bpm = bpm
 			current_time_sig = float(opcode.params[1]) + 1
 			target_flying_time = int((60.0  / bpm * current_time_sig * 1000.0))
 			
@@ -212,6 +214,8 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 			bpm_change.time = curr_time / 100.0
 			bpm_change.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
 			bpm_change.bpm = snapped(bpm, 0.1)
+			
+			current_bpm = bpm
 			
 			chart.layers[chart.get_layer_i("Events")].timing_points.append(bpm_change)
 		
@@ -234,44 +238,17 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 					note_d.time += target_flying_time
 					note_d.time_out = target_flying_time
 					
-					# Where chains start and end is determined with a mix of heuristics and simple
-					# checks, because that info is not embedded in the DSC.
-					# 
-					# The simplest case is that a note is not a chain piece, so we just close the chain.
-					# The next case is that we have one chain going in one direction and the next
-					# is opposite to it, in which case we start a new chain.
-					# 
-					# The first heuristic is when we have 2 chains going in the same direction, and one
-					# of them has a different y pos than the other. If thats the case, we start a new chain.
-					# The second heuristic is when we have a chain with a given separation in time, and we 
-					# find a chain that doesnt fit the pattern.
-					# Note: For this, we have a tolerance of +-2ms, to accomodate some time inaccuracies.
+					# From looking at comfy's code (steven did this, ty) it seems to use a maximum tolerance of
+					# 20000ms / bpm to check if two notes belong in a chain
 					if opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R] and curr_chain_starter:
-						if curr_chain_starter.position.y != note_d.position.y:
-							curr_chain_starter = null
-							curr_chain_dt = null
-						elif curr_chain_dt:
-							var dt = note_d.time - last_chain_piece.time
-							
-							if abs(dt - curr_chain_dt) > 2:
-								curr_chain_starter = null
-								curr_chain_dt = null
-						else:
-							if opcode.params[0] == AFTButtons.CHAIN_L:
-								if curr_chain_starter.note_type != HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
-									curr_chain_starter = null
-									curr_chain_dt = null
-							else:
-								if curr_chain_starter.note_type != HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
-									curr_chain_starter = null
-									curr_chain_dt = null
+						var CHAIN_MAX_SEPARATION := 20000 / current_bpm
 						
-						last_chain_piece = note_d
-						if not curr_chain_dt and curr_chain_starter:
-							curr_chain_dt = note_d.time - curr_chain_starter.time
-					else:
-						curr_chain_starter = null
-						curr_chain_dt = null
+						if opcode.params[0] == AFTButtons.CHAIN_R and curr_chain_starter.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
+							curr_chain_starter = null
+						elif note_d.time - last_chain_piece_time > CHAIN_MAX_SEPARATION:
+							curr_chain_starter = null
+						else:
+							last_chain_piece_time = note_d.time
 					
 					# The first chain piece of a new chain needs to become the parent slider.
 					if not curr_chain_starter and opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R]:
@@ -283,6 +260,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 							note_d.note_type = HBBaseNote.NOTE_TYPE.SLIDE_RIGHT
 						
 						curr_chain_starter = note_d
+						last_chain_piece_time = curr_chain_starter.time
 					else:
 						var note_type = int(AFT2PHButtonMap[opcode.params[0]])
 						note_d.note_type = note_type
