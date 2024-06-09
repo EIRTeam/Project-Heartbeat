@@ -15,8 +15,8 @@ var rating_line_width := 3: set = set_rating_line_width
 
 var line_grad_colors := []
 
-var line_grad_img: Image
-var line_grad_tex: ImageTexture
+var line_gradient: Gradient
+var line_gradient_texture: GradientTexture1D
 
 static func get_component_id() -> String:
 	return "accuracy_display"
@@ -57,16 +57,21 @@ func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
 func update_line_grad_colors():
 	line_grad_colors = [gradient_color_sad, gradient_color_safe, gradient_color_fine, gradient_color_cool,
 						gradient_color_cool, gradient_color_fine, gradient_color_safe, gradient_color_sad]
-	if not line_grad_img:
-		line_grad_img = Image.create(line_grad_colors.size(), 1, false, Image.FORMAT_RGB8)
-	false # line_grad_img.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
+	if not line_gradient:
+		line_gradient = Gradient.new()
+		line_gradient.interpolation_color_space = Gradient.GRADIENT_COLOR_SPACE_OKLAB
+		line_gradient_texture = GradientTexture1D.new()
+		line_gradient_texture.gradient = line_gradient
+	var offsets := PackedFloat32Array()
+	var colors := PackedColorArray()
+	offsets.resize(line_grad_colors.size())
+	colors.resize(line_grad_colors.size())
 	for i in range(line_grad_colors.size()):
-		line_grad_img.set_pixel(i, 0, line_grad_colors[i])
-	false # line_grad_img.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	if not line_grad_tex:
-		line_grad_tex = ImageTexture.create_from_image(line_grad_img) #,0
-	else:
-		line_grad_tex.set_image(line_grad_img)
+		var p := i / float(line_grad_colors.size()-1)
+		colors[i] = line_grad_colors[i]
+		offsets[i] = p
+	line_gradient.offsets = offsets
+	line_gradient.colors = colors
 	queue_redraw()
 
 func set_rating_line_width(val):
@@ -107,11 +112,11 @@ func _draw():
 	var background_color = Color.BLACK
 	background_color.a = 0.5
 	draw_rect(Rect2(Vector2.ZERO, size), background_color)
-	if not line_grad_tex:
+	if not line_gradient_texture:
 		return
 	# draw the gradient line
 	var gradient_line_rect = Rect2(Vector2(0, (size.y / 2.0) - (gradient_line_height / 2.0)), Vector2(size.x, gradient_line_height))
-	draw_texture_rect(line_grad_tex, gradient_line_rect, false)
+	draw_texture_rect(line_gradient_texture, gradient_line_rect, false)
 	
 	# draw the rating lines
 	var starting_pos = Vector2.ZERO
