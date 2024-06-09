@@ -155,6 +155,7 @@ func _update_clipping():
 	if children.size() == 0:
 		return
 	var child_start_i := children.bsearch_custom(dummy_control, children_sort)
+	child_start_i = min(children.size()-1, child_start_i)
 	
 	# Walk backwards to find the first item that shouldn't be visible:
 	for i in range(child_start_i, -1, -1):
