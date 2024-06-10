@@ -477,14 +477,10 @@ func set_velocity(value: float):
 	
 	if pitch_shift_effect.pitch_scale != 1.0:
 		add_pitch_effect()
-		if video_player.stream:
-			video_player.hide()
-			$Node2D/Panel.hide()
 	else:
 		remove_pitch_effect()
-		if video_player.stream:
-			video_player.show()
-			$Node2D/Panel.show()
+	
+	video_player.playback_speed = value
 	
 	speed_label.text = str(playback_speed) + "x"
 
