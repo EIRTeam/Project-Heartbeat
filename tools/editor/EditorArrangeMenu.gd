@@ -88,18 +88,18 @@ func _input(event):
 					var new_rotation_idx = HBUtils.bsearch_closest(snap_list, rad_to_deg(new_rotation))
 					new_rotation = deg_to_rad(snap_list[new_rotation_idx])
 				HBUserSettings.EDITOR_ARRANGE_MODES.DISTANCE:
-					var angle = -rad_to_deg(Vector2.ZERO.angle_to_point(Vector2(mode_info.diagonal_step.x, mode_info.diagonal_step.y)))
+					var angle = rad_to_deg(Vector2.ZERO.angle_to_point(Vector2(mode_info.diagonal_step.x, mode_info.diagonal_step.y)))
 					
-					var snap_list := [0, 90, 180, -90]
+					var snap_list := [-180, -90, 0, 90, 180, -90]
 					snap_list.append_array([angle, -angle, 180 - angle, -180 + angle])
 					snap_list.sort()
 					
 					var new_rotation_idx = HBUtils.bsearch_closest(snap_list, rad_to_deg(new_rotation))
 					new_rotation = deg_to_rad(snap_list[new_rotation_idx])
 				HBUserSettings.EDITOR_ARRANGE_MODES.FAKE_SLOPE:
-					var angle = -rad_to_deg(Vector2.ZERO.angle_to_point(Vector2(-UserSettings.user_settings.editor_arrange_separation, mode_info.vertical_step)))
+					var angle = rad_to_deg(Vector2.ZERO.angle_to_point(Vector2(-UserSettings.user_settings.editor_arrange_separation, mode_info.vertical_step)))
 					
-					var snap_list := [0, 90, 180, -90]
+					var snap_list := [-180, -90, 0, 90, 180, -90]
 					snap_list.append_array([angle, -angle, 180 - angle, -180 + angle])
 					snap_list.sort()
 					
