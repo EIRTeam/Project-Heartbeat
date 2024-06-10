@@ -47,7 +47,7 @@ func get_filter_tags():
 	if filter_by_stars and filter_tag == "Charts":
 		for i in range(star_filter_vbox_container.get_child_count()):
 			var checkbox: HBHovereableCheckbox = star_filter_vbox_container.get_child(i)
-			if checkbox.pressed:
+			if checkbox.button_pressed:
 				tags.push_back(checkbox.get_meta("filter_name"))
 	else:
 		tags = [filter_tag]
