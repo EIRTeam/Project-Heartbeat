@@ -315,16 +315,16 @@ func go_to_time(time: float):
 	if not get_tree().paused:
 		game.editing = false
 		game.seek_new(time, true)
+		game._process_game(0)
 		game.start()
 		game.set_process(true)
-		game._process(0)
 		video_player.paused = false
 		video_player.set_stream_position(game.time_msec / 1000.0)
 		video_debounce_seek_timer.stop()
 	else:
 		game.seek_new(time, true)
 		game.time_msec = time
-		game._process(0)
+		game._process_game(0)
 		update_progress_bar()
 		video_player.paused = true
 		seek_video_with_debounce(game.time_msec / 1000.0)
