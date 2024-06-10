@@ -26,6 +26,7 @@ func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_sele
 class SongFilterData:
 	var string_cmp: String
 	var int_cmp: int
+	var float_cmp: float
 	var song: HBSong
 	func _init(_song: HBSong):
 		song = _song
@@ -35,10 +36,16 @@ func get_compare_func() -> Callable:
 	match sort_by_prop:
 		&"title", &"artist", &"creator":
 			out_callable = self.string_compare
-		&"highest_score", &"lowest_score", &"bpm", &"_times_played":
+		&"bpm", &"_times_played":
 			out_callable = self.int_compare_asc
-		&"_added_time", &"_released_time", &"_updated_time":
+		&"_added_time", &"highest_score", &"_released_time", &"_updated_time":
 			out_callable = self.int_compare_desc
+		&"lowest_score":
+			out_callable = self.float_compare_asc
+		&"highest_score":
+			out_callable = self.float_compare_desc
+			
+			
 	assert(out_callable.is_valid())
 	return out_callable
 	
@@ -51,9 +58,9 @@ func fill_compare_data(song: HBSong, filter_data: SongFilterData):
 		&"creator":
 			filter_data.string_cmp = song.creator
 		&"highest_score":
-			filter_data.int_cmp = song.get_max_score()
+			filter_data.float_cmp = song.get_max_score()
 		&"lowest_score":
-			filter_data.int_cmp = song.get_min_score()
+			filter_data.float_cmp = song.get_min_score()
 		&"bpm":
 			filter_data.int_cmp = song.bpm
 		&"times_played":
@@ -132,6 +139,12 @@ func int_compare_asc(a: SongFilterData, b: SongFilterData):
 		
 func int_compare_desc(a: SongFilterData, b: SongFilterData):
 	return b.int_cmp < a.int_cmp
+		
+func float_compare_asc(a: SongFilterData, b: SongFilterData):
+	return a.float_cmp < b.float_cmp
+		
+func float_compare_desc(a: SongFilterData, b: SongFilterData):
+	return b.float_cmp < a.float_cmp
 		
 func _create_song_item(song: HBSong):
 	var item = SongListItem.instantiate()
