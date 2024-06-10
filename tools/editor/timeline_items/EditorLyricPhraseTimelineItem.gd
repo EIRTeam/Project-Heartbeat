@@ -4,6 +4,8 @@ class_name EditorLyricPhraseTimelineItem
 
 signal phrases_changed
 
+const STARTEND_WIDTH := 6
+
 @onready var lyric_label = get_node("LyricsLabel")
 @onready var start_end_label = get_node("StartEndLabel")
 
@@ -28,7 +30,7 @@ func update_label():
 		start_end_label.mouse_filter = MOUSE_FILTER_IGNORE
 
 func get_editor_size():
-	var width = 3
+	var width = STARTEND_WIDTH
 	if data is HBLyricsLyric:
 		width = 100
 	return Vector2(width, size.y)
@@ -44,7 +46,7 @@ func get_click_rect():
 	if data is HBLyricsLyric:
 		return super.get_click_rect()
 	else:
-		return start_end_label.get_global_rect()
+		return (start_end_label.get_global_rect() as Rect2).merge(super.get_click_rect())
 
 func _draw():
 	super._draw()
@@ -54,4 +56,4 @@ func _draw():
 		if data is HBLyricsPhraseEnd:
 			color = Color.BLUE
 		
-		draw_rect(Rect2(Vector2.ZERO, Vector2(3, size.y)), color)
+		draw_rect(Rect2(Vector2.ZERO - Vector2(STARTEND_WIDTH/2, 0), Vector2(STARTEND_WIDTH, size.y)), color)
