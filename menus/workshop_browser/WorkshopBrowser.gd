@@ -247,7 +247,7 @@ func _unhandled_input(event):
 		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		if star_filter_panel_container.visible:
 			star_filter_panel_container.hide()
-			filter_by_stars = true
+			filter_by_stars = star_filter_vbox_container.get_children().any(func (a: Button): return a.button_pressed)
 			navigate_to_page(1)
 		elif sort_by_popup.visible:
 			sort_by_popup.hide()
