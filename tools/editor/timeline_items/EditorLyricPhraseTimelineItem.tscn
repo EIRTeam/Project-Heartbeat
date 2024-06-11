@@ -36,7 +36,7 @@ anchor_bottom = 1.0
 [node name="StartEndLabel" type="Label" parent="."]
 layout_mode = 0
 offset_top = -25.0
-offset_right = 166.0
-offset_bottom = -6.0
+offset_right = 9.0
+offset_bottom = 27.0
 mouse_filter = 0
 script = SubResource("2")
