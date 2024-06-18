@@ -11,12 +11,14 @@ signal cancel
 @export var accept_text: String  = "Yes": set = set_accept_text
 @export var cancel_text: String  = "No": set = set_cancel_text
 @onready var cancel_button = get_node("%CancelButton")
+var tween: Tween
+
 func _ready():
 	hide()
 	top_level = true
 	_connect_button_signals()
-	connect("cancel", Callable(self, "hide"))
-	connect("accept", Callable(self, "hide"))
+	connect("cancel", self.play_hide_animation)
+	connect("accept", self.play_hide_animation)
 	if not has_cancel:
 		%CancelButton.hide()
 	if not has_accept:
@@ -39,6 +41,7 @@ func _on_accept_pressed():
 
 func _on_cancel_pressed():
 	emit_signal("cancel")
+	play_hide_animation()
 
 func set_text(value):
 	text = value
@@ -50,7 +53,6 @@ func set_cancel_text(value):
 	cancel_text = value
 	%CancelButton.text = value
 
-
 func _on_Control_about_to_show():
 	%ButtonContainer.grab_focus()
 	if has_cancel:
@@ -58,12 +60,44 @@ func _on_Control_about_to_show():
 	else:
 		%ButtonContainer.select_button(0)
 func popup():
+	scale = Vector2.ONE
 	_on_Control_about_to_show()
 	show()
+	play_popup_animation()
+
+		
+func play_popup_animation():
+	pivot_offset = size * 0.5
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(self, "scale", Vector2.ONE, 0.25) \
+		.set_ease(Tween.EASE_OUT) \
+		.set_trans(Tween.TRANS_BACK) \
+		.from(Vector2.ZERO)
+	
+	tween.parallel().tween_property(self, "modulate:a", 1.0, 0.25) \
+		.from(0.0)
+func play_hide_animation():
+	pivot_offset = size * 0.5
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(self, "scale", Vector2.ZERO, 0.25) \
+		.set_ease(Tween.EASE_IN) \
+		.set_trans(Tween.TRANS_BACK) \
+		.from(Vector2.ONE)
+	tween.parallel().tween_property(self, "modulate:a", 0.0, 0.25) \
+		.from(1.0)
+	tween.tween_callback(self.hide)
+	tween.tween_callback(self.set.bind("scale", Vector2.ONE))
+		
 func popup_centered_ratio(ratio := 0.5):
 	popup_centered()
 func popup_centered():
+	scale = Vector2.ONE
 	_on_Control_about_to_show()
 	show()
 	var center := get_window().get_visible_rect().get_center()
 	global_position = center - size*0.5
+	play_popup_animation()

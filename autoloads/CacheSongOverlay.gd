@@ -1,7 +1,6 @@
 extends Control
 
 @onready var download_confirm_popup = get_node("DownloadConfirmPopup")
-@onready var downloading_prompt = get_node("DownloadingPrompt")
 @onready var error_prompt = get_node("ErrorPrompt")
 @onready var accept_button_audio = get_node("%AcceptButtonAudio")
 @onready var button_menu = $DownloadConfirmPopup.get_node("%ButtonContainer")
@@ -10,17 +9,21 @@ var current_song_downloading: HBSong
 var current_variant = -1
 
 func _ready():
-	hide()
+	disable_mouse_filter()
 	download_confirm_popup.connect("accept", Callable(self, "_on_download_prompt_accepted"))
 	download_confirm_popup.connect("cancel", Callable(self, "emit_signal").bind("done"))
 	error_prompt.connect("accept", Callable(self, "_on_error_prompt_accepted"))
-	accept_button_audio.pressed.connect(self.hide)
-	download_confirm_popup.accept.connect(self.hide)
-	download_confirm_popup.cancel.connect(self.hide)
-	accept_button_audio.connect("pressed", Callable(download_confirm_popup, "hide"))
+	accept_button_audio.pressed.connect(self.disable_mouse_filter)
+	download_confirm_popup.accept.connect(self.disable_mouse_filter)
+	download_confirm_popup.cancel.connect(self.disable_mouse_filter)
+	accept_button_audio.connect("pressed", Callable(download_confirm_popup, "disable_mouse_filter"))
 	accept_button_audio.connect("pressed", Callable(self, "_on_download_prompt_accepted").bind(true))
+	
+func disable_mouse_filter():
+	mouse_filter = MouseFilter.MOUSE_FILTER_IGNORE
+	
 func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_option = false):
-	show()
+	mouse_filter = MouseFilter.MOUSE_FILTER_STOP
 	HBGame.fire_and_forget_sound(HBGame.menu_validate_sfx, HBGame.sfx_group)
 	var variant = song.get_variant_data(variant_n)
 	if YoutubeDL.is_already_downloading(song, variant_n):
@@ -39,7 +42,7 @@ func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_opt
 	button_menu.select_button(0)
 	
 func _on_error_prompt_accepted():
-	hide()
+	disable_mouse_filter()
 	emit_signal("done")
 	
 func _on_download_prompt_accepted(audio_only=false):
@@ -50,5 +53,5 @@ func _on_download_prompt_accepted(audio_only=false):
 		UserSettings.save_user_settings()
 	current_song_downloading.cache_data(current_variant)
 	download_confirm_popup.hide()
-	hide()
 	emit_signal("done")
+	disable_mouse_filter()

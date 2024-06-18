@@ -26,13 +26,12 @@ shadow_size = 10
 
 [node name="HBConfirmationWindow" type="CenterContainer"]
 top_level = true
-custom_minimum_size = Vector2(650, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 0
 theme = ExtResource("1")
 script = ExtResource("4")
 
@@ -95,5 +94,3 @@ theme_override_styles/pressed = ExtResource("5")
 theme_override_styles/normal = ExtResource("6")
 text = "No"
 script = ExtResource("2")
-
-[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/ButtonContainer/CancelButton" to="." method="hide"]
