@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=3 uid="uid://ldawg6lydbq6"]
+
+[ext_resource type="Script" path="res://menus/song_list/DifficultyTag.gd" id="1_fh8u7"]
+
+[node name="DifficultyTag" type="PanelContainer"]
+self_modulate = Color(0.3128, 0.1904, 0.68, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -98.0
+offset_top = -6.0
+offset_right = -1783.0
+offset_bottom = -1021.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"DifficultyTag"
+script = ExtResource("1_fh8u7")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="StarLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 25
+text = "10"
+vertical_alignment = 1
+
+[node name="DifficultyColorPanel" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0, 0.525, 0.457, 1)
+layout_mode = 2
+theme_type_variation = &"DifficultyTag"
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/DifficultyColorPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="DifficultyLabel" type="Label" parent="HBoxContainer/DifficultyColorPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 25
+text = "testtttt"
+vertical_alignment = 1
+uppercase = true
+
+[node name="SelectionBorderContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2

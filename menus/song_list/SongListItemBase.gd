@@ -8,6 +8,8 @@ class_name HBSongListItemBase
 const HOVERED_SCALE = Vector2(1.0, 1.0)
 const NON_HOVERED_SCALE = Vector2(0.85, 0.85)
 
+var interpolated_scale := Vector2.ONE
+
 @onready var scale_tween = Threen.new()
 
 var hover_style = preload("res://styles/SongListItemHover.tres")
@@ -30,6 +32,11 @@ func _ready():
 	add_child(scale_tween)
 	call_deferred("_on_resize")
 
+func _update_interpolated_scale(new_scale: Vector2):
+	interpolated_scale = new_scale
+	pivot_offset.y = size.y * 0.5
+	node_to_scale.scale = new_scale
+
 func update_scale(to: Vector2, no_animation=false):
 	node_to_scale.pivot_offset = node_to_scale.size / 2.0
 	node_to_scale.pivot_offset.x = 0
@@ -39,7 +46,7 @@ func update_scale(to: Vector2, no_animation=false):
 			node_to_scale.scale = get_target_scale()
 		else:
 			scale_tween.remove_all()
-			scale_tween.interpolate_property(node_to_scale, "scale", node_to_scale.scale, to, 0.25, Threen.TRANS_BACK, Threen.EASE_OUT)
+			scale_tween.interpolate_method(self, "_update_interpolated_scale", node_to_scale.scale, to, 0.25, Threen.TRANS_BACK, Threen.EASE_OUT)
 			scale_tween.start()
 func hover(no_animation=false):
 	node_to_scale.add_theme_stylebox_override("normal", hover_style)
@@ -56,4 +63,3 @@ func is_hovered():
 #	get_tree().root.add_child(scene)
 #	get_tree().current_scene = scene
 #	scene.set_song(song)
-

@@ -97,7 +97,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", Callable(self, "_on_youtube_url_selected"))
 	MouseTrap.ppd_dialog.connect("file_selected", Callable(self, "_on_ppd_audio_file_selected"))
 	MouseTrap.ppd_dialog.connect("file_selector_hidden", Callable(song_container, "grab_focus").bind(), CONNECT_DEFERRED)
-	MouseTrap.ppd_dialog.connect("popup_hide", Callable(song_container, "grab_focus").bind(), CONNECT_DEFERRED)
+	MouseTrap.ppd_dialog.connect("visibility_changed", self._on_ppd_dialog_visiblity_changed, CONNECT_DEFERRED)
 #	song_container.hard_arrange_all()
 	#sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
 	#fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
@@ -105,6 +105,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		_on_PPDAudioBrowseWindow_accept()
 	song_container.grab_focus()
 
+func _on_ppd_dialog_visiblity_changed():
+	if MouseTrap.ppd_dialog.visible:
+		song_container.grab_focus
 	
 func _on_ugc_song_meta_updated():
 	if UserSettings.user_settings.workshop_tab_sort_mode in ["_added_time", "_updated_time", "_released_time"] \

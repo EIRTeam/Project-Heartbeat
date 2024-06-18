@@ -1,12 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://be7tuc1i6yq5b"]
+[gd_scene load_steps=11 format=3 uid="uid://be7tuc1i6yq5b"]
 
 [ext_resource type="Script" path="res://menus/news_list/MainMenuRight.gd" id="1"]
-[ext_resource type="StyleBox" uid="uid://cp7yh4stt825r" path="res://styles/PanelStyleTransparentIconHover.tres" id="3"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://cgkq7divjs4o6" path="res://graphics/icons/discord_main_join.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://58gmorfx1ujw" path="res://graphics/icons/twitter_main.svg" id="7"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="8"]
-[ext_resource type="FontVariation" uid="uid://nyc27vir054y" path="res://fonts/default_font_bold.tres" id="9_cyc42"]
+[ext_resource type="StyleBox" uid="uid://bax05u7srvinw" path="res://styles/PanelStyleTransparentHoverAnimation.tres" id="8_f7pjj"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="10"]
 [ext_resource type="Texture2D" uid="uid://diw3qc73g27lv" path="res://graphics/icons/account_main.svg" id="11"]
 
@@ -132,7 +131,8 @@ vertical_alignment = 2
 
 [node name="Label2" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("9_cyc42")
+theme_override_fonts/font = ExtResource("8")
+theme_override_font_sizes/font_size = 24
 text = "@PHeartbeatGame"
 horizontal_alignment = 1
 
@@ -143,7 +143,7 @@ layout_mode = 2
 [node name="Panel" type="HBPanelBlurEX" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("3")
+theme_override_styles/panel = ExtResource("8_f7pjj")
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/Panel"]
 layout_mode = 2

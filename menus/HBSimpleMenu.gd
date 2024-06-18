@@ -1,4 +1,4 @@
-extends BoxContainer
+extends Container
 
 class_name HBSimpleMenu
 
@@ -34,6 +34,16 @@ func select_button(i: int, fire_event=true):
 	selected_button = child
 	selected_button_i = i
 
+func is_node_buttonlike(node: Control) -> bool:
+	
+	if not node.has_signal(&"pressed"):
+		return false
+	if not node.has_method(&"hover"):
+		return false
+	if not node.has_method(&"stop_hover"):
+		return false
+	return true
+
 func _on_focus_entered():
 	if get_child_count() > 0:
 		if selected_button and selected_button.visible:
@@ -41,7 +51,7 @@ func _on_focus_entered():
 		else:
 			for child_i in range(get_child_count()):
 				var child = get_child(child_i)
-				if child.visible and child is BaseButton:
+				if child.visible and is_node_buttonlike(child):
 					select_button(child_i)
 					break
 func _try_focus_neighbor(neighbor: NodePath) -> bool:
@@ -93,7 +103,7 @@ func _gui_input(event):
 				get_viewport().set_input_as_handled()
 				var i = wrapi(selected_button_i-1, 0, get_child_count())
 				while i >= 0:
-					if get_child(i).visible and get_child(i) is BaseButton:
+					if get_child(i).visible and get_child(i):
 						select_button(i)
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 						break
@@ -113,7 +123,7 @@ func _gui_input(event):
 				get_viewport().set_input_as_handled()
 				var i = wrapi(selected_button_i+1, 0, get_child_count())
 				while i <= get_child_count()-1:
-					if get_child(i).visible and get_child(i) is BaseButton:
+					if get_child(i).visible and get_child(i):
 						select_button(i)
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 						break
@@ -126,7 +136,7 @@ func _gui_input(event):
 				sfx_type = selected_button.get_meta("sfx")
 			if sfx_type:
 				HBGame.fire_and_forget_sound(sfx_type, HBGame.sfx_group)
-			if selected_button.toggle_mode:
+			if selected_button is BaseButton and selected_button.toggle_mode:
 				selected_button.button_pressed = !selected_button.button_pressed
 			else:
 				selected_button.emit_signal("pressed")

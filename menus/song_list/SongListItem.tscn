@@ -1,33 +1,34 @@
-[gd_scene load_steps=9 format=4 uid="uid://bs014ypkeybga"]
+[gd_scene load_steps=13 format=3 uid="uid://bs014ypkeybga"]
 
 [ext_resource type="PackedScene" uid="uid://bk36n81tgbx1g" path="res://menus/SongTitle.tscn" id="1"]
 [ext_resource type="StyleBox" uid="uid://3yhfuv7t5wgf" path="res://styles/SongListItemNormal.tres" id="2"]
 [ext_resource type="Script" path="res://menus/song_list/SongListItem.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://cqsegv1wyr5o7" path="res://graphics/icons/menu_star.png" id="4"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="5"]
+[ext_resource type="Script" path="res://menus/song_list/animatable_container.gd" id="5_yxbln"]
 [ext_resource type="StyleBox" uid="uid://bpo43s4bcd0gr" path="res://styles/SongListItemHover.tres" id="6"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="7"]
+[ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="7_2dew8"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="8"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="10_75apa"]
+[ext_resource type="Texture2D" uid="uid://bba7sytrl2scc" path="res://graphics/icons/clearBadge-Perfect.png" id="10_p7e5s"]
 
-[node name="Control" type="Control"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 3
+[node name="Control" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 125)
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 100.0
+offset_bottom = 125.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 focus_mode = 2
 mouse_filter = 2
+theme_override_constants/margin_right = 90
 script = ExtResource("3")
-node_to_scale_path = NodePath("Control")
+node_to_scale_path = NodePath(".")
 
-[node name="Control" type="Button" parent="."]
-layout_mode = 0
-offset_left = 60.0
-offset_top = 25.0
-offset_right = 1720.0
-offset_bottom = 75.0
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 theme = ExtResource("7")
@@ -36,73 +37,8 @@ theme_override_styles/hover = ExtResource("6")
 theme_override_styles/pressed = ExtResource("6")
 theme_override_styles/normal = ExtResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 62
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 7
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = -10
-
-[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-expand_mode = 1
-stretch_mode = 5
-
-[node name="TextureRect2" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-expand_mode = 1
-stretch_mode = 5
-
-[node name="DownloadTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-texture = ExtResource("8")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1")]
-use_parent_material = false
-layout_mode = 2
-mouse_filter = 2
-
-[node name="TextureRect" type="TextureRect" parent="Control"]
+[node name="TextureRect" type="TextureRect" parent="Button"]
+visible = false
 custom_minimum_size = Vector2(175, 125)
 layout_mode = 1
 anchors_preset = 4
@@ -120,7 +56,7 @@ texture = ExtResource("4")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="StarsLabel" type="Label" parent="Control/TextureRect"]
+[node name="StarsLabel" type="Label" parent="Button/TextureRect"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -134,4 +70,110 @@ text = "(NT)1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="Control" to="." method="emit_signal" binds= ["pressed"]]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="AlbumArtTexture" type="TextureRect" parent="MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 6
+layout_mode = 2
+texture = ExtResource("7_2dew8")
+expand_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -10
+
+[node name="ArcadeTexture" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ConsoleTexture" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DownloadTextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SongTitle" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer" instance=ExtResource("1")]
+unique_name_in_owner = true
+use_parent_material = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="AnimatableContainer" type="Container" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+script = ExtResource("5_yxbln")
+
+[node name="RatingDataContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+metadata/animated_deployed_visibility = true
+
+[node name="RatingTexture" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+texture = ExtResource("10_p7e5s")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer"]
+layout_mode = 2
+theme_override_constants/separation = -20
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ccc"
+
+[node name="PercentageLabel" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "jjjj"
+
+[node name="DifficultyTagContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/h_separation = 15
+script = ExtResource("10_75apa")
+enable_wrap_around = true
+
+[connection signal="pressed" from="Button" to="." method="emit_signal"]

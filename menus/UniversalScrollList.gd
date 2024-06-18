@@ -72,13 +72,12 @@ func _ready():
 	get_v_scroll_bar().connect("visibility_changed", Callable(self, "_on_vscrollbar_visibility_changed"))
 	get_v_scroll_bar().connect("changed", Callable(self, "update_fade"))
 	get_v_scroll_bar().connect("value_changed", Callable(self, "_on_scroll_changed"))
-	item_container.connect("resized", Callable(self, "force_scroll"))
 	clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
 	if enable_fade:
 		var fade_mat = ShaderMaterial.new()
 		fade_mat.shader = FADE_SHADER
 		item_container.material = fade_mat
-		RenderingServer.canvas_item_set_canvas_group_mode(item_container.get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 5.0, true)
+		RenderingServer.canvas_item_set_canvas_group_mode(item_container.get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 5.0, true, 20.0)
 	_on_resized()
 	scroll_changed.connect(self._queue_clip_update)
 	item_container.sort_children.connect(self._queue_clip_update)
@@ -129,9 +128,18 @@ func get_selected_item():
 			return item
 	return null
 	
+var starting_animation_scroll = 0
+	
+func _scroll_animate_step(scroll_progress: float):
+	var selected: Control = get_selected_item()
+	if selected:
+		#target_scroll = calculate_target_scroll_to(selected)
+		scroll_vertical = lerp(float(starting_animation_scroll), float(target_scroll), scroll_progress)
+		update_fade()
 func smooth_scroll_to(target: float):
 	tween.remove_all()
-	tween.interpolate_property(self, "scroll_vertical", scroll_vertical, target, 0.5, Threen.TRANS_CUBIC, Threen.EASE_OUT)
+	tween.interpolate_method(self, "_scroll_animate_step", 0.0, 1.0, 0.5, Threen.TRANS_CUBIC, Threen.EASE_OUT)
+	starting_animation_scroll = scroll_vertical
 	target_scroll = target
 	scroll_changed.emit()
 	tween.start()
@@ -150,12 +158,14 @@ func _update_clipping():
 		return a.position.y < b.position.y
 	# hack...
 	var clamped_target_scroll := clamp(target_scroll, 0, item_container.size.y - size.y)
-	var dummy_control := Control.new()
-	dummy_control.position.y = clamped_target_scroll
+
 	var children := item_container.get_children()
 	if children.size() == 0:
 		return
+	var dummy_control := Control.new()
+	dummy_control.position.y = clamped_target_scroll
 	var child_start_i := children.bsearch_custom(dummy_control, children_sort)
+	dummy_control.queue_free()
 	child_start_i = min(children.size()-1, child_start_i)
 	
 	# Walk backwards to find the first item that shouldn't be visible:
@@ -164,7 +174,6 @@ func _update_clipping():
 			break
 		child_start_i = i
 	
-	dummy_control.queue_free()
 	
 	for i in range(child_start_i, children.size(), 1):
 		var control := children[i] as Control
@@ -181,6 +190,11 @@ func add_dummy() -> DummyItem:
 	container_order_dirty = true
 	return dummy
 
+func replace_dummy(dummy: DummyItem, replacement: Control):
+	dummy.add_sibling(replacement)
+	dummy.queue_free()
+	item_container.remove_child(dummy)
+
 func update_fade():
 	# Hide top/bottom fade intelligently
 	if enable_fade:
@@ -196,6 +210,16 @@ func update_fade():
 				
 			mat.set_shader_parameter("bottom_enabled", float(target_scroll < max_scroll))
 	
+func calculate_target_scroll_to(child: Control) -> float:
+	var out := 0.0
+	match scroll_mode:
+		SCROLL_MODE.PAGE:
+			if child.position.y + child.size.y > scroll_vertical + size.y or \
+					child.position.y < scroll_vertical:
+				out = float(child.position.y)
+		SCROLL_MODE.CENTER:
+			out = float(child.position.y + child.size.y / 2.0 - size.y / 2.0)
+	return out
 func select_item(item_i: int):
 	if item_container.get_child_count() == 0:
 		return

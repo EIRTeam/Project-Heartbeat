@@ -3,7 +3,6 @@ extends HBUniversalScrollList
 const SongListItem = preload("res://menus/song_list/SongListItem.tscn")
 const SongListItemFolder = preload("res://menus/song_list/SongListFolder.tscn")
 const SongListItemFolderBack = preload("res://menus/song_list/SongListFolderBack.tscn")
-const SongListItemDifficulty = preload("res://menus/song_list/SongListItemDifficulty.tscn")
 
 const RANDOM_SELECT_BUTTON_SCENE = preload("res://menus/song_list/SongListItemRandom.tscn")
 
@@ -55,7 +54,7 @@ var item_visibility_update_queued := false
 func _on_selected_item_changed():
 	var selected_item = get_selected_item()
 	if selected_item:
-		if selected_item is HBSongListItem or selected_item is HBSongListItemDifficulty:
+		if selected_item is HBSongListItem:
 			emit_signal("song_hovered", selected_item.song)
 		else:
 			emit_signal("hover_nonsong")
@@ -86,6 +85,7 @@ func _create_song_item(song: HBSong):
 	item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	item.connect("pressed", Callable(self, "_on_song_selected").bind(song))
 	item.ready.connect(item._become_visible)
+	item.difficulty_selected.connect(self._on_difficulty_selected)
 	return item
 func update_items():
 	for i in item_container.get_children():
@@ -152,51 +152,7 @@ func _on_song_selected(song: HBSong):
 			var item = song_difficulty_items_map[song][difficulty]
 			item_container.remove_child(item)
 			item.queue_free()
-			
 		song_difficulty_items_map.erase(song)
-	else:
-		var vals = song_difficulty_items_map.values()
-		for i in range(song_difficulty_items_map.size() - 1, -1, -1):
-			for difficulty in vals[i]:
-				var item = vals[i][difficulty]
-				item_container.remove_child(item)
-				item.queue_free()
-		select_song_by_id(song.id, null)
-
-		song_difficulty_items_map = {}
-		song_difficulty_items_map[song] = {}
-		var selected_item = get_selected_item()
-		var pos = selected_item.get_index()
-		#prevent_hard_arrange = true
-		
-		
-		var difficulty_map = []
-		for difficulty in song.charts:
-			difficulty_map.append({"diff": difficulty, "stars": song.charts[difficulty]["stars"]})
-		
-		difficulty_map.sort_custom(Callable(self, "_sort_by_difficulty"))
-		
-		for entry in difficulty_map:
-			
-			var item = SongListItemDifficulty.instantiate()
-			item_container.add_child(item)
-			pos += 1
-			item_container.move_child(item, pos)
-			item.position = selected_item.position
-			# TODO: ITEM SCALES!
-#			item.rect_scale = Vector2(scale_factor, scale_factor)
-			item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-			item.set_song_difficulty(song, entry["diff"])
-			if selected_item is HBSongListItem:
-				if song.is_chart_note_usage_known_all():
-					item.show_note_usage()
-				else:
-					if selected_item.task:
-						selected_item.task.connect("assets_loaded", Callable(item, "_on_note_usage_loaded"))
-					else:
-						print("Error connecting note usage task, BUG?")
-			item.connect("pressed", Callable(self, "_on_difficulty_selected").bind(song, entry["diff"]))
-			song_difficulty_items_map[song][entry["diff"]] = item
 
 static func _sort_by_difficulty(a, b):
 	return a["stars"] > b["stars"]
@@ -209,17 +165,16 @@ func select_song_by_id(song_id: String, difficulty=null):
 			song = child.get_meta(&"song") as HBSong
 		elif child is HBSongListItem:
 			song = child.song
-		elif child is HBSongListItemDifficulty:
-			song = child.song
 		else:
 			continue
 		if song:
 			if song.id == song_id:
 				if difficulty:
 					select_item(child_i)
-					if not song in song_difficulty_items_map:
-						_on_song_selected(song)
-					select_item(song_difficulty_items_map[song][difficulty].get_index())
+					if difficulty:
+						if child is HBUniversalScrollList.DummyItem:
+							_on_dummy_sighted(song)
+						item_container.get_child(child_i).select_diff(difficulty)
 				else:
 					select_item(child_i)
 
@@ -277,9 +232,7 @@ func set_filter(filter_name: String):
 func _on_dummy_sighted(song: HBSong):
 	var dummy = filtered_song_items[song] as Control
 	var item = _create_song_item(song)
-	dummy.add_sibling(item)
-	dummy.queue_free()
-	item_container.remove_child(dummy)
+	replace_dummy(dummy, item)
 	filtered_song_items[song] = item
 	if item.get_index() == current_selected_item:
 		force_scroll()
@@ -289,12 +242,10 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 	var previously_selected_song_id = null
 	var previously_selected_difficulty = null
 	var selected_item = get_selected_item()
-	var is_song_selected = selected_item is HBSongListItem or selected_item is HBSongListItemDifficulty
+	var is_song_selected = selected_item is HBSongListItem
 	
 	if selected_item and is_song_selected:
 		previously_selected_song_id = selected_item.song.id
-		if selected_item is HBSongListItemDifficulty:
-			previously_selected_difficulty = selected_item.difficulty
 		
 	song_difficulty_items_map = {}
 			
