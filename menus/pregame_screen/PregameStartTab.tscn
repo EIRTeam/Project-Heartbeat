@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://dwcd6tgw5po4y"]
+[gd_scene load_steps=12 format=3 uid="uid://dwcd6tgw5po4y"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="5"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://cai6nkgeq8ftu" path="res://graphics/icons/icon_information_sign.svg" id="8"]
+[ext_resource type="StyleBox" uid="uid://qlctqc40lhg6" path="res://styles/PanelStyleTransparentHover.tres" id="9_4nist"]
 
 [sub_resource type="StyleBoxFlat" id="4"]
 content_margin_left = 10.0
@@ -27,10 +28,10 @@ corner_radius_bottom_left = 5
 anti_aliasing_size = 3.0
 
 [sub_resource type="StyleBoxEmpty" id="3"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [node name="HBoxContainer" type="VBoxContainer"]
 anchors_preset = 15
@@ -172,7 +173,7 @@ theme_override_styles/normal = SubResource("3")
 text = "Start"
 script = ExtResource("4")
 normal_style = SubResource("3")
-hover_style = SubResource("4")
+hover_style = ExtResource("9_4nist")
 
 [node name="StartPractice" type="Button" parent="Panel2/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -183,7 +184,7 @@ theme_override_styles/normal = SubResource("3")
 text = "Start Practice"
 script = ExtResource("4")
 normal_style = SubResource("3")
-hover_style = SubResource("4")
+hover_style = ExtResource("9_4nist")
 
 [node name="BackButton" type="Button" parent="Panel2/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -194,7 +195,7 @@ theme_override_styles/normal = SubResource("3")
 text = "Back"
 script = ExtResource("4")
 normal_style = SubResource("3")
-hover_style = SubResource("4")
+hover_style = ExtResource("9_4nist")
 
 [connection signal="out_from_bottom" from="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer" to="Panel2/MarginContainer/VBoxContainer" method="grab_focus"]
 
