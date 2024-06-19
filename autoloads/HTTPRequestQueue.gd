@@ -8,8 +8,15 @@ var current_requests = []
 func cancel_all_requests():
 	for request in current_requests:
 		request.cancel_request()
+		request.queue_free()
 	queue = []
 	current_requests = []
+
+func cancel_request(request: HTTPRequest):
+	request.cancel_request()
+	queue.erase(request)
+	current_requests.erase(request)
+	request.queue_free()
 
 func add_request(url: String) -> HTTPRequest:
 	var req = HTTPRequest.new()

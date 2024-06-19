@@ -16,16 +16,33 @@ var request: HTTPRequest
 var data: HBSteamUGCItem
 var item_owner: HBSteamFriend
 
+@onready var visibility_notifier := VisibleOnScreenNotifier2D.new()
+
+func screen_exited():
+	if request:
+		HTTPRequestQueue.cancel_request(request)
+		request = null
+
+func screen_entered():
+	if not texture_rect.texture:
+		_request_preview_image()
+
 func _ready():
 	super._ready()
 	arcade_texture_rect.hide()
 	console_texture_rect.hide()
+	add_child(visibility_notifier)
+	visibility_notifier.screen_entered.connect(screen_entered)
+	visibility_notifier.screen_exited.connect(screen_exited)
+	
+func _request_preview_image():
+	if data and not request:
+		request = HTTPRequestQueue.add_request(data.preview_image_url)
+		request.connect("request_completed", Callable(self, "_on_request_completed"))
 	
 func set_data(_data: HBSteamUGCItem):
 	# HACKHACKHACK: requests need to be in tree?
 	data = _data
-	request = HTTPRequestQueue.add_request(data.preview_image_url)
-	request.connect("request_completed", Callable(self, "_on_request_completed"))
 	title_label.text = data.title
 	romanized_title_label.text = ""
 	if data.get_meta("item") is HBSong:
