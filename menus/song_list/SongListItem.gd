@@ -37,13 +37,14 @@ func _queue_song_update():
 		_song_update.call_deferred()
 
 func _on_difficulty_tag_pressed(diff: String):
-	#disable_scaling = false
-	#animatable_container.animate(false)
+	disable_scaling = false
+	animatable_container.animate(false)
+	UserSettings.user_settings.last_selected_difficulty = diff
+	UserSettings.save_user_settings()
 	difficulty_selected.emit(song, diff)
 	
 func select_diff(diff: String):
 	await get_tree().process_frame
-	_on_pressed()
 	for diff_button in difficulty_tag_container.get_children():
 		if diff_button.difficulty == diff:
 			difficulty_tag_container.select_button(diff_button.get_index())
@@ -213,4 +214,8 @@ func _on_pressed():
 	prev_focus_owner = get_viewport().gui_get_focus_owner()
 	animatable_container.animate(true)
 	difficulty_tag_container.grab_focus()
+	for tag: HBDifficultyTag in difficulty_tag_container.get_children():
+		if tag.difficulty.to_lower() == UserSettings.user_settings.last_selected_difficulty.to_lower():
+			select_diff(tag.difficulty)
+			break
 	set_process_input(true)

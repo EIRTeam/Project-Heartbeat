@@ -73,6 +73,7 @@ var workshop_tab_sort_mode__possibilities = sort_mode__possibilities + [
 	"_updated_time"
 ]
 
+var last_selected_difficulty := ""
 
 var leading_trail_enabled = false
 var use_timing_arm = true
@@ -299,7 +300,7 @@ func _init():
 		"ui_skin",
 		"note_size", "input_map", "input_map_version",
 		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
-		"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
+		"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "last_selected_difficulty", "leading_trail_enabled",
 		"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 		"enable_multi_hint", "play_hit_sounds_only_when_hit", "master_volume", "music_volume", "sfx_volume", "content_path",
 		"background_dim", "disable_menu_music", "vsync_enabled", "root_folder", 
@@ -507,9 +508,6 @@ func serialize(serialize_defaults=false):
 	return base_data
 func get_serialized_type():
 	return "UserSettings"
-
-func get_sound_volume_db(sound_name: String) -> float:
-	return linear_to_db(UserSettings.user_settings.custom_sound_volumes[sound_name])
 
 func get_sound_volume_linear(sound_name: String) -> float:
 	return UserSettings.user_settings.custom_sound_volumes[sound_name]

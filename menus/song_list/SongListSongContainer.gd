@@ -173,14 +173,7 @@ func select_song_by_id(song_id: String, difficulty=null):
 			continue
 		if song:
 			if song.id == song_id:
-				if difficulty:
-					select_item(child_i)
-					if difficulty:
-						if child is HBUniversalScrollList.DummyItem:
-							_on_dummy_sighted(song)
-						item_container.get_child(child_i).select_diff(difficulty)
-				else:
-					select_item(child_i)
+				select_item(child_i)
 
 func sort_array(a: HBSong, b: HBSong):
 	var prop = sort_by_prop
