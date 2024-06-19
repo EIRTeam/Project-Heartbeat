@@ -13,8 +13,6 @@ var potential_score = 90.0
 var top_clear_margin := 0: set = set_top_clear_margin
 var bottom_clear_margin := 0: set = set_bottom_clear_margin
 
-var progress_bar := TextureProgressBar.new()
-
 var clear_separator_color := Color("a90d5d"): set = set_clear_separator_color
 var excellent_line_color := Color.WHITE: set = set_excellent_line_color
 var great_line_color := Color.WHITE: set = set_great_line_color

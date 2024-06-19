@@ -37,7 +37,6 @@ func _on_note_parameter_changed():
 var sine_drawer: SineDrawerCPU
 var disable_trail_margin := false
 
-@onready var appear_animation_tween := Threen.new()
 @onready var note_target_graphics: NoteTarget = get_node("NoteTarget")
 @onready var note_graphics: NoteGraphics = get_node("Note")
 
@@ -100,10 +99,11 @@ func play_appear_animation():
 		current_note_tween.kill()
 		current_note_tween = null
 	current_note_tween = create_tween()
-	current_note_tween.tween_property(note_target_graphics, "scale", Vector2.ONE * UserSettings.user_settings.note_size * 1.1, 0.17)
-	current_note_tween.tween_property(note_target_graphics, "scale", Vector2.ONE * UserSettings.user_settings.note_size * 1.0, 0.17)
-	appear_particles_node.show()
-	appear_particles_node.get_node("AnimationPlayer").play("appear")
+	current_note_tween.tween_property(note_target_graphics, "scale", Vector2.ONE * UserSettings.user_settings.note_size * 1.0, 0.17).from(Vector2.ONE * UserSettings.user_settings.note_size * 1.2)
+	current_note_tween.tween_callback(appear_particles_node.show)
+	current_note_tween.tween_callback(appear_particles_node.get_node("AnimationPlayer").play.bind("appear"))
+	#appear_particles_node.show()
+	#appear_particles_node.get_node("AnimationPlayer").play("appear")
 
 func add_bind_to_tree(data):
 	add_node_to_layer.emit(data.layer_name, data.node)

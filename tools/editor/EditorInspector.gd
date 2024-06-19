@@ -43,10 +43,12 @@ func _ready():
 	copy_icon.disabled = true
 	paste_icon.disabled = true
 
-func get_common_inspecting_class():
+func get_common_inspecting_class_desc():
 	if not inspecting_items:
-		return EditorTimelineItem.new()
-	
+		var item := EditorTimelineItem.new()
+		var desc := item.get_ph_editor_description()
+		item.queue_free()
+		return desc
 	var common_class = inspecting_items[0]._class_name
 	
 	var i = 1
@@ -62,7 +64,9 @@ func get_common_inspecting_class():
 			i += 1
 	
 	var instance = load("res://tools/editor/timeline_items/%s.gd" % common_class).new()
-	return instance
+	var desc := instance.get_ph_editor_description() as String
+	instance.queue_free()
+	return desc
 
 func get_common_data_class():
 	if not inspecting_items:
@@ -107,7 +111,7 @@ func _on_paste_pressed():
 	emit_signal("notes_pasted", copied_notes)
 
 func update_label():
-	var item_description = get_common_inspecting_class().get_ph_editor_description()
+	var item_description = get_common_inspecting_class_desc()
 	description_label.text = ""
 	if item_description != "":
 		description_label.text += "%s" % [item_description]
