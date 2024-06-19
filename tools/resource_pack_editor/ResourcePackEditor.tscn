@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://2e1c78lgxfkv"]
+[gd_scene load_steps=22 format=3 uid="uid://2e1c78lgxfkv"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://l36o42nwrfnr" path="res://tools/icons/icon_back.svg" id="2"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://tools/resource_pack_editor/OpenResourcePackDialog.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://c0fe7cjb2bknm" path="res://tools/icons/icon_save.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="6"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" id="7"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://bi00tlp38rnc3" path="res://tools/editor/WorkshopUploadForm.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://cln670qlnyiv6" path="res://graphics/background.png" id="10"]
@@ -189,9 +188,6 @@ metadata/_tab_index = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview"]
 layout_mode = 2
 
-[node name="AtlasPreviewLabel" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
-layout_mode = 2
-
 [node name="RegnerateAtlasButton" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
 layout_mode = 2
 text = "Regenerate atlas"
@@ -201,10 +197,10 @@ layout_mode = 2
 tooltip_text = "Regenerates the atlast but first reloads note graphics from disk"
 text = "Regenerate atlas (reload from disk)"
 
-[node name="AtlasPreviewTextureRect" type="Control" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+[node name="AtlasPreviewTabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("7")
 
 [node name="Skin" type="Panel" parent="VBoxContainer/TabContainer"]
 visible = false
@@ -556,7 +552,6 @@ dialog_text = "Do you really want to quit? Any unsaved progress will be lost."
 [connection signal="toggled" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer/PreviewBBCodeCheckbox" to="." method="_on_PreviewBBCodeCheckbox_toggled"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/Button" to="FileDialogPackIcon" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/RegnerateAtlasButton" to="." method="_user_regenerate_atlas"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/RegenerateAtlasFromDisk" to="." method="_user_regenerate_atlas" binds= [true]]
 [connection signal="component_picked" from="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Components/HBSkinEditorComponentPicker" to="VBoxContainer/TabContainer/Skin" method="_on_HBSkinEditorComponentPicker_component_picked"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" method="hide"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/Button" method="show"]

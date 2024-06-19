@@ -9,8 +9,7 @@ const SUBGRAPHIC_TYPES_NORMAL_NOTES := ["sustain_note", "sustain_target", "doubl
 
 
 @onready var top_level_tab_container := get_node("VBoxContainer/TabContainer")
-@onready var atlas_preview_texture_rect := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewTextureRect")
-@onready var atlas_preview_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewLabel")
+@onready var atlas_preview_tabs := get_node("%AtlasPreviewTabContainer")
 @onready var remove_graphic_confirmation_dialog := get_node("RemoveGraphicConfirmationDialog")
 @onready var metatlas_tab_container := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer")
 
@@ -63,7 +62,22 @@ var resource_images_per_atlas = {
 
 var first_time_save_atlases = []
 
+class AtlasPreviewTab:
+	extends VBoxContainer
+	@onready var atlas_preview := HBResourcePackAtlasPreview.new()
+	@onready var label := Label.new()
+	func _ready():
+		size_flags_vertical = SizeFlags.SIZE_EXPAND_FILL
+		set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		add_child(label)
+		add_child(atlas_preview)
+		atlas_preview.size_flags_vertical = Control.SIZE_EXPAND_FILL
 func _ready():
+	for atlas: String in ResourcePackLoader.ATLASES:
+		var atlas_name := atlas.capitalize()
+		var preview := AtlasPreviewTab.new()
+		preview.name = atlas_name
+		atlas_preview_tabs.add_child(preview)
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	top_level_tab_container.set_tab_title(0, "Resource Pack")
 	#get_tree().set_screen_stretch(SceneTreed.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
@@ -111,7 +125,7 @@ func add_graphic_item(parent: TreeItem, text: String, resource_name: String, atl
 		resource_images_per_atlas[atlas_name][resource_name] = img
 		var icon = ImageTexture.create_from_image(img)
 		item.set_icon(0, icon)
-		
+	item.set_icon_max_width(0, 128)
 	item.add_button(1, preload("res://tools/icons/icon_folder.svg"), ITEM_BUTTONS.BROWSE, false, "Browse graphic")
 	var have_resource = resource_name in resource_images_per_atlas[atlas_name]
 	item.add_button(1, preload("res://tools/icons/icon_close.svg"), ITEM_BUTTONS.REMOVE, !have_resource, "Remove graphic usage from pack")
@@ -202,6 +216,24 @@ func populate_items():
 		add_graphic_item(misc_item, "Note Hit Loop", "loop.png", "effects", true, Vector2(512, 512))
 		add_graphic_item(misc_item, "Note Appear", "appear.png", "effects", true, Vector2(450, 450))
 	add_graphic_item(misc_item, "Sustain Trail", "sustain_trail.png", "__no_atlas", true, Vector2(128, 128))
+	
+	var judgements_item := tree.create_item(note_category_item)
+	judgements_item.set_text(0, "Judgements")
+	add_graphic_item(judgements_item, "Cool", "cool.png", "judgements", false, Vector2(512, 256))
+	add_graphic_item(judgements_item, "Fine", "fine.png", "judgements", false, Vector2(512, 256))
+	add_graphic_item(judgements_item, "Sad", "sad.png", "judgements", false, Vector2(512, 256))
+	add_graphic_item(judgements_item, "Safe", "safe.png", "judgements", false, Vector2(512, 256))
+	add_graphic_item(judgements_item, "Worst", "worst.png", "judgements", false, Vector2(512, 256))
+	
+	add_graphic_item(judgements_item, "Cool (wrong)", "cool_wrong.png", "judgements", false, Vector2(512, 256))
+	add_graphic_item(judgements_item, "Fine (wrong)", "fine_wrong.png", "judgements", false, Vector2(512, 256))
+	add_graphic_item(judgements_item, "Sad (wrong)", "sad_wrong.png", "judgements", false, Vector2(512, 256))
+	add_graphic_item(judgements_item, "Safe (wrong)", "safe_wrong.png", "judgements", false, Vector2(512, 256))
+	add_graphic_item(judgements_item, "Wrong (for slides)", "wrong.png", "judgements", false, Vector2(512, 256))
+	
+	for i in range(10):
+		add_graphic_item(judgements_item, "Combo %d" % i, "combo_%d.png" % i, "judgements", false, Vector2(256, 256))
+		
 func _on_button_pressed(item: TreeItem, _column: int, id: int, mouse_button_index: int):
 	if item.has_meta("resource_name"):
 		_currently_opening_resource = item.get_meta("resource_name")
@@ -275,14 +307,18 @@ func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 	description_text_edit.show()
 
 func _generate_atlas(atlas_name: String, save=true):
+	print("ATLAS REBUILD", atlas_name)
 	if atlas_name == "__no_atlas":
 		return
 	var time_start = Time.get_ticks_usec()
 	var out = HBUtils.pack_images_turbo16(resource_images_per_atlas[atlas_name], 1)
 	current_pack.set(atlas_name + "_atlas_data", out.atlas_data)
 	var texture := out.texture as Texture2D
-	atlas_preview_texture_rect.set_atlas(out)
-	atlas_preview_label.text = "Atlas size: %s" % [str(texture.get_size())]
+	var pos := ResourcePackLoader.ATLASES.find(atlas_name)
+	assert(pos != -1)
+	var preview := atlas_preview_tabs.get_child(pos) as AtlasPreviewTab
+	preview.atlas_preview.set_atlas(out)
+	preview.label.text = "Atlas size: %s" % [str(texture.get_size())]
 	if save:
 		current_pack.save_pack()
 		var atlas_path := current_pack.get_atlas_path(atlas_name)
@@ -350,6 +386,7 @@ func _user_regenerate_atlas(from_disk = false):
 	if from_disk:
 		populate_items()
 	_generate_atlas("notes")
+	_generate_atlas("judgements")
 
 func _on_RemoveGraphicConfirmationDialog_confirmed():
 	var resource_item := resource_items[_currently_opening_resource] as TreeItem
@@ -375,6 +412,7 @@ func _on_SaveButton_pressed():
 		skin_editor.save_skin()
 	else:
 		_generate_atlas("notes")
+		_generate_atlas("judgements")
 		if OS.has_feature("editor"):
 			_generate_atlas("effects")
 

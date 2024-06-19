@@ -21,7 +21,8 @@ var note_override_list_str := []
 
 const ATLASES = [
 	"notes",
-	"effects"
+	"effects",
+	"judgements"
 ]
 
 # Ordinary graphics that aren't loaded from an atlas
@@ -171,6 +172,7 @@ func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_setti
 		else:
 			# If the resource pack used for this atlas is not present, we use the fallback only
 			var fallback_image := fallback_images[atlas_name] as Image
+			fallback_image.generate_mipmaps()
 			var fallback_image_tex := ImageTexture.create_from_image(fallback_image)
 			atlas_increment += 1
 			fallback_image_tex.resource_path = "PH_RESOURCE_PACK_LOADER_FALLBACK_ATLAS_" + str(atlas_increment)
