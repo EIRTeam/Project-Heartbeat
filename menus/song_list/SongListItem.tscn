@@ -87,10 +87,12 @@ texture_filter = 6
 layout_mode = 2
 texture = ExtResource("7_2dew8")
 expand_mode = 2
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
 layout_mode = 2

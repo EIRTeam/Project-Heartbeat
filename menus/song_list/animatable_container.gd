@@ -84,6 +84,7 @@ func animate(deploy: bool):
 		var should_be_visible := deployed and child.get_meta(&"animated_deployed_visibility") as bool
 		var starting_scale := 0.0 if should_be_visible else 1.0
 		var final_scale := 1.0 if should_be_visible else 0.0
+		animate_child_scale(starting_scale, child)
 		tween.parallel().tween_method(animate_child_scale.bind(child), starting_scale, final_scale, ANIMATION_DURATION)
 		child.visible = true
 		if should_be_visible:

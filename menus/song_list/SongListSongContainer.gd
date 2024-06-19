@@ -77,13 +77,17 @@ func go_to_root():
 	selected_index_stack = []
 	navigate_folder(UserSettings.user_settings.root_folder)
 
+func _on_song_item_pressed(control: Control):
+	pass
+
 func _create_song_item(song: HBSong):
 	var item = SongListItem.instantiate()
 	item.use_parent_material = true
 	item.set_song(song)
 	assert(song)
 	item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	item.connect("pressed", Callable(self, "_on_song_selected").bind(song))
+	item.pressed.connect(self.smooth_scroll_to.bind(0.0))
+	item.pressed.connect(self._on_song_selected.bind(song))
 	item.ready.connect(item._become_visible)
 	item.difficulty_selected.connect(self._on_difficulty_selected)
 	return item
