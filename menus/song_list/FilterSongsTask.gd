@@ -38,7 +38,7 @@ func get_compare_func() -> Callable:
 			out_callable = self.string_compare
 		&"bpm", &"_times_played":
 			out_callable = self.int_compare_asc
-		&"_added_time", &"highest_score", &"_released_time", &"_updated_time":
+		&"_added_time", &"_released_time", &"_updated_time":
 			out_callable = self.int_compare_desc
 		&"lowest_score":
 			out_callable = self.float_compare_asc
