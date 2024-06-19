@@ -322,12 +322,13 @@ func _show_results(game_info: HBGameInfo):
 func _on_paused():
 	get_tree().paused = true
 	set_process(false)
-	if game.time_msec - last_pause_time >= ROLLBACK_TIME and game.time_msec > 0:
-		last_pause_time = game.time_msec
-		rollback_on_resume = true
-		rollback_delta = 0
-		game.set_process(false)
-		game.editing = true
+	# TODO: Make rollback optional
+	#if game.time_msec - last_pause_time >= ROLLBACK_TIME and game.time_msec > 0:
+		#last_pause_time = game.time_msec
+		#rollback_on_resume = true
+		#rollback_delta = 0
+		#game.set_process(false)
+		#game.editing = true
 	video_player.paused = true
 	game.pause_game()
 	$PauseMenu.show_pause(current_game_info.song_id)
