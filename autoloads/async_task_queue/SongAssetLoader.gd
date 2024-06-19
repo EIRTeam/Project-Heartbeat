@@ -163,7 +163,7 @@ func _load_thread_func(element: int, token: AssetLoadToken):
 			if token.song.has_audio():
 				var audio_ogg := token.song.get_audio_stream(token.variant) as AudioStreamOggVorbis
 				var song_audio_data := SongAudioData.new()
-				song_audio_data.shinobu = Shinobu.register_sound_from_memory(get_variant_id(token.song, token.variant) + "_voice", audio_ogg.get_meta("raw_file_data"))
+				song_audio_data.shinobu = Shinobu.register_sound_from_memory(get_variant_id(token.song, token.variant), audio_ogg.get_meta("raw_file_data"))
 				song_audio_data.godot_stream = audio_ogg
 				if not token.song.youtube_url and token.song.uses_dsc_style_channels() and ASSET_TYPES.VOICE in token.assets_to_load:
 					var spb := StreamPeerBuffer.new()
