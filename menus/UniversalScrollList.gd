@@ -133,7 +133,7 @@ var starting_animation_scroll = 0
 func _scroll_animate_step(scroll_progress: float):
 	var selected: Control = get_selected_item()
 	if selected:
-		#target_scroll = calculate_target_scroll_to(selected)
+		target_scroll = calculate_target_scroll_to(selected)
 		scroll_vertical = lerp(float(starting_animation_scroll), float(target_scroll), scroll_progress)
 		update_fade()
 func smooth_scroll_to(target: float):
