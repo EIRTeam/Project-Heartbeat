@@ -59,7 +59,7 @@ func update_line_grad_colors():
 						gradient_color_cool, gradient_color_fine, gradient_color_safe, gradient_color_sad]
 	if not line_gradient:
 		line_gradient = Gradient.new()
-		line_gradient.interpolation_color_space = Gradient.GRADIENT_COLOR_SPACE_OKLAB
+		line_gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CONSTANT
 		line_gradient_texture = GradientTexture1D.new()
 		line_gradient_texture.gradient = line_gradient
 	var offsets := PackedFloat32Array()
@@ -67,7 +67,7 @@ func update_line_grad_colors():
 	offsets.resize(line_grad_colors.size())
 	colors.resize(line_grad_colors.size())
 	for i in range(line_grad_colors.size()):
-		var p := i / float(line_grad_colors.size()-1)
+		var p := i / float(line_grad_colors.size())
 		colors[i] = line_grad_colors[i]
 		offsets[i] = p
 	line_gradient.offsets = offsets
