@@ -72,6 +72,7 @@ vertical_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 0
@@ -79,12 +80,14 @@ theme_override_constants/margin_bottom = 6
 
 [node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="AlbumArtTexture" type="TextureRect" parent="MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 texture_filter = 6
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("7_2dew8")
 expand_mode = 2
 stretch_mode = 5
@@ -92,15 +95,18 @@ stretch_mode = 5
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/separation = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = -10
 
 [node name="ArcadeTexture" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/HBoxContainer"]
@@ -108,6 +114,7 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
@@ -116,6 +123,7 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
@@ -123,6 +131,7 @@ stretch_mode = 5
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("8")
 expand_mode = 1
 stretch_mode = 5
@@ -144,18 +153,21 @@ script = ExtResource("5_yxbln")
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+mouse_filter = 2
 metadata/animated_deployed_visibility = true
 
 [node name="RatingTexture" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("10_p7e5s")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = -20
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer"]
@@ -174,6 +186,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 focus_mode = 2
+mouse_filter = 2
 theme_override_constants/h_separation = 15
 script = ExtResource("10_75apa")
 enable_wrap_around = true

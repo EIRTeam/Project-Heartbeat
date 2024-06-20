@@ -37,6 +37,9 @@ func color_hash(str: String) -> Color:
 	var hash3 = (str_hash & 0xFF0000) >> 16
 	return Color(hash1/float(0xFF), hash2/float(0xFF), hash3/float(0xFF), 1.0)
 
+var difficulty_color: Color
+var difficulty_color_bright: Color
+
 var tag_update_queued := false 
 
 func _queue_tag_update():
@@ -52,9 +55,10 @@ func _tag_update():
 		difficulty_label.text = difficulty
 		if difficulty in CANONICAL_COLORS:
 			difficulty_color_panel.self_modulate = CANONICAL_COLORS[difficulty]
-			difficulty_color_panel.self_modulate.a = 1.0
 		else:
 			difficulty_color_panel.self_modulate = color_hash(difficulty)
+		difficulty_color = difficulty_color_panel.self_modulate
+		difficulty_color_bright = difficulty_color.lightened(0.5)
 			
 		if fmod(stars, floor(stars)) != 0:
 			star_label.text = "%.1f" % [stars]
@@ -71,14 +75,6 @@ var stars: float:
 		stars = val
 		_queue_tag_update()
 
-func _draw() -> void:
-	
-	background_stylebox.draw(get_canvas_item(), Rect2(Vector2.ZERO, size))
-	inner_stylebox.draw(get_canvas_item(), Rect2(Vector2.ZERO, size))
-	if hovering:
-		selection_border_stylebox.draw(get_canvas_item(), Rect2(Vector2.ZERO, size))
-		draw_rect(Rect2(Vector2.ZERO, size), Color.BLUE, false)
-
 func _process(delta: float) -> void:
 	var alpha_target := sin((Time.get_ticks_msec()/1000.0) * PI / 1.0) / 2.0 + 0.5
 	alpha_target *= 0.75
@@ -86,8 +82,7 @@ func _process(delta: float) -> void:
 	_update_alpha(alpha_target)
 
 func _update_alpha(alpha: float):
-	self_modulate.a = alpha
-	difficulty_color_panel.self_modulate.a = alpha
+	difficulty_color_panel.self_modulate = difficulty_color.lerp(difficulty_color_bright, alpha)
 
 func _ready() -> void:
 	set_process(false)
@@ -101,14 +96,24 @@ func _ready() -> void:
 
 func hover():
 	hovering = true
-	queue_redraw()
 	hovered.emit()
 	border_container.show()
 	set_process(true)
 
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.pressed:
+			pressed.emit()
+
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_MOUSE_ENTER_SELF:
+			hover()
+		NOTIFICATION_MOUSE_EXIT_SELF:
+			stop_hover()
+
 func stop_hover():
 	hovering = false
-	queue_redraw()
 	border_container.hide()
 	set_process(false)
-	_update_alpha(1.0)
+	_update_alpha(0.0)

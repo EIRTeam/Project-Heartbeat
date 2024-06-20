@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=87 format=4 uid="uid://b4yu237ua3sml"]
+[gd_resource type="Theme" load_steps=90 format=3 uid="uid://b4yu237ua3sml"]
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1_vjwv0"]
 [ext_resource type="FontVariation" uid="uid://nyc27vir054y" path="res://fonts/default_font_bold.tres" id="2_1jsrl"]
@@ -20,6 +20,44 @@ content_margin_bottom = 4.0
 bg_color = Color(0.15, 0.1725, 0.2325, 1)
 draw_center = false
 border_color = Color(0.125, 0.14375, 0.19375, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6v2co"]
+content_margin_left = 0.0
+content_margin_right = 0.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4ylk"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tvbyh"]
+content_margin_left = 10.0
+content_margin_right = 0.0
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
+anti_aliasing_size = 2.0
 
 [sub_resource type="StyleBoxEmpty" id="87"]
 
@@ -137,9 +175,9 @@ border_color = Color(0.41, 0.61, 0.91, 0.9)
 shadow_color = Color(0, 0, 0, 0.3)
 shadow_size = 8
 
-[sub_resource type="Image" id="Image_qc172"]
+[sub_resource type="Image" id="Image_4105w"]
 data = {
-"data": PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////Af///yf///9D////Q////yf///8B////AAAAAAAAAAAAAAAAAAAAAAD///8A////J////0v///9L////S////0v///8n////AAAAAAAAAAAAAAAAAAAAAAD///8A////Qv///0v///9L////S////0v///9C////AAAAAAAAAAAAAAAAAAAAAAD///8A////Qv///0v///9L////S////0v///9C////AAAAAAAAAAAAAAAAAAAAAAD///8A////J////0v///9L////S////0v///8n////AAAAAAAAAAAAAAAAAAAAAAD///8A////Af///yf///9D////Q////yf///8B////AAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 39, 255, 255, 255, 67, 255, 255, 255, 67, 255, 255, 255, 39, 255, 255, 255, 1, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 39, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 39, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 66, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 66, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 66, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 66, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 39, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 75, 255, 255, 255, 39, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 39, 255, 255, 255, 67, 255, 255, 255, 67, 255, 255, 255, 39, 255, 255, 255, 1, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 "format": "RGBA8",
 "height": 12,
 "mipmaps": false,
@@ -147,7 +185,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="14"]
-image = SubResource("Image_qc172")
+image = SubResource("Image_4105w")
 
 [sub_resource type="StyleBoxTexture" id="15"]
 content_margin_left = 2.0
@@ -157,9 +195,9 @@ content_margin_bottom = 2.0
 texture = SubResource("14")
 region_rect = Rect2(0, 0, 12, 12)
 
-[sub_resource type="Image" id="Image_q2rbl"]
+[sub_resource type="Image" id="Image_w3bkp"]
 data = {
-"data": PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv7+/APf39wD4+PgA+Pj4APf39wC/v78AAAAAAAAAAAAAAAAAAAAAAAAAAAC/v78Av7+/BPf392L4+Pin+Pj4p/f392K/v78Ev7+/AAAAAAAAAAAAAAAAAAAAAAD39/cA9/f3Yfj4+Lr4+Pi6+Pj4uvj4+Lr39/dh9/f3AAAAAAAAAAAAAAAAAAAAAAD4+PgA+Pj4pPj4+Lr4+Pi6+Pj4uvj4+Lr4+Pik+Pj4AAAAAAAAAAAAAAAAAAAAAAD4+PgA+Pj4pPj4+Lr4+Pi6+Pj4uvj4+Lr4+Pik+Pj4AAAAAAAAAAAAAAAAAAAAAAD39/cA9/f3Yfj4+Lr4+Pi6+Pj4uvj4+Lr39/dh9/f3AAAAAAAAAAAAAAAAAAAAAAC/v78Av7+/BPf392L4+Pin+Pj4p/f392K/v78Ev7+/AAAAAAAAAAAAAAAAAAAAAAAAAAAAv7+/APf39wD4+PgA+Pj4APf39wC/v78AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 0, 247, 247, 247, 0, 248, 248, 248, 0, 248, 248, 248, 0, 247, 247, 247, 0, 191, 191, 191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 0, 191, 191, 191, 4, 247, 247, 247, 98, 248, 248, 248, 167, 248, 248, 248, 167, 247, 247, 247, 98, 191, 191, 191, 4, 191, 191, 191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 247, 247, 247, 0, 247, 247, 247, 97, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 247, 247, 247, 97, 247, 247, 247, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 248, 248, 0, 248, 248, 248, 164, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 164, 248, 248, 248, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 248, 248, 0, 248, 248, 248, 164, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 164, 248, 248, 248, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 247, 247, 247, 0, 247, 247, 247, 97, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 247, 247, 247, 97, 247, 247, 247, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 0, 191, 191, 191, 4, 247, 247, 247, 98, 248, 248, 248, 167, 248, 248, 248, 167, 247, 247, 247, 98, 191, 191, 191, 4, 191, 191, 191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 0, 247, 247, 247, 0, 248, 248, 248, 0, 248, 248, 248, 0, 247, 247, 247, 0, 191, 191, 191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 "format": "RGBA8",
 "height": 12,
 "mipmaps": false,
@@ -167,7 +205,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="17"]
-image = SubResource("Image_q2rbl")
+image = SubResource("Image_w3bkp")
 
 [sub_resource type="StyleBoxTexture" id="18"]
 content_margin_left = 2.0
@@ -177,9 +215,9 @@ content_margin_bottom = 2.0
 texture = SubResource("17")
 region_rect = Rect2(0, 0, 12, 12)
 
-[sub_resource type="Image" id="Image_114b1"]
+[sub_resource type="Image" id="Image_1wjo2"]
 data = {
-"data": PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf39/AK2trQCtra0Ara2tAK2trQB/f38AAAAAAAAAAAAAAAAAAAAAAAAAAAB/f38Af39/BK2trWGtra2mra2tpq2trWF/f38Ef39/AAAAAAAAAAAAAAAAAAAAAACsrKwArKysYK2trbmtra25ra2tua2trbmsrKxgrKysAAAAAAAAAAAAAAAAAAAAAACtra0Ara2to62trbmtra25ra2tua2trbmtra2jra2tAAAAAAAAAAAAAAAAAAAAAACtra0Ara2to62trbmtra25ra2tua2trbmtra2jra2tAAAAAAAAAAAAAAAAAAAAAACsrKwArKysYK2trbmtra25ra2tua2trbmsrKxgrKysAAAAAAAAAAAAAAAAAAAAAAB/f38Af39/BK2trWGtra2mra2tpq2trWF/f38Ef39/AAAAAAAAAAAAAAAAAAAAAAAAAAAAf39/AK2trQCtra0Ara2tAK2trQB/f38AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 127, 127, 0, 173, 173, 173, 0, 173, 173, 173, 0, 173, 173, 173, 0, 173, 173, 173, 0, 127, 127, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 127, 127, 0, 127, 127, 127, 4, 173, 173, 173, 97, 173, 173, 173, 166, 173, 173, 173, 166, 173, 173, 173, 97, 127, 127, 127, 4, 127, 127, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 172, 172, 172, 0, 172, 172, 172, 96, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 185, 172, 172, 172, 96, 172, 172, 172, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 173, 173, 173, 0, 173, 173, 173, 163, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 163, 173, 173, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 173, 173, 173, 0, 173, 173, 173, 163, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 163, 173, 173, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 172, 172, 172, 0, 172, 172, 172, 96, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 185, 173, 173, 173, 185, 172, 172, 172, 96, 172, 172, 172, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 127, 127, 0, 127, 127, 127, 4, 173, 173, 173, 97, 173, 173, 173, 166, 173, 173, 173, 166, 173, 173, 173, 97, 127, 127, 127, 4, 127, 127, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 127, 127, 0, 173, 173, 173, 0, 173, 173, 173, 0, 173, 173, 173, 0, 173, 173, 173, 0, 127, 127, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 "format": "RGBA8",
 "height": 12,
 "mipmaps": false,
@@ -187,7 +225,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="20"]
-image = SubResource("Image_114b1")
+image = SubResource("Image_1wjo2")
 
 [sub_resource type="StyleBoxTexture" id="21"]
 content_margin_left = 2.0
@@ -197,9 +235,9 @@ content_margin_bottom = 2.0
 texture = SubResource("20")
 region_rect = Rect2(0, 0, 12, 12)
 
-[sub_resource type="Image" id="Image_3lal4"]
+[sub_resource type="Image" id="Image_0t4nc"]
 data = {
-"data": PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///wT///8Q////EP///wT///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///xD///8V////Ff///xD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///xD///8V////Ff///xD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///wT///8Q////EP///wT///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 4, 255, 255, 255, 16, 255, 255, 255, 16, 255, 255, 255, 4, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 16, 255, 255, 255, 21, 255, 255, 255, 21, 255, 255, 255, 16, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 16, 255, 255, 255, 21, 255, 255, 255, 21, 255, 255, 255, 16, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 4, 255, 255, 255, 16, 255, 255, 255, 16, 255, 255, 255, 4, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 "format": "RGBA8",
 "height": 12,
 "mipmaps": false,
@@ -207,7 +245,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="23"]
-image = SubResource("Image_3lal4")
+image = SubResource("Image_0t4nc")
 
 [sub_resource type="StyleBoxTexture" id="24"]
 content_margin_left = 0.0
@@ -249,9 +287,9 @@ content_margin_right = 0.0
 content_margin_bottom = 2.0
 bg_color = Color(0.1, 0.115, 0.155, 1)
 
-[sub_resource type="Image" id="Image_m6lhl"]
+[sub_resource type="Image" id="Image_k6sqa"]
 data = {
-"data": PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 "format": "LumAlpha8",
 "height": 16,
 "mipmaps": false,
@@ -259,7 +297,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="31"]
-image = SubResource("Image_m6lhl")
+image = SubResource("Image_k6sqa")
 
 [sub_resource type="StyleBoxTexture" id="32"]
 texture = SubResource("31")
@@ -694,9 +732,9 @@ content_margin_right = 2.0
 content_margin_bottom = 0.0
 bg_color = Color(0.1, 0.115, 0.155, 1)
 
-[sub_resource type="Image" id="Image_phn10"]
+[sub_resource type="Image" id="Image_i7jdo"]
 data = {
-"data": PackedByteArray("AAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGA=="),
+"data": PackedByteArray(0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24, 0, 0, 0, 24),
 "format": "RGBA8",
 "height": 8,
 "mipmaps": false,
@@ -704,7 +742,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="77"]
-image = SubResource("Image_phn10")
+image = SubResource("Image_i7jdo")
 
 [sub_resource type="StyleBoxTexture" id="78"]
 texture = SubResource("77")
@@ -767,6 +805,10 @@ ColorPicker/constants/label_width = 10
 ColorPicker/constants/margin = 8
 ColorPicker/constants/sv_height = 256
 ColorPicker/constants/sv_width = 256
+DifficultyTag/base_type = &"PanelContainer"
+DifficultyTag/styles/panel_background = SubResource("StyleBoxFlat_6v2co")
+DifficultyTag/styles/panel_inner = SubResource("StyleBoxFlat_v4ylk")
+DifficultyTag/styles/panel_selection = SubResource("StyleBoxFlat_tvbyh")
 DownloadProgressThingProgressBar/base_type = &"ProgressBar"
 DownloadProgressThingProgressBar/styles/bg = SubResource("87")
 DownloadProgressThingProgressBar/styles/fg = SubResource("88")

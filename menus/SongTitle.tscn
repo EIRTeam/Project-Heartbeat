@@ -50,5 +50,6 @@ use_parent_material = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 4
+mouse_filter = 2
 expand_mode = 3
 stretch_mode = 5

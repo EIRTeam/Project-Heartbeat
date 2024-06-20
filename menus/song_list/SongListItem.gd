@@ -92,8 +92,10 @@ func _ready():
 	arcade_texture_rect.hide()
 	console_texture_rect.hide()
 	pressed.connect(self._on_pressed)
+	button.pressed.connect(pressed.emit)
 	set_process_input(true)
 	interpolated_scale = NON_HOVERED_SCALE
+	difficulty_tag_container.focus_exited.connect(_on_focus_lost)
 	
 	get_parent().sort_children.connect(
 		func(): 
@@ -186,7 +188,6 @@ func _input(event: InputEvent) -> void:
 			disable_scaling = false
 
 func _on_difficulty_hovered(diff: String):
-	rating_data_container.show()
 	if ScoreHistory.has_result(song.id, diff):
 		var result := ScoreHistory.get_data(song.id, diff) as HBHistoryEntry
 		var pass_percentage = result.highest_percentage
@@ -205,11 +206,14 @@ func _on_difficulty_hovered(diff: String):
 	else:
 		score_label.text = "- | - pts"
 		percentage_label.text = "- %"
+		rating_texture.texture = preload("res://graphics/icons/badge_empty.svg")
 
 var prev_focus_owner: Control
 
 func _on_pressed():
+	rating_data_container.show()
 	disable_scaling = true
+	%Button.add_theme_stylebox_override("normal", hover_style)
 	_on_difficulty_hovered(difficulty_tag_container.get_child(0).difficulty)
 	prev_focus_owner = get_viewport().gui_get_focus_owner()
 	animatable_container.animate(true)
@@ -219,3 +223,9 @@ func _on_pressed():
 			select_diff(tag.difficulty)
 			break
 	set_process_input(true)
+
+func _on_focus_lost():
+	disable_scaling = false
+	stop_hover()
+	set_process_input(false)
+	animatable_container.animate(false)

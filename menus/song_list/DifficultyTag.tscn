@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ldawg6lydbq6"]
+[gd_scene load_steps=3 format=3 uid="uid://ldawg6lydbq6"]
 
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_0vw1p"]
 [ext_resource type="Script" path="res://menus/song_list/DifficultyTag.gd" id="1_fh8u7"]
 
 [node name="DifficultyTag" type="PanelContainer"]
@@ -7,19 +8,27 @@ self_modulate = Color(0.3128, 0.1904, 0.68, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -98.0
-offset_top = -6.0
-offset_right = -1783.0
-offset_bottom = -1021.0
+offset_left = 193.0
+offset_top = 53.0
+offset_right = -1472.0
+offset_bottom = -966.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_0vw1p")
 theme_type_variation = &"DifficultyTag"
 script = ExtResource("1_fh8u7")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
 
-[node name="StarLabel" type="Label" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="StarLabel" type="Label" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -28,20 +37,24 @@ theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 25
 text = "10"
+horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DifficultyColorPanel" type="PanelContainer" parent="HBoxContainer"]
+[node name="DifficultyColorPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
-self_modulate = Color(0, 0.525, 0.457, 1)
+self_modulate = Color(0, 0.52, 0.450667, 1)
 layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
 theme_type_variation = &"DifficultyTag"
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/DifficultyColorPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/DifficultyColorPanel"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_right = 5
 
-[node name="DifficultyLabel" type="Label" parent="HBoxContainer/DifficultyColorPanel/MarginContainer"]
+[node name="DifficultyLabel" type="Label" parent="MarginContainer/HBoxContainer/DifficultyColorPanel/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -50,9 +63,11 @@ theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 25
 text = "testtttt"
+horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
 [node name="SelectionBorderContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 2
