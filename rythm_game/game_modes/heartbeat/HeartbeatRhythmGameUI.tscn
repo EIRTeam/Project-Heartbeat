@@ -1,9 +1,8 @@
-[gd_scene load_steps=21 format=4 uid="uid://c0p0ql3vtldti"]
+[gd_scene load_steps=18 format=4 uid="uid://c0p0ql3vtldti"]
 
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2"]
 [ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" id="4"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="5"]
-[ext_resource type="Texture2D" uid="uid://72rqxh58ituv" path="res://graphics/wrong_rating_cross.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://cpbashdu3eysf" path="res://graphics/aiko_sad.png" id="7"]
 [ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" id="10"]
 [ext_resource type="Script" path="res://rythm_game/rating_label.gd" id="26"]
@@ -104,7 +103,7 @@ cache/0/30/10/glyphs/72/size = Vector2(22, 30)
 cache/0/30/10/glyphs/72/uv_rect = Rect2(1, 27, 22, 30)
 cache/0/30/10/glyphs/72/texture_idx = 0
 
-[sub_resource type="FontFile" id="FontFile_ys5yx"]
+[sub_resource type="FontFile" id="FontFile_ndwo8"]
 resource_local_to_scene = true
 fallbacks = Array[Font]([SubResource("13"), ExtResource("2")])
 subpixel_positioning = 0
@@ -124,27 +123,6 @@ cache/0/30/0/underline_thickness = 0.0
 cache/0/30/0/scale = 1.0
 cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
 cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-
-[sub_resource type="Animation" id="16"]
-length = 0.1
-step = 0.016
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.048, 0.096),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0.75, 0.75), Vector2(0.8, 0.8), Vector2(0.75, 0.75)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_5cw6t"]
-_data = {
-"rating_appear": SubResource("16")
-}
 
 [sub_resource type="Gradient" id="17"]
 offsets = PackedFloat32Array(0.3, 1)
@@ -245,7 +223,7 @@ anchor_bottom = 0.9
 offset_top = 0.0
 offset_right = 0.00012207
 offset_bottom = 0.0
-theme_override_fonts/font = SubResource("FontFile_ys5yx")
+theme_override_fonts/font = SubResource("FontFile_ndwo8")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 0
@@ -272,39 +250,14 @@ offset_right = 40.0
 offset_bottom = 14.0
 text = "(NT)esss"
 
-[node name="RatingLabel" type="Label" parent="."]
-auto_translate_mode = 2
-layout_mode = 0
-offset_left = 43.0
-offset_top = 66.0
-offset_right = 712.0
-offset_bottom = 344.0
-scale = Vector2(0.75, 0.75)
-pivot_offset = Vector2(334, 139)
-size_flags_vertical = 0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = 4
-theme_override_fonts/font = ExtResource("5")
-theme_override_font_sizes/font_size = 40
-text = "WORST"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="JudgementLabel" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 598.0
+offset_top = -1.0
+offset_right = 944.0
+offset_bottom = 113.0
 script = ExtResource("26")
-
-[node name="WrongRatingCross" type="TextureRect" parent="RatingLabel"]
-auto_translate_mode = 2
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 0
-offset_left = 440.0
-offset_right = 480.0
-offset_bottom = 40.0
-texture = ExtResource("6")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
-libraries = {
-"": SubResource("AnimationLibrary_5cw6t")
-}
 
 [node name="UserUI" type="Control" parent="."]
 anchors_preset = 0

@@ -2,7 +2,7 @@ extends HBRhythmGameUIBase
 
 class_name HBRhythmGameUI
 
-@onready var rating_label: Label = get_node("RatingLabel")
+@onready var rating_label: HBJudgementLabel = get_node("%JudgementLabel")
 @onready var wrong_rating_cross: TextureRect = get_node("RatingLabel/WrongRatingCross")
 @onready var game_layer_node = get_node("%GameLayer")
 @onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
@@ -119,34 +119,8 @@ func _on_note_judged(judgement_info):
 	if not is_ui_visible():
 		return
 	
-	rating_label.show_rating()
-	rating_label.get_node("AnimationPlayer").play("rating_appear")
-	if not judgement_info.wrong:
-		rating_label.add_theme_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement_info.judgement]))
-		rating_label.add_theme_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement_info.judgement])
-		rating_label.text = HBJudge.JUDGE_RATINGS.keys()[judgement_info.judgement]
-	else:
-		rating_label.add_theme_color_override("font_color", Color(game.WRONG_COLOR))
-		rating_label.add_theme_color_override("font_outline_modulate", game.WRONG_COLOR)
-		rating_label.text = HBJudge.RATING_TO_WRONG_TEXT_MAP[judgement_info.judgement]
-	if game.current_combo > 1:
-		rating_label.text += " " + str(game.current_combo)
-	rating_label.position = game.remap_coords(judgement_info.avg_pos) - rating_label.size / 2
-	if rating_label.global_position.y > ResourcePackLoader.current_skin.rating_label_top_margin:
-		rating_label.position.y -= 64
-	else:
-		rating_label.position.y += 64
-	rating_label.update_minimum_size()
-	wrong_rating_cross.position = Vector2.ZERO
-	if judgement_info.wrong:
-		wrong_rating_cross.show()
-		var min_size_x := rating_label.get_minimum_size().x
-		wrong_rating_cross.position = rating_label.size * 0.5 - Vector2(0, wrong_rating_cross.size.y) * 0.5
-		wrong_rating_cross.position.x += min_size_x * 0.5
-		# Add some separation...
-		wrong_rating_cross.position.x += 5
-	else:
-		wrong_rating_cross.hide()
+	var rating_pos: Vector2 = game.remap_coords(judgement_info.avg_pos)
+	rating_label.show_judgement(rating_pos, judgement_info.judgement, judgement_info.wrong, game.current_combo)
 	if not game.previewing:
 		rating_label.show()
 	else:
