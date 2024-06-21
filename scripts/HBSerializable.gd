@@ -86,13 +86,32 @@ static func deserialize(data: Dictionary):
 									out_dict[key] = o
 					object.set(field, out_dict)
 				elif _field is Array:
-					var r = []
-					for item in data[field]:
-						if item is Dictionary and item.has("type"):
-							r.append(deserialize(item))
-						else:
-							r.append(item)
-					object.set(field, r)
+					var arr_type: int = _field.get_typed_builtin()
+					if arr_type == TYPE_NIL:
+						var r = []
+						for item in data[field]:
+							if item is Dictionary and item.has("type"):
+								r.append(deserialize(item))
+							else:
+								r.append(item)
+						object.set(field, r)
+					else:
+						var arr_script := _field.get_typed_script() as GDScript
+						var typed_out: Variant = Array([], arr_type, _field.get_typed_class_name(), _field.get_typed_script())
+						var serializable_type_name := ""
+						if arr_type == TYPE_OBJECT:
+							var obj_template := arr_script.new() as HBSerializable
+							assert(obj_template, "Deserializing non-HBSerializable objects is not supported")
+							serializable_type_name = obj_template.get_serialized_type()
+						for i in data[field]:
+							if arr_type == TYPE_OBJECT and i is Dictionary:
+								i["type"] = serializable_type_name
+								typed_out.append(deserialize(i))
+							elif not typeof(i) == arr_type:
+								typed_out.push_back(convert(i, arr_type))
+							else:
+								typed_out.push_back(i)
+						object.set(field, typed_out)
 				elif _field is float or _field is String or _field is bool:
 					var r = data[field]
 					if object.get(field + "__possibilities") is Array:
@@ -136,7 +155,7 @@ func save_to_file(path: String):
 		print("ERROR: Data was not serialized.")
 		return
 	
-	var json = JSON.stringify(data, "  ")
+	var json = JSON.stringify(data, "  ", false)
 	if not json:
 		print("ERROR: Data could not be formatted as json.")
 		return
