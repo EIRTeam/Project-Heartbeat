@@ -31,7 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://ceim7qh5vd4g2" path="res://graphics/icons/save_plus.svg" id="29"]
 [ext_resource type="PackedScene" uid="uid://b8lwp32xk453o" path="res://tools/editor/EditorGlobalSettings.tscn" id="30"]
 [ext_resource type="PackedScene" path="res://tools/editor/EditorInspector.tscn" id="31"]
-[ext_resource type="PackedScene" path="res://tools/editor/transformation_display/TransformationDisplay.tscn" id="32"]
+[ext_resource type="PackedScene" uid="uid://b3m6my0plq6gk" path="res://tools/editor/transformation_display/TransformationDisplay.tscn" id="32"]
 [ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" id="33"]
 [ext_resource type="Texture2D" uid="uid://be35kgs7xupk1" path="res://tools/icons/icon_snap_grid.svg" id="34"]
 [ext_resource type="Script" path="res://tools/editor/EditorContextualMenuControl.gd" id="35"]
@@ -257,15 +257,6 @@ expand_mode = 1
 stretch_mode = 6
 script = ExtResource("36")
 
-[node name="ReferenceRect" type="ReferenceRect" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/TextureRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-editor_only = false
-
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D"]
 visible = false
 offset_right = 40.0
@@ -410,7 +401,9 @@ script = ExtResource("33")
 
 [node name="TransformPreview" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" instance=ExtResource("32")]
 clip_contents = true
-anchors_preset = 0
+layout_mode = 1
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MessageShower" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview"]
 anchors_preset = 0
