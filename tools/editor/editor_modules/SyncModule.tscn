@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://c8216blwtxqlo"]
+[gd_scene load_steps=11 format=3 uid="uid://c8216blwtxqlo"]
 
 [ext_resource type="Texture2D" uid="uid://xfs0cidycw2w" path="res://graphics/icons/refresh-biggest.svg" id="1"]
 [ext_resource type="Script" path="res://tools/editor/editor_modules/SyncModule.gd" id="2"]
@@ -189,8 +189,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
+offset_right = 732.0
+offset_bottom = 137.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_top = 15

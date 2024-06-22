@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://fawgnyddv8a"]
+[gd_scene load_steps=44 format=3 uid="uid://fawgnyddv8a"]
 
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]
@@ -671,3 +671,6 @@ mouse_filter = 2
 [connection signal="close_requested" from="Popups/EditorGlobalSettings" to="." method="reveal_ui"]
 [connection signal="about_to_popup" from="Popups/SexDialog" to="." method="obscure_ui"]
 [connection signal="about_to_popup" from="Popups/NoTimingMapDialog" to="." method="obscure_ui"]
+[connection signal="canceled" from="Popups/NoTimingMapDialog" to="." method="reveal_ui"]
+[connection signal="close_requested" from="Popups/NoTimingMapDialog" to="." method="guide_user_to_timing_changes"]
+[connection signal="confirmed" from="Popups/NoTimingMapDialog" to="." method="guide_user_to_timing_changes"]
