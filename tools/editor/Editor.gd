@@ -2189,9 +2189,10 @@ func _cache_hold_sizes():
 
 
 func autoplace(data: HBBaseNote, force: bool = false, selected_data: Array = [], times_cache: Dictionary = {}):
-	if not data.position.y in [630, 726, 822, 918] and data.position != Vector2(960, 540) and not force:
+	if not int(data.position.y) in [630, 726, 822, 918] and data.position != Vector2(960, 540) and not force:
 		# Safeguard against modifying old charts
 		data.pos_modified = true
+		
 		return data.clone()
 	
 	if not data is HBBaseNote:
@@ -2221,7 +2222,7 @@ func autoplace(data: HBBaseNote, force: bool = false, selected_data: Array = [],
 			break
 	
 	if not place_at_note:
-		new_data.position.x = 242 + 96 * time_as_eight
+		new_data.position.x = int(242 + 96 * time_as_eight)
 		new_data.position.y = 918
 		
 		new_data.oscillation_amplitude = abs(new_data.oscillation_amplitude)
