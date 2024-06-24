@@ -252,13 +252,13 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 		slide_separation.x = 32 * cos(angle)
 		slide_separation.y = 32 * sin(angle)
 		
-		if not angle in [0, PI/2, PI, -PI/2]:
+		if not angle in [0, PI/2, PI, 3*PI/2]:
 			var quadrant = 0
-			if angle > -PI and angle < -PI/2:
+			if angle > PI and angle < 3*PI/2:
 				quadrant = 1
 			elif angle > PI/2 and angle < PI:
 				quadrant = 2
-			elif angle > 0 and angle < PI:
+			elif angle > 0 and angle < PI/2:
 				quadrant = 3
 			
 			match arrange_menu.mode_info.mode:
