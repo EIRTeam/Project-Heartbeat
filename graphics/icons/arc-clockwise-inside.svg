@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg5"
+   xml:space="preserve"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="arc-clockwise-inside.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><title
+     id="title5612">CircleInsideClockwise</title><sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="1.475"
+     inkscape:cx="152.20339"
+     inkscape:cy="233.89831"
+     inkscape:window-width="1900"
+     inkscape:window-height="1040"
+     inkscape:window-x="10"
+     inkscape:window-y="10"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" /><defs
+     id="defs2" /><g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"><path
+       style="fill:#ffffff"
+       d="m 283.67138,161.09138 c 41.88775,4.28053 80.2537,20.72261 113.78591,48.76401 5.65724,4.73089 10.60724,8.70541 11,8.83225 0.39275,0.12685 3.62724,-6.5634 7.18776,-14.86721 6.16653,-14.38152 8.0499,-17.23985 10.04493,-15.24482 1.35289,1.35289 11.22739,78.53541 10.1814,79.5814 -1.04598,1.04599 -78.22851,-8.82851 -79.5814,-10.1814 -1.96569,-1.96569 0.75862,-3.8335 13.81446,-9.47134 7.51759,-3.24628 13.87628,-6.23876 14.1304,-6.64995 0.76408,-1.23631 -12.78944,-12.76142 -23.28771,-19.80249 -19.23815,-12.9028 -40.56067,-21.8088 -64.21739,-26.82233 -11.37192,-2.41003 -14.58956,-2.66147 -34.05836,-2.66147 -19.4688,0 -22.68644,0.25144 -34.05836,2.66147 -16.08679,3.40925 -30.61782,8.42359 -44.32606,15.29595 -12.62119,6.32739 -24.61558,14.03764 -24.61558,15.82341 0,4.15134 -6.28777,47.26679 -6.99878,47.99093 -1.93936,1.97516 -3.82491,-0.78035 -9.45396,-13.81584 -3.24628,-7.51759 -6.64995,-14.1304 -6.64995,-14.1304 L 113.40201,222.1711 c 0,0 -6.5634,-3.62724 -14.867208,-7.18776 -14.37798,-6.16501 -17.24025,-8.05041 -15.2462,-10.04283 0.48553,-0.48513 14.62043,-2.68545 31.410878,-4.88959 l 30.52811,-4.00754 9.47189,-5.72098 c 38.79379,-23.43129 84.45493,-33.78022 128.9719,-29.23102 z m -69.02772,132.87484 c 28.28619,8.52097 32.02772,10.10121 32.02772,13.52693 0,3.03691 -4.02705,4.49061 -18.06119,6.51978 -10.09255,1.45927 -14.92782,2.59284 -16.06337,3.76588 -1.08834,1.12427 -2.32159,6.46429 -3.73627,16.1782 -1.7257,11.84944 -2.48872,14.81071 -4.17417,16.19975 -1.43778,1.18493 -2.72918,1.45559 -4.26373,0.89362 -1.8735,-0.68609 -3.50014,-5.03389 -10.92444,-29.19975 -4.79774,-15.61649 -8.62274,-29.69255 -8.5,-31.28014 0.1237,-1.59995 1.1146,-3.46505 2.22317,-4.18452 1.73704,-1.12735 5.87499,-0.13071 31.47228,7.58025 z m 129.36913,-5.93216 c 1.7091,2.44008 2.32601,-0.15548 -8.4158,35.40825 -7.49261,24.80636 -9.11326,28.5147 -12.46175,28.5147 -3.03691,0 -4.49061,-4.02705 -6.51978,-18.06119 -1.45927,-10.09255 -2.59284,-14.92782 -3.76588,-16.06337 -1.12427,-1.08834 -6.46429,-2.32159 -16.1782,-3.73627 -11.84944,-1.7257 -14.81071,-2.48872 -16.19975,-4.17417 -1.18493,-1.43778 -1.45559,-2.72918 -0.89362,-4.26373 0.68644,-1.87447 5.0214,-3.49286 29.19975,-10.9013 15.61649,-4.78502 29.6056,-8.72252 31.08692,-8.75 1.63444,-0.0303 3.26525,0.76661 4.14811,2.02708 z"
+       id="path11078"
+       sodipodi:nodetypes="sssssssssssssssssccssscssssssssssssssssssssssss" /></g><metadata
+     id="metadata5610"><rdf:RDF><cc:Work
+         rdf:about=""><dc:title>CircleInsideClockwise</dc:title><dc:creator><cc:Agent><dc:title>NeoRash</dc:title></cc:Agent></dc:creator><dc:rights><cc:Agent><dc:title>Creative Commons CC0</dc:title></cc:Agent></dc:rights><cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" /></cc:Work><cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/"><cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" /><cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" /><cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" /></cc:License></rdf:RDF></metadata></svg>

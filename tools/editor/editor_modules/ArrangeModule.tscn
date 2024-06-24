@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dp3dxv1k748mt"]
+[gd_scene load_steps=24 format=3 uid="uid://dp3dxv1k748mt"]
 
 [ext_resource type="Texture2D" uid="uid://d0x0jbwaj58e" path="res://graphics/icons/rotate-relative-right.svg" id="2"]
 [ext_resource type="Script" path="res://tools/editor/editor_modules/ArrangeModule.gd" id="3"]
@@ -13,8 +13,12 @@
 [ext_resource type="Texture2D" uid="uid://dtcdjl17e1n3u" path="res://graphics/icons/flip-horizontal.svg" id="10"]
 [ext_resource type="Texture2D" uid="uid://i1107r05ppvg" path="res://graphics/icons/circle-counterclockwise-inside.svg" id="10_kubfp"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="11"]
+[ext_resource type="Texture2D" uid="uid://clminyrnisrob" path="res://graphics/icons/arc-clockwise.svg" id="11_b6kd6"]
+[ext_resource type="Texture2D" uid="uid://cjhs2nu751okm" path="res://graphics/icons/arc-counterclockwise.svg" id="12_1o5sg"]
 [ext_resource type="Texture2D" uid="uid://bqawaajhn8wet" path="res://graphics/icons/arrow-up-down.svg" id="13"]
+[ext_resource type="Texture2D" uid="uid://cv5mtgvq58ugk" path="res://graphics/icons/arc-clockwise-inside.svg" id="13_xu3le"]
 [ext_resource type="PackedScene" uid="uid://bknhgu2vawn75" path="res://tools/editor/EditorArrangeMenu.tscn" id="14"]
+[ext_resource type="Texture2D" uid="uid://v0wdc06kgiow" path="res://graphics/icons/arc-counterclockwise-inside.svg" id="14_dbbtw"]
 [ext_resource type="Texture2D" uid="uid://bhy1gxhk6i74r" path="res://graphics/icons/rotate-relative-center.svg" id="16"]
 [ext_resource type="Texture2D" uid="uid://n7ot7i7efk77" path="res://graphics/icons/flip-vertical.svg" id="17"]
 [ext_resource type="Texture2D" uid="uid://cfjtyob2diytx" path="res://graphics/icons/rotate-absolute.svg" id="18"]
@@ -90,7 +94,7 @@ text = "Place in reverse:"
 layout_mode = 2
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(104, 146)
+custom_minimum_size = Vector2(104, 547)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
@@ -156,7 +160,7 @@ layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 223)
+custom_minimum_size = Vector2(183, 524)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -167,7 +171,7 @@ texture = ExtResource("7_5egqo")
 action = "editor_make_circle_cw"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 253)
+custom_minimum_size = Vector2(183, 562)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -197,7 +201,7 @@ layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 223)
+custom_minimum_size = Vector2(183, 524)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -209,7 +213,7 @@ transform_id = 2
 action = "editor_make_circle_cw_inside"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 253)
+custom_minimum_size = Vector2(183, 562)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -221,21 +225,126 @@ texture = ExtResource("10_kubfp")
 transform_id = 3
 action = "editor_make_circle_ccw_inside"
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="6"]
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="6"]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="7"]
+[node name="Label5" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="7"]
+layout_mode = 2
+text = "Arrange in a circle..."
+horizontal_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="8"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="0"]
+layout_mode = 2
+text = "Outside angles"
+horizontal_alignment = 1
+
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+script = ExtResource("21")
+
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+custom_minimum_size = Vector2(183, 524)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("11")
+text = "Clockwise"
+tooltip = "Makes a clockwise arc between the
+starting and ending notes, with
+angles pointing outwards.
+If the distance between them is too
+big, it will be set to the maximum."
+texture = ExtResource("11_b6kd6")
+transform_id = 8
+action = "editor_make_arc_cw"
+
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+custom_minimum_size = Vector2(183, 562)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("11")
+text = "Counter
+clockwise"
+tooltip = "Makes a counter-clockwise arc
+between the starting and ending
+notes, with angles pointing outwards.
+If the distance between them is too
+big, it will be set to the maximum."
+texture = ExtResource("12_1o5sg")
+transform_id = 9
+action = "editor_make_arc_ccw"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="0"]
+layout_mode = 2
+text = "Inside angles"
+horizontal_alignment = 1
+
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="1"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+script = ExtResource("21")
+
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+custom_minimum_size = Vector2(183, 524)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("11")
+text = "Clockwise"
+tooltip = "Makes a clockwise arc between the
+starting and ending notes, with
+angles pointing inwards.
+If the distance between them is too
+big, it will be set to the maximum."
+texture = ExtResource("13_xu3le")
+transform_id = 10
+action = "editor_make_arc_cw_inside"
+
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+custom_minimum_size = Vector2(183, 562)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("11")
+text = "Counter
+clockwise"
+tooltip = "Makes a counter-clockwise arc
+between the starting and ending
+notes, with angles pointing inwards.
+If the distance between them is too
+big, it will be set to the maximum.\""
+texture = ExtResource("14_dbbtw")
+transform_id = 11
+action = "editor_make_arc_ccw_inside"
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="10"]
 layout_mode = 2
 text = "Flip and mirror..."
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="8"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="11"]
 custom_minimum_size = Vector2(312, 0)
 layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(207, 244)
+custom_minimum_size = Vector2(208, 563)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -248,7 +357,7 @@ transform_id = 4
 action = "editor_mirror_v"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(207, 283)
+custom_minimum_size = Vector2(208, 564)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -261,7 +370,7 @@ transform_id = 5
 action = "editor_mirror_h"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(207, 244)
+custom_minimum_size = Vector2(208, 563)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -274,7 +383,7 @@ transform_id = 6
 action = "editor_flip_v"
 
 [node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(207, 283)
+custom_minimum_size = Vector2(208, 564)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -286,15 +395,15 @@ texture = ExtResource("8")
 transform_id = 7
 action = "editor_flip_h"
 
-[node name="HSeparator3" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="12"]
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="10"]
+[node name="Label4" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="13"]
 layout_mode = 2
 text = "Rotate notes..."
 horizontal_alignment = 1
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="11"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="14"]
 layout_mode = 2
 tooltip_text = "Amount of 8th notes required for
 a full revolution."
@@ -321,13 +430,13 @@ max_value = 180.0
 tick_count = 9
 ticks_on_borders = true
 
-[node name="HBoxRatioContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="12"]
+[node name="HBoxRatioContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="15"]
 custom_minimum_size = Vector2(276, 0)
 layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(175, 207)
+custom_minimum_size = Vector2(176, 563)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -336,11 +445,11 @@ center"
 tooltip = "Rotate the notes around the
 center of the selected notes."
 texture = ExtResource("16")
-transform_id = 8
+transform_id = 12
 action = "editor_rotate_center"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(175, 232)
+custom_minimum_size = Vector2(176, 564)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -349,11 +458,11 @@ left point"
 tooltip = "Rotate the notes around the
 leftmost selected note."
 texture = ExtResource("5")
-transform_id = 9
+transform_id = 13
 action = "editor_rotate_left"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="2" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(175, 251)
+custom_minimum_size = Vector2(176, 563)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -362,11 +471,11 @@ right point"
 tooltip = "Rotate the notes around the
 rightmost selected note."
 texture = ExtResource("2")
-transform_id = 10
+transform_id = 14
 action = "editor_rotate_right"
 
 [node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="3" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(175, 241)
+custom_minimum_size = Vector2(176, 606)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -376,7 +485,7 @@ center"
 tooltip = "Rotate the notes around the
 absolute screen center."
 texture = ExtResource("18")
-transform_id = 11
+transform_id = 15
 action = "editor_rotate_screen_center"
 
 [node name="ArrangeMenu" parent="." index="1" instance=ExtResource("14")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://c8216blwtxqlo"]
+[gd_scene load_steps=11 format=3 uid="uid://c8216blwtxqlo"]
 
 [ext_resource type="Texture2D" uid="uid://xfs0cidycw2w" path="res://graphics/icons/refresh-biggest.svg" id="1"]
 [ext_resource type="Script" path="res://tools/editor/editor_modules/SyncModule.gd" id="2"]
@@ -39,7 +39,7 @@ layout_mode = 2
 script = ExtResource("6")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(140, 984)
+custom_minimum_size = Vector2(140, 161)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -52,7 +52,7 @@ function_name = "show_timing_change_dialog"
 action = "editor_create_timing_change"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(140, 984)
+custom_minimum_size = Vector2(140, 170)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -113,7 +113,7 @@ layout_mode = 2
 script = ExtResource("6")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(73, 984)
+custom_minimum_size = Vector2(73, 103)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -127,7 +127,7 @@ function_name = "calculator_pressed"
 action = "editor_tap_metronome"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(73, 984)
+custom_minimum_size = Vector2(73, 74)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -189,8 +189,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
+offset_right = 732.0
+offset_bottom = 137.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_top = 15

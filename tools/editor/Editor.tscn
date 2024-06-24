@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://fawgnyddv8a"]
+[gd_scene load_steps=44 format=3 uid="uid://fawgnyddv8a"]
 
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]

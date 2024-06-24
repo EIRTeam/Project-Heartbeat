@@ -1025,6 +1025,22 @@ editor_select_only_speed_changes={
 "deadzone": 0.5,
 "events": []
 }
+editor_make_arc_cw={
+"deadzone": 0.5,
+"events": []
+}
+editor_make_arc_ccw={
+"deadzone": 0.5,
+"events": []
+}
+editor_make_arc_cw_inside={
+"deadzone": 0.5,
+"events": []
+}
+editor_make_arc_ccw_inside={
+"deadzone": 0.5,
+"events": []
+}
 
 [internationalization]
 

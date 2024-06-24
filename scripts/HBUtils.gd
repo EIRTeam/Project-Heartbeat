@@ -624,3 +624,8 @@ static func get_clear_badge(rating: HBResult.RESULT_RATING) -> Texture2D:
 		HBResult.RESULT_RATING.PERFECT: preload("res://graphics/icons/clearBadge-Perfect.png")
 	}
 	return clear_badges[rating]
+
+# Code by Steven
+# why does godot not have inverses for hyperbolic trig built-in >:(
+static func asinh(x: float) -> float:
+	return log(x + sqrt(x * x + 1))
