@@ -24,14 +24,18 @@ var size_testing_circle_transform := HBEditorTransforms.MakeCircleTransform.new(
 func _ready():
 	super._ready()
 	transforms = [
-		HBEditorTransforms.MakeCircleTransform.new(1),
-		HBEditorTransforms.MakeCircleTransform.new(-1),
-		HBEditorTransforms.MakeCircleTransform.new(1, true),
-		HBEditorTransforms.MakeCircleTransform.new(-1, true),
-		HBEditorTransforms.FlipVerticallyTransformation.new(),
-		HBEditorTransforms.FlipHorizontallyTransformation.new(),
-		HBEditorTransforms.FlipVerticallyTransformation.new(true),
-		HBEditorTransforms.FlipHorizontallyTransformation.new(true),
+		HBEditorTransforms.MakeCircleTransform.new(1),  				# Clockwise, outside
+		HBEditorTransforms.MakeCircleTransform.new(-1), 				# Counter-clockwise, outside
+		HBEditorTransforms.MakeCircleTransform.new(1, true),    		# Clockwise, inside
+		HBEditorTransforms.MakeCircleTransform.new(-1, true),   		# Counter-clockwise, inside
+		HBEditorTransforms.FlipVerticallyTransformation.new(),  		# Global
+		HBEditorTransforms.FlipHorizontallyTransformation.new(),    	# Global
+		HBEditorTransforms.FlipVerticallyTransformation.new(true),  	# Local
+		HBEditorTransforms.FlipHorizontallyTransformation.new(true),    # Local
+		HBEditorTransforms.ArcInterpolationTransform.new(1, 1),     	# Clockwise, outside
+		HBEditorTransforms.ArcInterpolationTransform.new(-1, 1),    	# Counter-clockwise, outside
+		HBEditorTransforms.ArcInterpolationTransform.new(1, -1),    	# Clockwise, inside
+		HBEditorTransforms.ArcInterpolationTransform.new(-1, -1),   	# Counter-clockwise, inside
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_CENTER),
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_LEFT),
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_RIGHT),
@@ -81,6 +85,8 @@ func set_editor(p_editor):
 var arranging := false
 var selected_ring := "inner"
 func _input(event: InputEvent):
+	super._input(event)
+	
 	var selected = get_selected()
 	
 	if shortcuts_blocked():
@@ -459,7 +465,7 @@ func preview_size(value: int):
 
 
 func _set_rotation_angle(new_value: float):
-	for i in range(8, 12):
+	for i in range(12, 16):
 		transforms[i].rotation = -new_value 	# Center
 
 var dragging_angle_slider := false

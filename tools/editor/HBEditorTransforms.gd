@@ -383,6 +383,135 @@ class MakeCircleTransform:
 		
 		return transformation_result
 
+# Code by Steven
+# Original comments:
+
+# Catenary arcs will create a symmetric arc between two points A and B with a specific length L.
+# This allows you to pick a starting and ending point that will snap to the grid while
+# also keeping all note spacing proper based on the separation in beats. :D
+# If the ratio between the distance of A and B and the length L of the line that connects
+# them is sufficiently small, it will be very close to a large radius circular arrangement.
+# If it isn't, it creates an effect that looks like a parabola.
+
+# Extra comment by Lino:
+# I have 0 clue how this works. It makes brain go melty.
+# Thank god I didnt get into mathematics.
+# Anyways, I changed the variables to be more descriptive and updated the code style.
+# You are welcome, future me.
+# - Lino, 26/07/23
+
+class ArcInterpolationTransform:
+	extends EditorTransformation
+
+	### Configurable Constants
+	const PRECISION = 1e-2  	# = 1/100th of a pixel
+	const BEAT_SCALE = 96   	# = 96px spacing per 8th
+	const APPROX_START = 8192.0 # where approximation starts
+	const MAX_ITERATIONS = 20   # to prevent crashing if an oopsie is made
+	### ----------------------
+	
+	var direction: int  		# 1 = clockwise, -1 = counterclockwise
+	var angle_direction: int    # 1 = outside, -1 = inside
+	
+	func _init(_direction: int, _angle_direction: int):
+		self.direction = _direction
+		self.angle_direction = _angle_direction
+	
+	static func _sort_by_time(a: HBBaseNote, b: HBBaseNote):
+		return a.time < b.time
+	
+	func approximate_arc_constant(arc_length: float, max_distance: float) -> float:
+		var arc_const: float = APPROX_START
+		var k := arc_const / 2
+		var error := arc_length - arc_const * sinh(max_distance / arc_const)
+		
+		var i := 0
+		while abs(error) > PRECISION and i < MAX_ITERATIONS:
+			arc_const -= sign(error) * k
+			error = arc_length - arc_const * sinh(max_distance / arc_const)
+			k /= 2
+			
+			i += 1
+		
+		return arc_const / 2.0
+
+	func pos_around_arc(last_pos: float, distance: float, arc_const: float) -> Vector2:
+		var x = arc_const * HBUtils.asinh((distance + arc_const * sinh(last_pos / arc_const)) / arc_const)
+		var y = arc_const * cosh(x / arc_const)
+		return Vector2(x, y)
+	
+	func angle_span(D: float, a: float) -> float:
+		# finds the circle between A, B, & global_min (C)
+		# returns the arc length of the circle between A & B
+		var global_min = pos_around_arc(0.0, 0.0, a)
+		var A = Vector2(-D/2, 0)
+		var AC = A.distance_to(global_min)
+		var radius = AC*AC/2/abs(global_min.y)
+		var center = Vector2(0, sign(global_min.y)*radius + global_min.y)
+		return abs(center.angle_to_point(A) - center.angle_to_point(global_min))*360.0/PI
+	
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		
+		for n in notes:
+			if not n is HBBaseNote:
+				notes.erase(n)
+		notes.sort_custom(self._sort_by_time)
+		
+		if notes.size() < 3:
+			return {}
+		
+		var new_freq := -2 * -self.direction * self.angle_direction
+		
+		var start: HBBaseNote = notes[0]
+		var end: HBBaseNote = notes[-1]
+		
+		var max_distance := float(start.position.distance_to(end.position))
+		var beats: float = editor.get_length_in_beats(notes)
+		var arc_length := beats * BEAT_SCALE
+		
+		# arc_length must be greater than a straight line between the start and end
+		# if we dont cap it, it will crash
+		if max_distance + BEAT_SCALE / 8 >= arc_length:
+			max_distance = arc_length - BEAT_SCALE / 8
+		
+		var arc_const := approximate_arc_constant(arc_length, max_distance)
+		var theta = PI + end.position.angle_to_point(start.position)
+		
+		var total_angle := deg_to_rad(angle_span(arc_length, arc_const) * 2.0)
+		total_angle = max(total_angle, PI/2)
+		
+		var starting_angle := start.position.angle_to_point(end.position)
+		starting_angle += self.direction * (self.angle_direction * PI/2 - total_angle * 0.5)
+		
+		var last_pos := pos_around_arc(-max_distance / 2, 0.0, arc_const)
+		var last_beat: float = editor.get_time_as_eight(start.time)
+		var first_beat := last_beat
+		var shift = -last_pos   # No idea tbh
+		
+		for i in notes.size():
+			var n: HBBaseNote = notes[i]
+			var current_beat: float = editor.get_time_as_eight(n.time)
+			
+			last_pos = pos_around_arc(last_pos.x, (current_beat - last_beat) * BEAT_SCALE, arc_const)
+			
+			var pos: Vector2 = ((last_pos + shift) * Vector2(1, self.direction)).rotated(theta)
+			pos += start.position
+			
+			var angle: float = rad_to_deg(starting_angle + self.direction * (current_beat - first_beat) / beats * total_angle)
+			
+			transformation_result[n] = {
+				"position": pos,
+				"entry_angle": fmod(angle + 360, 360),
+				"oscillation_frequency": new_freq,
+			}
+			
+			last_beat = current_beat
+			if n is HBSustainNote:
+				last_beat = editor.get_time_as_eight(n.end_time)
+		
+		return transformation_result
+
 class MultiPresetTemplate:
 	extends EditorTransformation
 	

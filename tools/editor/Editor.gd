@@ -1850,7 +1850,10 @@ func _on_timing_information_changed(f=null):
 		
 		var end = timing_changes[-1].data.time
 		for i in range(0, end / ms_per_beat + 1):
-			timing_map.append(int(end - (i - 1) * ms_per_beat))
+			var beat := int(end - (i + 1) * ms_per_beat)
+			
+			if beat >= 0:
+				timing_map.append(beat)
 	
 	timing_map.reverse()
 	signature_map.reverse()
@@ -2476,3 +2479,20 @@ func get_time_as_eight(time: int) -> float:
 	var eight = lerp(float(eight_map.eights[lower_bound]), float(eight_map.eights[upper_bound]), w)
 	
 	return eight
+
+func get_length_in_beats(notes: Array) -> float:
+	if not notes:
+		return 0.0
+	
+	var last_beat := get_time_as_eight(notes[0].time)
+	var length := 0.0
+	
+	for note in notes:
+		var beat := get_time_as_eight(note.time)
+		length += beat - last_beat
+		
+		last_beat = beat
+		if note is HBSustainNote:
+			last_beat = get_time_as_eight(note.end_time)
+	
+	return length
