@@ -12,6 +12,8 @@ var prev_focus
 
 @onready var arcade_texture_rect: TextureRect = get_node("%ArcadeTexture")
 @onready var console_texture_rect: TextureRect = get_node("%ConsoleTexture")
+@onready var arcade_texture_diff_rect: TextureRect = get_node("%ArcadeTextureDifficulty")
+@onready var console_texture_diff_rect: TextureRect = get_node("%ConsoleTextureDifficulty")
 @onready var download_texture_rect: TextureRect = get_node("%DownloadTextureRect")
 #HBNoteData.get_note_graphic(data.note_type, "note")
 
@@ -89,6 +91,8 @@ func update_scale(to: Vector2, no_animation=false):
 
 func _ready():
 	super._ready()
+	arcade_texture_diff_rect.texture = ResourcePackLoader.get_graphic("slide_right_note.png")
+	console_texture_diff_rect.texture = ResourcePackLoader.get_graphic("heart_note.png")
 	arcade_texture_rect.hide()
 	console_texture_rect.hide()
 	pressed.connect(self._on_pressed)
@@ -188,6 +192,9 @@ func _input(event: InputEvent) -> void:
 			disable_scaling = false
 
 func _on_difficulty_hovered(diff: String):
+	arcade_texture_diff_rect.hide()
+	console_texture_diff_rect.hide()
+	
 	if ScoreHistory.has_result(song.id, diff):
 		var result := ScoreHistory.get_data(song.id, diff) as HBHistoryEntry
 		var pass_percentage = result.highest_percentage
@@ -203,11 +210,17 @@ func _on_difficulty_hovered(diff: String):
 		percentage_label.text = "%.2f %%" % [pass_percentage * 100.0]
 		
 		rating_texture.texture = HBUtils.get_clear_badge(result.highest_rating)
+		
 	else:
 		score_label.text = "- | - pts"
 		percentage_label.text = "- %"
-		rating_texture.texture = null
-
+		rating_texture.texture = preload("res://graphics/icons/badge_empty.svg")
+	var note_type_usage: Array = song.get_chart_note_usage(diff)
+	
+	if HBChart.ChartNoteUsage.ARCADE in note_type_usage:
+		arcade_texture_diff_rect.show()
+	if HBChart.ChartNoteUsage.CONSOLE in note_type_usage:
+		console_texture_diff_rect.show()
 var prev_focus_owner: Control
 
 func _on_pressed():
