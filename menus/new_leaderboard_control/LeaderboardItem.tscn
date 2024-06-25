@@ -1,11 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://cjjhnnhow7e2e"]
 
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="1"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="Script" path="res://menus/new_leaderboard_control/LeaderboardItem.gd" id="2"]
-[ext_resource type="StyleBox" path="res://styles/ResultRatingStyleOdd.tres" id="3"]
+[ext_resource type="StyleBox" uid="uid://5p3tgk5ls5ia" path="res://styles/ResultRatingStyleOdd.tres" id="3"]
 
 [sub_resource type="FontFile" id="1"]
 fallbacks = Array[Font]([ExtResource("1")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/30/0/ascent = 0.0
 cache/0/30/0/descent = 0.0
 cache/0/30/0/underline_position = 0.0
@@ -21,22 +24,20 @@ cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[node name="NewLeaderboardItem" type="Panel"]
+[node name="NewLeaderboardItem" type="PanelContainer"]
 use_parent_material = true
-custom_minimum_size = Vector2(0, 80)
 anchors_preset = 10
 anchor_right = 1.0
-offset_right = 0.00012207
-offset_bottom = 80.0
+offset_right = -989.0
+offset_bottom = 62.0
+grow_horizontal = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("3")
 script = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 use_parent_material = true
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -55,7 +56,6 @@ use_parent_material = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 0.08
-auto_translate = false
 theme_override_fonts/font = SubResource("1")
 text = "1"
 horizontal_alignment = 1
@@ -79,10 +79,9 @@ theme_override_constants/separation = 10
 [node name="UserName" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 auto_translate_mode = 2
 use_parent_material = true
-custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
-size_flags_vertical = 7
-auto_translate = false
+size_flags_horizontal = 3
+size_flags_vertical = 5
 theme_override_fonts/font = SubResource("1")
 text = "Eirewe"
 vertical_alignment = 1
@@ -92,10 +91,8 @@ auto_translate_mode = 2
 use_parent_material = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 7
-size_flags_stretch_ratio = 0.1
-auto_translate = false
+size_flags_vertical = 1
+size_flags_stretch_ratio = 0.4
 theme_override_fonts/font = SubResource("1")
 text = "1.100.000 (100%)"
-horizontal_alignment = 1
 vertical_alignment = 1
