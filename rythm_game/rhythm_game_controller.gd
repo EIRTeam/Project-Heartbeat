@@ -96,7 +96,7 @@ func start_fade_in():
 		game.seek(song.start_time)
 	game.schedule_play_start(start_offset + FADE_OUT_TIME * 1000)
 	game.start()
-	game.time_msec = song.start_time
+	game.time_msec = song.start_time - FADE_OUT_TIME * 1000
 	video_player.set_stream_position(song.start_time / 1000.0)
 	video_player.show()
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Threen.TRANS_LINEAR, Threen.EASE_IN_OUT)

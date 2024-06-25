@@ -643,6 +643,7 @@ func resume():
 	game_input_manager.flush_inputs(time_usec, time_usec, time_usec)
 	start()
 func seek(position: int):
+	time_msec = position
 	if audio_playback:
 		if not audio_playback.is_playing():
 			audio_playback.start()
