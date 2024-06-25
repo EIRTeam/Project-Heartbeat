@@ -157,7 +157,10 @@ func _draw_time_line(time: float, color: Color, width := 6.0):
 	draw_dashed_line(s, s + Vector2(0.0, size.y), color, width, 24.0)
 
 func _draw() -> void:
-	_draw_time_line(0.0, Color.RED)
-	_draw_time_line(5.0, Color.GREEN)
-	_draw_time_line(32.0, Color.PURPLE)
-	_draw_time_line(-32.0, Color.PURPLE)
+	# mean
+	_draw_time_line(mean, Color.RED)
+	#median
+	_draw_time_line(median, Color.GREEN)
+	#std dev
+	_draw_time_line(std_dev, Color.PURPLE)
+	_draw_time_line(-std_dev, Color.PURPLE)
