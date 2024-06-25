@@ -22,10 +22,11 @@ func _on_note_pressed(event: InputEventHB = null):
 		fire_and_forget_user_sfx(sfx_type)
 	
 	assert(is_autoplay_enabled() or event)
-	if not event and is_autoplay_enabled() and note_data is HBNoteData and note_data.hold:
+	if not event and is_autoplay_enabled() and note_data is HBNoteData:
 		# fake event for autoplay
 		var fake_event := InputEventHB.new()
 		event = fake_event
+		event.game_time = game_time
 		event.event_uid = note_data.note_type
 		
 	
