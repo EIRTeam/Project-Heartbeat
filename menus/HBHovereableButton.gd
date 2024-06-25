@@ -45,6 +45,7 @@ func _ready():
 	add_child(button_hover_animation_proxy)
 	button_hover_animation_proxy.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	button_hover_animation_proxy.hide()
+	button_hover_animation_proxy.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stop_hover()
 	add_theme_stylebox_override("hover", hover_style)
 	focus_mode = FOCUS_NONE
