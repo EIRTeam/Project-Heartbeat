@@ -42,3 +42,10 @@ func show_tab(tab_name: String):
 func _unhandled_input(event):
 	if event.is_action("gui_tab_left") or event.is_action("gui_tab_right"):
 		button_container._gui_input(event)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		for tab_name in tabs:
+			var tab := tabs[tab_name] as Node
+			if not tab.is_inside_tree():
+				tab.queue_free()
