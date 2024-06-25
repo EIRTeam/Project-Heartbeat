@@ -206,7 +206,7 @@ func _on_difficulty_hovered(diff: String):
 	else:
 		score_label.text = "- | - pts"
 		percentage_label.text = "- %"
-		rating_texture.texture = preload("res://graphics/icons/badge_empty.svg")
+		rating_texture.texture = null
 
 var prev_focus_owner: Control
 

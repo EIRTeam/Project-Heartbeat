@@ -1334,7 +1334,9 @@ func pause():
 	playback_speed_slider.editable = true
 	
 	game_preview.pause()
-	reveal_ui(false)
+	
+	if not sync_module.create_timing_change_button.button.pressed.is_connected(_reveal_ui_and_disconnect):
+		reveal_ui(false)
 
 func _on_PauseButton_pressed(auto = false):
 	pause()
@@ -1715,6 +1717,7 @@ func obscure_ui(extended: bool = true):
 func reveal_ui(extended: bool = true):
 	if not is_inside_tree():
 		return
+	
 	for control in get_tree().get_nodes_in_group("disabled_ui"):
 		if control is BaseButton:
 			control.disabled = false
@@ -2417,7 +2420,14 @@ func guide_user_to_timing_changes():
 			break
 	
 	right_panel.current_tab = idx
+	sync_module.create_timing_change_button.button.disabled = false
 	sync_module.create_timing_change_button.button.grab_focus()
+	
+	sync_module.create_timing_change_button.button.pressed.connect(_reveal_ui_and_disconnect)
+
+func _reveal_ui_and_disconnect():
+	reveal_ui()
+	sync_module.create_timing_change_button.button.pressed.disconnect(_reveal_ui_and_disconnect)
 
 func keep_settings_button_enabled():
 	settings_editor_button.disabled = false
