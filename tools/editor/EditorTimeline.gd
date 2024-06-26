@@ -347,7 +347,7 @@ func _input(event):
 		if _area_selecting:
 			queue_redraw()
 	
-	if event.is_action_released("editor_select"):
+	if not Input.is_action_pressed("editor_select", false):
 		for note in editor.selected:
 			note.stop_dragging()
 	
@@ -365,25 +365,25 @@ func _input(event):
 		update_selection_mode()
 	
 	if get_global_rect().has_point(get_global_mouse_position()):
-		if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("%EditorGlobalSettings").visible:
+		if event.is_action_pressed("editor_contextual_menu", false, true) and not editor.get_node("%EditorGlobalSettings").visible:
 			editor.show_contextual_menu()
-
-func _gui_input(event):
-	if event is InputEventMouseButton:
-		if scroll_container.get_global_rect().has_point(get_global_mouse_position()):
-			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and not event.is_echo():
-				get_viewport().set_input_as_handled()
-				_area_select_start = get_local_mouse_position()
-				_area_selecting = true
-				modifier_texture.visible = true
-				queue_redraw()
-		
-		if event.button_index == MOUSE_BUTTON_LEFT and not event.pressed and not event.is_echo() and _area_selecting:
+	
+	if scroll_container.get_global_rect().has_point(get_global_mouse_position()):
+		if event.is_action_pressed("editor_select", false, false):
 			get_viewport().set_input_as_handled()
-			_area_selecting = false
-			_do_area_select()
-			modifier_texture.visible = false
+			_area_select_start = get_local_mouse_position()
+			_area_selecting = true
+			modifier_texture.visible = true
+			playhead_area._area_selecting = true
 			queue_redraw()
+	
+	if event.is_action_released("editor_select", false) and _area_selecting:
+		get_viewport().set_input_as_handled()
+		_area_selecting = false
+		_do_area_select()
+		modifier_texture.visible = false
+		playhead_area._area_selecting = false
+		queue_redraw()
 
 func _unhandled_input(event):
 	if _area_selecting and event is InputEventWithModifiers:

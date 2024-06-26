@@ -164,7 +164,8 @@ const EDITOR_ACTIONS := {
 		"editor_toggle_video",
 	],
 	"Selection": [
-#		"editor_select",
+		"editor_select",
+		"editor_contextual_menu",
 		"editor_select_all",
 		"editor_deselect",
 		"editor_shift_selection_left",
@@ -183,21 +184,25 @@ const EDITOR_ACTIONS := {
 		"editor_paste",
 		"editor_delete",
 	],
-	"Miscellaneous": [
-#		"editor_contextual_menu",
-		"gui_accept",
-		"gui_cancel",
-		"gui_undo",
-		"gui_redo",
+	"Timeline": [
 		"editor_pan",
+		"editor_scroll_left",
+		"editor_scroll_right",
 		"editor_move_playhead_left",
 		"editor_move_playhead_right",
 		"editor_scale_up",
 		"editor_scale_down",
 	],
+	"Miscellaneous": [
+		"gui_accept",
+		"gui_cancel",
+		"gui_undo",
+		"gui_redo",
+	],
 }
 
 const CONFLICT_FREE_GROUPS := [
+	["gui_accept", "editor_make_circle_ccw"],
 	["slide_left", "slide_right", "heart_note"],
 	["editor_contextual_menu", "editor_show_arrange_menu"],
 ]
@@ -385,7 +390,7 @@ func _on_bind_window_confirmed():
 		conflict_dialog.popup_centered()
 		return
 	
-	var is_temp_event_valid := (temp_event.keycode != 0 if temp_event is InputEventKey else temp_event) as bool
+	var is_temp_event_valid: bool = temp_event.keycode != 0 if temp_event is InputEventKey else true
 	
 	if temp_event and is_temp_event_valid and selected_item:
 		var action_name: String = selected_item.get_meta("action_name")

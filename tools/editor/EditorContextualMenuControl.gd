@@ -4,13 +4,19 @@ class_name HBEditorContextualMenuControl
 
 const LOG_NAME = "EditorContextualMenuControl"
 
+signal item_pressed(item_name)
 
 var name_id_map = {}
 
-signal item_pressed(item_name)
-
 func _ready():
 	connect("index_pressed", Callable(self, "_on_index_pressed"))
+
+func _input(event):
+	if not visible:
+		return
+	
+	if event.is_action_pressed("editor_contextual_menu", false, true):
+		hide()
 
 func add_contextual_item(label: String, item_name: String):
 	if not item_name in name_id_map.values():
