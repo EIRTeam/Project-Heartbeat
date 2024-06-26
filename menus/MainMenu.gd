@@ -102,6 +102,13 @@ func _init():
 		"latency_tester": {
 			"fullscreen": preload("res://tools/latency_tester/LatencyTester.tscn").instantiate(),
 			"right": "empty"
+		},
+		"oob_right": {
+			"right": preload("res://menus/oob/oob_right.tscn").instantiate()
+		},
+		"oob": {
+			"left": preload("res://menus/oob/oob.tscn").instantiate(),
+			"right": "oob_right"
 		}
 	}
 
@@ -138,6 +145,7 @@ func _ready():
 	MENUS["lobby"].left.connect("song_selected", Callable(MENUS["song_list_preview"].right, "select_song"))
 	MENUS["lobby"].left.connect("ugc_song_selected", Callable(MENUS["song_list_preview"].right, "select_ugc_song"))
 	MENUS["song_list"].left.connect("song_hovered", Callable(MENUS["pre_game"].left, "select_song"))
+	(MENUS["oob"].left as HBOOBMenu).show_text.connect(MENUS["oob_right"].right.show_text)
 	#MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "fetch_entries")
 	
 	MENUS["results"].left.connect("select_song", Callable(MENUS["song_list_preview"].right, "select_song"))
@@ -229,19 +237,15 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		left_menu.connect("changed_to_menu", Callable(self, "change_to_menu").bind(), CONNECT_ONE_SHOT)
 		left_menu._on_menu_enter(force_hard_transition, args)
 
-var iflag = true # Flag that tells it to ignore the first background change
 func _on_background_loaded(token: SongAssetLoader.AssetLoadToken):
 	var background := token.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND)
-	if (starting_menu in result_menus) or (not iflag):
-		if background and fullscreen_menu != MENUS["start_menu"].fullscreen:
-			var mat: ShaderMaterial
-			if background is DIVASpriteSet.DIVASprite:
-				mat = background.get_material()
-			change_to_background(background, false, mat)
-		else:
-			change_to_background(null, true)
+	if background and fullscreen_menu != MENUS["start_menu"].fullscreen:
+		var mat: ShaderMaterial
+		if background is DIVASpriteSet.DIVASprite:
+			mat = background.get_material()
+		change_to_background(background, false, mat)
 	else:
-		iflag = false
+		change_to_background(null, true)
 
 func _on_song_started():
 	current_bg_song = player.current_song_player.song
