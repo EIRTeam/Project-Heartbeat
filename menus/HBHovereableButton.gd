@@ -25,9 +25,12 @@ const LERP_SPEED = 3.0
 	
 func _process(delta):
 	modulate.a = lerp(modulate.a, target_opacity, LERP_SPEED*delta)
-	button_hover_animation_proxy.modulate.a = sin((Time.get_ticks_msec()/1000.0) * PI / 1.0) / 2.0 + 0.5
-	button_hover_animation_proxy.modulate.a *= 0.75
-	button_hover_animation_proxy.modulate.a += 0.25
+	var color_start := get_theme_color(&"animation_color_start", &"HBHovereableButton")
+	var color_end := get_theme_color(&"animation_color_end", &"HBHovereableButton")
+	var alpha_target := sin((Time.get_ticks_msec()/1000.0) * PI / 1.0) / 2.0 + 0.5
+	alpha_target *= 0.75
+	alpha_target += 0.25
+	button_hover_animation_proxy.modulate = color_start.lerp(color_end, alpha_target)
 	button_hover_animation_proxy.show_behind_parent = true
 	#button_hover_animation_proxy.modulate.a = 0.0
 
