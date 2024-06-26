@@ -372,6 +372,7 @@ func _on_difficulty_selected(song: HBSong, difficulty):
 		$PPDAudioBrowseWindow.popup_centered_ratio(0.5)
 		return
 	if song.is_cached() or (song is HBPPDSongEXT and song.has_audio()):
+		song_hovered.emit(song)
 		change_to_menu("pre_game", false, {"song": song, "difficulty": difficulty})
 	else:
 		MouseTrap.cache_song_overlay.show_download_prompt(song)

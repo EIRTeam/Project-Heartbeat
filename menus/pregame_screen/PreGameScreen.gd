@@ -333,17 +333,16 @@ func _on_StartPractice_pressed():
 		stats.selected_variant = selected_variant
 		HBGame.song_stats.save_song_stats()
 	game_info.variant = selected_variant
-	if current_assets and current_assets.song == current_song:
-		var new_scene = preload("res://menus/LoadingScreen.tscn")
-		game_info.time = Time.get_unix_time_from_system()
-		var scene = new_scene.instantiate()
-		get_tree().current_scene.queue_free()
-		get_tree().root.add_child(scene)
-		get_tree().current_scene = scene
-		game_info.song_id = current_song.id
-		game_info.difficulty = current_difficulty
-		emit_signal("begin_loading")
-		scene.load_song(game_info, true, current_assets)
+	var new_scene = preload("res://menus/LoadingScreen.tscn")
+	game_info.time = Time.get_unix_time_from_system()
+	var scene = new_scene.instantiate()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+	game_info.song_id = current_song.id
+	game_info.difficulty = current_difficulty
+	emit_signal("begin_loading")
+	scene.load_song(game_info, true, current_assets)
 
 func _on_DeleteSongMediaPopup_accept():
 	if current_song.youtube_url:
