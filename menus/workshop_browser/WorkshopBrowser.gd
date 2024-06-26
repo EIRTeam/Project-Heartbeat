@@ -185,7 +185,7 @@ func navigate_to_page(page_n: int, query: HBWorkshopBrowserQuery = null):
 		var had_any_stars := false
 		for i in range(star_filter_vbox_container.get_child_count()):
 			var cb: CheckBox = star_filter_vbox_container.get_child(i)
-			if cb.pressed:
+			if cb.button_pressed:
 				had_any_stars = true
 				var v: Array = HBGame.CHART_DIFFICULTY_TAGS[cb.get_meta("filter_name")]
 				var min_: float = v[0]
