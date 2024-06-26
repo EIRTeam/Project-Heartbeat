@@ -354,12 +354,13 @@ func _unhandled_input(event: InputEvent):
 				if song.get_visible_title().begins_with(c):
 					select_song_by_id(song.id)
 					break
-	if event.is_action_pressed("gui_page_down"):
-		get_viewport().set_input_as_handled()
-		select_item(min(current_selected_item+PAGE_CHANGE_COUNT, item_container.get_child_count()-1))
-	elif event.is_action_pressed("gui_page_up"):
-		get_viewport().set_input_as_handled()
-		select_item(max(current_selected_item-PAGE_CHANGE_COUNT, 0))
+	if has_focus():
+		if event.is_action_pressed("gui_page_down"):
+			get_viewport().set_input_as_handled()
+			select_item(min(current_selected_item+PAGE_CHANGE_COUNT, item_container.get_child_count()-1))
+		elif event.is_action_pressed("gui_page_up"):
+			get_viewport().set_input_as_handled()
+			select_item(max(current_selected_item-PAGE_CHANGE_COUNT, 0))
 
 func _on_create_new_folder():
 	var parent = folder_stack[folder_stack.size()-1]
