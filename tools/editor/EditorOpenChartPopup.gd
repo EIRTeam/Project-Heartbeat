@@ -25,6 +25,7 @@ var show_hidden = false
 func _ready():
 	connect("about_to_popup", Callable(self, "_on_about_to_show"))
 	tree.connect("item_selected", Callable(self, "_on_item_selected"))
+	tree.connect("item_activated", Callable(self, "_on_confirmed"))
 	edit_data_button.connect("pressed", Callable(self, "_show_meta_editor"))
 	new_song_button.connect("pressed", Callable(create_song_dialog, "popup_centered"))
 	create_song_dialog.connect("confirmed", Callable(self, "_on_CreateSongDialog_confirmed"))
