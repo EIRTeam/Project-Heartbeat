@@ -102,7 +102,7 @@ func hover():
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		if event.pressed:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			pressed.emit()
 
 func _notification(what: int) -> void:
