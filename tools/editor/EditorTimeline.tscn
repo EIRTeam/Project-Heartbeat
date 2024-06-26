@@ -22,7 +22,7 @@ border_color = Color(0.541176, 0.541176, 0.541176, 1)
 script/source = "extends ScrollContainer
 
 # Hacky way to handle control+zoom
-var _scroll = 0.0
+var _scroll := 0
 var _prevent_next_scroll = false
 signal zoom_in
 signal zoom_out
@@ -31,26 +31,32 @@ signal on_offset_right
 signal scrolled_vertically
 func _gui_input(event):
 	if event is InputEventMouseButton:
-		if (event.is_action_pressed(\"editor_scale_up\") or event.is_action_pressed(\"editor_scale_down\")) and event.shift_pressed:
+		if event.shift_pressed or event.ctrl_pressed or event.alt_pressed or event.meta_pressed:
 			_prevent_next_scroll = true
-		if (event.is_action_pressed(\"editor_scale_up\") or event.is_action_pressed(\"editor_scale_down\")) and event.is_command_or_control_pressed():
-			_prevent_next_scroll = true
-			if event.is_action_pressed(\"editor_scale_up\"):
-				emit_signal(\"zoom_in\")
-			elif event.is_action_pressed(\"editor_scale_down\"):
-				emit_signal(\"zoom_out\")
-		elif (event.is_action_released(\"editor_scale_up\") or event.is_action_released(\"editor_scale_down\")) and event.shift_pressed:
-			_prevent_next_scroll = true
-			if event.is_action_released(\"editor_scale_up\"):
-				emit_signal(\"offset_right\")
-			elif event.is_action_released(\"editor_scale_down\"):
-				emit_signal(\"offset_left\")
+			vertical_scroll_mode = SCROLL_MODE_DISABLED
+
+func _input(event):
+	# Do not capture mouse inputs when not hovering
+	if event is InputEventMouseButton and not get_global_rect().has_point(get_global_mouse_position()):
+		_prevent_next_scroll = true
+		return
+	
+	if event.is_action_pressed(\"editor_scale_up\", true, true):
+		emit_signal(\"zoom_in\")
+	elif event.is_action_pressed(\"editor_scale_down\", true, true):
+		emit_signal(\"zoom_out\")
+	
+	if event.is_action_pressed(\"editor_scroll_left\", true, true):
+		emit_signal(\"on_offset_left\")
+	elif event.is_action_pressed(\"editor_scroll_right\", true, true):
+		emit_signal(\"on_offset_right\")
+
 func _process(delta):
 	if _prevent_next_scroll:
-		scroll_vertical = _scroll
+		set_deferred(\"scroll_vertical\", _scroll)
 		_prevent_next_scroll = false
 		emit_signal(\"scrolled_vertically\")
-	if scroll_vertical != _scroll:
+	elif scroll_vertical != _scroll:
 		_scroll = scroll_vertical
 		emit_signal(\"scrolled_vertically\")
 "

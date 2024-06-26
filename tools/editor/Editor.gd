@@ -383,31 +383,6 @@ func _unhandled_input(event: InputEvent):
 		else:
 			konami_index = 0
 	
-	if event.is_action("editor_fine_position_left", true) or \
-		event.is_action("editor_fine_position_right", true) or \
-		event.is_action("editor_fine_position_up", true) or \
-		event.is_action("editor_fine_position_down", true):
-		if event.pressed:
-			var diff_x = event.get_action_strength("editor_fine_position_right") - event.get_action_strength("editor_fine_position_left")
-			var diff_y = event.get_action_strength("editor_fine_position_down") - event.get_action_strength("editor_fine_position_up")
-			var off = Vector2(int(diff_x), int(diff_y))
-			fine_position_selected(off)
-			get_viewport().set_input_as_handled()
-	
-	if event.is_action("editor_move_left", true) or \
-		event.is_action("editor_move_right", true) or \
-		event.is_action("editor_move_up", true) or \
-		event.is_action("editor_move_down", true):
-		if event.pressed and not event.echo:
-			var diff_x = event.get_action_strength("editor_move_right") - event.get_action_strength("editor_move_left")
-			var diff_y = event.get_action_strength("editor_move_down") - event.get_action_strength("editor_move_up")
-			
-			var grid_size = grid_renderer.get_grid_size()
-			var off = Vector2(int(diff_x * grid_size.y), int(diff_y * grid_size.x))
-			
-			fine_position_selected(off)
-			get_viewport().set_input_as_handled()
-	
 	if event.is_action("gui_undo", true) and event.pressed:
 		get_viewport().set_input_as_handled()
 		apply_fine_position()
@@ -437,10 +412,10 @@ func _unhandled_input(event: InputEvent):
 		var old_pos = playhead_position
 		var _timing_map = get_timing_map()
 		
-		if event.is_action("editor_move_playhead_left", true) and event.pressed and timing_map:
+		if event.is_action_pressed("editor_move_playhead_left", true, true) and _timing_map:
 			var idx = max(_timing_map.bsearch(playhead_position) - 1, 0)
 			playhead_position = _timing_map[idx]
-		elif event.is_action("editor_move_playhead_right", true) and event.pressed and timing_map:
+		elif event.is_action_pressed("editor_move_playhead_right", true, true) and _timing_map:
 			var idx = HBUtils.bsearch_upper(_timing_map, playhead_position)
 			playhead_position = _timing_map[idx]
 		
@@ -448,6 +423,34 @@ func _unhandled_input(event: InputEvent):
 			emit_signal("playhead_position_changed")
 			timeline.ensure_playhead_is_visible()
 			seek(playhead_position)
+			
+			get_viewport().set_input_as_handled()
+	
+		
+	if event.is_action("editor_fine_position_left", true) or \
+		event.is_action("editor_fine_position_right", true) or \
+		event.is_action("editor_fine_position_up", true) or \
+		event.is_action("editor_fine_position_down", true):
+		if event.pressed:
+			var diff_x = event.get_action_strength("editor_fine_position_right") - event.get_action_strength("editor_fine_position_left")
+			var diff_y = event.get_action_strength("editor_fine_position_down") - event.get_action_strength("editor_fine_position_up")
+			var off = Vector2(int(diff_x), int(diff_y))
+			fine_position_selected(off)
+			get_viewport().set_input_as_handled()
+	
+	if event.is_action("editor_move_left", true) or \
+		event.is_action("editor_move_right", true) or \
+		event.is_action("editor_move_up", true) or \
+		event.is_action("editor_move_down", true):
+		if event.pressed and not event.echo:
+			var diff_x = event.get_action_strength("editor_move_right") - event.get_action_strength("editor_move_left")
+			var diff_y = event.get_action_strength("editor_move_down") - event.get_action_strength("editor_move_up")
+			
+			var grid_size = grid_renderer.get_grid_size()
+			var off = Vector2(int(diff_x * grid_size.y), int(diff_y * grid_size.x))
+			
+			fine_position_selected(off)
+			get_viewport().set_input_as_handled()
 	
 	if event is InputEventKey and not event.is_action_pressed("editor_play"):
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
