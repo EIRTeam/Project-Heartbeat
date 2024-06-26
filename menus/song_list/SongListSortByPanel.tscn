@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://ru3raamtduxd"]
+
+[ext_resource type="Script" path="res://menus/song_list/SongListSortByPanel.gd" id="1_j1k1m"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="2_lp8hl"]
+[ext_resource type="PackedScene" uid="uid://dhyyvctuvaunk" path="res://menus/HBHovereableOptionButton.tscn" id="3_fxifo"]
+[ext_resource type="PackedScene" uid="uid://dpp05jvqww62" path="res://menus/HBHovereableCheckbox.tscn" id="4_pmmu1"]
+[ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="5_cjk6u"]
+[ext_resource type="PackedScene" uid="uid://fbjt8b81ifx4" path="res://menus/options_menu/OptionRange.tscn" id="5_rdlwl"]
+
+[sub_resource type="StyleBoxFlat" id="4"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0.74902)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 10
+
+[node name="SortByPanel" type="PanelContainer"]
+offset_right = 481.0
+offset_bottom = 324.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_styles/panel = SubResource("4")
+script = ExtResource("1_j1k1m")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="ButtonContainer" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 2
+theme_override_constants/separation = 20
+script = ExtResource("2_lp8hl")
+orientation = 1
+enable_wrap_around = true
+
+[node name="Label" type="Label" parent="MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "Sort & filter settings"
+horizontal_alignment = 1
+
+[node name="SortByOptionButton" parent="MarginContainer/ButtonContainer" instance=ExtResource("3_fxifo")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ChartStyleOptionButton" parent="MarginContainer/ButtonContainer" instance=ExtResource("3_fxifo")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HasMediaCheckbox" parent="MarginContainer/ButtonContainer" instance=ExtResource("4_pmmu1")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Has downloaded media"
+icon = ExtResource("5_cjk6u")
+
+[node name="FilterByStarsCheckbox" parent="MarginContainer/ButtonContainer" instance=ExtResource("4_pmmu1")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Filter by stars"
+
+[node name="FilterByStarsSliderMin" parent="MarginContainer/ButtonContainer" instance=ExtResource("5_rdlwl")]
+unique_name_in_owner = true
+layout_mode = 2
+postfix = " ★"
+
+[node name="FilterByStarsSliderMax" parent="MarginContainer/ButtonContainer" instance=ExtResource("5_rdlwl")]
+unique_name_in_owner = true
+layout_mode = 2
+postfix = " ★"

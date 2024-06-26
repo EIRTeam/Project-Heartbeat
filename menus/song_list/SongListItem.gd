@@ -4,7 +4,6 @@ class_name HBSongListItem
 
 var song : HBSong
 
-var prev_focus
 @onready var button = get_node("%Button")
 #onready var star_texture_rect = get_node("TextureRect")
 
@@ -184,8 +183,9 @@ func stop_hover(no_animation=false):
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("gui_cancel"):
-		if difficulty_tag_container.has_focus() and prev_focus_owner:
-			prev_focus_owner.grab_focus()
+		if difficulty_tag_container.has_focus():
+			# terrible horrible not very good HACK
+			get_parent().get_parent().grab_focus()
 			get_viewport().set_input_as_handled()
 			set_process_input(false)
 			animatable_container.animate(false)
@@ -221,14 +221,12 @@ func _on_difficulty_hovered(diff: String):
 		arcade_texture_diff_rect.show()
 	if HBChart.ChartNoteUsage.CONSOLE in note_type_usage:
 		console_texture_diff_rect.show()
-var prev_focus_owner: Control
 
 func _on_pressed():
 	rating_data_container.show()
 	disable_scaling = true
 	%Button.add_theme_stylebox_override("normal", hover_style)
 	_on_difficulty_hovered(difficulty_tag_container.get_child(0).difficulty)
-	prev_focus_owner = get_viewport().gui_get_focus_owner()
 	animatable_container.animate(true)
 	difficulty_tag_container.grab_focus()
 	for tag: HBDifficultyTag in difficulty_tag_container.get_children():

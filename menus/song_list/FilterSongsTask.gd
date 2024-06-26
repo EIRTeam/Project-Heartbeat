@@ -6,22 +6,17 @@ signal songs_filtered(songs, song_id_to_select, difficulty_to_select)
 
 var out_mutex := Mutex.new()
 var songs: Array
-var filter_by: String
-var filtered_songs: Array
-var sort_by_prop: StringName
 var song_id_to_select
 var difficulty_to_select
-var search_term: String
-
+var sort_filter_settings: HBSongSortFilterSettings
+var filtered_songs: Array
 var task_id: int
 
-func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_select=null, _difficulty_to_select=null, _search_term := ""):
+func _init(_filter_settings: HBSongSortFilterSettings, _songs: Array, _song_id_to_select=null, _difficulty_to_select=null, _search_term := ""):
 	songs = _songs
-	filter_by = _filter_by
-	sort_by_prop = _sort_by
+	sort_filter_settings = _filter_settings
 	song_id_to_select = _song_id_to_select
 	difficulty_to_select = _difficulty_to_select
-	search_term = _search_term.to_lower()
 	
 class SongFilterData:
 	var string_cmp: String
@@ -33,7 +28,7 @@ class SongFilterData:
 	
 func get_compare_func() -> Callable:
 	var out_callable: Callable
-	match sort_by_prop:
+	match sort_filter_settings.sort_prop:
 		&"title", &"artist", &"creator":
 			out_callable = self.string_compare
 		&"bpm", &"_times_played":
@@ -50,7 +45,7 @@ func get_compare_func() -> Callable:
 	return out_callable
 	
 func fill_compare_data(song: HBSong, filter_data: SongFilterData):
-	match sort_by_prop:
+	match sort_filter_settings.sort_prop:
 		&"title":
 			filter_data.string_cmp = song.get_visible_title().to_lower()
 		&"artist":
@@ -82,9 +77,9 @@ func sort_and_filter_songs():
 	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 	var compare_func := get_compare_func()
 	var filter_datas: Array[SongFilterData]
-	for song in songs:
+	for song: HBSong in songs:
 		var should_add_song = false
-		match filter_by:
+		match sort_filter_settings.filter_mode:
 			&"ppd":
 				should_add_song = song is HBPPDSong and not (UserSettings.user_settings.hide_ppd_ex_songs and song is HBPPDSongEXT)
 			&"official":
@@ -111,16 +106,43 @@ func sort_and_filter_songs():
 				should_add_song = true
 		
 		if should_add_song:
-			if UserSettings.user_settings.filter_has_media:
+			if UserSettings.user_settings.sort_filter_settings.filter_has_media_only:
 				should_add_song = song.is_cached()
 		
 		if should_add_song:
+			if sort_filter_settings.note_usage_filter_mode != HBSongSortFilterSettings.NoteUsageFilterMode.FILTER_MODE_ALL:
+				should_add_song = false
+				match sort_filter_settings.note_usage_filter_mode:
+					HBSongSortFilterSettings.NoteUsageFilterMode.FILTER_MODE_CONSOLE_ONLY:
+						for difficulty in song.charts:
+							var usage := song.get_chart_note_usage(difficulty) as Array
+							if usage.size() == 0 or usage.size() == 1 and HBChart.ChartNoteUsage.CONSOLE in usage:
+								should_add_song = true
+					HBSongSortFilterSettings.NoteUsageFilterMode.FILTER_MODE_ARCADE_ONLY:
+						for difficulty in song.charts:
+							var usage := song.get_chart_note_usage(difficulty) as Array
+							if usage.size() == 0 or usage.size() == 1 and HBChart.ChartNoteUsage.ARCADE in usage:
+								should_add_song = true
+
+		if should_add_song and sort_filter_settings.star_filter_enabled:
+			var stars: Array[float] = song.get_stars()
+			if stars.size() != 0:
+				should_add_song = stars.any(
+					func(star: float):
+						return sort_filter_settings.star_filter_min <= star and star <= sort_filter_settings.star_filter_max
+				)
+		
+		if should_add_song and not sort_filter_settings.search_term.is_empty():
+			should_add_song = false
 			for field in [song.title.to_lower(), song.original_title.to_lower(), song.romanized_title.to_lower()]:
-				if search_term.is_empty() or search_term in field:
-					var filter_data := SongFilterData.new(song)
-					fill_compare_data(song, filter_data)
-					filter_datas.push_back(filter_data)
+				if sort_filter_settings.search_term in field:
+					should_add_song = true
 					break
+		
+		if should_add_song:
+			var filter_data := SongFilterData.new(song)
+			fill_compare_data(song, filter_data)
+			filter_datas.push_back(filter_data)
 	
 	filter_datas.sort_custom(compare_func)
 	var out_songs: Array = filter_datas.map(func(d: SongFilterData) -> HBSong: return d.song)

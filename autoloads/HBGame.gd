@@ -76,6 +76,7 @@ var serializable_types = {
 	"Song": load("res://scripts/HBSong.gd"),
 	"Result": load("res://scripts/HBResult.gd"),
 	"UserSettings": load("res://scripts/HBUserSettings.gd"),
+	"SongSortFilterSettings": load("res://menus/HBSongSortFilterSettings.gd")
 	"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd"),
 	"GameInfo": load("res://scripts/HBGameInfo.gd"),
 	"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),

@@ -156,12 +156,9 @@ var OPTIONS = {
 		"display": {
 			"name": tr("Display"),
 			"description": tr("Display to display the game in"),
-			"minimum": -1,
-			"maximum": DisplayServer.get_screen_count(),
-			"step": 1,
-			"text_overrides": {
-				-1: tr("Current")
-			}
+			"options": [-1] + range(0, DisplayServer.get_screen_count()),
+			"options_pretty": [tr("Current")] + get_display_names(),
+			"type": "options",
 		},
 		"vsync_enabled": {
 			"name": tr("Enable VSync"),
@@ -178,10 +175,9 @@ var OPTIONS = {
 		"desired_video_fps": {
 			"name": tr("Desired Video FPS"),
 			"description": tr("The desired video framerate for downloaded videos."),
-			"minimum": 30,
-			"maximum": 60,
-			"step": 30,
-			"postfix": " FPS"
+			"options": [30, 60],
+			"options_pretty": ["30 FPS", "60 FPS"],
+			"type": "options"
 		},
 		"desired_video_resolution": {
 			"name": tr("Desired Video Resolution"),
@@ -502,3 +498,9 @@ func _detected_controllers_callback() -> String:
 			text_out += "{joypad_name}".format({"joypad_name": Input.get_joy_name(gamepad_i)})
 		text_out += "\n"
 	return text_out
+
+func get_display_names():
+	var display_names := []
+	for display in range(0, DisplayServer.get_screen_count()):
+		display_names.push_back(tr("Display {display_number}", &"Display number shown in options menu").format({"display_number": display}))
+	return display_names

@@ -437,3 +437,11 @@ func update_bpm_string():
 			bpm_string = "%s-%s" % [str(bpm_range[0]), str(bpm_range[1])]
 		else:
 			bpm_string = "%s" % str(bpm_range[0])
+
+## Returns all stars in a song
+func get_stars() -> Array[float]:
+	var out_arr: Array[float]
+	for diff in charts:
+		var stars := charts.get(diff, {}).get("stars", 0) as float
+		out_arr.push_back(stars)
+	return out_arr

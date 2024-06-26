@@ -83,6 +83,7 @@ func _set_section_data(val):
 			if "value_source" in option:
 				sett_src = option.value_source
 			options_container.add_child(option_scene)
+			print(option_name)
 			option_scene.value = sett_src.get(option_name)
 			option_scene.text = section_data[option_name].name
 			if not "signal_method" in section_data[option_name]:

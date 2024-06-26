@@ -1,9 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://mq8cvko6co3o"]
+[gd_scene load_steps=23 format=3 uid="uid://mq8cvko6co3o"]
 
 [ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
+[ext_resource type="Texture2D" uid="uid://cqfshc705ouhm" path="res://graphics/icons/filter-menu.svg" id="4_4pum8"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
+[ext_resource type="Texture2D" uid="uid://dui0a71scapf5" path="res://graphics/slide_fx_star.png" id="6_t7ijm"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="7_fawyf"]
 [ext_resource type="Texture2D" uid="uid://dq1i623nxlj8v" path="res://graphics/icons/sort-ascending.png" id="8"]
@@ -12,9 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://c4tvo47nahi4h" path="res://menus/FolderManager.tscn" id="11"]
 [ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="12"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="12_787qn"]
-[ext_resource type="PackedScene" uid="uid://dpp05jvqww62" path="res://menus/HBHovereableCheckbox.tscn" id="14"]
-[ext_resource type="PackedScene" uid="uid://dhyyvctuvaunk" path="res://menus/HBHovereableOptionButton.tscn" id="15"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="15_3x86c"]
+[ext_resource type="PackedScene" uid="uid://ru3raamtduxd" path="res://menus/song_list/SongListSortByPanel.tscn" id="15_y4k7r"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="16"]
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="17"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="18"]
@@ -55,61 +56,9 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-corner_detail = 20
 shadow_color = Color(0, 0, 0, 0.25098)
 shadow_size = 10
-
-[sub_resource type="Shader" id="2"]
-code = "shader_type canvas_item;
-
-uniform vec2 pos;
-uniform vec2 size;
-uniform bool enabled;
-uniform float fade_size;
-float remap(float value, float low1, float low2, float high1, float high2) {
-	return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
-}
-
-void fragment() {
-	COLOR = COLOR * texture(TEXTURE, UV);
-	if (enabled) {
-		vec2 res = 1.0 / SCREEN_PIXEL_SIZE;
-		float start = pos.x / res.x;
-		float end = (pos.x + size.x) / res.x;
-
-		float remapped_x = remap(SCREEN_UV.x, start, 0.0, end, 1.0);
-
-		COLOR.a = COLOR.a * smoothstep(0.0, fade_size, remapped_x);
-		COLOR.a = COLOR.a * smoothstep(1.0, 1.0-fade_size, remapped_x);
-	}
-
-}"
-
-[sub_resource type="ShaderMaterial" id="3"]
-shader = SubResource("2")
-shader_parameter/pos = null
-shader_parameter/size = null
-shader_parameter/enabled = null
-shader_parameter/fade_size = null
-
-[sub_resource type="StyleBoxFlat" id="4"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.188235, 0.0705882, 0.301961, 0.74902)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 20
-shadow_color = Color(0, 0, 0, 0.25)
-shadow_size = 10
+anti_aliasing_size = 2.0
 
 [node name="SongListMenu" type="Control"]
 layout_mode = 3
@@ -155,35 +104,24 @@ theme_override_constants/separation = 5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 35
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-alignment = 2
 
 [node name="PanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("5")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer"]
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(39, 0)
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-texture = ExtResource("8")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Difficulty"
-vertical_alignment = 1
-
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(39, 0)
-layout_mode = 2
-texture = ExtResource("9")
+texture = ExtResource("4_4pum8")
 expand_mode = 1
 stretch_mode = 5
 
@@ -192,21 +130,116 @@ layout_mode = 2
 action_text = ""
 action_name = &"note_up"
 
-[node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-material = SubResource("3")
+[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="SortModeContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongListFilterItemPanel"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(39, 0)
+layout_mode = 2
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SortModeLabel" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer/HBoxContainer2"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Difficulty"
+vertical_alignment = 1
+
+[node name="WithMediaPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongListFilterItemPanel"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(39, 0)
+layout_mode = 2
+texture = ExtResource("9")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "With media"
+vertical_alignment = 1
+
+[node name="StarFilterPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongListFilterItemPanel"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(39, 0)
+layout_mode = 2
+texture = ExtResource("6_t7ijm")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="StarFilterLabel" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer/HBoxContainer2"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "1-2"
+vertical_alignment = 1
+
+[node name="NoteUsageFilterPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SongListFilterItemPanel"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/NoteUsageFilterPanelContainer"]
+layout_mode = 2
+
+[node name="NoteUsageFilterTextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/NoteUsageFilterPanelContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(39, 0)
+layout_mode = 2
+texture = ExtResource("6_t7ijm")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 10
+alignment = 2
+script = ExtResource("7")
+stop_hover_on_focus_exit = false
+
+[node name="FolderPathContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/FolderPathContainer"]
+unique_name_in_owner = true
+clip_children = 2
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("12")
 font_1 = ExtResource("7_fawyf")
 font_2 = ExtResource("16")
 text_2 = ""
-
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 2
-script = ExtResource("7")
-stop_hover_on_focus_exit = false
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 show_behind_parent = true
@@ -327,40 +360,8 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = ExtResource("15_3x86c")
 
-[node name="SortByPanel" type="PanelContainer" parent="CenterContainer"]
+[node name="SortByPanel" parent="CenterContainer" instance=ExtResource("15_y4k7r")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("4")
-
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/SortByPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/SortByPanel/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_mode = 2
-theme_override_constants/separation = 20
-script = ExtResource("7")
-orientation = 1
-enable_wrap_around = true
-
-[node name="Label" type="Label" parent="CenterContainer/SortByPanel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Sort & filter settings"
-horizontal_alignment = 1
-
-[node name="OptionButton" parent="CenterContainer/SortByPanel/MarginContainer/VBoxContainer" instance=ExtResource("15")]
-layout_mode = 2
-
-[node name="HasMediaCheckbox" parent="CenterContainer/SortByPanel/MarginContainer/VBoxContainer" instance=ExtResource("14")]
-layout_mode = 2
-text = "Has downloaded media"
 
 [node name="FolderManager" parent="." instance=ExtResource("11")]
 visible = false

@@ -43,35 +43,7 @@ var show_visualizer_on_video = true
 var disable_video = false
 var disable_ppd_video = false
 var use_visualizer_with_video = true
-var filter_mode = "all"
-var filter_mode__possibilities = [
-	"all",
-	"official",
-	"local",
-	"workshop",
-	"ppd",
-	"folders",
-	"dsc",
-	"mmplus",
-	"mmplus_mod"
-]
-var filter_has_media := false
-var sort_mode = "title"
-var sort_mode__possibilities = [
-	"title",
-	"artist",
-	"highest_score",
-	"lowest_score",
-	"creator",
-	"bpm",
-	"_times_played",
-]
-var workshop_tab_sort_mode = "title"
-var workshop_tab_sort_mode__possibilities = sort_mode__possibilities + [
-	"_added_time",
-	"_released_time",
-	"_updated_time"
-]
+var sort_filter_settings = HBSongSortFilterSettings.new()
 
 var last_selected_difficulty := ""
 
@@ -300,7 +272,7 @@ func _init():
 		"ui_skin",
 		"note_size", "input_map", "input_map_version",
 		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
-		"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "last_selected_difficulty", "leading_trail_enabled",
+		"disable_ppd_video", "use_visualizer_with_video", "sort_filter_settings", "last_selected_difficulty", "leading_trail_enabled",
 		"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 		"enable_multi_hint", "play_hit_sounds_only_when_hit", "master_volume", "music_volume", "sfx_volume", "content_path",
 		"background_dim", "disable_menu_music", "vsync_enabled", "root_folder", 

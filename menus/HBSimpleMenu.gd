@@ -102,12 +102,15 @@ func _gui_input(event):
 			else:
 				get_viewport().set_input_as_handled()
 				var i = wrapi(selected_button_i-1, 0, get_child_count())
-				while i >= 0:
-					if get_child(i).visible and get_child(i):
+				var loop_limit := 10
+				var loop_count := 0
+				while i >= 0 and loop_count < loop_limit:
+					loop_count += 1
+					if get_child(i).visible and get_child(i) and get_child(i).has_method("hover"):
 						select_button(i)
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 						break
-					i -= 1
+					i = wrapi(i-1, 0, get_child_count())
 
 	elif event.is_action_pressed(next_action):
 		if selected_button:
@@ -123,7 +126,7 @@ func _gui_input(event):
 				get_viewport().set_input_as_handled()
 				var i = wrapi(selected_button_i+1, 0, get_child_count())
 				while i <= get_child_count()-1:
-					if get_child(i).visible and get_child(i):
+					if get_child(i).visible and get_child(i) and get_child(i).has_method("hover"):
 						select_button(i)
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 						break

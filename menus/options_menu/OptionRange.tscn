@@ -1,34 +1,32 @@
-[gd_scene load_steps=6 format=3 uid="uid://fbjt8b81ifx4"]
+[gd_scene load_steps=7 format=3 uid="uid://fbjt8b81ifx4"]
 
 [ext_resource type="Texture2D" uid="uid://drt3kp0xnlq7r" path="res://tools/icons/icon_back_options.svg" id="1"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionRange.gd" id="2"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://duufc5ac5bdbc" path="res://tools/icons/icon_forward_options.svg" id="4"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hgdi3"]
+
 [sub_resource type="StyleBoxEmpty" id="1"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 64)
-layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
+offset_bottom = 72.0
 grow_horizontal = 2
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hgdi3")
 script = ExtResource("2")
 
-[node name="OptionRange" type="Panel" parent="."]
+[node name="OptionRange" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(0, 64)
-layout_mode = 0
-anchor_right = 1.0
+layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("1")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="OptionRange"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_right = -20.0
+layout_mode = 2
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="OptionRange/HBoxContainer"]
@@ -45,6 +43,13 @@ size_flags_horizontal = 3
 mouse_filter = 2
 alignment = 2
 
+[node name="Slider" type="HSlider" parent="OptionRange/HBoxContainer/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
 [node name="TextureRect" type="TextureRect" parent="OptionRange/HBoxContainer/Control"]
 layout_mode = 2
 mouse_filter = 2
@@ -52,6 +57,7 @@ texture = ExtResource("1")
 stretch_mode = 5
 
 [node name="OptionLabel" type="Label" parent="OptionRange/HBoxContainer/Control"]
+custom_minimum_size = Vector2(135, 0)
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("3")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://dhyyvctuvaunk"]
+[gd_scene load_steps=9 format=3 uid="uid://dhyyvctuvaunk"]
 
 [ext_resource type="Script" path="res://menus/HBHovereableOptionButton.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cosnqv24444tb" path="res://graphics/icons/GuiOptionArrow.svg" id="2"]
@@ -21,6 +21,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
+anti_aliasing_size = 2.0
 
 [sub_resource type="StyleBoxFlat" id="3"]
 content_margin_left = 7.0
@@ -36,6 +37,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
+anti_aliasing_size = 2.0
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 7.0
@@ -55,10 +57,10 @@ shadow_size = 10
 [node name="OptionButton" type="Button"]
 offset_right = 389.0
 offset_bottom = 55.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/h_separation = 8
 theme_override_styles/focus = SubResource("4")
 theme_override_styles/hover = SubResource("2")
@@ -70,6 +72,15 @@ icon_alignment = 2
 script = ExtResource("1")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+expand_mode = 3
+stretch_mode = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false

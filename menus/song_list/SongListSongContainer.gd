@@ -10,10 +10,14 @@ var folder_stack = []
 
 var song_difficulty_items_map = {}
 
-var sort_by_prop = "title" # title, chart creator, difficulty, BPM, last downloaded, last played
-var filter_by = "" # choices are: all, official, community and ppd
 var songs = []
-var search_term = ""
+
+var filter_settings: HBSongSortFilterSettings:
+	set(val):
+		filter_settings = val
+		filter_settings.sort_prop = UserSettings.user_settings.sort_filter_settings.sort_prop
+		if UserSettings.user_settings.sort_filter_settings.filter_mode == "workshop":
+			filter_settings.sort_prop = UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop
 
 signal updated_folders(folder_stack)
 signal create_new_folder(parent)
@@ -43,9 +47,7 @@ func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 	return starting_folders
 func _ready():
 	super._ready()
-	sort_by_prop = UserSettings.user_settings.sort_mode
-	if UserSettings.user_settings.filter_mode == "workshop":
-		sort_by_prop = UserSettings.user_settings.workshop_tab_sort_mode
+	
 	connect("selected_item_changed", Callable(self, "_on_selected_item_changed"))
 	focus_mode = Control.FOCUS_ALL
 
@@ -87,7 +89,7 @@ func _create_song_item(song: HBSong):
 	assert(song)
 	item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	item.pressed.connect(self.smooth_scroll_to.bind(0.0))
-	item.pressed.connect(self._on_song_selected.bind(song))
+	item.pressed.connect(self._on_song_selected.bind(song, item))
 	item.ready.connect(item._become_visible)
 	item.difficulty_selected.connect(self._on_difficulty_selected)
 	return item
@@ -128,10 +130,10 @@ func update_items():
 			folder_songs.append(SongLoader.songs[song_id])
 	folder_songs.sort_custom(Callable(self, "sort_array"))
 	for song in folder_songs:
-		if UserSettings.user_settings.filter_has_media and not song.is_cached():
+		if UserSettings.user_settings.sort_filter_settings.filter_has_media_only and not song.is_cached():
 			continue
 		for field in [song.title.to_lower(), song.original_title.to_lower(), song.romanized_title.to_lower()]:
-			if search_term.is_empty() or search_term in field:
+			if filter_settings.search_term.is_empty() or filter_settings.search_term in field:
 				var item = _create_song_item(song)
 				item_container.add_child(item)
 				break
@@ -150,13 +152,9 @@ func update_items():
 	emit_signal("updated_folders", folder_stack)
 	emit_signal("hide_no_folder_label")
 
-func _on_song_selected(song: HBSong):
-	if song_difficulty_items_map.has(song):
-		for difficulty in song_difficulty_items_map[song]:
-			var item = song_difficulty_items_map[song][difficulty]
-			item_container.remove_child(item)
-			item.queue_free()
-		song_difficulty_items_map.erase(song)
+func _on_song_selected(song: HBSong, item: Control):
+	if item and current_selected_item != item.get_index():
+		select_item(item.get_index())
 
 static func _sort_by_difficulty(a, b):
 	return a["stars"] > b["stars"]
@@ -176,7 +174,7 @@ func select_song_by_id(song_id: String, difficulty=null):
 				select_item(child_i)
 
 func sort_array(a: HBSong, b: HBSong):
-	var prop = sort_by_prop
+	var prop = filter_settings.sort_prop
 	var a_prop = a.get(prop)
 	var b_prop = b.get(prop)
 	
@@ -199,16 +197,15 @@ func sort_array(a: HBSong, b: HBSong):
 	if b_prop is String:
 		b_prop = b_prop.to_lower()
 	
-	if sort_by_prop != "_added_time":
+	if filter_settings.sort_prop != "_added_time":
 		return a_prop < b_prop
 	else:
 		return b_prop < a_prop
 
 var last_filter = ""
 
-func set_filter(filter_name: String):
-	if filter_name == "folders":
-		filter_by = filter_name
+func on_filter_changed():
+	if filter_settings.filter_mode == "folders":
 		last_filter = "folders"
 		var path = UserSettings.user_settings.last_folder_path.duplicate()
 		path.pop_front()
@@ -219,11 +216,9 @@ func set_filter(filter_name: String):
 			navigate_folder(folder)
 	else:
 		emit_signal("hide_no_folder_label")
-		last_filter = filter_by
-		if filter_by != filter_name:
-			filter_by = filter_name
-			if songs.size() > 0:
-				set_songs(songs)
+		last_filter = filter_settings.filter_mode
+		if songs.size() > 0:
+			set_songs(songs, null, null, true)
 #				hard_arrange_all()
 		
 func _on_dummy_sighted(song: HBSong):
@@ -261,7 +256,7 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 
 	filtered_song_items = {}
 
-	if search_term.is_empty():
+	if filter_settings.search_term.is_empty():
 		var rand = RANDOM_SELECT_BUTTON_SCENE.instantiate()
 		rand.connect("pressed", Callable(self, "_on_random_pressed"))
 		item_container.add_child(rand)
@@ -318,12 +313,12 @@ var current_filter_task: HBFilterSongsTask
 func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force_update=false):
 	songs = _songs
 
-	if filter_by == "folders":
+	if filter_settings.filter_mode == "folders":
 		if select_song_id:
 			select_song_by_id(select_song_id, select_difficulty)
 		return
 	
-	if filter_by == last_filter and not force_update:
+	if filter_settings.filter_mode == last_filter and not force_update:
 		if select_song_id:
 			select_song_by_id(select_song_id, select_difficulty)
 		return
@@ -331,8 +326,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 	for i in item_container.get_children():
 		item_container.remove_child(i)
 		i.queue_free()
-	
-	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty, search_term)
+	current_filter_task = HBFilterSongsTask.new(filter_settings, songs, select_song_id, select_difficulty)
 	current_filter_task.queue()
 	emit_signal("start_loading")
 	

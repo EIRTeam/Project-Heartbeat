@@ -1,26 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cirrqo7iy3t7a"]
+[gd_scene load_steps=4 format=3 uid="uid://cirrqo7iy3t7a"]
 
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="1"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionSoundSelectDropdown.gd" id="3"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
-
-[sub_resource type="StyleBoxFlat" id="2"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxEmpty" id="3"]
 
 [sub_resource type="GDScript" id="4"]
 script/source = "extends HBUniversalScrollList
@@ -41,17 +22,6 @@ anchor_bottom = 1.0
 focus_mode = 2
 theme_override_styles/panel = ExtResource("1")
 script = ExtResource("3")
-
-[node name="Button" type="Button" parent="."]
-visible = false
-layout_mode = 0
-offset_right = 12.0
-offset_bottom = 20.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_styles/hover = SubResource("2")
-theme_override_styles/normal = SubResource("3")
-text = "asdsadsadsad"
-script = ExtResource("4")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0

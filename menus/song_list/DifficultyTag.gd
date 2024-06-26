@@ -40,7 +40,12 @@ func color_hash(str: String) -> Color:
 var difficulty_color: Color
 var difficulty_color_bright: Color
 
-var tag_update_queued := false 
+var tag_update_queued := false
+
+var filtered := false
+
+const FILTERED_COLOR = Color.DARK_GRAY
+const FILTERED_COLOR_BG = Color.DIM_GRAY
 
 func _queue_tag_update():
 	if not tag_update_queued:
@@ -49,14 +54,25 @@ func _queue_tag_update():
 			await ready
 		_tag_update.call_deferred()
 
+func _update_tag_color():
+	if UserSettings.user_settings.sort_filter_settings.star_filter_enabled:
+		if stars > UserSettings.user_settings.sort_filter_settings.star_filter_max:
+			difficulty_color_panel.self_modulate = FILTERED_COLOR
+			self_modulate = FILTERED_COLOR_BG
+			modulate.a = 0.5
+			filtered = true
+			return
+		
+	if difficulty in CANONICAL_COLORS:
+		difficulty_color_panel.self_modulate = CANONICAL_COLORS[difficulty]
+	else:
+		difficulty_color_panel.self_modulate = color_hash(difficulty)
+
 func _tag_update():
 	if tag_update_queued:
 		tag_update_queued = false
 		difficulty_label.text = difficulty
-		if difficulty in CANONICAL_COLORS:
-			difficulty_color_panel.self_modulate = CANONICAL_COLORS[difficulty]
-		else:
-			difficulty_color_panel.self_modulate = color_hash(difficulty)
+		_update_tag_color()
 		difficulty_color = difficulty_color_panel.self_modulate
 		difficulty_color_bright = difficulty_color.lightened(0.5)
 			
@@ -99,6 +115,8 @@ func hover():
 	hovered.emit()
 	border_container.show()
 	set_process(true)
+	if filtered:
+		modulate.a = 1.0
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -117,3 +135,5 @@ func stop_hover():
 	border_container.hide()
 	set_process(false)
 	_update_alpha(0.0)
+	if filtered:
+		modulate.a = 0.5

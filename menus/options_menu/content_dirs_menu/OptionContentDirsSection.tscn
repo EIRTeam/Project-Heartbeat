@@ -66,6 +66,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ReloadingContentPopup" parent="." instance=ExtResource("3")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -79,6 +80,7 @@ has_accept = false
 text = "Reloading content..."
 
 [node name="SetContentDirectoryConfirmationWindow" parent="." instance=ExtResource("3")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -90,6 +92,7 @@ grow_vertical = 1
 text = "Selecting a new content directory requires using the mouse, would you like to continue?"
 
 [node name="ResetContentDirectoryConfirmationWindow" parent="." instance=ExtResource("3")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -101,6 +104,7 @@ grow_vertical = 1
 text = "Are you sure you want to reset the content directory to the default?"
 
 [node name="ContentReloadSuccessPopup" parent="." instance=ExtResource("3")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -114,6 +118,7 @@ text = "Songs reloaded succesfully"
 accept_text = "Alright"
 
 [node name="CacheClearSucccessPopup" parent="." instance=ExtResource("3")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -128,6 +133,7 @@ accept_text = "Alright"
 
 [node name="SongMediaClearSuccessPopup" parent="." instance=ExtResource("3")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0

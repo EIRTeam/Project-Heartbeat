@@ -1,14 +1,12 @@
 extends Panel
 
-@onready var SOUND_SELECT_BUTTON = get_node("Button")
-
 signal selected_sound_changed(sound_path)
 @onready var pack_container = get_node("MarginContainer/Control/VBoxContainer")
 @onready var scroll_container = get_node("MarginContainer/Control")
 var sound_name
 
 func get_button():
-	var butt = SOUND_SELECT_BUTTON.duplicate()
+	var butt = HBHovereableButton.new()
 	butt.show()
 	return butt
 

@@ -9,6 +9,7 @@ var buttons = []
 
 @onready var vbox_container: HBSimpleMenu = get_node("PanelContainer/MarginContainer/VBoxContainer")
 @onready var items_panel_container: PanelContainer = get_node("PanelContainer")
+@onready var selected_icon: TextureRect = get_node("%Icon")
 
 var selected_item: int = 0: set = set_selected_item
 
@@ -17,21 +18,26 @@ signal back
 func set_selected_item(item: int):
 	selected_item = item
 	text = buttons[item].text
+	selected_icon.texture = buttons[item].icon
 
 signal selected(id)
 
-func add_item(button_text: String, id):
+func add_item(button_text: String, id, new_icon: Texture2D = null):
 	var butt := HBHovereableButton.new()
+	butt.icon = new_icon
 	butt.text = button_text
 	butt.set_meta("id", id)
+	butt.set_meta("icon", new_icon)
 	buttons.append(butt)
 	vbox_container.add_child(butt)
-	butt.connect("pressed", Callable(self, "_on_button_pressed").bind(butt, id))
+	butt.connect("pressed", Callable(self, "_on_button_pressed").bind(butt, id, new_icon))
 
-func _on_button_pressed(button, id):
+func _on_button_pressed(button, id, new_icon: Texture2D):
 	items_panel_container.hide()
 	selected_item = button.get_index()
 	text = button.text
+	selected_icon.texture = new_icon
+	selected_icon.visible = selected_icon.texture != null
 	emit_signal("selected", id)
 	emit_signal("back")
 

@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 
 var normal_style
 var hover_style
@@ -15,6 +15,8 @@ func set_value(val):
 	value = val
 func _init():
 	normal_style = StyleBoxEmpty.new()
+	normal_style.content_margin_left = 20
+	normal_style.content_margin_right = 20
 	hover_style = preload("res://styles/PanelStyleTransparentHover.tres")
 	stop_hover()
 func hover():

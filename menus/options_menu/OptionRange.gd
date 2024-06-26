@@ -1,5 +1,7 @@
 extends Control
 
+class_name HBOptionMenuOptionRange
+
 @export var minimum: float = 0.0
 @export var maximum: float = 10.0
 @export var step: float = 1.0
@@ -15,11 +17,12 @@ var initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
 const MOVE_DEBOUNCE_T = 0.1
 var move_debounce = MOVE_DEBOUNCE_T
 
-var value = 0: set = set_value
+var value := 0.0: set = set_value
 signal changed(option)
 
 @onready var text_label = get_node("OptionRange/HBoxContainer/Label")
 @onready var option_label = get_node("OptionRange/HBoxContainer/Control/OptionLabel")
+@onready var slider: HSlider = get_node("%Slider")
 var hover_style
 var normal_style
 signal hovered
@@ -35,6 +38,8 @@ var disabled_callback: Callable
 
 func _init():
 	normal_style = StyleBoxEmpty.new()
+	normal_style.content_margin_left = 20
+	normal_style.content_margin_right = 20
 	hover_style = preload("res://styles/PanelStyleTransparentHover.tres")
 	
 func hover():
@@ -65,10 +70,19 @@ func set_value(val):
 		minimum_arrow.modulate = Color.TRANSPARENT
 	if value == maximum:
 		maximum_arrow.modulate = Color.TRANSPARENT
+	slider.set_block_signals(true)
+	slider.min_value = minimum
+	slider.max_value = maximum
+	slider.step = step
+	slider.set_value_no_signal(value)
+	slider.set_block_signals(false)
+	minimum_arrow.hide()
+	maximum_arrow.hide()
 func _ready():
 	focus_mode = Control.FOCUS_ALL
 	grab_focus()
 	stop_hover()
+	slider.value_changed.connect(self.set_value)
 	
 func _process(delta):
 	if not Input.is_action_pressed("gui_left") and not Input.is_action_pressed("gui_right"):

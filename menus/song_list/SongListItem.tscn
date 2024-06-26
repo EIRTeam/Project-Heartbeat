@@ -85,7 +85,7 @@ theme_override_constants/separation = 20
 
 [node name="AlbumArtTexture" type="TextureRect" parent="MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
-texture_filter = 6
+texture_filter = 4
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("7_2dew8")
@@ -187,9 +187,6 @@ expand_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "ccc"
-
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer"]
-layout_mode = 2
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer"]
 unique_name_in_owner = true
