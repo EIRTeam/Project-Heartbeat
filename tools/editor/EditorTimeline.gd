@@ -370,19 +370,25 @@ func _input(event):
 	
 	if scroll_container.get_global_rect().has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_select", false, false):
-			get_viewport().set_input_as_handled()
 			_area_select_start = get_local_mouse_position()
 			_area_selecting = true
-			modifier_texture.visible = true
 			playhead_area._area_selecting = true
+			minimap._area_selecting = true
+			
+			modifier_texture.visible = true
+			
+			get_viewport().set_input_as_handled()
 			queue_redraw()
 	
 	if event.is_action_released("editor_select", false) and _area_selecting:
-		get_viewport().set_input_as_handled()
-		_area_selecting = false
-		_do_area_select()
 		modifier_texture.visible = false
+		
+		_do_area_select()
+		_area_selecting = false
 		playhead_area._area_selecting = false
+		minimap._area_selecting = false
+		
+		get_viewport().set_input_as_handled()
 		queue_redraw()
 
 func _unhandled_input(event):
@@ -496,6 +502,9 @@ func make_slide(note_type: int, piece_note_type: int, layer_name: String):
 	editor.undo_redo.add_undo_method(editor._on_timing_points_changed)
 	
 	_area_selecting = false
+	playhead_container._area_selecting = false
+	minimap._area_selecting = false
+	
 	modifier_texture.visible = false
 	editor.deselect_all()
 	queue_redraw()
@@ -549,6 +558,9 @@ func make_spam(note_type: int, layer_name: String):
 	editor.undo_redo.add_undo_method(editor._on_timing_points_changed)
 	
 	_area_selecting = false
+	playhead_area._area_selecting = false
+	minimap._area_selecting = false
+	
 	modifier_texture.visible = false
 	queue_redraw()
 	editor.undo_redo.commit_action()

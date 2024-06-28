@@ -11,6 +11,7 @@ const CIRCLE_SIZE = 3
 var image: Image
 var texture: ImageTexture
 var sections := []
+var _area_selecting := false
 
 class MinimapSection:
 	var x_pos: float
@@ -139,7 +140,7 @@ func _bsearch_sections(a, b):
 	return a.x_pos < b.x_pos
 
 func _gui_input(event):
-	if event is InputEventMouseButton or event is InputEventMouseMotion:
+	if event is InputEventMouseButton or event is InputEventMouseMotion and not _area_selecting:
 		var mouse_pos = get_global_mouse_position()
 		
 		tooltip_text = ""
