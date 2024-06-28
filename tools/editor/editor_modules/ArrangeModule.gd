@@ -24,18 +24,18 @@ var size_testing_circle_transform := HBEditorTransforms.MakeCircleTransform.new(
 func _ready():
 	super._ready()
 	transforms = [
-		HBEditorTransforms.MakeCircleTransform.new(1),  				# Clockwise, outside
-		HBEditorTransforms.MakeCircleTransform.new(-1), 				# Counter-clockwise, outside
-		HBEditorTransforms.MakeCircleTransform.new(1, true),    		# Clockwise, inside
-		HBEditorTransforms.MakeCircleTransform.new(-1, true),   		# Counter-clockwise, inside
+		HBEditorTransforms.MakeCircleTransform.new(1),  				# Clockwise, inside
+		HBEditorTransforms.MakeCircleTransform.new(-1), 				# Counter-clockwise, inside
+		HBEditorTransforms.MakeCircleTransform.new(1, true),    		# Clockwise, outside
+		HBEditorTransforms.MakeCircleTransform.new(-1, true),   		# Counter-clockwise, outside
 		HBEditorTransforms.FlipVerticallyTransformation.new(),  		# Global
 		HBEditorTransforms.FlipHorizontallyTransformation.new(),    	# Global
 		HBEditorTransforms.FlipVerticallyTransformation.new(true),  	# Local
 		HBEditorTransforms.FlipHorizontallyTransformation.new(true),    # Local
-		HBEditorTransforms.ArcInterpolationTransform.new(1, 1),     	# Clockwise, outside
-		HBEditorTransforms.ArcInterpolationTransform.new(-1, 1),    	# Counter-clockwise, outside
-		HBEditorTransforms.ArcInterpolationTransform.new(1, -1),    	# Clockwise, inside
-		HBEditorTransforms.ArcInterpolationTransform.new(-1, -1),   	# Counter-clockwise, inside
+		HBEditorTransforms.ArcInterpolationTransform.new(1, 1),     	# Clockwise, inside
+		HBEditorTransforms.ArcInterpolationTransform.new(-1, 1),    	# Counter-clockwise, inside
+		HBEditorTransforms.ArcInterpolationTransform.new(1, -1),    	# Clockwise, outside
+		HBEditorTransforms.ArcInterpolationTransform.new(-1, -1),   	# Counter-clockwise, outside
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_CENTER),
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_LEFT),
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_RIGHT),

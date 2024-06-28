@@ -145,48 +145,7 @@ ticks_on_borders = true
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0"]
-layout_mode = 2
-text = "Outside angles"
-horizontal_alignment = 1
-
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1"]
-custom_minimum_size = Vector2(130, 0)
-layout_mode = 2
-script = ExtResource("21")
-
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(183, 524)
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("11")
-text = "Clockwise"
-tooltip = "Makes a clockwise circle with
-angles pointing outwards."
-texture = ExtResource("7_5egqo")
-action = "editor_make_circle_cw"
-
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(183, 562)
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("11")
-text = "Counter
-clockwise"
-tooltip = "Makes a counter-clockwise circle
-with angles pointing outwards."
-texture = ExtResource("8_y761g")
-transform_id = 1
-action = "editor_make_circle_ccw"
-
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1"]
-layout_mode = 2
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -225,67 +184,60 @@ texture = ExtResource("10_kubfp")
 transform_id = 3
 action = "editor_make_circle_ccw_inside"
 
-[node name="HSeparator4" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="6"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1"]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="7"]
-layout_mode = 2
-text = "Arrange in a circle..."
-horizontal_alignment = 1
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="8"]
-layout_mode = 2
-alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0"]
 layout_mode = 2
 text = "Outside angles"
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1"]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 script = ExtResource("21")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 524)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
 text = "Clockwise"
-tooltip = "Makes a clockwise arc between the
-starting and ending notes, with
-angles pointing outwards.
-If the distance between them is too
-big, it will be set to the maximum."
-texture = ExtResource("11_b6kd6")
-transform_id = 8
-action = "editor_make_arc_cw"
+tooltip = "Makes a clockwise circle with
+angles pointing outwards."
+texture = ExtResource("7_5egqo")
+action = "editor_make_circle_cw"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 562)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
 text = "Counter
 clockwise"
-tooltip = "Makes a counter-clockwise arc
-between the starting and ending
-notes, with angles pointing outwards.
-If the distance between them is too
-big, it will be set to the maximum."
-texture = ExtResource("12_1o5sg")
-transform_id = 9
-action = "editor_make_arc_ccw"
+tooltip = "Makes a counter-clockwise circle
+with angles pointing outwards."
+texture = ExtResource("8_y761g")
+transform_id = 1
+action = "editor_make_circle_ccw"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1"]
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="6"]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="2"]
+[node name="Label5" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="7"]
+layout_mode = 2
+text = "Arrange in an arc..."
+horizontal_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="8"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -311,7 +263,7 @@ angles pointing inwards.
 If the distance between them is too
 big, it will be set to the maximum."
 texture = ExtResource("13_xu3le")
-transform_id = 10
+transform_id = 8
 action = "editor_make_arc_cw_inside"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
@@ -327,8 +279,56 @@ notes, with angles pointing inwards.
 If the distance between them is too
 big, it will be set to the maximum.\""
 texture = ExtResource("14_dbbtw")
-transform_id = 11
+transform_id = 9
 action = "editor_make_arc_ccw_inside"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="0"]
+layout_mode = 2
+text = "Outside angles"
+horizontal_alignment = 1
+
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+script = ExtResource("21")
+
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+custom_minimum_size = Vector2(183, 524)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("11")
+text = "Clockwise"
+tooltip = "Makes a clockwise arc between the
+starting and ending notes, with
+angles pointing outwards.
+If the distance between them is too
+big, it will be set to the maximum."
+texture = ExtResource("11_b6kd6")
+transform_id = 10
+action = "editor_make_arc_cw"
+
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+custom_minimum_size = Vector2(183, 562)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("11")
+text = "Counter
+clockwise"
+tooltip = "Makes a counter-clockwise arc
+between the starting and ending
+notes, with angles pointing outwards.
+If the distance between them is too
+big, it will be set to the maximum."
+texture = ExtResource("12_1o5sg")
+transform_id = 11
+action = "editor_make_arc_ccw"
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
 layout_mode = 2

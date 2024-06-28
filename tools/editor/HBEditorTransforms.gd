@@ -298,25 +298,11 @@ class MakeCircleTransform:
 	extends EditorTransformation
 	
 	var direction: int
-	var separation := 96: set = set_separation
-	var eigths_per_circle := 16: set = set_epr
+	var separation := 96
+	var eigths_per_circle := 16
 	var entry_angle_offset := 0.0
 	# -1 for outside, 1 for inside
-	var inside = -1: set = set_inside
-	
-	func set_separation(val):
-		separation = val
-	
-	func set_epr(val):
-		eigths_per_circle = val
-	
-	func set_inside(val):
-		if val:
-			entry_angle_offset = 0.5 * TAU
-			inside = 1
-		else:
-			entry_angle_offset = 0
-			inside = -1
+	var inside = -1
 	
 	func _init(_direction: int, _inside: bool = false):
 		direction = _direction
