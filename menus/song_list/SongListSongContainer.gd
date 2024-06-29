@@ -205,8 +205,8 @@ func sort_array(a: HBSong, b: HBSong):
 var last_filter = ""
 
 func on_filter_changed():
+	last_filter = filter_settings.filter_mode
 	if filter_settings.filter_mode == "folders":
-		last_filter = "folders"
 		var path = UserSettings.user_settings.last_folder_path.duplicate()
 		path.pop_front()
 		var starting_folders = get_starting_folder([UserSettings.user_settings.root_folder], path)
@@ -216,7 +216,6 @@ func on_filter_changed():
 			navigate_folder(folder)
 	else:
 		emit_signal("hide_no_folder_label")
-		last_filter = filter_settings.filter_mode
 		if songs.size() > 0:
 			set_songs(songs, null, null, true)
 #				hard_arrange_all()
@@ -329,6 +328,8 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 	current_filter_task = HBFilterSongsTask.new(filter_settings, songs, select_song_id, select_difficulty)
 	current_filter_task.queue()
 	emit_signal("start_loading")
+	
+	last_filter = filter_settings.filter_mode
 	
 	var filter_task := current_filter_task
 	var cb_data := await current_filter_task.songs_filtered as Array
