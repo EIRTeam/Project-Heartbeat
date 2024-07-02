@@ -265,7 +265,7 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 	for song in filtered_songs:
 		var dummy := add_dummy()
 		dummy.set_meta(&"song", song)
-		dummy.custom_minimum_size.y = 100
+		dummy.custom_minimum_size.y = 125
 		dummy.sighted.connect(self._on_dummy_sighted.bind(song))
 		var placeholder := PLACEHOLDER_SCENE.instantiate()
 		dummy.add_child(placeholder)
