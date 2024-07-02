@@ -107,7 +107,6 @@ func _set_section_data(val):
 					first_key_i = key_i
 					break
 			_on_option_hovered(section_data.keys()[first_key_i])
-			scroll_container.select_item(0)
 
 var input_disabled = false
 var last_selected_item
