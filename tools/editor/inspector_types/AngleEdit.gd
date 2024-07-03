@@ -24,7 +24,7 @@ func _gui_input(event):
 			get_viewport().set_input_as_handled()
 			
 			var center = size / 2
-			var angle_to_center = round(rad_to_deg(center.angle_to_point(get_local_mouse_position())) - 180)
+			var angle_to_center = round(rad_to_deg(center.angle_to_point(get_local_mouse_position())))
 			
 			set_start_angle(angle_to_center)
 			set_end_angle(angle_to_center)

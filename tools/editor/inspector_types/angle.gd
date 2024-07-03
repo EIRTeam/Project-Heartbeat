@@ -30,7 +30,7 @@ func _on_Spinbox_values_changed():
 	
 	var max_angle = values[0]
 	for i in values.size():
-		values[i] = fmod(fmod(values[i], 360.0) + 180.0, 360.0)
+		values[i] = fmod(fmod(values[i], 360.0), 360.0)
 		max_angle = max(max_angle, values[i])
 	
 	angle_edit.start_angle = values[0]

@@ -189,7 +189,7 @@ func _apply_arrange():
 	
 	original_notes.sort_custom(Callable(self, "_order_timing_points"))
 	
-	arrange_selected_notes_by_time(deg_to_rad(arrange_angle_spinbox.value), reverse_arrange_checkbox.button_pressed, false)
+	arrange_selected_notes_by_time(deg_to_rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.button_pressed, false)
 	
 	commit_arrange()
 
@@ -430,7 +430,7 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle, reverse: bool)
 		oscillation_frequency *= sign(note.oscillation_amplitude)
 		if reverse:
 			oscillation_frequency = -oscillation_frequency
-		return [fmod(rad_to_deg(new_angle)+90, 360.0), oscillation_frequency]
+		return [fmod(rad_to_deg(new_angle), 360.0), oscillation_frequency]
 	else:
 		return [note.entry_angle, note.oscillation_frequency]
 
