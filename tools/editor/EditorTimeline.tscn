@@ -33,15 +33,13 @@ func _gui_input(event):
 	if event is InputEventMouseButton:
 		if event.shift_pressed or event.ctrl_pressed or event.alt_pressed or event.meta_pressed:
 			_prevent_next_scroll = true
-			vertical_scroll_mode = SCROLL_MODE_DISABLED
 
 func _input(event):
 	# Do not capture mouse inputs when not hovering
 	if event is InputEventMouseButton and not get_global_rect().has_point(get_global_mouse_position()):
-		_prevent_next_scroll = true
 		return
 	
-	if event.is_action_pressed(\"editor_scale_up\", true, true):
+	if event.is_action_pressed(\"editor_scale_up\", false, true):
 		emit_signal(\"zoom_in\")
 	elif event.is_action_pressed(\"editor_scale_down\", true, true):
 		emit_signal(\"zoom_out\")
@@ -162,6 +160,8 @@ script = ExtResource("7")
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
 script = SubResource("2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer"]
