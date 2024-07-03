@@ -35,8 +35,6 @@ single_threaded_mode=true
 Steam="*res://autoloads/platform_service/SteamPlaceholder.gd"
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 Log="*res://autoloads/Log.gd"
-AsyncTaskQueue="*res://autoloads/async_task_queue/AsyncTaskQueue.gd"
-AsyncTaskQueueLight="*res://autoloads/async_task_queue/AsyncTaskQueue.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongDataCache="*res://autoloads/SongDataCache.gd"
@@ -54,6 +52,7 @@ SongAssetLoader="*res://autoloads/async_task_queue/SongAssetLoader.gd"
 
 [debug]
 
+file_logging/log_path="user://logs/ph.log"
 gdscript/warnings/enable=false
 gdscript/warnings/return_value_discarded=false
 gdscript/warnings/narrowing_conversion=false
