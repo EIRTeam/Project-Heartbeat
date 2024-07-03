@@ -189,7 +189,7 @@ func _apply_arrange():
 	
 	original_notes.sort_custom(Callable(self, "_order_timing_points"))
 	
-	arrange_selected_notes_by_time(deg_to_rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.button_pressed, false)
+	arrange_selected_notes_by_time(deg_to_rad(arrange_angle_spinbox.value), reverse_arrange_checkbox.button_pressed, false)
 	
 	commit_arrange()
 
@@ -210,9 +210,10 @@ func _apply_arrange_shortcut(direction: int):
 			angle = -angle
 			angle += 180
 		
-		arrange_selected_notes_by_time(deg_to_rad(angle), reverse_arrange_checkbox.pressed, false)
+		
+		arrange_selected_notes_by_time(deg_to_rad(angle), reverse_arrange_checkbox.button_pressed, false)
 	else:
-		arrange_selected_notes_by_time(direction * deg_to_rad(90) / 2.0, reverse_arrange_checkbox.pressed, false)
+		arrange_selected_notes_by_time(direction * deg_to_rad(90) / 2.0, reverse_arrange_checkbox.button_pressed, false)
 	
 	commit_arrange()
 
@@ -223,7 +224,7 @@ func _apply_center_arrange():
 	
 	original_notes.sort_custom(Callable(self, "_order_timing_points"))
 	
-	arrange_selected_notes_by_time(null, reverse_arrange_checkbox.pressed, false)
+	arrange_selected_notes_by_time(null, reverse_arrange_checkbox.button_pressed, false)
 	
 	commit_arrange()
 
@@ -245,6 +246,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	var slide_separation: Vector2 = Vector2.ZERO
 	var eight_separation = UserSettings.user_settings.editor_arrange_separation
 	
+	
 	if angle != null:
 		separation.x = eight_separation * cos(angle)
 		separation.y = eight_separation * sin(angle)
@@ -252,7 +254,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 		slide_separation.x = 32 * cos(angle)
 		slide_separation.y = 32 * sin(angle)
 		
-		if not angle in [0, PI/2, PI, 3*PI/2]:
+		if not angle in [0.0, PI/2, PI, 3*PI/2]:
 			var quadrant = 0
 			if angle > PI and angle < 3*PI/2:
 				quadrant = 1
@@ -428,8 +430,7 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle, reverse: bool)
 		oscillation_frequency *= sign(note.oscillation_amplitude)
 		if reverse:
 			oscillation_frequency = -oscillation_frequency
-		
-		return [fmod(rad_to_deg(new_angle), 360.0), oscillation_frequency]
+		return [fmod(rad_to_deg(new_angle)+90, 360.0), oscillation_frequency]
 	else:
 		return [note.entry_angle, note.oscillation_frequency]
 

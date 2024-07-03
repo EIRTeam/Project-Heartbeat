@@ -45,9 +45,9 @@ func set_editor(_editor: HBEditor):
 	else:
 		editor.add_child(self)
 	
-	connect("shown_transform", Callable(editor, "_show_transform_on_current_notes"))
-	connect("hidden_transform", Callable(editor.game_preview.transform_preview, "_hide"))
-	connect("applied_transform", Callable(editor, "_apply_transform_on_current_notes"))
+	shown_transform.connect(editor._show_transform_on_current_notes)
+	hidden_transform.connect(editor.game_preview.transform_preview._hide)
+	applied_transform.connect(editor._apply_transform_on_current_notes)
 	
 	for transform in transforms:
 		transform.set_editor(editor)

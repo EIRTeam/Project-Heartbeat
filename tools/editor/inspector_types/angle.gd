@@ -22,7 +22,7 @@ func _ready():
 
 func _on_angle_changed(value):
 	value = fmod(fmod(value, 360.0) + 360, 360.0)
-	spinbox.execute(String(value))
+	spinbox.execute(str(value))
 	emit_signal("values_changed", spinbox.get_values())
 
 func _on_Spinbox_values_changed():
@@ -30,12 +30,12 @@ func _on_Spinbox_values_changed():
 	
 	var max_angle = values[0]
 	for i in values.size():
-		values[i] = fmod(fmod(values[i], 360.0) + 360, 360.0)
+		values[i] = fmod(fmod(values[i], 360.0) + 180.0, 360.0)
 		max_angle = max(max_angle, values[i])
 	
 	angle_edit.start_angle = values[0]
-	angle_edit.end_angle = max_angle if max_angle != values[0] else null
-	angle_edit.update()
+	angle_edit.end_angle = max_angle if max_angle != values[0] else values[0]
+	angle_edit.queue_redraw()
 	
 	emit_signal("values_changed", values)
 	emit_signal("value_change_committed")
