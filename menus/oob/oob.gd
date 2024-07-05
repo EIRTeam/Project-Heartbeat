@@ -141,7 +141,7 @@ var oob_steps: Array[OOBStep] = [
 				.set_user_setting("health_system_enabled", false) \
 				.with_icon(preload("res://graphics/oob/health_off.png")) \
 				.next_step(),
-			OOBStepOption.new(tr("Yes"), tr("After failing to hit a bunch of notes, the game will be over.\nNote:This has not effect on scoring and its just an extra challenge.")) \
+			OOBStepOption.new(tr("Yes"), tr("After failing to hit a bunch of notes, the game will be over.\nNote: This has no effect on scoring and is just an extra challenge.")) \
 				.set_user_setting("health_system_enabled", true) \
 				.with_icon(preload("res://graphics/oob/health_on.png")) \
 				.next_step(),
@@ -201,7 +201,6 @@ func _setup_step_button(step_option: OOBStepOption) -> HBHovereableButton:
 	if step_option.actions & OOB_STEP_BUTTON_ACTIONS.END_SETUP:
 		button.pressed.connect(self.end_setup)
 	if step_option.actions & OOB_STEP_BUTTON_ACTIONS.SET_USER_SETTING:
-		print("SETTING USER SETTING", step_option.user_setting_name, step_option.user_setting_value)
 		button.pressed.connect(self._set_user_setting.bind(step_option.user_setting_name, step_option.user_setting_value))
 	button.icon = step_option.icon
 	if button.icon:
