@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6r4mg71fnreq"
-path="res://.godot/imported/icon.png-2db7bb0f32b2e59cde3550d4f78d6a59.ctex"
+uid="uid://brb88438ytwge"
+path="res://.godot/imported/aiko_normal_standing.png-78809e698e71d2fe09cd133ee171917e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/resource_packs/playstation/icon.png"
-dest_files=["res://.godot/imported/icon.png-2db7bb0f32b2e59cde3550d4f78d6a59.ctex"]
+source_file="res://graphics/aiko_normal_standing.png"
+dest_files=["res://.godot/imported/aiko_normal_standing.png-78809e698e71d2fe09cd133ee171917e.ctex"]
 
 [params]
 

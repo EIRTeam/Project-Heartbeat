@@ -12,10 +12,9 @@ var resource_pack: HBResourcePack
 
 func set_pack(_resource_pack: HBResourcePack):
 	resource_pack = _resource_pack
-	var pack_icon_image := resource_pack.get_pack_icon()
+	var pack_icon_image := resource_pack.get_pack_icon_texture()
 	if pack_icon_image:
-		var icon_texture := ImageTexture.create_from_image(pack_icon_image)
-		pack_icon.texture = icon_texture
+		pack_icon.texture = pack_icon_image
 	title_label.text = resource_pack.pack_name
 	if resource_pack.pack_author_name:
 		author_label.show()

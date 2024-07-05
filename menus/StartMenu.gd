@@ -13,6 +13,9 @@ func _ready():
 	#elif date_time.day == 20 and date_time.month == Time.MONTH_MARCH:
 
 func _on_PressStart_start_pressed():
+	if not UserSettings.user_settings.oob_completed:
+		change_to_menu("oob")
+		return
 	if HBGame.platform_settings is HBPlatformSettingsSwitch:
 		change_to_menu("switch_premenu")
 	elif HBGame.demo_mode:

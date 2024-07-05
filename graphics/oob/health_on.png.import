@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6r4mg71fnreq"
-path="res://.godot/imported/icon.png-2db7bb0f32b2e59cde3550d4f78d6a59.ctex"
+uid="uid://dbg5d2uo1f16b"
+path="res://.godot/imported/health_on.png-2a6e0af5b67121fa8a1da8ca4c51a95d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/resource_packs/playstation/icon.png"
-dest_files=["res://.godot/imported/icon.png-2db7bb0f32b2e59cde3550d4f78d6a59.ctex"]
+source_file="res://graphics/oob/health_on.png"
+dest_files=["res://.godot/imported/health_on.png-2a6e0af5b67121fa8a1da8ca4c51a95d.ctex"]
 
 [params]
 

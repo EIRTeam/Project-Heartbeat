@@ -263,12 +263,14 @@ var editor_code_font_size := 20
 
 var editor_templates_visibility := {"__all": true, "__uncategorized": false}
 
+var oob_completed := false
+
 func _init():
 	serializable_fields += [
 		"visualizer_enabled", "visualizer_resolution", "ui_blur_enabled",
 		"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", "down_arrow_override_enabled", 
 		"lag_compensation", 
-		"icon_pack", "resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
+		"resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 		"ui_skin",
 		"note_size", "input_map", "input_map_version",
 		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
@@ -295,6 +297,7 @@ func _init():
 		"editor_arrange_outer_mode", "editor_arrange_outer_subdivision", "editor_arrange_outer_snap", "editor_arrange_outer_diagonal_step", "editor_arrange_outer_vstep",
 		"editor_templates_visibility",
 		"pause_on_focus_loss",
+		"oob_completed"
 	]
 	
 	merge_dict_fields += [

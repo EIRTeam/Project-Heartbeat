@@ -298,11 +298,10 @@ func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 		open_resource_pack_dialog.close_requested.connect(self._exit)
 	pack_icon_texture_rect.texture = null
 	no_pack_icon_image_label.show()
-	var pack_icon := current_pack.get_pack_icon()
+	var pack_icon := current_pack.get_pack_icon_texture()
 	if pack_icon:
-		var pack_icon_tex := ImageTexture.create_from_image(pack_icon)
 		no_pack_icon_image_label.hide()
-		pack_icon_texture_rect.texture = pack_icon_tex
+		pack_icon_texture_rect.texture = pack_icon
 	description_text_edit.text = current_pack.pack_description
 	description_text_edit.show()
 

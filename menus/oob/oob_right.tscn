@@ -1,0 +1,92 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqtmxunmrnpbx"]
+
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1_5b452"]
+[ext_resource type="Script" path="res://menus/oob/oob_right.gd" id="1_i1y5j"]
+[ext_resource type="StyleBox" uid="uid://b21324ii6ky3l" path="res://styles/PanelStyleTransparentIcon.tres" id="2_2o5fb"]
+[ext_resource type="Texture2D" uid="uid://brb88438ytwge" path="res://graphics/aiko_normal_standing.png" id="3_woayx"]
+[ext_resource type="StyleBox" uid="uid://chtcd7ohnjt3f" path="res://styles/PanelStyleTransparentAlt.tres" id="4_bnbdd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vi45s"]
+bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_bottom_right = 1024
+corner_radius_bottom_left = 1024
+corner_detail = 1
+anti_aliasing = false
+
+[node name="OobRight" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i1y5j")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -7
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = ExtResource("2_2o5fb")
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_5b452")
+text = "Aiko"
+horizontal_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_bnbdd")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer/VBoxContainer/HBPanelContainerBlurEX"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="StepDescriptionLabel" type="Label" parent="VBoxContainer/VBoxContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = " dasdsadasdsadsadsadsadsadsa asd as ad asds aasdsad z"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer/VBoxContainer"]
+show_behind_parent = true
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_vi45s")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("3_woayx")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true

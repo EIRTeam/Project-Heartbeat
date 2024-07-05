@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="1"]
 [ext_resource type="Script" path="res://menus/tools_menu/ToolsMenu.gd" id="2"]
-[ext_resource type="PackedScene" path="res://menus/HBMenuChangeButton.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://df57f4m3iefr8" path="res://menus/HBMenuChangeButton.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://dnbe0dc4neqg3" path="res://graphics/icons/folder-music.svg" id="4"]
 [ext_resource type="Texture2D" uid="uid://bov4rkihexnl0" path="res://graphics/icons/folder-cog.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://bce3btarcngmp" path="res://graphics/icons/music-clef-treble.svg" id="6"]
@@ -40,54 +40,47 @@ custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Song Editor"
 icon = ExtResource("6")
-alignment = 0
 
 [node name="ResourcePackEditorButton" parent="ToolsList" instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Resource Pack Editor"
 icon = ExtResource("9")
-alignment = 0
 
 [node name="OpenLogsDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Open Logs Directory"
 icon = ExtResource("5")
-alignment = 0
 
 [node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Open Songs Directory"
 icon = ExtResource("4")
-alignment = 0
 
 [node name="OpenUserDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Open User Directory"
 icon = ExtResource("7")
-alignment = 0
 
 [node name="PPDManagerButton" parent="ToolsList" instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "PPD Manager"
 icon = ExtResource("8")
-alignment = 0
 
 [node name="LatencyCalculatorButton" parent="ToolsList" instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Latency Tester"
 icon = ExtResource("11")
-alignment = 0
 next_menu = "latency_tester"
 
-[node name="DJADebugButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="OOBDebugButton" parent="ToolsList" instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-text = "DJA Debug"
+text = "Out-of-the box setup"
 icon = ExtResource("12")
-alignment = 0
+next_menu = "oob"

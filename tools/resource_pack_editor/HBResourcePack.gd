@@ -141,8 +141,19 @@ func get_graphic_image(graphic_name: String) -> Image:
 func get_pack_icon_path() -> String:
 	return HBUtils.join_path(_path, "icon.png")
 
+func get_pack_icon_texture() -> Texture2D:
+	var pack_icon_path := get_pack_icon_path()
+	if pack_icon_path.begins_with("res://"):
+		return load(pack_icon_path)
+	var pack_icon := get_pack_icon()
+	var out: ImageTexture
+	if pack_icon:
+		out = ImageTexture.create_from_image(pack_icon)
+	return out
+
 func get_pack_icon() -> Image:
 	var pack_icon_path := get_pack_icon_path()
+
 	if FileAccess.file_exists(pack_icon_path) or ResourceLoader.exists(pack_icon_path):
 		var img := HBUtils.image_from_fs(pack_icon_path) as Image
 		if img:

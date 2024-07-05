@@ -10,7 +10,7 @@ func _ready():
 	$ToolsList/PPDManagerButton.connect("pressed", Callable(self, "_on_PPDDownloaderButton_pressed"))
 	$ToolsList/ResourcePackEditorButton.connect("pressed", Callable(self, "_on_ResourcePackEditorButton_pressed"))
 	$ToolsList/LatencyCalculatorButton.connect("pressed", Callable(self, "_on_LatencyCalculatorButton_pressed"))
-	$ToolsList/DJADebugButton.connect("pressed", Callable(self, "_on_dja_debug_button_pressed"))
+	$ToolsList/OOBDebugButton.connect("pressed", change_to_menu.bind("oob"))
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
