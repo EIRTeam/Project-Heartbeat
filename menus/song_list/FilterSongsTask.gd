@@ -27,8 +27,12 @@ class SongFilterData:
 		song = _song
 	
 func get_compare_func() -> Callable:
+	var sort_prop = sort_filter_settings.sort_prop
+	if sort_filter_settings.filter_mode == "workshop":
+		sort_prop = sort_filter_settings.workshop_tab_sort_prop
+	
 	var out_callable: Callable
-	match sort_filter_settings.sort_prop:
+	match sort_prop:
 		&"title", &"artist", &"creator":
 			out_callable = self.string_compare
 		&"bpm", &"_times_played":
@@ -45,7 +49,10 @@ func get_compare_func() -> Callable:
 	return out_callable
 	
 func fill_compare_data(song: HBSong, filter_data: SongFilterData):
-	match sort_filter_settings.sort_prop:
+	var sort_prop = sort_filter_settings.sort_prop
+	if sort_filter_settings.filter_mode == "workshop":
+		sort_prop = sort_filter_settings.workshop_tab_sort_prop
+	match sort_prop:
 		&"title":
 			filter_data.string_cmp = song.get_visible_title().to_lower()
 		&"artist":
