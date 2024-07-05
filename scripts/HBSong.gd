@@ -335,8 +335,11 @@ static func deserialize(data: Dictionary):
 	# HACK: Because godot no longer does ints in json files (because JSON doesn't support ints)
 	var charts: Dictionary = data.get("charts", {})
 	for diff: String in charts:
-		var chart_data: Dictionary = charts.get(diff, {})
-		if "note_usage" in chart_data:
+		var chart_data = charts.get(diff, {})
+		if not chart_data:
+			charts.erase(diff)
+			continue
+		if "note_usage" in chart_data and chart_data is Dictionary:
 			var note_usage: Array = chart_data.get("note_usage", [])
 			chart_data["note_usage"] = note_usage.map(func(a): return int(a))
 	return super.deserialize(data)
