@@ -36,6 +36,8 @@ func _on_request_completed(result, response_code, headers, body):
 				if news_items.size() == 3:
 					break
 		for item in news_items:
+			if not is_inside_tree():
+				await tree_entered
 			var button = NEWS_ITEM.instantiate()
 			news_container.add_child(button)
 			var date_time = Time.get_datetime_dict_from_unix_time(item.date)

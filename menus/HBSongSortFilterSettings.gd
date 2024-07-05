@@ -55,4 +55,3 @@ func _init():
 	]
 func get_serialized_type():
 	return "SongSortFilterSettings"
-	
