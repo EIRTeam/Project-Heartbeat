@@ -184,7 +184,7 @@ func _on_search_entered(text: String):
 	search_text_input.hide()
 	song_container.grab_focus()
 	
-	if song_container.filter_by == "folders":
+	if song_container.filter_settings.filter_mode == "folders":
 		song_container.update_folder_items()
 	
 	update_path_label()
