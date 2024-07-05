@@ -98,7 +98,7 @@ var OPTIONS = {
 			"label_callback": self._audio_buffer_info_callback
 		},
 		"audio_buffer_size": {
-			"name": tr("Target audio buffer size (Requires restart)"),
+			"name": tr("Audio buffer size"),
 			"description": tr("In milliseconds, how big should the requested audio buffer be, lower means lower latency and more smoothness but also higher CPU usage, this is just a target value, your OS might force a different value."),
 			"minimum": 1,
 			"maximum": 12,
@@ -445,7 +445,7 @@ func _unhandled_input(event):
 
 func _audio_buffer_postfix_callback(value: int):
 	#warning-ignore:integer_division
-	return " ms (~%d updates per second)" % [1000/value]
+	return " ms (~%d u/s)" % [1000/value]
 
 const CODE = ["gui_up", "gui_up", "gui_down", "gui_down", "gui_left", "gui_right", "gui_left", "gui_right", "note_down", "note_right", "pause"]
 var code_p = 0
