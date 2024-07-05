@@ -1,0 +1,119 @@
+[gd_scene load_steps=10 format=3 uid="uid://bj2r0cx0mnrdf"]
+
+[ext_resource type="StyleBox" uid="uid://b21324ii6ky3l" path="res://styles/PanelStyleTransparentIcon.tres" id="1_mxm7h"]
+[ext_resource type="Script" path="res://menus/replay_container/ReplayContainerItem.gd" id="2_r1ty7"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3_yh1nc"]
+[ext_resource type="FontVariation" uid="uid://nyc27vir054y" path="res://fonts/default_font_bold.tres" id="4_3dym4"]
+[ext_resource type="Texture2D" uid="uid://bk0vjdlr1uu7i" path="res://graphics/icons/clock-outline.svg" id="5_kkikh"]
+[ext_resource type="Texture2D" uid="uid://di2nif4hes7ts" path="res://graphics/icons/account-bigger.svg" id="6_1yjer"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="6_yotnr"]
+[ext_resource type="Texture2D" uid="uid://cebrngjtijm7f" path="res://graphics/icons/play.svg" id="8_mo356"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="9_717fb"]
+
+[node name="ReplayContainerItem" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -917.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_mxm7h")
+script = ExtResource("2_r1ty7")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = -10
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+text = "Clipping Radio"
+
+[node name="DifficultyLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_yh1nc")
+text = "Difficulty"
+vertical_alignment = 1
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ClockIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_kkikh")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="TimeLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "2024-06-16 21:22"
+vertical_alignment = 1
+
+[node name="UserIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_1yjer")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="UserLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "EIREXE"
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -10
+alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_yotnr")
+theme_override_font_sizes/font_size = 45
+text = "1000.000.0"
+horizontal_alignment = 2
+
+[node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_3dym4")
+theme_override_font_sizes/font_size = 24
+text = "(90.0%)"
+horizontal_alignment = 2
+
+[node name="PlayButton" type="Button" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("8_mo356")
+script = ExtResource("9_717fb")

@@ -629,3 +629,15 @@ static func get_clear_badge(rating: HBResult.RESULT_RATING) -> Texture2D:
 # why does godot not have inverses for hyperbolic trig built-in >:(
 static func asinh(x: float) -> float:
 	return log(x + sqrt(x * x + 1))
+
+static func humanize_time_elapsed_since(timestamp: int):
+	var now := Time.get_unix_time_from_system()
+	var diff: int = now - timestamp
+	if diff < 60:
+		return TranslationServer.tr_n("{seconds} second ago", "{seconds} seconds ago", diff).format({"seconds": diff})
+	elif diff < 3600:
+		return TranslationServer.tr_n("{minutes} minute ago", "{minutes} minutes ago", diff).format({"minutes": diff / 60})
+	elif diff < 3600*24:
+		return TranslationServer.tr_n("{hours} hour ago", "{hours} hours ago", diff).format({"hours": (diff / 60) / 60})
+	else:
+		return TranslationServer.tr_n("{days} days ago", "{days} days ago", diff).format({"days": ((diff / 60) / 60) / 24})

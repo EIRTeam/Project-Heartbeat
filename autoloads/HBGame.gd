@@ -24,11 +24,14 @@ enum MMPLUS_ERROR {
 var mmplus_error: int = MMPLUS_ERROR.NO_STEAM
 var mmplus_loader: SongLoaderDSC
 
+const REPLAYS_PATH := "user://replays"
+const REPLAYS_PATH_AUTOSAVE := "user://replays/autosave"
 const STREAMER_MODE_CURRENT_SONG_TITLE_PATH := "user://current_song.txt"
 const STREAMER_MODE_CURRENT_SONG_BG_PATH := "user://current_song_bg.png"
 const STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH := "user://current_song_preview.png"
 const STREAMER_MODE_PREVIEW_IMAGE_SIZE := Vector2(512, 512)
 const STREAMER_MODE_BACKGROUND_IMAGE_SIZE := Vector2(1920, 1080)
+const MAX_REPLAY_AUTOSAVES := 250
 
 # hack...
 
@@ -107,6 +110,7 @@ var serializable_types = {
 	"Skin": load("res://scripts/new_ui/HBUISkin.gd"),
 	"SkinScreen": load("res://scripts/new_ui/HBUISkinScreen.gd"),
 	"EditorTemplate": load("res://scripts/HBEditorTemplate.gd"),
+	"ReplayInformation": load("res://scripts/HBReplayInformation.gd"),
 }
 
 const EXCELLENT_THRESHOLD = 0.95
@@ -298,6 +302,8 @@ func _game_init():
 	song_stats._init_song_stats()
 	if not DirAccess.dir_exists_absolute(UserSettings.CUSTOM_SOUND_PATH):
 		DirAccess.make_dir_recursive_absolute(UserSettings.CUSTOM_SOUND_PATH)
+	if not DirAccess.dir_exists_absolute(REPLAYS_PATH_AUTOSAVE):
+		DirAccess.make_dir_recursive_absolute(REPLAYS_PATH_AUTOSAVE)
 		
 
 func register_game_mode(game_mode: HBGameMode):
@@ -346,3 +352,44 @@ func instantiate_user_sfx(sfx_name: String) -> ShinobuSoundPlayer:
 	var sound := sound_source.instantiate(HBGame.sfx_group)
 	sound.volume = UserSettings.user_settings.get_sound_volume_linear(sfx_name)
 	return sound
+
+func get_replay_file_name(game_info: HBGameInfo) -> String:
+	var tz_bias := Time.get_time_zone_from_system().bias as int
+	var date_time_dict := Time.get_datetime_dict_from_unix_time(game_info.time + tz_bias * 60)
+	var song := game_info.get_song() as HBSong
+	var data_dict := {
+		"song_name": ((song.title if song.romanized_title.is_empty() else song.romanized_title) as String).to_snake_case(),
+		"song_id": song.id,
+		"difficulty": game_info.difficulty,
+	}
+	data_dict.merge(date_time_dict)
+	return "{song_name}-{song_id}-{difficulty}-{year}-{month}-{day}-{hour}-{minute}-{second}.phrz".format(data_dict)
+
+func save_replay(game_info: HBGameInfo, replay: HBReplayWriter, autosave: bool):
+	var file_name := get_replay_file_name(game_info)
+	
+	var save_dir := REPLAYS_PATH_AUTOSAVE if autosave else REPLAYS_PATH
+	var file_path := save_dir.path_join(file_name)
+	
+	if FileAccess.file_exists(file_path):
+		print("FILE EXISTS")
+		return
+	
+	if autosave:
+		var dir := DirAccess.open(save_dir)
+		var file_names := dir.get_files()
+		if file_names.size() > MAX_REPLAY_AUTOSAVES-1:
+			var files_with_modified_times = []
+			for file in file_names:
+				var modified_time := FileAccess.get_modified_time(save_dir.path_join(file))
+				files_with_modified_times.push_back([modified_time, file])
+			files_with_modified_times.sort_custom(func(a: Array, b: Array): return a[0] < b[0])
+			var files_to_delete := file_names.size() - (MAX_REPLAY_AUTOSAVES-1)
+			for i in range(files_to_delete):
+				print("DEL ", i)
+				dir.remove(files_with_modified_times[i][1])
+	var zip := HBReplayPackage.new()
+	zip.replay_data_writer = replay
+	zip.replay_info = HBReplayInformation.from_game_info(game_info)
+	zip.to_file(save_dir.path_join(file_name))
+	

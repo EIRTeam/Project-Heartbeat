@@ -30,7 +30,7 @@ var prevent_showing_results = false
 var prevent_scene_changes = false
 var allow_modifiers = true
 var disable_intro_skip = false
-
+var replay_reader: HBReplayReader
 var current_game_info: HBGameInfo 
 
 @onready var video_player = get_node("Node2D/Panel/VideoStreamPlayer")
@@ -43,6 +43,8 @@ var playing_game_over_animation := false
 
 var skin_override: HBUISkin
 var rollback_delta := 0.0
+
+var is_replay_playback := false
 
 func _ready():
 	connect("resized", Callable(self, "set_game_size"))
@@ -64,6 +66,7 @@ func _ready():
 	game_over_tween.process_mode = Node.PROCESS_MODE_ALWAYS
 	$Label.visible = false
 	game.health_system_enabled = UserSettings.user_settings.enable_health
+	
 func _on_intro_skipped(new_time):
 	video_player.set_stream_position(new_time)
 
@@ -79,6 +82,11 @@ func _fade_in_done():
 	pause_menu_disabled = false
 func start_fade_in():
 #	video_player.hide()
+	if is_replay_playback:
+		game.start_replay_playback(replay_reader)
+	else:
+		game.start_recording_replay("user://replays/{song_id}-{difficulty}-{date}-{time}.phrz")
+	
 	Shinobu.set_dsp_time(0)
 	UserSettings.enable_menu_fps_limits = false
 	$FadeIn.modulate.a = 1.0
@@ -104,6 +112,11 @@ func start_fade_in():
 	pause_menu_disabled = true
 	HBGame.song_stats.song_played(song.id)
 	HBGame.song_stats.save_song_stats()
+
+func start_replay_playback_session(replay: HBReplayReader, game_info: HBGameInfo, assets: SongAssetLoader.AssetLoadToken = null):
+	is_replay_playback = true
+	replay_reader = replay
+	start_session(game_info, assets)
 
 func start_session(game_info: HBGameInfo, assets: SongAssetLoader.AssetLoadToken = null):
 	current_assets = assets
@@ -138,6 +151,7 @@ func start_session(game_info: HBGameInfo, assets: SongAssetLoader.AssetLoadToken
 		modifier.modifier_settings = game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
 	game.current_variant = game_info.variant
+	game_ui.is_replay_playback = is_replay_playback
 	set_song(song, game_info.difficulty, modifiers, false, assets)
 	set_process(true)
 
@@ -312,7 +326,14 @@ func _show_results(game_info: HBGameInfo):
 			var old_scene = get_tree().current_scene
 			get_tree().current_scene.queue_free()
 			scene.starting_menu = "results"
-			scene.starting_menu_args = {"game_info": game_info, "assets": current_assets}
+			var replay := game.get_replay()
+			if not is_replay_playback:
+				HBGame.save_replay(game_info, game.get_replay(), true)
+			else:
+				replay = null
+				# Don't upload replays to the leaderboards..
+				game_info.result.used_cheats = true
+			scene.starting_menu_args = {"game_info": game_info, "assets": current_assets, "replay": replay}
 			scene.starting_song = current_game_info.get_song()
 			get_tree().root.add_child(scene)
 			get_tree().current_scene = scene
