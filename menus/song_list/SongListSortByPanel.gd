@@ -61,7 +61,10 @@ func _ready() -> void:
 	)
 	
 	sort_by_option_button.selected.connect(func(id: String):
-		filter_settings.sort_prop = id
+		if filter_settings.filter_mode == "workshop":
+			filter_settings.workshop_tab_sort_prop = id
+		else:
+			filter_settings.sort_prop = id
 		notify_filter_changed()
 	)
 	
@@ -99,12 +102,15 @@ func populate_sort_by_list():
 	
 	sort_by_option_button.clear()
 	sort_by_option_button.set_block_signals(true)
+	var sort_prop := filter_settings.sort_prop
+	if filter_settings.filter_mode == "workshop":
+		sort_prop = filter_settings.workshop_tab_sort_prop
 	for sort_by in allowed_sort_by:
 		if sort_by in workshop_only_sort_by and not UserSettings.user_settings.sort_filter_settings.filter_mode == "workshop":
 			continue
 		sort_by_option_button.add_item(allowed_sort_by[sort_by], sort_by)
 		# We ensure the current sort mode is selected by default
-		if sort_by == filter_settings.sort_prop:
+		if sort_by == sort_prop:
 			sort_by_option_button.selected_item = sort_by_option_button.get_item_count()-1
 	sort_by_option_button.set_block_signals(false)
 

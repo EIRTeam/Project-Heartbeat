@@ -59,6 +59,8 @@ func update_filter_display_containers():
 			note_usage_filter_texture_rect.texture = ResourcePackLoader.get_graphic("heart_note.png")
 		HBSongSortFilterSettings.NoteUsageFilterMode.FILTER_MODE_ARCADE_ONLY:
 			note_usage_filter_texture_rect.texture = ResourcePackLoader.get_graphic("slide_right_note.png")
+var first_time := true
+
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
 	rich_presence_start_timestamp = Time.get_unix_time_from_system()
@@ -79,6 +81,12 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if args.has("force_filter"):
 		UserSettings.user_settings.sort_filter_settings.filter_mode = args.force_filter
 		UserSettings.save_user_settings()
+		set_filter(filter_settings.filter_mode)
+		first_time = false
+	elif first_time:
+		set_filter(filter_settings.filter_mode)
+		first_time = false
+		
 	populate_buttons()
 		
 	sort_by_list.hide()
@@ -91,7 +99,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if args.has("song"):
 		song_to_select = args.song
 	update_filter_display_containers()
-	update_songs(song_to_select, difficulty_to_select)
 	MouseTrap.cache_song_overlay.connect("done", Callable(song_container, "grab_focus").bind(), CONNECT_DEFERRED)
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", Callable(self, "_on_youtube_url_selected"))
 	MouseTrap.ppd_dialog.connect("file_selected", Callable(self, "_on_ppd_audio_file_selected"))
@@ -114,11 +121,9 @@ func _on_ugc_song_meta_updated():
 		song_container.set_songs(SongLoader.songs.values(), null, null, true)
 	
 func set_sort(sort_by):
-	filter_settings.sort_prop = sort_by
-		
 	UserSettings.save_user_settings()
 	if UserSettings.user_settings.sort_filter_settings.filter_mode == "folders":
-		song_container.update_items()
+		song_container.update_folder_items()
 		return
 	if UserSettings.user_settings.sort_filter_settings.filter_mode == "workshop":
 		UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop = sort_by
@@ -180,7 +185,7 @@ func _on_search_entered(text: String):
 	song_container.grab_focus()
 	
 	if song_container.filter_by == "folders":
-		song_container.update_items()
+		song_container.update_folder_items()
 	
 	update_path_label()
 	
@@ -263,11 +268,10 @@ func set_filter(filter_name, save=true):
 	UserSettings.user_settings.sort_filter_settings.filter_mode = filter_name
 	if save:
 		UserSettings.save_user_settings()
-	if old_filter_mode != filter_name:
-		if filter_name == "workshop":
-			set_sort(UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop)
-		else:
-			set_sort(UserSettings.user_settings.sort_filter_settings.sort_prop)
+	if filter_name == "workshop":
+		set_sort(UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop)
+	else:
+		set_sort(UserSettings.user_settings.sort_filter_settings.sort_prop)
 	if filter_name == "workshop":
 		update_sort_label(UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop)
 	else:
@@ -352,7 +356,7 @@ func _unhandled_input(event):
 					if folder.songs.size() == 0:
 						song_container.navigate_back()
 					else:
-						song_container.update_items()
+						song_container.update_folder_items()
 					
 				else:
 					folder_manager.show_manager(folder_manager.MODE.MANAGE)

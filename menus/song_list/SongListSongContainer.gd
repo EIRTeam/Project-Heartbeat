@@ -15,9 +15,6 @@ var songs = []
 var filter_settings: HBSongSortFilterSettings:
 	set(val):
 		filter_settings = val
-		filter_settings.sort_prop = UserSettings.user_settings.sort_filter_settings.sort_prop
-		if UserSettings.user_settings.sort_filter_settings.filter_mode == "workshop":
-			filter_settings.sort_prop = UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop
 
 signal updated_folders(folder_stack)
 signal create_new_folder(parent)
@@ -67,12 +64,12 @@ func _on_selected_item_changed():
 func navigate_folder(folder: HBFolder):
 	folder_stack.append(folder)
 	selected_index_stack.append(0)
-	update_items()
+	update_folder_items()
 
 func navigate_back():
 	selected_index_stack.pop_back()
 	folder_stack.pop_back()
-	update_items()
+	update_folder_items()
 
 func go_to_root():
 	folder_stack = []
@@ -93,7 +90,9 @@ func _create_song_item(song: HBSong):
 	item.ready.connect(item._become_visible)
 	item.difficulty_selected.connect(self._on_difficulty_selected)
 	return item
-func update_items():
+func update_folder_items():
+	if folder_stack.size() == 0:
+		return
 	for i in item_container.get_children():
 		item_container.remove_child(i)
 		i.queue_free()
@@ -110,7 +109,7 @@ func update_items():
 	if folder_stack.size() > 1:
 		var back_item = SongListItemFolderBack.instantiate()
 		back_item.connect("pressed", Callable(self, "navigate_back"))
-		back_item.connect("pressed", Callable(self, "update_items"))
+		back_item.connect("pressed", Callable(self, "update_folder_items"))
 		item_container.add_child(back_item)
 	
 	var rand = RANDOM_SELECT_BUTTON_SCENE.instantiate()
@@ -211,7 +210,7 @@ func on_filter_changed():
 		path.pop_front()
 		var starting_folders = get_starting_folder([UserSettings.user_settings.root_folder], path)
 		folder_stack = []
-
+		
 		for folder in starting_folders:
 			navigate_folder(folder)
 	else:

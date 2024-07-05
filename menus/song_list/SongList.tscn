@@ -95,7 +95,8 @@ libraries = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.995
 offset_top = 10.0
@@ -297,12 +298,6 @@ size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Panel7" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
-custom_minimum_size = Vector2(136, 53)
-layout_mode = 2
-action_name = "note_up"
-text = "Sort"
-
 [node name="Panel13" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
 custom_minimum_size = Vector2(184, 53)
 layout_mode = 2
@@ -378,7 +373,8 @@ offset_bottom = 264.5
 
 [node name="SongCountIndicator" type="Label" parent="."]
 auto_translate_mode = 2
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.015
 anchor_top = 0.945
 anchor_right = 0.015
@@ -386,6 +382,10 @@ anchor_bottom = 1.0
 offset_left = 0.200001
 offset_top = 12.4
 offset_right = 290.2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("18")
 text = "123/123"
 vertical_alignment = 1
