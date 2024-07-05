@@ -101,6 +101,8 @@ func _image_from_fs(path: String) -> Texture2D:
 	if path.begins_with("res://"):
 		return load(path)
 	var img: Image = Image.load_from_file(path)
+	if img:
+		img.generate_mipmaps()
 	var tex := ImageTexture.create_from_image(img)
 	return tex
 
