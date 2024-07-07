@@ -45,7 +45,7 @@ layout_mode = 2
 script = ExtResource("4")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(144, 120)
+custom_minimum_size = Vector2(144, 131)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -58,7 +58,7 @@ texture = ExtResource("5_23f3r")
 action = "editor_vertical_multi_left"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(144, 135)
+custom_minimum_size = Vector2(144, 146)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -72,7 +72,7 @@ transform_id = 1
 action = "editor_vertical_multi_right"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(144, 186)
+custom_minimum_size = Vector2(144, 196)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -100,7 +100,7 @@ layout_mode = 2
 script = ExtResource("4")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(150, 112)
+custom_minimum_size = Vector2(151, 122)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -114,7 +114,7 @@ transform_id = 2
 action = "editor_horizontal_multi_top"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(150, 171)
+custom_minimum_size = Vector2(151, 182)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -128,7 +128,7 @@ transform_id = 3
 action = "editor_horizontal_multi_bottom"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="2" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(150, 192)
+custom_minimum_size = Vector2(151, 203)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -158,7 +158,7 @@ layout_mode = 2
 script = ExtResource("4")
 
 [node name="QuadOutsideButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="0" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(172, 176)
+custom_minimum_size = Vector2(172, 187)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -170,7 +170,7 @@ transform_id = 4
 action = "editor_quad"
 
 [node name="QuadInsideButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="1" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(172, 145)
+custom_minimum_size = Vector2(172, 156)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -182,7 +182,7 @@ transform_id = 5
 action = "editor_inner_quad"
 
 [node name="QuadSidewaysButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="2" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(172, 214)
+custom_minimum_size = Vector2(172, 224)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -206,7 +206,7 @@ layout_mode = 2
 script = ExtResource("4")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer4" index="0" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(149, 169)
+custom_minimum_size = Vector2(149, 180)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -217,7 +217,7 @@ transform_id = 7
 action = "editor_triangle"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer4" index="1" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(149, 191)
+custom_minimum_size = Vector2(149, 201)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://ko3o8mogfbn8"]
+[gd_scene load_steps=14 format=3 uid="uid://ko3o8mogfbn8"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="2"]

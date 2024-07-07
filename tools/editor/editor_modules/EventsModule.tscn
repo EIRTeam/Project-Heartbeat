@@ -35,7 +35,7 @@ size_flags_horizontal = 3
 script = ExtResource("10")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["event_buttons"]]
-custom_minimum_size = Vector2(246, 1000)
+custom_minimum_size = Vector2(245, 297)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("9")
@@ -48,7 +48,7 @@ function_name = "popup_speed_change"
 action = "editor_create_speed_change"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["event_buttons"]]
-custom_minimum_size = Vector2(246, 1000)
+custom_minimum_size = Vector2(245, 214)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("9")
@@ -69,7 +69,7 @@ size_flags_horizontal = 3
 script = ExtResource("10")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["event_buttons"]]
-custom_minimum_size = Vector2(222, 1000)
+custom_minimum_size = Vector2(222, 274)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("9")
@@ -81,7 +81,7 @@ function_name = "create_phrase_start"
 action = "editor_quick_phrase_start"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["event_buttons"]]
-custom_minimum_size = Vector2(222, 1000)
+custom_minimum_size = Vector2(222, 252)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("9")
@@ -99,7 +99,7 @@ size_flags_horizontal = 3
 script = ExtResource("10")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="0" groups=["event_buttons"]]
-custom_minimum_size = Vector2(232, 1000)
+custom_minimum_size = Vector2(232, 244)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("9")
@@ -113,7 +113,7 @@ function_name = "popup_lyric_dialog"
 action = "editor_quick_lyric"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="1" groups=["event_buttons"]]
-custom_minimum_size = Vector2(232, 1000)
+custom_minimum_size = Vector2(232, 284)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("9")
