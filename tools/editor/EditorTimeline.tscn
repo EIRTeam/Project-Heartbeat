@@ -39,9 +39,9 @@ func _input(event):
 	if event is InputEventMouseButton and not get_global_rect().has_point(get_global_mouse_position()):
 		return
 	
-	if event.is_action_pressed(\"editor_scale_up\", false, true):
+	if event.is_action_pressed(\"editor_zoom_in\", false, true):
 		emit_signal(\"zoom_in\")
-	elif event.is_action_pressed(\"editor_scale_down\", true, true):
+	elif event.is_action_pressed(\"editor_zoom_out\", true, true):
 		emit_signal(\"zoom_out\")
 	
 	if event.is_action_pressed(\"editor_scroll_left\", true, true):

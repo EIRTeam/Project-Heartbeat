@@ -880,16 +880,20 @@ func _ready():
 	update_font_size()
 
 func _gui_input(event):
-	if event is InputEventKey and visible and get_viewport().gui_get_focus_owner() == self:
-		if event.is_action_pressed("editor_scale_up", false, true):
+	if visible and get_viewport().gui_get_focus_owner() == self:
+		if event.is_action_pressed("editor_zoom_in", false, true):
 			UserSettings.user_settings.editor_code_font_size += 1
 			UserSettings.save_user_settings()
 			update_font_size()
+			
+			get_viewport().set_input_as_handled()
 		
-		if event.is_action_pressed("editor_scale_down", false, true):
+		if event.is_action_pressed("editor_zoom_out", false, true):
 			UserSettings.user_settings.editor_code_font_size -= 1
 			UserSettings.save_user_settings()
 			update_font_size()
+			
+			get_viewport().set_input_as_handled()
 
 func update_font_size():
 	add_theme_font_size_override("font_size", UserSettings.user_settings.editor_code_font_size)
