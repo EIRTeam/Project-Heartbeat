@@ -190,8 +190,8 @@ const EDITOR_ACTIONS := {
 		"editor_scroll_right",
 		"editor_move_playhead_left",
 		"editor_move_playhead_right",
-		"editor_scale_up",
-		"editor_scale_down",
+		"editor_zoom_in",
+		"editor_zoom_out",
 	],
 	"Miscellaneous": [
 		"gui_accept",

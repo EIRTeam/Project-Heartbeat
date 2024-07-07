@@ -200,8 +200,8 @@ func fill_localized_arrays():
 		"editor_contextual_menu": tr("Show contextual menu"),
 		#  Timeline
 		"editor_pan": tr("Pan the timeline"),
-		"editor_scale_up": tr("Scale up the timeline"),
-		"editor_scale_down": tr("Scale down the timeline"),
+		"editor_zoom_in": tr("Scale up the timeline"),
+		"editor_zoom_out": tr("Scale down the timeline"),
 		"editor_scroll_left": tr("Scroll timeline to the left"),
 		"editor_scroll_right": tr("Scroll timeline to the right"),
 		"editor_move_playhead_left": tr("Move playhead to the left"),
