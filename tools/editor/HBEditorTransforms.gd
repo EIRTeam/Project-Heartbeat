@@ -299,10 +299,13 @@ class MakeCircleTransform:
 	
 	var direction: int
 	var separation := 96
-	var eigths_per_circle := 16
+	var eights_per_circle := 16
 	var entry_angle_offset := 0.0
 	# -1 for outside, 1 for inside
 	var inside = -1
+	
+	func set_epr(_epr: int):
+		self.eights_per_circle = _epr
 	
 	func _init(_direction: int, _inside: bool = false):
 		direction = _direction
@@ -327,7 +330,7 @@ class MakeCircleTransform:
 		var sustain_compensation = 0
 		var time_offset = editor.get_time_as_eight(notes[0].time)
 		
-		var radius = separation * eigths_per_circle / TAU
+		var radius = separation * eights_per_circle / TAU
 		var start_rev = 0.0
 		var center = notes[0].position
 		
@@ -351,7 +354,7 @@ class MakeCircleTransform:
 				sustain_compensation += editor.get_time_as_eight(n.end_time) - editor.get_time_as_eight(n.time)
 			
 			# Angle in the circle (in revolutions)
-			var angle = t / float(eigths_per_circle) * TAU
+			var angle = t / float(eights_per_circle) * TAU
 			angle *= direction
 			angle += angle_offset
 			
