@@ -56,7 +56,7 @@ func _queue_tag_update():
 
 func _update_tag_color():
 	if UserSettings.user_settings.sort_filter_settings.star_filter_enabled:
-		if stars > UserSettings.user_settings.sort_filter_settings.star_filter_max:
+		if stars > UserSettings.user_settings.sort_filter_settings.star_filter_max or stars < UserSettings.user_settings.sort_filter_settings.star_filter_min:
 			difficulty_color_panel.self_modulate = FILTERED_COLOR
 			self_modulate = FILTERED_COLOR_BG
 			modulate.a = 0.5

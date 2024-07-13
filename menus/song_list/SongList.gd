@@ -78,14 +78,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #				difficulty_list.select_button(i)
 #	else:
 #		difficulty_list.select_button(0)
-	if args.has("force_filter"):
-		UserSettings.user_settings.sort_filter_settings.filter_mode = args.force_filter
-		UserSettings.save_user_settings()
-		set_filter(filter_settings.filter_mode)
-		first_time = false
-	elif first_time:
-		set_filter(filter_settings.filter_mode)
-		first_time = false
 		
 	populate_buttons()
 		
@@ -98,6 +90,17 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		difficulty_to_select = args.song_difficulty
 	if args.has("song"):
 		song_to_select = args.song
+		
+	if args.has("force_filter"):
+		UserSettings.user_settings.sort_filter_settings.filter_mode = args.force_filter
+		UserSettings.save_user_settings()
+		
+		set_filter(filter_settings.filter_mode, true, "" if song_to_select == null else song_to_select)
+		first_time = false
+	elif first_time:
+		set_filter(filter_settings.filter_mode, true, "" if song_to_select == null else song_to_select)
+		first_time = false
+		
 	update_filter_display_containers()
 	MouseTrap.cache_song_overlay.connect("done", Callable(song_container, "grab_focus").bind(), CONNECT_DEFERRED)
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", Callable(self, "_on_youtube_url_selected"))
@@ -261,9 +264,13 @@ func populate_buttons():
 		filter_type_container.add_child(button)
 		if filter_type == UserSettings.user_settings.sort_filter_settings.filter_mode:
 			filter_type_container.select_button(button.get_index(), false)
-		button.connect("hovered", Callable(self, "set_filter").bind(filter_type))
+		button.hovered.connect(_on_set_filter_button_pressed.bind(filter_type))
 		
-func set_filter(filter_name, save=true):
+func _on_set_filter_button_pressed(filter_type: String):
+	filter_settings.search_term = ""
+	set_filter(filter_type)
+		
+func set_filter(filter_name, save=true, song_to_select: String = ""):
 	var old_filter_mode = UserSettings.user_settings.sort_filter_settings.filter_mode
 	UserSettings.user_settings.sort_filter_settings.filter_mode = filter_name
 	if save:
@@ -277,7 +284,7 @@ func set_filter(filter_name, save=true):
 	else:
 		update_sort_label(UserSettings.user_settings.sort_filter_settings.sort_prop)
 	update_path_label()
-	song_container.on_filter_changed()
+	song_container.on_filter_changed(song_to_select)
 func update_path_label():
 	if UserSettings.user_settings.sort_filter_settings.filter_mode == "folders":
 		add_to_prompt.hide()

@@ -203,7 +203,7 @@ func sort_array(a: HBSong, b: HBSong):
 
 var last_filter = ""
 
-func on_filter_changed():
+func on_filter_changed(song_id_to_select: String = ""):
 	last_filter = filter_settings.filter_mode
 	if filter_settings.filter_mode == "folders":
 		var path = UserSettings.user_settings.last_folder_path.duplicate()
@@ -216,7 +216,10 @@ func on_filter_changed():
 	else:
 		emit_signal("hide_no_folder_label")
 		if songs.size() > 0:
-			set_songs(songs, null, null, true)
+			var s = null
+			if not song_id_to_select.is_empty():
+				s = song_id_to_select
+			set_songs(songs, s, null, true)
 #				hard_arrange_all()
 		
 func _on_dummy_sighted(song: HBSong):

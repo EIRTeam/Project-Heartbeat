@@ -14,6 +14,7 @@ offset_right = -1472.0
 offset_bottom = -966.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 6
 theme = ExtResource("1_0vw1p")
 theme_type_variation = &"DifficultyTag"
 script = ExtResource("1_fh8u7")
