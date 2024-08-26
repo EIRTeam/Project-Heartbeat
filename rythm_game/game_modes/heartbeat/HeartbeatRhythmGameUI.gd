@@ -172,8 +172,6 @@ func _on_song_set(song: HBSong, difficulty: String, assets: SongAssetLoader.Asse
 		modifier_instance._init_plugin()
 		modifier_instance._pre_game(song, game)
 		modifiers_string.append(modifier_instance.get_modifier_list_name())
-	if is_replay_playback:
-		modifiers_string.push_back(tr("Replay"))
 	get_tree().call_group(DIFFICULTY_LABEL_GROUP, "set_modifiers_name_list", modifiers_string)
 	get_tree().call_group(SKIP_INTRO_INDICATOR_GROUP, "hide")
 	_show_intro_skip(song)

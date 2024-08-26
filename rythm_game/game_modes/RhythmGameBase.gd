@@ -119,22 +119,6 @@ var game_mode: int = GAME_MODE.NORMAL
 
 var last_frame_time_usec := 0
 
-var _record_replay := false
-var _record_path := ""
-var _replay_data: HBReplayWriter
-func start_recording_replay(path: String):
-	_record_path = path
-	_record_replay = true
-	_replay_data = HBReplayWriter.new()
-	game_input_manager.replay_data = _replay_data
-	
-func start_replay_playback(replay_reader: HBReplayReader):
-	if game_input_manager:
-		game_input_manager.queue_free()
-	game_input_manager = HeartbeatInputManagerReplay.new()
-	game_input_manager.replay_reader = replay_reader
-	set_game_input_manager(game_input_manager)
-
 func _init():
 	name = "RhythmGameBase"
 
@@ -705,9 +689,6 @@ func _on_game_finished():
 				_finished = true
 			else:
 				_prevent_finishing = false
-
-func get_replay() -> HBReplayWriter:
-	return _replay_data
 
 func get_note_scale():
 	return UserSettings.user_settings.note_size * ((playing_field_size_length / BASE_SIZE.length()) * 0.95)

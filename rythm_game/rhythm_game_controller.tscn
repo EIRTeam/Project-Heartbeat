@@ -202,6 +202,7 @@ auto_translate_mode = 2
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 14.0
+auto_translate = false
 text = "asdsadsad"
 
 [node name="VHS" type="Panel" parent="."]

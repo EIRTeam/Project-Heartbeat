@@ -25,11 +25,9 @@ var modifier_buttons = {}
 var background_image
 
 const LEADERBOARD_TAB = preload("res://menus/new_leaderboard_control/LeaderboardViewTab.tscn")
-const REPLAYS_TAB = preload("res://menus/pregame_screen/PreGameReplaysTab.tscn")
 
-@onready var leaderboard_tab_normal = LEADERBOARD_TAB.instantiate()
-@onready var leaderboard_tab_modifiers = LEADERBOARD_TAB.instantiate()
-@onready var replays_tab: HBPreGameReplaysTab = REPLAYS_TAB.instantiate()
+var leaderboard_tab_normal = LEADERBOARD_TAB.instantiate()
+var leaderboard_tab_modifiers = LEADERBOARD_TAB.instantiate()
 
 @onready var delete_song_media_popup := get_node("%DeleteSongMediaPopup")
 
@@ -40,7 +38,6 @@ func _ready():
 	var pregame_start_tab = preload("res://menus/pregame_screen/PregameStartTab.tscn").instantiate()
 	
 	tabbed_container.add_tab("Song", tr("Song"), pregame_start_tab)
-	tabbed_container.add_tab("Replays", tr("Replays"), replays_tab)
 	
 	button_container = pregame_start_tab.button_container
 	modifier_button_container = pregame_start_tab.modifier_button_container
@@ -68,7 +65,6 @@ func _ready():
 	pregame_start_tab.start_practice_button.connect("pressed", Callable(self, "_on_StartPractice_pressed"))
 	pregame_start_tab.back_button.connect("pressed", Callable(self, "_on_BackButton_pressed"))
 	pregame_start_tab.back_button.set_meta("sfx", HBGame.menu_back_sfx)
-	replays_tab.replay_selected.connect(self._on_replay_selected)
 
 var current_assets: SongAssetLoader.AssetLoadToken
 var variant_select: Control
@@ -123,8 +119,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	
 	leaderboard_tab_normal.song = current_song
 	leaderboard_tab_normal.difficulty = current_difficulty
-	
-	replays_tab.song = current_song
 	
 	leaderboard_tab_modifiers.song = current_song
 	leaderboard_tab_modifiers.difficulty = current_difficulty
@@ -326,31 +320,6 @@ func _on_open_leaderboard_pressed():
 	if current_song is HBPPDSong:
 		song_ugc_type = "ppd"
 	OS.shell_open("https://ph.eirteam.moe/leaderboard/%s/%s/%s/1" % [song_ugc_type, str(current_song.ugc_id), current_difficulty])
-
-func _on_replay_selected(replay: HBReplayPackage):
-	var replay_game_info := replay.replay_info.game_info.clone()
-	var song_id := replay_game_info.song_id as String
-	if song_id != current_song.id:
-		return
-	var song := SongLoader.songs[song_id] as HBSong
-	var selected_variant = replay_game_info.variant
-	if selected_variant != -1 and selected_variant >= song.song_variants.size():
-		# Invalid variant selected, get rid of it
-		selected_variant = -1
-	# TODO: Hash checks
-	if not current_song.is_cached(selected_variant):
-		MouseTrap.cache_song_overlay.show_download_prompt(current_song, selected_variant, true)
-		return
-	replay_game_info.variant = selected_variant
-	
-	var new_scene = preload("res://menus/LoadingScreen.tscn")
-	var scene = new_scene.instantiate()
-	get_tree().current_scene.queue_free()
-	get_tree().root.add_child(scene)
-	get_tree().current_scene = scene
-	emit_signal("begin_loading")
-	var replay_reader := replay.replay_reader
-	scene.load_song_replay(replay_reader, replay_game_info, current_assets)
 
 func _on_StartPractice_pressed():
 	var selected_variant = -1

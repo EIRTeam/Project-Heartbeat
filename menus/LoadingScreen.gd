@@ -3,7 +3,6 @@ extends Control
 var current_diff
 var game_info: HBGameInfo
 var is_loading_practice_mode = false
-var is_loading_replay_mode := false
 @onready var title_label = get_node("LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer/TitleLabel")
 @onready var meta_label = get_node("LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer/MetaLabel")
 @onready var loadingu_label = get_node("LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer2/LoadinguLabel")
@@ -22,8 +21,6 @@ const DEFAULT_BG = preload("res://graphics/predarkenedbg.png")
 @onready var min_load_time_timer := Timer.new()
 var skin_downloading_item := 0
 var ugc_skin_to_use: HBUISkin
-var replay_reader: HBReplayReader
-
 func _ready():
 	add_child(appear_tween)
 	add_child(min_load_time_timer)
@@ -35,7 +32,6 @@ func _ready():
 	epilepsy_warning.hide()
 	chart_features_display.hide()
 	disappear_tween.connect("tween_all_completed", Callable(self, "load_into_game"))
-
 func show_epilepsy_warning():
 	epilepsy_warning.show()
 	epilepsy_warning_tween.interpolate_property(epilepsy_warning, "scale:y", 0.2, 1.0, 0.5, Threen.TRANS_BOUNCE, Threen.EASE_OUT)
@@ -60,11 +56,6 @@ func _display_asset_graphics(assets: SongAssetLoader.AssetLoadToken):
 			album_cover.material = preview.get_material()
 	else:
 		album_cover.texture = DEFAULT_PREVIEW_TEXTURE
-	
-func load_song_replay(replay: HBReplayReader, new_game_info: HBGameInfo, assets: SongAssetLoader.AssetLoadToken):
-	is_loading_replay_mode = true
-	replay_reader = replay
-	load_song(new_game_info, false, assets)
 	
 func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoader.AssetLoadToken):
 	game_info = new_game_info
@@ -207,10 +198,7 @@ func load_into_game():
 	get_tree().current_scene = scene
 	
 	scene.skin_override = ugc_skin_to_use
-	if is_loading_replay_mode:
-		scene.start_replay_playback_session(replay_reader, game_info, current_assets)
-	else:
-		scene.start_session(game_info, current_assets)
+	scene.start_session(game_info, current_assets)
 	
 var visible_chars := 0.0
 	
