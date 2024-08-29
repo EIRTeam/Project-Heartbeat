@@ -35,10 +35,11 @@ func _on_request_completed(result, response_code, headers, body):
 				news_items.append(item)
 				if news_items.size() == 3:
 					break
+		if not is_inside_tree():
+			await tree_entered
+			await get_tree().process_frame
 		for item in news_items:
-			if not is_inside_tree():
-				await tree_entered
-			var button = NEWS_ITEM.instantiate()
+			var button: Node = NEWS_ITEM.instantiate()
 			news_container.add_child(button)
 			var date_time = Time.get_datetime_dict_from_unix_time(item.date)
 			button.date_label.text = "%d-%d-%d" % [date_time.day, date_time.month, date_time.year]
