@@ -93,6 +93,7 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 	if result == OK and response_code == 200:
 		texture_rect.texture = HBUtils.array2texture(body)
 		$TextureRect.texture = texture_rect.texture
+		request = null
 func update_author_label():
 	var pers = data.owner.persona_name
 	author_label.text = pers
