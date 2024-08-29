@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://b4rr5jg5duobg"]
+[gd_scene load_steps=17 format=3 uid="uid://b4rr5jg5duobg"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="3"]
@@ -7,8 +7,10 @@
 [ext_resource type="Script" path="res://menus/workshop_browser/WorkshopItemDetailView.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://6phu22pv2pdj" path="res://graphics/icons/5-star.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://7g6fr4u55qd8" path="res://graphics/icons/0-star.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://d0he8sopusigy" path="res://graphics/icons/plus-circle.svg" id="7_dr1f8"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="9"]
+[ext_resource type="Texture2D" uid="uid://b0a6o3j43i3uf" path="res://graphics/icons/minus-circle.svg" id="9_85hbg"]
 [ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="9_jse5m"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="10"]
 [ext_resource type="FontFile" uid="uid://k13xkyrstrw6" path="res://fonts/orbitron-bold.otf" id="10_cnllk"]
@@ -139,11 +141,13 @@ script = ExtResource("4")
 [node name="SubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
 layout_mode = 2
 text = "Subscribe"
+icon = ExtResource("7_dr1f8")
 script = ExtResource("3")
 
 [node name="UnsubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
 layout_mode = 2
 text = "Unsubscribe"
+icon = ExtResource("9_85hbg")
 script = ExtResource("3")
 
 [node name="ShowInSongListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
@@ -205,6 +209,7 @@ action_name = "gui_cancel"
 text = "Back"
 
 [node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource("10")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0

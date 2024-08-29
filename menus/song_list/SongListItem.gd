@@ -26,6 +26,7 @@ const DIFFICULTY_TAG: PackedScene = preload("res://menus/song_list/DifficultyTag
 @onready var percentage_label: Label = get_node("%PercentageLabel")
 @onready var album_art_texture: TextureRect = get_node("%AlbumArtTexture")
 @onready var unsubscribe_button_container: Control = get_node("%UnsubscribeButtonContainer")
+@onready var unsubscribe_button_margin_container: Control = get_node("%UnsubscribeButtonMarginContainer")
 @onready var unsubscribe_button: Button = get_node("%UnsubscribeButton")
 
 var song_update_queued := false
@@ -84,10 +85,10 @@ func _song_update():
 			stars_string = "%d" % [max_stars]
 
 	if not song.comes_from_ugc():
-		if unsubscribe_button_container.has_meta(&"animated_deployed_visibility"):
-			unsubscribe_button_container.remove_meta(&"animated_deployed_visibility")
+		if unsubscribe_button_margin_container.has_meta(&"animated_deployed_visibility"):
+			unsubscribe_button_margin_container.remove_meta(&"animated_deployed_visibility")
 	else:
-		unsubscribe_button_container.set_meta(&"animated_deployed_visibility", true)
+		unsubscribe_button_margin_container.set_meta(&"animated_deployed_visibility", true)
 	var token := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.PREVIEW])
 	await token.assets_loaded
 	album_art_texture.texture = token.get_asset(SongAssetLoader.ASSET_TYPES.PREVIEW)
