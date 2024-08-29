@@ -35,6 +35,40 @@ func _init_ugc():
 # we get the item add time on startup, this is what this variable and method below do
 var meta_update_queries: Array[HBSteamUGCQuery]
 
+const PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
+
+var queued_automedia_items: Array[HBSteamUGCItem]
+
+func queue_subscription_with_media_download(item: HBSteamUGCItem):
+	if item.item_installed.is_connected(self._on_automedia_item_downloaded.bind(item)):
+		return
+	item.subscribe()
+	item.download(true)
+	var progress_thing = PROGRESS_THING.instantiate()
+	progress_thing.text = tr("Downloading {item_name}").format({
+		"item_name": item.title
+	})
+	DownloadProgress.add_notification(progress_thing, true)
+	progress_thing.type = HBDownloadProgressThing.TYPE.NORMAL
+	progress_thing.spinning = true
+	item.set_meta("progress_thing", progress_thing)
+	item.item_installed.connect(self._on_automedia_item_downloaded.bind(item), CONNECT_ONE_SHOT | CONNECT_DEFERRED)
+	queued_automedia_items.push_back(item)
+func _on_automedia_item_downloaded(_result: int, item: HBSteamUGCItem):
+	if item.has_meta("progress_thing"):
+		if item.get_meta("progress_thing") is Node:
+			DownloadProgress.remove_notification(item.get_meta("progress_thing"), true)
+		item.remove_meta("progress_thing")
+	var song: HBSong = SongLoader.songs.get("ugc_%d" % item.item_id, null)
+	if song:
+		if UserSettings.user_settings.workshop_download_audio_only:
+			if not UserSettings.user_settings.per_song_settings.has(song.id):
+				UserSettings.user_settings.per_song_settings[song.id] = HBPerSongSettings.new()
+			UserSettings.user_settings.per_song_settings[song.id].video_enabled = false
+			UserSettings.save_user_settings()
+		if not song.is_cached():
+			song.cache_data()
+
 func _make_user_song_ugc_request(page: int) -> void:
 	var query := HBSteamUGCQuery.create_query(SteamworksConstants.UGC_MATCHING_UGC_TYPE_ITEMS_READY_TO_USE) \
 		.where_user_subscribed() \

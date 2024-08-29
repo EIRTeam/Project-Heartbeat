@@ -96,22 +96,11 @@ func _on_ShowInSongListButton_pressed():
 
 func _on_SubscribeButton_pressed():
 	installing = true
-	item_data.subscribe()
+	var steam_ugc := PlatformService.service_provider.ugc_provider as SteamUGCService
+	steam_ugc.queue_subscription_with_media_download(item_data)
 	subscribe_button.hide()
 	unsubscribe_button.show()
 	buttons_container.select_button(unsubscribe_button.get_index())
-
-func _on_ugc_item_installed(item_type, item):
-	if installing and item and item.ugc_id == item_data.item_id:
-		if item is HBSong:
-			if UserSettings.user_settings.workshop_download_audio_only:
-				if not UserSettings.user_settings.per_song_settings.has(item.id):
-					UserSettings.user_settings.per_song_settings[item.id] = HBPerSongSettings.new()
-				UserSettings.user_settings.per_song_settings[item.id].video_enabled = false
-				UserSettings.save_user_settings()
-			if not item.is_cached():
-				item.cache_data()
-			show_in_song_list_button.show()
 
 
 func _on_UnsubscribeButton_pressed():
