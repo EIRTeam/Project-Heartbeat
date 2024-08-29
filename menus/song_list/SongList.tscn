@@ -395,6 +395,17 @@ visible = false
 layout_mode = 0
 text = "Enter the search term:"
 
+[node name="UnsubscribeWindow" parent="." instance=ExtResource("5")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+text = "Are you sure you want to unsubscribe from this item?"
+
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/CenterContainer/TextureRect/AnimationPlayer" method="stop"]
 [connection signal="hide_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="hide"]

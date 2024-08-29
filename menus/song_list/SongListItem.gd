@@ -25,10 +25,13 @@ const DIFFICULTY_TAG: PackedScene = preload("res://menus/song_list/DifficultyTag
 @onready var score_label: Label = get_node("%ScoreLabel")
 @onready var percentage_label: Label = get_node("%PercentageLabel")
 @onready var album_art_texture: TextureRect = get_node("%AlbumArtTexture")
+@onready var unsubscribe_button_container: Control = get_node("%UnsubscribeButtonContainer")
+@onready var unsubscribe_button: Button = get_node("%UnsubscribeButton")
 
 var song_update_queued := false
 
 signal difficulty_selected(song: HBSong, difficulty: String)
+signal unsubscribe_requested(song: HBSong)
 
 func _queue_song_update():
 	if not song_update_queued:
@@ -80,10 +83,15 @@ func _song_update():
 		else:
 			stars_string = "%d" % [max_stars]
 
+	if not song.comes_from_ugc():
+		if unsubscribe_button_container.has_meta(&"animated_deployed_visibility"):
+			unsubscribe_button_container.remove_meta(&"animated_deployed_visibility")
+	else:
+		unsubscribe_button_container.set_meta(&"animated_deployed_visibility", true)
 	var token := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.PREVIEW])
 	await token.assets_loaded
 	album_art_texture.texture = token.get_asset(SongAssetLoader.ASSET_TYPES.PREVIEW)
-
+	
 func update_scale(to: Vector2, no_animation=false):
 	if not disable_scaling:
 		super.update_scale(to, no_animation)
@@ -98,12 +106,17 @@ func _ready():
 	button.pressed.connect(pressed.emit)
 	set_process_input(true)
 	interpolated_scale = NON_HOVERED_SCALE
-	difficulty_tag_container.focus_exited.connect(_on_focus_lost)
+	difficulty_tag_container.focus_exited.connect(_on_focus_lost, CONNECT_DEFERRED)
+	unsubscribe_button_container.focus_exited.connect(_on_focus_lost, CONNECT_DEFERRED)
+	unsubscribe_button.pressed.connect(_on_unsubscribe_requested_pressed)
 	
 	get_parent().sort_children.connect(
 		func(): 
 			set_deferred("scale", interpolated_scale)
 	)
+
+func _on_unsubscribe_requested_pressed():
+	unsubscribe_requested.emit(song)
 
 var disable_scaling := false
 
@@ -236,7 +249,8 @@ func _on_pressed():
 	set_process_input(true)
 
 func _on_focus_lost():
-	disable_scaling = false
-	stop_hover()
-	set_process_input(false)
-	animatable_container.animate(false)
+	if not get_viewport().gui_get_focus_owner() in [unsubscribe_button_container, difficulty_tag_container]:
+		disable_scaling = false
+		stop_hover()
+		set_process_input(false)
+		animatable_container.animate(false)

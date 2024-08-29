@@ -25,6 +25,7 @@ signal song_hovered(song)
 signal difficulty_selected(song, difficulty)
 signal show_no_folder_label
 signal hide_no_folder_label
+signal unsubscribe_requested(song: HBSong)
 
 var filtered_song_items = {}
 
@@ -89,6 +90,7 @@ func _create_song_item(song: HBSong):
 	item.pressed.connect(self._on_song_selected.bind(song, item))
 	item.ready.connect(item._become_visible)
 	item.difficulty_selected.connect(self._on_difficulty_selected)
+	item.unsubscribe_requested.connect(unsubscribe_requested.emit)
 	return item
 func update_folder_items():
 	if folder_stack.size() == 0:
@@ -311,6 +313,14 @@ func _on_random_pressed():
 		
 var current_filter_task: HBFilterSongsTask
 		
+func remove_song(song: HBSong):
+	var song_item: HBSongListItem = filtered_song_items.get(song, null)
+	if song_item:
+		var idx := song_item.get_index()
+		filtered_song_items.erase(song)
+		item_container.remove_child(song_item)
+		song_item.queue_free()
+		select_item(min(idx, item_container.get_child_count()-1))
 func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force_update=false):
 	songs = _songs
 

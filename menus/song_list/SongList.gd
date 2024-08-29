@@ -24,10 +24,13 @@ var pevent_pregame_screen = false
 @onready var star_filter_container: Control = get_node("%StarFilterPanelContainer")
 @onready var note_usage_filter_container: Control = get_node("%NoteUsageFilterPanelContainer")
 @onready var note_usage_filter_texture_rect: TextureRect = get_node("%NoteUsageFilterTextureRect")
+@onready var unsubscribe_window: HBConfirmationWindow = get_node("%UnsubscribeWindow")
 
 var filter_settings: HBSongSortFilterSettings = UserSettings.user_settings.sort_filter_settings
 
 var force_next_song_update = false
+var item_to_unsubscribe: HBSteamUGCItem
+var song_to_unsubscribe: HBSong
 
 var allowed_sort_by = {
 	"title": tr("Title"),
@@ -156,14 +159,31 @@ func _on_menu_exit(force_hard_transition = false):
 		"state": "On main menu"
 	})
 
+func _on_unsubscribe_requested(song: HBSong):
+	item_to_unsubscribe = HBSteamUGCItem.from_id(song.ugc_id)
+	song_to_unsubscribe = song
+	unsubscribe_window.popup_centered()
+
+func _on_unsubscribe_accepted():
+	if item_to_unsubscribe:
+		item_to_unsubscribe.unsubscribe()
+		SongLoader.songs.erase(song_to_unsubscribe.id)
+		song_container.remove_song(song_to_unsubscribe)
+		update_songs()
+		song_container.grab_focus()
+		item_to_unsubscribe = null
+		song_to_unsubscribe = null
 func _ready():
 	super._ready()
 	song_container.connect("song_hovered", Callable(self, "_on_song_hovered"))
 	song_container.connect("hover_nonsong", Callable(self, "_on_non_song_hovered"))
 	song_container.connect("difficulty_selected", Callable(self, "_on_difficulty_selected"))
 	song_container.connect("updated_folders", Callable(self, "_on_folder_path_updated"))
+	song_container.unsubscribe_requested.connect(_on_unsubscribe_requested)
 	$PPDAudioBrowseWindow.connect("accept", Callable(self, "_on_PPDAudioBrowseWindow_accept"))
 	$PPDAudioBrowseWindow.connect("cancel", Callable(song_container, "grab_focus"))
+	unsubscribe_window.cancel.connect(song_container.grab_focus)
+	unsubscribe_window.accept.connect(_on_unsubscribe_accepted)
 
 	folder_manager.connect("closed", Callable(self, "_on_folder_manager_closed"))
 	folder_manager.connect("folder_selected", Callable(self, "_on_folder_selected"))
