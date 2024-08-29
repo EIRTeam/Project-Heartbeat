@@ -197,7 +197,7 @@ func stop_hover(no_animation=false):
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("gui_cancel"):
-		if difficulty_tag_container.has_focus():
+		if difficulty_tag_container.has_focus() or unsubscribe_button_container.has_focus():
 			# terrible horrible not very good HACK
 			get_parent().get_parent().grab_focus()
 			get_viewport().set_input_as_handled()
