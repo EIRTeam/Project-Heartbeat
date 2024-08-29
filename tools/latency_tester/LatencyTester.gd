@@ -1,13 +1,13 @@
 extends HBMenu
 
 @onready var offset_label = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/OffsetLabel")
-@onready var rhythm_game = get_node("MarginContainer/VBoxContainer/EmbeddedRhythmGame")
+@onready var rhythm_game = get_node("MarginContainer/VBoxContainer/AspectRatioContainer/EmbeddedRhythmGame")
 @onready var tutorial_popup = get_node("TutorialPopup")
 @onready var substract_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/SubstractButton")
 @onready var add_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/AddButton")
 @onready var next_test_button = get_node("MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/ChangeTestButton")
-@onready var add_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction2")
-@onready var substract_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction")
+@onready var add_button_prompt = get_node("%AddButtonPrompt")
+@onready var substract_button_prompt = get_node("%SubtractButtonPrompt")
 
 var offset := 0
 var player: ShinobuSoundPlayer
@@ -38,7 +38,8 @@ signal resume_background_player
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
-	
+	var sp := get_window()
+
 	UserSettings.enable_menu_fps_limits = false
 	
 	emit_signal("pause_background_player")
@@ -182,4 +183,3 @@ func _on_stats_changed():
 		if rhythm_game.stats_passed_notes > 0:
 			offset = rhythm_game.stats_latency_sum / float(rhythm_game.stats_passed_notes)
 			update_latency()
-

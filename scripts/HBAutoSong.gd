@@ -28,6 +28,12 @@ func _init(_pattern: Dictionary, _audio_path: String, _loudness: float, _offset:
 func generate_chart():
 	chart = HBChart.new()
 	
+
+	if timing_changes.size() == 0:
+		var event_layer := chart.layers.size()-1
+		var timing_change := HBTimingChange.new()
+		chart.layers[event_layer].timing_points.push_back(timing_change)
+		timing_changes.push_back(timing_change)
 	for i in range(pattern.repeat):
 		for j in pattern.layers.size():
 			var layer = pattern.layers[j]
@@ -36,6 +42,7 @@ func generate_chart():
 			for point in layer.timing_points:
 				point = HBTimingPoint.deserialize(point)
 				point.time = offset + (pattern.spacing * i) + (point.time * i)
+				point.position = Vector2(1920, 1080) * 0.5
 				
 				timing_points.append(point)
 			

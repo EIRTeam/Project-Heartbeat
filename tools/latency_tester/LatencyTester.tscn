@@ -1,12 +1,12 @@
 [gd_scene load_steps=13 format=3 uid="uid://bsphtr4kd76lx"]
 
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="1"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://bg1cmxm05pmwc" path="res://graphics/icons/icon_add.svg" id="4"]
 [ext_resource type="Script" path="res://tools/latency_tester/LatencyTester.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://uxl3thfwaw25" path="res://graphics/icons/icon_substract.svg" id="7"]
-[ext_resource type="PackedScene" path="res://rythm_game/game_modes/heartbeat/EmbeddedRhythmGameHeartbeat.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://c6bkb7o6xrnja" path="res://rythm_game/game_modes/heartbeat/EmbeddedRhythmGameHeartbeat.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://fy47n0empoft" path="res://graphics/icons/undo-variant-small.svg" id="9"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="9_b72jn"]
 [ext_resource type="PackedScene" uid="uid://dc1uyttoq1v6c" path="res://menus/PromptButton.tscn" id="11"]
@@ -82,12 +82,17 @@ icon = ExtResource("9")
 script = ExtResource("2")
 
 [node name="ChangeTestButton" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11")]
-custom_minimum_size = Vector2(360, 48)
+custom_minimum_size = Vector2(360, 52)
 layout_mode = 2
 button_text = "Active test"
 action = "practice_set_waypoint"
 
-[node name="EmbeddedRhythmGame" parent="MarginContainer/VBoxContainer" instance=ExtResource("8")]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+ratio = 1.7778
+
+[node name="EmbeddedRhythmGame" parent="MarginContainer/VBoxContainer/AspectRatioContainer" instance=ExtResource("8")]
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -119,7 +124,8 @@ alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="InputGlyphRect2" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SubtractButtonPrompt" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 action_text = ""
 action_name = &"gui_left"
@@ -147,7 +153,8 @@ size_flags_vertical = 3
 icon = ExtResource("4")
 script = ExtResource("2")
 
-[node name="InputGlyphRect3" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="AddButtonPrompt" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 action_text = ""
 action_name = &"gui_right"
@@ -158,26 +165,34 @@ theme_override_constants/separation = 16
 alignment = 1
 
 [node name="ApplyButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11")]
-custom_minimum_size = Vector2(270, 48)
+custom_minimum_size = Vector2(270, 52)
 layout_mode = 2
 button_text = "Apply"
 action = "gui_accept"
 
 [node name="ResetButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11")]
-custom_minimum_size = Vector2(384, 48)
+custom_minimum_size = Vector2(383, 52)
 layout_mode = 2
 button_text = "Reset offset"
 action = "practice_go_to_waypoint"
 
 [node name="TutorialButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11")]
-custom_minimum_size = Vector2(304, 48)
+custom_minimum_size = Vector2(302, 52)
 layout_mode = 2
 button_text = "Tutorial"
 action = "contextual_option"
 
 [node name="TutorialPopup" parent="." instance=ExtResource("3")]
 process_mode = 3
-size = Vector2i(650, 212)
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 650.0
+offset_bottom = 212.0
+grow_horizontal = 1
+grow_vertical = 1
 theme = null
 has_cancel = false
 text = "(NT)asdas"
@@ -186,10 +201,11 @@ cancel_text = ""
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/ChangeTestButton" to="." method="_on_ChangeTestButton_pressed"]
-[connection signal="update_stats" from="MarginContainer/VBoxContainer/EmbeddedRhythmGame" to="." method="_on_stats_changed"]
+[connection signal="update_stats" from="MarginContainer/VBoxContainer/AspectRatioContainer/EmbeddedRhythmGame" to="." method="_on_stats_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/SubstractButton" to="." method="_on_SubstractButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/AddButton" to="." method="_on_AddButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ApplyButton" to="." method="_on_ApplyButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ResetButton" to="." method="_on_ResetButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/TutorialButton" to="." method="_on_TutorialButton_pressed"]
-[connection signal="popup_hide" from="TutorialPopup" to="." method="_on_TutorialPopup_hide"]
+
+[editable path="MarginContainer/VBoxContainer/AspectRatioContainer/EmbeddedRhythmGame"]

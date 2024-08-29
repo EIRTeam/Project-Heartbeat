@@ -17,6 +17,8 @@ func _init():
 	
 func play_song(song: HBSong, chart: HBChart):
 	rhythm_game.resume()
+	rhythm_game.current_song = song
+	rhythm_game.timing_changes = song.timing_changes.duplicate()
 	rhythm_game.set_chart(chart)
 	rhythm_game.set_process_input(true)
 	rhythm_game.game_input_manager.set_process_input(true)
@@ -55,16 +57,23 @@ func _ready():
 	rhythm_game.set_game_input_manager(HeartbeatInputManager.new())
 	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.set_process_input(false)
-
+	
 func _on_resized():
 	set_game_size()
 	rhythm_game._on_viewport_size_changed()
 
 func set_game_size():
 	rhythm_game.size = size
+	rhythm_game._on_viewport_size_changed()
+	if rhythm_game_ui.size.y != 0:
+		var ratio: float = rhythm_game_ui.size.x / rhythm_game_ui.size.y
+		var scale: float = (rhythm_game_ui.aspect_ratio_container.size.x / 1920.0)
+		if ratio > 16.0/9.0:
+			scale = (rhythm_game_ui.aspect_ratio_container.size.y / 1080.0)
+		rhythm_game_ui.game_layer_node.scale = Vector2.ONE * scale
 
 func restart():
-	rhythm_game.play_from_pos(_last_time)
+	rhythm_game.play_from_pos(0)
 	reset_stats()
 
 func reset_stats():
