@@ -198,6 +198,7 @@ text = "Don't ask me again"
 script = ExtResource("5")
 
 [node name="HBConfirmationWindow" parent="." instance=ExtResource("7")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0

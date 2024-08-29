@@ -7,4 +7,3 @@ var event_uid: int
 # List of actions triggered together with this event, use action to check for the specific one
 var actions = []
 var game_time := 0
-var replay_event: HBReplayEvent
