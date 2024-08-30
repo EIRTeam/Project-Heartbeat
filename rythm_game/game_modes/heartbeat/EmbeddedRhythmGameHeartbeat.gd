@@ -73,6 +73,7 @@ func set_game_size():
 		rhythm_game_ui.game_layer_node.scale = Vector2.ONE * scale
 
 func restart():
+	rhythm_game.restart()
 	rhythm_game.play_from_pos(0)
 	reset_stats()
 
