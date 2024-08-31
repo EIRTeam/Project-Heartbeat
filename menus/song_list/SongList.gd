@@ -305,6 +305,7 @@ func set_filter(filter_name, save=true, song_to_select: String = ""):
 		update_sort_label(UserSettings.user_settings.sort_filter_settings.sort_prop)
 	update_path_label()
 	song_container.on_filter_changed(song_to_select)
+	song_container.grab_focus()
 func update_path_label():
 	if UserSettings.user_settings.sort_filter_settings.filter_mode == "folders":
 		add_to_prompt.hide()
