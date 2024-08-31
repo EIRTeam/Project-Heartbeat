@@ -250,7 +250,9 @@ func _on_pressed():
 	set_process_input(true)
 
 func _on_focus_lost():
-	if not get_viewport().gui_get_focus_owner() in [unsubscribe_button_container, difficulty_tag_container]:
+	# Possibly the worst HACK in the whole codebase but hey, it works.
+	var is_selected_in_parent: bool = (get_parent().get_parent() as HBUniversalScrollList).get_selected_item() == self
+	if not get_viewport().gui_get_focus_owner() in [unsubscribe_button_container, difficulty_tag_container] and not is_selected_in_parent:
 		disable_scaling = false
 		stop_hover()
 		set_process_input(false)

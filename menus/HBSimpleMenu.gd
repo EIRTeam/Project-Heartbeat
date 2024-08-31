@@ -61,6 +61,8 @@ func _try_focus_neighbor(neighbor: NodePath) -> bool:
 			return false
 		if control.focus_mode != Control.FOCUS_ALL:
 			return false
+		if not control.is_visible_in_tree():
+			return false
 		control.grab_focus()
 		return true
 	return false
