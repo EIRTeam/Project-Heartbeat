@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://fbjt8b81ifx4"]
 
-[ext_resource type="Texture2D" uid="uid://drt3kp0xnlq7r" path="res://tools/icons/icon_back_options.svg" id="1"]
 [ext_resource type="Script" path="res://menus/options_menu/OptionRange.gd" id="2"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3"]
-[ext_resource type="Texture2D" uid="uid://duufc5ac5bdbc" path="res://tools/icons/icon_forward_options.svg" id="4"]
+[ext_resource type="Texture2D" uid="uid://dq7c1cw2ym5i7" path="res://graphics/icons/chevron_left.svg" id="3_3if5m"]
+[ext_resource type="Texture2D" uid="uid://blo6t16ak6r5i" path="res://graphics/icons/chevron_right.svg" id="4_0g6xl"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hgdi3"]
 
@@ -29,7 +29,11 @@ theme_override_styles/panel = SubResource("1")
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="OptionRange/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OptionRange/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextLabel" type="Label" parent="OptionRange/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("3")
@@ -39,34 +43,46 @@ vertical_alignment = 1
 
 [node name="Control" type="HBoxContainer" parent="OptionRange/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 10
 mouse_filter = 2
 alignment = 2
 
-[node name="Slider" type="HSlider" parent="OptionRange/HBoxContainer/Control"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(450, 0)
+[node name="HBoxContainer" type="HBoxContainer" parent="OptionRange/HBoxContainer/Control"]
 layout_mode = 2
 size_flags_horizontal = 10
-size_flags_vertical = 4
 
-[node name="TextureRect" type="TextureRect" parent="OptionRange/HBoxContainer/Control"]
+[node name="MinimumArrow" type="Button" parent="OptionRange/HBoxContainer/Control/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("1")
-stretch_mode = 5
+theme_override_colors/icon_pressed_color = Color(0.928576, 0.215011, 0.796427, 1)
+theme_override_colors/icon_hover_color = Color(0.969927, 0.539801, 0.864081, 1)
+icon = ExtResource("3_3if5m")
+flat = true
+icon_alignment = 1
 
-[node name="OptionLabel" type="Label" parent="OptionRange/HBoxContainer/Control"]
-custom_minimum_size = Vector2(135, 0)
+[node name="OptionLabel" type="Label" parent="OptionRange/HBoxContainer/Control/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 8
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("3")
-text = "(NT)Yes"
-horizontal_alignment = 1
+text = "-1300"
+horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="TextureRect2" type="TextureRect" parent="OptionRange/HBoxContainer/Control"]
+[node name="MaximumArrow" type="Button" parent="OptionRange/HBoxContainer/Control/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("4")
-stretch_mode = 5
+theme_override_colors/icon_pressed_color = Color(0.929412, 0.215686, 0.796078, 1)
+theme_override_colors/icon_hover_color = Color(0.968627, 0.541176, 0.862745, 1)
+icon = ExtResource("4_0g6xl")
+icon_alignment = 1
+
+[node name="Slider" type="HSlider" parent="OptionRange/HBoxContainer/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4

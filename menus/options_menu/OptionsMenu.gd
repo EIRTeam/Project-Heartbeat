@@ -46,7 +46,8 @@ var OPTIONS = {
 			"maximum": 300,
 			"step": 1,
 			"debounce_step": 10,
-			"postfix": " ms"
+			"postfix": " ms",
+			"show_slider": false
 		},
 		"show_latency": {
 			"name": tr("Show latency"),
@@ -103,7 +104,8 @@ var OPTIONS = {
 			"minimum": 1,
 			"maximum": 12,
 			"step": 1,
-			"postfix_callback": self._audio_buffer_postfix_callback
+			"postfix_callback": self._audio_buffer_postfix_callback,
+			"show_slider": false
 		},
 		"play_hit_sounds_only_when_hit": {
 			"name": tr("Play hit sounds only when a note is hit"),

@@ -78,6 +78,8 @@ func _set_section_data(val):
 						option_scene.percentage = option.percentage
 					if option.has("disabled_callback"):
 						option_scene.disabled_callback = option.disabled_callback
+					if option.has("show_slider"):
+						option_scene.show_slider = option.show_slider
 		if option_scene:
 			var sett_src = settings_source
 			if "value_source" in option:

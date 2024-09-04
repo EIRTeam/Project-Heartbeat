@@ -20,8 +20,8 @@ var move_debounce = MOVE_DEBOUNCE_T
 var value := 0.0: set = set_value
 signal changed(option)
 
-@onready var text_label = get_node("OptionRange/HBoxContainer/Label")
-@onready var option_label = get_node("OptionRange/HBoxContainer/Control/OptionLabel")
+@onready var text_label = get_node("%TextLabel")
+@onready var option_label: Label = get_node("%OptionLabel")
 @onready var slider: HSlider = get_node("%Slider")
 var hover_style
 var normal_style
@@ -32,9 +32,20 @@ var percentage = false
 
 var disabled := false
 var disabled_callback: Callable
+var show_slider: bool: set = set_show_slider
 
-@onready var minimum_arrow = get_node("OptionRange/HBoxContainer/Control/TextureRect")
-@onready var maximum_arrow = get_node("OptionRange/HBoxContainer/Control/TextureRect2")
+@onready var minimum_arrow: Button = get_node("%MinimumArrow")
+@onready var maximum_arrow: Button = get_node("%MaximumArrow")
+
+func decrease_pressed():
+	var new_val = value - step
+	set_value(snapped(clamp(new_val, minimum, maximum), step))
+	emit_signal("changed", value)
+
+func increase_pressed():
+	var new_val = value + step
+	set_value(snapped(clamp(new_val, minimum, maximum), step))
+	emit_signal("changed", value)
 
 func _init():
 	normal_style = StyleBoxEmpty.new()
@@ -66,24 +77,33 @@ func set_value(val):
 			option_label.text = str(value) + pf
 	minimum_arrow.modulate = Color.WHITE
 	maximum_arrow.modulate = Color.WHITE
+	maximum_arrow.disabled = false
+	minimum_arrow.disabled = false
 	if value == minimum:
 		minimum_arrow.modulate = Color.TRANSPARENT
+		minimum_arrow.disabled = true
 	if value == maximum:
 		maximum_arrow.modulate = Color.TRANSPARENT
+		maximum_arrow.disabled = true
 	slider.set_block_signals(true)
 	slider.min_value = minimum
 	slider.max_value = maximum
 	slider.step = step
 	slider.set_value_no_signal(value)
 	slider.set_block_signals(false)
-	minimum_arrow.hide()
-	maximum_arrow.hide()
+	
 func _ready():
 	focus_mode = Control.FOCUS_ALL
 	grab_focus()
 	stop_hover()
-	slider.value_changed.connect(self.set_value)
-	
+	slider.value_changed.connect(func(new_value: float):
+		set_value(new_value)
+		emit_signal("changed", value)
+	)
+	set_show_slider(show_slider)
+	minimum_arrow.pressed.connect(decrease_pressed)
+	maximum_arrow.pressed.connect(increase_pressed)
+
 func _process(delta):
 	if not Input.is_action_pressed("gui_left") and not Input.is_action_pressed("gui_right"):
 		set_process(false) # just in case
@@ -139,6 +159,13 @@ func _gui_input(event):
 			set_value(snapped(clamp(value+option_change, minimum, maximum), step))
 			emit_signal("changed", value)
 
+func set_show_slider(val: bool):
+	show_slider = val
+	if not is_inside_tree():
+		return
+	slider.visible = show_slider
+	minimum_arrow.visible = not show_slider
+	maximum_arrow.visible = not show_slider
 func update_disabled():
 	if disabled_callback:
 		disabled = disabled_callback.call()
