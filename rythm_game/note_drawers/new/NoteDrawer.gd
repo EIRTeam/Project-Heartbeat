@@ -94,7 +94,6 @@ func note_init():
 		play_appear_animation()
 
 func play_appear_animation():
-	note_target_graphics.scale = Vector2.ONE
 	if current_note_tween:
 		current_note_tween.kill()
 		current_note_tween = null
