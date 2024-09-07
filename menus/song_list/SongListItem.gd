@@ -28,6 +28,8 @@ const DIFFICULTY_TAG: PackedScene = preload("res://menus/song_list/DifficultyTag
 @onready var unsubscribe_button_container: Control = get_node("%UnsubscribeButtonContainer")
 @onready var unsubscribe_button_margin_container: Control = get_node("%UnsubscribeButtonMarginContainer")
 @onready var unsubscribe_button: Button = get_node("%UnsubscribeButton")
+# HACK...
+var had_selected_unsubscribe := false
 
 var song_update_queued := false
 
@@ -117,6 +119,7 @@ func _ready():
 	)
 
 func _on_unsubscribe_requested_pressed():
+	had_selected_unsubscribe = true
 	unsubscribe_requested.emit(song)
 
 var disable_scaling := false
@@ -188,6 +191,10 @@ func _become_visible():
 func hover(no_animation=false):
 	super.hover(no_animation)
 	%Button.add_theme_stylebox_override("normal", hover_style)
+	if had_selected_unsubscribe:
+		had_selected_unsubscribe = false
+		if unsubscribe_button.is_visible_in_tree(): 
+			unsubscribe_button_container.grab_focus()
 	
 func stop_hover(no_animation=false):
 	if disable_scaling:

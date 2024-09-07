@@ -142,12 +142,14 @@ stretch_mode = 5
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 alignment = 1
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="SongTitle" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/VBoxContainer/Control" instance=ExtResource("1")]
 unique_name_in_owner = true
@@ -190,15 +192,18 @@ theme_override_constants/separation = -5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="ArcadeTextureDifficulty" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 2
 
 [node name="ConsoleTextureDifficulty" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 2
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/AnimatableContainer/RatingDataContainer/VBoxContainer/HBoxContainer"]
