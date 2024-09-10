@@ -79,6 +79,7 @@ func _fade_in_done():
 	pause_menu_disabled = false
 func start_fade_in():
 #	video_player.hide()
+	video_player.paused = true
 	Shinobu.set_dsp_time(0)
 	UserSettings.enable_menu_fps_limits = false
 	$FadeIn.modulate.a = 1.0
@@ -409,7 +410,7 @@ func _on_PauseMenu_restarted():
 	set_process(true)
 	game.set_process(true)
 	game.editing = false
-	await get_tree().process_frame
+	$PauseMenu._on_resumed()
 	start_fade_in()
 
 func _on_RhythmGame_game_over():
