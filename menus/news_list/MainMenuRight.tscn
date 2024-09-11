@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cgkq7divjs4o6" path="res://graphics/icons/discord_main_join.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://58gmorfx1ujw" path="res://graphics/icons/twitter_main.svg" id="7"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="8"]
-[ext_resource type="StyleBox" uid="uid://bax05u7srvinw" path="res://styles/PanelStyleTransparentHoverAnimation.tres" id="8_f7pjj"]
+[ext_resource type="StyleBox" uid="uid://chtcd7ohnjt3f" path="res://styles/PanelStyleTransparentAlt.tres" id="8_lyhbe"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="10"]
 [ext_resource type="Texture2D" uid="uid://diw3qc73g27lv" path="res://graphics/icons/account_main.svg" id="11"]
 
@@ -143,7 +143,7 @@ layout_mode = 2
 [node name="Panel" type="HBPanelBlurEX" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = ExtResource("8_f7pjj")
+theme_override_styles/panel = ExtResource("8_lyhbe")
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/Panel"]
 layout_mode = 2

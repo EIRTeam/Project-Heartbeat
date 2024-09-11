@@ -1,9 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://6ew2y6gkcbj5"]
+[gd_scene load_steps=9 format=4 uid="uid://6ew2y6gkcbj5"]
 
-[ext_resource type="FontVariation" path="res://fonts/noto/NotoSans-Regular.tres" id="1"]
+[ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="1"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="2"]
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="3"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="4"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="4"]
 [ext_resource type="FontFile" uid="uid://bp300py43a3w8" path="res://fonts/orbitron-black-mono.otf" id="5"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
@@ -81,14 +81,12 @@ alignment = 1
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("2")
 text = "(NT)EIREXE"
 
 [node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = SubResource("3")
 text = "(NT)0000000"
 vertical_alignment = 1
@@ -99,7 +97,6 @@ layout_mode = 2
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = ExtResource("4")
 text = "(NT)COOL"
 vertical_alignment = 1

@@ -16,7 +16,8 @@ var section_data = {
 		"step": 1,
 		"debounce_step": 9,
 		"postfix": " ms",
-		"default_value": 0
+		"default_value": 0,
+		"show_slider": false
 	},
 	"volume": {
 		"name": tr("Song volume"),
