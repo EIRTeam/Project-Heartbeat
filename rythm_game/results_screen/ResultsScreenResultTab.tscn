@@ -73,6 +73,7 @@ theme_override_constants/separation = 15
 
 [node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("3")
 
 [node name="NoteHitTotalsContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2/Panel2" instance=ExtResource("5_l60sv")]
@@ -80,6 +81,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Panel3" type="HBPanelContainerBlurEX" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer2"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
