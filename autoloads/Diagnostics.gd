@@ -30,12 +30,14 @@ func set_autoplay(value):
 @onready var instance_id_spinbox = get_node("Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/InstanceID")
 @onready var property_name_line_edit = get_node("Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PropertyName")
 @onready var workshop_debug_text_edit: TextEdit = get_node("%WorkshopTextEdit")
+@onready var crash_button: Button = get_node("%CrashButton")
 
 var logging_enabled: bool = "--logging-enabled" in OS.get_cmdline_args()
 
 func _ready():
 	Log.connect("message_logged", Callable(self, "_on_message_logged"))
 	autoplay_checkbox.connect("toggled", Callable(self, "set_autoplay"))
+	crash_button.pressed.connect(OS.crash.bind("TEST CRASH!"))
 	$Window.hide()
 	fps_label.hide()
 	gamepad_visualizer.hide()
