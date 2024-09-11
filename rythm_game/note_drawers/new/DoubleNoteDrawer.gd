@@ -18,7 +18,7 @@ func set_is_multi_note(val):
 	
 func handles_input(event: InputEventHB) -> bool:
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
-	var is_input_in_range: bool = abs((event.game_time) - note_data.time * 1000) < game.judge.get_target_window_usec()
+	var is_input_in_range: bool = abs(event.game_time - note_data.time * 1000) < game.judge.get_target_window_usec()
 	return event.is_action_pressed(action) and is_input_in_range and not waiting_for_multi_judgement
 
 func process_input(event: InputEventHB):
