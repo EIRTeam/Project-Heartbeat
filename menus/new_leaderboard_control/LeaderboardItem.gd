@@ -1,4 +1,4 @@
-extends Panel
+extends PanelContainer
 class_name HBLeaderboardItem
 
 const style_even = preload("res://styles/ResultRatingStyleEven.tres")
@@ -14,8 +14,11 @@ func _ready():
 	set_values()
 
 func set_values():
+
 	if get_index() % 2 != 0:
 		add_theme_stylebox_override("panel", style_even)
+	if not entry:
+		return
 	percentage_label.text = "%s (%.2f%%)" % [HBUtils.thousands_sep(entry.game_info.result.score), entry.game_info.result.get_percentage()*100]
 	username_label.text = entry.user.member_name
 	rank_label.text = str(entry.rank)
