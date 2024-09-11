@@ -27,7 +27,8 @@ var PH_AUTHORS = {
 		"Albert Navarro (Reixart)": ["Background artwork (Going my way)"],
 		"Andrea Balaguer (Hikaru)": ["Background artwork (RedLine)"],
 		"David Revoy": ["Used background artwork (Hyperspeed out of Control, Music Play in the Floor, Dime Linda)"],
-		"Lucas Corral": ["Background artwork (Reprisal)"]
+		"Lucas Corral": ["Background artwork (Reprisal)"],
+		"RheaBee": ["Background artwork (Nostalgic Messenger)"]
 	},
 	"Localization": {
 		"Spanish": ["Álex Román Núñez (EIREXE)"],
@@ -40,7 +41,8 @@ var PH_AUTHORS = {
 	"Charting": {
 		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice", "Reprisal", "Confession", "Monochrome Stars"],
 		"Twoncity": ["Cloudy Sky 2019", "Blossoming Spell", "Connected", "Imademo"],
-		"Starbeat": ["Getaway"],
+		"Starbeat": ["Getaway", "The Nostalgic Messenger", "Versos Perversos"],
+		"Lino Bigatti": ["Versos Perversos"],
 		"Blizzin": ["Sands of Time", "RedLine", "Imademo", "Core creation"],
 		"Snail": ["ETERNAL"],
 		"BunBun": ["Dime Linda"]
@@ -74,6 +76,12 @@ var PH_AUTHORS = {
 		],
 		"Mixie": [
 			"Dime Linda"
+		],
+		"Versos Perversos": [
+			"Andrés Alguacil (Lil Bokeron)"
+		],
+		"CuZi Music": [
+			"The Nostalgic Messenger"
 		]
 	},
 	"Charting software": {
