@@ -32,7 +32,7 @@ var percentage = false
 
 var disabled := false
 var disabled_callback: Callable
-var show_slider: bool: set = set_show_slider
+var show_slider: bool = true: set = set_show_slider
 
 @onready var minimum_arrow: Button = get_node("%MinimumArrow")
 @onready var maximum_arrow: Button = get_node("%MaximumArrow")
