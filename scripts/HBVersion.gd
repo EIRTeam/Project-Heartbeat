@@ -4,11 +4,11 @@ extends Node
 class_name HBVersion
 
 const MAJOR = 0
-const MINOR = 18
+const MINOR = 19
 const PATCH = 0
 
 const status = "Early Access"
-const ver_name = "Project Heartbeat: Goth Girl Racing Department"
+const ver_name = "Project Heartbeat: Goth Girl GT3 RS"
 const VERSION_FILE_PATH := "res://version.json"
 
 static func get_version_string(with_line_breaks := false):
