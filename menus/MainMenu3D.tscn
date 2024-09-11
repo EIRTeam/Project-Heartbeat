@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://bsax0rf0shie"]
+[gd_scene load_steps=19 format=3 uid="uid://bsax0rf0shie"]
 
 [ext_resource type="Script" path="res://menus/MainMenu3D.gd" id="1"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="8"]
 [ext_resource type="PackedScene" uid="uid://s460eaf516lj" path="res://menus/MainMenuUserInfo.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://ddwcdis3ndvvm" path="res://menus/music_player/MainMenuMusicPlayer.tscn" id="10"]
-[ext_resource type="Texture2D" uid="uid://c7fnos4kf5v28" path="res://1653215817.png" id="10_awus5"]
 [ext_resource type="PackedScene" uid="uid://cqek6mlx05vhe" path="res://menus/LogoVisualizer.tscn" id="12"]
 
 [sub_resource type="Environment" id="Environment_i7ayv"]
@@ -200,4 +199,3 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("10_awus5")

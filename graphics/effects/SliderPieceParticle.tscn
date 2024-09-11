@@ -19,7 +19,6 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 modulate = Color(0.5, 0.5, 0.5, 1)
 material = SubResource("CanvasItemMaterial_6kaqy")
 position = Vector2(831, 343)
-emitting = false
 amount = 2
 lifetime = 0.24
 one_shot = true
@@ -45,7 +44,6 @@ script = ExtResource("2_jhinx")
 [node name="GPUParticles2D" type="CPUParticles2D" parent="."]
 use_parent_material = true
 scale = Vector2(1, 0.5)
-emitting = false
 amount = 1
 lifetime = 0.35
 one_shot = true
