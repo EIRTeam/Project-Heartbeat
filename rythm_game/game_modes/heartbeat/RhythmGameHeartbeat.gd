@@ -47,13 +47,14 @@ class CSVTimingDump:
 		"multi_judgements",
 		"target_time_msec",
 		"game_time_usec",
+		"judgement_evaluation_time_usec",
 		"wrong"
 	]
 	func reset():
 		file = FileAccess.open("user://timing.csv", FileAccess.WRITE)
 		#final_judgement: int, judgements: Array, judgement_target_time: int, wrong: bool
 		file.store_line(",".join(FIELDS.map(func (a: String): return '"' + a + '"')))
-	func store_data(game_time_usec: int, final_judgement: int, judgements: Array, judgement_target_time: int, wrong: bool):
+	func store_data(game_time_usec: int, judgement_evaluation_time_usec: int, final_judgement: int, judgements: Array, judgement_target_time: int, wrong: bool):
 		var note_datas: Array = judgements.map(func (a) -> HBBaseNote: return a.note_data as HBBaseNote)
 		var multi_judgements: PackedStringArray = PackedStringArray(judgements.map(
 			func (a) -> String:
@@ -72,6 +73,7 @@ class CSVTimingDump:
 				'"' + (",".join(multi_judgements)) + '"',
 				str(judgement_target_time),
 				str(game_time_usec),
+				str(judgement_evaluation_time_usec),
 				"1" if wrong else "0"
 			]
 		)
@@ -275,7 +277,8 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 	super._on_notes_judged_new(final_judgement, judgements, judgement_target_time, wrong)
 	
 	if csv_timing_dump_enabled:
-		csv_timing_dump.store_data(time_usec, final_judgement, judgements, judgement_target_time, wrong)
+		if game_input_manager.current_ev:
+			csv_timing_dump.store_data(time_usec, game_input_manager.current_ev.game_time, final_judgement, judgements, judgement_target_time, wrong)
 	
 	if health_system_enabled:
 		if final_judgement < HBJudge.JUDGE_RATINGS.FINE or wrong:
