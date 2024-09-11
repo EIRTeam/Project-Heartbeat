@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://s8yk8vo62t7j"]
+
+[ext_resource type="FontFile" uid="uid://bqlcipyd4rtnp" path="res://fonts/UbuntuMono.ttf" id="1_7n484"]
+
+[resource]
+base_font = ExtResource("1_7n484")
