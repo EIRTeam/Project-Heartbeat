@@ -11,15 +11,11 @@ const RESET_SCENE = preload("res://menus/options_menu/OptionControlsSectionReset
 @onready var category_container = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/CategoryContainer")
 var action_being_bound = ""
 @onready var action_bind_debounce := Timer.new()
+@onready var action_bind_cancel_timer := Timer.new()
 
 func _unhandled_input(event):
 	if visible:
 		if action_being_bound and action_bind_debounce.is_stopped():
-			if event.is_action_pressed("gui_cancel"):
-				action_being_bound = ""
-				bind_popup.hide()
-				scroll_container.grab_focus()
-				return
 			if not event.is_pressed() or event.is_echo():
 				return
 			if event is InputEventJoypadMotion and action_being_bound in UserSettings.DISABLE_ANALOG_FOR_ACTION:
@@ -63,6 +59,16 @@ func _ready():
 	add_child(action_bind_debounce)
 	action_bind_debounce.one_shot = true
 	action_bind_debounce.wait_time = 0.15
+	
+	add_child(action_bind_cancel_timer)
+	action_bind_cancel_timer.wait_time = 3.0
+	action_bind_cancel_timer.one_shot = true
+	action_bind_cancel_timer.timeout.connect(
+	func():
+		action_being_bound = ""
+		bind_popup.hide()
+		scroll_container.grab_focus()
+	)
 func populate():
 	for child in category_container.get_children():
 		category_container.remove_child(child)
@@ -105,6 +111,7 @@ func show_category(category: String, prevent_selection=false):
 		scroll_container.select_item(0)
 func _on_action_add_press(action_name):
 	# To prevent double presses from being picked up
+	action_bind_cancel_timer.start()
 	action_bind_debounce.start()
 	bind_popup.show()
 	action_being_bound = action_name

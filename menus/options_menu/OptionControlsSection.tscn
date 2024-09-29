@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://b654vfqndxbc5"]
+[gd_scene load_steps=7 format=3 uid="uid://b654vfqndxbc5"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="2"]
@@ -80,19 +80,25 @@ offset_right = 298.5
 offset_bottom = 23.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = ExtResource("3")
 
-[node name="Panel" type="Panel" parent="Popup"]
+[node name="MarginContainer" type="MarginContainer" parent="Popup"]
 layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
-[node name="Label" type="Label" parent="Popup/Panel"]
+[node name="Label" type="Label" parent="Popup/MarginContainer"]
 layout_mode = 2
-offset_right = 585.0
-offset_bottom = 39.0
-text = "Press the Key/Button/Axis to bind"
+text = "Press the Key/Button/Axis to bind
+
+Wait to cancel..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ResetConfirmationWindow" parent="." instance=ExtResource("5")]
+visible = false
 layout_mode = 1
 offset_left = -325.0
 offset_right = 325.0
