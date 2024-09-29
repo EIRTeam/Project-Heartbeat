@@ -37,6 +37,7 @@ func show_panel():
 	downloader_panel.popup_centered_clamped(Vector2(587, 82))
 
 func download_from_url():
+	wait_dialog_progress_bar.hide()
 	var url = url_line_edit.text.strip_edges()
 	if not url.begins_with("https://projectdxxx.me/score/index/id/"):
 
@@ -139,6 +140,7 @@ func _update_progress(step: DirectYTDLDownloadToken.DirectYTLDownloadStep, progr
 	wait_dialog_progress_bar.max_value = 1.0
 	wait_dialog_progress_bar.value = progress
 	wait_dialog_label.text = text
+	wait_dialog_progress_bar.show()
 func _on_zip_download_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	wait_dialog.hide()
 	if result == OK and response_code == 200:
@@ -194,7 +196,6 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 		wait_dialog.popup_centered()
 		var dl_token := perform_ytdl_direct_download(HBUtils.join_path(songs_folder, chart_name))
 		await dl_token.finished
-		print("DONE!", dl_token.error_code)
 		if dl_token.error_code != OK:
 			wait_dialog.hide()
 			var error_message := tr("Error downloading video/audio with exit code {exit_code}, ask on the discord for troubleshooting and give them this log!".format({"exit_code": dl_token.error_code}))
@@ -206,6 +207,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 			
 		var thumbnail_downloaded = false
 		if current_thumbnail_url:
+			wait_dialog_progress_bar.hide()
 			wait_dialog_label.text = tr("Downloading video thumbnail...")
 			wait_dialog.popup_centered()
 			await get_tree().process_frame

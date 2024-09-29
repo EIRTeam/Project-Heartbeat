@@ -136,7 +136,7 @@ text = "Download and install..."
 
 [node name="WaitDialog" type="Window" parent="PPDDownloader"]
 position = Vector2i(0, 32)
-size = Vector2i(218, 184)
+size = Vector2i(218, 89)
 visible = false
 wrap_controls = true
 transient = true
