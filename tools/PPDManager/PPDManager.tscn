@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://f1jy7yowfayo"]
+[gd_scene load_steps=13 format=3 uid="uid://f1jy7yowfayo"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
@@ -11,6 +11,11 @@
 [ext_resource type="Script" path="res://tools/PPDManager/PPDImporter.gd" id="8"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_03mkd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7v7p"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="PPDManager" type="Control"]
 layout_mode = 3
@@ -130,22 +135,69 @@ layout_mode = 2
 text = "Download and install..."
 
 [node name="WaitDialog" type="Window" parent="PPDDownloader"]
-size = Vector2i(188, 100)
+position = Vector2i(0, 32)
+size = Vector2i(218, 184)
 visible = false
 wrap_controls = true
 transient = true
 exclusive = true
 script = ExtResource("4_oui4o")
 
-[node name="Label" type="Label" parent="PPDDownloader/WaitDialog"]
+[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/WaitDialog"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/WaitDialog/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PPDDownloader/WaitDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Downloading, please wait..."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="PPDDownloader/WaitDialog/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_03mkd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_d7v7p")
+value = 28.32
+show_percentage = false
+
+[node name="YTDLErrorDialog" type="AcceptDialog" parent="PPDDownloader"]
+unique_name_in_owner = true
+position = Vector2i(0, 32)
+size = Vector2i(516, 240)
+
+[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/YTDLErrorDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/YTDLErrorDialog/MarginContainer"]
+layout_mode = 2
+
+[node name="YTDLErrorLabel" type="Label" parent="PPDDownloader/YTDLErrorDialog/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="YTDLErrorTextEdit" type="TextEdit" parent="PPDDownloader/YTDLErrorDialog/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 150)
+layout_mode = 2
 
 [node name="PPDManagerPopup" parent="." instance=ExtResource("6")]
 position = Vector2i(0, 32)

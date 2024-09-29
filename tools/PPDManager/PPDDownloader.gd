@@ -2,9 +2,16 @@ extends Control
 
 @onready var url_line_edit = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/URLLineEdit")
 @onready var wait_dialog = get_node("WaitDialog")
-@onready var wait_dialog_label = get_node("WaitDialog/Label")
+@onready var wait_dialog_label: Label = get_node("WaitDialog/MarginContainer/VBoxContainer/Label")
+@onready var wait_dialog_progress_bar: ProgressBar = get_node("WaitDialog/MarginContainer/VBoxContainer/ProgressBar")
 @onready var download_button = get_node("Panel/MarginContainer/VBoxContainer/Button")
 @onready var downloader_panel = get_node("Panel")
+
+
+@onready var ytdl_error_label: Label = %YTDLErrorLabel
+@onready var ytdl_error_text_edit: TextEdit = %YTDLErrorTextEdit
+@onready var ytdl_error_window: Window = %YTDLErrorDialog
+
 var request = HTTPRequest.new()
 var download_request = HTTPRequest.new()
 var GDUnzip = preload("gdunzip.gd")
@@ -33,15 +40,15 @@ func download_from_url():
 	var url = url_line_edit.text.strip_edges()
 	if not url.begins_with("https://projectdxxx.me/score/index/id/"):
 
-		show_error("Invalid URL entered")
+		show_error(tr("Invalid URL entered"))
 		return
 	var s = url.split("id/")
 	if s.size() <= 1:
-		show_error("Invalid URL entered")
+		show_error(tr("Invalid URL entered"))
 		return
 	else:
 		current_ppd_id = s[1]
-	wait_dialog_label.text = "Downloading chart information, please wait..."
+	wait_dialog_label.text = tr("Downloading chart information, please wait...", &"Chart information download prompt in PPD downloader")
 	wait_dialog.popup_centered()
 	current_thumbnail_url = ""
 	request.request(url, [UA], HTTPClient.METHOD_GET)
@@ -103,6 +110,9 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 		
 		var proper_format_found = false
 		
+		if "__error" in video_info_json:
+			show_error(tr("Error downloading video for chart: {error_message}".format({"error_message": video_info_json.__error}), &"Failure to find a proper PPD chart video format"))
+			return
 		if "formats" in video_info_json:
 			if "thumbnail" in video_info_json:
 				current_thumbnail_url = video_info_json.thumbnail
@@ -112,14 +122,24 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 		
 		if found_yt_url and found_download_url and proper_format_found:
 			current_yt_url = yt_url
-			wait_dialog_label.text = "Downloading chart, please wait..."
+			wait_dialog_label.text = tr("Downloading chart, please wait...")
 			wait_dialog.popup_centered()
 			download_request.request("https://projectdxxx.me" + download_url, [UA])
 			
 	#request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray)
 
+func _update_progress(step: DirectYTDLDownloadToken.DirectYTLDownloadStep, progress: float):
+	var text := ""
+	match step:
+		DirectYTDLDownloadToken.DirectYTLDownloadStep.AUDIO:
+			text = tr("Downloading audio, please wait...")
+		DirectYTDLDownloadToken.DirectYTLDownloadStep.VIDEO:
+			text = tr("Downloading video, please wait...")
+	wait_dialog_progress_bar.min_value = 0.0
+	wait_dialog_progress_bar.max_value = 1.0
+	wait_dialog_progress_bar.value = progress
+	wait_dialog_label.text = text
 func _on_zip_download_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
-	print(result, response_code)
 	wait_dialog.hide()
 	if result == OK and response_code == 200:
 		wait_dialog_label.text = "Installing chart..."
@@ -146,13 +166,13 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 				
 		if not found_chart_data:
 			wait_dialog.hide()
-			show_error("Error installing chart: data.ini not found")
+			show_error(tr("Error installing chart: data.ini not found"))
 			return
 			
 		if DirAccess.dir_exists_absolute(HBUtils.join_path(songs_folder, chart_name)):
 			wait_dialog.hide()
 			print(HBUtils.join_path(songs_folder, chart_name))
-			show_error("Cannot install %s, a chart with that folder name already exists!" % [chart_name])
+			show_error(tr("Cannot install %s, a chart with that folder name already exists!") % [chart_name])
 			return
 		for f in zip.files:
 			var extraction_path = HBUtils.join_path(songs_folder, HBUtils.join_path(chart_name, f.split("/")[-1]))
@@ -170,20 +190,23 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 				else:
 					print("FAILED TO DECOMPRESS ", f)
 					
-		wait_dialog_label.text = "Downloading video..."
+		wait_dialog_label.text = tr("Downloading video...")
 		wait_dialog.popup_centered()
-		await get_tree().process_frame
 		var dl_token := perform_ytdl_direct_download(HBUtils.join_path(songs_folder, chart_name))
 		await dl_token.finished
+		print("DONE!", dl_token.error_code)
 		if dl_token.error_code != OK:
 			wait_dialog.hide()
-			show_error("Error downloading video, ask on the discord for troubleshooting")
+			var error_message := tr("Error downloading video/audio with exit code {exit_code}, ask on the discord for troubleshooting and give them this log!".format({"exit_code": dl_token.error_code}))
+			ytdl_error_label.text = error_message
+			ytdl_error_text_edit.text = dl_token.error_log
+			ytdl_error_window.popup_centered()
 			HBUtils.remove_recursive(HBUtils.join_path(songs_folder, chart_name))
 			return
 			
 		var thumbnail_downloaded = false
 		if current_thumbnail_url:
-			wait_dialog_label.text = "Downloading video thumbnail..."
+			wait_dialog_label.text = tr("Downloading video thumbnail...")
 			wait_dialog.popup_centered()
 			await get_tree().process_frame
 			var request = HTTPRequest.new()
@@ -200,7 +223,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 						thumbnail_downloaded = true
 				if not thumbnail_downloaded:
 					wait_dialog.hide()
-					show_error("Error downloading video thumbnail, ask on the discord for troubleshooting")
+					show_error(tr("Error downloading video thumbnail, ask on the discord for troubleshooting"))
 					HBUtils.remove_recursive(HBUtils.join_path(songs_folder, chart_name))
 					return
 			
@@ -221,7 +244,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 			song_ext.preview_image = "thumbnail.png"
 		song_ext.title = current_title
 		
-		wait_dialog_label.text = "Calculating audio normalization..."
+		wait_dialog_label.text = tr("Calculating audio normalization...")
 		wait_dialog.popup_centered()
 		await get_tree().process_frame
 		
@@ -236,19 +259,27 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 		ppd_ldr.set_ppd_youtube_url(song, current_yt_url)
 		SongLoader.songs[chart_name] = song
 		wait_dialog.hide()
-		show_error("Downloaded %s succesfully!" % [current_title])
+		show_error(tr("Downloaded {song_title} succesfully!".format({"song_title": current_title})))
 		#get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 	else:
-		show_error("Error downloading chart (%d, %d)" % [result, response_code])
+		show_error(tr("Error downloading chart ({result}, {response_code})".format({"result": result, "response_code": response_code})))
 
 class DirectYTDLDownloadToken:
 	signal finished
+	signal update(step: DirectYTLDownloadStep, progress: float)
+	var error_log: String
 	var error_code: int
 	var task_id: int
 	var folder: String
+	enum DirectYTLDownloadStep {
+		VIDEO,
+		AUDIO
+	}
+	var progress := 0.0
 
 func perform_ytdl_direct_download(folder: String) -> DirectYTDLDownloadToken:
 	var token := DirectYTDLDownloadToken.new()
+	token.update.connect(self._update_progress, CONNECT_DEFERRED)
 	token.folder = folder
 	var task_id := WorkerThreadPool.add_task(_ytdl_direct_download_impl.bind(token), true, "YTDL direct download task")
 	token.task_id = task_id
@@ -258,6 +289,35 @@ func _finish_ytdl_direct_download(token: DirectYTDLDownloadToken):
 	WorkerThreadPool.wait_for_task_completion(token.task_id)
 	token.finished.emit()
 	
+func _process_progress(token: DirectYTDLDownloadToken, step: DirectYTDLDownloadToken.DirectYTLDownloadStep, process: Process):
+	var line_count := process.get_available_stdout_lines()
+	var progress := -1.0
+	for _i in range(line_count):
+		var line := process.get_stdout_line() as String
+		if line.begins_with("PHD:"):
+			var l := line.substr(4)
+			l = l.strip_edges()
+			var s := l.split("-")
+			if s.size() == 5:
+				var downloaded_bytes := s[0].to_int()
+				var total_bytes := s[1].to_int()
+				var total_bytes_estimate := s[2].to_int()
+				var speed := s[3].to_int()
+				if total_bytes == 0:
+					# Guard against dividing by 0
+					total_bytes = max(total_bytes_estimate, 1)
+				var download_progress = downloaded_bytes/float(total_bytes)
+				progress = download_progress
+	if progress != -1.0:
+		token.update.emit(step, progress)
+		
+func _process_stderr(token: DirectYTDLDownloadToken, process: Process):
+	var line_count := process.get_available_stderr_lines()
+	var total := PackedStringArray()
+	for _i in range(line_count):
+		total.push_back(process.get_stderr_line())
+	token.error_log.join(total)
+		
 func _ytdl_direct_download_impl(token: DirectYTDLDownloadToken):
 	var shared_params = YoutubeDL.get_ytdl_shared_params()
 	var video_height = UserSettings.user_settings.desired_video_resolution
@@ -269,26 +329,37 @@ func _ytdl_direct_download_impl(token: DirectYTDLDownloadToken):
 	
 	var video_file_location = token.folder.path_join("video.mp4")
 	
-	var o = []
-	
 	shared_params += [current_yt_url, "-o", ProjectSettings.globalize_path(video_file_location)]
 	
 	var ee = ""
 	
 	ee = " ".join(PackedStringArray(shared_params))
 	
-	OS.execute(YoutubeDL.get_ytdl_executable(), shared_params, o, true)
+	var process := PHNative.create_process(YoutubeDL.get_ytdl_executable(), shared_params)
 	
-	if not FileAccess.file_exists(video_file_location):
-		token.error_code = ERR_BUG
+	var exit_code := process.get_exit_status()
+	
+	while exit_code == -1:
+		exit_code = process.get_exit_status()
+		_process_progress(token, DirectYTDLDownloadToken.DirectYTLDownloadStep.VIDEO, process)
+	if not FileAccess.file_exists(video_file_location) or not exit_code == OK:
+		token.error_code = exit_code
+		_process_stderr(token, process)
 		_finish_ytdl_direct_download.call_deferred(token)
+		return
 	else:
 		var audio_target = ProjectSettings.globalize_path(token.folder.path_join("audio.ogg"))
 		var arguments = ["-i", ProjectSettings.globalize_path(video_file_location), "-vn", "-acodec", "libvorbis", "-y", audio_target]
-		var out = []
-		var err = OS.execute(YoutubeDL.get_ffmpeg_executable(), arguments, out, true)
-		if err != OK:
-			token.error_code = ERR_BUG
+		var process_audio := PHNative.create_process(YoutubeDL.get_ffmpeg_executable(), arguments)
+		var exit_code_audio := process_audio.get_exit_status()
+		while exit_code_audio == -1:
+			exit_code_audio = process_audio.get_exit_status()
+			_process_progress(token, DirectYTDLDownloadToken.DirectYTLDownloadStep.AUDIO, process)
+		if exit_code_audio != OK:
+			token.error_code = exit_code_audio
+			_process_stderr(token, process_audio)
+		else:
+			token.error_code = OK
 		_finish_ytdl_direct_download.call_deferred(token)
 		return
 	token.error_code = OK
