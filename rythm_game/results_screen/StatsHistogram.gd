@@ -88,16 +88,16 @@ func _ready() -> void:
 	gradient_tex_darker.gradient.colors = colors_darker
 	histogram_material.set_shader_parameter("color_gradient_top", gradient_tex)
 	histogram_material.set_shader_parameter("color_gradient_bottom", gradient_tex_darker)
-	const TEST_SIZE := 4000
-	
-	const TEST_MAX_T := 100_000
-	
-	offset_map.resize(TEST_SIZE)
-	
-	for i in range(TEST_SIZE):
-		offset_map[i] = randf_range(-128.0, 128.0)
-	_update_mesh.call_deferred()
-	_update_multimesh_scale_and_params.call_deferred()
+	#const TEST_SIZE := 4000
+	#
+	#const TEST_MAX_T := 100_000
+	#
+	#offset_map.resize(TEST_SIZE)
+	#
+	#for i in range(TEST_SIZE):
+		#offset_map[i] = randf_range(-128.0, 128.0)
+	#_update_mesh.call_deferred()
+	#_update_multimesh_scale_and_params.call_deferred()
 	resized.connect(_update_multimesh_scale_and_params)
 
 func _update_multimesh_scale_and_params():
@@ -110,6 +110,12 @@ func _update_multimesh_scale_and_params():
 
 func _update_mesh() -> void:
 	mesh_update_queued = false
+	multimesh.multimesh = null
+	
+	if offset_map.is_empty():
+		print("OFFSETTI!")
+		return
+	
 	var ref_size := size
 	var center := ref_size * 0.5
 	const MARGIN = 2.0

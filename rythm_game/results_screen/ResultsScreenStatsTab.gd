@@ -33,6 +33,8 @@ func _queue_stats_recalculation():
 		_do_calculate_stats.call_deferred()
 
 func _do_calculate_stats():
+	if result._hit_judgements.is_empty():
+		return
 	stats_recalculation_queued = false
 	task_id = WorkerThreadPool.add_task(_calculate_stats, true, "Results Screen Stats Tab calculations")
 	stats_offset_chart.song = song
