@@ -173,7 +173,9 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 		wait_dialog_label.text = "Downloading video..."
 		wait_dialog.popup_centered()
 		await get_tree().process_frame
-		if perform_ytdl_direct_download(HBUtils.join_path(songs_folder, chart_name)) != OK:
+		var dl_token := perform_ytdl_direct_download(HBUtils.join_path(songs_folder, chart_name))
+		await dl_token.finished
+		if dl_token.error_code != OK:
 			wait_dialog.hide()
 			show_error("Error downloading video, ask on the discord for troubleshooting")
 			HBUtils.remove_recursive(HBUtils.join_path(songs_folder, chart_name))
@@ -239,7 +241,24 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 	else:
 		show_error("Error downloading chart (%d, %d)" % [result, response_code])
 
-func perform_ytdl_direct_download(folder: String) -> int:
+class DirectYTDLDownloadToken:
+	signal finished
+	var error_code: int
+	var task_id: int
+	var folder: String
+
+func perform_ytdl_direct_download(folder: String) -> DirectYTDLDownloadToken:
+	var token := DirectYTDLDownloadToken.new()
+	token.folder = folder
+	var task_id := WorkerThreadPool.add_task(_ytdl_direct_download_impl.bind(token), true, "YTDL direct download task")
+	token.task_id = task_id
+	return token
+	
+func _finish_ytdl_direct_download(token: DirectYTDLDownloadToken):
+	WorkerThreadPool.wait_for_task_completion(token.task_id)
+	token.finished.emit()
+	
+func _ytdl_direct_download_impl(token: DirectYTDLDownloadToken):
 	var shared_params = YoutubeDL.get_ytdl_shared_params()
 	var video_height = UserSettings.user_settings.desired_video_resolution
 	var video_fps = UserSettings.user_settings.desired_video_fps
@@ -248,7 +267,7 @@ func perform_ytdl_direct_download(folder: String) -> int:
 		"-f", "bestvideo[vcodec^=avc1][ext=mp4][height<=?{height}][fps<=?{fps}]+bestaudio[ext=m4a]/best[ext=mp4][height<=?{height}][fps<=?{fps}]".format({"height": video_height, "fps": video_fps})
 	]
 	
-	var video_file_location = folder.path_join("video.mp4")
+	var video_file_location = token.folder.path_join("video.mp4")
 	
 	var o = []
 	
@@ -261,12 +280,16 @@ func perform_ytdl_direct_download(folder: String) -> int:
 	OS.execute(YoutubeDL.get_ytdl_executable(), shared_params, o, true)
 	
 	if not FileAccess.file_exists(video_file_location):
-		return ERR_BUG
+		token.error_code = ERR_BUG
+		_finish_ytdl_direct_download.call_deferred(token)
 	else:
-		var audio_target = ProjectSettings.globalize_path(folder.path_join("audio.ogg"))
+		var audio_target = ProjectSettings.globalize_path(token.folder.path_join("audio.ogg"))
 		var arguments = ["-i", ProjectSettings.globalize_path(video_file_location), "-vn", "-acodec", "libvorbis", "-y", audio_target]
 		var out = []
 		var err = OS.execute(YoutubeDL.get_ffmpeg_executable(), arguments, out, true)
 		if err != OK:
-			return ERR_BUG
-	return OK
+			token.error_code = ERR_BUG
+		_finish_ytdl_direct_download.call_deferred(token)
+		return
+	token.error_code = OK
+	_finish_ytdl_direct_download.call_deferred(token)

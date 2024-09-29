@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://f1jy7yowfayo"]
+[gd_scene load_steps=11 format=3 uid="uid://f1jy7yowfayo"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
@@ -87,17 +87,22 @@ theme = ExtResource("1")
 script = ExtResource("4")
 
 [node name="Panel" type="Window" parent="PPDDownloader"]
+size = Vector2i(232, 100)
 visible = false
+transient = true
 exclusive = true
+script = ExtResource("4_oui4o")
 
 [node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/Panel"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/Panel/MarginContainer"]
 layout_mode = 2
@@ -125,13 +130,19 @@ layout_mode = 2
 text = "Download and install..."
 
 [node name="WaitDialog" type="Window" parent="PPDDownloader"]
+size = Vector2i(188, 100)
 visible = false
+wrap_controls = true
+transient = true
 exclusive = true
+script = ExtResource("4_oui4o")
 
 [node name="Label" type="Label" parent="PPDDownloader/WaitDialog"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Downloading, please wait..."
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -141,9 +152,8 @@ position = Vector2i(0, 32)
 visible = false
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
+position = Vector2i(0, 32)
 size = Vector2i(240, 114)
-dialog_text = "Erorr downloading: asdsadsa"
-dialog_autowrap = true
 
 [node name="PPDImporter" type="Control" parent="."]
 anchors_preset = 0
@@ -157,6 +167,7 @@ position = Vector2i(0, 24)
 size = Vector2i(780, 385)
 visible = false
 exclusive = true
+script = ExtResource("4_oui4o")
 
 [node name="MarginContainer" type="MarginContainer" parent="PPDImporter/Window"]
 anchors_preset = 15
@@ -218,21 +229,26 @@ text = "Close"
 [node name="PPDImporterFileDialog" type="FileDialog" parent="PPDImporter"]
 mode = 2
 title = "Open a Directory"
-size = Vector2i(717, 162)
+size = Vector2i(717, 175)
 ok_button_text = "Select Current Folder"
 file_mode = 2
 access = 2
 show_hidden_files = true
 
 [node name="WaitDialog" type="Window" parent="PPDImporter"]
-size = Vector2i(250, 100)
+size = Vector2i(280, 100)
 visible = false
+wrap_controls = true
+transient = true
 exclusive = true
+script = ExtResource("4_oui4o")
 
 [node name="Label" type="Label" parent="PPDImporter/WaitDialog"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Importing, please wait..."
 horizontal_alignment = 1
 vertical_alignment = 1
