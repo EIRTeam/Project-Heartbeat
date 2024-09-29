@@ -131,11 +131,11 @@ func _draw():
 		var color_i = clamp(judgement * line_grad_colors.size(), 0, line_grad_colors.size()-1)
 		var color = line_grad_colors[int(color_i)]
 		color.a -= 0.95 * (i / float(JUDGEMENTS_TO_COUNT-1))
-		draw_line(starting_pos, ending_pos, color, rating_line_width)
+		draw_line(starting_pos, ending_pos, color, max(rating_line_width, 1.0))
 		average_count += 1
 		average_sum += judgement
 	# draw the center line
-	draw_line(Vector2(size.x * 0.5, 0.0), Vector2(size.x * 0.5, size.y), Color.WHITE, rating_line_width)
+	draw_line(Vector2(size.x * 0.5, 0.0), Vector2(size.x * 0.5, size.y), Color.WHITE, max(rating_line_width, 1.0))
 
 	# draw the average arrow
 
