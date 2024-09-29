@@ -318,7 +318,7 @@ func _process_stderr(token: DirectYTDLDownloadToken, process: Process):
 	var total := PackedStringArray()
 	for _i in range(line_count):
 		total.push_back(process.get_stderr_line())
-	token.error_log.join(total)
+	token.error_log = "".join(total)
 		
 func _ytdl_direct_download_impl(token: DirectYTDLDownloadToken):
 	var shared_params = YoutubeDL.get_ytdl_shared_params()
