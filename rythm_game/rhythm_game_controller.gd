@@ -344,6 +344,7 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	fade_out_tween.connect("tween_all_completed", Callable(self, "_show_results").bind(current_game_info))
 	fade_out_tween.connect("tween_all_completed", Callable(self, "_on_fade_out_finished"))
 	fade_out_tween.start()
+	pause_menu_disabled = true
 	
 func _on_fade_out_finished():
 	emit_signal("fade_out_finished", current_game_info)
