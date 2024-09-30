@@ -998,6 +998,8 @@ func paste(time: int):
 			var timing_point := copy.item.data.clone() as HBTimingPoint
 			
 			timing_point.time = time + timing_point.time - min_point.time
+			if timing_point is HBBaseNote:
+				timing_point.pos_modified = true
 			if timing_point is HBSustainNote:
 				timing_point.end_time = timing_point.time + copy.item.data.get_duration()
 			
