@@ -1686,7 +1686,7 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 		
 		timeline.ensure_playhead_is_visible()
 		seek(playhead_position)
-
+	reveal_ui(true)
 func get_selected_variant() -> int:
 	if !current_song.is_cached(song_editor_settings.selected_variant):
 		return -1
