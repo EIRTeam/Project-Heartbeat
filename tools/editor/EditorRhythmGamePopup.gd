@@ -282,4 +282,5 @@ func _notification(what: int) -> void:
 			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
 			set_game_size.call_deferred()
 		NOTIFICATION_EXIT_TREE:
+			rhythm_game.editor_clear_notes()
 			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
