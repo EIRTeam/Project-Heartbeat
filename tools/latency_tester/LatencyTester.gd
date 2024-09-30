@@ -2,7 +2,7 @@ extends HBMenu
 
 @onready var offset_label = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/OffsetLabel")
 @onready var rhythm_game = get_node("MarginContainer/VBoxContainer/AspectRatioContainer/EmbeddedRhythmGame")
-@onready var tutorial_popup = get_node("TutorialPopup")
+@onready var tutorial_popup: HBConfirmationWindow = get_node("TutorialPopup")
 @onready var substract_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/SubstractButton")
 @onready var add_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/AddButton")
 @onready var next_test_button = get_node("MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/ChangeTestButton")
@@ -35,6 +35,8 @@ const next_test = [
 signal pause_background_player
 signal resume_background_player
 
+func _ready() -> void:
+	tutorial_popup.accept.connect(self._on_TutorialPopup_hide)
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
