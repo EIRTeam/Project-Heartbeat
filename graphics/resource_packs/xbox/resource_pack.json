@@ -4,170 +4,230 @@
   "pack_description": "Resource Pack with note icons for use with Xbox™ controllers.",
   "notes_atlas_data": {
     "up_note.png": {
-      "region": "Rect2( 203, 746, 100, 80 )",
-      "margin": "Rect2( 17, 27, 28, 48 )",
+      "region": "Rect2(220, 710, 100, 80)",
+      "margin": "Rect2(17, 27, 28, 48)",
       "type": "HBAtlasEntry"
     },
     "up_target.png": {
-      "region": "Rect2( 130, 1, 128, 122 )",
-      "margin": "Rect2( 0, 3, 0, 6 )",
+      "region": "Rect2(368, 397, 128, 120)",
+      "margin": "Rect2(0, 4, 0, 8)",
       "type": "HBAtlasEntry"
     },
     "up_multi_note.png": {
-      "region": "Rect2( 102, 746, 100, 80 )",
-      "margin": "Rect2( 17, 27, 28, 48 )",
+      "region": "Rect2(477, 710, 100, 80)",
+      "margin": "Rect2(17, 27, 28, 48)",
       "type": "HBAtlasEntry"
     },
     "up_multi_note_target.png": {
-      "region": "Rect2( 1, 122, 128, 122 )",
-      "margin": "Rect2( 0, 3, 0, 6 )",
+      "region": "Rect2(877, 493, 128, 120)",
+      "margin": "Rect2(0, 4, 0, 8)",
       "type": "HBAtlasEntry"
     },
     "up_double_note.png": {
-      "region": "Rect2( 292, 827, 96, 89 )",
-      "margin": "Rect2( 19, 13, 32, 39 )",
+      "region": "Rect2(610, 639, 96, 89)",
+      "margin": "Rect2(19, 13, 32, 39)",
       "type": "HBAtlasEntry"
     },
     "up_double_note_target.png": {
-      "region": "Rect2( 130, 124, 128, 120 )",
-      "margin": "Rect2( 0, 0, 0, 8 )",
+      "region": "Rect2(626, 519, 128, 119)",
+      "margin": "Rect2(0, 0, 0, 9)",
       "type": "HBAtlasEntry"
     },
     "up_sustain_note.png": {
-      "region": "Rect2( 130, 245, 128, 125 )",
-      "margin": "Rect2( 0, 3, 0, 3 )",
+      "region": "Rect2(619, 371, 128, 124)",
+      "margin": "Rect2(0, 4, 0, 4)",
       "type": "HBAtlasEntry"
     },
     "up_sustain_note_target.png": {
-      "region": "Rect2( 241, 623, 108, 82 )",
-      "margin": "Rect2( 10, 23, 20, 46 )",
+      "region": "Rect2(497, 617, 112, 92)",
+      "margin": "Rect2(8, 18, 16, 36)",
+      "type": "HBAtlasEntry"
+    },
+    "up_rush_text.png": {
+      "region": "Rect2(754, 792, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "up_rush_note.png": {
+      "region": "Rect2(237, 242, 194, 154)",
+      "margin": "Rect2(34, 54, 62, 102)",
+      "type": "HBAtlasEntry"
+    },
+    "up_rush_note_target.png": {
+      "region": "Rect2(237, 1, 256, 240)",
+      "margin": "Rect2(0, 8, 0, 16)",
       "type": "HBAtlasEntry"
     },
     "left_note.png": {
-      "region": "Rect2( 195, 827, 96, 78 )",
-      "margin": "Rect2( 19, 28, 32, 50 )",
+      "region": "Rect2(321, 730, 96, 78)",
+      "margin": "Rect2(19, 28, 32, 50)",
       "type": "HBAtlasEntry"
     },
     "left_target.png": {
-      "region": "Rect2( 1, 245, 128, 120 )",
-      "margin": "Rect2( 0, 4, 0, 8 )",
+      "region": "Rect2(130, 520, 128, 118)",
+      "margin": "Rect2(0, 5, 0, 10)",
       "type": "HBAtlasEntry"
     },
     "left_multi_note.png": {
-      "region": "Rect2( 98, 827, 96, 78 )",
-      "margin": "Rect2( 19, 28, 32, 50 )",
+      "region": "Rect2(80, 732, 96, 78)",
+      "margin": "Rect2(19, 28, 32, 50)",
       "type": "HBAtlasEntry"
     },
     "left_multi_note_target.png": {
-      "region": "Rect2( 259, 250, 128, 120 )",
-      "margin": "Rect2( 0, 4, 0, 8 )",
+      "region": "Rect2(755, 614, 128, 118)",
+      "margin": "Rect2(0, 5, 0, 10)",
       "type": "HBAtlasEntry"
     },
     "left_double_note.png": {
-      "region": "Rect2( 389, 796, 89, 96 )",
-      "margin": "Rect2( 13, 19, 39, 32 )",
+      "region": "Rect2(259, 520, 89, 96)",
+      "margin": "Rect2(13, 19, 39, 32)",
       "type": "HBAtlasEntry"
     },
     "left_double_note_target.png": {
-      "region": "Rect2( 372, 371, 120, 128 )",
-      "margin": "Rect2( 0, 0, 8, 0 )",
+      "region": "Rect2(901, 238, 119, 128)",
+      "margin": "Rect2(0, 0, 9, 0)",
       "type": "HBAtlasEntry"
     },
     "left_sustain_note.png": {
-      "region": "Rect2( 1, 366, 128, 124 )",
-      "margin": "Rect2( 0, 4, 0, 4 )",
+      "region": "Rect2(748, 395, 128, 123)",
+      "margin": "Rect2(0, 5, 0, 5)",
       "type": "HBAtlasEntry"
     },
     "left_sustain_note_target.png": {
-      "region": "Rect2( 1, 616, 100, 78 )",
-      "margin": "Rect2( 14, 25, 28, 50 )",
+      "region": "Rect2(368, 639, 108, 90)",
+      "margin": "Rect2(10, 19, 20, 38)",
+      "type": "HBAtlasEntry"
+    },
+    "left_rush_text.png": {
+      "region": "Rect2(177, 809, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "left_rush_note.png": {
+      "region": "Rect2(1, 244, 184, 150)",
+      "margin": "Rect2(39, 56, 72, 106)",
+      "type": "HBAtlasEntry"
+    },
+    "left_rush_note_target.png": {
+      "region": "Rect2(751, 1, 256, 236)",
+      "margin": "Rect2(0, 10, 0, 20)",
       "type": "HBAtlasEntry"
     },
     "down_note.png": {
-      "region": "Rect2( 1, 695, 96, 80 )",
-      "margin": "Rect2( 19, 27, 32, 48 )",
+      "region": "Rect2(884, 711, 96, 80)",
+      "margin": "Rect2(19, 27, 32, 48)",
       "type": "HBAtlasEntry"
     },
     "down_target.png": {
-      "region": "Rect2( 130, 371, 128, 122 )",
-      "margin": "Rect2( 0, 3, 0, 6 )",
+      "region": "Rect2(497, 496, 128, 120)",
+      "margin": "Rect2(0, 4, 0, 8)",
       "type": "HBAtlasEntry"
     },
     "down_multi_note.png": {
-      "region": "Rect2( 401, 706, 96, 80 )",
-      "margin": "Rect2( 19, 27, 32, 48 )",
+      "region": "Rect2(578, 729, 96, 80)",
+      "margin": "Rect2(19, 27, 32, 48)",
       "type": "HBAtlasEntry"
     },
     "down_multi_note_target.png": {
-      "region": "Rect2( 259, 1, 128, 122 )",
-      "margin": "Rect2( 0, 3, 0, 6 )",
+      "region": "Rect2(368, 518, 128, 120)",
+      "margin": "Rect2(0, 4, 0, 8)",
       "type": "HBAtlasEntry"
     },
     "down_double_note.png": {
-      "region": "Rect2( 304, 706, 96, 89 )",
-      "margin": "Rect2( 19, 32, 32, 39 )",
+      "region": "Rect2(1, 640, 96, 89)",
+      "margin": "Rect2(19, 32, 32, 39)",
       "type": "HBAtlasEntry"
     },
     "down_double_note_target.png": {
-      "region": "Rect2( 1, 1, 128, 120 )",
-      "margin": "Rect2( 0, 8, 0, 8 )",
+      "region": "Rect2(1, 520, 128, 119)",
+      "margin": "Rect2(0, 9, 0, 9)",
       "type": "HBAtlasEntry"
     },
     "down_sustain_note.png": {
-      "region": "Rect2( 259, 124, 128, 125 )",
-      "margin": "Rect2( 0, 3, 0, 3 )",
+      "region": "Rect2(1, 395, 128, 124)",
+      "margin": "Rect2(0, 4, 0, 4)",
       "type": "HBAtlasEntry"
     },
     "down_sustain_note_target.png": {
-      "region": "Rect2( 350, 623, 104, 82 )",
-      "margin": "Rect2( 12, 23, 24, 46 )",
+      "region": "Rect2(259, 617, 108, 92)",
+      "margin": "Rect2(10, 18, 20, 36)",
+      "type": "HBAtlasEntry"
+    },
+    "down_rush_text.png": {
+      "region": "Rect2(418, 810, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "down_rush_note.png": {
+      "region": "Rect2(432, 242, 186, 154)",
+      "margin": "Rect2(38, 54, 70, 102)",
+      "type": "HBAtlasEntry"
+    },
+    "down_rush_note_target.png": {
+      "region": "Rect2(494, 1, 256, 240)",
+      "margin": "Rect2(0, 8, 0, 16)",
       "type": "HBAtlasEntry"
     },
     "right_note.png": {
-      "region": "Rect2( 177, 906, 78, 80 )",
-      "margin": "Rect2( 32, 27, 50, 48 )",
+      "region": "Rect2(675, 729, 78, 80)",
+      "margin": "Rect2(32, 27, 50, 48)",
       "type": "HBAtlasEntry"
     },
     "right_target.png": {
-      "region": "Rect2( 1, 491, 119, 124 )",
-      "margin": "Rect2( 8, 2, 9, 4 )",
+      "region": "Rect2(130, 397, 118, 122)",
+      "margin": "Rect2(9, 3, 10, 6)",
       "type": "HBAtlasEntry"
     },
     "right_multi_note.png": {
-      "region": "Rect2( 256, 917, 78, 80 )",
-      "margin": "Rect2( 32, 27, 50, 48 )",
+      "region": "Rect2(1, 730, 78, 80)",
+      "margin": "Rect2(32, 27, 50, 48)",
       "type": "HBAtlasEntry"
     },
     "right_multi_note_target.png": {
-      "region": "Rect2( 121, 621, 119, 124 )",
-      "margin": "Rect2( 8, 2, 9, 4 )",
+      "region": "Rect2(249, 397, 118, 122)",
+      "margin": "Rect2(9, 3, 10, 6)",
       "type": "HBAtlasEntry"
     },
     "right_double_note.png": {
-      "region": "Rect2( 1, 776, 89, 96 )",
-      "margin": "Rect2( 32, 19, 39, 32 )",
+      "region": "Rect2(884, 614, 89, 96)",
+      "margin": "Rect2(32, 19, 39, 32)",
       "type": "HBAtlasEntry"
     },
     "right_double_note_target.png": {
-      "region": "Rect2( 251, 494, 120, 128 )",
-      "margin": "Rect2( 8, 0, 8, 0 )",
+      "region": "Rect2(619, 242, 119, 128)",
+      "margin": "Rect2(9, 0, 9, 0)",
       "type": "HBAtlasEntry"
     },
     "right_sustain_note.png": {
-      "region": "Rect2( 130, 494, 120, 126 )",
-      "margin": "Rect2( 8, 2, 8, 2 )",
+      "region": "Rect2(901, 367, 119, 125)",
+      "margin": "Rect2(9, 3, 9, 3)",
       "type": "HBAtlasEntry"
     },
     "right_sustain_note_target.png": {
-      "region": "Rect2( 91, 906, 85, 82 )",
-      "margin": "Rect2( 25, 23, 43, 46 )",
+      "region": "Rect2(130, 639, 89, 92)",
+      "margin": "Rect2(23, 18, 39, 36)",
+      "type": "HBAtlasEntry"
+    },
+    "right_rush_text.png": {
+      "region": "Rect2(659, 861, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "right_rush_note.png": {
+      "region": "Rect2(751, 238, 149, 156)",
+      "margin": "Rect2(64, 53, 107, 100)",
+      "type": "HBAtlasEntry"
+    },
+    "right_rush_note_target.png": {
+      "region": "Rect2(1, 1, 235, 242)",
+      "margin": "Rect2(18, 7, 21, 14)",
       "type": "HBAtlasEntry"
     }
   },
-  "up_trail_color": "Color( 0.933333, 0.694118, 0.211765, 1 )",
-  "down_trail_color": "Color( 0.529412, 0.839216, 0.223529, 1 )",
-  "left_trail_color": "Color( 0.258824, 0.588235, 0.952941, 1 )",
-  "right_trail_color": "Color( 0.878431, 0.156863, 0.156863, 1 )",
+  "up_trail_color": "Color(0.933333, 0.694118, 0.211765, 1)",
+  "down_trail_color": "Color(0.529412, 0.839216, 0.223529, 1)",
+  "left_trail_color": "Color(0.258824, 0.588235, 0.952941, 1)",
+  "right_trail_color": "Color(0.878431, 0.156863, 0.156863, 1)",
   "property_overrides": [
     "right_trail_color",
     "down_trail_color",

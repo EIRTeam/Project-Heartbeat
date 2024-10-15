@@ -88,7 +88,7 @@ func set_is_multi_note(val):
 
 func note_init():
 	note_graphics.scale = Vector2.ONE * UserSettings.user_settings.note_size
-	note_target_graphics.scale = Vector2.ONE * UserSettings.user_settings.note_size
+	note_target_graphics.scale = Vector2.ONE * UserSettings.user_settings.note_size * get_base_target_scale()
 	bind_node_to_layer(appear_particles_node, &"AppearParticles", NodePath("NoteTarget"))
 	if appear_animation_enabled:
 		play_appear_animation()
@@ -98,7 +98,8 @@ func play_appear_animation():
 		current_note_tween.kill()
 		current_note_tween = null
 	current_note_tween = create_tween()
-	current_note_tween.tween_property(note_target_graphics, "scale", Vector2.ONE * UserSettings.user_settings.note_size * 1.0, 0.17).from(Vector2.ONE * UserSettings.user_settings.note_size * 1.2)
+	var base_target_size := get_base_target_scale()
+	current_note_tween.tween_property(note_target_graphics, "scale", Vector2.ONE * UserSettings.user_settings.note_size * base_target_size, 0.17).from(Vector2.ONE * UserSettings.user_settings.note_size * 1.2 * base_target_size)
 	current_note_tween.tween_callback(appear_particles_node.show)
 	current_note_tween.tween_callback(appear_particles_node.get_node("AnimationPlayer").play.bind("appear"))
 	#appear_particles_node.show()
@@ -195,7 +196,6 @@ func calculate_note_position(note_data: HBBaseNote, note_time_msec: int, game_ti
 			note_data.distance
 		)
 
-
 func update_graphic_positions_and_scale(time_usec: int):
 	note_target_graphics.position = note_data.position
 	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
@@ -249,12 +249,12 @@ func _notification(what):
 			get_tree().root.remove_child(scheduled_autoplay_sound)
 			game.track_sound(scheduled_autoplay_sound)
 
-func show_note_hit_effect(target_pos: Vector2):
+func show_note_hit_effect(target_pos: Vector2, effect_scale := 1.0):
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
 	var effect = effect_scene.instantiate()
-	effect.scale = Vector2.ONE * UserSettings.user_settings.note_size
 	game.game_ui.get_drawing_layer_node(&"HitParticles").add_child(effect)
 	effect.position = target_pos
+	effect.scale *= effect_scale
 
 func fire_and_forget_user_sfx(sfx_name: String):
 	if not game.is_sound_debounced(sfx_name):
@@ -309,3 +309,7 @@ func schedule_autoplay_sound(user_sfx_name: String, game_time_msec: int, target_
 # check SCHEDULE_MARGIN
 func is_in_autoplay_schedule_range(time_msec: int, target_time: int) -> bool:
 	return target_time - time_msec <= (SCHEDULE_MARGIN * game.audio_playback.pitch_scale) and time_msec < target_time
+
+# base target graphic size, used for example for rush notes
+func get_base_target_scale() -> float:
+	return 1.0

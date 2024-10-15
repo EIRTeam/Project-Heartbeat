@@ -36,6 +36,21 @@
                     "style": "hold_target",
                     "src_path": "notes/Square_target",
                     "target_path": "notes/left_sustain_note_target"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Square",
+                    "target_path": "notes/left_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Square_target",
+                    "target_path": "notes/left_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/left_rush_text"
                 }
             }
         },
@@ -73,6 +88,21 @@
                     "style": "target",
                     "src_path": "notes/Cross_sustain",
                     "target_path": "notes/down_sustain_note"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Cross",
+                    "target_path": "notes/down_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Cross",
+                    "target_path": "notes/down_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/down_rush_text"
                 }
             }
         },
@@ -111,6 +141,21 @@
                     "style": "hold_target",
                     "src_path": "notes/Circle_target",
                     "target_path": "notes/right_sustain_note_target"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Circle",
+                    "target_path": "notes/right_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Circle_target",
+                    "target_path": "notes/right_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/right_rush_text"
                 }
             }
         },
@@ -149,6 +194,16 @@
                     "style": "hold_target",
                     "src_path": "notes/Triangle_target",
                     "target_path": "notes/up_sustain_note_target"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Triangle",
+                    "target_path": "notes/up_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Triangle_target",
+                    "target_path": "notes/up_rush_note_target"
                 }
             }
         }

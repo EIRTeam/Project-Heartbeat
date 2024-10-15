@@ -1,414 +1,502 @@
 {
+  "pack_name": "Fallback",
+  "pack_author_name": "EIRTeam",
+  "notes_atlas_data": {
+    "up_note.png": {
+      "region": "Rect2(294, 964, 89, 90)",
+      "margin": "Rect2(23, 21, 39, 38)",
+      "type": "HBAtlasEntry"
+    },
+    "up_target.png": {
+      "region": "Rect2(713, 499, 125, 128)",
+      "margin": "Rect2(2, 0, 3, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "up_multi_note.png": {
+      "region": "Rect2(934, 975, 89, 90)",
+      "margin": "Rect2(23, 21, 39, 38)",
+      "type": "HBAtlasEntry"
+    },
+    "up_multi_note_target.png": {
+      "region": "Rect2(839, 499, 125, 128)",
+      "margin": "Rect2(2, 0, 3, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "up_double_note.png": {
+      "region": "Rect2(1, 1036, 96, 89)",
+      "margin": "Rect2(19, 13, 32, 39)",
+      "type": "HBAtlasEntry"
+    },
+    "up_double_note_target.png": {
+      "region": "Rect2(130, 844, 128, 119)",
+      "margin": "Rect2(0, 0, 0, 9)",
+      "type": "HBAtlasEntry"
+    },
+    "up_sustain_note.png": {
+      "region": "Rect2(586, 423, 126, 128)",
+      "margin": "Rect2(2, 0, 2, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "up_sustain_note_target.png": {
+      "region": "Rect2(388, 958, 100, 101)",
+      "margin": "Rect2(15, 13, 28, 27)",
+      "type": "HBAtlasEntry"
+    },
+    "up_rush_text.png": {
+      "region": "Rect2(572, 1173, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "up_rush_note.png": {
+      "region": "Rect2(502, 255, 165, 167)",
+      "margin": "Rect2(47, 43, 91, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "up_rush_note_target.png": {
+      "region": "Rect2(1, 1, 250, 256)",
+      "margin": "Rect2(4, 0, 6, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "left_note.png": {
+      "region": "Rect2(294, 1055, 91, 89)",
+      "margin": "Rect2(21, 23, 37, 39)",
+      "type": "HBAtlasEntry"
+    },
+    "left_target.png": {
+      "region": "Rect2(840, 628, 127, 126)",
+      "margin": "Rect2(1, 1, 1, 2)",
+      "type": "HBAtlasEntry"
+    },
+    "left_multi_note.png": {
+      "region": "Rect2(386, 1060, 91, 89)",
+      "margin": "Rect2(21, 23, 37, 39)",
+      "type": "HBAtlasEntry"
+    },
+    "left_multi_note_target.png": {
+      "region": "Rect2(548, 681, 127, 126)",
+      "margin": "Rect2(1, 1, 1, 2)",
+      "type": "HBAtlasEntry"
+    },
+    "left_double_note.png": {
+      "region": "Rect2(934, 878, 89, 96)",
+      "margin": "Rect2(13, 19, 39, 32)",
+      "type": "HBAtlasEntry"
+    },
+    "left_double_note_target.png": {
+      "region": "Rect2(1, 586, 119, 128)",
+      "margin": "Rect2(0, 0, 9, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "left_sustain_note.png": {
+      "region": "Rect2(420, 589, 127, 127)",
+      "margin": "Rect2(1, 1, 1, 1)",
+      "type": "HBAtlasEntry"
+    },
+    "left_sustain_note_target.png": {
+      "region": "Rect2(489, 958, 101, 100)",
+      "margin": "Rect2(13, 14, 27, 28)",
+      "type": "HBAtlasEntry"
+    },
+    "left_rush_text.png": {
+      "region": "Rect2(186, 1229, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "left_rush_note.png": {
+      "region": "Rect2(1, 258, 168, 165)",
+      "margin": "Rect2(43, 46, 88, 91)",
+      "type": "HBAtlasEntry"
+    },
+    "left_rush_note_target.png": {
+      "region": "Rect2(757, 1, 255, 252)",
+      "margin": "Rect2(1, 3, 1, 4)",
+      "type": "HBAtlasEntry"
+    },
+    "down_note.png": {
+      "region": "Rect2(591, 993, 89, 90)",
+      "margin": "Rect2(23, 23, 39, 38)",
+      "type": "HBAtlasEntry"
+    },
+    "down_target.png": {
+      "region": "Rect2(586, 552, 125, 128)",
+      "margin": "Rect2(2, 0, 3, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "down_multi_note.png": {
+      "region": "Rect2(681, 993, 89, 90)",
+      "margin": "Rect2(23, 23, 39, 38)",
+      "type": "HBAtlasEntry"
+    },
+    "down_multi_note_target.png": {
+      "region": "Rect2(174, 554, 125, 128)",
+      "margin": "Rect2(2, 0, 3, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "down_double_note.png": {
+      "region": "Rect2(489, 1059, 96, 89)",
+      "margin": "Rect2(19, 32, 32, 39)",
+      "type": "HBAtlasEntry"
+    },
+    "down_double_note_target.png": {
+      "region": "Rect2(259, 844, 128, 119)",
+      "margin": "Rect2(0, 9, 0, 9)",
+      "type": "HBAtlasEntry"
+    },
+    "down_sustain_note.png": {
+      "region": "Rect2(174, 425, 126, 128)",
+      "margin": "Rect2(2, 0, 2, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "down_sustain_note_target.png": {
+      "region": "Rect2(1, 933, 100, 102)",
+      "margin": "Rect2(15, 14, 28, 26)",
+      "type": "HBAtlasEntry"
+    },
+    "down_rush_text.png": {
+      "region": "Rect2(427, 1242, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "down_rush_note.png": {
+      "region": "Rect2(252, 257, 165, 167)",
+      "margin": "Rect2(47, 47, 91, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "down_rush_note_target.png": {
+      "region": "Rect2(252, 1, 249, 255)",
+      "margin": "Rect2(5, 1, 7, 1)",
+      "type": "HBAtlasEntry"
+    },
+    "right_note.png": {
+      "region": "Rect2(98, 1065, 90, 89)",
+      "margin": "Rect2(24, 23, 38, 39)",
+      "type": "HBAtlasEntry"
+    },
+    "right_target.png": {
+      "region": "Rect2(121, 683, 127, 126)",
+      "margin": "Rect2(1, 1, 1, 2)",
+      "type": "HBAtlasEntry"
+    },
+    "right_multi_note.png": {
+      "region": "Rect2(189, 1065, 90, 89)",
+      "margin": "Rect2(24, 23, 38, 39)",
+      "type": "HBAtlasEntry"
+    },
+    "right_multi_note_target.png": {
+      "region": "Rect2(420, 717, 127, 126)",
+      "margin": "Rect2(1, 1, 1, 2)",
+      "type": "HBAtlasEntry"
+    },
+    "right_double_note.png": {
+      "region": "Rect2(204, 964, 89, 96)",
+      "margin": "Rect2(32, 19, 39, 32)",
+      "type": "HBAtlasEntry"
+    },
+    "right_double_note_target.png": {
+      "region": "Rect2(300, 589, 119, 128)",
+      "margin": "Rect2(9, 0, 9, 0)",
+      "type": "HBAtlasEntry"
+    },
+    "right_sustain_note.png": {
+      "region": "Rect2(712, 628, 127, 127)",
+      "margin": "Rect2(1, 1, 1, 1)",
+      "type": "HBAtlasEntry"
+    },
+    "right_sustain_note_target.png": {
+      "region": "Rect2(102, 964, 101, 100)",
+      "margin": "Rect2(15, 14, 27, 28)",
+      "type": "HBAtlasEntry"
+    },
+    "right_rush_text.png": {
+      "region": "Rect2(668, 1242, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "right_rush_note.png": {
+      "region": "Rect2(418, 423, 167, 165)",
+      "margin": "Rect2(48, 46, 89, 91)",
+      "type": "HBAtlasEntry"
+    },
+    "right_rush_note_target.png": {
+      "region": "Rect2(502, 1, 254, 253)",
+      "margin": "Rect2(2, 2, 2, 3)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_left_note.png": {
+      "region": "Rect2(280, 1145, 93, 78)",
+      "margin": "Rect2(18, 18, 35, 50)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_left_target.png": {
+      "region": "Rect2(388, 844, 128, 113)",
+      "margin": "Rect2(0, 0, 0, 15)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_left_multi_note.png": {
+      "region": "Rect2(478, 1149, 93, 78)",
+      "margin": "Rect2(18, 18, 35, 50)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_left_multi_note_target.png": {
+      "region": "Rect2(517, 844, 128, 113)",
+      "margin": "Rect2(0, 0, 0, 15)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_right_note.png": {
+      "region": "Rect2(374, 1150, 93, 78)",
+      "margin": "Rect2(23, 18, 35, 50)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_right_target.png": {
+      "region": "Rect2(805, 878, 128, 113)",
+      "margin": "Rect2(0, 0, 0, 15)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_right_multi_note.png": {
+      "region": "Rect2(92, 1155, 93, 78)",
+      "margin": "Rect2(23, 18, 35, 50)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_right_multi_note_target.png": {
+      "region": "Rect2(646, 879, 128, 113)",
+      "margin": "Rect2(0, 0, 0, 15)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_left_note.png": {
+      "region": "Rect2(909, 1155, 72, 61)",
+      "margin": "Rect2(13, 13, 30, 41)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_left_target.png": {
+      "region": "Rect2(876, 1066, 104, 88)",
+      "margin": "Rect2(12, 26, 24, 40)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_left_target_blue.png": {
+      "region": "Rect2(909, 1279, 60, 41)",
+      "margin": "Rect2(34, 50, 68, 87)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_right_note.png": {
+      "region": "Rect2(909, 1217, 72, 61)",
+      "margin": "Rect2(17, 13, 30, 41)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_right_target.png": {
+      "region": "Rect2(586, 1084, 104, 88)",
+      "margin": "Rect2(12, 26, 24, 40)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_right_target_blue.png": {
+      "region": "Rect2(242, 1298, 60, 41)",
+      "margin": "Rect2(34, 50, 68, 87)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_note.png": {
+      "region": "Rect2(691, 1088, 90, 84)",
+      "margin": "Rect2(22, 26, 38, 44)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_target.png": {
+      "region": "Rect2(840, 755, 128, 122)",
+      "margin": "Rect2(0, 3, 0, 6)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_multi_note.png": {
+      "region": "Rect2(782, 1088, 90, 84)",
+      "margin": "Rect2(22, 26, 38, 44)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_multi_note_target.png": {
+      "region": "Rect2(676, 756, 128, 122)",
+      "margin": "Rect2(0, 3, 0, 6)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_double_note.png": {
+      "region": "Rect2(1, 1126, 90, 84)",
+      "margin": "Rect2(22, 26, 38, 44)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_double_note_target.png": {
+      "region": "Rect2(1, 810, 128, 122)",
+      "margin": "Rect2(0, 3, 0, 6)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_sustain_note.png": {
+      "region": "Rect2(249, 718, 128, 125)",
+      "margin": "Rect2(0, 3, 0, 3)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_sustain_note_target.png": {
+      "region": "Rect2(775, 992, 100, 95)",
+      "margin": "Rect2(14, 17, 28, 33)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_rush_text.png": {
+      "region": "Rect2(1, 1298, 240, 68)",
+      "margin": "Rect2(11, 33, 16, 66)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_rush_note.png": {
+      "region": "Rect2(1, 424, 172, 161)",
+      "margin": "Rect2(45, 52, 84, 95)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_rush_note_target.png": {
+      "region": "Rect2(757, 254, 256, 244)",
+      "margin": "Rect2(0, 6, 0, 12)",
+      "type": "HBAtlasEntry"
+    },
+    "timing_arm.png": {
+      "region": "Rect2(981, 1066, 31, 83)",
+      "margin": "Rect2(49, 22, 97, 45)",
+      "type": "HBAtlasEntry"
+    },
+    "hold_text.png": {
+      "region": "Rect2(303, 1298, 112, 31)",
+      "margin": "Rect2(8, 94, 16, 97)",
+      "type": "HBAtlasEntry"
+    },
+    "hold_text_multi.png": {
+      "region": "Rect2(416, 1311, 112, 31)",
+      "margin": "Rect2(8, 94, 16, 97)",
+      "type": "HBAtlasEntry"
+    },
+    "rush_note_timing_arm.png": {
+      "region": "Rect2(668, 255, 62, 165)",
+      "margin": "Rect2(98, 45, 194, 91)",
+      "type": "HBAtlasEntry"
+    }
+  },
   "effects_atlas_data": {
-    "appear.png": {
-      "margin": "Rect2(25, 14, 46, 39)",
-      "region": "Rect2(1, 973, 404, 411)",
+    "rush_note_spark.png": {
+      "region": "Rect2(1, 1, 512, 512)",
+      "type": "HBAtlasEntry"
+    },
+    "rush_note_twirl.png": {
+      "region": "Rect2(1, 514, 512, 512)",
       "type": "HBAtlasEntry"
     },
     "bubble.png": {
-      "region": "Rect2(513, 514, 496, 496)",
+      "region": "Rect2(514, 1, 496, 496)",
       "type": "HBAtlasEntry"
     },
     "flare.png": {
+      "region": "Rect2(1, 1540, 511, 458)",
       "margin": "Rect2(172, 182, 289, 342)",
-      "region": "Rect2(1, 514, 511, 458)",
       "type": "HBAtlasEntry"
     },
     "loop.png": {
-      "region": "Rect2(1, 1, 512, 512)",
+      "region": "Rect2(1, 1027, 512, 512)",
+      "type": "HBAtlasEntry"
+    },
+    "appear.png": {
+      "region": "Rect2(514, 498, 404, 411)",
+      "margin": "Rect2(25, 14, 46, 39)",
       "type": "HBAtlasEntry"
     }
   },
   "judgements_atlas_data": {
-    "combo_0.png": {
-      "margin": "Rect2(51, 52, 102, 104)",
-      "region": "Rect2(847, 566, 154, 152)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_1.png": {
-      "margin": "Rect2(70, 51, 138, 102)",
-      "region": "Rect2(1, 739, 118, 154)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_2.png": {
-      "margin": "Rect2(51, 52, 102, 104)",
-      "region": "Rect2(692, 566, 154, 152)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_3.png": {
-      "margin": "Rect2(52, 52, 104, 104)",
-      "region": "Rect2(463, 719, 152, 152)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_4.png": {
-      "margin": "Rect2(52, 52, 104, 104)",
-      "region": "Rect2(616, 719, 152, 152)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_5.png": {
-      "margin": "Rect2(51, 52, 102, 104)",
-      "region": "Rect2(537, 566, 154, 152)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_6.png": {
-      "margin": "Rect2(51, 52, 103, 104)",
-      "region": "Rect2(1, 586, 153, 152)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_7.png": {
-      "margin": "Rect2(56, 52, 113, 104)",
-      "region": "Rect2(769, 719, 143, 152)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_8.png": {
-      "margin": "Rect2(52, 52, 103, 104)",
-      "region": "Rect2(155, 716, 153, 152)",
-      "type": "HBAtlasEntry"
-    },
-    "combo_9.png": {
-      "margin": "Rect2(52, 52, 103, 104)",
-      "region": "Rect2(309, 716, 153, 152)",
-      "type": "HBAtlasEntry"
-    },
     "cool.png": {
+      "region": "Rect2(625, 742, 387, 129)",
       "margin": "Rect2(63, 65, 125, 127)",
-      "region": "Rect2(509, 144, 387, 129)",
-      "type": "HBAtlasEntry"
-    },
-    "cool_wrong.png": {
-      "margin": "Rect2(91, 52, 181, 108)",
-      "region": "Rect2(377, 274, 331, 148)",
       "type": "HBAtlasEntry"
     },
     "fine.png": {
+      "region": "Rect2(1, 742, 314, 142)",
       "margin": "Rect2(99, 57, 198, 114)",
-      "region": "Rect2(328, 423, 314, 142)",
-      "type": "HBAtlasEntry"
-    },
-    "fine_wrong.png": {
-      "margin": "Rect2(124, 51, 248, 107)",
-      "region": "Rect2(272, 566, 264, 149)",
       "type": "HBAtlasEntry"
     },
     "sad.png": {
+      "region": "Rect2(316, 742, 308, 142)",
       "margin": "Rect2(102, 57, 204, 114)",
-      "region": "Rect2(643, 423, 308, 142)",
-      "type": "HBAtlasEntry"
-    },
-    "sad_wrong.png": {
-      "margin": "Rect2(121, 52, 242, 108)",
-      "region": "Rect2(1, 437, 270, 148)",
       "type": "HBAtlasEntry"
     },
     "safe.png": {
+      "region": "Rect2(501, 599, 375, 142)",
       "margin": "Rect2(69, 57, 137, 114)",
-      "region": "Rect2(1, 144, 375, 142)",
-      "type": "HBAtlasEntry"
-    },
-    "safe_wrong.png": {
-      "margin": "Rect2(93, 51, 186, 107)",
-      "region": "Rect2(1, 287, 326, 149)",
       "type": "HBAtlasEntry"
     },
     "worst.png": {
+      "region": "Rect2(1, 599, 499, 142)",
       "margin": "Rect2(8, 57, 13, 114)",
-      "region": "Rect2(509, 1, 499, 142)",
+      "type": "HBAtlasEntry"
+    },
+    "cool_wrong.png": {
+      "region": "Rect2(328, 307, 331, 148)",
+      "margin": "Rect2(91, 52, 181, 108)",
+      "type": "HBAtlasEntry"
+    },
+    "fine_wrong.png": {
+      "region": "Rect2(724, 154, 264, 149)",
+      "margin": "Rect2(124, 51, 248, 107)",
+      "type": "HBAtlasEntry"
+    },
+    "sad_wrong.png": {
+      "region": "Rect2(724, 304, 270, 148)",
+      "margin": "Rect2(121, 52, 242, 108)",
+      "type": "HBAtlasEntry"
+    },
+    "safe_wrong.png": {
+      "region": "Rect2(1, 307, 326, 149)",
+      "margin": "Rect2(93, 51, 186, 107)",
       "type": "HBAtlasEntry"
     },
     "wrong.png": {
+      "region": "Rect2(328, 456, 507, 142)",
       "margin": "Rect2(4, 57, 5, 114)",
-      "region": "Rect2(1, 1, 507, 142)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_0.png": {
+      "region": "Rect2(120, 1, 154, 152)",
+      "margin": "Rect2(51, 52, 102, 104)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_1.png": {
+      "region": "Rect2(1, 1, 118, 154)",
+      "margin": "Rect2(70, 51, 138, 102)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_2.png": {
+      "region": "Rect2(275, 1, 154, 152)",
+      "margin": "Rect2(51, 52, 102, 104)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_3.png": {
+      "region": "Rect2(274, 154, 152, 152)",
+      "margin": "Rect2(52, 52, 104, 104)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_4.png": {
+      "region": "Rect2(427, 154, 152, 152)",
+      "margin": "Rect2(52, 52, 104, 104)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_5.png": {
+      "region": "Rect2(430, 1, 154, 152)",
+      "margin": "Rect2(51, 52, 102, 104)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_6.png": {
+      "region": "Rect2(585, 1, 153, 152)",
+      "margin": "Rect2(51, 52, 103, 104)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_7.png": {
+      "region": "Rect2(580, 154, 143, 152)",
+      "margin": "Rect2(56, 52, 113, 104)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_8.png": {
+      "region": "Rect2(739, 1, 153, 152)",
+      "margin": "Rect2(52, 52, 103, 104)",
+      "type": "HBAtlasEntry"
+    },
+    "combo_9.png": {
+      "region": "Rect2(120, 154, 153, 152)",
+      "margin": "Rect2(52, 52, 103, 104)",
       "type": "HBAtlasEntry"
     }
   },
-  "notes_atlas_data": {
-    "down_double_note.png": {
-      "margin": "Rect2(19, 32, 32, 39)",
-      "region": "Rect2(407, 506, 96, 89)",
-      "type": "HBAtlasEntry"
-    },
-    "down_double_note_target.png": {
-      "margin": "Rect2(0, 8, 0, 8)",
-      "region": "Rect2(130, 1, 128, 120)",
-      "type": "HBAtlasEntry"
-    },
-    "down_multi_note.png": {
-      "margin": "Rect2(23, 23, 39, 38)",
-      "region": "Rect2(914, 548, 89, 90)",
-      "type": "HBAtlasEntry"
-    },
-    "down_multi_note_target.png": {
-      "margin": "Rect2(2, 0, 3, 0)",
-      "region": "Rect2(127, 354, 125, 128)",
-      "type": "HBAtlasEntry"
-    },
-    "down_note.png": {
-      "margin": "Rect2(23, 23, 39, 38)",
-      "region": "Rect2(1, 551, 89, 90)",
-      "type": "HBAtlasEntry"
-    },
-    "down_sustain_note.png": {
-      "margin": "Rect2(2, 0, 2, 0)",
-      "region": "Rect2(770, 250, 126, 128)",
-      "type": "HBAtlasEntry"
-    },
-    "down_sustain_note_target.png": {
-      "margin": "Rect2(19, 19, 37, 37)",
-      "region": "Rect2(1, 459, 91, 91)",
-      "type": "HBAtlasEntry"
-    },
-    "down_target.png": {
-      "margin": "Rect2(2, 0, 3, 0)",
-      "region": "Rect2(897, 250, 125, 128)",
-      "type": "HBAtlasEntry"
-    },
-    "heart_double_note.png": {
-      "margin": "Rect2(22, 26, 38, 44)",
-      "region": "Rect2(369, 596, 90, 84)",
-      "type": "HBAtlasEntry"
-    },
-    "heart_double_note_target.png": {
-      "margin": "Rect2(0, 3, 0, 6)",
-      "region": "Rect2(259, 1, 128, 122)",
-      "type": "HBAtlasEntry"
-    },
-    "heart_multi_note.png": {
-      "margin": "Rect2(22, 26, 38, 44)",
-      "region": "Rect2(642, 585, 90, 84)",
-      "type": "HBAtlasEntry"
-    },
-    "heart_multi_note_target.png": {
-      "margin": "Rect2(0, 3, 0, 6)",
-      "region": "Rect2(1, 1, 128, 122)",
-      "type": "HBAtlasEntry"
-    },
-    "heart_note.png": {
-      "margin": "Rect2(22, 26, 38, 44)",
-      "region": "Rect2(733, 548, 90, 84)",
-      "type": "HBAtlasEntry"
-    },
-    "heart_sustain_note.png": {
-      "margin": "Rect2(0, 3, 0, 3)",
-      "region": "Rect2(259, 124, 128, 125)",
-      "type": "HBAtlasEntry"
-    },
-    "heart_sustain_note_target.png": {
-      "margin": "Rect2(14, 22, 28, 44)",
-      "region": "Rect2(106, 483, 100, 84)",
-      "type": "HBAtlasEntry"
-    },
-    "heart_target.png": {
-      "margin": "Rect2(0, 3, 0, 6)",
-      "region": "Rect2(646, 117, 128, 122)",
-      "type": "HBAtlasEntry"
-    },
-    "hold_text.png": {
-      "margin": "Rect2(8, 94, 16, 97)",
-      "region": "Rect2(621, 369, 112, 31)",
-      "type": "HBAtlasEntry"
-    },
-    "hold_text_multi.png": {
-      "margin": "Rect2(8, 94, 16, 97)",
-      "region": "Rect2(734, 379, 112, 31)",
-      "type": "HBAtlasEntry"
-    },
-    "left_double_note.png": {
-      "margin": "Rect2(13, 19, 39, 32)",
-      "region": "Rect2(91, 658, 89, 96)",
-      "type": "HBAtlasEntry"
-    },
-    "left_double_note_target.png": {
-      "margin": "Rect2(0, 0, 8, 0)",
-      "region": "Rect2(500, 377, 120, 128)",
-      "type": "HBAtlasEntry"
-    },
-    "left_multi_note.png": {
-      "margin": "Rect2(21, 23, 37, 39)",
-      "region": "Rect2(93, 568, 91, 89)",
-      "type": "HBAtlasEntry"
-    },
-    "left_multi_note_target.png": {
-      "margin": "Rect2(1, 1, 1, 2)",
-      "region": "Rect2(387, 250, 127, 126)",
-      "type": "HBAtlasEntry"
-    },
-    "left_note.png": {
-      "margin": "Rect2(21, 23, 37, 39)",
-      "region": "Rect2(185, 591, 91, 89)",
-      "type": "HBAtlasEntry"
-    },
-    "left_sustain_note.png": {
-      "margin": "Rect2(1, 1, 1, 1)",
-      "region": "Rect2(515, 128, 127, 127)",
-      "type": "HBAtlasEntry"
-    },
-    "left_sustain_note_target.png": {
-      "margin": "Rect2(15, 22, 29, 44)",
-      "region": "Rect2(207, 506, 99, 84)",
-      "type": "HBAtlasEntry"
-    },
-    "left_target.png": {
-      "margin": "Rect2(1, 1, 1, 2)",
-      "region": "Rect2(259, 250, 127, 126)",
-      "type": "HBAtlasEntry"
-    },
-    "right_double_note.png": {
-      "margin": "Rect2(32, 19, 39, 32)",
-      "region": "Rect2(824, 548, 89, 96)",
-      "type": "HBAtlasEntry"
-    },
-    "right_double_note_target.png": {
-      "margin": "Rect2(8, 0, 8, 0)",
-      "region": "Rect2(379, 377, 120, 128)",
-      "type": "HBAtlasEntry"
-    },
-    "right_multi_note.png": {
-      "margin": "Rect2(24, 23, 38, 39)",
-      "region": "Rect2(460, 596, 90, 89)",
-      "type": "HBAtlasEntry"
-    },
-    "right_multi_note_target.png": {
-      "margin": "Rect2(0, 1, 0, 2)",
-      "region": "Rect2(517, 1, 128, 126)",
-      "type": "HBAtlasEntry"
-    },
-    "right_note.png": {
-      "margin": "Rect2(24, 23, 38, 39)",
-      "region": "Rect2(551, 596, 90, 89)",
-      "type": "HBAtlasEntry"
-    },
-    "right_sustain_note.png": {
-      "margin": "Rect2(0, 1, 0, 1)",
-      "region": "Rect2(775, 122, 128, 127)",
-      "type": "HBAtlasEntry"
-    },
-    "right_sustain_note_target.png": {
-      "margin": "Rect2(15, 22, 29, 44)",
-      "region": "Rect2(307, 506, 99, 84)",
-      "type": "HBAtlasEntry"
-    },
-    "right_target.png": {
-      "margin": "Rect2(0, 1, 0, 2)",
-      "region": "Rect2(388, 1, 128, 126)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_left_note.png": {
-      "margin": "Rect2(13, 13, 30, 41)",
-      "region": "Rect2(434, 686, 72, 61)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_left_target.png": {
-      "margin": "Rect2(12, 26, 24, 39)",
-      "region": "Rect2(847, 379, 104, 89)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_left_target_blue.png": {
-      "margin": "Rect2(34, 50, 68, 87)",
-      "region": "Rect2(568, 686, 60, 41)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_right_note.png": {
-      "margin": "Rect2(17, 13, 30, 41)",
-      "region": "Rect2(361, 683, 72, 61)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_right_target.png": {
-      "margin": "Rect2(12, 26, 24, 39)",
-      "region": "Rect2(1, 369, 104, 89)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_right_target_blue.png": {
-      "margin": "Rect2(34, 50, 68, 87)",
-      "region": "Rect2(507, 686, 60, 41)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_left_multi_note.png": {
-      "margin": "Rect2(18, 18, 35, 50)",
-      "region": "Rect2(789, 469, 93, 78)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_left_multi_note_target.png": {
-      "margin": "Rect2(0, 0, 0, 13)",
-      "region": "Rect2(130, 238, 128, 115)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_left_note.png": {
-      "margin": "Rect2(18, 18, 35, 50)",
-      "region": "Rect2(695, 411, 93, 78)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_left_target.png": {
-      "margin": "Rect2(0, 0, 0, 13)",
-      "region": "Rect2(1, 124, 128, 115)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_right_multi_note.png": {
-      "margin": "Rect2(23, 18, 35, 50)",
-      "region": "Rect2(601, 506, 93, 78)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_right_multi_note_target.png": {
-      "margin": "Rect2(0, 0, 0, 13)",
-      "region": "Rect2(130, 122, 128, 115)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_right_note.png": {
-      "margin": "Rect2(23, 18, 35, 50)",
-      "region": "Rect2(883, 469, 93, 78)",
-      "type": "HBAtlasEntry"
-    },
-    "slide_right_target.png": {
-      "margin": "Rect2(0, 0, 0, 13)",
-      "region": "Rect2(646, 1, 128, 115)",
-      "type": "HBAtlasEntry"
-    },
-    "timing_arm.png": {
-      "margin": "Rect2(49, 22, 97, 45)",
-      "region": "Rect2(629, 686, 31, 83)",
-      "type": "HBAtlasEntry"
-    },
-    "up_double_note.png": {
-      "margin": "Rect2(19, 13, 32, 39)",
-      "region": "Rect2(504, 506, 96, 89)",
-      "type": "HBAtlasEntry"
-    },
-    "up_double_note_target.png": {
-      "margin": "Rect2(0, 0, 0, 8)",
-      "region": "Rect2(775, 1, 128, 120)",
-      "type": "HBAtlasEntry"
-    },
-    "up_multi_note.png": {
-      "margin": "Rect2(23, 21, 39, 38)",
-      "region": "Rect2(181, 681, 89, 90)",
-      "type": "HBAtlasEntry"
-    },
-    "up_multi_note_target.png": {
-      "margin": "Rect2(2, 0, 3, 0)",
-      "region": "Rect2(1, 240, 125, 128)",
-      "type": "HBAtlasEntry"
-    },
-    "up_note.png": {
-      "margin": "Rect2(23, 21, 39, 38)",
-      "region": "Rect2(271, 683, 89, 90)",
-      "type": "HBAtlasEntry"
-    },
-    "up_sustain_note.png": {
-      "margin": "Rect2(2, 0, 2, 0)",
-      "region": "Rect2(643, 240, 126, 128)",
-      "type": "HBAtlasEntry"
-    },
-    "up_sustain_note_target.png": {
-      "margin": "Rect2(19, 19, 37, 37)",
-      "region": "Rect2(277, 591, 91, 91)",
-      "type": "HBAtlasEntry"
-    },
-    "up_target.png": {
-      "margin": "Rect2(2, 0, 3, 0)",
-      "region": "Rect2(253, 377, 125, 128)",
-      "type": "HBAtlasEntry"
-    }
-  },
-  "pack_author_name": "EIRTeam",
-  "pack_name": "Fallback",
   "type": "HBResourcePack"
 }

@@ -376,6 +376,11 @@ func add_hold_score(score_to_add):
 	_potential_result.score += score_to_add
 	super.add_score(score_to_add)
 
+func add_rush_bonus_score(score_to_add: int):
+	result.rush_bonus += score_to_add
+	_potential_result.rush_bonus += score_to_add
+	_potential_result.score += score_to_add
+	super.add_score(score_to_add)
 
 func add_slide_chain_score(score_to_add):
 	result.slide_bonus += score_to_add

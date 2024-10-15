@@ -46,6 +46,21 @@
                     "style": "hold_target",
                     "src_path": "notes/Left",
                     "target_path": "notes/left_sustain_note_target"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Left",
+                    "target_path": "notes/left_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Left",
+                    "target_path": "notes/left_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/left_rush_text"
                 }
             }
         },
@@ -94,6 +109,21 @@
                     "style": "hold_target",
                     "src_path": "notes/Down",
                     "target_path": "notes/down_sustain_note_target"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Down",
+                    "target_path": "notes/down_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Down",
+                    "target_path": "notes/down_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/down_rush_text"
                 }
             }
         },
@@ -142,6 +172,21 @@
                     "style": "hold_target",
                     "src_path": "notes/Right",
                     "target_path": "notes/right_sustain_note_target"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Right",
+                    "target_path": "notes/right_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Right",
+                    "target_path": "notes/right_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/right_rush_text"
                 }
             }
         },
@@ -190,6 +235,21 @@
                     "style": "hold_target",
                     "src_path": "notes/Up",
                     "target_path": "notes/up_sustain_note_target"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Up",
+                    "target_path": "notes/up_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Up",
+                    "target_path": "notes/up_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/up_rush_text"
                 }
             }
         },
@@ -338,6 +398,21 @@
                     "style": "hold_target",
                     "src_path": "notes/Heart",
                     "target_path": "notes/heart_sustain_note_target"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Heart",
+                    "target_path": "notes/heart_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Heart_target",
+                    "target_path": "notes/heart_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/heart_rush_text"
                 }
             }
         }

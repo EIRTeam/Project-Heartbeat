@@ -46,6 +46,21 @@
                     "style": "target",
                     "src_path": "notes/X_sustain",
                     "target_path": "notes/left_sustain_note"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/X",
+                    "target_path": "notes/left_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/X",
+                    "target_path": "notes/left_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/left_rush_text"
                 }
             }
         },
@@ -93,6 +108,21 @@
                     "style": "target",
                     "src_path": "notes/A_sustain",
                     "target_path": "notes/down_sustain_note"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/A",
+                    "target_path": "notes/down_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/A_target",
+                    "target_path": "notes/down_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/down_rush_text"
                 }
             }
         },
@@ -140,6 +170,21 @@
                     "style": "normal",
                     "src_path": "notes/Double_right",
                     "target_path": "notes/right_double_note"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/B",
+                    "target_path": "notes/right_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/B_target",
+                    "target_path": "notes/right_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/right_rush_text"
                 }
             }
         },
@@ -192,6 +237,21 @@
                     "style": "normal",
                     "src_path": "notes/Double_up",
                     "target_path": "notes/up_double_note"
+                },
+                "note_rush": {
+                    "style": "normal_rush",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/up_rush_note"
+                },
+                "target_rush": {
+                    "style": "target_rush",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/up_rush_note_target"
+                },
+                "rush_text": {
+                    "style": "rush_text",
+                    "src_path": "rush_text",
+                    "target_path": "notes/up_rush_text"
                 }
             }
         }

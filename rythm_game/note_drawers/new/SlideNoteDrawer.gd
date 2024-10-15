@@ -34,7 +34,7 @@ func note_init():
 func play_appear_animation():
 	super.play_appear_animation()
 	
-func show_note_hit_effect(target_pos: Vector2):
+func show_note_hit_effect(target_pos: Vector2, effect_scale := 1.0):
 	if note_data.is_slide_note():
 		var effect = slide_effect_scene.instantiate()
 		effect.scale = Vector2.ONE * UserSettings.user_settings.note_size

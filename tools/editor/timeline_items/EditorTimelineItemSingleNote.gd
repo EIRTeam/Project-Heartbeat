@@ -16,7 +16,9 @@ func _ready():
 	data.connect("hold_toggled", Callable(self, "queue_redraw"))
 	get_viewport().connect("size_changed", Callable(self, "_on_view_port_size_changed"))
 func set_texture():
-	if data is HBSustainNote:
+	if data is HBRushNote:
+		$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "rush_note")
+	elif data is HBSustainNote:
 		$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "sustain_note")
 	elif data is HBDoubleNote:
 		$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "double_note")
@@ -34,6 +36,14 @@ func set_texture():
 		
 		$HoldTextureRect.set_deferred("size", Vector2(get_size().y, get_size().y))
 		$HoldTextureRect.position = Vector2(-get_size().y / 2, 0)
+	if has_node("RushTextureRect"):
+		if data is HBRushNote:
+			$RushTextureRect.show()
+		else:
+			$RushTextureRect.hide()
+		
+		$RushTextureRect.set_deferred("size", Vector2(get_size().y, get_size().y))
+		$RushTextureRect.position = Vector2(-get_size().y / 2, 0)
 	
 	$TextureRect.set_deferred("size", Vector2(get_size().y, get_size().y))
 	$TextureRect.position = Vector2(-get_size().y / 2, 0)

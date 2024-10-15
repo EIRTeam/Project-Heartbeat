@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://c8s373bamiwuj"]
 
-[ext_resource path="res://rythm_game/note_drawers/NoteGraphic.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://rythm_game/note_drawers/NoteGraphic.gd" id="2"]
 
 [node name="Note" type="Sprite2D"]
-position = Vector2( 588.453, 54.8522 )
-scale = Vector2( 0.5, 0.5 )
-script = ExtResource( 2 )
+position = Vector2(588.453, 54.8522)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("2")

@@ -196,7 +196,9 @@ func populate_items():
 			add_graphic_item(note_item, "Double Note Target", "%s_double_note_target.png" % [note_name], "notes")
 			add_graphic_item(note_item, "Sustain Note", "%s_sustain_note.png" % [note_name], "notes")
 			add_graphic_item(note_item, "Sustain Target", "%s_sustain_note_target.png" % [note_name], "notes")
-		
+			add_graphic_item(note_item, "Rush Text", "%s_rush_text.png" % [note_name], "notes", false, Vector2(256, 128))
+			add_graphic_item(note_item, "Rush Note", "%s_rush_note.png" % [note_name], "notes", true, Vector2(256, 256))
+			add_graphic_item(note_item, "Rush Note Target", "%s_rush_note_target.png" % [note_name], "notes", true, Vector2(256, 256))
 		if note in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]:
 			add_graphic_item(note_item, "Multi Note", "%s_multi_note.png" % [note_name], "notes")
 			add_graphic_item(note_item, "Multi Note Target", "%s_multi_note_target.png" % [note_name], "notes")
@@ -210,6 +212,9 @@ func populate_items():
 	add_graphic_item(misc_item, "Hold Text", "hold_text.png", "notes")
 	add_graphic_item(misc_item, "Hold Text Multi", "hold_text_multi.png", "notes")
 	add_graphic_item(misc_item, "Note Trail", "note_trail.png", "__no_atlas", false, Vector2(256, 64))
+	add_graphic_item(misc_item, "Rush Note Particle Spark", "rush_note_spark.png", "effects", true, Vector2(512, 512))
+	add_graphic_item(misc_item, "Rush Note Particle Twirl", "rush_note_twirl.png", "effects", true, Vector2(512, 512))
+	add_graphic_item(misc_item, "Rush Note Timing Arm", "rush_note_timing_arm.png", "notes", true, Vector2(256, 256))
 	if OS.has_feature("editor"):
 		add_graphic_item(misc_item, "Note Hit Bubble", "bubble.png", "effects", true, Vector2(496, 496))
 		add_graphic_item(misc_item, "Note Hit Flare", "flare.png", "effects", true, Vector2(800, 800))
@@ -306,8 +311,11 @@ func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 	description_text_edit.show()
 
 func _generate_atlas(atlas_name: String, save=true):
+		
 	print("ATLAS REBUILD", atlas_name)
 	if atlas_name == "__no_atlas":
+		return
+	if resource_images_per_atlas[atlas_name].size() == 0:
 		return
 	var time_start = Time.get_ticks_usec()
 	var out = HBUtils.pack_images_turbo16(resource_images_per_atlas[atlas_name], 1)

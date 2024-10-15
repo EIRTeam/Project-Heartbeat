@@ -99,6 +99,7 @@ func set_editor(p_editor):
 	contextual_menu.add_contextual_item("Toggle hold", "toggle_hold")
 	contextual_menu.add_contextual_item("Toggle sustain", "toggle_sustain")
 	contextual_menu.add_contextual_item("Toggle double", "toggle_double")
+	contextual_menu.add_contextual_item("Toggle rush", "toggle_rush")
 	contextual_menu.add_contextual_item("Make slide chain", "make_slide")
 	contextual_menu.add_contextual_item("Smooth out BPM change", "smooth_bpm")
 	
@@ -166,6 +167,8 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			change_note_type("Note")
 		"toggle_double":
 			toggle_double()
+		"toggle_rush":
+			toggle_rush()
 		"toggle_sustain":
 			toggle_sustain()
 		"make_slide":
@@ -281,7 +284,7 @@ func update_selected():
 	
 	var disable_all = get_selected().size() <= 0
 	
-	for item in ["make_normal", "toggle_sustain", "make_slide", "toggle_double", "toggle_hold", "smooth_bpm"]:
+	for item in ["make_normal", "toggle_sustain", "make_slide", "toggle_double", "toggle_rush", "toggle_hold", "smooth_bpm"]:
 		contextual_menu.set_contextual_item_disabled(item, disable_all)
 	
 	for i in range(button_change_submenu.get_item_count()):
@@ -307,6 +310,8 @@ func update_selected():
 	for selected in get_selected():
 		if not selected.data is HBBaseNote:
 			continue
+		var can_be_turned_into_rush: bool = selected.data.note_type >= HBBaseNote.NOTE_TYPE.UP and selected.data.note_type <= HBBaseNote.NOTE_TYPE.RIGHT
+		contextual_menu.set_contextual_item_disabled("toggle_rush", !can_be_turned_into_rush)
 		if selected.data is HBNoteData and (selected.data.is_slide_note() or selected.data.is_slide_hold_piece()):
 			contextual_menu.set_contextual_item_disabled("make_normal", true)
 			contextual_menu.set_contextual_item_disabled("toggle_double", true)
@@ -633,6 +638,38 @@ func toggle_double():
 		undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
 		undo_redo.add_undo_method(new_item.deselect)
 		undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
+	
+	undo_redo.add_do_method(self.timing_points_changed)
+	undo_redo.add_undo_method(self.timing_points_changed)
+	
+	undo_redo.add_do_method(self.deselect_all)
+	undo_redo.add_undo_method(self.deselect_all)
+	
+	undo_redo.commit_action()
+
+func toggle_rush():
+	var selected = get_selected()
+	if selected.size() < 1:
+		return
+	
+	undo_redo.create_action("Toggle rush")
+	
+	for item in selected:
+		var new_data_ser = item.data.serialize()
+		new_data_ser["end_time"] = item.data.time + 3000
+		new_data_ser["type"] = "RushNote"
+		
+		var new_data = HBSerializable.deserialize(new_data_ser) as HBRushNote
+		var new_item = new_data.get_timeline_item()
+		
+		undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+		undo_redo.add_do_method(self.add_item_to_layer.bind(item._layer, new_item))
+		
+		undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
+		undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
+	
+	undo_redo.add_do_method(editor.inspector.sync_visible_values_with_data)
+	undo_redo.add_undo_method(editor.inspector.sync_visible_values_with_data)
 	
 	undo_redo.add_do_method(self.timing_points_changed)
 	undo_redo.add_undo_method(self.timing_points_changed)

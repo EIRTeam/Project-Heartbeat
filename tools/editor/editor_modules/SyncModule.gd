@@ -251,7 +251,7 @@ func offset_notes():
 		undo_redo.add_do_property(timing_point, "time", new_time)
 		undo_redo.add_undo_property(timing_point, "time", timing_point.time)
 		
-		if timing_point is HBSustainNote:
+		if timing_point is HBSustainNote or timing_point is HBRushNote:
 			var length = timing_point.end_time - timing_point.time
 			
 			undo_redo.add_do_property(timing_point, "end_time", new_time + length)

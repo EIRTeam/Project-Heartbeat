@@ -103,6 +103,12 @@ func create_atlas_textures(texture: Texture2D, atlas_name: String, offset=Vector
 		_atlas_textures[file_name] = atlas_texture
 	return _atlas_textures
 
+func get_resources_dir_for_atlas(atlas_name: String) -> String:
+	if atlas_name == "__no_atlas":
+		return HBUtils.join_path(_path, "graphics")
+	else:
+		return HBUtils.join_path(_path, "editor_resources")
+
 func get_serialized_type():
 	return "HBResourcePack"
 

@@ -4,119 +4,158 @@
   "pack_description": "Resource Pack with note icons for use with PlayStation™ controllers.",
   "notes_atlas_data": {
     "up_note.png": {
-      "region": "Rect2( 336, 510, 106, 92 )",
-      "margin": "Rect2( 14, 16, 22, 36 )",
+      "region": "Rect2(378, 661, 106, 92)",
+      "margin": "Rect2(14, 16, 22, 36)",
       "type": "HBAtlasEntry"
     },
     "up_target.png": {
-      "region": "Rect2( 1, 1, 128, 126 )",
-      "margin": "Rect2( 0, 0, 0, 2 )",
+      "region": "Rect2(1, 538, 128, 125)",
+      "margin": "Rect2(0, 0, 0, 3)",
       "type": "HBAtlasEntry"
     },
     "up_multi_note.png": {
-      "region": "Rect2( 229, 510, 106, 92 )",
-      "margin": "Rect2( 14, 16, 22, 36 )",
+      "region": "Rect2(1, 664, 106, 92)",
+      "margin": "Rect2(14, 16, 22, 36)",
       "type": "HBAtlasEntry"
     },
     "up_multi_note_target.png": {
-      "region": "Rect2( 259, 1, 128, 126 )",
-      "margin": "Rect2( 0, 0, 0, 2 )",
+      "region": "Rect2(641, 550, 128, 125)",
+      "margin": "Rect2(0, 0, 0, 3)",
       "type": "HBAtlasEntry"
     },
     "up_sustain_note.png": {
-      "region": "Rect2( 259, 128, 128, 128 )",
+      "region": "Rect2(1, 409, 128, 128)",
       "type": "HBAtlasEntry"
     },
     "up_sustain_note_target.png": {
-      "region": "Rect2( 122, 386, 116, 92 )",
-      "margin": "Rect2( 6, 14, 12, 36 )",
+      "region": "Rect2(378, 556, 116, 104)",
+      "margin": "Rect2(6, 7, 12, 24)",
+      "type": "HBAtlasEntry"
+    },
+    "up_rush_note.png": {
+      "region": "Rect2(511, 251, 204, 177)",
+      "margin": "Rect2(29, 32, 52, 79)",
+      "type": "HBAtlasEntry"
+    },
+    "up_rush_note_target.png": {
+      "region": "Rect2(511, 1, 256, 249)",
+      "margin": "Rect2(0, 0, 0, 7)",
       "type": "HBAtlasEntry"
     },
     "left_note.png": {
-      "region": "Rect2( 167, 698, 78, 78 )",
-      "margin": "Rect2( 28, 28, 50, 50 )",
+      "region": "Rect2(590, 676, 78, 78)",
+      "margin": "Rect2(28, 28, 50, 50)",
       "type": "HBAtlasEntry"
     },
     "left_target.png": {
-      "region": "Rect2( 380, 385, 120, 120 )",
-      "margin": "Rect2( 4, 4, 8, 8 )",
+      "region": "Rect2(894, 550, 118, 118)",
+      "margin": "Rect2(5, 5, 10, 10)",
       "type": "HBAtlasEntry"
     },
     "left_multi_note.png": {
-      "region": "Rect2( 88, 673, 78, 78 )",
-      "margin": "Rect2( 28, 28, 50, 50 )",
+      "region": "Rect2(669, 676, 78, 78)",
+      "margin": "Rect2(28, 28, 50, 50)",
       "type": "HBAtlasEntry"
     },
     "left_multi_note_target.png": {
-      "region": "Rect2( 1, 384, 120, 120 )",
-      "margin": "Rect2( 4, 4, 8, 8 )",
+      "region": "Rect2(259, 553, 118, 118)",
+      "margin": "Rect2(5, 5, 10, 10)",
       "type": "HBAtlasEntry"
     },
     "left_sustain_note.png": {
-      "region": "Rect2( 255, 385, 124, 124 )",
-      "margin": "Rect2( 4, 4, 4, 4 )",
+      "region": "Rect2(770, 550, 123, 123)",
+      "margin": "Rect2(5, 5, 5, 5)",
       "type": "HBAtlasEntry"
     },
     "left_sustain_note_target.png": {
-      "region": "Rect2( 1, 594, 86, 80 )",
-      "margin": "Rect2( 21, 24, 42, 48 )",
+      "region": "Rect2(894, 669, 90, 90)",
+      "margin": "Rect2(19, 19, 38, 38)",
+      "type": "HBAtlasEntry"
+    },
+    "left_rush_note.png": {
+      "region": "Rect2(1, 258, 150, 150)",
+      "margin": "Rect2(56, 56, 106, 106)",
+      "type": "HBAtlasEntry"
+    },
+    "left_rush_note_target.png": {
+      "region": "Rect2(768, 1, 236, 236)",
+      "margin": "Rect2(10, 10, 20, 20)",
       "type": "HBAtlasEntry"
     },
     "down_note.png": {
-      "region": "Rect2( 379, 603, 90, 90 )",
-      "margin": "Rect2( 22, 22, 38, 38 )",
+      "region": "Rect2(225, 672, 90, 90)",
+      "margin": "Rect2(22, 22, 38, 38)",
       "type": "HBAtlasEntry"
     },
     "down_target.png": {
-      "region": "Rect2( 128, 259, 126, 126 )",
-      "margin": "Rect2( 1, 1, 2, 2 )",
+      "region": "Rect2(387, 429, 126, 126)",
+      "margin": "Rect2(1, 1, 2, 2)",
       "type": "HBAtlasEntry"
     },
     "down_multi_note.png": {
-      "region": "Rect2( 288, 603, 90, 90 )",
-      "margin": "Rect2( 22, 22, 38, 38 )",
+      "region": "Rect2(770, 674, 90, 90)",
+      "margin": "Rect2(22, 22, 38, 38)",
       "type": "HBAtlasEntry"
     },
     "down_multi_note_target.png": {
-      "region": "Rect2( 1, 257, 126, 126 )",
-      "margin": "Rect2( 1, 1, 2, 2 )",
+      "region": "Rect2(514, 429, 126, 126)",
+      "margin": "Rect2(1, 1, 2, 2)",
       "type": "HBAtlasEntry"
     },
     "down_sustain_note.png": {
-      "region": "Rect2( 259, 257, 127, 127 )",
-      "margin": "Rect2( 1, 1, 1, 1 )",
+      "region": "Rect2(259, 425, 127, 127)",
+      "margin": "Rect2(1, 1, 1, 1)",
       "type": "HBAtlasEntry"
     },
     "down_sustain_note_target.png": {
-      "region": "Rect2( 1, 505, 96, 88 )",
-      "margin": "Rect2( 16, 20, 32, 40 )",
+      "region": "Rect2(495, 556, 100, 100)",
+      "margin": "Rect2(14, 14, 28, 28)",
+      "type": "HBAtlasEntry"
+    },
+    "down_rush_note.png": {
+      "region": "Rect2(258, 252, 172, 172)",
+      "margin": "Rect2(45, 45, 84, 84)",
+      "type": "HBAtlasEntry"
+    },
+    "down_rush_note_target.png": {
+      "region": "Rect2(258, 1, 252, 250)",
+      "margin": "Rect2(2, 3, 4, 6)",
       "type": "HBAtlasEntry"
     },
     "right_note.png": {
-      "region": "Rect2( 98, 578, 94, 94 )",
-      "margin": "Rect2( 20, 20, 34, 34 )",
+      "region": "Rect2(495, 657, 94, 94)",
+      "margin": "Rect2(20, 20, 34, 34)",
       "type": "HBAtlasEntry"
     },
     "right_target.png": {
-      "region": "Rect2( 130, 130, 128, 128 )",
+      "region": "Rect2(716, 421, 128, 128)",
       "type": "HBAtlasEntry"
     },
     "right_multi_note.png": {
-      "region": "Rect2( 193, 603, 94, 94 )",
-      "margin": "Rect2( 20, 20, 34, 34 )",
+      "region": "Rect2(130, 661, 94, 94)",
+      "margin": "Rect2(20, 20, 34, 34)",
       "type": "HBAtlasEntry"
     },
     "right_multi_note_target.png": {
-      "region": "Rect2( 1, 128, 128, 128 )",
+      "region": "Rect2(845, 421, 128, 128)",
       "type": "HBAtlasEntry"
     },
     "right_sustain_note.png": {
-      "region": "Rect2( 130, 1, 128, 128 )",
+      "region": "Rect2(130, 425, 128, 128)",
       "type": "HBAtlasEntry"
     },
     "right_sustain_note_target.png": {
-      "region": "Rect2( 122, 479, 106, 98 )",
-      "margin": "Rect2( 11, 15, 22, 30 )",
+      "region": "Rect2(130, 554, 106, 106)",
+      "margin": "Rect2(11, 11, 22, 22)",
+      "type": "HBAtlasEntry"
+    },
+    "right_rush_note.png": {
+      "region": "Rect2(768, 238, 182, 182)",
+      "margin": "Rect2(40, 40, 74, 74)",
+      "type": "HBAtlasEntry"
+    },
+    "right_rush_note_target.png": {
+      "region": "Rect2(1, 1, 256, 256)",
       "type": "HBAtlasEntry"
     }
   },

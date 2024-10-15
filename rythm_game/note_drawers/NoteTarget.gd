@@ -31,20 +31,23 @@ func _ready():
 
 func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 	# set the texture to the correct one
+	$Sprite2D.scale = Vector2.ONE
 	if note_data.get_serialized_type() == "SustainNote":
-		$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type ,"sustain_note_target")
+		$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "sustain_note_target")
 	elif note_data.get_serialized_type() == "DoubleNote":
 		$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "double_note_target")
 	else:
 		if blue:
 			$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "target_blue")
 		elif multi:
+			if note_data is HBNoteData:
+				$Sprite2D/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text_multi.png")
+				$Sprite2D/HoldTextSprite.visible = note_data.hold
 			$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "multi_note_target")
-			$Sprite2D/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text_multi.png")
-			$Sprite2D/HoldTextSprite.visible = note_data.hold
 		else:
-			$Sprite2D/HoldTextSprite.visible = note_data.hold
-			$Sprite2D/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text.png")
+			if note_data is HBNoteData:
+				$Sprite2D/HoldTextSprite.visible = note_data.hold
+				$Sprite2D/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text.png")
 			$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
 			
 	var arm_disabled_types = [
@@ -70,3 +73,5 @@ func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 			progress_circle_rect.show()
 			progress_circle_rect.tint_progress = ResourcePackLoader.get_note_trail_color(note_data.note_type)
 	
+func hide_note_target_sprite():
+	$Sprite2D.hide()

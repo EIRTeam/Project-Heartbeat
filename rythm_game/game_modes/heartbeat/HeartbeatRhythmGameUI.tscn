@@ -126,7 +126,7 @@ cache/0/30/1/glyphs/72/size = Vector2(18, 26)
 cache/0/30/1/glyphs/72/uv_rect = Rect2(1, 23, 18, 26)
 cache/0/30/1/glyphs/72/texture_idx = 0
 
-[sub_resource type="FontFile" id="FontFile_eusji"]
+[sub_resource type="FontFile" id="FontFile_0eeln"]
 resource_local_to_scene = true
 fallbacks = Array[Font]([SubResource("13"), ExtResource("2")])
 subpixel_positioning = 0
@@ -246,7 +246,7 @@ anchor_bottom = 0.9
 offset_top = 0.0
 offset_right = 0.00012207
 offset_bottom = 0.0
-theme_override_fonts/font = SubResource("FontFile_eusji")
+theme_override_fonts/font = SubResource("FontFile_0eeln")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 0

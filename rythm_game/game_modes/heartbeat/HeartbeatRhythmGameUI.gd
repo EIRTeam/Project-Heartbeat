@@ -3,7 +3,6 @@ extends HBRhythmGameUIBase
 class_name HBRhythmGameUI
 
 @onready var rating_label: HBJudgementLabel = get_node("%JudgementLabel")
-@onready var wrong_rating_cross: TextureRect = get_node("RatingLabel/WrongRatingCross")
 @onready var game_layer_node = get_node("%GameLayer")
 @onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 @onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
@@ -92,6 +91,7 @@ func _ready():
 	add_drawing_layer(&"SlideChainPieces")
 	add_drawing_layer(&"SlideChainParticles")
 	add_drawing_layer(&"Notes")
+	add_drawing_layer(&"RushText")
 	
 	game_over_turn_off_node.hide()
 	add_child(tv_animation_tween)

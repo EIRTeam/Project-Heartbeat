@@ -1,29 +1,35 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://by4e6qnstojye"]
 
-[ext_resource path="res://graphics/hold_text_filled.png" type="Texture2D" id=1]
-[ext_resource path="res://tools/editor/timeline_items/EditorTimelineItemSingleNote.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://ccco32i2m8y2h" path="res://graphics/hold_text_filled.png" id="1"]
+[ext_resource type="Script" path="res://tools/editor/timeline_items/EditorTimelineItemSingleNote.gd" id="2"]
 
 [node name="EditorTimelineItemSingleNote" type="Control"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 3
+anchors_preset = 0
 offset_right = 166.0
 offset_bottom = 35.0
-custom_minimum_size = Vector2( 0, 35 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("2")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-expand = true
+expand_mode = 1
 stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HoldTextureRect" type="TextureRect" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-texture = ExtResource( 1 )
-expand = true
+texture = ExtResource("1")
+expand_mode = 1
+
+[node name="RushTextureRect" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1")
+expand_mode = 1

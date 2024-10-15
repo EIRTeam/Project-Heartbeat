@@ -293,7 +293,8 @@ func _on_note_add_node_to_layer(layer_name: StringName, node: Node):
 	game.game_ui.get_drawing_layer_node(layer_name).add_child(node)
 
 func _on_note_remove_node_from_layer(layer_name: StringName, node: Node):
-	game.game_ui.get_drawing_layer_node(layer_name).remove_child(node)
+	if game.game_ui.get_drawing_layer_node(layer_name).get_children().has(node):
+		game.game_ui.get_drawing_layer_node(layer_name).remove_child(node)
 
 # Independent means that a note judgement should be independent of the multi system, for example for
 # slide chains or the second hit of a sustain note

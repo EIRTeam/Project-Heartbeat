@@ -768,7 +768,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 					sync_timing = true
 				
 				if property_name == "time":
-					if selected_item.data is HBSustainNote:
+					if selected_item.data is HBSustainNote or selected_item.data is HBRushNote:
 						if old_property_values[selected_item].has("end_time"):
 							undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
 							undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
@@ -1000,7 +1000,7 @@ func paste(time: int):
 			timing_point.time = time + timing_point.time - min_point.time
 			if timing_point is HBBaseNote:
 				timing_point.pos_modified = true
-			if timing_point is HBSustainNote:
+			if timing_point is HBSustainNote or timing_point is HBRushNote:
 				timing_point.end_time = timing_point.time + copy.item.data.get_duration()
 			
 			if timing_point is HBBaseNote and UserSettings.user_settings.editor_auto_place:
@@ -1552,7 +1552,7 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 			
 			add_item(layer_n, item, false)
 			
-			if item_d is HBSustainNote:
+			if item_d is HBSustainNote or item_d is HBRushNote:
 				item.sync_value("end_time")
 			
 			if in_place:
@@ -1597,7 +1597,8 @@ func paste_note_data(notes: Array):
 			new_data.note_type = selected_item.data.note_type
 			new_data.time = selected_item.data.time
 			
-			if selected_item.data is HBSustainNote and new_data is HBSustainNote:
+			if (selected_item.data is HBSustainNote and new_data is HBSustainNote) \
+					or (selected_item.data is HBRushNote and new_data is HBRushNote):
 				new_data.end_time = selected_item.data.end_time
 			
 			for property in new_data.get_inspector_properties():
