@@ -71,7 +71,8 @@ func _on_rush_press():
 		play_end_particles()
 		finished.emit()
 func _on_pressed(event = null, judge := true):
-	sine_drawer.hide()
+	if sine_drawer:
+		sine_drawer.hide()
 	note_graphics.hide()
 	note_target_graphics.hide()
 	rush_note_graphic.show()
