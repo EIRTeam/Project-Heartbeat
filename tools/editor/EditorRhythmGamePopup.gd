@@ -32,6 +32,8 @@ func _init():
 
 func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, time: float, enable_bg: bool, enable_video: bool):
 	var volume = db_to_linear(SongDataCache.get_song_volume_offset(song) * song.volume)
+	if rhythm_game.current_song != song:
+		rhythm_game_ui._on_song_set(song, difficulty)
 	rhythm_game.audio_playback.volume = volume
 	if rhythm_game.voice_audio_playback:
 		rhythm_game.voice_audio_playback.volume = volume
@@ -147,6 +149,7 @@ func _unhandled_input(event):
 		_on_restart_button_pressed()
 	
 func _on_restart_button_pressed():
+	rhythm_game.restart()
 	rhythm_game.seek_new(_last_time * 1000.0, true)
 	rhythm_game.start()
 	
