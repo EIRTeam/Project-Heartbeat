@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://1b0dhe4p36pa" path="res://rythm_game/note_drawers/NoteTargetNew.tscn" id="2"]
 [ext_resource type="Script" path="res://rythm_game/note_drawers/new/rush_particle_drawer.gd" id="4_0fom8"]
 
-[node name="SingleNoteDrawer" type="Node2D"]
+[node name="RushNoteDrawer" type="Node2D"]
 script = ExtResource("1_heks4")
 
 [node name="ProgressLabel" type="Node2D" parent="."]
@@ -40,7 +40,7 @@ unique_name_in_owner = true
 
 [node name="RushTextSprite" type="Sprite2D" parent="RushText"]
 unique_name_in_owner = true
-position = Vector2(0, 100)
+position = Vector2(0, 72)
 scale = Vector2(0.5, 0.5)
 
 [node name="RushParticleDrawer" type="Node2D" parent="."]

@@ -14,6 +14,8 @@ var hits_done := 0
 @onready var rush_text_sprite: Sprite2D = %RushTextSprite
 @onready var rush_timing_arm: Sprite2D = %RushNoteTimingArm
 
+var text_animation_tween: Tween
+
 const EndParticles := preload("res://graphics/effects/RushNoteEndParticles.tscn")
 
 func set_note_data(val):
@@ -35,10 +37,7 @@ func note_init():
 	bind_node_to_layer(rush_particle_drawer, &"HitParticles", NodePath("NoteTarget"))
 	bind_node_to_layer(score_bonus_container, &"RushText", NodePath("NoteTarget"))
 	bind_node_to_layer(rush_text_container, &"RushText", NodePath("NoteTarget"))
-	score_bonus_label.position = -(score_bonus_label.size * 0.5)
-	score_bonus_label.position -= Vector2(0, 64)
 	rush_timing_arm.texture = ResourcePackLoader.get_graphic("rush_note_timing_arm.png")
-	
 	score_bonus_container.hide()
 	rush_note_graphic.hide()
 	super.note_init()
@@ -58,18 +57,34 @@ func process_input(event: InputEventHB):
 		_on_pressed(event)
 		
 func _on_rush_press():
+	show_note_hit_effect(note_data.position, get_base_target_scale())
+	fire_and_forget_user_sfx("note_hit")
+	var max_hit_count := (note_data as HBRushNote).calculate_capped_hit_count()
+	if hits_done >= max_hit_count:
+		return
+	
 	hits_done += 1
 	note_target_graphics.scale = Vector2.ONE * UserSettings.user_settings.note_size * get_base_target_scale()
 	game.add_rush_bonus_score(30)
 	score_bonus_label.text = "+%d" % [hits_done * 30]
 	score_bonus_container.show()
-	show_note_hit_effect(note_data.position, get_base_target_scale())
-	fire_and_forget_user_sfx("note_hit")
 	rush_particle_drawer.emit()
-	var max_hit_count := (note_data as HBRushNote).calculate_capped_hit_count()
+	score_bonus_label.modulate.a = 1.0
 	if hits_done >= max_hit_count:
-		play_end_particles()
-		finished.emit()
+		score_bonus_label.text = "MAX!"
+		if text_animation_tween:
+			text_animation_tween.kill()
+			text_animation_tween = null
+		score_bonus_label.position = -(score_bonus_label.size * 0.5)
+		score_bonus_label.position -= Vector2(0, 64)
+		return
+	elif text_animation_tween:
+		text_animation_tween.kill()
+		text_animation_tween = null
+	text_animation_tween = create_tween()
+	score_bonus_label.position = -(score_bonus_label.size * 0.5) - Vector2(0, 32)
+	text_animation_tween.tween_property(score_bonus_label, "position:y", score_bonus_label.position.y - 128, 1.0)
+	text_animation_tween.parallel().tween_property(score_bonus_label, "modulate:a", 0, 0.25).set_delay(0.75)
 func _on_pressed(event = null, judge := true):
 	if sine_drawer:
 		sine_drawer.hide()
@@ -100,11 +115,9 @@ func _on_pressed(event = null, judge := true):
 func update_arm_position(time_usec: int):
 	var note_time_usec := note_data.time * 1000
 	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) * 1000
-	if pressed:
-		note_target_graphics.arm2_position = 0.0
-	else:
-		note_target_graphics.arm2_position = 1.0 - ((note_time_usec - time_usec) / float(time_out))
 	var time_out_distance = time_out - (note_time_usec - time_usec) - (note_data.get_duration() * 1000)
+	var td1 := time_out_distance / float(time_out) as float
+	var td: float = clamp(time_out_distance / float(time_out), 0.0, 1.0)
 	note_target_graphics.arm_position = clamp(time_out_distance / float(time_out), 0.0, 1.0)
 
 func is_in_editor_mode():
@@ -150,6 +163,11 @@ func process_note(time_usec: int):
 	# Handle note going out of range
 	if pressed:
 		if time_usec > note_end_time_usec:
+			var max_hit_count := (note_data as HBRushNote).calculate_capped_hit_count()
+			
+			if hits_done >= max_hit_count:
+				play_end_particles()
+			
 			emit_signal("finished")
 	else:
 		if time_usec > note_time_usec + game.judge.get_target_window_usec():
@@ -163,7 +181,6 @@ func get_base_target_scale() -> float:
 
 func update_graphic_positions_and_scale(time_usec: int):
 	super.update_graphic_positions_and_scale(time_usec)
-	update_arm_position(time_usec)
 	if pressed:
 		rush_note_graphic.scale = UserSettings.user_settings.note_size * Vector2.ONE * get_base_target_scale() * 0.5
 		rush_note_graphic.position = note_data.position
