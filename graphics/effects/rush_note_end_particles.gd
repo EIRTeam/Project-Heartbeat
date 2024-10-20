@@ -9,6 +9,7 @@ func _ready() -> void:
 	$AnimationPlayer.animation_finished.connect(self._on_animation_finished)
 	$Whirl.texture = ResourcePackLoader.get_graphic("rush_note_twirl.png")
 	$Spark.texture = ResourcePackLoader.get_graphic("rush_note_spark.png")
+	$Circle.texture = ResourcePackLoader.get_graphic("bubble.png")
 
 func play():
 	$AnimationPlayer.play("new_animation")
