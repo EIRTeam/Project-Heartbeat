@@ -29,7 +29,8 @@ func _unhandled_input(event):
 		by_shortcut = true
 		
 		if toggle_mode:
-			set_pressed_no_signal(!pressed)
+			set_pressed_no_signal(!button_pressed)
+			toggled.emit(button_pressed)
 		else:
 			emit_signal("pressed")
 		
