@@ -18,14 +18,21 @@ func _init():
 
 func set_texture():
 	super.set_texture()
+	$RushTextureRect.hide()
 	if data is HBSustainNote:
 		$TextureRect2.texture = HBNoteData.get_note_graphic(data.note_type, "sustain_note")
+	if data is HBRushNote:
+		$TextureRect2.texture = HBNoteData.get_note_graphic(data.note_type, "note")
+		$RushTextureRect.show()
+		
 	$TextureRect2.set_deferred("size", Vector2(get_size().y, get_size().y))
 	_on_end_time_changed()
-
+	if has_node("RushTextureRect"):
+		$RushTextureRect.set_deferred("size", Vector2(get_size().y, get_size().y))
+		$RushTextureRect.position = Vector2(-get_size().y / 2, 0)
 func _draw():
 	super._draw()
-	if data is HBSustainNote:
+	if data is HBSustainNote or data is HBRushNote:
 		var width = 5
 		
 		var y = ($TextureRect.size.y - width)/2

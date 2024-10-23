@@ -23,7 +23,7 @@ func get_drawer_new():
 	return preload("res://rythm_game/note_drawers/new/RushNoteDrawer.tscn")
 
 func get_timeline_item():
-	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
+	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemSustainNote.tscn")
 	var timeline_item = timeline_item_scene.instantiate()
 	timeline_item.data = self
 	return timeline_item

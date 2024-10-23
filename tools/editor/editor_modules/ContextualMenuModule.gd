@@ -310,7 +310,9 @@ func update_selected():
 	for selected in get_selected():
 		if not selected.data is HBBaseNote:
 			continue
-		var can_be_turned_into_rush: bool = selected.data.note_type >= HBBaseNote.NOTE_TYPE.UP and selected.data.note_type <= HBBaseNote.NOTE_TYPE.RIGHT
+		var can_be_turned_into_rush: bool = (selected.data.note_type >= HBBaseNote.NOTE_TYPE.UP \
+			and selected.data.note_type <= HBBaseNote.NOTE_TYPE.RIGHT) \
+			or selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART
 		contextual_menu.set_contextual_item_disabled("toggle_rush", !can_be_turned_into_rush)
 		if selected.data is HBNoteData and (selected.data.is_slide_note() or selected.data.is_slide_hold_piece()):
 			contextual_menu.set_contextual_item_disabled("make_normal", true)
