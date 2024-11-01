@@ -883,13 +883,6 @@ msgstr "Renomear pasta"
 msgid "Delete folder"
 msgstr "Deletar pasta"
 
-#: menus/FolderManager.gd
-#: menus/HBTextInput.gd
-#: menus/options_menu/OptionControlsSectionEvent.gd
-msgid ""
-msgstr ""
-""
-
 #: menus/FolderManager.tscn
 msgid "Close"
 msgstr ""

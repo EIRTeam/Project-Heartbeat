@@ -883,13 +883,6 @@ msgstr "重命名文件夹"
 msgid "Delete folder"
 msgstr "删除文件夹"
 
-#: menus/FolderManager.gd
-#: menus/HBTextInput.gd
-#: menus/options_menu/OptionControlsSectionEvent.gd
-msgid ""
-msgstr ""
-""
-
 #: menus/FolderManager.tscn
 msgid "Close"
 msgstr "关闭"

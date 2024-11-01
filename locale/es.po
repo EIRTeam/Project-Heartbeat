@@ -883,13 +883,6 @@ msgstr "Renombrar directorio"
 msgid "Delete folder"
 msgstr "Eliminar directorio"
 
-#: menus/FolderManager.gd
-#: menus/HBTextInput.gd
-#: menus/options_menu/OptionControlsSectionEvent.gd
-msgid ""
-msgstr ""
-""
-
 #: menus/FolderManager.tscn
 msgid "Close"
 msgstr "Cerrar"
