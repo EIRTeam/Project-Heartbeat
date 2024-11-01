@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
-"PO-Revision-Date: 2024-05-16 10:10\n"
+"PO-Revision-Date: 2024-11-01 18:13\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -470,15 +470,15 @@ msgstr "Diminuir tipo de nota"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 4ths"
-msgstr "Definir resolução para 4ths"
+msgstr "Definir resolução para 4ts"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 6ths"
-msgstr "Definir resolução para 6ths"
+msgstr "Definir resolução para 6ts"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 8ths"
-msgstr "Definir resolução para 8ths"
+msgstr "Definir resolução para 8ts"
 
 #: autoloads/UserSettings.gd
 msgid "Set resolution to 12ths"
