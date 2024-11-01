@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-05-19 20:53\n"
+"PO-Revision-Date: 2024-11-01 18:13\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -76,7 +76,7 @@ msgstr "无效的链接，请确保使用的是有效的 YouTube 链接"
 
 #: autoloads/MouseTrap.tscn
 msgid "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"
-msgstr ""
+msgstr "你的系统时间似乎不正确，请确保你的时区和本地时间设置正确！尤其是如果你使用的是双引导Linux！"
 
 #: autoloads/MouseTrap.tscn
 #: multiplayer/lobby/LobbyList.tscn
@@ -226,11 +226,11 @@ msgstr "菜单 右"
 
 #: autoloads/UserSettings.gd
 msgid "Tab left"
-msgstr ""
+msgstr "左标签"
 
 #: autoloads/UserSettings.gd
 msgid "Tab right"
-msgstr ""
+msgstr "右标签"
 
 #: autoloads/UserSettings.gd
 msgid "Menu accept"
@@ -843,19 +843,19 @@ msgstr "正在下载 {song_title}的{download_type}({percentage}{size}{speed})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Couldn't load game data from {game_location}"
-msgstr ""
+msgstr "无法从 {game_location} 加载游戏数据"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path"
-msgstr ""
+msgstr "歌曲ID {song_id} ({song_title}) 的难度 {difficulty} 没有DSC文件路径"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Couldn't find audio data for song ID {song_id} ({song_title})"
-msgstr ""
+msgstr "无法找到歌曲ID {song_id} ({song_title}) 的音频数据"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "PVDB does not exist ({pvdb_path})"
-msgstr ""
+msgstr "PVDB 不存在 ({pvdb_path})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Song ID {song_id}'s audio path ({audio_path}) did not exist"
@@ -1747,7 +1747,7 @@ msgstr "下载所有歌曲媒体文件"
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
 msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
-msgstr ""
+msgstr "清除 {unused_video_count} 首未使用歌曲的媒体文件 ({unused_size})"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Reloading content..."
@@ -2067,7 +2067,7 @@ msgstr "创建"
 
 #: multiplayer/lobby/LobbyList.tscn
 msgid "You were kicked from the lobby"
-msgstr ""
+msgstr "你已被踢出大厅"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Select Song..."
@@ -2099,11 +2099,11 @@ msgstr "正在下载歌曲数据……"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Looks like some players lack the needed Workshop song or media for the songs, would you like to ask them to download them?"
-msgstr ""
+msgstr "看起来部分玩家缺少所需的创意工坊歌曲或者该歌曲的媒体文件，你想要通知他们下载这些文件吗？"
 
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
-msgstr ""
+msgstr "看起来你没有这个大厅选择的歌曲，你想要下载歌曲和对应的数据文件吗？"
 
 #: multiplayer/lobby/LobbySongSelector.tscn
 msgid "Selecting song for"
@@ -2115,7 +2115,7 @@ msgstr "设置为主机"
 
 #: multiplayer/lobby/Member.tscn
 msgid "Kick"
-msgstr ""
+msgstr "踢出"
 
 #: rythm_game/ResultsScreen.gd
 msgid "Results"
@@ -2312,11 +2312,11 @@ msgstr ""
 
 #: scripts/new_ui/HBUISkipIntroIndicator.gd
 msgid "Press "
-msgstr ""
+msgstr "按下 "
 
 #: scripts/new_ui/HBUISkipIntroIndicator.gd
 msgid "to skip the intro"
-msgstr ""
+msgstr "以跳过前奏"
 
 #: rythm_game/modifiers/console_to_arcade/console_to_arcade.gd
 msgctxt "Console to arcade modifier name"
