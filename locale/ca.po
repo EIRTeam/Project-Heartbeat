@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 8\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2024-05-16 10:51\n"
+"PO-Revision-Date: 2024-11-01 18:13\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1286,7 +1286,7 @@ msgstr "Permet que el joc accedeixi directament als joysticks dels controladors,
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Direct joystick slider deadzone outer"
-msgstr ""
+msgstr "(Accés de joystick directe) Zona morta d'sliders exterior"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
@@ -1294,7 +1294,7 @@ msgstr "De 0 a 1, quant viatge es necessita perquè els sticks analògics (i alt
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Direct joystick angle deadzone"
-msgstr ""
+msgstr "(Accés de joystick directe) Zona morta d'angle"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Angle used to define the angular deadzone of sliders\n"
