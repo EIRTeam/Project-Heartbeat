@@ -209,7 +209,7 @@ func _get_files():
 		var raw_end = _read(file_name_length + extra_field_length + comment_length)
 		if !raw_end:
 			return false
-		var fname_result := raw_end.slice(0, file_name_length).get_string_from_utf8_checked() as Array
+		var fname_result := PHNative.get_string_from_utf8_checked(raw_end.slice(0, file_name_length)) as Array
 		var fname := ""
 		if fname_result[1]:
 			fname = fname_result[0]
