@@ -103,16 +103,16 @@ func _gui_input(event):
 				emit_signal("out_from_top")
 			else:
 				get_viewport().set_input_as_handled()
-				var i = wrapi(selected_button_i-1, 0, get_child_count())
-				var loop_limit := 10
-				var loop_count := 0
-				while i >= 0 and loop_count < loop_limit:
-					loop_count += 1
+				var loop_inc := 1
+				var wrap_test_count := get_child_count()-1
+				
+				while loop_inc <= wrap_test_count:
+					var i = wrapi(selected_button_i-loop_inc, 0, get_child_count())
 					if get_child(i).visible and get_child(i) and get_child(i).has_method("hover"):
 						select_button(i)
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 						break
-					i = wrapi(i-1, 0, get_child_count())
+					loop_inc += 1
 
 	elif event.is_action_pressed(next_action):
 		if selected_button:
@@ -126,13 +126,16 @@ func _gui_input(event):
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 			else:
 				get_viewport().set_input_as_handled()
-				var i = wrapi(selected_button_i+1, 0, get_child_count())
-				while i <= get_child_count()-1:
+				var loop_inc := 1
+				var wrap_test_count := get_child_count()-1
+				
+				while loop_inc <= wrap_test_count:
+					var i = wrapi(selected_button_i+loop_inc, 0, get_child_count())
 					if get_child(i).visible and get_child(i) and get_child(i).has_method("hover"):
 						select_button(i)
 						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 						break
-					i += 1
+					loop_inc += 1
 	elif event.is_action_pressed("gui_accept"):
 		if selected_button:
 			get_viewport().set_input_as_handled()
