@@ -27,15 +27,15 @@ func _on_viewport_size_changed():
 	# to adjust the 0.90 magic number
 	var default_169 = 16/9.0
 	var ratio: float = get_viewport().size.x / float(get_viewport().size.y)
-	$Camera3D.fov = 47.0 * max(default_169/ratio, 0.90)
+	%MenuCamera.fov = 47.0 * max(default_169/ratio, 0.90)
 	
 	var scaling: Vector3 = max(1.0/(ratio/default_169), 1.0) * Vector3.ONE
-	$Node3D.scale = scaling
-	$Node3D2.scale = scaling
+	%LeftMenu.scale = scaling
+	%RightMenu.scale = scaling
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")
-	left_menu_container = get_node("Node3D/CanvasLayer3D/MenuLeftContainer")
-	right_menu_container = get_node("Node3D2/CanvasLayer3D/MenuRightContainer/VBoxContainer/Control")
+	left_menu_container = %LeftMenu.get_node("CanvasLayer3D/MenuLeftContainer")
+	right_menu_container = %RightMenu.get_node("CanvasLayer3D/MenuRightContainer/VBoxContainer/Control")
 	first_background_texrect = get_node("CanvasLayer/Background1")
 	second_background_texrect = get_node("CanvasLayer/Background2")
 	background_transition_animation_player = get_node("CanvasLayer/AnimationPlayer")
