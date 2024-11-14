@@ -19,20 +19,21 @@ var normal_style = preload("res://styles/SongListItemNormal.tres")
 # emitted by song list, TODO: fix this?
 signal pressed
 
-func get_target_scale():
-	if is_hovered():
-		return HOVERED_SCALE
+func get_target_hover_scale():
+	return HOVERED_SCALE
+func get_target_normal_scale():
 	return NON_HOVERED_SCALE
 
 func _on_resize():
-	update_scale(get_target_scale(), true)
+	pivot_offset.y = size.y * 0.5
+	#update_scale(get_target_hover_scale() if is_hovered() else get_target_normal_scale(), true)
 
 func _ready():
 	connect("resized", Callable(self, "_on_resize"))
 	add_child(scale_tween)
 	call_deferred("_on_resize")
 
-func _update_interpolated_scale(new_scale: Vector2):
+func _scale_interp_step(new_scale: Vector2):
 	interpolated_scale = new_scale
 	pivot_offset.y = size.y * 0.5
 	node_to_scale.scale = new_scale
@@ -43,17 +44,21 @@ func update_scale(to: Vector2, no_animation=false):
 	if scale_tween.is_inside_tree():
 		if no_animation:
 			scale_tween.remove_all()
-			node_to_scale.scale = get_target_scale()
+			node_to_scale.scale = get_target_hover_scale() if is_hovered() else get_target_normal_scale()
 		else:
 			scale_tween.remove_all()
-			scale_tween.interpolate_method(self, "_update_interpolated_scale", node_to_scale.scale, to, 0.25, Threen.TRANS_BACK, Threen.EASE_OUT)
+			scale_tween.interpolate_method(self, "_scale_interp_step", node_to_scale.scale, to, 0.25, Threen.TRANS_BACK, Threen.EASE_OUT)
 			scale_tween.start()
 func hover(no_animation=false):
 	node_to_scale.add_theme_stylebox_override("normal", hover_style)
-	update_scale(get_target_scale(), no_animation)
+	update_scale(get_target_hover_scale(), no_animation)
+	
 func stop_hover(no_animation=false):
 	node_to_scale.add_theme_stylebox_override("normal", normal_style)
-	update_scale(get_target_scale(), no_animation)
+	update_scale(get_target_normal_scale(), no_animation)
+
+func notify_parent_list_lost_focus():
+	pass
 
 func is_hovered():
 	return node_to_scale.get_theme_stylebox("normal") == hover_style

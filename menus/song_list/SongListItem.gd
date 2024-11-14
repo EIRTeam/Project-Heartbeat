@@ -44,7 +44,6 @@ func _queue_song_update():
 		_song_update.call_deferred()
 
 func _on_difficulty_tag_pressed(diff: String):
-	disable_scaling = false
 	animatable_container.animate(false)
 	UserSettings.user_settings.last_selected_difficulty = diff
 	UserSettings.save_user_settings()
@@ -96,8 +95,7 @@ func _song_update():
 	album_art_texture.texture = token.get_asset(SongAssetLoader.ASSET_TYPES.PREVIEW)
 	
 func update_scale(to: Vector2, no_animation=false):
-	if not disable_scaling:
-		super.update_scale(to, no_animation)
+	super.update_scale(to, no_animation)
 
 func _ready():
 	super._ready()
@@ -109,20 +107,23 @@ func _ready():
 	button.pressed.connect(pressed.emit)
 	set_process_input(true)
 	interpolated_scale = NON_HOVERED_SCALE
-	difficulty_tag_container.focus_exited.connect(_on_focus_lost, CONNECT_DEFERRED)
-	unsubscribe_button_container.focus_exited.connect(_on_focus_lost, CONNECT_DEFERRED)
 	unsubscribe_button.pressed.connect(_on_unsubscribe_requested_pressed)
 	
 	get_parent().sort_children.connect(
 		func(): 
 			set_deferred("scale", interpolated_scale)
 	)
+	
+	get_viewport().gui_focus_changed.connect(self._on_focus_changed)
+
+func _on_focus_changed(new_focus_owner: Control):
+	if not new_focus_owner in [unsubscribe_button_container, difficulty_tag_container]:
+		animatable_container.animate(false)
+	
 
 func _on_unsubscribe_requested_pressed():
 	had_selected_unsubscribe = true
 	unsubscribe_requested.emit(song)
-
-var disable_scaling := false
 
 func _on_song_cached():
 	get_node("%DownloadTextureRect").visible = not song.is_cached() and song.youtube_url
@@ -191,14 +192,8 @@ func _become_visible():
 func hover(no_animation=false):
 	super.hover(no_animation)
 	%Button.add_theme_stylebox_override("normal", hover_style)
-	if had_selected_unsubscribe:
-		had_selected_unsubscribe = false
-		if unsubscribe_button.is_visible_in_tree(): 
-			unsubscribe_button_container.grab_focus()
 	
 func stop_hover(no_animation=false):
-	if disable_scaling:
-		return
 	super.stop_hover(no_animation)
 	%Button.add_theme_stylebox_override("normal", normal_style)
 
@@ -210,7 +205,6 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			set_process_input(false)
 			animatable_container.animate(false)
-			disable_scaling = false
 
 func _on_difficulty_hovered(diff: String):
 	arcade_texture_diff_rect.hide()
@@ -244,26 +238,13 @@ func _on_difficulty_hovered(diff: String):
 		console_texture_diff_rect.show()
 
 func _on_pressed():
+	hover()
 	rating_data_container.show()
-	disable_scaling = true
-	%Button.add_theme_stylebox_override("normal", hover_style)
 	_on_difficulty_hovered(difficulty_tag_container.get_child(0).difficulty)
-	animatable_container.animate(true)
 	difficulty_tag_container.grab_focus()
+	animatable_container.animate(true)
 	for tag: HBDifficultyTag in difficulty_tag_container.get_children():
 		if tag.difficulty.to_lower() == UserSettings.user_settings.last_selected_difficulty.to_lower():
 			select_diff(tag.difficulty)
 			break
 	set_process_input(true)
-
-func _on_focus_lost():
-	if not is_inside_tree():
-		return
-		
-	# Possibly the worst HACK in the whole codebase but hey, it works.
-	var is_selected_in_parent: bool = (get_parent().get_parent() as HBUniversalScrollList).get_selected_item() == self
-	if not get_viewport().gui_get_focus_owner() in [unsubscribe_button_container, difficulty_tag_container] and not is_selected_in_parent:
-		disable_scaling = false
-		stop_hover()
-		set_process_input(false)
-		animatable_container.animate(false)

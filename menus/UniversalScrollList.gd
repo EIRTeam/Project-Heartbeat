@@ -255,7 +255,6 @@ func select_item(item_i: int):
 	
 func force_scroll():
 	if get_selected_item():
-		await get_tree().process_frame
 		select_item(current_selected_item)
 	
 func _input(event):
@@ -334,7 +333,9 @@ func _gui_input(event):
 
 func _on_focus_lost():
 	var current_item = get_selected_item()
-	if current_item:
+	if current_item.has_method(&"notify_parent_list_lost_focus"):
+		current_item.notify_parent_list_lost_focus()
+	else:
 		current_item.stop_hover()
 	initial_input_debounce_timer.stop()
 	input_debounce_timer.stop()
