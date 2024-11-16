@@ -13,6 +13,7 @@ extends HBMenu
 @onready var original_title_label: Label = get_node("%OriginalTitleLabel")
 @onready var song_meta_label: Label = get_node("%SongMetaLabel")
 @onready var author_label: Label = get_node("%AuthorLabel")
+@onready var container: Control = get_node("SongListPreview")
 
 enum QueuedType {
 	NORMAL,
@@ -63,6 +64,7 @@ func _ready():
 	hide()
 	add_child(list_tween)
 	_on_resized()
+	container.hide()
 
 func _notification(what):
 	match what:
@@ -135,7 +137,6 @@ func select_song(song: HBSong):
 	_queue_update()
 	
 func _show_normal_song():
-	show()
 	var song_data := selected_song_data
 	var song := selected_song_data.song
 	bpm_label.text = "%s BPM" % song.bpm_string
@@ -162,6 +163,7 @@ func _show_normal_song():
 	if not song_data.queue_valid:
 		return
 	_on_song_assets_loaded(assets)
+	container.show()
 	song_data.queue_valid = false
 ## Lets you select songs from UGC without having local information, use sparingly.
 func select_ugc_song(ugc_id: int):
