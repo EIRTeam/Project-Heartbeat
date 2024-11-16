@@ -36,7 +36,7 @@ func populate():
 	for entry in YoutubeDL.caching_queue:
 		add_download_item(entry)
 	update_count_label()
-	no_song_label.visible = YoutubeDL.caching_queue.size() <= 0
+	no_song_label.visible = YoutubeDL.caching_queue.size() <= 0 and YoutubeDL.tracked_video_downloads.size() <= 0
 	
 	scroll_list.grab_focus()
 	
