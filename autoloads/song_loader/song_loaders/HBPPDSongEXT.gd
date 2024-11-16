@@ -15,7 +15,7 @@ func has_audio():
 	return (video and FileAccess.file_exists(get_song_video_res_path())) or FileAccess.file_exists(get_song_audio_res_path())
 		
 func is_cached(variant := -1):
-	return (video and FileAccess.file_exists(get_song_video_res_path())) and FileAccess.file_exists(get_song_audio_res_path())
+	return (video and FileAccess.file_exists(get_song_video_res_path())) or FileAccess.file_exists(get_song_audio_res_path())
 
 func get_audio_stream(variant := -1):
 	var audio_path = get_song_audio_res_path()
