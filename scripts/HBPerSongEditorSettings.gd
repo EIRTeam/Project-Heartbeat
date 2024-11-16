@@ -9,7 +9,7 @@ var hidden_layers = []
 
 var bpm := 180.0
 var offset := 0.0
-var note_resolution := 16.0
+var note_resolution := 16
 var beats_per_bar := 4
 var timeline_snap := true
 

@@ -1777,7 +1777,7 @@ func release_owned_focus():
 	$FocusTrap.grab_focus()
 
 func get_note_resolution() -> float:
-	return 1 / sync_module.get_resolution() if sync_module else 1/16.0
+	return 1.0 / (sync_module.get_resolution() as float) if sync_module else 1.0/16.0
 
 func get_timing_changes() -> Array:
 	return timing_changes
