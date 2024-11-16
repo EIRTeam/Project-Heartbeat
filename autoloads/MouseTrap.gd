@@ -1,5 +1,5 @@
 extends CanvasLayer
-@onready var cache_song_overlay = get_node("MouseTrap/CacheSongOverlay")
+@onready var cache_song_overlay: HBCacheSongOverlay = get_node("MouseTrap/CacheSongOverlay")
 @onready var ppd_dialog = get_node("MouseTrap/PPDDialog")
 @onready var content_dir_dialog = get_node("MouseTrap/AddContentDirDialog")
 @onready var wrong_timezone_confirmation_window: HBConfirmationWindow = get_node("%WrongTimezoneConfirmationWindow")

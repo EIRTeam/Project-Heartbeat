@@ -1,5 +1,7 @@
 extends Control
 
+class_name HBCacheSongOverlay
+
 @onready var download_confirm_popup = get_node("DownloadConfirmPopup")
 @onready var error_prompt = get_node("ErrorPrompt")
 @onready var accept_button_audio = get_node("%AcceptButtonAudio")
@@ -7,6 +9,11 @@ extends Control
 signal done
 var current_song_downloading: HBSong
 var current_variant = -1
+enum DownloadPromptResult {
+	CANCELLED,
+	CACHING_STARTED
+}
+signal download_prompt_done(result: DownloadPromptResult)
 
 func _ready():
 	disable_mouse_filter()
@@ -28,6 +35,7 @@ func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_opt
 	var variant = song.get_variant_data(variant_n)
 	if YoutubeDL.is_already_downloading(song, variant_n):
 		error_prompt.popup_centered_ratio(0.5)
+		download_prompt_done.emit(DownloadPromptResult.CANCELLED)
 		return
 	current_song_downloading = song
 	current_variant = variant_n
@@ -54,4 +62,5 @@ func _on_download_prompt_accepted(audio_only=false):
 	current_song_downloading.cache_data(current_variant)
 	download_confirm_popup.hide()
 	emit_signal("done")
+	download_prompt_done.emit(DownloadPromptResult.CACHING_STARTED)
 	disable_mouse_filter()

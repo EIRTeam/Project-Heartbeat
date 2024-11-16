@@ -1,19 +1,20 @@
-[gd_scene load_steps=15 format=3 uid="uid://bs014ypkeybga"]
+[gd_scene load_steps=16 format=3 uid="uid://bs014ypkeybga"]
 
 [ext_resource type="PackedScene" uid="uid://bk36n81tgbx1g" path="res://menus/SongTitle.tscn" id="1"]
 [ext_resource type="StyleBox" uid="uid://3yhfuv7t5wgf" path="res://styles/SongListItemNormal.tres" id="2"]
-[ext_resource type="Script" path="res://menus/song_list/SongListItem.gd" id="3"]
+[ext_resource type="Script" uid="uid://b823sx4imnv6m" path="res://menus/song_list/SongListItem.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://cqsegv1wyr5o7" path="res://graphics/icons/menu_star.png" id="4"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="5"]
-[ext_resource type="Script" path="res://menus/song_list/animatable_container.gd" id="5_yxbln"]
+[ext_resource type="Script" uid="uid://djs14j6cqllql" path="res://menus/song_list/animatable_container.gd" id="5_yxbln"]
 [ext_resource type="StyleBox" uid="uid://bpo43s4bcd0gr" path="res://styles/SongListItemHover.tres" id="6"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="7_2dew8"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="8"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="10_75apa"]
+[ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="9_mfu3h"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="10_75apa"]
 [ext_resource type="Texture2D" uid="uid://bba7sytrl2scc" path="res://graphics/icons/clearBadge-Perfect.png" id="10_p7e5s"]
 [ext_resource type="Texture2D" uid="uid://b0a6o3j43i3uf" path="res://graphics/icons/minus-circle.svg" id="13_6fogf"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="13_ls360"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="13_ls360"]
 
 [node name="Control" type="MarginContainer"]
 custom_minimum_size = Vector2(0, 125)
@@ -135,6 +136,15 @@ custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DownloadingTextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("9_mfu3h")
 expand_mode = 1
 stretch_mode = 5
 

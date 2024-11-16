@@ -222,6 +222,13 @@ func on_filter_changed(song_id_to_select: String = ""):
 			set_songs(songs, s, null, true)
 #				hard_arrange_all()
 		
+func notify_song_caching_started(song: HBSong):
+	for item in item_container.get_children():
+		if not item is HBSongListItem:
+			continue
+		if item.song == song:
+			item.notify_song_caching_started()
+		
 func _on_dummy_sighted(song: HBSong):
 	var dummy = filtered_song_items[song] as Control
 	var item = _create_song_item(song)

@@ -14,6 +14,7 @@ var song : HBSong
 @onready var arcade_texture_diff_rect: TextureRect = get_node("%ArcadeTextureDifficulty")
 @onready var console_texture_diff_rect: TextureRect = get_node("%ConsoleTextureDifficulty")
 @onready var download_texture_rect: TextureRect = get_node("%DownloadTextureRect")
+@onready var downloading_texture_rect: TextureRect = get_node("%DownloadingTextureRect")
 #HBNoteData.get_note_graphic(data.note_type, "note")
 
 const DIFFICULTY_TAG: PackedScene = preload("res://menus/song_list/DifficultyTag.tscn")
@@ -54,9 +55,25 @@ func select_diff(diff: String):
 		if diff_button.difficulty == diff:
 			difficulty_tag_container.select_button(diff_button.get_index())
 			break
+			
+func notify_song_caching_started():
+	_update_song_caching_icons()
+			
+func _update_song_caching_icons():
+	download_texture_rect.hide()
+	downloading_texture_rect.hide()
+	if not song.is_cached() and song.youtube_url:
+		if YoutubeDL.is_already_downloading(song):
+			downloading_texture_rect.show()
+			set_process(true)
+		else:
+			download_texture_rect.show()
+			
 func _song_update():
 	song_update_queued = false
-	download_texture_rect.visible = not song.is_cached() and song.youtube_url
+	set_process(false)
+	_update_song_caching_icons()
+		
 	song_title.song = song
 	var max_stars = song.get_max_score()
 	var sorted_diffs = []
@@ -89,6 +106,7 @@ func _song_update():
 			unsubscribe_button_margin_container.remove_meta(&"animated_deployed_visibility")
 	else:
 		unsubscribe_button_margin_container.set_meta(&"animated_deployed_visibility", true)
+	song.song_cached.connect(_update_song_caching_icons)
 	var token := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.PREVIEW])
 	await token.assets_loaded
 	album_art_texture.texture = token.get_asset(SongAssetLoader.ASSET_TYPES.PREVIEW)
@@ -98,6 +116,7 @@ func update_scale(to: Vector2, no_animation=false):
 
 func _ready():
 	super._ready()
+	set_process(false)
 	arcade_texture_diff_rect.texture = ResourcePackLoader.get_graphic("slide_right_note.png")
 	console_texture_diff_rect.texture = ResourcePackLoader.get_graphic("heart_note.png")
 	arcade_texture_rect.hide()
@@ -124,14 +143,8 @@ func _on_unsubscribe_requested_pressed():
 	had_selected_unsubscribe = true
 	unsubscribe_requested.emit(song)
 
-func _on_song_cached():
-	get_node("%DownloadTextureRect").visible = not song.is_cached() and song.youtube_url
-
 func set_song(value: HBSong):
-	if song:
-		song.disconnect("song_cached", Callable(self, "_on_song_cached"))
 	song = value
-	song.connect("song_cached", Callable(self, "_on_song_cached"))
 	_queue_song_update()
 
 #	if ScoreHistory.has_result(value.id, difficulty):
@@ -204,6 +217,10 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			set_process_input(false)
 			animatable_container.animate(false)
+
+func _process(delta: float) -> void:
+	downloading_texture_rect.pivot_offset = download_texture_rect.size * 0.5
+	downloading_texture_rect.rotation += deg_to_rad(90.0) * delta
 
 func _on_difficulty_hovered(diff: String):
 	arcade_texture_diff_rect.hide()

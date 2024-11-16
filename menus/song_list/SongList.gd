@@ -426,7 +426,9 @@ func _on_difficulty_selected(song: HBSong, difficulty):
 		change_to_menu("pre_game", false, {"song": song, "difficulty": difficulty})
 	else:
 		MouseTrap.cache_song_overlay.show_download_prompt(song)
-	
+		var result: HBCacheSongOverlay.DownloadPromptResult = await MouseTrap.cache_song_overlay.download_prompt_done
+		if result == HBCacheSongOverlay.DownloadPromptResult.CACHING_STARTED:
+			song_container.notify_song_caching_started(song)
 func _on_ppd_audio_file_selected(path: String):
 	current_song.audio = path.get_file()
 	var song_path = current_song.get_song_audio_res_path()
