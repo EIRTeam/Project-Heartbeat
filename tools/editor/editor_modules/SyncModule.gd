@@ -12,7 +12,7 @@ extends HBEditorModule
 
 var bpm := 150.0
 var offset := 0
-var resolution := 16.0
+var resolution := 16
 var signature := 4
 
 var resolutions = [
