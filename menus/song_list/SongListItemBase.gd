@@ -26,7 +26,6 @@ func get_target_normal_scale():
 
 func _on_resize():
 	pivot_offset.y = size.y * 0.5
-	#update_scale(get_target_hover_scale() if is_hovered() else get_target_normal_scale(), true)
 
 func _ready():
 	connect("resized", Callable(self, "_on_resize"))

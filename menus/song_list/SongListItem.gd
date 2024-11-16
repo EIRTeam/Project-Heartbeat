@@ -50,7 +50,6 @@ func _on_difficulty_tag_pressed(diff: String):
 	difficulty_selected.emit(song, diff)
 	
 func select_diff(diff: String):
-	await get_tree().process_frame
 	for diff_button in difficulty_tag_container.get_children():
 		if diff_button.difficulty == diff:
 			difficulty_tag_container.select_button(diff_button.get_index())
