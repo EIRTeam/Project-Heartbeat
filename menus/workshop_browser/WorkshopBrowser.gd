@@ -40,6 +40,8 @@ var steam_query: HBSteamUGCQuery
 
 var filter_tag : set = set_filter_tag
 
+var is_menu_open := false
+
 func get_filter_tags():
 	var tags := []
 	# when filtering by stars we shouldn't be using the "Charts" tag, this is to prevent us from
@@ -147,6 +149,11 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		tag_button_container.select_button(0, false)
 		navigate_to_page(current_page, QueryRequestAll.get_default(get_filter_tags()))
 	scroll_container.grab_focus()
+	is_menu_open = true
+
+func _on_menu_exit(force_hard_transition = false):
+	super._on_menu_exit(force_hard_transition)
+	is_menu_open = false
 
 func _on_pagination_debounce_timeout():
 	navigate_to_page(_debounced_page)
@@ -209,7 +216,11 @@ func update_pagination_label(page_n: int):
 	pagination_back_button.visible = page_n > 1
 	pagination_forward_button.visible = page_n <  total_pages
 func _on_ugc_query_completed(result: HBSteamUGCQueryPageResult):
-	if not is_inside_tree():
+	# is_menu_open is a bit of a hack, basically, you could open the workshop menu
+	# then exit, and while the exit animation was playing, the request would arrive, which would
+	# transfer focus to the workshop menu, which was no bueno because the menu you were transitioning
+	# to would lose focus
+	if not is_inside_tree() or not is_menu_open:
 		return
 	if result:
 		loading_spinner.hide()
