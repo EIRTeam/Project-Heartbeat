@@ -45,7 +45,23 @@ var allowed_sort_by = {
 	"_updated_time": tr("Last updated")
 }
 
+## used for queing a list update when a new workshop song is installed, kinda HACKY
+signal _new_workshop_song_added_queuer
+
 var rich_presence_start_timestamp: int
+
+func _new_workshop_song_added_update():
+	if not is_inside_tree():
+		await tree_entered
+	
+	var item = song_container.get_selected_item()
+	force_next_song_update = true
+	if item and item is HBSongListItem:
+		update_songs(item.song.id)
+	else:
+		update_songs()
+	_new_workshop_song_added_queuer.connect(_new_workshop_song_added_update, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
+		
 
 func update_filter_display_containers():
 	star_filter_container.hide()
@@ -124,7 +140,7 @@ func _on_ppd_dialog_visiblity_changed():
 func _on_ugc_song_meta_updated():
 	if UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop in ["_added_time", "_updated_time", "_released_time"] \
 			and UserSettings.user_settings.sort_filter_settings.filter_mode == "workshop":
-		song_container.set_songs(SongLoader.songs.values(), null, null, true)
+		song_container.set_songs(SongLoader.songs.values(), "", null, true)
 	
 func set_sort(sort_by):
 	UserSettings.save_user_settings()
@@ -135,7 +151,7 @@ func set_sort(sort_by):
 		UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop = sort_by
 	else:
 		UserSettings.user_settings.sort_filter_settings.sort_prop = sort_by
-	song_container.set_songs(SongLoader.songs.values(), null, null, true)
+	song_container.set_songs(SongLoader.songs.values(), "", null, true)
 	update_sort_label(sort_by)
 func update_sort_label(sort_by):
 	sort_mode_label.text = allowed_sort_by[sort_by]
@@ -144,7 +160,8 @@ func update_sort_label(sort_by):
 #	sort_by_list.hide()
 func _on_ugc_item_installed(type, item):
 	if type == "song":
-		force_next_song_update = true
+		if filter_settings.filter_mode == "workshop":
+			_new_workshop_song_added_queuer.emit()
 
 func _on_menu_exit(force_hard_transition = false):
 	super._on_menu_exit(force_hard_transition)
@@ -175,6 +192,7 @@ func _on_unsubscribe_accepted():
 		song_to_unsubscribe = null
 func _ready():
 	super._ready()
+	_new_workshop_song_added_queuer.connect(_new_workshop_song_added_update, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
 	song_container.connect("song_hovered", Callable(self, "_on_song_hovered"))
 	song_container.connect("hover_nonsong", Callable(self, "_on_non_song_hovered"))
 	song_container.connect("difficulty_selected", Callable(self, "_on_difficulty_selected"))
@@ -429,8 +447,8 @@ func _on_folder_manager_closed():
 		song_container.go_to_root()
 	song_container.grab_focus()
 
-func update_songs(song_to_select=null, difficulty_to_select=null):
-	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values(), song_to_select, difficulty_to_select, force_next_song_update)
+func update_songs(song_id_to_select: String = "", difficulty_to_select=null):
+	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values(), song_id_to_select, difficulty_to_select, force_next_song_update)
 	force_next_song_update = false
 
 func _on_folder_selected(folder: HBFolder):

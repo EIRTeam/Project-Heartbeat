@@ -218,9 +218,7 @@ func on_filter_changed(song_id_to_select: String = ""):
 	else:
 		emit_signal("hide_no_folder_label")
 		if songs.size() > 0:
-			var s = null
-			if not song_id_to_select.is_empty():
-				s = song_id_to_select
+			var s = song_id_to_select
 			set_songs(songs, s, null, true)
 #				hard_arrange_all()
 		
@@ -321,16 +319,16 @@ func remove_song(song: HBSong):
 		item_container.remove_child(song_item)
 		song_item.queue_free()
 		select_item(min(idx, item_container.get_child_count()-1))
-func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force_update=false):
+func set_songs(_songs: Array, select_song_id: String = "", select_difficulty=null, force_update=false):
 	songs = _songs
 
 	if filter_settings.filter_mode == "folders":
-		if select_song_id:
+		if not select_song_id.is_empty():
 			select_song_by_id(select_song_id, select_difficulty)
 		return
 	
 	if filter_settings.filter_mode == last_filter and not force_update:
-		if select_song_id:
+		if not select_song_id.is_empty():
 			select_song_by_id(select_song_id, select_difficulty)
 		return
 
