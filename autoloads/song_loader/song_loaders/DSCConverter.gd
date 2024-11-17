@@ -101,10 +101,10 @@ enum FButtons {
 	CROSS_HOLD = 0xA,
 	SQUARE_HOLD = 0xB,
 	STAR = 0xC,
-	STAR_DOUBLE = 0xD,
-	CHANCE_STAR = 0xE,
-	LINKED_STAR = 0xF,
-	LINKED_STAR_END = 0x10
+	STAR_DOUBLE = 0xE,
+	CHANCE_STAR = 0xF,
+	LINKED_STAR = 0x16,
+	LINKED_STAR_END = 0x17
 }
 
 const F2PHButtonMap = {
@@ -278,9 +278,11 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 					
 					if is_double(opcode.params[0]):
 						note_d = HBDoubleNote.new()
+						note_d.time += (curr_time / 100.0)
 					
 					elif is_sustain(opcode.params[0]):
 						note_d = HBSustainNote.new()
+						note_d.time += (curr_time / 100.0)
 						(note_d as HBSustainNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0) + offset
 					
 					# F note coords are in 50:15 aspect ratio
