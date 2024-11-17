@@ -87,6 +87,10 @@
         "info_X": {
             "id": 85,
             "len": 1
+        },
+        "info_f": {
+            "id": 85,
+            "len": 1
         }
     },
     "BAR_TIME_SET": {
@@ -121,6 +125,10 @@
     },
     "BEAT_POINT": {
         "info_X": {
+            "id": 86,
+            "len": 1
+        },
+        "info_f": {
             "id": 86,
             "len": 1
         }
