@@ -103,8 +103,13 @@ enum FButtons {
 	STAR = 0xC,
 	STAR_DOUBLE = 0xE,
 	CHANCE_STAR = 0xF,
+	STAR_RUSH = 0x11,
 	LINKED_STAR = 0x16,
-	LINKED_STAR_END = 0x17
+	LINKED_STAR_END = 0x17,
+	TRIANGLE_RUSH = 0x19,
+	CIRCLE_RUSH = 0x1A,
+	CROSS_RUSH = 0x1B,
+	SQUARE_RUSH = 0x1C
 }
 
 const F2PHButtonMap = {
@@ -123,8 +128,13 @@ const F2PHButtonMap = {
 	FButtons.STAR: HBBaseNote.NOTE_TYPE.HEART,
 	FButtons.STAR_DOUBLE: HBBaseNote.NOTE_TYPE.HEART,
 	FButtons.CHANCE_STAR: HBBaseNote.NOTE_TYPE.HEART,
+	FButtons.STAR_RUSH: HBBaseNote.NOTE_TYPE.HEART,
 	FButtons.LINKED_STAR: HBBaseNote.NOTE_TYPE.HEART,
 	FButtons.LINKED_STAR_END: HBBaseNote.NOTE_TYPE.HEART,
+	FButtons.TRIANGLE_RUSH: HBBaseNote.NOTE_TYPE.UP,
+	FButtons.CIRCLE_RUSH: HBBaseNote.NOTE_TYPE.RIGHT,
+	FButtons.CROSS_RUSH: HBBaseNote.NOTE_TYPE.DOWN,
+	FButtons.SQUARE_RUSH: HBBaseNote.NOTE_TYPE.LEFT,
 }
 
 const AFT2PHButtonMap = {
@@ -156,6 +166,9 @@ static func is_double(button: int):
 
 static func is_sustain(button: int):
 	return button >= FButtons.TRIANGLE_HOLD and button <= FButtons.SQUARE_HOLD
+
+static func is_rush(button: int):
+	return (button >= FButtons.TRIANGLE_RUSH and button <= FButtons.SQUARE_RUSH) or button == FButtons.STAR_RUSH
 
 static func convert_dsc_buffer_to_chart(buffer: StreamPeerBuffer, opcode_map: DSCOpcodeMap) -> HBChart:
 	var r = load_dsc_file_from_buff(buffer, opcode_map)
@@ -284,6 +297,11 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 						note_d = HBSustainNote.new()
 						note_d.time += (curr_time / 100.0)
 						(note_d as HBSustainNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0) + offset
+					
+					elif is_rush(opcode.params[0]):
+						note_d = HBRushNote.new()
+						note_d.time += (curr_time / 100.0)
+						(note_d as HBRushNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0) + offset
 					
 					# F note coords are in 50:15 aspect ratio
 					var diva_width = 500_000.0
