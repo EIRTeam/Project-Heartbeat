@@ -81,7 +81,7 @@ class DSCImporter:
 		
 		options_button = OptionButton.new()
 		options_button.add_item("Future Tone/M39s")
-		options_button.add_item("F/DT2")
+		options_button.add_item("F/DT/X")
 		options_button.add_item("F2nd")
 		
 		add_child(options_button)
@@ -92,7 +92,7 @@ class DSCImporter:
 			DSC_OPTIONS.FT:
 				game = "FT/MM/MM+"
 			DSC_OPTIONS.F:
-				game = "F/DT2"
+				game = "F/DT/X"
 			DSC_OPTIONS.F2:
 				game = "F2nd"
 		
