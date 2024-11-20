@@ -41,6 +41,7 @@ func _ready() -> void:
 	kick_member_button.pressed.connect(kick_member_button_pressed.emit)
 
 func _process(delta: float) -> void:
+	meta_reloading_icon.pivot_offset = meta_reloading_icon.size * 0.5
 	meta_reloading_icon.rotation_degrees += delta * 180.0
 
 func _update():
