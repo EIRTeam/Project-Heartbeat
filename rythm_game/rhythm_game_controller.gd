@@ -266,7 +266,7 @@ func _on_resumed():
 	if not rollback_on_resume:
 		game.start()
 		game.set_process(true)
-		game._process(0)
+		game._process_game(0)
 		video_player.paused = false
 		video_player.set_stream_position(game.time_msec / 1000.0)
 	else:
