@@ -37,6 +37,9 @@ func _on_lobby_data_updated(data: HeartbeatSteamLobbyData):
 	
 	member_list.lobby_owner = lobby.steam_lobby.owner
 	member_list.is_owned_by_local_user = lobby.steam_lobby.is_owned_by_local_user()
+	if not is_inside_tree():
+		await tree_entered
+	get_tree().call_group(&"owner_only", &"set_visible", lobby.steam_lobby.is_owned_by_local_user())
 	
 func _on_lobby_song_download_data_request_received():
 	var availability_status := lobby.get_song_availability_status(lobby.lobby_data.is_song_from_ugc, lobby.lobby_data.song_id, lobby.lobby_data.song_variant)
