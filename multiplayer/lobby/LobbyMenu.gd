@@ -114,6 +114,8 @@ func _ready() -> void:
 	super._ready()
 	lobby_chat.chat_message_submitted.connect(self._on_lobby_chat_message_submitted)
 	download_ugc_song_dialog.accept.connect(self._on_ugc_song_download_data_request_accepted)
+	download_ugc_song_dialog.cancel.connect(lobby_main_menu.grab_focus)
+	download_ugc_song_dialog.accept.connect(lobby_main_menu.grab_focus)
 	
 func _cache_ugc_song_data(song_id: String, variant: int):
 	var song: HBSong = SongLoader.songs[lobby.lobby_data.song_id] if lobby.lobby_data.song_id in SongLoader.songs else null
