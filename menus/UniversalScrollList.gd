@@ -333,6 +333,8 @@ func _gui_input(event):
 
 func _on_focus_lost():
 	var current_item = get_selected_item()
+	if not current_item:
+		return
 	if current_item.has_method(&"notify_parent_list_lost_focus"):
 		current_item.notify_parent_list_lost_focus()
 	else:
