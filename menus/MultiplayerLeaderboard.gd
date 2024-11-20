@@ -27,8 +27,11 @@ func _update():
 		)
 		
 		for scene in members:
+			entry_container.remove_child(scene)
+		for scene in members:
 			scene.visible = scene.member.result != null
-			
+			entry_container.add_child(scene)
+
 func set_lobby(lobby: HeartbeatSteamLobby):
 	for member in lobby.get_all_members_metadata():
 		add_member(member)
