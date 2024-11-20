@@ -45,6 +45,8 @@ func _process(delta: float) -> void:
 
 func _update():
 	update_queued = false
+	if not is_inside_tree():
+		await ready
 	if member:
 		member_name_label.text = member.member.persona_name
 		avatar_texture_rect.texture = member.member.avatar
