@@ -226,6 +226,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 			else:
 				Log.log(self, "Video Stream failed to load")
+func start_song():
 	start_fade_in()
 	
 func rescale_video_player():

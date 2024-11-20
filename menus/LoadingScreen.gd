@@ -199,6 +199,7 @@ func load_into_game():
 	
 	scene.skin_override = ugc_skin_to_use
 	scene.start_session(game_info, current_assets)
+	scene.start_song()
 	
 var visible_chars := 0.0
 	

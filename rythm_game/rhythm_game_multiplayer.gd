@@ -63,8 +63,8 @@ func _try_start() -> bool:
 	for member in lobby.get_all_members_metadata():
 		if member.in_game_data.state != HeartbeatSteamLobby.InGameState.LOADED:
 			return false
-	rhythm_game_controller.game.start()
 	get_tree().paused = false
+	rhythm_game_controller.start_song()
 	mp_loading_panel.hide()
 	return true
 func _on_song_assets_loaded(assets: SongAssetLoader.AssetLoadToken):
