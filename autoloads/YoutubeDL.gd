@@ -73,6 +73,10 @@ class CachingQueueEntry:
 	var download_video: bool
 	var download_audio: bool
 
+	func wait_for_task_to_end():
+		if task_id != -1:
+			WorkerThreadPool.wait_for_task_completion(task_id)
+
 	func abort_download():
 		mutex.lock()
 		aborted = true
@@ -812,6 +816,12 @@ func clear_unused_media(unused_data: UnusedVideosData):
 		cleanup_video_media(video_id, true, true)
 
 func _notification(what):
-	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+	if what == NOTIFICATION_PREDELETE:
 		for entry in caching_queue:
 			entry.abort_download()
+		caching_queue.clear()
+		for entry in tracked_video_downloads.values():
+			(entry.entry as CachingQueueEntry).abort_download()
+		for entry in tracked_video_downloads.values():
+			(entry.entry as CachingQueueEntry).wait_for_task_to_end()
+		tracked_video_downloads.clear()
