@@ -291,16 +291,16 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 					
 					if is_double(opcode.params[0]):
 						note_d = HBDoubleNote.new()
-						note_d.time += (curr_time / 100.0)
+						note_d.time += (curr_time / 100.0) + offset
 					
 					elif is_sustain(opcode.params[0]):
 						note_d = HBSustainNote.new()
-						note_d.time += (curr_time / 100.0)
+						note_d.time += (curr_time / 100.0) + offset
 						(note_d as HBSustainNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0) + offset
 					
 					elif is_rush(opcode.params[0]):
 						note_d = HBRushNote.new()
-						note_d.time += (curr_time / 100.0)
+						note_d.time += (curr_time / 100.0) + offset
 						(note_d as HBRushNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0) + offset
 					
 					# F note coords are in 50:15 aspect ratio
