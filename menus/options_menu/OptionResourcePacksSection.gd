@@ -2,7 +2,7 @@ extends Control
 
 signal back
 
-@onready var scroll_container = get_node("VBoxContainer/Panel/ScrollContainer")
+@onready var scroll_container: HBUniversalScrollList = get_node("VBoxContainer/Panel/ScrollContainer")
 @onready var item_container = get_node("VBoxContainer/Panel/ScrollContainer/VBoxContainer")
 @onready var rebuilding_note_atlas_container = get_node("CenterContainer")
 @onready var categories_container := get_node("VBoxContainer/CategoriesContainer")
@@ -65,7 +65,8 @@ func populate():
 					selected_resource_pack_scene = pack_scene
 
 		pack_scene.connect("pressed", Callable(self, "_on_resource_pack_pressed").bind(resource_pack, pack_scene))
-	
+	scroll_container.grab_focus()
+	scroll_container.select_item(0)
 func _input(event):
 	if scroll_container.has_focus():
 		if event.is_action("gui_left") or event.is_action("gui_right"):
