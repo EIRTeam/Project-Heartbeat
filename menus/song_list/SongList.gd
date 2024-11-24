@@ -209,7 +209,7 @@ func _ready():
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 		ugc.connect("ugc_item_installed", Callable(self, "_on_ugc_item_installed"))
 	search_text_input.connect("entered", Callable(self, "_on_search_entered"))
-	search_text_input.connect("cancel", Callable(song_container, "grab_focus"))
+	search_text_input.cancel.connect(song_container.grab_focus)
 	sort_by_list.sort_filter_settings_changed.connect(self._on_sort_mode_changed)
 	sort_by_list.closed.connect(song_container.grab_focus)
 

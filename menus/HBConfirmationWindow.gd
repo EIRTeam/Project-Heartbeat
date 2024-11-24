@@ -29,7 +29,10 @@ func _ready():
 func _input(event: InputEvent):
 	if visible:
 		if event.is_action_pressed("gui_cancel"):
-			_on_accept_pressed()
+			if has_cancel:
+				_on_cancel_pressed()
+			else:
+				_on_accept_pressed()
 			get_viewport().set_input_as_handled()
 func _connect_button_signals():
 	%AcceptButton.connect("pressed", Callable(self, "_on_accept_pressed"))
