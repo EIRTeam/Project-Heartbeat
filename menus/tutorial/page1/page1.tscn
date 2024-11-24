@@ -36,14 +36,14 @@ layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("4")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
