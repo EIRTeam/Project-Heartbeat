@@ -23,6 +23,7 @@ class SongFilterData:
 	var int_cmp: int
 	var float_cmp: float
 	var song: HBSong
+	var song_idx := -1
 	func _init(_song: HBSong):
 		song = _song
 	
@@ -84,7 +85,8 @@ func sort_and_filter_songs():
 	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 	var compare_func := get_compare_func()
 	var filter_datas: Array[SongFilterData]
-	for song: HBSong in songs:
+	for i in range(songs.size()):
+		var song: HBSong = songs[i]
 		var should_add_song = false
 		match sort_filter_settings.filter_mode:
 			&"ppd":
@@ -109,7 +111,7 @@ func sort_and_filter_songs():
 				should_add_song = song is SongLoaderDSC.HBSongDSC and not song is SongLoaderDSC.HBSongMMPLUS
 			&"workshop":
 				should_add_song = song.comes_from_ugc()
-			&"all":
+			&"all", &"folders":
 				should_add_song = true
 		
 		if should_add_song:
@@ -149,6 +151,7 @@ func sort_and_filter_songs():
 		if should_add_song:
 			var filter_data := SongFilterData.new(song)
 			fill_compare_data(song, filter_data)
+			filter_data.song_idx = i
 			filter_datas.push_back(filter_data)
 	
 	filter_datas.sort_custom(compare_func)
@@ -160,19 +163,34 @@ func _task_finished(out_songs: Array):
 	WorkerThreadPool.wait_for_task_completion(task_id)
 	task_id = -1
 
+func _handle_tiebreaker(a: SongFilterData, b: SongFilterData) -> bool:
+	match sort_filter_settings.tiebreaker_mode:
+		HBSongSortFilterSettings.TiebreakerMode.INDEX:
+			return a.song_idx < b.song_idx
+	return false
 func string_compare(a: SongFilterData, b: SongFilterData):
+	if a.string_cmp == b.string_cmp:
+		return _handle_tiebreaker(a, b)
 	return a.string_cmp < b.string_cmp
 		
 func int_compare_asc(a: SongFilterData, b: SongFilterData):
+	if a.int_cmp == b.int_cmp:
+		return _handle_tiebreaker(a, b)
 	return a.int_cmp < b.int_cmp
 		
 func int_compare_desc(a: SongFilterData, b: SongFilterData):
+	if a.int_cmp == b.int_cmp:
+		return _handle_tiebreaker(a, b)
 	return b.int_cmp < a.int_cmp
 		
 func float_compare_asc(a: SongFilterData, b: SongFilterData):
+	if a.float_cmp == b.float_cmp:
+		return _handle_tiebreaker(a, b)
 	return a.float_cmp < b.float_cmp
 		
 func float_compare_desc(a: SongFilterData, b: SongFilterData):
+	if a.float_cmp == b.float_cmp:
+		return _handle_tiebreaker(a, b)
 	return b.float_cmp < a.float_cmp
 		
 func _create_song_item(song: HBSong):

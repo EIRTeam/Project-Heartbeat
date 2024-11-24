@@ -65,7 +65,6 @@ func _on_selected_item_changed():
 func navigate_folder(folder: HBFolder):
 	folder_stack.append(folder)
 	selected_index_stack.append(0)
-	update_folder_items()
 
 func navigate_back():
 	selected_index_stack.pop_back()
@@ -76,6 +75,7 @@ func go_to_root():
 	folder_stack = []
 	selected_index_stack = []
 	navigate_folder(UserSettings.user_settings.root_folder)
+	update_folder_items()
 
 func _on_song_item_pressed(control: Control):
 	pass
@@ -121,15 +121,29 @@ func update_folder_items():
 	for subfolder in current_folder.subfolders:
 		var item = SongListItemFolder.instantiate()
 		item.connect("pressed", Callable(self, "navigate_folder").bind(subfolder))
+		item.connect("pressed", Callable(self, "update_folder_items"))
 		item.set_folder(subfolder)
 		item_container.add_child(item)
 		
 	var folder_songs = []
 	
-	for song_id in current_folder.songs:
+	for i in current_folder.songs.size():
+		var song_id: String = current_folder.songs[i]
 		if song_id in SongLoader.songs:
 			folder_songs.append(SongLoader.songs[song_id])
-	folder_songs.sort_custom(Callable(self, "sort_array"))
+	
+	filter_settings.tiebreaker_mode = HBSongSortFilterSettings.TiebreakerMode.INDEX
+	current_filter_task = HBFilterSongsTask.new(filter_settings, folder_songs, null, null)
+	current_filter_task.queue()
+	emit_signal("start_loading")
+	
+	last_filter = filter_settings.filter_mode
+	
+	var filter_task := current_filter_task
+	var cb_data := await current_filter_task.songs_filtered as Array
+	if current_filter_task != filter_task:
+		return
+	folder_songs = cb_data[0]
 	for song in folder_songs:
 		if UserSettings.user_settings.sort_filter_settings.filter_has_media_only and not song.is_cached():
 			continue
@@ -152,6 +166,7 @@ func update_folder_items():
 	UserSettings.save_user_settings()
 	emit_signal("updated_folders", folder_stack)
 	emit_signal("hide_no_folder_label")
+	emit_signal("end_loading")
 
 func _on_song_selected(song: HBSong, item: Control):
 	if item and current_selected_item != item.get_index():
@@ -174,35 +189,6 @@ func select_song_by_id(song_id: String, difficulty=null):
 			if song.id == song_id:
 				select_item(child_i)
 
-func sort_array(a: HBSong, b: HBSong):
-	var prop = filter_settings.sort_prop
-	var a_prop = a.get(prop)
-	var b_prop = b.get(prop)
-	
-	match prop:
-		"title":
-			a_prop = a.get_visible_title()
-			b_prop = b.get_visible_title()
-		"artist":
-			a_prop = a.get_artist_sort_text()
-			b_prop = b.get_artist_sort_text()
-		"score":
-			a_prop = b.get_max_score()
-			b_prop = a.get_max_score()
-		"_times_played":
-			a_prop = HBGame.song_stats.get_song_stats(a.id).times_played
-			b_prop = HBGame.song_stats.get_song_stats(b.id).times_played
-	
-	if a_prop is String:
-		a_prop = a_prop.to_lower()
-	if b_prop is String:
-		b_prop = b_prop.to_lower()
-	
-	if filter_settings.sort_prop != "_added_time":
-		return a_prop < b_prop
-	else:
-		return b_prop < a_prop
-
 var last_filter = ""
 
 func on_filter_changed(song_id_to_select: String = ""):
@@ -215,6 +201,7 @@ func on_filter_changed(song_id_to_select: String = ""):
 		
 		for folder in starting_folders:
 			navigate_folder(folder)
+		update_folder_items()
 	else:
 		emit_signal("hide_no_folder_label")
 		if songs.size() > 0:
@@ -342,6 +329,7 @@ func set_songs(_songs: Array, select_song_id: String = "", select_difficulty=nul
 	for i in item_container.get_children():
 		item_container.remove_child(i)
 		i.queue_free()
+	filter_settings.tiebreaker_mode = HBSongSortFilterSettings.TiebreakerMode.NONE
 	current_filter_task = HBFilterSongsTask.new(filter_settings, songs, select_song_id, select_difficulty)
 	current_filter_task.queue()
 	emit_signal("start_loading")

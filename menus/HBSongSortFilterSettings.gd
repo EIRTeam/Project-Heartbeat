@@ -8,6 +8,11 @@ enum NoteUsageFilterMode {
 	FILTER_MODE_ARCADE_ONLY
 }
 
+enum TiebreakerMode {
+	NONE,
+	INDEX
+}
+
 var filter_mode := "all"
 var filter_mode__possibilities = [
 	"all",
@@ -47,6 +52,7 @@ var note_usage_filter_mode: NoteUsageFilterMode = NoteUsageFilterMode.FILTER_MOD
 
 # We don't serialize the search term, it would be silly
 var search_term: String
+var tiebreaker_mode := TiebreakerMode.NONE
 
 func _init():
 	serializable_fields += [
