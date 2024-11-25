@@ -39,6 +39,8 @@ func show_section():
 func _on_category_changed(new_cat: int):
 	filter_category = new_cat
 	populate()
+	scroll_container.grab_focus()
+	scroll_container.select_item(0)
 func populate():
 	for item in item_container.get_children():
 		item.queue_free()
@@ -65,8 +67,6 @@ func populate():
 					selected_resource_pack_scene = pack_scene
 
 		pack_scene.connect("pressed", Callable(self, "_on_resource_pack_pressed").bind(resource_pack, pack_scene))
-	scroll_container.grab_focus()
-	scroll_container.select_item(0)
 func _input(event):
 	if scroll_container.has_focus():
 		if event.is_action("gui_left") or event.is_action("gui_right"):
