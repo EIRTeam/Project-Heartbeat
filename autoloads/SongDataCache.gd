@@ -17,7 +17,7 @@ func _get_song_audio_path(song) -> String:
 	return song.get_song_audio_res_path()
 	
 func update_loudness_for_song(song, loudness: float):
-	if FileAccess.file_exists(_get_song_audio_path(song)):
+	if FileAccess.file_exists(_get_song_audio_path(song)) and is_finite(loudness):
 		var audio_cache = HBAudioLoudnessCacheEntry.new()
 		audio_cache.modified = FileAccess.get_modified_time(_get_song_audio_path(song))
 		audio_cache.loudness = loudness

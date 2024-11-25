@@ -331,6 +331,13 @@ func generate_chart_hash(chart: String) -> String:
 			return f.get_as_text().sha1_text()
 	return ""
 
+func serialize(serialize_defaults = true):
+	if has_audio_loudness:
+		if not is_finite(audio_loudness):
+			audio_loudness = 0.0
+			has_audio_loudness = false
+	super.serialize(serialize_defaults)
+
 static func deserialize(data: Dictionary):
 	# HACK: Because godot no longer does ints in json files (because JSON doesn't support ints)
 	var charts: Dictionary = data.get("charts", {})
@@ -353,7 +360,8 @@ func save_chart_info():
 		SongDataCache.update_loudness_for_song(self, loudness.loudness)
 	
 	has_audio_loudness = true
-	audio_loudness = SongDataCache.audio_normalization_cache[id].loudness
+	var loudness := SongDataCache.audio_normalization_cache[id].loudness as float
+	has_audio_loudness = loudness != -INF
 	
 	for difficulty in charts:
 		charts[difficulty]["hash"] = generate_chart_hash(difficulty)
