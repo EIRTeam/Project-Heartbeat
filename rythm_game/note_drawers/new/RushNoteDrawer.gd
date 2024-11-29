@@ -57,8 +57,6 @@ func process_input(event: InputEventHB):
 		_on_pressed(event)
 		
 func _on_rush_press():
-	show_note_hit_effect(note_data.position, get_base_target_scale())
-	fire_and_forget_user_sfx("note_hit")
 	var max_hit_count := (note_data as HBRushNote).calculate_capped_hit_count()
 	if hits_done >= max_hit_count:
 		return
@@ -77,10 +75,15 @@ func _on_rush_press():
 			text_animation_tween = null
 		score_bonus_label.position = -(score_bonus_label.size * 0.5)
 		score_bonus_label.position -= Vector2(0, 64)
+		play_end_particles()
+		fire_and_forget_user_sfx("double_note_hit")
 		return
 	elif text_animation_tween:
 		text_animation_tween.kill()
 		text_animation_tween = null
+	if hits_done < max_hit_count:
+		show_note_hit_effect(note_data.position, get_base_target_scale())
+		fire_and_forget_user_sfx("note_hit")
 	text_animation_tween = create_tween()
 	score_bonus_label.position = -(score_bonus_label.size * 0.5) - Vector2(0, 32)
 	text_animation_tween.tween_property(score_bonus_label, "position:y", score_bonus_label.position.y - 128, 1.0)
@@ -167,6 +170,8 @@ func process_note(time_usec: int):
 			
 			if hits_done >= max_hit_count:
 				play_end_particles()
+			else:
+				show_note_hit_effect(note_data.position, get_base_target_scale())
 			
 			emit_signal("finished")
 	else:
