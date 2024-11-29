@@ -50,14 +50,27 @@ func _ready():
 	
 	
 	modifier_settings_editor.hide()
-	modifier_selector.connect("back", Callable(self, "_modifier_loader_back"))
-	modifier_selector.connect("modifier_selected", Callable(self, "_on_user_added_modifier"))
-	modifier_settings_editor.connect("back", Callable(self, "_modifier_settings_editor_back"))
-	modifier_settings_editor.connect("changed", Callable(self, "_on_modifier_setting_changed"))
-	per_song_settings_editor.connect("back", Callable(self, "_modifier_loader_back"))
-	ppd_video_url_change_confirmation_prompt.connect("cancel", Callable(modifier_scroll_container, "grab_focus"))
-	delete_song_media_popup.connect("cancel", Callable(modifier_scroll_container, "grab_focus"))
-	ppd_video_url_change_confirmation_prompt.connect("accept", Callable(self, "_on_ppd_video_url_confirmed"))
+	modifier_selector.back.connect(self._modifier_loader_back)
+	modifier_selector.back.connect(tabbed_container.set_process_unhandled_input.bind(true))
+	modifier_selector.modifier_selected.connect(self._on_user_added_modifier)
+	
+	modifier_settings_editor.back.connect(self._modifier_settings_editor_back)
+	modifier_settings_editor.changed.connect(self._on_modifier_setting_changed)
+	modifier_settings_editor.back.connect(self._modifier_loader_back)
+	modifier_settings_editor.back.connect(tabbed_container.set_process_unhandled_input.bind(true))
+	
+	per_song_settings_editor.back.connect(self._modifier_loader_back)
+	per_song_settings_editor.back.connect(tabbed_container.set_process_unhandled_input.bind(true))
+	per_song_settings_editor.back.connect(self._modifier_loader_back)
+	
+	delete_song_media_popup.cancel.connect(modifier_scroll_container.grab_focus)
+	delete_song_media_popup.cancel.connect(tabbed_container.set_process_unhandled_input.bind(true))
+	
+	ppd_video_url_change_confirmation_prompt.cancel.connect(tabbed_container.set_process_unhandled_input.bind(true))
+	ppd_video_url_change_confirmation_prompt.cancel.connect(modifier_scroll_container.grab_focus)
+	ppd_video_url_change_confirmation_prompt.accept.connect(self._on_ppd_video_url_confirmed)
+	ppd_video_url_change_confirmation_prompt.accept.connect(tabbed_container.set_process_unhandled_input.bind(true))
+	
 	button_container.connect("out_from_top", Callable(self, "_on_button_list_out_from_top"))
 	#per_song_settings_editor.show_editor()
 	
@@ -65,6 +78,7 @@ func _ready():
 	pregame_start_tab.start_practice_button.connect("pressed", Callable(self, "_on_StartPractice_pressed"))
 	pregame_start_tab.back_button.connect("pressed", Callable(self, "_on_BackButton_pressed"))
 	pregame_start_tab.back_button.set_meta("sfx", HBGame.menu_back_sfx)
+	
 
 var current_assets: SongAssetLoader.AssetLoadToken
 var variant_select: Control
@@ -81,6 +95,7 @@ func _on_user_added_modifier(modifier_id: String):
 	modifier_scroll_container.grab_focus()
 	UserSettings.save_user_settings()
 	draw_leaderboard_legality()
+	tabbed_container.set_process_unhandled_input(true)
 	
 func _modifier_settings_editor_back():
 	modifier_settings_editor.hide()
@@ -185,6 +200,7 @@ func _on_open_modifier_settings_selected(modifier_id: String):
 	modifier_settings_editor.section_data = modifier_class.get_option_settings()
 	modifier_settings_editor.show()
 	modifier_settings_editor.grab_focus()
+	tabbed_container.set_process_unhandled_input(false)
 	
 func select_song(s: HBSong):
 	if not is_inside_tree():
@@ -193,6 +209,7 @@ func _on_modify_song_settings_pressed():
 	per_song_settings_editor.current_song = current_song
 	per_song_settings_editor.show()
 	per_song_settings_editor.show_editor()
+	tabbed_container.set_process_unhandled_input(false)
 	
 
 func _on_remove_modifier_selected(modifier_id: String, modifier_button):
@@ -235,6 +252,8 @@ func add_buttons():
 			delete_media.text = "Delete song media"
 			delete_media.connect("pressed", Callable(delete_song_media_popup, "popup_centered"))
 			delete_media.connect("pressed", Callable(delete_song_media_popup, "grab_focus"))
+			delete_media.pressed.connect(delete_song_media_popup.grab_focus)
+			delete_media.pressed.connect(tabbed_container.set_process_unhandled_input.bind(false))
 			modifier_button_container.add_child(delete_media)
 			
 	
@@ -285,6 +304,7 @@ func update_modifiers():
 	draw_leaderboard_legality()
 func _on_add_modifier_pressed():
 	modifier_selector.popup()
+	tabbed_container.set_process_unhandled_input(false)
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("gui_cancel"):
@@ -307,6 +327,7 @@ func _on_BackButton_pressed():
 
 func _on_ppd_video_change_button_pressed():
 	$VideoURLChangePopup.popup_centered_ratio(0.5)
+	tabbed_container.set_process_unhandled_input(false)
 func _on_ppd_video_url_confirmed():
 	var args = {
 		"song": current_song.id,
