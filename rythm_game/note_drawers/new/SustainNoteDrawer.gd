@@ -69,9 +69,9 @@ func _on_pressed(event = null, judge := true):
 		time = event.game_time
 	var judgement := game.judge.judge_note_usec(time, note_data.time * 1000) as int
 	if judge:
-		emit_signal("judged", judgement, false, note_data.time, event)
-		if not pressed and judgement < HBJudge.JUDGE_RATINGS.FINE:
+		if judgement < HBJudge.JUDGE_RATINGS.FINE:
 			notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
+		emit_signal("judged", judgement, false, note_data.time, event)
 	if not is_multi_note:
 		game.add_score(HBNoteData.NOTE_SCORES[judgement])
 		if judgement < HBJudge.JUDGE_RATINGS.FINE:
@@ -87,7 +87,7 @@ func update_arm_position(time_usec: int):
 	else:
 		note_target_graphics.arm2_position = 1.0 - ((note_time_usec - time_usec) / float(time_out))
 	var time_out_distance = time_out - (note_time_usec - time_usec) - (note_data.get_duration() * 1000)
-	note_target_graphics.arm_position = max(time_out_distance / float(time_out), 0.0)
+	note_target_graphics.arm_position = clamp(time_out_distance / float(time_out), 0.0, 1.0)
 
 func is_in_editor_mode():
 	return game.game_mode == 1
