@@ -287,7 +287,7 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 			increase_health()
 	
 	if not judgements[0].note_data is HBNoteData or (judgements[0].note_data is HBNoteData and not judgements[0].note_data.is_slide_hold_piece()):
-		if final_judgement == judge.JUDGE_RATINGS.WORST or wrong:
+		if (final_judgement == judge.JUDGE_RATINGS.WORST and not judgements.size() > 1) or wrong:
 			add_score(0)
 	for j in judgements:
 		if j.note_data.note_type in held_notes:
