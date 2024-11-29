@@ -227,6 +227,7 @@ func _ready():
 	
 	save_confirmation_dialog.get_ok_button().text = "Yes"
 	save_confirmation_dialog.get_cancel_button().text = "Go back"
+	save_confirmation_dialog.canceled.connect(reveal_ui)
 	
 	settings_editor_button.connect("pressed", Callable(self, "keep_settings_button_enabled"))
 	
