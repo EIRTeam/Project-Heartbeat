@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=4 uid="uid://1i2h228g0br"]
+[gd_scene load_steps=8 format=3 uid="uid://1i2h228g0br"]
 
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="3"]
-[ext_resource type="Script" path="res://menus/pregame_screen/PreGameScreen.gd" id="4"]
+[ext_resource type="Script" uid="uid://c0t2qgba2j2jy" path="res://menus/pregame_screen/PreGameScreen.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://c1ovx7e2yqrtk" path="res://menus/ModifierSelector.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://cloehp50oox4y" path="res://menus/options_menu/OptionSection.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://mk4i5mpqt4hy" path="res://menus/PerSongSettingsEditor.tscn" id="10"]
@@ -50,13 +50,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -506.5
+offset_left = -579.0
 offset_top = -285.0
-offset_right = 506.5
+offset_right = 579.0
 offset_bottom = 285.0
 
 [node name="PerSongSettingsEditor" parent="." instance=ExtResource("10")]
+visible = false
 layout_mode = 1
+offset_left = -571.0
+offset_right = 571.0
 focus_mode = 2
 
 [node name="PerSongSettingsOptionSection" parent="PerSongSettingsEditor" index="0"]
@@ -66,6 +69,7 @@ offset_right = 1.49829
 offset_bottom = -1.49835
 
 [node name="VideoURLChangePopup" parent="." instance=ExtResource("12")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -78,6 +82,7 @@ text = "Are you sure you want to change this song's video URL? this requires you
 
 [node name="DeleteSongMediaPopup" parent="." instance=ExtResource("12")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
