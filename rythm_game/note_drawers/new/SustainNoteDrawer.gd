@@ -52,7 +52,8 @@ func _on_end_release(event = null):
 		if not is_autoplay_enabled():
 			fire_and_forget_user_sfx("sustain_note_release")
 		show_note_hit_effect(note_data.position)
-	game.add_score(HBNoteData.NOTE_SCORES[judgement])
+	if judgement != HBJudge.JUDGE_RATINGS.WORST:
+		game.add_score(HBNoteData.NOTE_SCORES[judgement])
 
 func _on_pressed(event = null, judge := true):
 	note_graphics.hide()
