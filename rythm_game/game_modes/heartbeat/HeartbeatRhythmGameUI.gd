@@ -228,7 +228,7 @@ func _update_clear_bar_value():
 		res_potential.score += game.accumulated_hold_score + game.current_hold_score
 	
 	get_tree().set_group(CLEAR_BAR_GROUP, "value", res.get_capped_score())
-	get_tree().set_group(CLEAR_BAR_GROUP, "potential_score", res_potential.get_capped_score())
+	get_tree().set_group(CLEAR_BAR_GROUP, "potential_score", res_potential.get_base_score())
 
 func _on_score_added(score):
 	if not disable_score_processing:

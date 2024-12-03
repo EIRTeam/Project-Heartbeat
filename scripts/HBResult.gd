@@ -65,10 +65,14 @@ func get_percentage() -> float:
 # Capped score is the score with the capped hold and slide bonuses
 # used for computing percentage
 func get_capped_score():
-	var base_score = score - hold_bonus - slide_bonus - rush_bonus
+	var base_score = get_base_score()
 	var capped_hold_bonus = clamp(hold_bonus, 0, MAX_SCORE_FROM_HOLD_BONUS*max_score)
 	var capped_slide_bonus = clamp(slide_bonus, 0, MAX_SCORE_FROM_SLIDE_BONUS*max_score)
 	return base_score + capped_hold_bonus + capped_slide_bonus
+	
+func get_base_score() -> float:
+	return score - hold_bonus - slide_bonus - rush_bonus
+	
 func get_result_rating() -> int:
 	if failed:
 		return RESULT_RATING.FAIL
