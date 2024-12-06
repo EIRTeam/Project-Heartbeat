@@ -25,6 +25,10 @@ func set_score(val):
 	increase_speed = diff / SCORE_MAX_OUT_TIME
 	set_process(true)
 
+func reset():
+	_display_score = 0.0
+	score = 0
+
 func _ready():
 	super._ready()
 	label.text = "%0*d" % [7, 0]
