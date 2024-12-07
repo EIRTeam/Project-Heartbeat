@@ -300,7 +300,7 @@ func get_note_usage() -> Array:
 	var tpoints = get_timing_points()
 	for point in tpoints:
 		if point is HBBaseNote:
-			if point is HBSustainNote or point is HBDoubleNote or point.note_type == HBNoteData.NOTE_TYPE.HEART:
+			if point is HBRushNote or point is HBSustainNote or point is HBDoubleNote or point.note_type == HBNoteData.NOTE_TYPE.HEART:
 				if not ChartNoteUsage.CONSOLE in notes_used:
 					notes_used.append(ChartNoteUsage.CONSOLE)
 			elif point is HBNoteData:
