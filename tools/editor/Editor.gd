@@ -66,8 +66,6 @@ var current_song: HBSong
 var current_difficulty: String
 var snap_to_grid_enabled = true
 
-var timeline_snap_enabled = true
-
 var undo_redo = UndoRedo.new()
 
 var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
@@ -899,7 +897,6 @@ func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem, sort_groups
 	layer.add_item(item)
 	if item in _removed_items:
 		_removed_items.erase(item)
-	
 	rhythm_game.editor_add_timing_point(item.data, sort_groups)
 	force_game_process()
 
@@ -1984,14 +1981,13 @@ func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: b
 	return final_position
 
 
-func _on_TimelineGridSnapButton_toggled(button_pressed):
-	timeline_snap_enabled = button_pressed
-	song_editor_settings.set("timeline_snap", button_pressed)
+func _on_TimelineGridSnapButton_toggled(button_pressed: bool):
+	song_editor_settings.timeline_snap = button_pressed
 
 func snap_time_to_timeline(time: int) -> int:
 	var map = get_timing_map()
 	
-	if timeline_snap_enabled and map:
+	if song_editor_settings.timeline_snap and map:
 		var idx = HBUtils.bsearch_closest(map, time)
 		idx = min(idx, map.size() - 1)
 		
