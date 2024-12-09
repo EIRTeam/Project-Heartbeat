@@ -217,7 +217,10 @@ func _on_sort_mode_changed():
 	UserSettings.save_user_settings()
 	song_container.on_filter_changed()
 	update_filter_display_containers()
-	
+	if filter_settings.filter_mode == "workshop":
+		update_sort_label(UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop)
+	else:
+		update_sort_label(UserSettings.user_settings.sort_filter_settings.sort_prop)
 func _on_search_entered(text: String):
 	filter_settings.search_term = text.to_lower()
 	force_next_song_update = true
