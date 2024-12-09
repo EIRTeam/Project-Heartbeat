@@ -502,7 +502,7 @@ func make_slide(note_type: int, piece_note_type: int, layer_name: String):
 	editor.undo_redo.add_undo_method(editor._on_timing_points_changed)
 	
 	_area_selecting = false
-	playhead_container._area_selecting = false
+	playhead_area._area_selecting = false
 	minimap._area_selecting = false
 	
 	modifier_texture.visible = false
