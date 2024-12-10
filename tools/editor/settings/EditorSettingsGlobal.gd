@@ -77,7 +77,7 @@ func update_setting(property_name: String, new_value):
 	UserSettings.save_user_settings()
 	
 	if "grid" in property_name or "multinote_cross" in property_name:
-		editor.grid_renderer.update()
+		editor.grid_renderer.queue_redraw()
 	
 	if property_name == "editor_grid_resolution":
 		UserSettings.user_settings.disconnect("editor_grid_resolution_changed", Callable(self, "update"))
@@ -105,4 +105,3 @@ func _get_wheel_modes() -> Dictionary:
 		modes[possibility] = true
 	
 	return modes
-
