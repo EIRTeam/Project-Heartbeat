@@ -136,6 +136,7 @@ func _on_reset():
 	get_tree().set_group(CLEAR_BAR_GROUP, "potential_score", 0.0)
 	get_tree().call_group(LATENCY_DISPLAY_GROUP, "reset")
 	get_tree().call_group(HOLD_INDICATOR_GROUP, "disappear")
+	get_tree().call_group(SCORE_COUNTER_GROUP, "reset")
 	_show_intro_skip(game.current_song)
 	
 	rating_label.hide()
