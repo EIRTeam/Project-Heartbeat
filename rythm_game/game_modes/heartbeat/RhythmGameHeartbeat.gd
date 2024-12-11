@@ -288,7 +288,15 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 	
 	if not judgements[0].note_data is HBNoteData or (judgements[0].note_data is HBNoteData and not judgements[0].note_data.is_slide_hold_piece()):
 		if (final_judgement == judge.JUDGE_RATINGS.WORST and not judgements.size() > 1) or wrong:
-			add_score(0)
+			var are_judgements_only_sliders := true
+			for judgement in judgements:
+				if not judgement.note_data is HBNoteData or not judgement.note_data.is_slide_note():
+					are_judgements_only_sliders = false
+					break
+			# Slide notes have their own path for adding the empty score on wrong since they are deferred
+			# check HBNoteGroup for more info
+			if not (are_judgements_only_sliders and wrong):
+				add_score(0)
 	for j in judgements:
 		if j.note_data.note_type in held_notes:
 			var event: InputEventHB = j.input_event
@@ -349,8 +357,6 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 				result._hit_times.push_back(judgement_target_time)
 				result._hit_judgements.push_back(final_judgement)
 				result._hit_time_offsets.push_back(clamp(hit_time - judgement_target_time, -128, 128))
-		
-
 func restart():
 	hold_release()
 	held_note_event_map = {}
