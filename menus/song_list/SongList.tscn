@@ -1,18 +1,18 @@
 [gd_scene load_steps=23 format=3 uid="uid://mq8cvko6co3o"]
 
-[ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
+[ext_resource type="Script" uid="uid://cjfv61kwxjj8j" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://cqfshc705ouhm" path="res://graphics/icons/filter-menu.svg" id="4_4pum8"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
 [ext_resource type="Texture2D" uid="uid://dui0a71scapf5" path="res://graphics/slide_fx_star.png" id="6_t7ijm"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="7"]
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="7_fawyf"]
 [ext_resource type="Texture2D" uid="uid://dq1i623nxlj8v" path="res://graphics/icons/sort-ascending.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="9"]
-[ext_resource type="Script" path="res://menus/song_list/SongListSongContainer.gd" id="10"]
+[ext_resource type="Script" uid="uid://dkyymo8qulxlt" path="res://menus/song_list/SongListSongContainer.gd" id="10"]
 [ext_resource type="PackedScene" uid="uid://c4tvo47nahi4h" path="res://menus/FolderManager.tscn" id="11"]
-[ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="12"]
+[ext_resource type="Script" uid="uid://bw04lpqwlmi5s" path="res://menus/ScrollingLabel.gd" id="12"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="12_787qn"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="15_3x86c"]
 [ext_resource type="PackedScene" uid="uid://ru3raamtduxd" path="res://menus/song_list/SongListSortByPanel.tscn" id="15_y4k7r"]
@@ -38,7 +38,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_igfnq"]
 _data = {
-"spin": SubResource("1")
+&"spin": SubResource("1")
 }
 
 [sub_resource type="StyleBoxFlat" id="5"]
@@ -91,7 +91,7 @@ stretch_mode = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SpinnerContainer/CenterContainer/TextureRect"]
 libraries = {
-"": SubResource("AnimationLibrary_igfnq")
+&"": SubResource("AnimationLibrary_igfnq")
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -348,16 +348,6 @@ grow_horizontal = 1
 grow_vertical = 1
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-theme = ExtResource("15_3x86c")
-
-[node name="SortByPanel" parent="CenterContainer" instance=ExtResource("15_y4k7r")]
-layout_mode = 2
-
 [node name="FolderManager" parent="." instance=ExtResource("11")]
 visible = false
 layout_mode = 1
@@ -409,6 +399,17 @@ offset_top = -130.0
 offset_right = 350.0
 offset_bottom = 130.0
 text = "Are you sure you want to unsubscribe from this item?"
+
+[node name="SortByPanel" parent="." instance=ExtResource("15_y4k7r")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/CenterContainer/TextureRect/AnimationPlayer" method="stop"]

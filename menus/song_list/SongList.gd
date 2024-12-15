@@ -9,7 +9,7 @@ var pevent_pregame_screen = false
 #onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 @onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
 @onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
-@onready var sort_by_list: HBSongListSortByPanel = get_node("CenterContainer/SortByPanel")
+@onready var sort_by_list: HBSongListSortByPanel = get_node("SortByPanel")
 @onready var folder_path = get_node("%FolderPath")
 @onready var folder_path_container = get_node("%FolderPathContainer")
 @onready var folder_manager = get_node("FolderManager")
@@ -155,7 +155,6 @@ func set_sort(sort_by):
 	update_sort_label(sort_by)
 func update_sort_label(sort_by):
 	sort_mode_label.text = allowed_sort_by[sort_by]
-	
 #	song_container.grab_focus()
 #	sort_by_list.hide()
 func _on_ugc_item_installed(type, item):
