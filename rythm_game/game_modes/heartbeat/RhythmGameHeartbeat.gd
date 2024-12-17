@@ -472,8 +472,9 @@ func editor_unorphan_subnotes():
 				slide_chain.pieces.sort_custom(Callable(self, "_sort_notes_by_time"))
 				editor_orphaned_subnotes.remove_at(i)
 				var editor_group := slide_note.get_meta("editor_group") as HBNoteGroup
-				_remove_group_from_interval_tree(editor_group)
-				_insert_group_into_interval_tree(editor_group)
+				if editor_group:
+					_remove_group_from_interval_tree(editor_group)
+					_insert_group_into_interval_tree(editor_group)
 
 func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 	if point is HBBaseNote:
