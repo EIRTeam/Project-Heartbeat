@@ -51,17 +51,22 @@ signal _new_workshop_song_added_queuer
 var rich_presence_start_timestamp: int
 
 func _new_workshop_song_added_update():
+	_new_workshop_song_added_queuer.disconnect(_new_workshop_song_added_update)
 	if not is_inside_tree():
 		await tree_entered
 	
+	# Slightly HACK-y but...
+	var should_refocus_song_list := song_container.is_ancestor_of(get_viewport().gui_get_focus_owner())
+	if should_refocus_song_list:
+		song_container.grab_focus()
 	var item = song_container.get_selected_item()
 	force_next_song_update = true
 	if item and item is HBSongListItem:
 		update_songs(item.song.id)
 	else:
 		update_songs()
-	_new_workshop_song_added_queuer.connect(_new_workshop_song_added_update, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
-		
+	_new_workshop_song_added_queuer.connect(_new_workshop_song_added_update, CONNECT_DEFERRED)
+
 
 func update_filter_display_containers():
 	star_filter_container.hide()
@@ -135,7 +140,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 
 func _on_ppd_dialog_visiblity_changed():
 	if MouseTrap.ppd_dialog.visible:
-		song_container.grab_focus
+		song_container.grab_focus()
 	
 func _on_ugc_song_meta_updated():
 	if UserSettings.user_settings.sort_filter_settings.workshop_tab_sort_prop in ["_added_time", "_updated_time", "_released_time"] \
