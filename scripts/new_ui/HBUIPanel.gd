@@ -117,7 +117,6 @@ func _get_property_list():
 	var list := []
 	register_subresource_to_plist(list, "stylebox")
 	register_texture_to_plist(list, "dots_texture")
-	print(list)
 	return list
 
 static func get_component_id() -> String:
@@ -125,4 +124,3 @@ static func get_component_id() -> String:
 
 static func get_component_name() -> String:
 	return "Cosmetic Panel"
-
