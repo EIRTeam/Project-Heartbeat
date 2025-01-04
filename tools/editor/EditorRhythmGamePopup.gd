@@ -53,7 +53,7 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 	
 	# Set metadata
 	get_tree().call_group(HBRhythmGameUI.DIFFICULTY_LABEL_GROUP, "set_difficulty", difficulty)
-	get_tree().call_group(HBRhythmGameUI.SONG_TITLE_GROUP, "set_song", song, [], selected_variant)
+	get_tree().call_group(HBRhythmGameUI.SONG_TITLE_GROUP, "set_song", song, SongAssetLoader.AssetLoadToken.new(), selected_variant)
 	get_tree().call_group(HBRhythmGameUI.DIFFICULTY_LABEL_GROUP, "set_modifiers_name_list", ["Test Play"])
 	
 	get_tree().call_group(HBRhythmGameUI.SKIP_INTRO_INDICATOR_GROUP, "hide")
