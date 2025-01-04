@@ -16,3 +16,4 @@ songs/
 .directory
 *~
 version.json
+*.uid
