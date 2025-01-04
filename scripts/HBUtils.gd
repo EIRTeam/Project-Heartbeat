@@ -300,7 +300,7 @@ static func array2texture(body: PackedByteArray) -> Texture2D:
 	var texture = ImageTexture.create_from_image(img)
 	return texture
 
-static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=true, create_mipmaps := false, starting_pack_size := Vector2i(512, 512)):
+static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=true, create_mipmaps := false):
 	var time_start = Time.get_ticks_usec()
 	
 	var _image_sizes = PackedVector2Array()
@@ -314,12 +314,12 @@ static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=
 			image_used_rect = Rect2(Vector2.ZERO, image.get_size())
 		_image_sizes[i] = Vector2(image_used_rect.size) + Vector2(margin, margin)
 		
-	var atlas := HBRectPack.pack_rects(_image_sizes, starting_pack_size)
+	var atlas = Geometry2D.make_atlas(_image_sizes)
 	
-	if atlas.result != OK:
-		return {}
+	var atlas_size := atlas.size as Vector2
 	
-	var atlas_size := atlas.size as Vector2i
+	atlas_size.x = nearest_po2(atlas_size.x)
+	atlas_size.y = nearest_po2(atlas_size.y)
 	
 	var output_image = Image.create(atlas_size.x, atlas_size.y, false, Image.FORMAT_RGBA8)
 	
@@ -332,16 +332,16 @@ static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=
 	for i in range(images.size()):
 		var image := images.values()[i] as Image
 		var image_name := images.keys()[i] as String
-		var point = (atlas.points[i] as Vector2i)
+		var point = (atlas.points[i] as Vector2)
 		var image_used_rect = image.get_used_rect()
 		if not strip_transparent:
 			image_used_rect = Rect2(Vector2.ZERO, image.get_size())
-		output_image.blit_rect(image, image_used_rect, point + Vector2i(margin, margin))
+		output_image.blit_rect(image, image_used_rect, point + Vector2(margin, margin))
 		var atlas_texture = AtlasTexture.new()
 		atlas_texture.atlas = texture
 		atlas_texture.margin = Rect2(image_used_rect.position, image.get_size() - image_used_rect.size)
 		atlas_texture.region = image_used_rect
-		atlas_texture.region.position = Vector2(point + Vector2i(margin, margin))
+		atlas_texture.region.position = point + Vector2(margin, margin)
 		atlas_textures[image_name] = atlas_texture
 		# hack af
 		var atlas_entry = load("res://tools/resource_pack_editor/HBAtlasEntry.gd").new()
