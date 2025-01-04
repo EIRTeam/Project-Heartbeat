@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c8s373bamiwuj"]
 
-[ext_resource type="Script" path="res://rythm_game/note_drawers/NoteGraphic.gd" id="2"]
+[ext_resource type="Script" uid="uid://bieo0je366sgh" path="res://rythm_game/note_drawers/NoteGraphic.gd" id="2"]
 
 [node name="Note" type="Sprite2D"]
 position = Vector2(588.453, 54.8522)

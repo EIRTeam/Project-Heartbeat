@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://fbjt8b81ifx4"]
 
-[ext_resource type="Script" path="res://menus/options_menu/OptionRange.gd" id="2"]
+[ext_resource type="Script" uid="uid://8doej2u6pt1f" path="res://menus/options_menu/OptionRange.gd" id="2"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://dq7c1cw2ym5i7" path="res://graphics/icons/chevron_left.svg" id="3_3if5m"]
 [ext_resource type="Texture2D" uid="uid://blo6t16ak6r5i" path="res://graphics/icons/chevron_right.svg" id="4_0g6xl"]
@@ -55,8 +55,8 @@ size_flags_horizontal = 10
 unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-theme_override_colors/icon_pressed_color = Color(0.928576, 0.215011, 0.796427, 1)
 theme_override_colors/icon_hover_color = Color(0.969927, 0.539801, 0.864081, 1)
+theme_override_colors/icon_pressed_color = Color(0.928576, 0.215011, 0.796427, 1)
 icon = ExtResource("3_3if5m")
 flat = true
 icon_alignment = 1
@@ -75,8 +75,8 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-theme_override_colors/icon_pressed_color = Color(0.929412, 0.215686, 0.796078, 1)
 theme_override_colors/icon_hover_color = Color(0.968627, 0.541176, 0.862745, 1)
+theme_override_colors/icon_pressed_color = Color(0.929412, 0.215686, 0.796078, 1)
 icon = ExtResource("4_0g6xl")
 icon_alignment = 1
 

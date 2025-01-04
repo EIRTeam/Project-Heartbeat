@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://c1ovx7e2yqrtk"]
 
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="1"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://cai6nkgeq8ftu" path="res://graphics/icons/icon_information_sign.svg" id="4"]
-[ext_resource type="Script" path="res://menus/ModifierSelector.gd" id="5"]
+[ext_resource type="Script" uid="uid://bljgvu0ldqjf2" path="res://menus/ModifierSelector.gd" id="5"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="6"]
 
 [node name="ModifierSelector" type="Control"]

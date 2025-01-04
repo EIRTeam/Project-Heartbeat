@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=4 uid="uid://cnhab15rxvshl"]
+[gd_scene load_steps=3 format=3 uid="uid://cnhab15rxvshl"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1_my5vx"]
-[ext_resource type="Script" path="res://menus/MultiplayerLeaderboard.gd" id="2_cxmii"]
+[ext_resource type="Script" uid="uid://djtigjm4buoui" path="res://menus/MultiplayerLeaderboard.gd" id="2_cxmii"]
 
 [node name="MultiplayerLeaderboard" type="HBPanelContainerBlurEX"]
 anchors_preset = 15

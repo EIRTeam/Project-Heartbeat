@@ -2,10 +2,10 @@
 
 [ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="1_1kq0a"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_vx2hw"]
-[ext_resource type="Script" path="res://menus/pregame_screen/PreGameLeaderboardHistoryEntry.gd" id="1_xqhus"]
+[ext_resource type="Script" uid="uid://begbly1j64jkx" path="res://menus/pregame_screen/PreGameLeaderboardHistoryEntry.gd" id="1_xqhus"]
 [ext_resource type="Texture2D" uid="uid://d2kjl2b11qmqm" path="res://graphics/icons/earth.svg" id="3_87j3f"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4_ntul7"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="5_glo25"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="4_ntul7"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="5_glo25"]
 
 [node name="PreGameLeaderboardRank" type="PanelContainer"]
 anchors_preset = 15

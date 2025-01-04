@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://goudcfvpe5jy"]
 
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="2_52mxr"]
-[ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/ContentDirControl.gd" id="3"]
+[ext_resource type="Script" uid="uid://b3mc255effeo2" path="res://menus/options_menu/content_dirs_menu/ContentDirControl.gd" id="3"]
 
 [node name="Control3" type="Panel"]
 custom_minimum_size = Vector2(0, 64)

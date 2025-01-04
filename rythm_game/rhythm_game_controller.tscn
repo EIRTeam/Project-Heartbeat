@@ -1,13 +1,13 @@
 [gd_scene load_steps=17 format=3 uid="uid://cf2jxkpomwvf3"]
 
-[ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="1"]
-[ext_resource type="Script" path="res://rythm_game/rhythm_game_controller.gd" id="2"]
+[ext_resource type="Script" uid="uid://xyqqpxe7hfx2" path="res://rythm_game/SongBackground.gd" id="1"]
+[ext_resource type="Script" uid="uid://b2akvshq6vr3n" path="res://rythm_game/rhythm_game_controller.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://q7lxigfdjdkq" path="res://rythm_game/pause_menu/PauseMenu.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="5"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://bp2b0enf3mcn4" path="res://graphics/icons/fast-forward.svg" id="8"]
-[ext_resource type="Script" path="res://rythm_game/VideoPlayerOffset.gd" id="10"]
+[ext_resource type="Script" uid="uid://bktl5vdwskklo" path="res://rythm_game/VideoPlayerOffset.gd" id="10"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0, 0, 0, 1)
@@ -117,8 +117,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sj666"]
 _data = {
-"appear": SubResource("5"),
-"disappear": SubResource("6")
+&"appear": SubResource("5"),
+&"disappear": SubResource("6")
 }
 
 [sub_resource type="Environment" id="7"]
@@ -202,7 +202,6 @@ auto_translate_mode = 2
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 14.0
-auto_translate = false
 text = "asdsadsad"
 
 [node name="VHS" type="Panel" parent="."]
@@ -220,7 +219,7 @@ anchor_bottom = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RollbackLabel"]
 libraries = {
-"": SubResource("AnimationLibrary_sj666")
+&"": SubResource("AnimationLibrary_sj666")
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="RollbackLabel"]

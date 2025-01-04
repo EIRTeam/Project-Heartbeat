@@ -1,14 +1,14 @@
-[gd_scene load_steps=13 format=4 uid="uid://dg1viq66ci7cl"]
+[gd_scene load_steps=13 format=3 uid="uid://dg1viq66ci7cl"]
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://bjxa2hpnq0raa" path="res://multiplayer/lobby/MemberList.tscn" id="2"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="6"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="4"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="7"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://cy0nvbceaj51i" path="res://multiplayer/lobby/LobbyChat.tscn" id="8_d1lvb"]
-[ext_resource type="Script" path="res://multiplayer/lobby/LobbyMenu.gd" id="9"]
+[ext_resource type="Script" uid="uid://copjm2ow2kkxt" path="res://multiplayer/lobby/LobbyMenu.gd" id="9"]
 [ext_resource type="PackedScene" uid="uid://8x1aoqn11c4h" path="res://multiplayer/lobby/LobbyMenuDebug.tscn" id="10_jpq1t"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
@@ -160,6 +160,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="WaitingForSongConfirmation" parent="." instance=ExtResource("7")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -174,6 +175,7 @@ accept_text = ""
 cancel_text = "Cancel"
 
 [node name="SongConfirmationError" parent="." instance=ExtResource("7")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -190,6 +192,7 @@ accept_text = "Okay"
 cancel_text = ""
 
 [node name="DownloadingMesssage" parent="." instance=ExtResource("7")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -216,16 +219,19 @@ unique_name_in_owner = true
 
 [node name="SendUGCDownloadSongRequestDialog" parent="." instance=ExtResource("7")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 text = "Looks like some players lack the needed Workshop song or media for the songs, would you like to ask them to download them?"
 
 [node name="DownloadUGCSongDialog" parent="." instance=ExtResource("7")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 text = "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
 
 [node name="ErrorMessage" parent="." instance=ExtResource("7")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 has_cancel = false
 text = "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"

@@ -1,39 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvtvu8k1p2fbh"]
+[gd_scene load_steps=3 format=3 uid="uid://bvtvu8k1p2fbh"]
 
 [ext_resource type="Script" path="res://rythm_game/SlideHoldScoreText.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://bp300py43a3w8" path="res://fonts/orbitron-black-mono.otf" id="2"]
-
-[sub_resource type="FontFile" id="1"]
-fallbacks = Array[Font]([ExtResource("2"), ExtResource("2")])
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-
-[sub_resource type="FontFile" id="2"]
-fallbacks = Array[Font]([ExtResource("2"), ExtResource("2")])
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2_mh82p"]
 
 [node name="SlideHoldScoreText" type="Control"]
 layout_mode = 3
@@ -51,9 +19,9 @@ mouse_filter = 2
 [node name="MaxScoreLabel" type="Label" parent="VBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_colors/font_color = Color(1, 0.72549, 0, 1)
-theme_override_fonts/font = SubResource("1")
+theme_override_fonts/font = ExtResource("2_mh82p")
+theme_override_font_sizes/font_size = 24
 text = "MAX SCORE"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -61,8 +29,8 @@ vertical_alignment = 1
 [node name="ScoreLabel" type="Label" parent="VBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
-theme_override_fonts/font = SubResource("2")
+theme_override_fonts/font = ExtResource("2_mh82p")
+theme_override_font_sizes/font_size = 22
 text = "+10"
 horizontal_alignment = 1
 vertical_alignment = 1

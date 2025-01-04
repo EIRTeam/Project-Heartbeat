@@ -2,13 +2,13 @@
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
-[ext_resource type="Script" path="res://tools/PPDManager/PPDManager.gd" id="3"]
-[ext_resource type="Script" path="res://tools/PPDManager/PPDDownloader.gd" id="4"]
-[ext_resource type="Script" path="res://menus/BGWindow.gd" id="4_oui4o"]
+[ext_resource type="Script" uid="uid://d2uy78udeoqkl" path="res://tools/PPDManager/PPDManager.gd" id="3"]
+[ext_resource type="Script" uid="uid://depjjvc2vdjkw" path="res://tools/PPDManager/PPDDownloader.gd" id="4"]
+[ext_resource type="Script" uid="uid://p8j5ksjdchsh" path="res://menus/BGWindow.gd" id="4_oui4o"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="5"]
 [ext_resource type="PackedScene" uid="uid://b2wrelc1otv6p" path="res://tools/PPDManager/PPDManagerPopup.tscn" id="6"]
 [ext_resource type="Texture2D" uid="uid://c8c1a67bhcxiv" path="res://graphics/icons/settings-box.svg" id="7"]
-[ext_resource type="Script" path="res://tools/PPDManager/PPDImporter.gd" id="8"]
+[ext_resource type="Script" uid="uid://wye1i61wa457" path="res://tools/PPDManager/PPDImporter.gd" id="8"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 

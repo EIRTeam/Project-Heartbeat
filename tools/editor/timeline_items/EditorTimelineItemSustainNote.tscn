@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cwu5446kx5qhs"]
 
-[ext_resource type="Script" path="res://tools/editor/timeline_items/EditorTimelineItemSustainNote.gd" id="1"]
-[ext_resource type="Script" path="res://tools/editor/timeline_items/sustain_end_line_HACK.gd" id="2"]
+[ext_resource type="Script" uid="uid://7y4wla4qi2ur" path="res://tools/editor/timeline_items/EditorTimelineItemSustainNote.gd" id="1"]
+[ext_resource type="Script" uid="uid://3muy1gjp7ev4" path="res://tools/editor/timeline_items/sustain_end_line_HACK.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://ctp32xj0jdp6h" path="res://graphics/rush_text_filled.png" id="3_l8f1f"]
 
 [node name="EditorTimelineItemSingleNote" type="Control"]

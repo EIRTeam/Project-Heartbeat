@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://r1d8rkhhgkpn"]
 
 [ext_resource type="Texture2D" uid="uid://di30jv0le85ua" path="res://graphics/icons/checkbox-blank-outline.png" id="2"]
-[ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/MMPlusControl.gd" id="3"]
+[ext_resource type="Script" uid="uid://caw0mmrvukwwi" path="res://menus/options_menu/content_dirs_menu/MMPlusControl.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://bwhiiioudwqlb" path="res://graphics/icons/checkbox-marked.png" id="4"]
 [ext_resource type="FontVariation" uid="uid://cdj3wvnplto5x" path="res://fonts/new_fonts/Comforta.tres" id="5"]
 
