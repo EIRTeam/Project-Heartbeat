@@ -79,12 +79,12 @@ static func swap_endianness(src: PackedByteArray):
 	return out
 
 static func diva_pos_to_pixels(x, y):
-	var diva_width = 500_000.0
-	var diva_height = 250_000.0
+	var diva_width = 464_000.0
+	var diva_height = 232_000.0
 	var diva_ratio = diva_height / diva_width
 	
-	var position = Vector2((x/ (500_000.0)) * 1920.0, (y / (diva_height)) * (1920.0 * diva_ratio))
-	
+	var position = Vector2((x/ (diva_width)) * 1920.0, (y / (diva_height)) * (1920.0 * diva_ratio) - 12)
+
 	return position
 
 static func get_bpm_at_bar(bar, bpm_changes):
