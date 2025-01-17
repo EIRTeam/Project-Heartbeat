@@ -304,12 +304,10 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 						(note_d as HBRushNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0) + offset
 					
 					# F note coords are in 50:15 aspect ratio
-					var diva_width = 500_000.0
-					var diva_height = 250_000.0
+					var diva_width = 480_000.0
+					var diva_height = 240_000.0
 					var diva_ratio = diva_height / diva_width
-					var diva_y_offset = (1080.0 - ((diva_height / diva_width) * 1920.0)) / 4.0
-					note_d.position = Vector2((opcode.params[3] / (500_000.0)) * 1920.0, (opcode.params[4] / (diva_height)) * (1920.0 * diva_ratio))
-					note_d.position.y += diva_y_offset
+					note_d.position = Vector2((opcode.params[3] / (diva_width)) * 1920.0, (opcode.params[4] / (diva_height)) * (1920.0 * diva_ratio))
 					
 					note_d.oscillation_amplitude = opcode.params[8]
 					note_d.oscillation_frequency = opcode.params[6]
