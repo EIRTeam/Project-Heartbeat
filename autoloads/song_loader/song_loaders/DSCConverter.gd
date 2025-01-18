@@ -237,7 +237,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 		
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET:
 			if (opcode_map.game == "FT" and opcode.params[0] in AFTButtons.values()) or \
-				((opcode_map.game == "f" or opcode_map.game == "F2") and opcode.params[0] in FButtons.values()):
+				((opcode_map.game == "f" or "F2" or "DT") and opcode.params[0] in FButtons.values()):
 				
 				var note_d: HBBaseNote = HBNoteData.new()
 				
@@ -284,7 +284,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 					note_d.oscillation_amplitude = opcode.params[5]
 					note_d.distance = opcode.params[4] / 250.0
 				
-				if opcode_map.game in ["f", "F2"]:
+				if opcode_map.game in ["f", "F2", "DT"]:
 					var is_hold_end = opcode.params[2] != -1
 					if is_hold_end:
 						continue
@@ -308,6 +308,10 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 					var diva_height = 240_000.0
 					var diva_ratio = diva_height / diva_width
 					note_d.position = Vector2((opcode.params[3] / (diva_width)) * 1920.0, (opcode.params[4] / (diva_height)) * (1920.0 * diva_ratio))
+					if opcode_map.game == "DT":
+						var diva_shrink = 0.15
+						note_d.position.x = (note_d.position.x + diva_shrink * (1920.0 / 2 - note_d.position.x))
+						note_d.position.y = (note_d.position.y + diva_shrink * ((1920.0 * diva_ratio) / 2 - note_d.position.y))
 					
 					note_d.oscillation_amplitude = opcode.params[8]
 					note_d.oscillation_frequency = opcode.params[6]
