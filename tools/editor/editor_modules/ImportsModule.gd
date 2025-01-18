@@ -66,6 +66,7 @@ class DSCImporter:
 	
 	enum DSC_OPTIONS {
 		FT,
+		DT,
 		F,
 		F2
 	}
@@ -81,7 +82,8 @@ class DSCImporter:
 		
 		options_button = OptionButton.new()
 		options_button.add_item("Future Tone/M39s")
-		options_button.add_item("F/DT/X")
+		options_button.add_item("Dreamy Theater")
+		options_button.add_item("F/X")
 		options_button.add_item("F2nd")
 		
 		add_child(options_button)
@@ -91,8 +93,10 @@ class DSCImporter:
 		match options_button.get_selected_id():
 			DSC_OPTIONS.FT:
 				game = "FT/MM/MM+"
+			DSC_OPTIONS.DT:
+				game = "Dreamy Theater"
 			DSC_OPTIONS.F:
-				game = "F/DT/X"
+				game = "F/X"
 			DSC_OPTIONS.F2:
 				game = "F2nd"
 		
@@ -106,6 +110,8 @@ class DSCImporter:
 		match options_button.get_selected_id():
 			DSC_OPTIONS.FT:
 				game = "FT"
+			DSC_OPTIONS.DT:
+				game = "DT"
 			DSC_OPTIONS.F:
 				game = "f"
 			DSC_OPTIONS.F2:
