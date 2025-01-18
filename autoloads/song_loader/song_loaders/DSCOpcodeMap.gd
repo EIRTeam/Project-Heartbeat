@@ -16,6 +16,8 @@ func _init(map_path = "res://autoloads/song_loader/song_loaders/dsc_opcode_db.js
 	if _game == "MMPLUS":
 		_game = "FT"
 	game = _game
+	if _game == "DT":
+		_game = "f"
 	_game_info_entry_n = "info_" + _game
 	for opcode_name in opcode_db:
 		if _game_info_entry_n in opcode_db[opcode_name]:
