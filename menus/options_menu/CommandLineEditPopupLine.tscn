@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=3 uid="uid://b0fare7qr3umv"]
+
+[ext_resource type="Script" uid="uid://dkn4dtpt41jm7" path="res://menus/options_menu/CommandLineEditPopupLine.gd" id="1_mmai5"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="2_4ii2l"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2_mmai5"]
+[ext_resource type="Texture2D" uid="uid://rkih7dgqsgqq" path="res://tools/icons/arrow-up-thick.svg" id="3_4ii2l"]
+[ext_resource type="Texture2D" uid="uid://26cxr0ocmlku" path="res://graphics/icons/pencil.svg" id="4_iqi5i"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="5_4ii2l"]
+[ext_resource type="Texture2D" uid="uid://pvb4tgdngyy2" path="res://tools/icons/arrow-down-thick.svg" id="5_k2yqn"]
+[ext_resource type="Texture2D" uid="uid://bxhrte7i7snxo" path="res://graphics/icons/icon_remove.svg" id="6_iqi5i"]
+
+[node name="Control2" type="PanelContainer"]
+use_parent_material = true
+custom_minimum_size = Vector2(0, 72)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 72.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_type_variation = &"HBCommandLineEditPopupLine"
+script = ExtResource("1_mmai5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+use_parent_material = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="LineLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+use_parent_material = true
+layout_mode = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_mmai5")
+text = "(NT)Boolean Option"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+use_parent_material = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 2
+script = ExtResource("5_4ii2l")
+enable_wrap_around = true
+
+[node name="EditButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+icon = ExtResource("4_iqi5i")
+script = ExtResource("2_4ii2l")
+metadata/_custom_type_script = ExtResource("2_4ii2l")
+
+[node name="RemoveButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+icon = ExtResource("6_iqi5i")
+expand_icon = true
+script = ExtResource("2_4ii2l")
+metadata/_custom_type_script = ExtResource("2_4ii2l")
+
+[node name="UpButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("3_4ii2l")
+script = ExtResource("2_4ii2l")
+metadata/_custom_type_script = ExtResource("2_4ii2l")
+
+[node name="DownButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("5_k2yqn")
+script = ExtResource("2_4ii2l")
+metadata/_custom_type_script = ExtResource("2_4ii2l")

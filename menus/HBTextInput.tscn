@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=4 uid="uid://dtchd3yrqrcbd"]
+[gd_scene load_steps=8 format=3 uid="uid://dtchd3yrqrcbd"]
 
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="1"]
-[ext_resource type="Script" path="res://menus/HBTextInput.gd" id="2"]
+[ext_resource type="Script" uid="uid://ero5lxtqkqmm" path="res://menus/HBTextInput.gd" id="2"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="3"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 25.0
-content_margin_right = 0.0
+content_margin_top = 24.0
+content_margin_right = 25.0
 bg_color = Color(0.19, 0.07, 0.3, 0.75)
 border_width_left = 2
 border_width_top = 2
@@ -58,16 +59,15 @@ func _gui_input(event):
 		emit_signal(\"cancel\")
 "
 
-[node name="HBConfirmationWindow" type="PanelContainer"]
-offset_right = 688.0
-offset_bottom = 200.0
+[node name="HBConfirmationWindow" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
 theme = ExtResource("3")
 script = ExtResource("2")
-
-[node name="MouseTrapPanel" type="Panel" parent="."]
-auto_translate_mode = 1
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 2
 
 [node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 2
@@ -86,10 +86,12 @@ alignment = 1
 
 [node name="TextLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 layout_mode = 2
 text = "Please enter the folder's name:"
 
 [node name="LineEdit" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)

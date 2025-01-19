@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://r6cc2m204dqw"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
-[ext_resource type="Script" path="res://menus/HBConfirmationWindow.gd" id="4"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="2"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="3"]
+[ext_resource type="Script" uid="uid://ca4xvrvaa3raf" path="res://menus/HBConfirmationWindow.gd" id="4"]
 [ext_resource type="StyleBox" uid="uid://cp7yh4stt825r" path="res://styles/PanelStyleTransparentIconHover.tres" id="5"]
 [ext_resource type="StyleBox" uid="uid://b21324ii6ky3l" path="res://styles/PanelStyleTransparentIcon.tres" id="6"]
 

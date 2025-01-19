@@ -39,6 +39,7 @@ var display_mode__possibilities = [
 var display := -1
 var desired_video_resolution = 1080
 var desired_video_fps = 60
+var ytdlp_custom_command_line: Array[String] = []
 var show_visualizer_on_video = true
 var disable_video = false
 var disable_ppd_video = false
@@ -273,7 +274,7 @@ func _init():
 		"resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 		"ui_skin",
 		"note_size", "input_map", "input_map_version",
-		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
+		"fps_limit", "display_mode", "display", "desired_video_fps", "ytdlp_custom_command_line", "desired_video_resolution", "disable_video",
 		"disable_ppd_video", "use_visualizer_with_video", "sort_filter_settings", "last_selected_difficulty", "leading_trail_enabled",
 		"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 		"enable_multi_hint", "play_hit_sounds_only_when_hit", "master_volume", "music_volume", "sfx_volume", "content_path",

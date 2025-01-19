@@ -174,20 +174,6 @@ var OPTIONS = {
 			"name": tr("Disable Video for PPD songs"),
 			"description": tr("Disables video playback and download for PPD songs, might yield more performance on some systems.")
 		},
-		"desired_video_fps": {
-			"name": tr("Desired Video FPS"),
-			"description": tr("The desired video framerate for downloaded videos."),
-			"options": [30, 60],
-			"options_pretty": ["30 FPS", "60 FPS"],
-			"type": "options"
-		},
-		"desired_video_resolution": {
-			"name": tr("Desired Video Resolution"),
-			"description": tr("The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."),
-			"options": [480, 720, 1080, 1440, 2160],
-			"options_pretty": ["480p", "720p", "1080p", "1440p", "4K"],
-			"type": "options"
-		},
 		"use_visualizer_with_video": {
 			"name": tr("Use visualizer with video"),
 			"description": tr("Whether or not the game should display the visualizer on top of videos.")
@@ -212,6 +198,27 @@ var OPTIONS = {
 				0: "Unlimited"
 			}
 		}
+	},
+	tr("Downloads"): {
+		"ytdlp_custom_command_line": {
+			"name": tr("yt-dlp: Custom command-line arguments"),
+			"description": tr("Custom command-line arguments to prepend to yt-dlp"),
+			"type": "command_line"
+		},
+		"desired_video_fps": {
+			"name": tr("Desired Video FPS"),
+			"description": tr("The desired video framerate for downloaded videos."),
+			"options": [30, 60],
+			"options_pretty": ["30 FPS", "60 FPS"],
+			"type": "options"
+		},
+		"desired_video_resolution": {
+			"name": tr("Desired Video Resolution"),
+			"description": tr("The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."),
+			"options": [480, 720, 1080, 1440, 2160],
+			"options_pretty": ["480p", "720p", "1080p", "1440p", "4K"],
+			"type": "options"
+		},
 	},
 	tr("Visual"): {
 		"button_prompt_override": {

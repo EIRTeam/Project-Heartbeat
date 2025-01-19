@@ -363,6 +363,9 @@ func get_ytdl_shared_params(handle_temp_files := false):
 	
 	return shared_params
 
+func get_ytdl_user_params() -> Array[String]:
+	return UserSettings.user_settings.ytdlp_custom_command_line
+
 func cleanup_video_media(video_id: String, video := false, audio := false):
 	var video_path := get_video_path(video_id, true)
 	var audio_path_temp := get_audio_path(video_id, true, true)
@@ -393,6 +396,7 @@ func _download_video(userdata: CachingQueueEntry):
 	var entry := userdata
 	# we have to ignroe the cache dir because youtube-dl is stupid
 	var shared_params = get_ytdl_shared_params(true)
+	var user_params := get_ytdl_user_params()
 	var audio_download_ok = true
 #	var audio_download_process: Process
 #	var ffmpeg_process: Process
@@ -408,7 +412,7 @@ func _download_video(userdata: CachingQueueEntry):
 			entry.mutex.unlock()
 			call_deferred("_video_downloaded", userdata, result)
 			return
-		var audio_download_process := PHNative.create_process(get_ytdl_executable(), shared_params + audio_params)
+		var audio_download_process := PHNative.create_process(get_ytdl_executable(), shared_params + audio_params + user_params)
 		entry.caching_stage = CACHING_STAGE.DOWNLOADING_AUDIO
 		entry.current_process = audio_download_process
 		entry.mutex.unlock()
@@ -480,7 +484,7 @@ func _download_video(userdata: CachingQueueEntry):
 			entry.mutex.unlock()
 			call_deferred("_video_downloaded", userdata.thread, result)
 			return 
-		var download_process := PHNative.create_process(get_ytdl_executable(), shared_params + video_params)
+		var download_process := PHNative.create_process(get_ytdl_executable(), shared_params + video_params + user_params)
 		entry.caching_stage = CACHING_STAGE.DOWNLOADING_VIDEO
 		entry.current_process = download_process
 		entry.download_progress = -1.0

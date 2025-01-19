@@ -48,6 +48,8 @@ func _on_cancel_pressed():
 func set_text(value):
 	text = value
 	%TextLabel.text = value
+	%TextLabel.visible = !text.is_empty()
+		
 func set_accept_text(value):
 	accept_text = value
 	%AcceptButton.text = value

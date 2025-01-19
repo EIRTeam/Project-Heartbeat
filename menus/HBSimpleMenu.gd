@@ -63,6 +63,8 @@ func _try_focus_neighbor(neighbor: NodePath) -> bool:
 			return false
 		if not control.is_visible_in_tree():
 			return false
+		if control is HBSimpleMenu and control.get_child_count() == 0:
+			return false
 		control.grab_focus()
 		return true
 	return false

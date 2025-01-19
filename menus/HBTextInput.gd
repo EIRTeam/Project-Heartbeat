@@ -1,17 +1,28 @@
 extends "res://menus/HBConfirmationWindow.gd"
 
+class_name HBTextInput
+
 signal entered(text)
 
-@onready var line_edit = get_node("Panel/MarginContainer/VBoxContainer/LineEdit")
+@onready var line_edit: LineEdit = get_node("%LineEdit")
 
-@export var text_input_description: String = tr("Input text")
+@export var text_input_description: String = ""
+
+@export var text_input: String:
+	set(val):
+		if not is_node_ready():
+			await ready
+		line_edit.text = val
+	get:
+		return line_edit.text
 
 func _on_Control_about_to_show():
-	line_edit.text = ""
 	line_edit.grab_focus()
+	line_edit.caret_column = line_edit.text.length()
 	
 func _on_LineEdit_text_entered(new_text):
 	emit_signal("entered", new_text)
+	hide()
 
 func _connect_button_signals():
 	return
@@ -27,5 +38,3 @@ func _on_gamepad_input_dismissed(submitted: bool, text: String):
 		_on_LineEdit_text_entered(text)
 	else:
 		emit_signal("cancel")
-
-
