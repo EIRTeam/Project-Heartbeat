@@ -381,7 +381,16 @@ func _ready():
 			section_name_to_section_control[section_name] = section
 			
 			call_section_callback(section_name)
-		
+	if not is_inside_tree():
+		await tree_entered
+	YoutubeDL.version_information_updated.connect(_on_youtubedl_version_information_updated, CONNECT_ONE_SHOT)
+	
+func _on_youtubedl_version_information_updated():
+	if not is_inside_tree():
+		await tree_entered
+	call_section_callback(tr("Game"))
+	YoutubeDL.version_information_updated.connect(_on_youtubedl_version_information_updated, CONNECT_ONE_SHOT)
+	
 func call_section_callback(section_name: String):
 	assert(section_name in OPTIONS)
 	if "__section_label" in OPTIONS[section_name]:
@@ -485,7 +494,10 @@ func _audio_buffer_info_callback():
 	return "(%s) Requested/actual buffer size: %d ms/%d ms" % [Shinobu.get_current_backend_name(), Shinobu.desired_buffer_size_msec, Shinobu.get_actual_buffer_size()]
 
 func _version_info_callback():
-	return HBVersion.get_version_string(true)
+	var version_string := HBVersion.get_version_string(true) as String
+	if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
+		version_string += "\nyt-dlp: " + YoutubeDL.version
+	return version_string
 
 func _detected_controllers_callback() -> String:
 	if Input.get_connected_joypads().size() == 0:
