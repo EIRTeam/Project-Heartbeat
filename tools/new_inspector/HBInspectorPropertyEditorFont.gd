@@ -174,6 +174,7 @@ func _on_item_selected(val: int):
 		current_font.font_data = resource_storage.get_font(current_font_name)
 	else:
 		current_font.font_data = null
+	current_font.base_font = current_font.font_data
 	emit_signal("value_changed", current_font)
 
 func _on_fallback_hint_item_selected(fallback: int):
