@@ -237,7 +237,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 		
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET:
 			if (opcode_map.game == "FT" and opcode.params[0] in AFTButtons.values()) or \
-				((opcode_map.game == "f" or "F2" or "DT") and opcode.params[0] in FButtons.values()):
+				((opcode_map.game in ["f", "F2", "DT"]) and opcode.params[0] in FButtons.values()):
 				
 				var note_d: HBBaseNote = HBNoteData.new()
 				
