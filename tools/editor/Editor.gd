@@ -347,6 +347,8 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 		undo_redo.commit_action()
 
 func _show_open_chart_dialog():
+	await get_tree().process_frame
+	await get_tree().process_frame
 	open_chart_popup_dialog.popup_centered_clamped(Vector2(600, 250))
 	
 func change_scale(new_scale):
@@ -1762,7 +1764,7 @@ func try_exit():
 		exit()
 
 func open():
-	open_chart_popup_dialog.popup_centered()
+	_show_open_chart_dialog()
 
 func try_open():
 	if modified:
