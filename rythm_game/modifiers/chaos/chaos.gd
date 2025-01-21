@@ -28,7 +28,7 @@ func _preprocess_timing_points(points: Array) -> Array:
 	var last_types = []
 	var last_type_time = 0.0
 	for point in points:
-		if point is HBBaseNote and not point.is_slide_note():
+		if point is HBBaseNote and (not point is HBNoteData or not point.is_slide_note()):
 			if point.note_type in note_types_to_randomize:
 				note_types_to_randomize.shuffle()
 				var new_type = note_types_to_randomize[0]
