@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3 uid="uid://qmyd8asnn4d5"]
+
+[ext_resource type="Script" uid="uid://6kmoc3hw18ov" path="res://menus/options_menu/OptionCustomCommandLine.gd" id="1_vsfbx"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2_sjjeo"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="3_sgxf5"]
+[ext_resource type="PackedScene" uid="uid://c8hdyxlxgv30u" path="res://menus/options_menu/CommandLineEditPopup.tscn" id="3_vsfbx"]
+[ext_resource type="Texture2D" uid="uid://26cxr0ocmlku" path="res://graphics/icons/pencil.svg" id="4_amxqn"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="4_atcvq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_atcvq"]
+font_size = 24
+
+[node name="OptionSelect" type="Panel"]
+custom_minimum_size = Vector2(0, 64)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+script = ExtResource("1_vsfbx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_right = -20.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_sjjeo")
+text = "(NT)Boolean Option"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="PreviewLabel" type="Label" parent="HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "testtt - - - -testtt - - - -testtt - - - -testtt - - - -testtt - - - -testtt - - - -testtt - - - -testtt - - - -"
+label_settings = SubResource("LabelSettings_atcvq")
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 2
+script = ExtResource("3_sgxf5")
+
+[node name="EditButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Edit"
+icon = ExtResource("4_amxqn")
+script = ExtResource("4_atcvq")
+metadata/_custom_type_script = ExtResource("4_atcvq")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CommandLineEditPopup" parent="CanvasLayer" instance=ExtResource("3_vsfbx")]
+unique_name_in_owner = true

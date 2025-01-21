@@ -1,11 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://k6ydqqj6cf3j"]
+[gd_scene load_steps=9 format=3 uid="uid://k6ydqqj6cf3j"]
 
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="1"]
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2"]
-[ext_resource type="Script" path="res://multiplayer/lobby/Member.gd" id="3"]
+[ext_resource type="Script" uid="uid://dx3n3lypvyn2o" path="res://multiplayer/lobby/Member.gd" id="3"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="4"]
 [ext_resource type="Texture2D" uid="uid://c8s20e88p3ig7" path="res://graphics/icons/crown.svg" id="5"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="6"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="6_fgn7g"]
 
 [sub_resource type="FontFile" id="1"]

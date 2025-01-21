@@ -174,20 +174,6 @@ var OPTIONS = {
 			"name": tr("Disable Video for PPD songs"),
 			"description": tr("Disables video playback and download for PPD songs, might yield more performance on some systems.")
 		},
-		"desired_video_fps": {
-			"name": tr("Desired Video FPS"),
-			"description": tr("The desired video framerate for downloaded videos."),
-			"options": [30, 60],
-			"options_pretty": ["30 FPS", "60 FPS"],
-			"type": "options"
-		},
-		"desired_video_resolution": {
-			"name": tr("Desired Video Resolution"),
-			"description": tr("The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."),
-			"options": [480, 720, 1080, 1440, 2160],
-			"options_pretty": ["480p", "720p", "1080p", "1440p", "4K"],
-			"type": "options"
-		},
 		"use_visualizer_with_video": {
 			"name": tr("Use visualizer with video"),
 			"description": tr("Whether or not the game should display the visualizer on top of videos.")
@@ -212,6 +198,27 @@ var OPTIONS = {
 				0: "Unlimited"
 			}
 		}
+	},
+	tr("Downloads"): {
+		"ytdlp_custom_command_line": {
+			"name": tr("yt-dlp: Custom command-line arguments"),
+			"description": tr("Custom command-line arguments to prepend to yt-dlp"),
+			"type": "command_line"
+		},
+		"desired_video_fps": {
+			"name": tr("Desired Video FPS"),
+			"description": tr("The desired video framerate for downloaded videos."),
+			"options": [30, 60],
+			"options_pretty": ["30 FPS", "60 FPS"],
+			"type": "options"
+		},
+		"desired_video_resolution": {
+			"name": tr("Desired Video Resolution"),
+			"description": tr("The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."),
+			"options": [480, 720, 1080, 1440, 2160],
+			"options_pretty": ["480p", "720p", "1080p", "1440p", "4K"],
+			"type": "options"
+		},
 	},
 	tr("Visual"): {
 		"button_prompt_override": {
@@ -381,7 +388,16 @@ func _ready():
 			section_name_to_section_control[section_name] = section
 			
 			call_section_callback(section_name)
-		
+	if not is_inside_tree():
+		await tree_entered
+	YoutubeDL.version_information_updated.connect(_on_youtubedl_version_information_updated, CONNECT_ONE_SHOT)
+	
+func _on_youtubedl_version_information_updated():
+	if not is_inside_tree():
+		await tree_entered
+	call_section_callback(tr("Game"))
+	YoutubeDL.version_information_updated.connect(_on_youtubedl_version_information_updated, CONNECT_ONE_SHOT)
+	
 func call_section_callback(section_name: String):
 	assert(section_name in OPTIONS)
 	if "__section_label" in OPTIONS[section_name]:
@@ -485,7 +501,10 @@ func _audio_buffer_info_callback():
 	return "(%s) Requested/actual buffer size: %d ms/%d ms" % [Shinobu.get_current_backend_name(), Shinobu.desired_buffer_size_msec, Shinobu.get_actual_buffer_size()]
 
 func _version_info_callback():
-	return HBVersion.get_version_string(true)
+	var version_string := HBVersion.get_version_string(true) as String
+	if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
+		version_string += "\nyt-dlp: " + YoutubeDL.version
+	return version_string
 
 func _detected_controllers_callback() -> String:
 	if Input.get_connected_joypads().size() == 0:

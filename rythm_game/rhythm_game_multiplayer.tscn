@@ -1,10 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://byjf4d5kfhwy"]
+[gd_scene load_steps=7 format=3 uid="uid://byjf4d5kfhwy"]
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
 [ext_resource type="PackedScene" uid="uid://cf2jxkpomwvf3" path="res://rythm_game/rhythm_game_controller.tscn" id="3"]
-[ext_resource type="Script" path="res://rythm_game/rhythm_game_multiplayer.gd" id="4"]
-[ext_resource type="Script" path="res://rythm_game/MultiplayerScoreboard.gd" id="5"]
+[ext_resource type="Script" uid="uid://bcns61o420ql0" path="res://rythm_game/rhythm_game_multiplayer.gd" id="4"]
+[ext_resource type="Script" uid="uid://1186uqvv6tv4" path="res://rythm_game/MultiplayerScoreboard.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://ddhhinndecvh7" path="res://multiplayer/lobby/MultiplayerLoadingMemberList.tscn" id="6_rk01l"]
 
 [node name="RhythmGameMultiplayer" type="Control"]

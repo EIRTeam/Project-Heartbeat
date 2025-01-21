@@ -22,7 +22,7 @@ func load_song_meta_from_folder(path: String, id: String):
 			song_instance.path = path.get_base_dir()
 			return song_instance
 		else:
-			Log.log(self, "Error loading song config file on line %d: %s" % [song_json.error_line, song_json.error_string])
+			Log.log(self, "Error loading song config file on line %d: %s" % [test_json_conv.get_error_line(), test_json_conv.get_error_message()])
 	else:
 		Log.log(self, "Error loading song: %s with error %d" % [path, err], Log.LogLevel.ERROR)
 	file.close()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://1b0dhe4p36pa"]
 
 [ext_resource type="Texture2D" uid="uid://d3ahvgi4j6830" path="res://graphics/progress_circle.png" id="1"]
-[ext_resource type="Script" path="res://rythm_game/note_drawers/NoteTarget.gd" id="2"]
+[ext_resource type="Script" uid="uid://dte48ej7j1qpd" path="res://rythm_game/note_drawers/NoteTarget.gd" id="2"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(64, 64)

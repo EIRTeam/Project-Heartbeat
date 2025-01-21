@@ -2,7 +2,7 @@
 
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="2_c1g4p"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2_g2q8y"]
-[ext_resource type="Script" path="res://menus/song_list/SongListPreview.gd" id="8"]
+[ext_resource type="Script" uid="uid://dgiipjnpylmv1" path="res://menus/song_list/SongListPreview.gd" id="8"]
 
 [sub_resource type="StyleBoxFlat" id="3"]
 content_margin_left = 25.0

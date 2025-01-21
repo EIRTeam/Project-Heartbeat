@@ -1,11 +1,11 @@
 [gd_scene load_steps=19 format=4 uid="uid://c0p0ql3vtldti"]
 
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2"]
-[ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" id="4"]
+[ext_resource type="Script" uid="uid://t0saprqonnka" path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" id="4"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="5"]
 [ext_resource type="Texture2D" uid="uid://cpbashdu3eysf" path="res://graphics/aiko_sad.png" id="7"]
-[ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" id="10"]
-[ext_resource type="Script" path="res://rythm_game/rating_label.gd" id="26"]
+[ext_resource type="Script" uid="uid://cvk4wbx6l6iya" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" id="10"]
+[ext_resource type="Script" uid="uid://4yna4h3dfct3" path="res://rythm_game/rating_label.gd" id="26"]
 [ext_resource type="PackedScene" uid="uid://bvtvu8k1p2fbh" path="res://rythm_game/SlideHoldScoreText.tscn" id="31"]
 [ext_resource type="PackedScene" uid="uid://bpsdlmoc167hx" path="res://rythm_game/lyrics/lyrics.tscn" id="34"]
 
@@ -27,7 +27,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uuc0j"]
 _data = {
-"animate": SubResource("9")
+&"animate": SubResource("9")
 }
 
 [sub_resource type="Image" id="Image_jlcts"]
@@ -126,7 +126,7 @@ cache/0/30/1/glyphs/72/size = Vector2(18, 26)
 cache/0/30/1/glyphs/72/uv_rect = Rect2(1, 23, 18, 26)
 cache/0/30/1/glyphs/72/texture_idx = 0
 
-[sub_resource type="FontFile" id="FontFile_0eeln"]
+[sub_resource type="FontFile" id="FontFile_higiy"]
 resource_local_to_scene = true
 fallbacks = Array[Font]([SubResource("13"), ExtResource("2")])
 subpixel_positioning = 0
@@ -214,7 +214,7 @@ text = "Fast forward!"
 
 [node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label"]
 libraries = {
-"": SubResource("AnimationLibrary_uuc0j")
+&"": SubResource("AnimationLibrary_uuc0j")
 }
 
 [node name="UserUI" type="Control" parent="UnderNotesUI/Control"]
@@ -246,7 +246,7 @@ anchor_bottom = 0.9
 offset_top = 0.0
 offset_right = 0.00012207
 offset_bottom = 0.0
-theme_override_fonts/font = SubResource("FontFile_0eeln")
+theme_override_fonts/font = SubResource("FontFile_higiy")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 0

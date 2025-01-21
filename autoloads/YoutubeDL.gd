@@ -29,6 +29,7 @@ signal song_cached(song)
 signal song_queued(song)
 signal song_download_start(song)
 signal song_caching_failed(song)
+signal version_information_updated
 
 var cache_meta_mutex = Mutex.new()
 var cache_meta: Dictionary = {
@@ -39,6 +40,7 @@ var status_mutex = Mutex.new()
 var status = YOUTUBE_DL_STATUS.COPYING
 var video_ids_being_cached = []
 var caching_queue = []
+var version := ""
 const PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
 # We use a fake user agent for privacy and to fool google drivez
 
@@ -118,14 +120,15 @@ class CachingQueueEntry:
 func _init():
 	var compile_out := DOWNLOAD_REGEX.compile("PHD:([0-9]+)-([0-9]+)-([0-9]+)-([0-9]*\\.[0-9]+)")
 	assert(compile_out == OK)
-func _youtube_dl_updated(thread: Thread):
+func _youtube_dl_copied(thread: Thread):
 	thread.wait_to_finish()
-	
 	status_mutex.lock()
-	Log.log(self, "YTDL READY: " + HBUtils.find_key(YOUTUBE_DL_STATUS, status))
+	Log.log(self, "YTDL BINARY READY: " + HBUtils.find_key(YOUTUBE_DL_STATUS, status))
+	update_ytdlp()
 	emit_signal("youtube_dl_status_updated")
 	status_mutex.unlock()
-func _update_youtube_dl(userdata):
+	
+func _copy_youtube_dl(userdata):
 	Log.log(self, "Updating YTDL...")
 	var thread = userdata.thread
 	var failed = false
@@ -143,19 +146,11 @@ func _update_youtube_dl(userdata):
 						Log.log(self, "Error copying youtube-dl: " + str(result))
 			dir_name = dir.get_next()
 	var result = dir.copy("res://third_party/youtube_dl/" + "VERSION", YOUTUBE_DL_DIR + "/%s" % ["VERSION"])
-	status_mutex.lock()
-	if not failed and result == OK:
-		status = YOUTUBE_DL_STATUS.READY
-	else:
-		status = YOUTUBE_DL_STATUS.FAILED
-	status_mutex.unlock()
-	
 	ensure_perms()
-	
-	call_deferred("_youtube_dl_updated", thread)
-func update_youtube_dl():
+	_youtube_dl_copied.call_deferred(thread)
+func copy_youtube_dl_binary():
 	var thread = Thread.new()
-	var result = thread.start(Callable(self, "_update_youtube_dl").bind({"thread": thread}))
+	var result = thread.start(_copy_youtube_dl.bind({"thread": thread}))
 	if result != OK:
 		Log.log(self, "Error starting thread for ytdl copy: " + str(result), Log.LogLevel.ERROR)
 		
@@ -217,12 +212,52 @@ func _init_ytdl():
 		var version = int(file.get_as_text())
 		
 		if version > local_version:
-			update_youtube_dl()
+			copy_youtube_dl_binary()
 		else:
-			status = YOUTUBE_DL_STATUS.READY
-			emit_signal("youtube_dl_status_updated")
+			update_ytdlp()
+			update_version_information()
 	else:
-		update_youtube_dl()
+		copy_youtube_dl_binary()
+	
+var update_task_id: int
+	
+func _update_ytdlp_task():
+	print("Begin updating yt-dlp at", get_ytdl_executable())
+	var process := PHNative.create_process(get_ytdl_executable(), ["-U"])
+	var exit_status := process.get_exit_status()
+	while exit_status == -1:
+		OS.delay_msec(1)
+		exit_status = process.get_exit_status()
+	if exit_status != OK:
+		print("ERROR %d when updating yt-dlp:" % [exit_status])
+		for err in process.get_available_stdout_lines():
+			print(err)
+		for err in process.get_available_stderr_lines():
+			print(err)
+	else:
+		print("yt-dlp updated OK!")
+	ensure_perms()
+	_cleanup_ytdlp_update_task.call_deferred(exit_status)
+
+func _cleanup_ytdlp_update_task(result: int):
+	WorkerThreadPool.wait_for_task_completion(update_task_id)
+	if result != OK:
+		status = YOUTUBE_DL_STATUS.FAILED
+		return
+	status = YOUTUBE_DL_STATUS.READY
+	emit_signal("youtube_dl_status_updated")
+	update_version_information()
+	
+func update_ytdlp():
+	update_task_id = WorkerThreadPool.add_task(_update_ytdlp_task, true, "Update YT-DLP")
+	
+func update_version_information() -> int:
+	var version_output := []
+	var result := OS.execute(get_ytdl_executable(), ["--version"], version_output)
+	if result == OK:
+		version = "".join(version_output).strip_edges()
+	version_information_updated.emit.call_deferred()
+	return result
 	
 class UnusedVideosData:
 	var unused_size: int
@@ -328,6 +363,9 @@ func get_ytdl_shared_params(handle_temp_files := false):
 	
 	return shared_params
 
+func get_ytdl_user_params() -> Array[String]:
+	return UserSettings.user_settings.ytdlp_custom_command_line
+
 func cleanup_video_media(video_id: String, video := false, audio := false):
 	var video_path := get_video_path(video_id, true)
 	var audio_path_temp := get_audio_path(video_id, true, true)
@@ -358,6 +396,7 @@ func _download_video(userdata: CachingQueueEntry):
 	var entry := userdata
 	# we have to ignroe the cache dir because youtube-dl is stupid
 	var shared_params = get_ytdl_shared_params(true)
+	var user_params := get_ytdl_user_params()
 	var audio_download_ok = true
 #	var audio_download_process: Process
 #	var ffmpeg_process: Process
@@ -373,7 +412,7 @@ func _download_video(userdata: CachingQueueEntry):
 			entry.mutex.unlock()
 			call_deferred("_video_downloaded", userdata, result)
 			return
-		var audio_download_process := PHNative.create_process(get_ytdl_executable(), shared_params + audio_params)
+		var audio_download_process := PHNative.create_process(get_ytdl_executable(), shared_params + audio_params + user_params)
 		entry.caching_stage = CACHING_STAGE.DOWNLOADING_AUDIO
 		entry.current_process = audio_download_process
 		entry.mutex.unlock()
@@ -445,7 +484,7 @@ func _download_video(userdata: CachingQueueEntry):
 			entry.mutex.unlock()
 			call_deferred("_video_downloaded", userdata.thread, result)
 			return 
-		var download_process := PHNative.create_process(get_ytdl_executable(), shared_params + video_params)
+		var download_process := PHNative.create_process(get_ytdl_executable(), shared_params + video_params + user_params)
 		entry.caching_stage = CACHING_STAGE.DOWNLOADING_VIDEO
 		entry.current_process = download_process
 		entry.download_progress = -1.0

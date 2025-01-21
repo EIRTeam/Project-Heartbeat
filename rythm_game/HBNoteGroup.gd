@@ -92,7 +92,7 @@ func is_slide_only_group() -> bool:
 
 # Returns true if the group is done
 func process_group(time_usec: int) -> bool:
-	if game.game_mode == 1:
+	if game.game_mode == HBRhythmGame.GAME_MODE.EDITOR_SEEK:
 		finished_notes.clear()
 		note_judgement_infos.clear()
 		if laser_renderer:

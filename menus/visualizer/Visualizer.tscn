@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b3peah64ej2iw"]
 
-[ext_resource type="Script" path="res://menus/visualizer/Visualizer.gd" id="1"]
+[ext_resource type="Script" uid="uid://dgnjciok4ooti" path="res://menus/visualizer/Visualizer.gd" id="1"]
 
 [sub_resource type="Shader" id="1"]
 code = "// credit: https://www.shadertoy.com/view/4tGXzt

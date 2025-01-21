@@ -1,0 +1,95 @@
+[gd_scene load_steps=7 format=3 uid="uid://c8hdyxlxgv30u"]
+
+[ext_resource type="Script" uid="uid://caato8evpw7v8" path="res://menus/options_menu/CommandLineEditPopup.gd" id="1_0lkai"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1_ic304"]
+[ext_resource type="Texture2D" uid="uid://d0he8sopusigy" path="res://graphics/icons/plus-circle.svg" id="2_0lkai"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="4_c3bwv"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="5_cro42"]
+[ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="6_1o5bn"]
+
+[node name="CommandLineEditPopup" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0lkai")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(750, 500)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_ic304")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer"]
+layout_mode = 2
+
+[node name="LineContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_bottom = NodePath("../AddButtonContainer")
+focus_mode = 2
+script = ExtResource("4_c3bwv")
+orientation = 1
+
+[node name="AddButtonContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_top = NodePath("../LineContainer")
+focus_mode = 2
+script = ExtResource("4_c3bwv")
+orientation = 1
+
+[node name="AddButton" type="Button" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer/AddButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add new"
+icon = ExtResource("2_0lkai")
+script = ExtResource("5_cro42")
+metadata/_custom_type_script = ExtResource("5_cro42")
+
+[node name="ApplyButton" type="Button" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer/AddButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Apply"
+script = ExtResource("5_cro42")
+metadata/_custom_type_script = ExtResource("5_cro42")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CreateLinePopup" parent="CanvasLayer" instance=ExtResource("6_1o5bn")]
+unique_name_in_owner = true
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 1914.0
+offset_bottom = 1076.0
+text_input_description = "Please enter"
+
+[node name="EditLinePopup" parent="CanvasLayer" instance=ExtResource("6_1o5bn")]
+unique_name_in_owner = true
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 1914.0
+offset_bottom = 1076.0
+text_input_description = "Please enter"
+text = ""

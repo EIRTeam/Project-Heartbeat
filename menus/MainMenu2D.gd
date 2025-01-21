@@ -16,11 +16,11 @@ func _ready():
 
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")
-	left_menu_container = get_node("MarginContainer/HBoxContainer/ContainerLeft")
-	right_menu_container = get_node("MarginContainer/HBoxContainer/ContainerRight")
+	left_menu_container = get_node("MarginContainer/HBoxContainer/ContainerLeft/Control")
+	right_menu_container = get_node("MarginContainer/HBoxContainer/ContainerRight/VBoxContainer/Control")
 	first_background_texrect = get_node("CanvasLayer/Background1")
 	second_background_texrect = get_node("CanvasLayer/Background2")
 	background_transition_animation_player = get_node("CanvasLayer/AnimationPlayer")
-	user_info_ui = right_menu_container.get_node("VBoxContainer/UserInfo")
+	user_info_ui = get_node("MarginContainer/HBoxContainer/ContainerRight/VBoxContainer/UserInfo")
 	music_player_control = get_node("CanvasLayer2/MainMenuMusicPlayer")
 	change_to_menu(starting_menu, false, starting_menu_args)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://by4e6qnstojye"]
 
 [ext_resource type="Texture2D" uid="uid://ccco32i2m8y2h" path="res://graphics/hold_text_filled.png" id="1"]
-[ext_resource type="Script" path="res://tools/editor/timeline_items/EditorTimelineItemSingleNote.gd" id="2"]
+[ext_resource type="Script" uid="uid://cntlpu62q3xyh" path="res://tools/editor/timeline_items/EditorTimelineItemSingleNote.gd" id="2"]
 
 [node name="EditorTimelineItemSingleNote" type="Control"]
 custom_minimum_size = Vector2(0, 35)

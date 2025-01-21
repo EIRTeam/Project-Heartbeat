@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://f7tw4wikjads"]
 
-[ext_resource type="Script" path="res://rythm_game/results_screen/ResultRating.gd" id="1"]
+[ext_resource type="Script" uid="uid://cdgb016idnq7u" path="res://rythm_game/results_screen/ResultRating.gd" id="1"]
 [ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="1_3rfje"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2"]
 

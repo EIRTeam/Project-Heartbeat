@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://b2jbwx0x8npi3"]
 
-[ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenStatsTab.gd" id="1_0mcp1"]
+[ext_resource type="Script" uid="uid://bhwctjliu0v7y" path="res://rythm_game/results_screen/ResultsScreenStatsTab.gd" id="1_0mcp1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2_4fk1h"]
-[ext_resource type="Script" path="res://rythm_game/results_screen/StatsOffsetChart.gd" id="3_yxerj"]
-[ext_resource type="Script" path="res://rythm_game/results_screen/StatsHistogram.gd" id="4_2emqr"]
+[ext_resource type="Script" uid="uid://du72pll741s5j" path="res://rythm_game/results_screen/StatsOffsetChart.gd" id="3_yxerj"]
+[ext_resource type="Script" uid="uid://cykm0dkkh1ck8" path="res://rythm_game/results_screen/StatsHistogram.gd" id="4_2emqr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ch822"]
 font_size = 24

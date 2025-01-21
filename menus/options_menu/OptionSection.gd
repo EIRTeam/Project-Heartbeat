@@ -6,6 +6,7 @@ const OptionBool = preload("res://menus/options_menu/OptionBool.tscn")
 const OptionRange = preload("res://menus/options_menu/OptionRange.tscn")
 const OptionSelect = preload("res://menus/options_menu/OptionSelect.tscn")
 const OptionSoundSelect = preload("res://menus/options_menu/OptionCustomSoundSelect.tscn")
+const OptionCommandLine = preload("res://menus/options_menu/OptionCustomCommandLine.tscn")
 signal back
 signal changed(property_name, new_value)
 signal value_changed
@@ -46,6 +47,10 @@ func _set_section_data(val):
 		var option_scene
 		if option.has('type'):
 			match option.type:
+				"command_line":
+					option_scene = OptionCommandLine.instantiate()
+					option_scene.canceled.connect(grab_focus)
+					option_scene.changed.connect(func(_a): grab_focus())
 				"sound_type_selector":
 					option_scene = OptionSoundSelect.instantiate()
 					option_scene.sound_name = option.sound_name
@@ -85,7 +90,6 @@ func _set_section_data(val):
 			if "value_source" in option:
 				sett_src = option.value_source
 			options_container.add_child(option_scene)
-			print(option_name)
 			option_scene.value = sett_src.get(option_name)
 			option_scene.text = section_data[option_name].name
 			if not "signal_method" in section_data[option_name]:

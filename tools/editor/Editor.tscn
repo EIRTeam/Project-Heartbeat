@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]
-[ext_resource type="Script" path="res://tools/editor/Editor.gd" id="3"]
+[ext_resource type="Script" uid="uid://b2rr6kksfb8wp" path="res://tools/editor/Editor.gd" id="3"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="4"]
-[ext_resource type="Script" path="res://tools/editor/EditorGamePreview.gd" id="5"]
-[ext_resource type="Script" path="res://tools/editor/EditorBottomBar.gd" id="6"]
+[ext_resource type="Script" uid="uid://dfk1epswa3u3e" path="res://tools/editor/EditorGamePreview.gd" id="5"]
+[ext_resource type="Script" uid="uid://c3awnkmskmy31" path="res://tools/editor/EditorBottomBar.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://cubtw5u6jiuth" path="res://tools/editor/EditorRhythmGamePopup.tscn" id="7"]
 [ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="8"]
 [ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="9"]
@@ -17,10 +17,10 @@
 [ext_resource type="Texture2D" uid="uid://cc1bjd6rlmwy5" path="res://tools/icons/icon_pause.svg" id="16"]
 [ext_resource type="Texture2D" uid="uid://diqom3jw5b5s0" path="res://tools/icons/gamepad-variant.svg" id="17"]
 [ext_resource type="Texture2D" uid="uid://l36o42nwrfnr" path="res://tools/icons/icon_back.svg" id="18"]
-[ext_resource type="Script" path="res://tools/editor/GridRenderer.gd" id="19"]
+[ext_resource type="Script" uid="uid://cn0kf6eh358jo" path="res://tools/editor/GridRenderer.gd" id="19"]
 [ext_resource type="Texture2D" uid="uid://c4mm12pqy2rlk" path="res://tools/icons/icon_play.svg" id="20"]
-[ext_resource type="Script" path="res://tools/editor/WidgetArea.gd" id="21"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSimpleButton.gd" id="22"]
+[ext_resource type="Script" uid="uid://cqk5pedx2vn27" path="res://tools/editor/WidgetArea.gd" id="21"]
+[ext_resource type="Script" uid="uid://b06kp7o87nsq7" path="res://tools/editor/controls/HBEditorSimpleButton.gd" id="22"]
 [ext_resource type="Texture2D" uid="uid://4n5ul7evfpul" path="res://tools/icons/settings.svg" id="23"]
 [ext_resource type="Texture2D" uid="uid://3uy0cfhna545" path="res://tools/icons/VideoPlayer.svg" id="23_rurvd"]
 [ext_resource type="Texture2D" uid="uid://b5xq42tyjw82p" path="res://tools/icons/Help.svg" id="24"]
@@ -32,14 +32,14 @@
 [ext_resource type="PackedScene" uid="uid://b8lwp32xk453o" path="res://tools/editor/EditorGlobalSettings.tscn" id="30"]
 [ext_resource type="PackedScene" path="res://tools/editor/EditorInspector.tscn" id="31"]
 [ext_resource type="PackedScene" uid="uid://b3m6my0plq6gk" path="res://tools/editor/transformation_display/TransformationDisplay.tscn" id="32"]
-[ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" id="33"]
+[ext_resource type="Script" uid="uid://bq8bs6k8ynegi" path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" id="33"]
 [ext_resource type="Texture2D" uid="uid://be35kgs7xupk1" path="res://tools/icons/icon_snap_grid.svg" id="34"]
-[ext_resource type="Script" path="res://tools/editor/EditorContextualMenuControl.gd" id="35"]
-[ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="36"]
+[ext_resource type="Script" uid="uid://d15ocawamixq3" path="res://tools/editor/EditorContextualMenuControl.gd" id="35"]
+[ext_resource type="Script" uid="uid://xyqqpxe7hfx2" path="res://rythm_game/SongBackground.gd" id="36"]
 [ext_resource type="Texture2D" uid="uid://ccyvxr16477o5" path="res://tools/icons/icon_GUI_visibility_visible.svg" id="37"]
-[ext_resource type="Script" path="res://tools/editor/MessageShower.gd" id="43"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="50"]
-[ext_resource type="Script" path="res://rythm_game/VideoPlayerOffset.gd" id="51"]
+[ext_resource type="Script" uid="uid://cf333d0edlxk7" path="res://tools/editor/MessageShower.gd" id="43"]
+[ext_resource type="Script" uid="uid://clphuuunv7ko1" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="50"]
+[ext_resource type="Script" uid="uid://bktl5vdwskklo" path="res://rythm_game/VideoPlayerOffset.gd" id="51"]
 
 [sub_resource type="StyleBoxFlat" id="12"]
 bg_color = Color(0.2, 0.231373, 0.309804, 1)
@@ -70,7 +70,8 @@ theme = ExtResource("4")
 script = ExtResource("3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -184,6 +185,7 @@ tooltip_text = "Editor manual"
 icon = ExtResource("24")
 item_count = 2
 popup/item_0/text = "Editor manual"
+popup/item_0/id = 0
 popup/item_1/text = "Community charting guide"
 popup/item_1/id = 1
 
@@ -266,7 +268,6 @@ script = ExtResource("51")
 metadata/_edit_use_anchors_ = true
 
 [node name="Visualizer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D" instance=ExtResource("1")]
-visible = false
 mouse_filter = 2
 
 [node name="GridRenderer" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D"]
@@ -557,6 +558,7 @@ Any unsaved progress will be lost."
 dialog_autowrap = true
 
 [node name="OpenChartPopupDialog" parent="Popups" groups=["block_shortcuts"] instance=ExtResource("10")]
+position = Vector2i(0, 32)
 
 [node name="PluginErrorDialog" type="AcceptDialog" parent="Popups" groups=["block_shortcuts"]]
 dialog_text = "Plugin ERROR!"

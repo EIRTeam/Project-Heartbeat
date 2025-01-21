@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://b8speakm7hc8h"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
-[ext_resource type="Script" path="res://rythm_game/results_screen/RatingResultsDisplay.gd" id="3_bmra6"]
+[ext_resource type="Script" uid="uid://ws1x3w5m0rnd" path="res://rythm_game/results_screen/RatingResultsDisplay.gd" id="3_bmra6"]
 [ext_resource type="PackedScene" uid="uid://cjjhnnhow7e2e" path="res://menus/new_leaderboard_control/LeaderboardItem.tscn" id="4_dxjw0"]
 [ext_resource type="PackedScene" uid="uid://cj2kb1mby645f" path="res://rythm_game/results_screen/ResultsScreenScoreInfoDisplay.tscn" id="4_t8pfl"]
 [ext_resource type="PackedScene" uid="uid://dnppdwihquoxv" path="res://rythm_game/results_screen/NoteHitTotalsDisplay.tscn" id="5_l60sv"]
-[ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenResultTab.gd" id="6"]
+[ext_resource type="Script" uid="uid://dmk6mrqkrey72" path="res://rythm_game/results_screen/ResultsScreenResultTab.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://cr1o5njxo20m5" path="res://rythm_game/results_screen/ResultsScreenExperienceInfoDisplay.tscn" id="7_afo2l"]
 
 [node name="VBoxContainer" type="HBoxContainer"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://vifl4em7htra"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionSelect.gd" id="3"]
+[ext_resource type="Script" uid="uid://bsxujnntb8q3r" path="res://menus/options_menu/OptionSelect.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://dhyyvctuvaunk" path="res://menus/HBHovereableOptionButton.tscn" id="5"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]

@@ -3,8 +3,8 @@
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="3"]
-[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="4"]
-[ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd" id="5"]
+[ext_resource type="Script" uid="uid://2e75yiqlqvm7" path="res://menus/UniversalScrollList.gd" id="4"]
+[ext_resource type="Script" uid="uid://cg6jjb6bxsj1q" path="res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd" id="5"]
 
 [node name="OptionContentDirsSection" type="Control"]
 layout_mode = 3

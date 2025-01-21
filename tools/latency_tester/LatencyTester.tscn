@@ -1,10 +1,10 @@
 [gd_scene load_steps=13 format=3 uid="uid://bsphtr4kd76lx"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://bg1cmxm05pmwc" path="res://graphics/icons/icon_add.svg" id="4"]
-[ext_resource type="Script" path="res://tools/latency_tester/LatencyTester.gd" id="6"]
+[ext_resource type="Script" uid="uid://ckb31ofs23po3" path="res://tools/latency_tester/LatencyTester.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://uxl3thfwaw25" path="res://graphics/icons/icon_substract.svg" id="7"]
 [ext_resource type="PackedScene" uid="uid://c6bkb7o6xrnja" path="res://rythm_game/game_modes/heartbeat/EmbeddedRhythmGameHeartbeat.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://fy47n0empoft" path="res://graphics/icons/undo-variant-small.svg" id="9"]

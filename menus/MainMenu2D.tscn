@@ -1,12 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://dtdvcbase2j6f"]
+[gd_scene load_steps=13 format=3 uid="uid://dtdvcbase2j6f"]
 
-[ext_resource type="Script" path="res://menus/MainMenu2D.gd" id="1"]
+[ext_resource type="Script" uid="uid://ctq4mgfhjxubn" path="res://menus/MainMenu2D.gd" id="1"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://d2xoywdaxsuvs" path="res://menus/MainMenuVisualizer.tscn" id="5"]
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="6"]
-[ext_resource type="PackedScene" path="res://menus/MainMenuUserInfo.tscn" id="7_f87bs"]
-[ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="8"]
+[ext_resource type="PackedScene" uid="uid://s460eaf516lj" path="res://menus/MainMenuUserInfo.tscn" id="7_f87bs"]
+[ext_resource type="Script" uid="uid://dxp7uuenseae4" path="res://menus/SelfScalingContainer.gd" id="7_gv430"]
+[ext_resource type="Script" uid="uid://xyqqpxe7hfx2" path="res://rythm_game/SongBackground.gd" id="8"]
 [ext_resource type="PackedScene" uid="uid://ddwcdis3ndvvm" path="res://menus/music_player/MainMenuMusicPlayer.tscn" id="8_qs5i1"]
 
 [sub_resource type="StyleBoxFlat" id="2"]
@@ -40,7 +41,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tck5u"]
 _data = {
-"1to2": SubResource("3")
+&"1to2": SubResource("3")
 }
 
 [node name="MainMenu3D" type="Node3D"]
@@ -66,25 +67,23 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("2")
 
 [node name="Background1" type="TextureRect" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0.75)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 texture = ExtResource("4")
 expand_mode = 1
-stretch_mode = 7
+stretch_mode = 6
 script = ExtResource("8")
 
 [node name="Background2" type="TextureRect" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 texture = ExtResource("6")
 expand_mode = 1
-stretch_mode = 7
+stretch_mode = 6
 script = ExtResource("8")
 
 [node name="MainMenuVisualizer2" parent="CanvasLayer" instance=ExtResource("5")]
@@ -92,7 +91,7 @@ mouse_filter = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 libraries = {
-"": SubResource("AnimationLibrary_tck5u")
+&"": SubResource("AnimationLibrary_tck5u")
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -102,35 +101,35 @@ anchor_bottom = 1.0
 offset_left = -2.0
 offset_right = -2.0
 theme = ExtResource("2")
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_right = 100
-theme_override_constants/margin_bottom = 100
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[node name="ContainerLeft" type="Control" parent="MarginContainer/HBoxContainer"]
+[node name="ContainerLeft" type="Container" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("7_gv430")
+target_size = Vector2(1760, 1080)
 
-[node name="ContainerRight" type="Control" parent="MarginContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/ContainerLeft"]
+layout_mode = 2
+
+[node name="ContainerRight" type="Container" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
+script = ExtResource("7_gv430")
+target_size = Vector2(720, 1440)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/ContainerRight"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 40.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 30
 
 [node name="UserInfo" parent="MarginContainer/HBoxContainer/ContainerRight/VBoxContainer" instance=ExtResource("7_f87bs")]
 layout_mode = 2
@@ -140,8 +139,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+editor_only = false
+
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
 [node name="MainMenuMusicPlayer" parent="CanvasLayer2" instance=ExtResource("8_qs5i1")]
-grow_horizontal = 2
-grow_vertical = 2
