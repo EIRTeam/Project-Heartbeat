@@ -18,6 +18,7 @@ var PH_AUTHORS = {
 	"Programming": {
 		"Álex Román Núñez (EIREXE)": "Lead developer, engine developer",
 		"Lino Bigatti": "Volunteer developer",
+		"Hachi": "Code contributor"
 	},
 	"Art": {
 		"Izayoi": ["Background artwork (Cloudy Sky)"],
@@ -41,11 +42,12 @@ var PH_AUTHORS = {
 	"Charting": {
 		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice", "Reprisal", "Confession", "Monochrome Stars"],
 		"Twoncity": ["Cloudy Sky 2019", "Blossoming Spell", "Connected", "Imademo"],
-		"Starbeat": ["Getaway", "The Nostalgic Messenger", "Versos Perversos"],
+		"Starbeat": ["Getaway", "The Nostalgic Messenger", "Versos Perversos", "Divine Luneth", "Don't die on me"],
 		"Lino Bigatti": ["Versos Perversos"],
 		"Blizzin": ["Sands of Time", "RedLine", "Imademo", "Core creation"],
 		"Snail": ["ETERNAL"],
-		"BunBun": ["Dime Linda"]
+		"BunBun": ["Dime Linda"],
+		"NikoXtz": ["Don't die on me", "Divine Luneth"]
 	},
 	"Music": {
 		"SuganoMusic": [
