@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2025-01-22 18:29\n"
+"PO-Revision-Date: 2025-01-22 18:37\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -910,12 +910,6 @@ msgstr "Crea una carpeta nova"
 #: menus/FolderManager.gd
 msgid "Delete folder"
 msgstr "Crea una carpeta nova"
-
-#: menus/FolderManager.gd
-#: menus/options_menu/OptionControlsSectionEvent.gd
-msgid ""
-msgstr ""
-""
 
 #: menus/FolderManager.tscn
 msgid "Close"

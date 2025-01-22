@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
-"PO-Revision-Date: 2025-01-22 18:18\n"
+"PO-Revision-Date: 2025-01-22 18:37\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -908,12 +908,6 @@ msgstr ""
 #: menus/FolderManager.gd
 msgid "Delete folder"
 msgstr ""
-
-#: menus/FolderManager.gd
-#: menus/options_menu/OptionControlsSectionEvent.gd
-msgid ""
-msgstr ""
-""
 
 #: menus/FolderManager.tscn
 msgid "Close"
