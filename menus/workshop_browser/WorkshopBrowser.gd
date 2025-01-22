@@ -144,6 +144,11 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
 	pagination_debounce_timer.stop()
 	current_page = _debounced_page
+	filter_by_stars = false
+	for filter_checkbox in star_filter_vbox_container.get_children():
+		if filter_checkbox is CheckBox:
+			filter_checkbox.button_pressed = false
+	
 	if not "no_fetch" in args or args.no_fetch == false:
 		filter_tag = "Charts"
 		tag_button_container.select_button(0, false)
