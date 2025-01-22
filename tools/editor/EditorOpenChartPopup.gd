@@ -172,7 +172,7 @@ func _on_confirmed():
 	var item = tree.get_selected()
 	
 	var song = item.get_meta("song") as HBSong
-	if not song.is_cached():
+	if not song.is_cached() and YoutubeDL.validate_video_url(song.youtube_url):
 		MouseTrap.cache_song_overlay.show_download_prompt(song)
 		return
 	

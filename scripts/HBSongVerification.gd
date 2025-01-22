@@ -73,7 +73,7 @@ func verify_meta(song: HBSong):
 	if not song.audio and not (song.youtube_url and song.use_youtube_for_audio):
 		var error = {
 			"type": META_ERROR.AUDIO_FIELD_MISSING,
-			"string": "The song doesn't have an audio file",
+			"string": "The song doesn't have an audio file, add a YouTube URL if you intend to upload it to the workshop!",
 		}
 		errors.append(error)
 	elif not (song.youtube_url and song.use_youtube_for_audio):
