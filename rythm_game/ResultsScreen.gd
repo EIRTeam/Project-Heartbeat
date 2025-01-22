@@ -88,9 +88,10 @@ func _ready():
 	ScoreHistory.connect("score_uploaded", Callable(self, "_on_score_uploaded"))
 	ScoreHistory.connect("score_upload_failed", Callable(self, "_on_score_upload_failed"))
 	var values = HBJudge.JUDGE_RATINGS.values()
-	tabbed_container.add_tab("results", tr("Results"), results_tab)
-	tabbed_container.add_tab("stats", tr("Accuracy"), stats_tab)
-	tabbed_container.add_tab("graph", tr("Graph"), chart_tab)
+	# HACK-y workaround for godot auto translation
+	tabbed_container.add_tab(String("results").substr(0), tr("Results"), results_tab)
+	tabbed_container.add_tab(String("stats").substr(0), tr("Accuracy"), stats_tab)
+	tabbed_container.add_tab(String("graph").substr(0), tr("Graph"), chart_tab)
 	return_button.connect("pressed", Callable(self, "_on_return_button_pressed"))
 	retry_button.connect("pressed", Callable(self, "_on_retry_button_pressed"))
 	copy_result_url_button.pressed.connect(self._on_copy_result_url_button_pressed)
