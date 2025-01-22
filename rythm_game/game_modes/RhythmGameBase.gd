@@ -404,16 +404,31 @@ var unhandled_input_events_this_frame := []
 var slide_empty_fired_this_frame = false
 var has_empty_event := false
 var should_fire_empty := true
+
+func _check_intro_skip(event: InputEvent):
+	if not current_song.allows_intro_skip or not _intro_skip_enabled:
+		return
+	if time_msec >= get_time_to_intro_skip_to():
+		return
+	if not event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and not event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
+		return
+	if not Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or not Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
+		return
+	
+	# Slight hack, PH inputs have no deadzones since that's handled by the game, which could result in a sticky trigger...
+	var up_strength := Input.get_action_raw_strength("note_up")
+	var left_strength := Input.get_action_raw_strength("note_left")
+	
+	if up_strength < 0.5 or left_strength < 0.5:
+		return
+	
+	_intro_skip_enabled = false
+	seek(get_time_to_intro_skip_to())
+	start()
+	# call ui on intro skip
+	emit_signal("intro_skipped", get_time_to_intro_skip_to() / 1000.0)
 func _process_input(event):
-	if event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
-		if Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
-			if current_song.allows_intro_skip and _intro_skip_enabled:
-				if time_msec < get_time_to_intro_skip_to():
-					_intro_skip_enabled = false
-					seek(get_time_to_intro_skip_to())
-					start()
-					# call ui on intro skip
-					emit_signal("intro_skipped", get_time_to_intro_skip_to() / 1000.0)
+	_check_intro_skip(event)
 	if event is InputEventHB and not game_mode == GAME_MODE.EDITOR_SEEK:
 		var input_handled := false
 		var is_empty_event := false
