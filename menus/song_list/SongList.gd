@@ -176,9 +176,7 @@ func _on_menu_exit(force_hard_transition = false):
 	MouseTrap.ppd_dialog.disconnect("popup_hide", Callable(song_container, "grab_focus"))
 	if PlatformService.service_provider.implements_ugc:
 		PlatformService.service_provider.ugc_provider.disconnect("ugc_song_meta_updated", Callable(self, "_on_ugc_song_meta_updated"))
-	HBGame.rich_presence.update_activity({
-		"state": "On main menu"
-	})
+	HBGame.rich_presence.notify_at_main_menu()
 
 func _on_unsubscribe_requested(song: HBSong):
 	item_to_unsubscribe = HBSteamUGCItem.from_id(song.ugc_id)
@@ -364,12 +362,7 @@ func _on_song_hovered(song: HBSong):
 	if image_url.is_empty():
 		image_url = "default"
 
-	HBGame.rich_presence.update_activity({
-		"state": "In song list",
-		"details": "%s" % [current_song.title],
-		"start_timestamp": rich_presence_start_timestamp,
-		"large_image_key": image_url
-	})
+	HBGame.rich_presence.notify_at_song_list(current_song)
 
 func should_receive_input(event):
 	var shift = false

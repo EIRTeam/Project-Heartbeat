@@ -10,12 +10,7 @@ func _ready():
 	add_child(particles)
 	particles.emitting = true
 	particles.position = Vector2(10000, 10000)
-	HBGame.rich_presence.update_activity({
-		"state": "On main menu"
-	})
-	
-	if Steamworks.is_valid():
-		Steamworks.friends.set_rich_presence("steam_display", "#StatusMainMenu")
+	HBGame.rich_presence.notify_at_main_menu()
 	
 	get_viewport().connect("size_changed", Callable(self, "_on_viewport_size_changed"))
 	_on_viewport_size_changed()

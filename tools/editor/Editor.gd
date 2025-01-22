@@ -1656,11 +1656,7 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	
 	var chart = current_song.get_chart_for_difficulty(difficulty)
 	
-	HBGame.rich_presence.update_activity({
-		"state": "In editor",
-		"details": current_song.title,
-		"start_timestamp": Time.get_unix_time_from_system()
-	})
+	HBGame.rich_presence.notify_at_editor_song(current_song, difficulty, Time.get_unix_time_from_system())
 	
 	add_child(rhythm_game_playtest_popup)
 	rhythm_game_playtest_popup.rhythm_game.audio_playback = null

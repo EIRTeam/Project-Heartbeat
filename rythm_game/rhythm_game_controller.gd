@@ -44,6 +44,8 @@ var playing_game_over_animation := false
 var skin_override: HBUISkin
 var rollback_delta := 0.0
 
+var rich_presence_update_queued := false
+
 func _ready():
 	connect("resized", Callable(self, "set_game_size"))
 	MainMenu = load("res://menus/MainMenu3D.tscn")
@@ -60,6 +62,7 @@ func _ready():
 	game.set_process(false)
 	game.connect("song_cleared", Callable(self, "_on_RhythmGame_song_cleared"))
 	game.connect("game_over", Callable(self, "_on_RhythmGame_game_over"))
+	game.note_judged.connect(func(_info): _update_rich_presence())
 	add_child(game_over_tween)
 	game_over_tween.process_mode = Node.PROCESS_MODE_ALWAYS
 	$Label.visible = false
@@ -153,6 +156,17 @@ const SONGS_WITH_IMAGE = [
 	"connected"
 ]
 	
+func _update_rich_presence():
+	if current_game_info.game_session_type == HBGameInfo.GAME_SESSION_TYPE.OFFLINE:
+		HBGame.rich_presence.notify_playing(current_game_info.get_song(), current_game_info.difficulty, current_game_info.time, game.result.score)
+	else:
+		HBGame.rich_presence.notify_multiplayer_playing(current_game_info.get_song(), current_game_info.difficulty, current_game_info.time, game.result.score)
+	rich_presence_update_queued = false
+func _queue_rich_presence_update():
+	if not rich_presence_update_queued:
+		rich_presence_update_queued = true
+		_update_rich_presence.call_deferred()
+	
 func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets: SongAssetLoader.AssetLoadToken = null):
 	var bg_path = song.get_song_background_image_res_path()
 	if assets:
@@ -190,14 +204,8 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	if not song_preview_url.is_empty():
 		large_image_name = song_preview_url
 		
-	HBGame.rich_presence.update_activity({
-		"state": "Playing a song",
-		"large_image_key": large_image_name,
-		"details": title,
-		"start_timestamp": Time.get_unix_time_from_system(),
-		"large_image_tooltip": title
-	})
-		
+	_update_rich_presence()
+	
 	var modifier_disables_video = false
 	for modifier in modifiers:
 		if modifier.disables_video:
