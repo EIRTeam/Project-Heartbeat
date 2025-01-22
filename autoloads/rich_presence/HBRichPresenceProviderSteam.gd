@@ -36,5 +36,5 @@ func _update_rich_presence(rich_presence_data: HBRichPresence):
 	Steamworks.friends.set_rich_presence("steam_display", _get_stage_status_localization_key(rich_presence_data.current_stage))
 	if rich_presence_data.current_song:
 		Steamworks.friends.set_rich_presence("song", _cap_to_length(rich_presence_data.current_song.get_visible_title(rich_presence_data.current_song_variant), STEAM_DETAIL_MAX_LENGTH))
-		Steamworks.friends.set_rich_presence("difficulty", _cap_to_length(rich_presence_data.current_difficulty, STEAM_DETAIL_MAX_LENGTH))
+		Steamworks.friends.set_rich_presence("difficulty", _cap_to_length(rich_presence_data.current_difficulty.to_upper(), STEAM_DETAIL_MAX_LENGTH))
 		Steamworks.friends.set_rich_presence("score", HBUtils.thousands_sep(rich_presence_data.current_score))

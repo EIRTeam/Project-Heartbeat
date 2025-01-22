@@ -53,7 +53,7 @@ func _update_rich_presence(rich_presence_data: HBRichPresence):
 			var details_title = song_title
 			# Only some stages get a difficulty label
 			if rich_presence_data.current_stage in [HBRichPresence.RichPresenceStage.STAGE_MULTIPLAYER_PLAYING, HBRichPresence.RichPresenceStage.STAGE_PLAYING, HBRichPresence.RichPresenceStage.STAGE_AT_EDITOR_SONG]:
-				details_title += " - %s" % [rich_presence_data.current_difficulty]
+				details_title += " - %s" % [rich_presence_data.current_difficulty.to_upper()]
 				queued_update_data["start_timestamp"] = rich_presence_data.current_start_time
 			# Only some stages get a score label
 			if rich_presence_data.current_stage in [HBRichPresence.RichPresenceStage.STAGE_MULTIPLAYER_PLAYING, HBRichPresence.RichPresenceStage.STAGE_PLAYING]:
