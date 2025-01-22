@@ -998,11 +998,6 @@ msgstr ""
 msgid "Delete folder"
 msgstr ""
 
-#: menus/FolderManager.gd
-#: menus/options_menu/OptionControlsSectionEvent.gd
-msgid ""
-msgstr ""
-
 #: menus/FolderManager.tscn
 msgid "Close"
 msgstr ""
