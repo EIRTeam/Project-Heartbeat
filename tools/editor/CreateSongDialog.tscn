@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcbf31mumsfhs"]
+
+[ext_resource type="Script" uid="uid://bjf7ax627mbx7" path="res://tools/editor/CreateSongDialog.gd" id="1_7ory4"]
+
+[node name="CreateSongDialog" type="ConfirmationDialog"]
+auto_translate_mode = 1
+title = "Create a song"
+size = Vector2i(824, 1067)
+script = ExtResource("1_7ory4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -70.0
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Title"
+
+[node name="Title" type="LineEdit" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "EIREXE's incredible song..."
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "If you intend to upload this song to the Steam Workshop, you must provide a YouTube URL below for both video and audio.
+"
+autowrap_mode = 3
+
+[node name="YoutubeURL" type="LineEdit" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "YouTube URL"
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="NoWorkshopCheckbox" type="CheckBox" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "I don't plan to upload the song to the Workshop"
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true

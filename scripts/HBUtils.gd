@@ -64,7 +64,7 @@ static func merge_dict(target, patch):
 	return target
 
 # Converts a string from being complex to snake case
-static func get_valid_filename(value: String):
+static func get_valid_filename(value: String) -> String:
 	# Convert to ascii to strip most characters
 	value = value.strip_edges().replace(' ', '_')
 	var regex = RegEx.new()

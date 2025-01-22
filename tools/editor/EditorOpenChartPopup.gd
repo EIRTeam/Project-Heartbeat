@@ -7,7 +7,7 @@ extends ConfirmationDialog
 @onready var song_meta_editor_dialog = get_node("SongMetaEditorDialog")
 @onready var song_meta_editor = get_node("SongMetaEditorDialog/SongMetaEditor")
 @onready var create_difficulty_dialog = get_node("CreateDifficultyDialog")
-@onready var create_song_dialog = get_node("CreateSongDialog")
+@onready var create_song_dialog: HBCreateSongDialog = get_node("CreateSongDialog")
 @onready var delete_chart_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/DeleteChartButton")
 @onready var delete_confirmation_dialog = get_node("DeleteConfirmationDialog")
 @onready var verify_song_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/VerifySongButton")
@@ -28,7 +28,6 @@ func _ready():
 	tree.connect("item_activated", Callable(self, "_on_confirmed"))
 	edit_data_button.connect("pressed", Callable(self, "_show_meta_editor"))
 	new_song_button.connect("pressed", Callable(create_song_dialog, "popup_centered"))
-	create_song_dialog.connect("confirmed", Callable(self, "_on_CreateSongDialog_confirmed"))
 #	call_deferred("popup_centered")
 	connect("confirmed", Callable(self, "_on_confirmed"))
 	add_chart_button.connect("pressed", Callable(create_difficulty_dialog, "popup_centered"))
@@ -38,6 +37,7 @@ func _ready():
 	verify_song_button.connect("pressed", Callable(self, "_on_verify_button_pressed"))
 	upload_button.connect("pressed", Callable(self, "_on_upload_to_workshop_pressed"))
 	search_line_edit.connect("text_changed", Callable(self, "_on_search_text_changed"))
+	create_song_dialog.accepted.connect(_on_create_song_dialog_accepted)
 	
 func _on_search_text_changed(_new_text: String):
 	populate_tree()
@@ -150,19 +150,19 @@ func _show_meta_editor():
 	song_meta_editor_dialog.popup_centered_clamped(Vector2(500, 650))
 	song_meta_editor_dialog.get_ok_button().disabled = tree.get_selected().get_meta("hidden")
 
-func _on_CreateSongDialog_confirmed():
-	if $CreateSongDialog/VBoxContainer/LineEdit.text != "":
-		var song_name = HBUtils.get_valid_filename($CreateSongDialog/VBoxContainer/LineEdit.text)
-		if song_name != "":
-			var editor_song_folder = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs/%s")
-			
-			var song_meta = HBSong.new()
-			song_meta.title = $CreateSongDialog/VBoxContainer/LineEdit.text
-			song_meta.id = song_name
-			song_meta.path = editor_song_folder % song_name
-			song_meta.save_song()
-			SongLoader.songs[song_meta.id] = song_meta
-			populate_tree()
+func _on_create_song_dialog_accepted(song_title: String, use_youtube_url: bool, youtube_url: String):
+	var song_id := HBUtils.get_valid_filename(song_title)
+	var editor_song_folder = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs/%s")
+	
+	var song_meta = HBSong.new()
+	song_meta.title = song_title
+	song_meta.id = song_id
+	song_meta.path = editor_song_folder % song_id
+	song_meta.save_song()
+	SongLoader.songs[song_meta.id] = song_meta
+	if use_youtube_url:
+		song_meta.youtube_url = use_youtube_url
+	populate_tree()
 
 func show_error(error: String):
 	$AcceptDialog.dialog_text = error

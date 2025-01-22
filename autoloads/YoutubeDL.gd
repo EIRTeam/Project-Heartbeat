@@ -647,7 +647,7 @@ func get_video_id(url: String) -> String:
 		return result.get_string(2)
 	return ""
 func validate_video_url(url):
-	return get_video_id(url) != null
+	return get_video_id(url) != null and not get_video_id(url).is_empty()
 
 func get_cache_status(url: String, video=true, audio=true):
 	var cache_status = CACHE_STATUS.OK
