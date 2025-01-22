@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-01-22 18:18\n"
+"PO-Revision-Date: 2025-01-22 18:37\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -910,12 +910,6 @@ msgstr "重命名文件夹"
 #: menus/FolderManager.gd
 msgid "Delete folder"
 msgstr "删除文件夹"
-
-#: menus/FolderManager.gd
-#: menus/options_menu/OptionControlsSectionEvent.gd
-msgid ""
-msgstr ""
-""
 
 #: menus/FolderManager.tscn
 msgid "Close"
