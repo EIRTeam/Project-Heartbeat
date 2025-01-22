@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2025-01-22 17:51\n"
+"PO-Revision-Date: 2025-01-22 18:18\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1174,10 +1174,6 @@ msgid "Follow us on Twitter!"
 msgstr "Segueix-nos al twitter!"
 
 #: menus/news_list/MainMenuRight.tscn
-msgid "@PHeartbeatGame"
-msgstr ""
-
-#: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
 msgstr "NOTÍCIES"
 
@@ -2179,18 +2175,6 @@ msgstr "Gràfic"
 #: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
 msgstr ""
-
-#: rythm_game/ResultsScreen.gd
-msgid "results"
-msgstr "resultats"
-
-#: rythm_game/ResultsScreen.gd
-msgid "stats"
-msgstr ""
-
-#: rythm_game/ResultsScreen.gd
-msgid "graph"
-msgstr "gràfic"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Retry"
