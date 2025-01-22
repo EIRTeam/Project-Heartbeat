@@ -8,11 +8,11 @@ msgstr ""
 "X-Crowdin-Project: project-heartbeat\n"
 "X-Crowdin-Project-ID: 662912\n"
 "X-Crowdin-Language: pt-PT\n"
-"X-Crowdin-File: /[EIRTeam.Project-Heartbeat] godot4/messages.pot\n"
-"X-Crowdin-File-ID: 8\n"
+"X-Crowdin-File: /[EIRTeam.Project-Heartbeat] master/messages.pot\n"
+"X-Crowdin-File-ID: 12\n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
-"PO-Revision-Date: 2024-11-01 18:13\n"
+"PO-Revision-Date: 2025-01-22 17:51\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -43,10 +43,6 @@ msgid "Yes (audio only)"
 msgstr "Sim (Apenas áudio)"
 
 #: autoloads/MouseTrap.tscn
-msgid "Downloading..."
-msgstr "Instalando..."
-
-#: autoloads/MouseTrap.tscn
 msgid "Media for this song is currently being downloaded."
 msgstr "A mídia desta música está sendo baixada."
 
@@ -73,6 +69,14 @@ msgstr "Selecione do disco"
 #: autoloads/MouseTrap.tscn
 msgid "Invalid URL, ensure you are using a YouTube URL and that it is valid."
 msgstr "URL inválido. Verifique se você está usando um URL do YouTube e se ele é válido."
+
+#: autoloads/MouseTrap.tscn
+msgid "Open a Directory"
+msgstr ""
+
+#: autoloads/MouseTrap.tscn
+msgid "Select Current Folder"
+msgstr ""
 
 #: autoloads/MouseTrap.tscn
 msgid "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"
@@ -281,15 +285,23 @@ msgid "Show contextual menu"
 msgstr "Mostrar menu contextual"
 
 #: autoloads/UserSettings.gd
-msgid "Scale up"
-msgstr "Aumentar a escala"
-
-#: autoloads/UserSettings.gd
-msgid "Scale down"
-msgstr "Diminuir a escala"
-
-#: autoloads/UserSettings.gd
 msgid "Pan the timeline"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Scale up the timeline"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Scale down the timeline"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Scroll timeline to the left"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Scroll timeline to the right"
 msgstr ""
 
 #: autoloads/UserSettings.gd
@@ -697,6 +709,22 @@ msgid "Make circle counter-clockwise from the inside"
 msgstr ""
 
 #: autoloads/UserSettings.gd
+msgid "Make arc clockwise"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Make arc counter-clockwise"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Make arc clockwise from the inside"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Make arc counter-clockwise from the inside"
+msgstr ""
+
+#: autoloads/UserSettings.gd
 msgid "Circle size bigger"
 msgstr ""
 
@@ -883,6 +911,12 @@ msgstr "Renomear pasta"
 msgid "Delete folder"
 msgstr "Deletar pasta"
 
+#: menus/FolderManager.gd
+#: menus/options_menu/OptionControlsSectionEvent.gd
+msgid ""
+msgstr ""
+""
+
 #: menus/FolderManager.tscn
 msgid "Close"
 msgstr ""
@@ -925,14 +959,6 @@ msgstr "Sim"
 #: menus/HBConfirmationWindow.tscn
 msgid "No"
 msgstr "Não"
-
-#: menus/HBTextInput.gd
-msgid "Input text"
-msgstr ""
-
-#: menus/HBTextInput.tscn
-msgid "Please enter the folder's name:"
-msgstr "Insira o nome da pasta:"
 
 #: menus/HBTextInput.tscn
 msgid "Accept"
@@ -1098,8 +1124,9 @@ msgid "Multiplayer"
 msgstr "Multijogador"
 
 #: menus/main_menu/MainMenuLeft.tscn
+#: menus/options_menu/OptionsMenu.gd
 msgid "Downloads"
-msgstr "Downloads"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Discord Server"
@@ -1147,7 +1174,7 @@ msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "@PHeartbeatGame"
-msgstr "@PHeartbeatGame"
+msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
@@ -1158,8 +1185,8 @@ msgid "Note: You can assign the same button to more than one action to create ma
 msgstr ""
 
 #: menus/options_menu/OptionControlsSection.tscn
-#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
-msgid "Press the Key/Button/Axis to bind"
+msgid "Press the Key/Button/Axis to bind\n\n"
+"Wait to cancel..."
 msgstr ""
 
 #: menus/options_menu/OptionControlsSection.tscn
@@ -1176,7 +1203,7 @@ msgstr "Classificação e Configurações de filtro"
 
 #: menus/options_menu/OptionCreditsSection.tscn
 msgid "Engine"
-msgstr "Engine"
+msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.gd
 #: menus/workshop_browser/WorkshopBrowser.gd
@@ -1186,7 +1213,7 @@ msgstr "Pacotes de notas"
 #: menus/options_menu/OptionResourcePacksSection.gd
 #: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Skins"
-msgstr "Skins"
+msgstr ""
 
 #: menus/options_menu/OptionResourcePacksSection.tscn
 msgid "Rebuilding note atlas..."
@@ -1318,8 +1345,8 @@ msgid "Audio"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Target audio buffer size (Requires restart)"
-msgstr "Selecione a linguagem a ser usada (requer reinicialização)"
+msgid "Audio buffer size"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "In milliseconds, how big should the requested audio buffer be, lower means lower latency and more smoothness but also higher CPU usage, this is just a target value, your OS might force a different value."
@@ -1434,22 +1461,6 @@ msgid "Disables video playback and download for PPD songs, might yield more perf
 msgstr "Desativa a reprodução e download de vídeos para as músicas do PPD, podendo gerar mais desempenho em alguns sistemas."
 
 #: menus/options_menu/OptionsMenu.gd
-msgid "Desired Video FPS"
-msgstr "Desativar vídeo"
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "The desired video framerate for downloaded videos."
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "Desired Video Resolution"
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
-msgid "The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd
 msgid "Use visualizer with video"
 msgstr ""
 
@@ -1482,6 +1493,30 @@ msgid "Limits the framerate, this might be useful to limit battery consumption o
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
+msgid "yt-dlp: Custom command-line arguments"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Custom command-line arguments to prepend to yt-dlp"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Desired Video FPS"
+msgstr "Desativar vídeo"
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "The desired video framerate for downloaded videos."
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Desired Video Resolution"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
 msgid "Visual"
 msgstr ""
 
@@ -1496,6 +1531,16 @@ msgstr ""
 #: menus/options_menu/OptionsMenu.gd
 msgctxt "Button prompt auto detect option"
 msgid "Auto-detect"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgctxt "UI blur enabled options menu option name"
+msgid "Enable interface blurring"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgctxt "UI blur enabled options menu description"
+msgid "Enables blurring the background of some interface elements."
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
@@ -1690,6 +1735,11 @@ msgstr "Volume para os efeitos sonoros"
 msgid "Detected controllers:"
 msgstr ""
 
+#: menus/options_menu/OptionsMenu.gd
+msgctxt "Display number shown in options menu"
+msgid "Display {display_number}"
+msgstr ""
+
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
 msgstr "Abrir diretório de registros"
@@ -1741,6 +1791,10 @@ msgstr "Baixe todas as mídias das músicas"
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
 msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
+msgstr ""
+
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
+msgid "Press the Key/Button/Axis to bind"
 msgstr ""
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
@@ -1850,7 +1904,7 @@ msgstr "Criador da chart"
 
 #: menus/song_list/SongList.gd
 msgid "BPM"
-msgstr "BPM"
+msgstr ""
 
 #: menus/song_list/SongList.gd
 msgid "Last Subscribed"
@@ -1868,20 +1922,12 @@ msgstr "Último lançamento"
 msgid "Last updated"
 msgstr "Ultima atualização"
 
-#: menus/song_list/SongList.gd
-msgid "Sorting by %s"
-msgstr "Ordinando por %s"
-
 #: menus/song_list/SongList.tscn
-msgid "Difficulty"
-msgstr "Dificuldade"
-
-#: menus/song_list/SongList.tscn
-msgid "No folders found, add some!"
+msgid "With media"
 msgstr ""
 
 #: menus/song_list/SongList.tscn
-msgid "Sort"
+msgid "No folders found, add some!"
 msgstr ""
 
 #: menus/song_list/SongList.tscn
@@ -1906,16 +1952,12 @@ msgid "The song you selected is a PPD song without an existing audio file, would
 msgstr "A música que você selecionou é uma música do PPD sem um arquivo de áudio existente. Gostaria de selecionar um (do disco ou do YouTube)? Isso exigirá que você use o mouse."
 
 #: menus/song_list/SongList.tscn
-msgid "Sort & filter settings"
-msgstr "Classificação e Configurações de filtro"
-
-#: menus/song_list/SongList.tscn
-msgid "Has downloaded media"
-msgstr "Baixou mídia"
-
-#: menus/song_list/SongList.tscn
 msgid "Enter the search term:"
 msgstr "Digite o termo de pesquisa:"
+
+#: menus/song_list/SongList.tscn
+msgid "Are you sure you want to unsubscribe from this item?"
+msgstr ""
 
 #: menus/song_list/SongListFolderBack.tscn
 msgid "Go back"
@@ -1954,7 +1996,7 @@ msgid "Latency Tester"
 msgstr "Testador de latência"
 
 #: menus/tools_menu/ToolsMenu.tscn
-msgid "DJA Debug"
+msgid "Out-of-the box setup"
 msgstr ""
 
 #: menus/tutorial/page1/page1.tscn
@@ -2022,7 +2064,7 @@ msgstr "Isso é tudo que você precisa saber para jogar Project Heartbeat, divir
 
 #: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Charts"
-msgstr "Charts"
+msgstr ""
 
 #: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Most popular for the last week"
@@ -2113,17 +2155,24 @@ msgid "Results"
 msgstr "Resultados"
 
 #: rythm_game/ResultsScreen.gd
+msgid "Accuracy"
+msgstr ""
+
+#: rythm_game/ResultsScreen.gd
 msgid "Graph"
 msgstr "Gráfico"
 
 #: rythm_game/ResultsScreen.gd
-msgctxt "Results screen share tweet contents"
-msgid "I just obtained {score} ({percentage} %%25) points in {song_title} in @PHeartbeatGame!"
+msgid "Score URL copied to clipboard!"
 msgstr ""
 
 #: rythm_game/ResultsScreen.gd
 msgid "results"
 msgstr "resultados"
+
+#: rythm_game/ResultsScreen.gd
+msgid "stats"
+msgstr ""
 
 #: rythm_game/ResultsScreen.gd
 msgid "graph"
@@ -2134,8 +2183,8 @@ msgid "Retry"
 msgstr "Tente novamente"
 
 #: rythm_game/ResultsScreen.tscn
-msgid "Share"
-msgstr "Compartilhar"
+msgid "Copy Result URL"
+msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Return"
@@ -2415,7 +2464,7 @@ msgstr "Música"
 
 #: menus/options_menu/OptionCreditsSection.gd
 msgid "Charting"
-msgstr "Charting"
+msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.gd
 msgid "Localization"
