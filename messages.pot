@@ -1260,10 +1260,6 @@ msgid "Follow us on Twitter!"
 msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
-msgid "@PHeartbeatGame"
-msgstr ""
-
-#: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
 msgstr ""
 
@@ -2262,18 +2258,6 @@ msgstr ""
 
 #: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
-msgstr ""
-
-#: rythm_game/ResultsScreen.gd
-msgid "results"
-msgstr ""
-
-#: rythm_game/ResultsScreen.gd
-msgid "stats"
-msgstr ""
-
-#: rythm_game/ResultsScreen.gd
-msgid "graph"
 msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
