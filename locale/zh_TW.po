@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_TW\n"
-"PO-Revision-Date: 2025-01-22 17:51\n"
+"PO-Revision-Date: 2025-01-22 18:18\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1171,10 +1171,6 @@ msgid "Follow us on Twitter!"
 msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
-msgid "@PHeartbeatGame"
-msgstr ""
-
-#: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
 msgstr ""
 
@@ -2162,18 +2158,6 @@ msgstr ""
 
 #: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
-msgstr ""
-
-#: rythm_game/ResultsScreen.gd
-msgid "results"
-msgstr ""
-
-#: rythm_game/ResultsScreen.gd
-msgid "stats"
-msgstr ""
-
-#: rythm_game/ResultsScreen.gd
-msgid "graph"
 msgstr ""
 
 #: rythm_game/ResultsScreen.tscn
