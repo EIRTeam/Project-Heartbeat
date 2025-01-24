@@ -158,10 +158,10 @@ func _on_create_song_dialog_accepted(song_title: String, use_youtube_url: bool, 
 	song_meta.title = song_title
 	song_meta.id = song_id
 	song_meta.path = editor_song_folder % song_id
+	if use_youtube_url:
+		song_meta.youtube_url = youtube_url
 	song_meta.save_song()
 	SongLoader.songs[song_meta.id] = song_meta
-	if use_youtube_url:
-		song_meta.youtube_url = use_youtube_url
 	populate_tree()
 
 func show_error(error: String):
