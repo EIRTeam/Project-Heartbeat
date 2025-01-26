@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://n2yd8i4x5hox"]
 
 [ext_resource type="Material" uid="uid://dakangk3xanaf" path="res://menus/scrolling_container_material.tres" id="1_s26n8"]
-[ext_resource type="Script" path="res://menus/SongTitleScrolling.gd" id="3"]
+[ext_resource type="Script" uid="uid://d2rxtnbro6ect" path="res://menus/SongTitleScrolling.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://bk36n81tgbx1g" path="res://menus/SongTitle.tscn" id="3_4qgqv"]
 
 [node name="Control" type="Container"]

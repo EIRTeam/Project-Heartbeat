@@ -16,11 +16,11 @@ void fragment() {
 	
 	vec2 pos_on_screen = vec2(COLOR.r, COLOR.g);
 	vec2 pos_on_screen_uv = (vec4(pos_on_screen, 0.0, 0.0)).rg * SCREEN_PIXEL_SIZE;
-	float fade = smoothstep(0.0, COLOR.r, UV.x);
-	float fade_r = smoothstep(0.0, COLOR.g, 1.0 - UV.x);
+	float fade_mask_l = smoothstep(0.0, COLOR.r, UV.x);
+	float fade_mask_r = COLOR.g > 0.0 ? smoothstep(1.0, 1.0 - COLOR.g, UV.x) : 1.0;
 	
 	COLOR = texture(screen_texture, SCREEN_UV);
-	COLOR.a = min(fade, fade_r);
+	COLOR.a *= fade_mask_l * fade_mask_r;
 }
 
 //void light() {
