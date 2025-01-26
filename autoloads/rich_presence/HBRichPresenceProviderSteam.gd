@@ -2,7 +2,7 @@ extends HBRichPresenceProvider
 
 class_name HBRichPresenceProviderSteam
 
-func _init_presence() -> int:
+func _init_rich_presence() -> int:
 	if Steamworks.is_valid():
 		return OK
 	return ERR_UNAVAILABLE
