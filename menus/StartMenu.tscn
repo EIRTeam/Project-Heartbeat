@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://bo3yjn1jcs8j5"]
 
-[ext_resource type="Script" path="res://menus/RandomQuote.gd" id="3"]
-[ext_resource type="Script" path="res://menus/StartMenu.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://dp0fkqdomkys5" path="res://graphics/phoenix.png" id="4_vbtqb"]
+[ext_resource type="Script" uid="uid://clclotslxtcow" path="res://menus/RandomQuote.gd" id="3"]
+[ext_resource type="Script" uid="uid://c6khaelx76wtk" path="res://menus/StartMenu.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://d0lkf8vj15wdi" path="res://graphics/logo_all_aboard.png" id="4_ye8o8"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="5"]
-[ext_resource type="Script" path="res://menus/PressStartMenu.gd" id="6"]
+[ext_resource type="Script" uid="uid://dokb315qt2f5o" path="res://menus/PressStartMenu.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://dpavg7fpmvy8v" path="res://graphics/party_hat.png" id="8"]
 
 [node name="StartMenu" type="Control"]
@@ -44,7 +44,7 @@ custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
-texture = ExtResource("4_vbtqb")
+texture = ExtResource("4_ye8o8")
 expand_mode = 1
 stretch_mode = 5
 
