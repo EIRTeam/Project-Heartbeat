@@ -29,7 +29,8 @@ var PH_AUTHORS = {
 		"Andrea Balaguer (Hikaru)": ["Background artwork (RedLine)"],
 		"David Revoy": ["Used background artwork (Hyperspeed out of Control, Music Play in the Floor, Dime Linda)"],
 		"Lucas Corral": ["Background artwork (Reprisal)"],
-		"RheaBee": ["Background artwork (Nostalgic Messenger)"]
+		"RheaBee": ["Background artwork (Nostalgic Messenger)"],
+		"EldrichGamingCorner": ["Background artwork (Divine Luneth, Don't Die on Me"]
 	},
 	"Localization": {
 		"Spanish": ["Álex Román Núñez (EIREXE)"],
