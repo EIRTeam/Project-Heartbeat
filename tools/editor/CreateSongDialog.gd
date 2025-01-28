@@ -33,7 +33,7 @@ func _validate() -> bool:
 func _on_ok_pressed():
 	if not _validate():
 		return
-	accepted.emit(title_line_edit.text, not no_workshop_checkbox.pressed, youtube_url_line_edit.text)
+	accepted.emit(title_line_edit.text, not no_workshop_checkbox.button_pressed, youtube_url_line_edit.text)
 	hide()
 
 func _ready() -> void:
