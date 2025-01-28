@@ -309,13 +309,17 @@ func _on_note_judged(judgement: int, independent: bool, judgement_target_time: i
 		note_judgement_infos[note_data] = judgement_info
 		if note_judgement_infos.size() == note_datas.size():
 			var multi_judgement := calculate_judgement(note_judgement_infos.values())
+			var wrong := false
+
 			if note_datas.size() > 1:
 				game.add_score(HBNoteData.NOTE_SCORES[multi_judgement])
 				for note_drawer in note_drawers.values():
 					note_drawer._on_multi_note_judged(multi_judgement)
-			var wrong := false
 			if slide_wrong_deferred and multi_judgement == HBJudge.JUDGE_RATINGS.WORST:
 				wrong = true
+				# A bit HACK-y...
+				if note_datas.size() == 1:
+					game.add_score(HBNoteData.NOTE_SCORES[multi_judgement])
 			notes_judged.emit(multi_judgement, note_judgement_infos.values(), get_hit_time_msec(), wrong)
 	else:
 		notes_judged.emit(judgement, [judgement_info], judgement_target_time, false)
