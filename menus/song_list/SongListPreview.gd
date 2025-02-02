@@ -103,12 +103,14 @@ func _on_song_assets_loaded(token: SongAssetLoader.AssetLoadToken):
 	cover_art_texture_shadow.material = null
 	
 	if cover_art_texture.texture is DIVASpriteSet.DIVASprite:
-		cover_art_texture.material = cover_art_texture.texture.get_material()
-		cover_art_texture_shadow.material = cover_art_texture.texture.get_material()
+		cover_art_texture.texture.notify_visible()
+		cover_art_texture.material = cover_art_texture.texture.get_fallback_material()
+		cover_art_texture_shadow.material = cover_art_texture.texture.get_fallback_material()
 	
 	circle_texture_rect.material = null
 	if circle_texture_rect.texture is DIVASpriteSet.DIVASprite:
-		circle_texture_rect.material = circle_texture_rect.texture.get_material()
+		circle_texture_rect.texture.notify_visible()
+		circle_texture_rect.material = circle_texture_rect.texture.get_fallback_material()
 	
 	animate_cover_art()
 	emit_signal("song_assets_loaded", token)

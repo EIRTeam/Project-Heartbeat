@@ -109,7 +109,11 @@ func _song_update():
 	song.song_cached.connect(_update_song_caching_icons)
 	var token := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.PREVIEW])
 	await token.assets_loaded
-	album_art_texture.texture = token.get_asset(SongAssetLoader.ASSET_TYPES.PREVIEW)
+	var preview := token.get_asset(SongAssetLoader.ASSET_TYPES.PREVIEW)
+	if preview is DIVASpriteSet.DIVASprite:
+		preview.notify_visible()
+		album_art_texture.material = preview.get_fallback_material()
+	album_art_texture.texture = preview
 	
 func update_scale(to: Vector2, no_animation=false):
 	super.update_scale(to, no_animation)

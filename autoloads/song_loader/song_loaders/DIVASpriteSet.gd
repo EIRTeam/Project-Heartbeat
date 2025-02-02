@@ -8,8 +8,8 @@ var buffer: StreamPeerBuffer
 var has_error := false
 var error_message := ""
 
-var textures := []
-var sprites := []
+var textures: Array[DIVATextureData] = []
+var sprites: Array[DIVASprite] = []
 
 enum DIVA_FORMATS {
 	Unknown = -1,
@@ -39,29 +39,68 @@ class DIVATextureData:
 	var texture_data_ycbcr_2: Image
 	var format := 0
 
+
 class DIVASprite:
 	extends AtlasTexture
+	var diva_texture: DIVATextureData
 	var name := ""
 	var texture_index := 0
-	var diva_texture: DIVATextureData
-	var ycbcr_atlas: AtlasTexture
+	func get_fallback_material() -> ShaderMaterial:
+		return null
+	func notify_visible():
+		pass
+
+## DIVA Sprite for modern RenderingDevice renderers
+class DIVASpriteRD:
+	extends DIVASprite
+	var diva_ui_texture: HBDIVAUITexture
 	
-	func allocate():
-		var image_texture := ImageTexture.create_from_image(diva_texture.texture_data)
-		atlas = image_texture
-		if ycbcr_atlas and diva_texture.texture_data_ycbcr_2:
-			var image_texture_2 := ImageTexture.create_from_image(diva_texture.texture_data_ycbcr_2)
-			ycbcr_atlas.atlas = image_texture_2
+	func allocate_diva_ui_texture():
+		var is_ycbcr := diva_texture.texture_data_ycbcr_2 != null
+		var flags := DIVATextureProcessor.Flags.FLAG_FLIP_Y | DIVATextureProcessor.Flags.FLAG_GENERATE_MIPMAPS
+		if is_ycbcr:
+			flags |= DIVATextureProcessor.Flags.FLAG_YCBCR_TO_RGB
+			diva_ui_texture = HBDIVAUITexture.new([diva_texture.texture_data, diva_texture.texture_data_ycbcr_2], flags)
+		else:
+			diva_ui_texture = HBDIVAUITexture.new([diva_texture.texture_data], flags)
+			
+		atlas = diva_ui_texture
+	func notify_visible():
+		if not diva_ui_texture:
+			allocate_diva_ui_texture()
+		diva_ui_texture.notify_visible()
+
+## DIVA Sprite for the compatibility (opengl) renderer
+class DIVASpriteCompatibility:
+	extends DIVASprite
+	var ui_texture: HBDIVAUITexture
+	var cbcr_atlas: ImageTexture
 	
 	func is_ycbcr() -> bool:
-		return ycbcr_atlas != null
-	func get_material() -> ShaderMaterial:
+		return diva_texture.texture_data_ycbcr_2 != null
+		
+	func allocate_texture():
+		if not atlas:
+			atlas = ImageTexture.create_from_image(diva_texture.texture_data)
+		
+	func allocate_ycbcr_textures():
+		if not cbcr_atlas:
+			cbcr_atlas = ImageTexture.create_from_image(diva_texture.texture_data_ycbcr_2)
+	
+	func notify_visible():
+		allocate_texture()
+		if is_ycbcr():
+			allocate_ycbcr_textures()
+	
+	## Used when renderingdevice is not available
+	func get_fallback_material() -> ShaderMaterial:
 		var shader_mat := ShaderMaterial.new()
 		if is_ycbcr():
 			shader_mat.shader = load("res://menus/diva_ycbcr.gdshader")
 			shader_mat.set_shader_parameter("texture_ya", self)
-			shader_mat.set_shader_parameter("texture_cbcr", ycbcr_atlas)
+			shader_mat.set_shader_parameter("texture_cbcr", cbcr_atlas)
 		else:
+			# Vertical flip in a shader
 			shader_mat.shader = load("res://menus/diva_sprite.gdshader")
 		return shader_mat
 func propagate_error(error_msg: String):
@@ -126,7 +165,6 @@ func read_texture_from_offset(texture_data: DIVATextureData, texture_offset: int
 	
 	var mipmap_count := info & 0xFF
 	var array_size := (info >> 8) & 0xFF
-	
 	for _array in range(array_size):
 		for _subtexture in range(mipmap_count):
 			if _subtexture > 0 and not texture_data.format == DIVA_ATI2_FORMAT:
@@ -196,9 +234,11 @@ func read_texture_data_from_offset(texture_data, texture_data_offset: int) -> bo
 		# We already have a texture, this must mean we are dealing with a lower
 		# quality mipmap we can't even use
 		buffer.seek(original_offset)
+		print("FAILED TO READ")
 		return false
 	
 	if godot_format == -1:
+		print("FAILED TO FIND SUITABLE GODOT FORMAT")
 		buffer.seek(original_offset)
 		return false
 	
@@ -207,28 +247,17 @@ func read_texture_data_from_offset(texture_data, texture_data_offset: int) -> bo
 	
 	var data_size := buffer.get_32()
 	var image := Image.create_from_data(width, height, false, godot_format, buffer.get_data(data_size)[1])
-	var ret := true
 	
-	if ENABLE_TEXTURE_ALLOCATION:
-		if texture_data.texture and format == DIVA_ATI2_FORMAT:
-			texture_data.texture_ycbcr_2 = ImageTexture.create_from_image(image)
-			texture_data.texture_data_ycbcr_2 = image
-			ret = false
-		else:
-			texture_data.texture = ImageTexture.create_from_image(image)
-			texture_data.texture_data = image
+	if texture_data.texture_data and format == DIVA_ATI2_FORMAT:
+		texture_data.texture_data_ycbcr_2 = image
 	else:
-		if texture_data.texture_data and format == DIVA_ATI2_FORMAT:
-			texture_data.texture_data_ycbcr_2 = image
-			ret = false
-		else:
-			texture_data.texture_data = image
+		texture_data.texture_data = image
 	
 	texture_data.format = format
 	
 	buffer.seek(original_offset)
 	
-	return ret
+	return true
 			
 func read_texture_names():
 	for texture in textures:
@@ -258,7 +287,13 @@ func read_sprite_names():
 func read_sprites(sprite_count: int):
 	var current_offset := buffer.get_position()
 	for _i in range(sprite_count):
-		var sprite := DIVASprite.new()
+		var sprite: DIVASprite
+		
+		if RenderingServer.get_rendering_device():
+			sprite = DIVASpriteRD.new()
+		else:
+			sprite = DIVASpriteCompatibility.new()
+		
 		var texture_index := buffer.get_u32()
 		buffer.seek(buffer.get_position()+4) # ???
 		var _rectangle_begin := Vector2(buffer.get_float(), buffer.get_float())
@@ -268,21 +303,9 @@ func read_sprites(sprite_count: int):
 		var width := buffer.get_float()
 		var height := buffer.get_float()
 		var texture := textures[texture_index] as DIVATextureData
-		sprite.region.position.x = x
-		sprite.region.position.y = y
 		
-		sprite.region.size.x = width
-		sprite.region.size.y = height
-		
-		if texture.texture_data_ycbcr_2:
-			sprite.ycbcr_atlas = AtlasTexture.new()
-			sprite.ycbcr_atlas.region = sprite.region
-		if ENABLE_TEXTURE_ALLOCATION:
-			sprite.atlas = texture.texture
-			if texture.texture_ycbcr_2:
-				sprite.ycbcr_atlas.atlas = texture.texture_ycbcr_2
-
-				
+		var region_rect := Rect2(x, y, width, height)
+		sprite.region = region_rect
 		sprite.diva_texture = texture
 
 		sprites.append(sprite)

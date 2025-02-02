@@ -82,6 +82,7 @@ func _on_assets_loaded(token: SongAssetLoader.AssetLoadToken):
 	if preview_image:
 		image_preview_texture_rect.texture = preview_image
 		if image_preview_texture_rect.texture is DIVASpriteSet.DIVASprite:
-			image_preview_texture_rect.material = image_preview_texture_rect.texture.get_material()
+			image_preview_texture_rect.texture.notify_visible()
+			image_preview_texture_rect.material = image_preview_texture_rect.texture.get_fallback_material()
 	else:
 		image_preview_texture_rect.texture = DEFAULT_IMAGE_TEXTURE

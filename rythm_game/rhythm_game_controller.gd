@@ -175,7 +175,8 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 			background_texture.texture = background
 			background_texture.material = null
 			if background is DIVASpriteSet.DIVASprite:
-				background_texture.material = background.get_material()
+				background.notify_visible()
+				background_texture.material = background.get_fallback_material()
 	else:
 		print("No assets, whoops")
 		var image = HBUtils.image_from_fs(bg_path)

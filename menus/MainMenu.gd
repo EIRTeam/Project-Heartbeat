@@ -242,7 +242,8 @@ func _on_background_loaded(token: SongAssetLoader.AssetLoadToken):
 	if background and fullscreen_menu != MENUS["start_menu"].fullscreen:
 		var mat: ShaderMaterial
 		if background is DIVASpriteSet.DIVASprite:
-			mat = background.get_material()
+			background.notify_visible()
+			mat = background.get_fallback_material()
 		change_to_background(background, false, mat)
 	else:
 		change_to_background(null, true)

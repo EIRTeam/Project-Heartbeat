@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://yfxqjf03p48t"
+path="res://.godot/imported/mipmap_generator_blit.glsl-435eba8fb7f9ed9b89bffc40978dee80.res"
+
+[deps]
+
+source_file="res://scripts/mipmap_generator_blit.glsl"
+dest_files=["res://.godot/imported/mipmap_generator_blit.glsl-435eba8fb7f9ed9b89bffc40978dee80.res"]
+
+[params]
+

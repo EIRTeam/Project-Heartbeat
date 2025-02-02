@@ -44,7 +44,8 @@ func _display_asset_graphics(assets: SongAssetLoader.AssetLoadToken):
 	if background:
 		$TextureRect.texture = background
 		if background is DIVASpriteSet.DIVASprite:
-			$TextureRect.material = background.get_material()
+			background.notify_visible()
+			$TextureRect.material = background.get_fallback_material()
 	else:
 		$TextureRect.texture = DEFAULT_BG
 	album_cover.material = null
@@ -53,7 +54,8 @@ func _display_asset_graphics(assets: SongAssetLoader.AssetLoadToken):
 	if preview:
 		album_cover.texture = preview
 		if preview is DIVASpriteSet.DIVASprite:
-			album_cover.material = preview.get_material()
+			preview.notify_visible()
+			album_cover.material = preview.get_fallback_material()
 	else:
 		album_cover.texture = DEFAULT_PREVIEW_TEXTURE
 	
