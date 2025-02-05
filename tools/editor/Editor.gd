@@ -1461,7 +1461,6 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 	
 	selected = []
 	current_notes = []
-	timeline.send_time_cull_changed_signal()
 	
 	if not ignore_settings:
 		await load_settings(chart.editor_settings)
@@ -1585,6 +1584,10 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 	sync_lyrics()
 	sort_groups()
 	force_game_process()
+	# A bit of a HACK to ensure the timeline's waveform is updated properly
+	await get_tree().process_frame
+	timeline.send_time_cull_changed_signal()
+
 
 func paste_note_data(notes: Array):
 	undo_redo.create_action("Paste note data")
