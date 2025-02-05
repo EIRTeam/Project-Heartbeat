@@ -71,7 +71,10 @@ func _update_tag_color():
 func _tag_update():
 	if tag_update_queued:
 		tag_update_queued = false
-		difficulty_label.text = difficulty
+		if difficulty.length() > 25:
+			difficulty_label.text = difficulty.substr(0, 25) + "…"
+		else:
+			difficulty_label.text = difficulty
 		_update_tag_color()
 		difficulty_color = difficulty_color_panel.self_modulate
 		difficulty_color_bright = difficulty_color.lightened(0.5)

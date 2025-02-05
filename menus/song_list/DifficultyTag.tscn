@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ldawg6lydbq6"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_0vw1p"]
-[ext_resource type="Script" path="res://menus/song_list/DifficultyTag.gd" id="1_fh8u7"]
+[ext_resource type="Script" uid="uid://cxvt5f308lunr" path="res://menus/song_list/DifficultyTag.gd" id="1_fh8u7"]
 
 [node name="DifficultyTag" type="PanelContainer"]
 self_modulate = Color(0.3128, 0.1904, 0.68, 1)
