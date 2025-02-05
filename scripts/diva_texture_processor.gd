@@ -131,10 +131,11 @@ func _conversion_impl():
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_PREDELETE:
+			# We need to ensure the mipmap generator is freed before us, otherwise we get errors
+			# because godot automatically frees dependencies
+			mipmap_generator = null
 			var rd := RenderingServer.get_rendering_device()
 			if ycbcr_uniform_set.is_valid():
 				rd.free_rid(ycbcr_uniform_set)
-			if sampler.is_valid():
-				rd.free_rid(sampler)
 			for tex_rid in in_texture_rids_rs:
 				RenderingServer.free_rid(tex_rid)
