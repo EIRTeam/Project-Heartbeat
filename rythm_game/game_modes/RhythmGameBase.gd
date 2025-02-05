@@ -158,9 +158,7 @@ func set_chart(chart: HBChart):
 func get_chart_from_song(song: HBSong, difficulty) -> HBChart:
 	return song.get_chart_for_difficulty(difficulty)
 
-# TODO: generalize this
-func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken = null, _modifiers = []):
-	modifiers = _modifiers
+func set_song_assets(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken = null):
 	current_song = song
 	_volume_offset = 0.0
 	if audio_playback:
@@ -223,6 +221,20 @@ func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoa
 	if current_variant != -1:
 		_volume_offset = song.get_variant_data(current_variant).get_volume()
 	
+	if current_song.id in UserSettings.user_settings.per_song_settings:
+		var user_song_settings = UserSettings.user_settings.per_song_settings[current_song.id] as HBPerSongSettings
+		_song_volume = song.get_volume_db() * user_song_settings.volume
+	else:
+		_song_volume = song.get_volume_db()
+	audio_playback.volume = db_to_linear(_song_volume + _volume_offset)
+	# If I understand correctly, diva songs that use two channels have half the volume because they are played twice
+	if song is SongLoaderDSC.HBSongMMPLUS and audio_playback.get_channel_count() <= 2:
+		audio_playback.volume *= 2
+	game_ui._on_song_set(song, difficulty, assets, modifiers)
+
+func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken = null, _modifiers = []):
+	modifiers = _modifiers
+	set_song_assets(song, difficulty, assets)
 	# Note for future people looking at this codebase (probably me or eir)
 	# Do NOT, I repeat, do NOT change the order of things here. It should
 	# be precisely:
@@ -239,7 +251,6 @@ func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoa
 	# If you have to chase this bug again, Im sorry.
 	# 
 	# - Lino, 02/03/23
-	
 	var chart: HBChart
 	current_difficulty = difficulty
 	chart = get_chart_from_song(song, difficulty)
@@ -274,17 +285,6 @@ func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoa
 			if intro_skip_marker.time >= earliest_note_time:
 				intro_skip_marker = null
 	
-	if current_song.id in UserSettings.user_settings.per_song_settings:
-		var user_song_settings = UserSettings.user_settings.per_song_settings[current_song.id] as HBPerSongSettings
-		_song_volume = song.get_volume_db() * user_song_settings.volume
-	else:
-		_song_volume = song.get_volume_db()
-	audio_playback.volume = db_to_linear(_song_volume + _volume_offset)
-	# If I understand correctly, diva songs that use two channels have half the volume because they are played twice
-	if song is SongLoaderDSC.HBSongMMPLUS and audio_playback.get_channel_count() <= 2:
-		audio_playback.volume *= 2
-	game_ui._on_song_set(song, difficulty, assets, modifiers)
-
 func _process_timing_points_into_groups(points):
 	# Group:time map
 	var groups := {}

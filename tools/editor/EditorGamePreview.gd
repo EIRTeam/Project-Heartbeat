@@ -107,11 +107,8 @@ func rescale_video_player():
 		video_player.position.x = (size.x - video_player.size.x) / 2.0
 		video_player.position.y = (size.y - video_player.size.y) / 2.0
 	
-func set_song(song: HBSong, variant=-1):
-	var bg_path = song.get_song_background_image_res_path()
-	var image = HBUtils.image_from_fs(bg_path)
-	var image_texture = ImageTexture.create_from_image(image) #,Texture2D.FLAGS_DEFAULT & ~(Texture2D.FLAG_MIPMAPS)
-	background_rect.texture = image_texture
+func set_song(song: HBSong, assets: SongAssetLoader.AssetLoadToken, variant=-1):
+	background_rect.texture = assets.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND)
 	video_player.stream = null
 	background_rect.show()
 	video_player.hide()

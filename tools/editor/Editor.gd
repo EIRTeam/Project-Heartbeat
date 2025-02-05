@@ -63,6 +63,7 @@ var selected: Array = []
 var copied_points: Array = []
 
 var current_song: HBSong
+var current_assets: SongAssetLoader.AssetLoadToken
 var current_difficulty: String
 var snap_to_grid_enabled = true
 
@@ -1656,7 +1657,7 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	
 	editor_hidden = p_hidden
 	current_song = song
-	
+		
 	var chart = current_song.get_chart_for_difficulty(difficulty)
 	
 	HBGame.rich_presence.notify_at_editor_song(current_song, difficulty, Time.get_unix_time_from_system())
@@ -1671,8 +1672,8 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	
 	get_window().set_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
-	await from_chart(chart)
 	current_difficulty = difficulty
+	await from_chart(chart)
 	
 	save_button.disabled = editor_hidden
 	save_as_button.disabled = editor_hidden
@@ -1693,9 +1694,28 @@ func get_selected_variant() -> int:
 	else:
 		return song_editor_settings.selected_variant
 func update_media():
-	game_preview.set_song(current_song, get_selected_variant())
-	await game_playback.set_song(current_song, get_selected_variant())
-	timeline.set_audio_stream(game_playback.godot_audio_stream)
+	var assets_to_load: Array[SongAssetLoader.ASSET_TYPES] = [
+		SongAssetLoader.ASSET_TYPES.PREVIEW,
+		SongAssetLoader.ASSET_TYPES.BACKGROUND,
+		SongAssetLoader.ASSET_TYPES.AUDIO,
+		SongAssetLoader.ASSET_TYPES.VOICE,
+		SongAssetLoader.ASSET_TYPES.CIRCLE_IMAGE,
+		SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO
+	]
+	var asset_token: SongAssetLoader.AssetLoadToken
+	if not SongDataCache.is_song_audio_loudness_cached(current_song):
+		assets_to_load.push_back(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
+		asset_token = await SongAssetLoader.request_asset_load(current_song, assets_to_load, get_selected_variant()).assets_loaded
+		var loudness: SongAssetLoader.AudioNormalizationInfo = asset_token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
+		print("Loudness cache2 not found, normalizing...")
+		SongDataCache.update_loudness_for_song(current_song, loudness.loudness)
+	else:
+		asset_token = await SongAssetLoader.request_asset_load(current_song, assets_to_load, get_selected_variant()).assets_loaded
+	current_assets = asset_token
+	game_preview.set_song(current_song, asset_token, get_selected_variant())
+	await game_playback.set_song(current_song, current_difficulty, asset_token, get_selected_variant())
+	var audio_data := asset_token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO) as SongAssetLoader.SongAudioData
+	timeline.set_audio_stream(audio_data.godot_stream)
 	seek(playhead_position)
 	timeline.send_time_cull_changed_signal()
 
@@ -2016,7 +2036,7 @@ func _on_PlaytestButton_pressed(at_time):
 	var play_time = 0.0
 	if at_time:
 		play_time = playhead_position
-	rhythm_game_playtest_popup.set_audio(current_song, game_playback.audio_source, game_playback.voice_source, get_selected_variant())
+	rhythm_game_playtest_popup.set_song(current_song, current_difficulty, current_assets, get_selected_variant())
 	rhythm_game_playtest_popup.set_velocity(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
 	
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), current_difficulty, play_time / 1000.0, song_editor_settings.show_bg, song_editor_settings.show_video)

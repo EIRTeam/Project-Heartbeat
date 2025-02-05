@@ -102,23 +102,8 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 	
 	show()
 
-func set_audio(song: HBSong, audio: ShinobuSoundSource, voice: ShinobuSoundSource, variant := -1):
-	if rhythm_game.audio_playback:
-		rhythm_game.audio_playback.queue_free()
-	
-	if rhythm_game.voice_audio_playback:
-		rhythm_game.voice_audio_playback.queue_free()
-		rhythm_game.voice_audio_playback = null
-	
-	rhythm_game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio.instantiate(HBGame.music_group))
-	rhythm_game.audio_playback.offset = song.get_variant_data(variant).variant_offset
-	add_child(rhythm_game.audio_playback)
-	
-	if voice:
-		rhythm_game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice.instantiate(HBGame.music_group))
-		rhythm_game.voice_audio_playback.offset = song.get_variant_data(variant).variant_offset
-		add_child(rhythm_game.voice_audio_playback)
-	
+func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken, variant := -1):
+	rhythm_game.set_song_assets(song, difficulty, assets)
 	selected_variant = variant
 
 func _ready():

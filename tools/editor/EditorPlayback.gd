@@ -53,43 +53,13 @@ func _process(delta):
 func get_song_volume():
 	return SongDataCache.get_song_volume_offset(current_song) * current_song.volume
 
-func set_song(song: HBSong, variant=-1):
+func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken, variant=-1):
 	current_song = song
 	selected_variant = variant
 	game.audio_playback = null
 	game.voice_audio_playback = null
 	
-	godot_audio_stream = song.get_audio_stream(selected_variant)
-	
-	if not SongDataCache.is_song_audio_loudness_cached(song):
-		var token := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.AUDIO, SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS])
-		await token.assets_loaded
-		
-		var loudness: SongAssetLoader.AudioNormalizationInfo = token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
-		print("Loudness cache2 not found, normalizing...")
-		SongDataCache.update_loudness_for_song(song, loudness.loudness)
-	audio_source = Shinobu.register_sound_from_memory("song", godot_audio_stream.get_meta("raw_file_data"))
-	if game.audio_playback:
-		game.audio_playback.queue_free()
-	if game.voice_audio_playback:
-		game.voice_audio_playback.queue_free()
-	game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio_source.instantiate(HBGame.music_group))
-		
-	add_child(game.audio_playback)
-	game.audio_playback.offset = current_song.get_variant_data(variant).variant_offset
-	
-	var volume_db = get_song_volume()
-	
-	game.audio_playback.volume = db_to_linear(volume_db)
-	voice_source = null
-	if song.voice:
-		var voice_audio_stream = song.get_voice_stream()
-		voice_source = Shinobu.register_sound_from_memory("voice", voice_audio_stream.get_meta("raw_file_data"))
-		game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_source.instantiate(HBGame.music_group))
-		add_child(game.voice_audio_playback)
-		game.voice_audio_playback.offset = current_song.get_variant_data(variant).variant_offset
-		game.voice_audio_playback.volume = db_to_linear(volume_db)
-	
+	game.set_song_assets(song, difficulty, assets)
 	set_velocity(playback_speed, UserSettings.user_settings.editor_pitch_compensation)
 
 func pause():
