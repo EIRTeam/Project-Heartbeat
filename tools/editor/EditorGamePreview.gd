@@ -108,7 +108,12 @@ func rescale_video_player():
 		video_player.position.y = (size.y - video_player.size.y) / 2.0
 	
 func set_song(song: HBSong, assets: SongAssetLoader.AssetLoadToken, variant=-1):
-	background_rect.texture = assets.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND)
+	var bg := assets.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND)
+	background_rect.material = null
+	if bg is DIVASpriteSet.DIVASprite:
+		bg.notify_visible()
+		background_rect.material = bg.get_fallback_material()
+	background_rect.texture = bg
 	video_player.stream = null
 	background_rect.show()
 	video_player.hide()

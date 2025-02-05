@@ -68,14 +68,6 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 	# Set lyrics
 	rhythm_game_ui.lyrics_view.set_phrases(song.lyrics)
 	
-	# Load bg
-	background_texture.visible = enable_bg
-	var bg_path = song.get_song_background_image_res_path()
-	var image = HBUtils.image_from_fs(bg_path)
-	
-	var image_texture = ImageTexture.create_from_image(image) #,HBGame.platform_settings.texture_mode
-	background_texture.texture = image_texture
-	
 	# Load video
 	video_player_panel.hide()
 	video_player.hide()
@@ -104,6 +96,12 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 
 func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken, variant := -1):
 	rhythm_game.set_song_assets(song, difficulty, assets)
+	var bg := assets.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND)
+	background_texture.material = null
+	if bg is DIVASpriteSet.DIVASprite:
+		bg.notify_visible()
+		background_texture.material = bg.get_fallback_material()
+	background_texture.texture = bg
 	selected_variant = variant
 
 func _ready():
