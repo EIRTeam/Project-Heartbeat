@@ -8,7 +8,7 @@ var current_color := Color()
 
 func _ready():
 	super._ready()
-	stop_hover()
+	stop_hover(true)
 
 func hover(no_animation = false):
 	super.hover(no_animation)
@@ -21,4 +21,3 @@ func stop_hover(no_animation = false):
 	$Control/RainbowOverlay.hide()
 	$Control/TextureRect/StarRainbow.hide()
 	$Control.self_modulate.a = 1.0
-
