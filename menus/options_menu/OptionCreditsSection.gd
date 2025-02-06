@@ -30,7 +30,7 @@ var PH_AUTHORS = {
 		"David Revoy": ["Used background artwork (Hyperspeed out of Control, Music Play in the Floor, Dime Linda)"],
 		"Lucas Corral": ["Background artwork (Reprisal)"],
 		"RheaBee": ["Background artwork (Nostalgic Messenger)"],
-		"EldrichGamingCorner": ["Background artwork (Divine Luneth, Don't Die on Me"]
+		"EldrichGamingCorner": ["Background artwork (Divine Luneth, Don't Die on Me)"]
 	},
 	"Localization": {
 		"Spanish": ["Álex Román Núñez (EIREXE)"],
@@ -43,7 +43,8 @@ var PH_AUTHORS = {
 	"Charting": {
 		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice", "Reprisal", "Confession", "Monochrome Stars"],
 		"Twoncity": ["Cloudy Sky 2019", "Blossoming Spell", "Connected", "Imademo"],
-		"Starbeat": ["Getaway", "The Nostalgic Messenger", "Versos Perversos", "Divine Luneth", "Don't die on me"],
+		"Starbeat": ["Getaway", "War Zone"],
+		"Luunah": ["Spread my Wings", "The Nostalgic Messenger", "Versos Perversos", "Divine Luneth", "Don't die on me"],
 		"Lino Bigatti": ["Versos Perversos"],
 		"Blizzin": ["Sands of Time", "RedLine", "Imademo", "Core creation"],
 		"Snail": ["ETERNAL"],
