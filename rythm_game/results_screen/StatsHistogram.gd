@@ -168,5 +168,5 @@ func _draw() -> void:
 	#median
 	_draw_time_line(median, Color.GREEN)
 	#std dev
-	_draw_time_line(std_dev, Color.PURPLE)
-	_draw_time_line(-std_dev, Color.PURPLE)
+	_draw_time_line(mean + std_dev, Color.PURPLE)
+	_draw_time_line(mean - std_dev, Color.PURPLE)
