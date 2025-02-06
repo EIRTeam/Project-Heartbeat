@@ -2,12 +2,22 @@ extends HBRichPresenceProvider
 
 class_name HBRichPresenceProviderDiscord
 
-var last_update_time := 0.0
+var current_time := 0.0
+var last_activity_update_time := 0.0
 var update_queued := false
 var queued_update_data := {}
 
+# Discord docs say "This has a rate limit of 5 updates per 20 seconds"
+# technically we could get away with more updates in short bursts with a 20 second cooldown, but this is
+# probably good enough, not sure why the discord client doesn't do some sort of soft rate-limiting by
+# itself like steam does, a mystery we will take to our graves
+const RATE_LIMIT_TIME_BETWEEN_ACTIVITY_UPDATES := 20.0/5.0
+
 func _get_tick_rate() -> float:
 	return 1.0/5.0
+	
+func can_send_activity_update() -> bool:
+	return current_time - last_activity_update_time > RATE_LIMIT_TIME_BETWEEN_ACTIVITY_UPDATES
 	
 # HACK-y, but who will complain? not me
 const SONGS_WITH_IMAGE = [
@@ -73,9 +83,13 @@ func _init_rich_presence() -> int:
 	
 func _push_update():
 	DiscordRPC.update_presence(queued_update_data)
-	
+	last_activity_update_time = current_time
+
 func _tick():
-	if update_queued:
+	# This is probably imprecise, so be careful if we ever need more precision for
+	# some godforsaken reason
+	current_time += _get_tick_rate()
+	if update_queued and can_send_activity_update():
 		_push_update()
 		update_queued = false
 	DiscordRPC.run_callbacks()
