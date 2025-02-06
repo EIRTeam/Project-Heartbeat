@@ -27,16 +27,22 @@ func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
 	return (a.data.time) < (b.data.time)
 
 func place_child(child: EditorTimelineItem):
-	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
-	child.position = Vector2(x_pos, 0)
+	child.position = Vector2(_get_timeline_x_clamped(child.data.time), 0)
 	child.size = child.get_editor_size()
 	child.sync_value("end_time")
 
+func _get_timeline_x(time: float) -> float:
+	var timeline_start := _cull_start_time as float
+	var diff := time - timeline_start
+	var diff_pixels := editor.scale_msec(diff) as float
+	return diff_pixels
+
+func _get_timeline_x_clamped(time: float) -> float:
+	return clamp(0, _get_timeline_x(time), size.x)
+
 func place_preview(start: float, duration: float):
-	var x_pos = max(editor.scale_msec(start), 0)
-	preview.position = Vector2(x_pos, 0)
+	preview.position = Vector2(_get_timeline_x_clamped(start), 0)
 	preview.set_deferred("size", Vector2(editor.scale_msec(duration), preview.size.y))
-	
 	
 func add_item(item: EditorTimelineItem):
 	var insert_pos = timing_points.bsearch_custom(item.data.time, self.bsearch_time)
@@ -165,4 +171,3 @@ func _gui_input(event):
 
 func _on_EditorLayer_mouse_exited():
 	preview.hide()
-

@@ -123,7 +123,7 @@ func _draw_bars(map: Array, start_idx: int, end_idx: int):
 		var pos_msec = map[i]
 		
 		var starting_rect_pos = Vector2(playhead_area.position.x + layers.position.x, get_playhead_area_y_pos() + playhead_area.size.y - TIME_LABEL.get_height())
-		starting_rect_pos += Vector2(editor.scale_msec(pos_msec), 0)
+		starting_rect_pos += Vector2(_get_timeline_x_clamped(pos_msec), 0)
 		var clip_w = last_x_pos - starting_rect_pos.x if last_x_pos else -1
 		
 		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, size.y), get_theme_color("timeline_separator_bar", "PHEditor"), 1.0)
@@ -141,7 +141,7 @@ func _draw_beats(map: Array, bar_map: Array, start_idx: int, end_idx: int):
 		var pos_msec = map[i]
 		
 		var starting_rect_pos = Vector2(playhead_area.position.x + layers.position.x, get_playhead_area_y_pos() + playhead_area.size.y)
-		starting_rect_pos += Vector2(editor.scale_msec(pos_msec), 0)
+		starting_rect_pos += Vector2(_get_timeline_x_clamped(pos_msec), 0)
 		
 		if bar_map.has(pos_msec):
 			continue
@@ -160,8 +160,8 @@ func _draw_timing_lines():
 	var first_timing_change_idx = timing_map.find(timing_changes[-1].data.time)
 	timing_map = timing_map.slice(first_timing_change_idx, timing_map.size() - 1)
 	
-	var start_t = _offset
-	var end_t = start_t + editor.scale_pixels(playhead_area.position.x + playhead_area.size.x)
+	var start_t = _cull_start_time
+	var end_t = _cull_end_time
 	
 	var start_beat_idx = timing_map.bsearch(start_t)
 	var end_beat_idx = timing_map.bsearch(end_t)
@@ -185,8 +185,7 @@ func get_playhead_area_y_pos():
 	return playhead_container.position.y - playhead_area.size.y
 
 func calculate_playhead_position():
-	var x_pos = playhead_area.position.x + layers.position.x + editor.scale_msec(editor.playhead_position)
-	
+	var x_pos = playhead_area.position.x + layers.position.x + _get_timeline_x_clamped(editor.playhead_position)
 	return Vector2(x_pos, get_playhead_area_y_pos())
 
 func _draw_playhead():
@@ -213,7 +212,7 @@ func _draw_sections():
 			return
 	
 	for section in editor.get_sections():
-		var x_pos = playhead_area.position.x + layers.position.x + editor.scale_msec(section.time)
+		var x_pos = playhead_area.position.x + layers.position.x + _get_timeline_x_clamped(section.time)
 		if x_pos < playhead_area.position.x or x_pos > playhead_area.position.x + playhead_area.size.x:
 			continue
 		
@@ -256,7 +255,7 @@ func _draw_timing_changes():
 			timing_changes_x_map[x_pos] = item
 			break
 		
-		var x_pos = playhead_area.position.x + layers.position.x + editor.scale_msec(timing_change.time)
+		var x_pos = playhead_area.position.x + layers.position.x + _get_timeline_x_clamped(timing_change.time)
 		if x_pos < playhead_area.position.x or x_pos > playhead_area.position.x + playhead_area.size.x:
 			continue
 		var clip_w = last_x_pos - x_pos if last_x_pos else -1
@@ -312,12 +311,18 @@ func _on_PlayheadArea_double_click():
 func _on_playhead_position_changed():
 	queue_redraw()
 
-var _prev_layers_rect_position
+func _get_timeline_x(time: float) -> float:
+	var timeline_start := _cull_start_time as float
+	var diff := time - timeline_start
+	var diff_pixels := editor.scale_msec(diff)
+	return diff_pixels
+
+func _get_timeline_x_clamped(time: float) -> float:
+	return clamp(0, _get_timeline_x(time), layers.size.x)
+
 func set_layers_offset(ms: int):
 	var song_length_ms: int = int(editor.get_song_length() * 1000.0)
 	_offset = clamp(ms, 0, song_length_ms - editor.scale_pixels(playhead_area.size.x))
-	layers.position.x = -editor.scale_msec(_offset)
-	_prev_layers_rect_position = layers.position
 	
 	emit_signal("position_offset_changed")
 	send_time_cull_changed_signal()
@@ -325,7 +330,7 @@ func set_layers_offset(ms: int):
 	queue_redraw()
 
 func scale_layers():
-	layers.size.x = editor.scale_msec(editor.get_song_length() * 1000.0)
+	pass
 
 func _on_editor_scale_changed(prev_scale, scale):
 	var new_offset = _offset * (scale/prev_scale)
