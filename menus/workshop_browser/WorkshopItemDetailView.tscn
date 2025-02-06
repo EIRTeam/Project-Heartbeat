@@ -1,10 +1,10 @@
 [gd_scene load_steps=17 format=3 uid="uid://b4rr5jg5duobg"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="3"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="3"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3_3gro8"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4"]
-[ext_resource type="Script" path="res://menus/workshop_browser/WorkshopItemDetailView.gd" id="5"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="4"]
+[ext_resource type="Script" uid="uid://dlalyuhtpn7vy" path="res://menus/workshop_browser/WorkshopItemDetailView.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://6phu22pv2pdj" path="res://graphics/icons/5-star.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://7g6fr4u55qd8" path="res://graphics/icons/0-star.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://d0he8sopusigy" path="res://graphics/icons/plus-circle.svg" id="7_dr1f8"]
@@ -42,6 +42,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 133)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 25
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
@@ -158,6 +159,7 @@ script = ExtResource("3")
 [node name="Panel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
 custom_minimum_size = Vector2(0, 27.364)
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("8")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel"]
@@ -189,12 +191,41 @@ Feedback appreciated.
 
 Extra BURN: (2 variants)
  - Rafael Vidaurre
+ - Instrumental
+
+Why do SAFEs exist? 🐦‍
+[b][url=https://store.steampowered.com/app/429660]Tales of Berseria on Steam[/url][/b]
+
+[b][url=https://music.youtube.com/channel/UCJCEjx_2PIFi97rJjjfwrcQ]FLOW[/url]
+[url=https://music.youtube.com/watch?v=brQJDvFeZig]BURN -Game Size- (Tales of Berseria OP)[/url][/b]
+
+Extreme 8* (Arcade)
+75-198 BPM
+
+Feedback appreciated.
+
+Extra BURN: (2 variants)
+ - Rafael Vidaurre
+ - Instrumental
+
+Why do SAFEs exist? 🐦‍
+[b][url=https://store.steampowered.com/app/429660]Tales of Berseria on Steam[/url][/b]
+
+[b][url=https://music.youtube.com/channel/UCJCEjx_2PIFi97rJjjfwrcQ]FLOW[/url]
+[url=https://music.youtube.com/watch?v=brQJDvFeZig]BURN -Game Size- (Tales of Berseria OP)[/url][/b]
+
+Extreme 8* (Arcade)
+75-198 BPM
+
+Feedback appreciated.
+
+Extra BURN: (2 variants)
+ - Rafael Vidaurre
  - Instrumental"
-fit_content = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 8
 alignment = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]

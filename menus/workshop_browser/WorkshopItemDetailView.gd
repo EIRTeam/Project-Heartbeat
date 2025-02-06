@@ -6,7 +6,7 @@ extends HBMenu
 @onready var title_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Label")
 @onready var up_vote_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer/UpVoteLabel")
 @onready var down_vote_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer/DownVoteLabel")
-@onready var description_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer/Label")
+@onready var description_label: RichTextLabel = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer/Label")
 @onready var description_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel")
 @onready var description_margin_container = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer")
 @onready var item_image_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/TextureRect")
@@ -18,6 +18,9 @@ var item_data: HBSteamUGCItem
 var installing = false
 var image_request: HTTPRequest
 var item_data_owner: HBSteamFriend
+
+const SCROLL_SPEED = 1500.0
+
 func _ready():
 	super._ready()
 	description_margin_container.connect("minimum_size_changed", Callable(self, "_on_description_margin_minimum_size_changed"))
@@ -93,6 +96,12 @@ func _unhandled_input(event):
 func _on_ShowInSongListButton_pressed():
 	var song_id = "ugc_%d" % [item_data.item_id]
 	change_to_menu("song_list", false, {"song": song_id, "force_filter": "workshop"})
+
+func _process(delta: float) -> void:
+	if Input.is_action_pressed("gui_down"):
+		description_label.get_v_scroll_bar().value += max(SCROLL_SPEED * delta, 1)
+	elif Input.is_action_pressed("gui_up"):
+		description_label.get_v_scroll_bar().value -= max(SCROLL_SPEED * delta, 1)
 
 func _on_SubscribeButton_pressed():
 	installing = true
