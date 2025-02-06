@@ -1,13 +1,13 @@
 [gd_scene load_steps=13 format=3 uid="uid://b20gtbvpc71r"]
 
-[ext_resource type="Script" path="res://tools/editor/EditorMinimap.gd" id="1"]
+[ext_resource type="Script" uid="uid://c47coifhyae2h" path="res://tools/editor/EditorMinimap.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cjgss627udi13" path="res://tools/icons/icon_remove.svg" id="2"]
 [ext_resource type="Texture2D" uid="uid://nj5lja2trgsd" path="res://tools/icons/ActionCut.svg" id="3"]
 [ext_resource type="Texture2D" uid="uid://cfabe2k1n1sli" path="res://tools/icons/icon_action_copy.svg" id="4"]
 [ext_resource type="Texture2D" uid="uid://bb3vyb7l3havs" path="res://tools/icons/icon_action_paste.svg" id="5"]
-[ext_resource type="Script" path="res://tools/editor/EditorTimeline.gd" id="6"]
-[ext_resource type="Script" path="res://tools/editor/timeline/TimelinePlayheadArea.gd" id="7"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSimpleButton.gd" id="8"]
+[ext_resource type="Script" uid="uid://dkgajw1pfksl7" path="res://tools/editor/EditorTimeline.gd" id="6"]
+[ext_resource type="Script" uid="uid://cjm8odf1xj2au" path="res://tools/editor/timeline/TimelinePlayheadArea.gd" id="7"]
+[ext_resource type="Script" uid="uid://b06kp7o87nsq7" path="res://tools/editor/controls/HBEditorSimpleButton.gd" id="8"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 6.0
@@ -223,6 +223,7 @@ rms_size_multiplier = 0.25
 [node name="PopupMenu" type="PopupMenu" parent="."]
 item_count = 3
 item_0/text = "Elemento 0"
+item_0/id = 0
 item_1/text = "Elemento 1"
 item_1/id = 1
 item_2/text = "Elemento 2"

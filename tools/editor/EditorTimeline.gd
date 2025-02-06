@@ -39,6 +39,7 @@ var _area_selecting = false
 var _cull_start_time = 0
 var _cull_end_time = 0
 var selection_mode = SELECT_MODE.NORMAL
+var _prev_mouse_time := 0.0
 
 var modifier_textures = {
 	SELECT_MODE.NORMAL: CompressedTexture2D.new(),
@@ -185,7 +186,7 @@ func get_playhead_area_y_pos():
 	return playhead_container.position.y - playhead_area.size.y
 
 func calculate_playhead_position():
-	var x_pos = playhead_area.position.x + layers.position.x + _get_timeline_x_clamped(editor.playhead_position)
+	var x_pos = playhead_area.position.x + layers.position.x + _get_timeline_x(editor.playhead_position)
 	return Vector2(x_pos, get_playhead_area_y_pos())
 
 func _draw_playhead():
@@ -334,11 +335,30 @@ func scale_layers():
 
 func _on_editor_scale_changed(prev_scale, scale):
 	var new_offset = _offset * (scale/prev_scale)
-	var diff = _prev_playhead_position.x - calculate_playhead_position().x
 	
 	scale_layers()
 	
-	set_layers_offset(max(new_offset - editor.scale_pixels(diff), 0))
+	# This code right here makes sure our zooming in happens centered around the mouse
+	var timeline_rect := layers.get_global_rect() as Rect2
+	var global_mouse_pos := get_global_mouse_position()
+	if timeline_rect.has_point(global_mouse_pos):
+		var new_mouse_time_msec := new_offset + editor.scale_pixels(global_mouse_pos.x - layers.global_position.x) as float
+		var mouse_offset := _prev_mouse_time - new_mouse_time_msec
+		set_layers_offset(max(new_offset + mouse_offset, 0))
+	else:
+		# Sometimes, the mouse might be out of the timeline rect, for example when zooming in using control+plus
+		# in this case, use the center time as a pivot
+		var old_start_time = _cull_start_time
+		var old_end_time = _cull_end_time
+		var start_time = new_offset
+		var end_time = new_offset + editor.scale_pixels(size.x - layer_names.size.x)
+		
+		var old_center: float = (old_end_time + old_start_time) / 2.0
+		var new_center: float = (end_time + start_time) / 2.0
+		
+		var diff = old_center - new_center
+		
+		set_layers_offset(max(new_offset + diff, 0))
 	
 	queue_redraw()
 	
@@ -348,7 +368,8 @@ func _input(event):
 			if Input.is_action_pressed("editor_pan"):
 				var new_offset = max(_offset - editor.scale_pixels(event.relative.x), 0)
 				set_layers_offset(new_offset)
-		
+		if layers.get_global_rect().has_point(get_global_mouse_position()):
+			_prev_mouse_time = _cull_start_time + editor.scale_pixels(get_global_mouse_position().x - layers.global_position.x)
 		if _area_selecting:
 			queue_redraw()
 	
