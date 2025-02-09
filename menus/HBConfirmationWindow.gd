@@ -54,6 +54,8 @@ func _on_cancel_pressed():
 
 func set_text(value):
 	text = value
+	if not is_node_ready():
+		await ready
 	%TextLabel.text = value
 	%TextLabel.visible = !text.is_empty()
 		
