@@ -154,7 +154,7 @@ func _gui_input(event):
 			if event.double_click and event.button_index == MOUSE_BUTTON_LEFT:
 				var new_note = HBNoteData.new()
 				new_note.note_type = HBNoteData.NOTE_TYPE[ln]
-				new_note.time = int(editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x)))
+				new_note.time = int(editor.snap_time_to_timeline(_cull_start_time + editor.scale_pixels(get_local_mouse_position().x)))
 				
 				var found_item_at_same_time = false # To prevent items being placed at the same time when creating a note with snap on
 				for i in get_timing_points():
