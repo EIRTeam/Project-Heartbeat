@@ -81,6 +81,7 @@ offset_top = 4.0
 offset_right = 1914.0
 offset_bottom = 1076.0
 text_input_description = "Please enter"
+text = "Enter the new line:"
 
 [node name="EditLinePopup" parent="CanvasLayer" instance=ExtResource("6_1o5bn")]
 unique_name_in_owner = true
@@ -91,5 +92,5 @@ offset_left = 6.0
 offset_top = 4.0
 offset_right = 1914.0
 offset_bottom = 1076.0
-text_input_description = "Please enter"
+text_input_description = ""
 text = ""
