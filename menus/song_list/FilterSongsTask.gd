@@ -57,9 +57,9 @@ func fill_compare_data(song: HBSong, filter_data: SongFilterData):
 		&"title":
 			filter_data.string_cmp = song.get_visible_title().to_lower()
 		&"artist":
-			filter_data.string_cmp = song.get_artist_sort_text()
+			filter_data.string_cmp = song.get_artist_sort_text().to_lower()
 		&"creator":
-			filter_data.string_cmp = song.creator
+			filter_data.string_cmp = song.creator.to_lower()
 		&"highest_score":
 			filter_data.float_cmp = song.get_max_score()
 		&"lowest_score":
