@@ -35,7 +35,7 @@ func _get_stage_status_text(stage: HBRichPresence.RichPresenceStage) -> String:
 			out = "At the main menu"
 		HBRichPresence.RichPresenceStage.STAGE_AT_SONG_LIST:
 			out = "At the song list"
-		HBRichPresence.RichPresenceStage.STAGE_AT_EDITOR, HBRichPresence.RichPresenceStage.STAGE_AT_EDITOR:
+		HBRichPresence.RichPresenceStage.STAGE_AT_EDITOR, HBRichPresence.RichPresenceStage.STAGE_AT_EDITOR_SONG:
 			out = "At the editor"
 		HBRichPresence.RichPresenceStage.STAGE_PLAYING:
 			out = "Playing a song"

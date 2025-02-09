@@ -42,7 +42,7 @@ func notify_at_editor():
 
 func notify_at_editor_song(song: HBSong, difficulty: String, start_time: int):
 	assert(song)
-	current_stage = RichPresenceStage.STAGE_AT_SONG_LIST
+	current_stage = RichPresenceStage.STAGE_AT_EDITOR_SONG
 	current_difficulty = difficulty
 	current_song = song
 	current_start_time = start_time
