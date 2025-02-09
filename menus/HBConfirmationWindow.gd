@@ -12,6 +12,12 @@ signal cancel
 @export var cancel_text: String  = "No": set = set_cancel_text
 @onready var cancel_button = get_node("%CancelButton")
 var tween: Tween
+enum AnimationName {
+	HIDE,
+	POPUP
+}
+
+var current_animation := AnimationName.HIDE
 
 func _ready():
 	hide()
@@ -30,7 +36,8 @@ func _input(event: InputEvent):
 	if visible:
 		if event.is_action_pressed("gui_cancel"):
 			if has_cancel:
-				_on_cancel_pressed()
+				if (not tween or not tween.is_running()) or current_animation != AnimationName.HIDE:
+					_on_cancel_pressed()
 			else:
 				_on_accept_pressed()
 			get_viewport().set_input_as_handled()
@@ -74,6 +81,7 @@ func play_popup_animation():
 	pivot_offset = size * 0.5
 	if tween:
 		tween.kill()
+	current_animation = AnimationName.POPUP
 	tween = create_tween()
 	tween.tween_property(self, "scale", Vector2.ONE, 0.25) \
 		.set_ease(Tween.EASE_OUT) \
@@ -86,6 +94,7 @@ func play_hide_animation():
 	pivot_offset = size * 0.5
 	if tween:
 		tween.kill()
+	current_animation = AnimationName.HIDE
 	tween = create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.25) \
 		.set_ease(Tween.EASE_IN) \
