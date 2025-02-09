@@ -585,11 +585,16 @@ func _process_game(_delta):
 		sfx_debounce_times[sound_name] -= _delta
 		if sfx_debounce_times[sound_name] <= 0.0:
 			sfx_debounce_times.erase(sound_name)
-func _pre_process_game():
-	var prev_time_usec := time_usec
+
+func get_latency_compensation_msec() -> int:
 	var latency_compensation = UserSettings.user_settings.lag_compensation
 	if current_song.id in UserSettings.user_settings.per_song_settings:
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
+	return latency_compensation
+			
+func _pre_process_game():
+	var prev_time_usec := time_usec
+	var latency_compensation = get_latency_compensation_msec()
 
 	if (not editing or previewing) and audio_playback:
 		time_usec = audio_playback.get_playback_position_nsec() / 1000
