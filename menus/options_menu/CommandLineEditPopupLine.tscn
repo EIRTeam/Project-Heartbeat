@@ -30,17 +30,17 @@ mouse_filter = 2
 unique_name_in_owner = true
 use_parent_material = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("2_mmai5")
 text = "(NT)Boolean Option"
-horizontal_alignment = 1
 vertical_alignment = 1
+text_overrun_behavior = 3
 
 [node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer"]
 unique_name_in_owner = true
 use_parent_material = true
 layout_mode = 2
-size_flags_horizontal = 3
 mouse_filter = 2
 alignment = 2
 script = ExtResource("5_4ii2l")
