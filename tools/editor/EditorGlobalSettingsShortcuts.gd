@@ -190,6 +190,8 @@ const EDITOR_ACTIONS := {
 		"editor_scroll_right",
 		"editor_move_playhead_left",
 		"editor_move_playhead_right",
+		"editor_move_playhead_left_bar",
+		"editor_move_playhead_right_bar",
 		"editor_zoom_in",
 		"editor_zoom_out",
 	],
@@ -387,7 +389,7 @@ func _on_bind_window_confirmed():
 			var action_text = get_action_text(conflict.action_name)
 			conflict_list.add_item(action_text)
 		
-		conflict_dialog.popup_centered()
+		conflict_dialog.popup_centered_ratio(0.6)
 		return
 	
 	var is_temp_event_valid: bool = temp_event.keycode != 0 if temp_event is InputEventKey else true

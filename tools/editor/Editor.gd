@@ -372,7 +372,7 @@ func get_items_at_time(time: int):
 var konami_sequence = [KEY_UP, KEY_UP, KEY_DOWN, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_LEFT, KEY_RIGHT, KEY_B, KEY_A]
 var konami_index = 0
 
-func _unhandled_input(event: InputEvent):
+func _input(event: InputEvent):
 	if shortcuts_blocked():
 		return
 	
@@ -413,13 +413,23 @@ func _unhandled_input(event: InputEvent):
 	if not game_playback.is_playing():
 		var old_pos = playhead_position
 		var _timing_map = get_timing_map()
+		var _signature_map = get_signature_map()
 		
 		if event.is_action_pressed("editor_move_playhead_left", true, true) and _timing_map:
 			var idx = max(_timing_map.bsearch(playhead_position) - 1, 0)
 			playhead_position = _timing_map[idx]
-		elif event.is_action_pressed("editor_move_playhead_right", true, true) and _timing_map:
+		
+		if event.is_action_pressed("editor_move_playhead_right", true, true) and _timing_map:
 			var idx = HBUtils.bsearch_upper(_timing_map, playhead_position)
 			playhead_position = _timing_map[idx]
+		
+		if event.is_action_pressed("editor_move_playhead_left_bar", true, true) and _timing_map:
+			var idx = max(_signature_map.bsearch(playhead_position) - 1, 0)
+			playhead_position = _signature_map[idx]
+		
+		if event.is_action_pressed("editor_move_playhead_right_bar", true, true) and _timing_map:
+			var idx = HBUtils.bsearch_upper(_signature_map, playhead_position)
+			playhead_position = _signature_map[idx]
 		
 		if old_pos != playhead_position:
 			emit_signal("playhead_position_changed")
@@ -428,7 +438,6 @@ func _unhandled_input(event: InputEvent):
 			
 			get_viewport().set_input_as_handled()
 	
-		
 	if event.is_action("editor_fine_position_left", true) or \
 		event.is_action("editor_fine_position_right", true) or \
 		event.is_action("editor_fine_position_up", true) or \
