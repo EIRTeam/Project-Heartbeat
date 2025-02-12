@@ -385,6 +385,9 @@ func _on_bind_window_confirmed():
 	if mapping_conflicts:
 		conflict_list.clear()
 		
+		# Add an empty item at the start to prevent writing over the title text
+		conflict_list.add_item(" ", null, false)
+		
 		for conflict in mapping_conflicts:
 			var action_text = get_action_text(conflict.action_name)
 			conflict_list.add_item(action_text)
