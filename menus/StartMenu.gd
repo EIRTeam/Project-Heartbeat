@@ -2,6 +2,8 @@ extends HBMenu
 
 const APRIL_FOOLS_LOGO = preload("res://graphics/logo_april.png")
 const VALENTINES_DAY_LOGO = preload("res://graphics/logo_valentines.png")
+@onready var birthday_hat: Control = %BirthdayHat
+@onready var random_quote: Control = %RandomQuote
 
 func _ready():
 	super._ready()
@@ -10,6 +12,8 @@ func _ready():
 		$PressStart/VBoxContainer/TextureRect3.texture = APRIL_FOOLS_LOGO
 	elif date_time.day == 14 and date_time.month == Time.MONTH_FEBRUARY:
 		$PressStart/VBoxContainer/TextureRect3.texture = VALENTINES_DAY_LOGO
+	birthday_hat.hide()
+	random_quote.birthday_triggered.connect(birthday_hat.show)
 	#elif date_time.day == 20 and date_time.month == Time.MONTH_MARCH:
 
 func _on_PressStart_start_pressed():
