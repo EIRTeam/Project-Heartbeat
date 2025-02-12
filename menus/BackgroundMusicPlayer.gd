@@ -22,6 +22,8 @@ class SongPlayer:
 	signal stream_time_changed(time)
 	
 	var target_volume := 0.0
+	var volume_offset := 0.0
+	
 	var has_audio_normalization_data = false
 	var song_idx = 0
 	
@@ -29,6 +31,19 @@ class SongPlayer:
 	var audio_remap: ShinobuChannelRemapEffect
 	
 	var has_assets := false
+	
+	func _get_song_user_volume(song: HBSong, variant := -1, loudness_offset := 0.0) -> float:
+		var volume_offset := loudness_offset
+		var base_volume := song.get_volume_db()
+		var out_volume := 0.0
+		if song.id in UserSettings.user_settings.per_song_settings:
+			var user_song_settings = UserSettings.user_settings.per_song_settings[song.id] as HBPerSongSettings
+			if variant != -1:
+				volume_offset = song.get_variant_data(variant).get_volume()
+			out_volume = db_to_linear(base_volume + volume_offset) * user_song_settings.volume
+		else:
+			out_volume = db_to_linear(base_volume + volume_offset)
+		return out_volume
 	
 	func load_song_assets():
 		if not song.has_audio() or not song.is_cached():
@@ -51,14 +66,7 @@ class SongPlayer:
 	func _init(_song: HBSong, _song_idx: int):
 		song = _song
 		song_idx = _song_idx
-		if song.has_audio_loudness or SongDataCache.is_song_audio_loudness_cached(song):
-			var song_loudness = 0.0
-			has_audio_normalization_data = true
-			if SongDataCache.is_song_audio_loudness_cached(song):
-				song_loudness = SongDataCache.audio_normalization_cache[song.id].loudness
-			else:
-				song_loudness = song.audio_loudness
-			target_volume = HBAudioNormalizer.get_offset_from_loudness(song_loudness)
+
 	func _ready():
 		set_process(false)
 		
@@ -93,8 +101,19 @@ class SongPlayer:
 		var voice: SongAssetLoader.SongAudioData = token.get_asset(SongAssetLoader.ASSET_TYPES.VOICE)
 		var audio_loudness: SongAssetLoader.AudioNormalizationInfo = token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
 		if audio and audio.shinobu:
-			if audio_loudness:
-				target_volume = HBAudioNormalizer.get_offset_from_loudness(audio_loudness.loudness)
+			if song.has_audio_loudness or SongDataCache.is_song_audio_loudness_cached(song):
+				var song_loudness = 0.0
+				has_audio_normalization_data = true
+				if SongDataCache.is_song_audio_loudness_cached(song):
+					song_loudness = SongDataCache.audio_normalization_cache[song.id].loudness
+				else:
+					song_loudness = song.audio_loudness
+				volume_offset = HBAudioNormalizer.get_offset_from_loudness(song_loudness)
+			elif audio_loudness:
+				volume_offset = HBAudioNormalizer.get_offset_from_loudness(audio_loudness.loudness)
+			
+			target_volume = _get_song_user_volume(song, -1, volume_offset)
+
 			var song_audio_name = get_song_audio_name()
 			var sound_source := audio.shinobu
 			audio_playback = sound_source.instantiate(HBGame.menu_music_group, song.uses_dsc_style_channels())
@@ -136,22 +155,32 @@ class SongPlayer:
 			# WARNING: DO NOT SET THE VOLUME FOR THE BACKGORUND MUSIC PLAYER's AUDIO PLAYBACK NODES
 			# OR YOU WILL BE KILLED, AUDIO FADING IS INDEPENDENT FROM VOLUME SO IF YOU DO THAT IT WILL GET
 			# EXPONENTIALLY BOOSTED, KEEP IT AT 1.0 PLEASE
-			audio_playback.fade(500, 0.0, db_to_linear(target_volume))
+			audio_playback.fade(500, 0.0, target_volume)
 			audio_playback.start()
 		if voice_audio_playback:
-			voice_audio_playback.fade(500, 0.0, db_to_linear(target_volume))
+			voice_audio_playback.fade(500, 0.0, target_volume)
 			voice_audio_playback.start()
 		
 		emit_signal("song_assets_loaded")
 		
 		set_process(true)
 
+	func notify_song_volume_settings_changed():
+		# We are fading out already, do nothing..
+		if not is_processing():
+			return
+		target_volume = _get_song_user_volume(song, -1, volume_offset)
+		if voice_audio_playback:
+			voice_audio_playback.fade(200, -1.0, target_volume)
+		if audio_playback:
+			audio_playback.fade(200, -1.0, target_volume)
+
 	func fade_out():
 		set_process(false) # nothing else should fire while fading out...
 		if audio_playback:
-			audio_playback.fade(500, db_to_linear(target_volume), 0.0)
+			audio_playback.fade(500, target_volume, 0.0)
 			if voice_audio_playback:
-				voice_audio_playback.fade(500, db_to_linear(target_volume), 0.0)
+				voice_audio_playback.fade(500, target_volume, 0.0)
 		
 		var timer := get_tree().create_timer(0.5, false)
 		timer.timeout.connect(self.queue_free)
@@ -193,6 +222,11 @@ func _on_song_ended():
 func _on_song_assets_loaded():
 	emit_signal("song_started")
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.is_pressed() and not event.is_echo():
+		if event.keycode == KEY_F9:
+			play_random_song()
+
 func play_random_song():
 	if SongLoader.songs.size() == 0:
 		return
@@ -217,6 +251,10 @@ func pause():
 	current_song_player.pause()
 func resume():
 	current_song_player.resume()
+
+func notify_song_volume_settings_changed(song: HBSong):
+	if current_song_player.song == song:
+		current_song_player.notify_song_volume_settings_changed()
 
 func get_current_song_length() -> float:
 	if current_song_player.audio_playback:

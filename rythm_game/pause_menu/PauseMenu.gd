@@ -5,6 +5,7 @@ var current_song: HBSong
 signal resumed
 signal restarted
 signal quit
+signal volume_settings_changed
 
 @onready var song_settings_editor = get_node("PerSongSettingsEditor")
 @onready var list_container = get_node("SubViewportContainer/SubViewport/Node3D/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer")
@@ -15,6 +16,7 @@ func _ready():
 	_on_viewport_size_changed()
 	hide()
 	song_settings_editor.connect("back", Callable(list_container, "grab_focus"))
+	song_settings_editor.connect("volume_settings_changed", volume_settings_changed.emit)
 	
 func _on_resumed():
 	$SubViewportContainer/SubViewport/Node3D/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.hide()

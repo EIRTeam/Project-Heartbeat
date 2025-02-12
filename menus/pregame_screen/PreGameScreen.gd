@@ -7,7 +7,7 @@ var modifier_scroll_container
 var button_panel
 @onready var modifier_selector = get_node("ModifierLoader")
 @onready var modifier_settings_editor = get_node("ModifierSettingsOptionSection")
-@onready var per_song_settings_editor = get_node("PerSongSettingsEditor")
+@onready var per_song_settings_editor: HBPerSongSettingsEditor = get_node("PerSongSettingsEditor")
 var leaderboard_legal_text
 @onready var ppd_video_url_change_confirmation_prompt = get_node("VideoURLChangePopup")
 @onready var tabbed_container = get_node("MarginContainer/VBoxContainer/TabbedContainer")
@@ -31,9 +31,14 @@ var leaderboard_tab_modifiers = LEADERBOARD_TAB.instantiate()
 
 @onready var delete_song_media_popup := get_node("%DeleteSongMediaPopup")
 
+signal volume_settings_changed(song: HBSong)
+
+func _on_volume_settings_changed():
+	volume_settings_changed.emit(current_song)
+
 func _ready():
 	super._ready()
-	
+	per_song_settings_editor.volume_settings_changed.connect(_on_volume_settings_changed)
 	# Hacky af...
 	var pregame_start_tab = preload("res://menus/pregame_screen/PregameStartTab.tscn").instantiate()
 	

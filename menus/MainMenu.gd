@@ -154,6 +154,7 @@ func _ready():
 	#MENUS["results_mp"].left.connect("show_song_results_mp", Callable(MENUS["mp_leaderboard"].right.get_leadearboard_control(), "set_entries"))
 	
 	#MENUS["pre_game"].left.connect("song_selected", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
+	MENUS["pre_game"].left.volume_settings_changed.connect(player.notify_song_volume_settings_changed)
 	MENUS["pre_game"].left.connect("begin_loading", Callable(self, "_on_loading_begun"))
 	player.connect("song_started", Callable(self, "_on_song_started"))
 	player.connect("stream_time_changed", Callable(self, "_on_song_time_changed"))

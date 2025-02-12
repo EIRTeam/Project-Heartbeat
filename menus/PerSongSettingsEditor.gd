@@ -1,7 +1,10 @@
 extends Control
 
+class_name HBPerSongSettingsEditor
+
 var current_song: HBSong: set = set_current_song
 signal back
+signal volume_settings_changed
 
 @onready var editor = get_node("PerSongSettingsOptionSection")
 
@@ -38,6 +41,11 @@ var section_data = {
 		"name": tr("Use the song's recommended skin"),
 		"description": tr("When enabled, makes the game use the skin chosen by the song's creator for this particular song, will download it if it is not installed already."),
 		"default_value": true
+	},
+	"vocals_enabled": {
+		"name": tr("Enable vocals"),
+		"description": tr("If disabled, disables the vocal track completely, to play songs in instrumental mode!"),
+		"default_value": true
 	}
 }
 
@@ -48,6 +56,9 @@ func set_current_song(val):
 		UserSettings.user_settings.per_song_settings[current_song.id] = song_settings
 	editor.settings_source = UserSettings.user_settings.per_song_settings[current_song.id]
 	var sec_data_dupl = section_data.duplicate(true)
+	if not current_song.voice and not current_song is SongLoaderDSC.HBSongDSC:
+		sec_data_dupl.erase("vocals_enabled")
+		
 	if ingame:
 		sec_data_dupl.erase("video_enabled")
 		sec_data_dupl.erase("use_song_skin")
@@ -77,6 +88,8 @@ func hide_editor():
 func _on_per_song_setting_changed(property_name, new_value):
 	UserSettings.user_settings.per_song_settings[current_song.id].set(property_name, new_value)
 	UserSettings.save_user_settings()
+	if property_name == "volume" or property_name == "vocals_enabled":
+		volume_settings_changed.emit()
 
 func toggle_input():
 	editor.toggle_input()

@@ -64,7 +64,7 @@ var _intro_skip_enabled = false
 # Prevents the song from finishing once
 var _prevent_finishing = false
 var _finished = false
-var _song_volume = 0.0
+var _calculated_volume_linear := 0.0
 
 var disable_ending = false
 
@@ -158,6 +158,47 @@ func set_chart(chart: HBChart):
 func get_chart_from_song(song: HBSong, difficulty) -> HBChart:
 	return song.get_chart_for_difficulty(difficulty)
 
+func _get_song_volume_offset_db(song: HBSong, override_loudness := false, loudness_offset_override := 0.0) -> float:
+	var volume_offset := 0.0
+	if override_loudness:
+		volume_offset = loudness_offset_override
+	else:
+		var loudness := 0.0
+		if SongDataCache.is_song_audio_loudness_cached(song):
+			loudness = SongDataCache.audio_normalization_cache[song.id].loudness
+		elif song.has_audio_loudness:
+			loudness = song.audio_loudness
+		volume_offset = HBAudioNormalizer.get_offset_from_loudness(loudness)
+	return volume_offset
+
+func _get_song_user_volume(song: HBSong, variant := -1, override_loudness := false, loudness_offset_override := 0.0) -> float:
+	var volume_offset := _get_song_volume_offset_db(song, override_loudness, loudness_offset_override)
+	var base_volume := song.get_volume_db()
+	var out_volume := 0.0
+	if song.id in UserSettings.user_settings.per_song_settings:
+		var user_song_settings = UserSettings.user_settings.per_song_settings[song.id] as HBPerSongSettings
+		if variant != -1:
+			volume_offset = song.get_variant_data(variant).get_volume()
+		out_volume = db_to_linear(base_volume + volume_offset) * user_song_settings.volume
+	else:
+		out_volume = db_to_linear(base_volume + volume_offset)
+	return out_volume
+
+func notify_song_volume_settings_changed():
+	_calculated_volume_linear = _get_song_user_volume(current_song, current_variant, true, _volume_offset)
+	if audio_playback:
+		audio_playback.volume = _calculated_volume_linear
+	if voice_audio_playback:
+		if voice_audio_playback.volume != 0.0 or current_combo > 0 or result.total_notes == 0:
+			voice_audio_playback.volume = _get_song_vocals_volume_linear()
+
+func _get_song_vocals_volume_linear() -> float:
+	if current_song.id in UserSettings.user_settings.per_song_settings:
+		var user_song_settings = UserSettings.user_settings.per_song_settings[current_song.id] as HBPerSongSettings
+		if not user_song_settings.vocals_enabled:
+			return 0.0
+	return _calculated_volume_linear
+
 func set_song_assets(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken = null):
 	current_song = song
 	_volume_offset = 0.0
@@ -171,14 +212,14 @@ func set_song_assets(song: HBSong, difficulty: String, assets: SongAssetLoader.A
 		current_assets = assets
 		var loudness := assets.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS) as SongAssetLoader.AudioNormalizationInfo
 		if loudness:
-			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(loudness.loudness)
+			var loudness_offset := HBAudioNormalizer.get_offset_from_loudness(loudness.loudness)
+			_calculated_volume_linear = _get_song_user_volume(current_song, current_variant, true, loudness_offset)
+			_volume_offset = _get_song_volume_offset_db(current_song, true, loudness_offset)
+			HBGame.spectrum_snapshot.set_volume(_volume_offset)
 		else:
-			var song_loudness := 0.0
-			if SongDataCache.is_song_audio_loudness_cached(song):
-				song_loudness = SongDataCache.audio_normalization_cache[song.id].loudness
-			elif song.has_audio_loudness:
-				song_loudness = song.audio_loudness
-			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(song_loudness)
+			_calculated_volume_linear = _get_song_user_volume(current_song, current_variant)
+			_volume_offset = _get_song_volume_offset_db(current_song)
+			HBGame.spectrum_snapshot.set_volume(_volume_offset)
 		var audio_data := assets.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO) as SongAssetLoader.SongAudioData
 		var sound_source := audio_data.shinobu
 		audio_playback = ShinobuGodotSoundPlaybackOffset.new(sound_source.instantiate(HBGame.music_group, song.uses_dsc_style_channels()))
@@ -215,18 +256,10 @@ func set_song_assets(song: HBSong, difficulty: String, assets: SongAssetLoader.A
 			voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_sound_source.instantiate(HBGame.music_group))
 			add_child(voice_audio_playback)
 	if voice_audio_playback:
-		voice_audio_playback.volume = audio_playback.volume
+		voice_audio_playback.volume = _get_song_vocals_volume_linear()
 		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
 	audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
-	if current_variant != -1:
-		_volume_offset = song.get_variant_data(current_variant).get_volume()
-	
-	if current_song.id in UserSettings.user_settings.per_song_settings:
-		var user_song_settings = UserSettings.user_settings.per_song_settings[current_song.id] as HBPerSongSettings
-		_song_volume = song.get_volume_db() * user_song_settings.volume
-	else:
-		_song_volume = song.get_volume_db()
-	audio_playback.volume = db_to_linear(_song_volume + _volume_offset)
+	audio_playback.volume = _calculated_volume_linear
 	# If I understand correctly, diva songs that use two channels have half the volume because they are played twice
 	if song is SongLoaderDSC.HBSongMMPLUS and audio_playback.get_channel_count() <= 2:
 		audio_playback.volume *= 2
@@ -270,8 +303,6 @@ func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoa
 		timing_changes = [placeholder_timing_change]
 	
 	set_chart(chart)
-	
-	HBGame.spectrum_snapshot.set_volume(_volume_offset)
 	
 	if note_groups.size() > 0:
 		earliest_note_time = note_groups[0].get_hit_time_msec()
@@ -645,7 +676,7 @@ func restart():
 	result.max_score = max_score
 	
 	if voice_audio_playback:
-		voice_audio_playback.volume = db_to_linear(_song_volume + _volume_offset)
+		voice_audio_playback.volume = _get_song_vocals_volume_linear()
 		voice_audio_playback.stop()
 	set_current_combo(0)
 	audio_playback.stop()
@@ -749,7 +780,6 @@ func _play_empty_note_sound(event: InputEventHB):
 			if not event.action in ["heart_note", "slide_left", "slide_right"]:
 				sfx_pool.play_sfx("note_hit")
 				handled_event_uids_this_frame.append(event.event_uid)
-
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score
 # todo: generalize this
@@ -770,7 +800,7 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 	else:
 		set_current_combo(current_combo+1)
 		if voice_audio_playback:
-			voice_audio_playback.volume = db_to_linear(_song_volume + _volume_offset)
+			voice_audio_playback.volume = _get_song_vocals_volume_linear()
 		result.notes_hit += 1
 	if not wrong:
 		result.note_ratings[final_judgement] += 1

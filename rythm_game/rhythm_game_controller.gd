@@ -67,6 +67,7 @@ func _ready():
 	game_over_tween.process_mode = Node.PROCESS_MODE_ALWAYS
 	$Label.visible = false
 	game.health_system_enabled = UserSettings.user_settings.enable_health
+	$PauseMenu.volume_settings_changed.connect(game.notify_song_volume_settings_changed)
 func _on_intro_skipped(new_time):
 	video_player.set_stream_position(new_time)
 

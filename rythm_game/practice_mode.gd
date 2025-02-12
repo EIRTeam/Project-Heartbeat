@@ -2,7 +2,7 @@ extends "res://rythm_game/rhythm_game_controller.gd"
 
 @onready var ingame_stats_label = get_node("PracticeModeUIIngame/HBoxContainer/Label")
 @onready var quit_confirmation = get_node("QuitConfirmation")
-@onready var song_settings_editor = get_node("SettingsGUI/VBoxContainer/MarginContainer/PerSongSettingsEditor")
+@onready var song_settings_editor: HBPerSongSettingsEditor = get_node("SettingsGUI/VBoxContainer/MarginContainer/PerSongSettingsEditor")
 
 @onready var practice_seek_gui = get_node("SeekGUI")
 @onready var practice_section_seek_gui = get_node("SectionSeekGUI")
@@ -76,6 +76,7 @@ func _ready():
 	video_debounce_seek_timer.process_callback = Timer.TIMER_PROCESS_IDLE
 	video_debounce_seek_timer.one_shot = true
 	video_debounce_seek_timer.timeout.connect(self._on_seek_video_debounce_ended)
+	song_settings_editor.volume_settings_changed.connect(game.notify_song_volume_settings_changed)
 
 func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets=null):
 	super.set_song(song, difficulty, modifiers, true, assets)
