@@ -137,7 +137,6 @@ func _on_reset():
 	get_tree().call_group(LATENCY_DISPLAY_GROUP, "reset")
 	get_tree().call_group(HOLD_INDICATOR_GROUP, "disappear")
 	get_tree().call_group(SCORE_COUNTER_GROUP, "reset")
-	_show_intro_skip(game.current_song)
 	
 	rating_label.hide()
 	
@@ -147,7 +146,10 @@ func reset_score_counter():
 func _on_chart_set(chart: HBChart):
 	get_tree().set_group(CLEAR_BAR_GROUP, "max_value", chart.get_max_score())
 	_update_clear_bar_value()
-	
+
+func try_show_intro_skip(song: HBSong):
+	_show_intro_skip(song)
+
 func _show_intro_skip(song: HBSong):
 	if song.allows_intro_skip and not game.disable_intro_skip:
 		if game.earliest_note_time / 1000.0 > song.intro_skip_min_time:
@@ -175,7 +177,6 @@ func _on_song_set(song: HBSong, difficulty: String, assets: SongAssetLoader.Asse
 		modifiers_string.append(modifier_instance.get_modifier_list_name())
 	get_tree().call_group(DIFFICULTY_LABEL_GROUP, "set_modifiers_name_list", modifiers_string)
 	get_tree().call_group(SKIP_INTRO_INDICATOR_GROUP, "hide")
-	_show_intro_skip(song)
 	lyrics_view.set_phrases(song.lyrics)
 
 func _on_intro_skipped(time):

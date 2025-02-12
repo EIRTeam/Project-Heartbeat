@@ -72,6 +72,7 @@ func _on_intro_skipped(new_time):
 
 func _fade_in_done():
 	video_player.paused = false
+	game_ui.try_show_intro_skip(game.current_song)
 	game.game_input_manager.set_process_input(true)
 	video_player.show()
 	$FadeIn.hide()
@@ -101,7 +102,7 @@ func start_fade_in():
 	game.schedule_play_start(start_offset + FADE_OUT_TIME * 1000)
 	game.start()
 	game.time_msec = song.start_time - FADE_OUT_TIME * 1000
-	video_player.set_stream_position(song.start_time / 1000.0)
+	video_player.set_stream_position((song.start_time - game.get_latency_compensation_msec()) / 1000.0)
 	video_player.show()
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Threen.TRANS_LINEAR, Threen.EASE_IN_OUT)
 	fade_in_tween.start()
@@ -370,7 +371,10 @@ func get_target_rollback_time_msec() -> int:
 	return last_pause_time - ROLLBACK_TIME + latency_compensation
 	
 func _process(delta):
-#	$Label.visible = Diagnostics.fps_label.visible
+	$Label.visible = Diagnostics.fps_label.visible
+	$Label.text = "%.2f\n" % [video_player.stream_position]
+	$Label.text += "%.2f\n" % [game.audio_playback.get_playback_position_msec() / 1000.0]
+	$Label.text += "DIFF: %.2f" % [(game.audio_playback.get_playback_position_msec() / 1000.0) - video_player.stream_position]
 #	$Label.text = "pos: %d\n" % [game.time_msec]
 #	$Label.text = "pos %d \n audiopos %d \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [game.audio_playback.get_playback_position_msec(), game.audio_playback.get_playback_position_msec(), game.time - video_player.stream_position, game.last_hit_index, game.audio_playback.volume]
 #	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
@@ -414,7 +418,7 @@ func _on_PauseMenu_restarted():
 	last_pause_time = 0
 	rollback_on_resume = false
 	game.restart()
-	video_player.set_stream_position(current_game_info.get_song().start_time / 1000.0)
+	video_player.set_stream_position((current_game_info.get_song().start_time - game.get_latency_compensation_msec()) / 1000.0)
 	#set_song(song, current_game_info.difficulty, modifiers)
 	set_process(true)
 	game.set_process(true)
