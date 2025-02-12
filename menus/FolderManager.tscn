@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://c4tvo47nahi4h"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="2"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="3"]
-[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="4"]
+[ext_resource type="Script" uid="uid://2e75yiqlqvm7" path="res://menus/UniversalScrollList.gd" id="4"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="5"]
-[ext_resource type="Script" path="res://menus/FolderManager.gd" id="6"]
+[ext_resource type="Script" uid="uid://kerdrwuytlka" path="res://menus/FolderManager.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="9"]
 
@@ -26,11 +26,9 @@ corner_detail = 20
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[node name="Panel" type="PanelContainer"]
-offset_left = 586.0
-offset_top = 275.0
-offset_right = 1334.0
-offset_bottom = 804.0
+[node name="Panel2" type="PanelContainer"]
+offset_right = 750.0
+offset_bottom = 529.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2
@@ -91,6 +89,17 @@ text = "Open"
 action_text = "Open"
 action_name = &"gui_right"
 
+[node name="ManageInputGlyph" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(146, 53)
+layout_mode = 2
+action_name = "gui_sort_by"
+text = "Manage"
+
+[node name="InputGlyphRect" parent="MarginContainer/VBoxContainer/HBoxContainer/ManageInputGlyph/HBoxContainer" index="0"]
+action_text = "Manage"
+action_name = &"gui_sort_by"
+
 [node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3")]
 custom_minimum_size = Vector2(170, 53)
 layout_mode = 2
@@ -112,24 +121,27 @@ action_text = "Back"
 action_name = &"gui_cancel"
 
 [node name="DeleteConfirmationWindow" parent="." instance=ExtResource("8")]
+visible = false
 layout_mode = 2
 text = "Do you want to delete this folder?"
 
-[node name="Panel" type="Panel" parent="."]
-visible = false
+[node name="FolderOptionsContainer" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Panel" type="PanelContainer" parent="FolderOptionsContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="MarginContainer" type="MarginContainer" parent="FolderOptionsContainer/Panel"]
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+[node name="FolderOptions" type="VBoxContainer" parent="FolderOptionsContainer/Panel/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2
 theme_override_constants/separation = 10
@@ -146,5 +158,6 @@ layout_mode = 2
 
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel4"]
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel5"]
+[editable path="MarginContainer/VBoxContainer/HBoxContainer/ManageInputGlyph"]
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel8"]
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel7"]

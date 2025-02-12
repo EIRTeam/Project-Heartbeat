@@ -1,12 +1,14 @@
 extends PanelContainer
 
 @onready var scroll_list_container = get_node("MarginContainer/VBoxContainer/HBScrollList/VBoxContainer")
-@onready var scroll_list = get_node("MarginContainer/VBoxContainer/HBScrollList")
+@onready var scroll_list: HBUniversalScrollList = get_node("MarginContainer/VBoxContainer/HBScrollList")
 @onready var delete_confirmation_window = get_node("DeleteConfirmationWindow")
-@onready var folder_option_window = get_node("Panel")
-@onready var folder_options = get_node("Panel/MarginContainer/VBoxContainer")
+@onready var folder_option_window: Control = get_node("%FolderOptionsContainer")
+@onready var folder_options = get_node("%FolderOptions")
 @onready var text_input_window_create = get_node("TextInputCreate")
 @onready var text_input_window_rename = get_node("TextInputRename")
+@onready var manage_input_glyph: Control = get_node("%ManageInputGlyph")
+
 const FolderButton = preload("res://menus/FolderManagerFolderButton.tscn")
 
 enum MODE {
@@ -106,6 +108,7 @@ func show_folders_for(folder: HBFolder, depth = 0):
 	for subfolder in folder.subfolders:
 		add_folder_item(subfolder, depth)
 func show_manager(mode_val: int):
+	folder_option_window.hide()
 	mode = mode_val
 	for child in scroll_list_container.get_children():
 		scroll_list_container.remove_child(child)
@@ -114,14 +117,8 @@ func show_manager(mode_val: int):
 	show_folders_for(UserSettings.user_settings.root_folder, 0)
 	scroll_list.grab_focus()
 	show()
-func _on_folder_selected(folder_button):
-	if mode == MODE.SELECT:
-		var folder = scroll_list.get_selected_item().folder as HBFolder
-		if folder != UserSettings.user_settings.root_folder:
-			emit_signal("folder_selected", folder)
-			hide()
-		return
-	
+
+func _show_folder_options(folder_button):
 	if folder_button.folder == UserSettings.user_settings.root_folder:
 		for button in no_root_buttons:
 			button.hide()
@@ -133,6 +130,15 @@ func _on_folder_selected(folder_button):
 	folder_option_window.show()
 	folder_options.grab_focus()
 	
+func _on_folder_selected(folder_button):
+	manage_input_glyph.visible = mode == MODE.SELECT
+	if mode == MODE.SELECT:
+		var folder = scroll_list.get_selected_item().folder as HBFolder
+		if folder != UserSettings.user_settings.root_folder:
+			emit_signal("folder_selected", folder)
+			hide()
+		return
+	_show_folder_options(folder_button)
 func delete_selected_folder():
 	delete_confirmation_window.hide()
 	var parent = UserSettings.user_settings.root_folder as HBFolder
@@ -200,6 +206,11 @@ func _unhandled_input(event):
 			get_viewport().set_input_as_handled()
 			emit_signal("closed")
 			hide()
+		if event.is_action_pressed("gui_sort_by"):
+			var folder_button := scroll_list.get_selected_item() as FolderManagerFolderButton
+			if folder_button:
+				get_viewport().set_input_as_handled()
+				_show_folder_options(folder_button)
 	if folder_options.has_focus():
 		if event.is_action_pressed("gui_cancel") and folder_option_window.visible:
 			get_viewport().set_input_as_handled()
