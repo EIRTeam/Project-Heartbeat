@@ -19,8 +19,6 @@ var autoarrange_shortcuts = [
 	"editor_arrange_ur",
 ]
 
-var size_testing_circle_transform := HBEditorTransforms.MakeCircleTransform.new(1)
-
 func _ready():
 	super._ready()
 	transforms = [
@@ -40,6 +38,8 @@ func _ready():
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_LEFT),
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_RIGHT),
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_ABSOLUTE),
+		HBEditorTransforms.MakeCircleTransform.new(1), 					# Last used circle transform
+		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_CENTER), # Last used rotation transform
 	]
 	
 	for i in range(autoarrange_shortcuts.size()):
@@ -148,7 +148,7 @@ func user_settings_changed():
 	transforms[1].separation = UserSettings.user_settings.editor_circle_separation
 	transforms[2].separation = UserSettings.user_settings.editor_circle_separation
 	transforms[3].separation = UserSettings.user_settings.editor_circle_separation
-	size_testing_circle_transform.separation = UserSettings.user_settings.editor_circle_separation
+	transforms[16].separation = UserSettings.user_settings.editor_circle_separation
 
 func update_shortcuts():
 	super.update_shortcuts()
@@ -443,6 +443,16 @@ func commit_arrange():
 	
 	original_notes.clear()
 
+func apply_transform(id: int):
+	super.apply_transform(id)
+	
+	 # Set last used circle transform
+	if id in [0, 1, 2, 3]:
+		transforms[16] = transforms[id]
+	
+	# Set last used rotation transform
+	if id in [12, 13, 14, 15]:
+		transforms[17] = transforms[id]
 
 func _set_circle_size(value: int):
 	UserSettings.user_settings.editor_circle_size = value
@@ -461,8 +471,8 @@ func _toggle_dragging_size_slider(catchall = null):
 
 func preview_size(value: int):
 	if dragging_size_slider:
-		transforms[0].set_epr(value)
-		show_transform(0)
+		transforms[16].set_epr(value)
+		show_transform(16)
 
 
 func _set_rotation_angle(new_value: float):
@@ -476,4 +486,6 @@ func _toggle_dragging_angle_slider(catchall = null):
 
 func preview_angle(value: float):
 	if dragging_angle_slider:
-		show_transform(8)
+		transforms[17].rotation = -value
+		
+		show_transform(17)
