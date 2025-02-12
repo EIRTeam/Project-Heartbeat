@@ -27,7 +27,7 @@ func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
 	return (a.data.time) < (b.data.time)
 
 func place_child(child: EditorTimelineItem):
-	child.position = Vector2(_get_timeline_x_clamped(child.data.time), 0)
+	child.position = Vector2(_get_timeline_x(child.data.time), 0)
 	child.size = child.get_editor_size()
 	child.sync_value("end_time")
 
@@ -41,7 +41,7 @@ func _get_timeline_x_clamped(time: float) -> float:
 	return clamp(0, _get_timeline_x(time), size.x)
 
 func place_preview(start: float, duration: float):
-	preview.position = Vector2(_get_timeline_x_clamped(start), 0)
+	preview.position = Vector2(_get_timeline_x(start), 0)
 	preview.set_deferred("size", Vector2(editor.scale_msec(duration), preview.size.y))
 	
 func add_item(item: EditorTimelineItem):
@@ -109,7 +109,6 @@ func _on_time_cull_changed(start_time, end_time):
 		if point is EditorTimelineItemSustainNote:
 			if point.data.end_time > orig_cull_start_time and point.data.time < orig_cull_start_time:
 				_cull_start_note_i = i
-				_cull_start_time = point.data.time
 	
 	# From the earlierst note forward
 	for i in range(_cull_start_note_i, late_note_i):
