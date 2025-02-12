@@ -32,7 +32,7 @@ func _ready():
 	edit_button.pressed.connect(pressed.emit)
 	
 func _on_pressed():
-	command_line_popup.lines = value
+	command_line_popup.lines = value.duplicate()
 	command_line_popup.popup()
 
 func hover():
