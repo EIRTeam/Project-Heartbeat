@@ -136,12 +136,12 @@ func _on_reset():
 	get_tree().set_group(CLEAR_BAR_GROUP, "potential_score", 0.0)
 	get_tree().call_group(LATENCY_DISPLAY_GROUP, "reset")
 	get_tree().call_group(HOLD_INDICATOR_GROUP, "disappear")
-	get_tree().call_group(SCORE_COUNTER_GROUP, "reset")
 	
 	rating_label.hide()
 	
 func reset_score_counter():
 	get_tree().set_group(SCORE_COUNTER_GROUP, "score", 0.0)
+	get_tree().call_group(SCORE_COUNTER_GROUP, "reset")
 	
 func _on_chart_set(chart: HBChart):
 	get_tree().set_group(CLEAR_BAR_GROUP, "max_value", chart.get_max_score())
