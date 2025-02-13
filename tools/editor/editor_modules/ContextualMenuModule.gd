@@ -690,6 +690,9 @@ func toggle_hold():
 	
 	for item in selected:
 		if item.data is HBNoteData:
+			if item.data.note_type in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]:
+				continue
+			
 			undo_redo.add_do_property(item.data, "hold", not item.data.hold)
 			undo_redo.add_undo_property(item.data, "hold", item.data.hold)
 		else:
