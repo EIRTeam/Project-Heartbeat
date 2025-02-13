@@ -310,11 +310,15 @@ func update_selected():
 	for selected in get_selected():
 		if not selected.data is HBBaseNote:
 			continue
+		
 		var can_be_turned_into_rush: bool = (selected.data.note_type >= HBBaseNote.NOTE_TYPE.UP \
 			and selected.data.note_type <= HBBaseNote.NOTE_TYPE.RIGHT) \
 			or selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART
+		
 		contextual_menu.set_contextual_item_disabled("toggle_rush", !can_be_turned_into_rush)
-		if selected.data is HBNoteData and (selected.data.is_slide_note() or selected.data.is_slide_hold_piece()):
+		
+		if selected.data is HBNoteData and (selected.data.is_slide_note() or selected.data.is_slide_hold_piece()) or \
+		  (selected.data.note_type in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]):
 			contextual_menu.set_contextual_item_disabled("make_normal", true)
 			contextual_menu.set_contextual_item_disabled("toggle_double", true)
 			contextual_menu.set_contextual_item_disabled("toggle_sustain", true)
@@ -324,6 +328,9 @@ func update_selected():
 			if slide_count == 2:
 				contextual_menu.set_contextual_item_disabled("make_slide", false)
 				break
+		
+		if selected.data.note_type == HBNoteData.NOTE_TYPE.HEART:
+			contextual_menu.set_contextual_item_disabled("toggle_hold", true)
 	
 	if get_selected().size() == 1:
 		if get_selected()[0].data is HBBPMChange or get_selected()[0].data is HBTimingChange:
@@ -427,7 +434,8 @@ func toggle_sustain():
 	
 	for item in selected:
 		if item.data is HBBaseNote and not item.data is HBSustainNote and \
-		   not (item.data is HBNoteData and (item.data.is_slide_note() or item.data.is_slide_hold_piece())):
+		   not (item.data is HBNoteData and (item.data.is_slide_note() or item.data.is_slide_hold_piece())) and \
+		   not (item.data.note_type in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]):
 			var found = false
 			for open_sustain in open_sustains:
 				if item.data.note_type == open_sustain.data.note_type:
@@ -613,6 +621,10 @@ func toggle_double():
 	for item in selected:
 		if item.data is HBNoteData and (item.data.is_slide_note() or item.data.is_slide_hold_piece()):
 			continue
+		
+		if item.data.note_type in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]:
+			continue
+		
 		notes_to_process.append(item)
 	
 	if notes_to_process.size() == 0:
@@ -657,6 +669,9 @@ func toggle_rush():
 	undo_redo.create_action("Toggle rush")
 	
 	for item in selected:
+		if item.data.note_type in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]:
+			continue
+		
 		var new_type := "RushNote"
 		var end_time: int = item.data.time + 3000
 		
@@ -668,6 +683,7 @@ func toggle_rush():
 		var new_data_ser = item.data.serialize()
 		new_data_ser["end_time"] = end_time
 		new_data_ser["type"] = new_type
+		new_data_ser["hold"] = false
 		
 		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 		var new_item = new_data.get_timeline_item()
@@ -704,6 +720,9 @@ func toggle_hold():
 			undo_redo.add_do_property(item.data, "hold", not item.data.hold)
 			undo_redo.add_undo_property(item.data, "hold", item.data.hold)
 		else:
+			if item.data.note_type in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]:
+				continue
+			
 			var new_data_ser = item.data.serialize()
 			new_data_ser["type"] = "Note"
 			new_data_ser["hold"] = true
