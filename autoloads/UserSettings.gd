@@ -249,9 +249,10 @@ func fill_localized_arrays():
 		"editor_delete": tr("Delete notes"),
 		#  Notes
 		"editor_make_normal": tr("Convert to normal note"),
-		"editor_toggle_hold": tr("Toggle hold"),
-		"editor_toggle_sustain": tr("Toggle sustain"),
-		"editor_toggle_double": tr("Toggle double"),
+		"editor_toggle_hold": tr("Toggle hold note"),
+		"editor_toggle_sustain": tr("Toggle sustain note"),
+		"editor_toggle_double": tr("Toggle double note"),
+		"editor_toggle_rush": tr("Toggle rush note"),
 		"editor_make_slide": tr("Make slide chain"),
 		"editor_change_note_up": tr("Increase note type"),
 		"editor_change_note_down": tr("Decrease note type"),

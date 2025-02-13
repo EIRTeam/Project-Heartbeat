@@ -62,9 +62,6 @@ func update_selected():
 	pass
 
 func _input(event: InputEvent):
-	if get_viewport().gui_get_focus_owner() is LineEdit or get_viewport().gui_get_focus_owner() is TextEdit:
-		return
-	
 	if shortcuts_blocked():
 		return
 	

@@ -2438,7 +2438,9 @@ func shortcuts_blocked() -> bool:
 			return true
 		if control is Window and control.is_visible():
 			return true
-
+	
+	if get_viewport().gui_get_focus_owner() is LineEdit or get_viewport().gui_get_focus_owner() is TextEdit:
+		return true
 	
 	return false
 
