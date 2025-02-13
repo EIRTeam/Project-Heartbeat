@@ -424,6 +424,7 @@ func check_valid_change(amount: int, item: EditorTimelineItem, new_types: Dictio
 func toggle_sustain():
 	var open_sustains = []
 	var closed_sustains = []
+	var existing_rush_notes = []
 	var existing_sustains = []
 	
 	var selected = get_selected()
@@ -433,10 +434,11 @@ func toggle_sustain():
 	selected.sort_custom(Callable(self, "_sort_by_data_time"))
 	
 	for item in selected:
-		if item.data is HBBaseNote and not item.data is HBSustainNote and \
+		if item.data is HBBaseNote and not item.data is HBSustainNote and not item.data is HBRushNote and \
 		   not (item.data is HBNoteData and (item.data.is_slide_note() or item.data.is_slide_hold_piece())) and \
 		   not (item.data.note_type in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]):
 			var found = false
+			
 			for open_sustain in open_sustains:
 				if item.data.note_type == open_sustain.data.note_type:
 					open_sustains.erase(open_sustain)
@@ -446,6 +448,11 @@ func toggle_sustain():
 			
 			if not found:
 				open_sustains.append(item)
+		elif item.data is HBRushNote:
+			if item.data.note_type in [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]:
+				continue
+			
+			existing_rush_notes.append(item)
 		elif item.data is HBSustainNote:
 			existing_sustains.append(item)
 	
@@ -481,13 +488,31 @@ func toggle_sustain():
 		new_data_ser["type"] = "SustainNote"
 		new_data_ser["end_time"] = data.time + get_sustain_size(data.time)
 		
-		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+		var new_data = HBSerializable.deserialize(new_data_ser) as HBSustainNote
 		var new_item = new_data.get_timeline_item()
 		
 		undo_redo.add_do_method(self.add_item_to_layer.bind(item._layer, new_item))
 		undo_redo.add_do_method(item.deselect)
 		undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
 
+		undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
+		undo_redo.add_undo_method(new_item.deselect)
+		undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
+	
+	for item in existing_rush_notes:
+		var data = item.data as HBRushNote
+		
+		var new_data_ser = data.serialize()
+		new_data_ser["type"] = "SustainNote"
+		new_data_ser["end_time"] = data.end_time
+		
+		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+		var new_item = new_data.get_timeline_item()
+		
+		undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+		undo_redo.add_do_method(item.deselect)
+		undo_redo.add_do_method(self.add_item_to_layer.bind(item._layer, new_item))
+		
 		undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
 		undo_redo.add_undo_method(new_item.deselect)
 		undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
