@@ -20,7 +20,7 @@ const TYPE_SELECTION_ITEMS = {
 func _ready():
 	super._ready()
 	for action in [
-			"make_normal", "toggle_double", "toggle_sustain", "make_slide", "toggle_hold",
+			"make_normal", "toggle_double", "toggle_sustain", "make_slide", "toggle_hold", "toggle_rush",
 			"select_all", "deselect", "shift_selection_left", "shift_selection_right",
 			"select_2nd", "select_3rd", "select_4th",
 			"smooth_bpm",
@@ -657,11 +657,19 @@ func toggle_rush():
 	undo_redo.create_action("Toggle rush")
 	
 	for item in selected:
-		var new_data_ser = item.data.serialize()
-		new_data_ser["end_time"] = item.data.time + 3000
-		new_data_ser["type"] = "RushNote"
+		var new_type := "RushNote"
+		var end_time: int = item.data.time + 3000
 		
-		var new_data = HBSerializable.deserialize(new_data_ser) as HBRushNote
+		if item.data is HBRushNote:
+			new_type = "Note"
+		elif item.data is HBSustainNote:
+			end_time = item.data.end_time
+		
+		var new_data_ser = item.data.serialize()
+		new_data_ser["end_time"] = end_time
+		new_data_ser["type"] = new_type
+		
+		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 		var new_item = new_data.get_timeline_item()
 		
 		undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
