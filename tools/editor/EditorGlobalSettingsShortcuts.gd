@@ -66,6 +66,7 @@ const EDITOR_ACTIONS := {
 		"editor_toggle_hold",
 		"editor_toggle_sustain",
 		"editor_toggle_double",
+		"editor_toggle_rush",
 		"editor_change_note_up",
 		"editor_change_note_down",
 	],
