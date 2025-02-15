@@ -157,7 +157,6 @@ text = "Show in song list"
 script = ExtResource("3")
 
 [node name="Panel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
-custom_minimum_size = Vector2(0, 27.364)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("8")
@@ -169,7 +168,8 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
+[node name="DescriptionLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)
@@ -178,50 +178,7 @@ theme_override_fonts/bold_font = ExtResource("10_cnllk")
 theme_override_styles/focus = SubResource("1")
 theme_override_styles/normal = SubResource("2")
 bbcode_enabled = true
-text = "Why do SAFEs exist? 🐦‍
-[b][url=https://store.steampowered.com/app/429660]Tales of Berseria on Steam[/url][/b]
-
-[b][url=https://music.youtube.com/channel/UCJCEjx_2PIFi97rJjjfwrcQ]FLOW[/url]
-[url=https://music.youtube.com/watch?v=brQJDvFeZig]BURN -Game Size- (Tales of Berseria OP)[/url][/b]
-
-Extreme 8* (Arcade)
-75-198 BPM
-
-Feedback appreciated.
-
-Extra BURN: (2 variants)
- - Rafael Vidaurre
- - Instrumental
-
-Why do SAFEs exist? 🐦‍
-[b][url=https://store.steampowered.com/app/429660]Tales of Berseria on Steam[/url][/b]
-
-[b][url=https://music.youtube.com/channel/UCJCEjx_2PIFi97rJjjfwrcQ]FLOW[/url]
-[url=https://music.youtube.com/watch?v=brQJDvFeZig]BURN -Game Size- (Tales of Berseria OP)[/url][/b]
-
-Extreme 8* (Arcade)
-75-198 BPM
-
-Feedback appreciated.
-
-Extra BURN: (2 variants)
- - Rafael Vidaurre
- - Instrumental
-
-Why do SAFEs exist? 🐦‍
-[b][url=https://store.steampowered.com/app/429660]Tales of Berseria on Steam[/url][/b]
-
-[b][url=https://music.youtube.com/channel/UCJCEjx_2PIFi97rJjjfwrcQ]FLOW[/url]
-[url=https://music.youtube.com/watch?v=brQJDvFeZig]BURN -Game Size- (Tales of Berseria OP)[/url][/b]
-
-Extreme 8* (Arcade)
-75-198 BPM
-
-Feedback appreciated.
-
-Extra BURN: (2 variants)
- - Rafael Vidaurre
- - Instrumental"
+scroll_active = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -257,4 +214,4 @@ cancel_text = ""
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/SubscribeButton" to="." method="_on_SubscribeButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/UnsubscribeButton" to="." method="_on_UnsubscribeButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/ShowInSongListButton" to="." method="_on_ShowInSongListButton_pressed"]
-[connection signal="meta_clicked" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer/Label" to="." method="_on_Label_meta_clicked"]
+[connection signal="meta_clicked" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer/DescriptionLabel" to="." method="_on_Label_meta_clicked"]

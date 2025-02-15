@@ -6,7 +6,7 @@ extends HBMenu
 @onready var title_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Label")
 @onready var up_vote_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer/UpVoteLabel")
 @onready var down_vote_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer/DownVoteLabel")
-@onready var description_label: RichTextLabel = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer/Label")
+@onready var description_label: RichTextLabel = get_node("%DescriptionLabel")
 @onready var description_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel")
 @onready var description_margin_container = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer")
 @onready var item_image_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/TextureRect")
@@ -23,7 +23,6 @@ const SCROLL_SPEED = 1500.0
 
 func _ready():
 	super._ready()
-	description_margin_container.connect("minimum_size_changed", Callable(self, "_on_description_margin_minimum_size_changed"))
 	unsubscribed_confirmation_window.connect("hide", Callable(buttons_container, "grab_focus"))
 	PlatformService.service_provider.ugc_provider.connect("ugc_item_installed", Callable(self, "_on_ugc_item_installed"))
 func _on_menu_enter(force_hard_transition=false, args = {}):
@@ -46,7 +45,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		title_label.text = item.title
 		up_vote_label.text = str(item.votes_up)
 		down_vote_label.text = str(item.votes_down)
-		description_label.text = item.description
+		description_label.set_text.call_deferred(item.description)
 		
 		star_progress.visible = (item.votes_up + item.votes_down) != 0
 		if item.votes_up + item.votes_down != 0:
@@ -55,7 +54,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 			update_author_label()
 		else:
 			item_data_owner.information_updated.connect(self._on_persona_state_changed)
-		call_deferred("_on_description_margin_minimum_size_changed")
 	if "item_image" in args:
 		if args.item_image:
 			item_image_rect.texture = args.item_image
@@ -80,10 +78,6 @@ func update_author_label():
 	author_label.text = pers
 func _on_persona_state_changed():
 	update_author_label()
-
-func _on_description_margin_minimum_size_changed():
-	description_panel.custom_minimum_size.y = description_margin_container.get_minimum_size().y
-	description_panel.size.y = 0
 
 func _on_TextureRect_resized():
 	item_image_rect.custom_minimum_size.y = item_image_rect.size.x
