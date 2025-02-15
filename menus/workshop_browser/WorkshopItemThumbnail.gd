@@ -3,8 +3,9 @@ extends HBHovereableButton
 var request: HTTPRequest
 
 @onready var texture_rect = get_node("MarginContainer/HBoxContainer/TextureRect")
-@onready var title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label/TitleLabel")
-@onready var romanized_title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label/RomanizedTitleLabel")
+@onready var title_separator = get_node("%TitleSeparator")
+@onready var title_label = get_node("%TitleLabel")
+@onready var romanized_title_label = get_node("%RomanizedTitleLabel")
 @onready var author_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label2")
 @onready var subscribed_tick = get_node("MarginContainer/HBoxContainer/TextureRect/Panel")
 @onready var stars_progress = get_node("%Stars")
@@ -45,10 +46,14 @@ func set_data(_data: HBSteamUGCItem):
 	data = _data
 	title_label.text = data.title
 	romanized_title_label.text = ""
+	title_separator.hide()
+	romanized_title_label.hide()
 	if data.get_meta("item") is HBSong:
 		if UserSettings.user_settings.romanized_titles_enabled:
 			if not data.get_meta("item").romanized_title.is_empty():
 				romanized_title_label.text = data.get_meta("item").romanized_title
+				title_separator.show()
+				romanized_title_label.show()
 	item_owner = data.owner
 	if item_owner.request_user_information(true):
 		item_owner.information_updated.connect(self.update_author_label)
