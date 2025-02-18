@@ -62,11 +62,11 @@ func _update_tag_color():
 			modulate.a = 0.5
 			filtered = true
 			return
-		
-	if difficulty in CANONICAL_COLORS:
-		difficulty_color_panel.self_modulate = CANONICAL_COLORS[difficulty]
+	var diff_lower := difficulty.to_lower()
+	if diff_lower in CANONICAL_COLORS:
+		difficulty_color_panel.self_modulate = CANONICAL_COLORS[diff_lower]
 	else:
-		difficulty_color_panel.self_modulate = color_hash(difficulty)
+		difficulty_color_panel.self_modulate = color_hash(diff_lower)
 
 func _tag_update():
 	if tag_update_queued:
