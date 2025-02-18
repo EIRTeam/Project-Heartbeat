@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-01-22 18:37\n"
+"PO-Revision-Date: 2025-02-18 20:03\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -297,20 +297,28 @@ msgid "Scale down the timeline"
 msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Scroll timeline to the left"
+msgid "Scroll the timeline to the left"
 msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Scroll timeline to the right"
+msgid "Scroll the timeline to the right"
 msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Move playhead to the left"
-msgstr "将播放头移至左侧"
+msgid "Snap the playhead to the previous beat"
+msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Move playhead to the right"
-msgstr "将播放头移至右侧"
+msgid "Snap the playhead to the next beat"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Snap the playhead to the previous bar"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Snap the playhead to the next bar"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the settings menu"
@@ -457,16 +465,20 @@ msgid "Convert to normal note"
 msgstr "转换为普通Note"
 
 #: autoloads/UserSettings.gd
-msgid "Toggle hold"
-msgstr "切换Hold状态"
+msgid "Toggle hold note"
+msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Toggle sustain"
-msgstr "切换长按状态"
+msgid "Toggle sustain note"
+msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Toggle double"
-msgstr "切换双压状态"
+msgid "Toggle double note"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Toggle rush note"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Make slide chain"
@@ -921,6 +933,11 @@ msgstr "打开"
 
 #: menus/FolderManager.tscn
 #: menus/song_list/SongList.tscn
+msgid "Manage"
+msgstr "管理"
+
+#: menus/FolderManager.tscn
+#: menus/song_list/SongList.tscn
 msgid "Select"
 msgstr "选择"
 
@@ -1021,6 +1038,14 @@ msgstr "使用歌曲推荐皮肤"
 msgid "When enabled, makes the game use the skin chosen by the song's creator for this particular song, will download it if it is not installed already."
 msgstr "启用后游戏将会使用谱师为这首歌指定的皮肤，如果没有安装皮肤则会自动下载"
 
+#: menus/PerSongSettingsEditor.gd
+msgid "Enable vocals"
+msgstr ""
+
+#: menus/PerSongSettingsEditor.gd
+msgid "If disabled, disables the vocal track completely, to play songs in instrumental mode!"
+msgstr ""
+
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Normal notes"
 msgstr "普通Note"
@@ -1109,6 +1134,11 @@ msgstr "自由游玩"
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Workshop"
 msgstr "创意工坊"
+
+#: menus/song_list/SongList.gd
+msgctxt "Steam Workshop song list modded filter"
+msgid "Workshop"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "How to play"
@@ -1918,6 +1948,51 @@ msgstr "最近发布"
 msgid "Last updated"
 msgstr "最近更新"
 
+#: menus/song_list/SongList.gd
+msgctxt "\"All\" song list filter"
+msgid "All"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "Official song list filter"
+msgid "Official"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "MegaMix+ song list filter"
+msgid "MM+"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "MegaMix+ modded song list filter"
+msgid "MM+ (Mod)"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "Editor song list filter"
+msgid "Editor"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "Local song list filter"
+msgid "Local"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "DSC song list filter"
+msgid "DSC"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "PPD song list filter"
+msgid "PPD"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "Folder song list filter"
+msgid "Folders"
+msgstr ""
+
 #: menus/song_list/SongList.tscn
 msgid "With media"
 msgstr ""
@@ -1936,10 +2011,6 @@ msgid "Add to..."
 msgstr "添加到……"
 
 #: menus/song_list/SongList.tscn
-msgid "Manage"
-msgstr "管理"
-
-#: menus/song_list/SongList.tscn
 msgid "Remove"
 msgstr "移除"
 
@@ -1948,6 +2019,7 @@ msgid "The song you selected is a PPD song without an existing audio file, would
 msgstr "您选择的歌是一个PPD谱面并且没有存在的音频文件，你想从磁盘或者Youtube选择音频吗？需要使用鼠标操作"
 
 #: menus/song_list/SongList.tscn
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Enter the search term:"
 msgstr "输入搜索关键词："
 
