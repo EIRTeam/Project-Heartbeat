@@ -45,6 +45,19 @@ var allowed_sort_by = {
 	"_updated_time": tr("Last updated")
 }
 
+var filter_localization = {
+	"all": tr("All", &"\"All\" song list filter"),
+	"official": tr("Official", &"Official song list filter"),
+	"mmplus": tr("MM+", &"MegaMix+ song list filter"),
+	"mmplus_mod": tr("MM+ (Mod)", &"MegaMix+ modded song list filter"),
+	"workshop": tr("Workshop", &"Steam Workshop song list modded filter"),
+	"editor": tr("Editor", &"Editor song list filter"),
+	"local": tr("Local", &"Local song list filter"),
+	"dsc": tr("DSC", &"DSC song list filter"),
+	"ppd": tr("PPD", &"PPD song list filter"),
+	"folders": tr("Folders", &"Folder song list filter"),
+}
+
 ## used for queing a list update when a new workshop song is installed, kinda HACKY
 signal _new_workshop_song_added_queuer
 
@@ -252,11 +265,7 @@ func _on_non_song_hovered():
 		manage_folders_prompt.show()
 
 func populate_buttons():
-	var filter_types = {
-		"all": "All",
-		"official": "Official",
-
-	}
+	var filter_types = ["all", "official"]
 
 	for child in filter_type_container.get_children():
 		child.queue_free()
@@ -264,8 +273,8 @@ func populate_buttons():
 	
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id] as HBSong
-		if song.comes_from_ugc():
-			filter_types["workshop"] = "Workshop"
+		if song.comes_from_ugc() and not "workshop" in filter_types:
+			filter_types.push_back("workshop")
 			break
 	var has_local = false
 	var has_editor = false
@@ -276,33 +285,33 @@ func populate_buttons():
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
 		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong:
-			if song.path.begins_with(editor_songs_path):
+			if song.path.begins_with(editor_songs_path) and not "editor" in filter_types:
 				has_editor = true
-				filter_types["editor"] = "Editor"
-			elif song is SongLoaderDSC.HBSongMMPLUS and not song.is_built_in:
+				filter_types.push_back("editor")
+			elif song is SongLoaderDSC.HBSongMMPLUS and not song.is_built_in and not "mmplus_mod" in filter_types:
 				has_mmplus_mod = true
-				filter_types["mmplus_mod"] = "MM+ (Mod)"
-			elif song is SongLoaderDSC.HBSongMMPLUS:
+				filter_types.push_back("mmplus_mod")
+			elif song is SongLoaderDSC.HBSongMMPLUS and not "mmplus" in filter_types:
 				has_mmplus = true
-				filter_types["mmplus"] = "MM+"
-			elif song is SongLoaderDSC.HBSongDSC:
+				filter_types.push_back("mmplus")
+			elif song is SongLoaderDSC.HBSongDSC and not "dsc" in filter_types:
 				has_dsc = true
-				filter_types["dsc"] = "DSC"
-			else:
+				filter_types.push_back("dsc")
+			elif not "local" in filter_types:
 				has_local = true
-				filter_types["local"] = "Local"
+				filter_types.push_back("local")
 			if has_editor and has_local and has_dsc and has_mmplus and has_mmplus_mod:
 				break
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id] as HBSong
-		if song is HBPPDSong:
-			filter_types["ppd"] = "PPD"
+		if song is HBPPDSong and not "ppd" in filter_types:
+			filter_types.push_back("ppd")
 	if not UserSettings.user_settings.sort_filter_settings.filter_mode in filter_types and not UserSettings.user_settings.sort_filter_settings.filter_mode == "folders":
 		UserSettings.user_settings.sort_filter_settings.filter_mode = "all"
-	filter_types["folders"] = "Folders"
+	filter_types.push_back("folders")
 	for filter_type in filter_types:
 		var button = HBHovereableButton.new()
-		button.text = filter_types[filter_type]
+		button.text = filter_localization.get(filter_type, filter_type)
 		button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		filter_type_container.add_child(button)
 		if filter_type == UserSettings.user_settings.sort_filter_settings.filter_mode:

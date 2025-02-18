@@ -95,7 +95,7 @@ func create_folder(f_name: String):
 	text_input_window_create.hide()
 	scroll_list.grab_focus()
 	UserSettings.save_user_settings()
-	text_input_window_create.line_edit.text = ""
+	text_input_window_create.line_edit.clear()
 func rename_folder(f_name: String):
 	var selected_child = scroll_list.get_selected_item()
 	var folder = selected_child.folder as HBFolder

@@ -14,7 +14,7 @@ func set_text(val):
 	text = val
 	if not is_inside_tree():
 		return
-	$HBoxContainer/InputGlyphRect.action_text = val
+	$HBoxContainer/InputGlyphRect.action_text = atr(val)
 
 func _ready():
 	set_action_name(action_name)

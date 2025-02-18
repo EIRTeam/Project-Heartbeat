@@ -16,12 +16,13 @@ func set_event(val):
 		if event is InputEventJoypadMotion or event is InputEventJoypadButton:
 			var origin := InputGlyphsSingleton.get_origin_from_joy_event(event)
 			glyph_rect.forced_joy_origin = origin
-			info_label.text = ""
+			var info_text := ""
 			glyph_rect.show()
 			if event is InputEventJoypadMotion:
 				if UserSettings.user_settings.use_direct_joystick_access:
 					if event.axis <= JOY_AXIS_RIGHT_Y and action in ["heart_note", "slide_left", "slide_right"]:
-						info_label.text += tr(" (Disabled due to Input -> Use direct joystick access)")
+						info_text += tr(" (Disabled due to Input -> Use direct joystick access)")
+			info_label.text = info_text
 		elif event is InputEventKey:
 			info_label.text = InputGlyphsSingleton.get_event_display_string(event)
 func _init():
