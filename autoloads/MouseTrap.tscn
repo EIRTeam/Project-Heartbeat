@@ -43,10 +43,11 @@ script = ExtResource("3")
 [node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
 visible = false
 layout_mode = 1
-text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
+text = ""
 
 [node name="TextLabel" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" index="0"]
-text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
+visible = false
+text = ""
 
 [node name="AcceptButtonAudio" type="Button" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/MarginContainer/VBoxContainer/ButtonContainer" index="1"]
 unique_name_in_owner = true

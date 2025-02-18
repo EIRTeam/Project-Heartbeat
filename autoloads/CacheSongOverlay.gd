@@ -40,9 +40,9 @@ func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_opt
 	current_song_downloading = song
 	current_variant = variant_n
 	var messages = {
-		YoutubeDL.CACHE_STATUS.MISSING: "This song requires downloading video/audio files from YouTube, would you like to download them?",
-		YoutubeDL.CACHE_STATUS.VIDEO_MISSING: "The video for this song appears to be missing, would you like to download it?",
-		YoutubeDL.CACHE_STATUS.AUDIO_MISSING: "The audio for this song appears to be missing, would you like to download it?"
+		YoutubeDL.CACHE_STATUS.MISSING: tr("This song requires downloading video/audio files from YouTube, would you like to download them?", &"yt-dlp cache status missing"),
+		YoutubeDL.CACHE_STATUS.VIDEO_MISSING: tr("The video for this song appears to be missing, would you like to download it?", &"yt-dlp video missing"),
+		YoutubeDL.CACHE_STATUS.AUDIO_MISSING: tr("The audio for this song appears to be missing, would you like to download it?", &"yt-dlp audio missing")
 	}
 	download_confirm_popup.text = messages[variant.get_cache_status()]
 	accept_button_audio.visible = !variant.audio_only and not force_disable_audio_option
