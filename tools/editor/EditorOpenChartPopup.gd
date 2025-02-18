@@ -173,7 +173,10 @@ func _on_confirmed():
 	
 	var song = item.get_meta("song") as HBSong
 	if not song.is_cached() and YoutubeDL.validate_video_url(song.youtube_url):
-		MouseTrap.cache_song_overlay.show_download_prompt(song)
+		MouseTrap.cache_song_overlay.show_download_prompt(song, -1, false, true)
+		hide()
+		await MouseTrap.cache_song_overlay.download_prompt_done
+		show()
 		return
 	
 	if not item.get_meta("hidden"):

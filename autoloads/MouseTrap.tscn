@@ -1,20 +1,20 @@
 [gd_scene load_steps=11 format=3 uid="uid://cql4su5gauqwp"]
 
-[ext_resource type="Script" path="res://autoloads/MouseTrap.gd" id="1"]
+[ext_resource type="Script" uid="uid://ba6cvpejyuvq3" path="res://autoloads/MouseTrap.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="2"]
-[ext_resource type="Script" path="res://autoloads/CacheSongOverlay.gd" id="3"]
-[ext_resource type="Script" path="res://autoloads/PPDDialog.gd" id="4"]
+[ext_resource type="Script" uid="uid://cdw0sgljbkjhi" path="res://autoloads/CacheSongOverlay.gd" id="3"]
+[ext_resource type="Script" uid="uid://ctfl6kcx0axve" path="res://autoloads/PPDDialog.gd" id="4"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="5"]
 [ext_resource type="StyleBox" uid="uid://b21324ii6ky3l" path="res://styles/PanelStyleTransparentIcon.tres" id="6"]
 [ext_resource type="StyleBox" uid="uid://cp7yh4stt825r" path="res://styles/PanelStyleTransparentIconHover.tres" id="7"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="8"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="8"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
 [sub_resource type="StyleBoxEmpty" id="2"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
-layer = 120
+layer = 128
 script = ExtResource("1")
 
 [node name="MouseTrap" type="Control" parent="."]
@@ -58,6 +58,21 @@ theme_override_styles/pressed = ExtResource("7")
 theme_override_styles/normal = ExtResource("6")
 text = "Yes (audio only)"
 script = ExtResource("8")
+
+[node name="DownloadConfirmPopupNative" type="AcceptDialog" parent="MouseTrap/CacheSongOverlay"]
+unique_name_in_owner = true
+title = ""
+transient = false
+always_on_top = true
+theme = ExtResource("5")
+ok_button_text = "Yes"
+
+[node name="ErrorPromptNative" type="AcceptDialog" parent="MouseTrap/CacheSongOverlay"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = ""
+theme = ExtResource("5")
+dialog_text = "Media for this song is currently being downloaded."
 
 [node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
 visible = false

@@ -15,6 +15,7 @@ position = Vector2i(0, 32)
 size = Vector2i(275, 289)
 visible = true
 theme = ExtResource("1")
+dialog_hide_on_ok = false
 script = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -117,5 +118,7 @@ visible = false
 
 [node name="WorkshopUploadDialog" parent="." instance=ExtResource("3")]
 visible = false
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 
 [connection signal="confirmed" from="SongMetaEditorDialog" to="." method="_on_SongMetaEditorDialog_confirmed"]
