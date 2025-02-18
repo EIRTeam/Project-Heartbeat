@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2025-02-18 20:43\n"
+"PO-Revision-Date: 2025-02-18 21:07\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -2609,5 +2609,13 @@ msgstr ""
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Arcade notes only"
+msgstr ""
+
+#: menus/song_list/SongListPreview.tscn
+msgid "by"
+msgstr ""
+
+#: menus/song_list/SongListPreview.gd
+msgid "{beats_per_minute} BPM"
 msgstr ""
 
