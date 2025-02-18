@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2025-01-22 18:37\n"
+"PO-Revision-Date: 2025-02-18 20:03\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -297,20 +297,28 @@ msgid "Scale down the timeline"
 msgstr "Disminuir l'escala de la línia de temps"
 
 #: autoloads/UserSettings.gd
-msgid "Scroll timeline to the left"
-msgstr "Desplaçar la línia de temps a l'esquerra"
+msgid "Scroll the timeline to the left"
+msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Scroll timeline to the right"
-msgstr "Desplaçar la línia de temps a la dreta"
+msgid "Scroll the timeline to the right"
+msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Move playhead to the left"
-msgstr "Mou el capçal de reproducció cap a l'esquerra"
+msgid "Snap the playhead to the previous beat"
+msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Move playhead to the right"
-msgstr "Mou el capçal de reproducció cap a la dreta"
+msgid "Snap the playhead to the next beat"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Snap the playhead to the previous bar"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Snap the playhead to the next bar"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the settings menu"
@@ -457,16 +465,20 @@ msgid "Convert to normal note"
 msgstr "Converteix a nota normal"
 
 #: autoloads/UserSettings.gd
-msgid "Toggle hold"
-msgstr "Alterna hold"
+msgid "Toggle hold note"
+msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Toggle sustain"
-msgstr "Alterna sustain"
+msgid "Toggle sustain note"
+msgstr ""
 
 #: autoloads/UserSettings.gd
-msgid "Toggle double"
-msgstr "Alterna doble"
+msgid "Toggle double note"
+msgstr ""
+
+#: autoloads/UserSettings.gd
+msgid "Toggle rush note"
+msgstr ""
 
 #: autoloads/UserSettings.gd
 msgid "Make slide chain"
@@ -921,6 +933,11 @@ msgstr "Obrir"
 
 #: menus/FolderManager.tscn
 #: menus/song_list/SongList.tscn
+msgid "Manage"
+msgstr "Gestionar"
+
+#: menus/FolderManager.tscn
+#: menus/song_list/SongList.tscn
 msgid "Select"
 msgstr "Seleccionar"
 
@@ -1021,6 +1038,14 @@ msgstr "Utilitza la skin recomanada per la cançó"
 msgid "When enabled, makes the game use the skin chosen by the song's creator for this particular song, will download it if it is not installed already."
 msgstr "Quan està activat, fa que el joc utilitzi el skin escollit pel creador de la cançó per a aquesta cançó en concret, el baixarà si encara no està instal·lat."
 
+#: menus/PerSongSettingsEditor.gd
+msgid "Enable vocals"
+msgstr ""
+
+#: menus/PerSongSettingsEditor.gd
+msgid "If disabled, disables the vocal track completely, to play songs in instrumental mode!"
+msgstr ""
+
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Normal notes"
 msgstr "Notes normals"
@@ -1109,6 +1134,11 @@ msgstr "Joc Lliure"
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "Workshop"
 msgstr "Workshop"
+
+#: menus/song_list/SongList.gd
+msgctxt "Steam Workshop song list modded filter"
+msgid "Workshop"
+msgstr ""
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "How to play"
@@ -1921,6 +1951,51 @@ msgstr "Últim llançament"
 msgid "Last updated"
 msgstr "Última actualització"
 
+#: menus/song_list/SongList.gd
+msgctxt "\"All\" song list filter"
+msgid "All"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "Official song list filter"
+msgid "Official"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "MegaMix+ song list filter"
+msgid "MM+"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "MegaMix+ modded song list filter"
+msgid "MM+ (Mod)"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "Editor song list filter"
+msgid "Editor"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "Local song list filter"
+msgid "Local"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "DSC song list filter"
+msgid "DSC"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "PPD song list filter"
+msgid "PPD"
+msgstr ""
+
+#: menus/song_list/SongList.gd
+msgctxt "Folder song list filter"
+msgid "Folders"
+msgstr ""
+
 #: menus/song_list/SongList.tscn
 msgid "With media"
 msgstr "Amb medis"
@@ -1939,10 +2014,6 @@ msgid "Add to..."
 msgstr "Afegir a..."
 
 #: menus/song_list/SongList.tscn
-msgid "Manage"
-msgstr "Gestionar"
-
-#: menus/song_list/SongList.tscn
 msgid "Remove"
 msgstr "Treure"
 
@@ -1951,6 +2022,7 @@ msgid "The song you selected is a PPD song without an existing audio file, would
 msgstr "La cançó que heu seleccionat és una cançó PPD sense un fitxer d'àudio existent, en voleu seleccionar-ne un (del disc o de YouTube)? Això requerirà que utilitzeu el ratolí."
 
 #: menus/song_list/SongList.tscn
+#: menus/workshop_browser/WorkshopBrowser.tscn
 msgid "Enter the search term:"
 msgstr "Introduïu el terme de cerca:"
 
