@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
-"PO-Revision-Date: 2025-02-18 20:03\n"
+"PO-Revision-Date: 2025-02-18 20:43\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -2532,5 +2532,82 @@ msgstr ""
 
 #: menus/options_menu/OptionCreditsSection.gd
 msgid "License: "
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.tscn
+msgid "Sort & filter settings"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.tscn
+msgid "Has downloaded media"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.tscn
+msgid "Filter by stars"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by title"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by artist"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by highest difficulty"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by lowest difficulty"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by chart creator name"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by BPM"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by last subscribed"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by times played"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by last released"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgid "Sort by last updated"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgctxt "Song list sort by panel maximum stars"
+msgid "Maximum"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgctxt "Song list sort by panel minimum stars"
+msgid "Minimum"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgctxt "Chart style filter mode in song list sort & filter settings panel"
+msgid "All notes"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgctxt "Chart style filter mode in song list sort & filter settings panel"
+msgid "Console notes only"
+msgstr ""
+
+#: menus/song_list/SongListSortByPanel.gd
+msgctxt "Chart style filter mode in song list sort & filter settings panel"
+msgid "Arcade notes only"
 msgstr ""
 
