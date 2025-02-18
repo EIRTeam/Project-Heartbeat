@@ -31,8 +31,8 @@ var allowed_sort_by = {
 }
 
 func _ready() -> void:	
-	filter_by_stars_slider_max.text = tr("Maximum")
-	filter_by_stars_slider_min.text = tr("Minimum")
+	filter_by_stars_slider_max.text = tr("Maximum", &"Song list sort by panel maximum stars")
+	filter_by_stars_slider_min.text = tr("Minimum", &"Song list sort by panel minimum stars")
 	filter_by_stars_slider_max.changed.connect(func(value: int):
 		filter_settings.star_filter_max = value
 		if filter_settings.star_filter_max < filter_settings.star_filter_min:
