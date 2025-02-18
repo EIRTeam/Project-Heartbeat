@@ -44,17 +44,24 @@ func populate():
 		scroll_list.select_item(clamp(scroll_list.current_selected_item-1, 0, vbox_container.get_child_count()))
 	
 func update_count_label():
-	queue_song_count.text = "%d songs queued" % [YoutubeDL.caching_queue.size()]
+	queue_song_count.text = "{queued_songs_count} songs queued".format({
+		"queued_songs_count": YoutubeDL.tracked_video_downloads.size() - YoutubeDL.caching_queue.size()
+	}) 
 	
 func _on_song_cached(entry: YoutubeDL.CachingQueueEntry):
 	populate()
 
+func _on_download_finished(_result: int, _error_message: String, item: HBMediaDownloadQueueButton):
+	item.queue_free()
+	update_count_label()
+
 func add_download_item(entry: YoutubeDL.CachingQueueEntry):
-	var button = QUEUE_BUTTON.instantiate()
+	var button: HBMediaDownloadQueueButton = QUEUE_BUTTON.instantiate()
 	vbox_container.add_child(button)
 	song_map[entry] = button
 	button.connect("pressed", Callable(self, "_on_button_pressed").bind(entry))
 	button.set_entry(entry)
+	entry.download_finished.connect(_on_download_finished.bind(button))
 
 func _on_button_pressed(entry: YoutubeDL.CachingQueueEntry):
 	YoutubeDL.cancel_song_download(entry)

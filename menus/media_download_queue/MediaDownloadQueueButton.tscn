@@ -3,8 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://cfplb8u67lgda" path="res://graphics/icons/icon_close_bg.svg" id="1"]
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="2"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="3"]
-[ext_resource type="Script" path="res://menus/media_download_queue/MediaDownloadQueueButton.gd" id="5"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="6_as7go"]
+[ext_resource type="Script" uid="uid://k3stsg8qlxyh" path="res://menus/media_download_queue/MediaDownloadQueueButton.gd" id="5"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="6_as7go"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="7"]
 
 [sub_resource type="Animation" id="3"]
@@ -40,8 +40,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t2v6s"]
 _data = {
-"RESET": SubResource("3"),
-"spin": SubResource("2")
+&"RESET": SubResource("3"),
+&"spin": SubResource("2")
 }
 
 [node name="Button" type="Button"]
@@ -67,7 +67,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Button"]
 libraries = {
-"": SubResource("AnimationLibrary_t2v6s")
+&"": SubResource("AnimationLibrary_t2v6s")
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Button"]

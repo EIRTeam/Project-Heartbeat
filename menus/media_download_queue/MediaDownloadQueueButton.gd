@@ -1,5 +1,7 @@
 extends HBHovereableButton
 
+class_name HBMediaDownloadQueueButton
+
 @onready var title_label: Label = get_node("%TitleLabel")
 @onready var spinner_texture: TextureRect = get_node("%Spinner")
 @onready var animation_player: AnimationPlayer = get_node("Button/AnimationPlayer")
