@@ -7,14 +7,15 @@ extends HBHovereableButton
 
 var url
 
-func _do_reset_size():
-	var min_height = margin_container.get_combined_minimum_size().y
-	custom_minimum_size.y = min_height
-	size.y = min_height
+func _get_minimum_size() -> Vector2:
+	return margin_container.get_combined_minimum_size()
+
+func _on_minimum_size_changed():
+	custom_minimum_size = margin_container.get_combined_minimum_size()
 
 func _ready():
 	super._ready()
-	connect("resized", Callable(self, "call_deferred").bind("_do_reset_size"))
+	margin_container.minimum_size_changed.connect(_on_minimum_size_changed)
 	connect("pressed", Callable(self, "_on_pressed"))
 func _on_pressed():
 	OS.shell_open(url)

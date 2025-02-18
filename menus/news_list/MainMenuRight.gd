@@ -45,7 +45,6 @@ func _on_request_completed(result, response_code, headers, body):
 			button.date_label.text = "%d-%d-%d" % [date_time.day, date_time.month, date_time.year]
 			button.title_label.text = item.title
 			button.url = item.url
-			button._do_reset_size()
 	else:
 		Log.log(self, "Error getting news: %s" % body.get_string_from_utf8(), Log.LogLevel.ERROR)
 
