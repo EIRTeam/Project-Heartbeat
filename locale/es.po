@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2025-02-18 20:43\n"
+"PO-Revision-Date: 2025-02-18 20:57\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -298,27 +298,27 @@ msgstr "Reducir la escala de la línea de tiempo"
 
 #: autoloads/UserSettings.gd
 msgid "Scroll the timeline to the left"
-msgstr ""
+msgstr "Desplazar la línea de tiempo a la izquierda"
 
 #: autoloads/UserSettings.gd
 msgid "Scroll the timeline to the right"
-msgstr ""
+msgstr "Desplazar la línea de tiempo a la derecha"
 
 #: autoloads/UserSettings.gd
 msgid "Snap the playhead to the previous beat"
-msgstr ""
+msgstr "Ajusta el cabezal de reproducción al pulso anterior"
 
 #: autoloads/UserSettings.gd
 msgid "Snap the playhead to the next beat"
-msgstr ""
+msgstr "Ajusta el cabezal de reproducción al pulso siguiente"
 
 #: autoloads/UserSettings.gd
 msgid "Snap the playhead to the previous bar"
-msgstr ""
+msgstr "Ajusta el cabezal de reproducción al compás anterior"
 
 #: autoloads/UserSettings.gd
 msgid "Snap the playhead to the next bar"
-msgstr ""
+msgstr "Ajusta el cabezal de reproducción al compás siguiente"
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the settings menu"
@@ -466,19 +466,19 @@ msgstr "Convertir a nota normal"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle hold note"
-msgstr ""
+msgstr "Alternar nota hold"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle sustain note"
-msgstr ""
+msgstr "Alternar nota sustain"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle double note"
-msgstr ""
+msgstr "Alternar nota doble"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle rush note"
-msgstr ""
+msgstr "Alternar nota rush"
 
 #: autoloads/UserSettings.gd
 msgid "Make slide chain"
@@ -1040,11 +1040,11 @@ msgstr "Cuando está habilitado, hace que el juego use la skin elegida por el cr
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Enable vocals"
-msgstr ""
+msgstr "Habilitar voces"
 
 #: menus/PerSongSettingsEditor.gd
 msgid "If disabled, disables the vocal track completely, to play songs in instrumental mode!"
-msgstr ""
+msgstr "¡Si está desactivado, deshabilita completamente la pista vocal, para reproducir canciones en modo instrumental!"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Normal notes"
@@ -1138,7 +1138,7 @@ msgstr "Workshop"
 #: menus/song_list/SongList.gd
 msgctxt "Steam Workshop song list modded filter"
 msgid "Workshop"
-msgstr ""
+msgstr "Workshop"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "How to play"
@@ -1954,47 +1954,47 @@ msgstr "Ultimos actualizados"
 #: menus/song_list/SongList.gd
 msgctxt "\"All\" song list filter"
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: menus/song_list/SongList.gd
 msgctxt "Official song list filter"
 msgid "Official"
-msgstr ""
+msgstr "Oficial"
 
 #: menus/song_list/SongList.gd
 msgctxt "MegaMix+ song list filter"
 msgid "MM+"
-msgstr ""
+msgstr "MM+"
 
 #: menus/song_list/SongList.gd
 msgctxt "MegaMix+ modded song list filter"
 msgid "MM+ (Mod)"
-msgstr ""
+msgstr "MM+ (Mod)"
 
 #: menus/song_list/SongList.gd
 msgctxt "Editor song list filter"
 msgid "Editor"
-msgstr ""
+msgstr "Editor"
 
 #: menus/song_list/SongList.gd
 msgctxt "Local song list filter"
 msgid "Local"
-msgstr ""
+msgstr "Local"
 
 #: menus/song_list/SongList.gd
 msgctxt "DSC song list filter"
 msgid "DSC"
-msgstr ""
+msgstr "DSC"
 
 #: menus/song_list/SongList.gd
 msgctxt "PPD song list filter"
 msgid "PPD"
-msgstr ""
+msgstr "PPD"
 
 #: menus/song_list/SongList.gd
 msgctxt "Folder song list filter"
 msgid "Folders"
-msgstr ""
+msgstr "Carpetas"
 
 #: menus/song_list/SongList.tscn
 msgid "With media"
@@ -2553,78 +2553,78 @@ msgstr "Licencia: "
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Sort & filter settings"
-msgstr ""
+msgstr "Configuración de filtrado y ordenado"
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Has downloaded media"
-msgstr ""
+msgstr "Tiene medios descargados"
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Filter by stars"
-msgstr ""
+msgstr "Filtrar por estrellas"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by title"
-msgstr ""
+msgstr "Filtrar por título"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by artist"
-msgstr ""
+msgstr "Ordenar por artista"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by highest difficulty"
-msgstr ""
+msgstr "Ordenar por mayor dificultad"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by lowest difficulty"
-msgstr ""
+msgstr "Ordenar por menor dificultad"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by chart creator name"
-msgstr ""
+msgstr "Ordenar por nombre de creador"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by BPM"
-msgstr ""
+msgstr "Ordenar por PPM"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last subscribed"
-msgstr ""
+msgstr "Ordenar por último suscrito"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by times played"
-msgstr ""
+msgstr "Ordenar por veces jugadas"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last released"
-msgstr ""
+msgstr "Ordenar por última publicada"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last updated"
-msgstr ""
+msgstr "Ordenar por última actualización"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Song list sort by panel maximum stars"
 msgid "Maximum"
-msgstr ""
+msgstr "Máxima"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Song list sort by panel minimum stars"
 msgid "Minimum"
-msgstr ""
+msgstr "Mínima"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "All notes"
-msgstr ""
+msgstr "Todas las notas"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Console notes only"
-msgstr ""
+msgstr "Solo notas de consola"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Arcade notes only"
-msgstr ""
+msgstr "Solo notas de árcade"
 
