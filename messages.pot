@@ -91,6 +91,8 @@
 # res://menus/options_menu/OptionCreditsSection.gd
 # res://menus/song_list/SongListSortByPanel.tscn
 # res://menus/song_list/SongListSortByPanel.gd
+# res://menus/song_list/SongListPreview.tscn
+# res://menus/song_list/SongListPreview.gd
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -2712,4 +2714,12 @@ msgstr ""
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Arcade notes only"
+msgstr ""
+
+#: menus/song_list/SongListPreview.tscn
+msgid "by"
+msgstr ""
+
+#: menus/song_list/SongListPreview.gd
+msgid "{beats_per_minute} BPM"
 msgstr ""

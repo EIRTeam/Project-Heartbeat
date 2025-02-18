@@ -141,7 +141,9 @@ func select_song(song: HBSong):
 func _show_normal_song():
 	var song_data := selected_song_data
 	var song := selected_song_data.song
-	bpm_label.text = "%s BPM" % song.bpm_string
+	bpm_label.text = tr("{beats_per_minute} BPM").format({
+		"beats_per_minute": int(song.bpm_string)
+	})
 	
 	var song_meta = song.get_meta_string()
 	

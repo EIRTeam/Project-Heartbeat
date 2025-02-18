@@ -38,6 +38,7 @@ shadow_size = 10
 anti_aliasing_size = 2.0
 
 [node name="Panel" type="Control"]
+auto_translate_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,6 +49,7 @@ size_flags_horizontal = 3
 script = ExtResource("8")
 
 [node name="SongListPreview" type="MarginContainer" parent="."]
+auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,12 +61,14 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 87
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = -3
 
 [node name="TitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5
@@ -78,6 +82,7 @@ max_lines_visible = 2
 
 [node name="OriginalTitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -89,11 +94,13 @@ autowrap_mode = 3
 
 [node name="AuthorInfoContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 layout_mode = 2
 theme_override_constants/separation = -10
 alignment = 1
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfoContainer"]
+auto_translate_mode = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_c1g4p")
 text = "by"
@@ -101,6 +108,7 @@ horizontal_alignment = 1
 
 [node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfoContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_g2q8y")
 text = "(NT)DRAGONFORCE"
@@ -110,11 +118,13 @@ autowrap_mode = 3
 
 [node name="CircleImagePanel" type="Panel" parent="SongListPreview/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 theme_override_styles/panel = SubResource("3")
 
 [node name="MarginContainer" type="MarginContainer" parent="SongListPreview/VBoxContainer/CircleImagePanel"]
+auto_translate_mode = 2
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -125,6 +135,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="CircleTextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/CircleImagePanel/MarginContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 expand_mode = 1
@@ -132,6 +143,7 @@ stretch_mode = 5
 
 [node name="SongCoverPanel" type="MarginContainer" parent="SongListPreview/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 330.04)
 layout_mode = 2
@@ -141,10 +153,12 @@ theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 15
 
 [node name="Control" type="Control" parent="SongListPreview/VBoxContainer/SongCoverPanel"]
+auto_translate_mode = 2
 layout_mode = 2
 
 [node name="CoverTextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/Control"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 330.04)
 layout_mode = 1
@@ -159,6 +173,7 @@ stretch_mode = 5
 
 [node name="CoverTextureRectShadow" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/Control/CoverTextureRect"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 self_modulate = Color(0, 0, 0, 0.75)
 show_behind_parent = true
 custom_minimum_size = Vector2(0, 330.04)
@@ -171,21 +186,25 @@ stretch_mode = 5
 
 [node name="MetaContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/MetaContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
 
 [node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("2_g2q8y")
@@ -195,6 +214,7 @@ autowrap_mode = 3
 
 [node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2/VBoxContainer"]
 unique_name_in_owner = true
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("2_c1g4p")
