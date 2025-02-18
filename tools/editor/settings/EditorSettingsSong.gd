@@ -8,6 +8,8 @@ const VISIBLE_ICON = preload("res://tools/icons/icon_GUI_visibility_visible.svg"
 var layers_item: TreeItem
 var note_resolution_item: TreeItem
 
+signal song_variant_download_requested(song: HBSong, variant: int)
+
 func _ready():
 	super._ready()
 	settings = {
@@ -47,12 +49,18 @@ func set_editor(val):
 func load_settings(settings):
 	settings_base = settings
 
-func update_setting(property_name: String, new_value):
+func update_setting(property_name: String, new_value: Variant):
+	var old_value: Variant = settings_base.get(property_name)
+	if property_name == "selected_variant":
+		if not editor.current_song.is_cached(new_value):
+			# Extreme hack... to undo the change
+			_update_settings_tree(tree.get_root())
+			song_variant_download_requested.emit(editor.current_song, new_value)
+			return
 	editor.disconnect("song_editor_settings_changed", Callable(self, "update"))
 	settings_base.set(property_name, new_value)
 	editor.load_settings(settings_base, true)
 	editor.connect("song_editor_settings_changed", Callable(self, "update"))
-	
 	if property_name == "selected_variant":
 		editor.update_media()
 
@@ -71,7 +79,7 @@ func _get_variants():
 			elif not variant.audio_only:
 				if not YoutubeDL.get_cache_status(variant.variant_url, true, true) == YoutubeDL.CACHE_STATUS.OK:
 					display_name += " (video not downloaded)"
-			variants[display_name] = audio_status
+			variants[display_name] = true
 	
 	return variants
 
@@ -80,7 +88,6 @@ func _variants_parser(value, mode):
 		return value + 1
 	else:
 		return value - 1
-
 
 func clear_layers():
 	var children := layers_item.get_children()
@@ -129,3 +136,6 @@ func custom_input_parser(item: TreeItem):
 		
 		item.set_text(1, text)
 		item.set_icon(1, icon)
+
+func notify_song_media_cached():
+	_update_settings_tree(tree.get_root())
