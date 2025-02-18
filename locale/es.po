@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2025-02-18 20:57\n"
+"PO-Revision-Date: 2025-02-18 21:10\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -2627,4 +2627,12 @@ msgstr "Solo notas de consola"
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Arcade notes only"
 msgstr "Solo notas de árcade"
+
+#: menus/song_list/SongListPreview.tscn
+msgid "by"
+msgstr "por"
+
+#: menus/song_list/SongListPreview.gd
+msgid "{beats_per_minute} BPM"
+msgstr "{beats_per_minute} PPM"
 
