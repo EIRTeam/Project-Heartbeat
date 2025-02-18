@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2025-02-18 20:43\n"
+"PO-Revision-Date: 2025-02-18 20:57\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -2553,78 +2553,78 @@ msgstr "Llicència: "
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Sort & filter settings"
-msgstr ""
+msgstr "Configuració d'ordenació i filtració"
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Has downloaded media"
-msgstr ""
+msgstr "Té medis descarregats"
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Filter by stars"
-msgstr ""
+msgstr "Filtrar per estrelles"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by title"
-msgstr ""
+msgstr "Ordena per títol"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by artist"
-msgstr ""
+msgstr "Ordena per artista"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by highest difficulty"
-msgstr ""
+msgstr "Ordena per dificultat més alta"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by lowest difficulty"
-msgstr ""
+msgstr "Ordena per dificultat més baixa"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by chart creator name"
-msgstr ""
+msgstr "Orena per nom de creador"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by BPM"
-msgstr ""
+msgstr "Ordena per PPM"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last subscribed"
-msgstr ""
+msgstr "Ordena per darrer subscrit"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by times played"
-msgstr ""
+msgstr "Ordena per vegades jugat"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last released"
-msgstr ""
+msgstr "Ordena per darrer llançament"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last updated"
-msgstr ""
+msgstr "Ordena per darrer actualitzat"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Song list sort by panel maximum stars"
 msgid "Maximum"
-msgstr ""
+msgstr "Màxim"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Song list sort by panel minimum stars"
 msgid "Minimum"
-msgstr ""
+msgstr "Mínim"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "All notes"
-msgstr ""
+msgstr "Totes les notes"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Console notes only"
-msgstr ""
+msgstr "Només notes de consola"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Arcade notes only"
-msgstr ""
+msgstr "Només notes d'àrcade"
 
