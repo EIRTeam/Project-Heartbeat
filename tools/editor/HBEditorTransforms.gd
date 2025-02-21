@@ -473,10 +473,11 @@ class ArcInterpolationTransform:
 		
 		var starting_angle := start.position.angle_to_point(end.position)
 		starting_angle += self.direction * (self.angle_direction * PI/2 - total_angle * 0.5)
+		var last_angle := starting_angle
+		
+		var last_beat: float = editor.get_time_as_eight(start.time)
 		
 		var last_pos := pos_around_arc(-max_distance / 2, 0.0, arc_const)
-		var last_beat: float = editor.get_time_as_eight(start.time)
-		var first_beat := last_beat
 		var shift = -last_pos   # No idea tbh
 		
 		for i in notes.size():
@@ -488,7 +489,7 @@ class ArcInterpolationTransform:
 			var pos: Vector2 = ((last_pos + shift) * Vector2(1, self.direction)).rotated(theta)
 			pos += start.position
 			
-			var angle: float = rad_to_deg(starting_angle + self.direction * (current_beat - first_beat) / beats * total_angle)
+			var angle: float = rad_to_deg(last_angle + self.direction * ((current_beat - last_beat) / beats) * total_angle)
 			
 			transformation_result[n] = {
 				"position": pos,
@@ -499,6 +500,8 @@ class ArcInterpolationTransform:
 			last_beat = current_beat
 			if n is HBSustainNote:
 				last_beat = editor.get_time_as_eight(n.end_time)
+			
+			last_angle = deg_to_rad(angle)
 		
 		return transformation_result
 
