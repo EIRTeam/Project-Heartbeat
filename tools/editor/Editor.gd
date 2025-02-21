@@ -1264,6 +1264,14 @@ func toggle_selection(item):
 func is_area_selecting() -> bool:
 	return timeline._area_selecting
 
+func get_global_area_selection() -> Rect2:
+	return timeline.get_selection_rect()
+
+func get_local_area_selection() -> Rect2:
+	var r := Rect2(timeline._area_select_start, Vector2())
+	
+	return r.expand(timeline.get_local_mouse_position())
+
 func get_notes_at_time(time: int) -> Array:
 	var notes := []
 	
