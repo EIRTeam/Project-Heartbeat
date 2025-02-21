@@ -463,7 +463,7 @@ func _input(event: InputEvent):
 			fine_position_selected(off)
 			get_viewport().set_input_as_handled()
 	
-	if event is InputEventKey and not event.is_action_pressed("editor_play"):
+	if event is InputEventKey and not event.is_action_pressed("editor_play") and not is_area_selecting():
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 			var found_note = false
 			for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
@@ -553,6 +553,7 @@ func _input(event: InputEvent):
 					
 					found_note = true
 					break
+			
 			if found_note:
 				get_viewport().set_input_as_handled()
 				break
@@ -1259,6 +1260,9 @@ func toggle_selection(item):
 		deselect_item(item)
 	else:
 		select_item(item, true)
+
+func is_area_selecting() -> bool:
+	return timeline._area_selecting
 
 func get_notes_at_time(time: int) -> Array:
 	var notes := []
