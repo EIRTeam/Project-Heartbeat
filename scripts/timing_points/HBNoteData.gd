@@ -51,7 +51,11 @@ func get_inspector_properties():
 			super.get_inspector_properties(), 
 			{
 				"hold": {
-					"type": "bool" 
+					"type": "bool",
+					"params": {
+						"condition": "not note_type in [%d, %d, %d]" % [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART],
+						"affected_by_properties": ["note_type"],
+					}
 				}
 			}
 		)

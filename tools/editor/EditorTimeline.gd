@@ -599,7 +599,7 @@ func make_spam(note_type: int, layer_name: String):
 func get_time_being_hovered() -> int:
 	return editor.snap_time_to_timeline(editor.scale_pixels(get_layers()[0].get_local_mouse_position().x))
 
-func get_selection_rect():
+func get_selection_rect() -> Rect2:
 	var origin = _area_select_start
 	var end_point = get_local_mouse_position()
 	var r := Rect2(origin, Vector2())

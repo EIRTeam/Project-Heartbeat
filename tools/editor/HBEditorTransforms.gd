@@ -394,7 +394,6 @@ class ArcInterpolationTransform:
 
 	### Configurable Constants
 	const PRECISION = 1e-2  	# = 1/100th of a pixel
-	const BEAT_SCALE = 96   	# = 96px spacing per 8th
 	const APPROX_START = 8192.0 # where approximation starts
 	const MAX_ITERATIONS = 20   # to prevent crashing if an oopsie is made
 	### ----------------------
@@ -455,14 +454,16 @@ class ArcInterpolationTransform:
 		var start: HBBaseNote = notes[0]
 		var end: HBBaseNote = notes[-1]
 		
+		var eight_separation = UserSettings.user_settings.editor_arrange_separation
+		
 		var max_distance := float(start.position.distance_to(end.position))
 		var beats: float = editor.get_length_in_beats(notes)
-		var arc_length := beats * BEAT_SCALE
+		var arc_length: float = beats * eight_separation
 		
 		# arc_length must be greater than a straight line between the start and end
 		# if we dont cap it, it will crash
-		if max_distance + BEAT_SCALE / 8 >= arc_length:
-			max_distance = arc_length - BEAT_SCALE / 8
+		if max_distance + eight_separation / 8 >= arc_length:
+			max_distance = arc_length - eight_separation / 8
 		
 		var arc_const := approximate_arc_constant(arc_length, max_distance)
 		var theta = PI + end.position.angle_to_point(start.position)
@@ -472,22 +473,23 @@ class ArcInterpolationTransform:
 		
 		var starting_angle := start.position.angle_to_point(end.position)
 		starting_angle += self.direction * (self.angle_direction * PI/2 - total_angle * 0.5)
+		var last_angle := starting_angle
+		
+		var last_beat: float = editor.get_time_as_eight(start.time)
 		
 		var last_pos := pos_around_arc(-max_distance / 2, 0.0, arc_const)
-		var last_beat: float = editor.get_time_as_eight(start.time)
-		var first_beat := last_beat
 		var shift = -last_pos   # No idea tbh
 		
 		for i in notes.size():
 			var n: HBBaseNote = notes[i]
 			var current_beat: float = editor.get_time_as_eight(n.time)
 			
-			last_pos = pos_around_arc(last_pos.x, (current_beat - last_beat) * BEAT_SCALE, arc_const)
+			last_pos = pos_around_arc(last_pos.x, (current_beat - last_beat) * eight_separation, arc_const)
 			
 			var pos: Vector2 = ((last_pos + shift) * Vector2(1, self.direction)).rotated(theta)
 			pos += start.position
 			
-			var angle: float = rad_to_deg(starting_angle + self.direction * (current_beat - first_beat) / beats * total_angle)
+			var angle: float = rad_to_deg(last_angle + self.direction * ((current_beat - last_beat) / beats) * total_angle)
 			
 			transformation_result[n] = {
 				"position": pos,
@@ -498,6 +500,8 @@ class ArcInterpolationTransform:
 			last_beat = current_beat
 			if n is HBSustainNote:
 				last_beat = editor.get_time_as_eight(n.end_time)
+			
+			last_angle = deg_to_rad(angle)
 		
 		return transformation_result
 

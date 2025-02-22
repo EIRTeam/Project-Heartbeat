@@ -203,6 +203,15 @@ func select_all():
 func deselect_all():
 	editor.deselect_all()
 
+func is_area_selecting() -> bool:
+	return editor.is_area_selecting()
+
+func get_global_area_selection() -> Rect2:
+	return editor.get_global_area_selection()
+
+func get_local_area_selection() -> Rect2:
+	return editor.get_local_area_selection()
+
 func shortcuts_blocked() -> bool:
 	return editor.shortcuts_blocked()
 

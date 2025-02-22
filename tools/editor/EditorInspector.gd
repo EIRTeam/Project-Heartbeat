@@ -226,6 +226,15 @@ func inspect_internal(items: Array):
 				condition_properties[property_name] = property.params.affects_properties
 				for conditional_property in property.params.affects_properties:
 					conditional_properties[conditional_property] = properties[conditional_property].params.condition
+			
+			if property.params.has("affected_by_properties"):
+				for condition_property in property.params.affected_by_properties:
+					if not condition_properties.has(condition_property):
+						condition_properties[condition_property] = []
+					
+					condition_properties[condition_property].append(property_name)
+				
+				conditional_properties[property_name] = property.params.condition
 		
 		var label = Label.new()
 		label.text = name
