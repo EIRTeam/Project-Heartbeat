@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1jrfwwatoiby"
-path="res://.godot/imported/arrange-line.svg-77c93358b2ae1f8663dae2a984520b54.ctex"
+uid="uid://duqakdxh3srcf"
+path="res://.godot/imported/arrange-pad.svg-edb6f481c8180de33c1a3e157a732b23.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/arrange-line.svg"
-dest_files=["res://.godot/imported/arrange-line.svg-77c93358b2ae1f8663dae2a984520b54.ctex"]
+source_file="res://graphics/icons/arrange-pad.svg"
+dest_files=["res://.godot/imported/arrange-pad.svg-edb6f481c8180de33c1a3e157a732b23.ctex"]
 
 [params]
 
@@ -32,6 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=5.0
+svg/scale=1.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false
