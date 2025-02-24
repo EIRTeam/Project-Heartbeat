@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://dp3dxv1k748mt"]
+[gd_scene load_steps=25 format=3 uid="uid://dp3dxv1k748mt"]
 
 [ext_resource type="Texture2D" uid="uid://d0x0jbwaj58e" path="res://graphics/icons/rotate-relative-right.svg" id="2"]
 [ext_resource type="Script" uid="uid://d3j8dwm1jc0vn" path="res://tools/editor/editor_modules/ArrangeModule.gd" id="3"]
 [ext_resource type="Script" uid="uid://clphuuunv7ko1" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="4"]
+[ext_resource type="Script" uid="uid://bp3qrjahqrk31" path="res://tools/editor/controls/HBEditorButtonPad.gd" id="4_dfckn"]
 [ext_resource type="Texture2D" uid="uid://c2gg4gcju4k0o" path="res://graphics/icons/rotate-relative-left.svg" id="5"]
-[ext_resource type="Texture2D" uid="uid://c1jrfwwatoiby" path="res://graphics/icons/arrange-line.svg" id="5_dncfq"]
+[ext_resource type="Texture2D" uid="uid://duqakdxh3srcf" path="res://graphics/icons/arrange-pad.svg" id="5_52snf"]
 [ext_resource type="Texture2D" uid="uid://bgi10pnx3ybc0" path="res://graphics/icons/circle-clockwise.svg" id="7_5egqo"]
 [ext_resource type="Texture2D" uid="uid://2uvl0wk3sttg" path="res://graphics/icons/arrow-left-right.svg" id="8"]
 [ext_resource type="Texture2D" uid="uid://d260pibrxbfsb" path="res://graphics/icons/circle-counterclockwise.svg" id="8_y761g"]
@@ -93,17 +94,15 @@ text = "Place in reverse:"
 [node name="CheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" index="1"]
 layout_mode = 2
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
+[node name="HBEditorButtonPad" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(104, 547)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
-script = ExtResource("11")
-text = "Apply"
-tooltip = "Arrange notes with the selected angle."
-texture = ExtResource("5_dncfq")
-button_mode = "function"
-function_name = "_apply_arrange"
+script = ExtResource("4_dfckn")
+text = "Arrange in a Line"
+texture = ExtResource("5_52snf")
+metadata/_custom_type_script = ExtResource("4_dfckn")
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
 layout_mode = 2
