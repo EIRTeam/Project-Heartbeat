@@ -179,8 +179,8 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 			var err := test_json_conv.parse(body.get_string_from_utf8())
 			var json = test_json_conv.data
 			if err == OK:
-				if "error_message" in json.result:
-					failure_reason = json.result.error_message
+				if "error_message" in json:
+					failure_reason = json.error_message
 			emit_signal("score_enter_failed", failure_reason)
 		Log.log(self, "Error doing request " + HBUtils.find_key(REQUEST_TYPE, request_type) + " " + str(response_code) + body.get_string_from_utf8())
 func _on_logged_in(json, _params):
