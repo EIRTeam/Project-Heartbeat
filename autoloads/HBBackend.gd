@@ -181,6 +181,8 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 			if err == OK:
 				if "error_message" in json:
 					failure_reason = json.error_message
+			else:
+				failure_reason = "Request error code %d %s" % [result, str(body) if body else ""]
 			emit_signal("score_enter_failed", failure_reason)
 		Log.log(self, "Error doing request " + HBUtils.find_key(REQUEST_TYPE, request_type) + " " + str(response_code) + body.get_string_from_utf8())
 func _on_logged_in(json, _params):
