@@ -9,17 +9,36 @@ class_name HBEditorButtonPad
 	set(v): 
 		pad_division = max(v, 1)
 
+var _pressed = false
+
 func _ready() -> void:
 	button.material = ShaderMaterial.new()
 	button.material.shader = button_pad_shader
 	
+	button.material.set_shader_parameter("pressed_color", button.get_theme_color("icon_pressed_color"))
+	
+	self._set_texture(self.texture)
+	
 	button.gui_input.connect(button_gui_input)
 	button.mouse_entered.connect(button_mouse_entered)
 	button.mouse_exited.connect(button_mouse_exited)
+	button.button_down.connect(button_pressed)
+	button.button_up.connect(button_released)
 
-func button_gui_input(event: InputEvent) -> void:
+# This version of _set_texture doesnt set the button icon, only the shader icon.
+func _set_texture(new_texture: CompressedTexture2D):
+	if button and button.material:
+		button.material.set_shader_parameter("icon_texture", new_texture)
+
+func button_gui_input(_event: InputEvent) -> void:
+	# Lock the highlight pos when holding down the button
+	if _pressed: 
+		return
+	
 	if pad_division == 1:
 		button.material.set_shader_parameter("highlight_pos", Vector2(0.5, 0.5))
+		button.material.set_shader_parameter("highlight_idx", Vector2(0, 0))
+		button.material.set_shader_parameter("highlight_area_size", 1.0)
 		
 		return
 	
@@ -32,12 +51,25 @@ func button_gui_input(event: InputEvent) -> void:
 	
 	var highlight_pos = highlight_idx / (self.pad_division - 1)
 	button.material.set_shader_parameter("highlight_pos", highlight_pos)
+	button.material.set_shader_parameter("highlight_idx", highlight_idx)
+	button.material.set_shader_parameter("highlight_area_size", 1.0 / self.pad_division)
 
 func button_mouse_entered():
 	button.material.set_shader_parameter("hover", true)
 
 func button_mouse_exited():
 	button.material.set_shader_parameter("hover", false)
+
+func button_pressed():
+	button.material.set_shader_parameter("pressed", true)
+	
+	_pressed = true
+
+func button_released():
+	button.material.set_shader_parameter("pressed", false)
+	
+	_pressed = false
+	self.button_gui_input(InputEventMouseMotion.new())
 
 func set_module(_module) -> void:
 	module = _module
