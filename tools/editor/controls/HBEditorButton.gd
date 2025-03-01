@@ -84,8 +84,14 @@ func set_tooltip(new_tooltip):
 	
 	tooltip = new_tooltip
 
-func set_texture(new_texture):
+# This callback is a wrapper around _set_texture because we want to allow class
+# inheritors (namely HBEditorButtonPad) to override the method.
+func set_texture(new_texture: CompressedTexture2D):
 	texture = new_texture
+	
+	_set_texture(new_texture)
+
+func _set_texture(new_texture: CompressedTexture2D):
 	button.icon = new_texture
 
 func set_disabled(disabled: bool):
