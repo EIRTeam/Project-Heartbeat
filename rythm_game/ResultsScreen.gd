@@ -34,7 +34,7 @@ var score_web_id := -1
 @onready var chart_tab = preload("res://rythm_game/results_screen/ResultsScreenGraphTab.tscn").instantiate()
 @onready var stats_tab: HBResultsScreenStatsTab = preload("res://rythm_game/results_screen/ResultsScreenStatsTab.tscn").instantiate()
 var current_timer: SceneTreeTimer
-const UPLOAD_TIMEOUT_TIME := 10.0
+const UPLOAD_TIMEOUT_TIME := 15.0
 
 func custom_sort_mp_entries(a: HBBackend.BackendLeaderboardEntry, b: HBBackend.BackendLeaderboardEntry):
 	return b.game_info.result.score > b.game_info.result.score
@@ -255,6 +255,6 @@ func _on_score_uploaded(result: HBBackend.LeaderboardScoreUploadedResult):
 	uploading_score_indicator.hide()
 func _on_score_upload_failed(reason):
 	uploading_score_indicator.hide()
-	error_window.text = tr("There was an issue uploading your score: %s\nWould you like to try uploading it again?" % [reason])
+	error_window.text = tr("There was an issue uploading your score.\n\n%s\n\nWould you like to try uploading it again?" % [reason])
 	error_window.popup_centered()
 	
