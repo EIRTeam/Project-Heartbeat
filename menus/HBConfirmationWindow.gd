@@ -5,11 +5,18 @@ class_name HBConfirmationWindow
 
 signal accept
 signal cancel
+
+enum ConfirmationWindowFocusStartsOn {
+	FOCUS_STARTS_ON_ACCEPT,
+	FOCUS_STARTS_ON_CANCEL
+}
+
 @export var has_cancel: bool = true 
 @export var has_accept: bool = true
 @export var text: String  = "Are you sure you want to do this?": set = set_text
 @export var accept_text: String  = "Yes": set = set_accept_text
 @export var cancel_text: String  = "No": set = set_cancel_text
+@export var focus_starts_on := ConfirmationWindowFocusStartsOn.FOCUS_STARTS_ON_CANCEL
 @onready var cancel_button = get_node("%CancelButton")
 var tween: Tween
 enum AnimationName {
@@ -25,10 +32,8 @@ func _ready():
 	_connect_button_signals()
 	connect("cancel", self.play_hide_animation)
 	connect("accept", self.play_hide_animation)
-	if not has_cancel:
-		%CancelButton.hide()
-	if not has_accept:
-		%AcceptButton.hide()
+	%CancelButton.visible = has_cancel
+	%AcceptButton.visible = has_accept
 	if not Engine.is_editor_hint():
 		cancel_button.set_meta("sfx", HBGame.menu_back_sfx)
 		
@@ -68,7 +73,7 @@ func set_cancel_text(value):
 
 func _on_Control_about_to_show():
 	%ButtonContainer.grab_focus()
-	if has_cancel:
+	if has_cancel and focus_starts_on == ConfirmationWindowFocusStartsOn.FOCUS_STARTS_ON_CANCEL:
 		%ButtonContainer.select_button(cancel_button.get_index())
 	else:
 		%ButtonContainer.select_button(0)
@@ -107,6 +112,11 @@ func play_hide_animation():
 	tween.tween_callback(self.hide)
 	tween.tween_callback(self.set.bind("scale", Vector2.ONE))
 		
+func add_button(_text: String) -> HBHovereableButton:
+	var button := HBHovereableButton.new()
+	button.text = _text
+	%ButtonContainer.add_child(button)
+	return button
 func popup_centered_ratio(ratio := 0.5):
 	popup_centered()
 func popup_centered():

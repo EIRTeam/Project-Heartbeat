@@ -16,9 +16,10 @@ var game_info : HBGameInfo: set = set_game_info
 @onready var no_opinion_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/NoOpinionButton")
 @onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
 @onready var copy_result_url_button = get_node("%CopyResultURLButton")
-@onready var error_window = get_node("HBConfirmationWindow")
+@onready var error_window: HBConfirmationWindow = get_node("ErrorWindow")
+@onready var uploading_score_indicator = get_node("%UploadingScoreIndicator")
+@onready var uploading_score_indicator_progress_bar: ProgressBar = get_node("%UploadingScoreIndicatorProgressBar")
 
-signal show_song_results(song_id, difficulty)
 signal show_song_results_mp(lobby: HeartbeatSteamLobby)
 signal select_song(song)
 
@@ -32,15 +33,24 @@ var score_web_id := -1
 @onready var results_tab: HBResultsScreenResultTab = preload("res://rythm_game/results_screen/ResultsScreenResultTab.tscn").instantiate()
 @onready var chart_tab = preload("res://rythm_game/results_screen/ResultsScreenGraphTab.tscn").instantiate()
 @onready var stats_tab: HBResultsScreenStatsTab = preload("res://rythm_game/results_screen/ResultsScreenStatsTab.tscn").instantiate()
+var current_timer: SceneTreeTimer
+const UPLOAD_TIMEOUT_TIME := 10.0
 
 func custom_sort_mp_entries(a: HBBackend.BackendLeaderboardEntry, b: HBBackend.BackendLeaderboardEntry):
 	return b.game_info.result.score > b.game_info.result.score
+
+func _process(delta: float) -> void:
+	if current_timer:
+		uploading_score_indicator_progress_bar.max_value = UPLOAD_TIMEOUT_TIME
+		uploading_score_indicator_progress_bar.value = UPLOAD_TIMEOUT_TIME - current_timer.time_left
+		uploading_score_indicator_progress_bar.step = 0.0
+
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
 	copy_result_url_button.hide()
 	results_tab.prev_result = null
 	results_tab.experience_gain = null
-	buttons.grab_focus()
+	get_viewport().gui_release_focus()
 	if args.has("assets"):
 		current_assets = args.assets
 	if args.has("game_info"):
@@ -77,12 +87,14 @@ func _on_lobby_loading_start():
 	rhythm_game_multiplayer_scene.start_loading()
 	
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("gui_cancel"):
+	if event.is_action_pressed("gui_cancel") and not uploading_score_indicator.visible:
 		_on_return_button_pressed()
 	
 func _ready():
 	super._ready()
-	error_window.connect("accept", Callable(buttons, "grab_focus"))
+	set_process(false)
+	error_window.connect("accept", upload_current_score)
+	error_window.connect("cancel", Callable(buttons, "grab_focus"))
 	
 	ScoreHistory.connect("score_entered", Callable(self, "_on_score_entered"))
 	ScoreHistory.connect("score_uploaded", Callable(self, "_on_score_uploaded"))
@@ -103,7 +115,25 @@ func _ready():
 		upvote_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.UPVOTE))
 		downvote_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.DOWNVOTE))
 		skip_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.SKIP))
-
+	
+func upload_current_score():
+	if game_info.is_leaderboard_legal():
+		# add result to history
+		var token := ScoreHistory.add_result_to_history(game_info)
+		token.score_uploaded.connect(_on_score_uploaded)
+		token.score_upload_failed.connect(_on_score_upload_failed)
+		get_viewport().gui_release_focus()
+		uploading_score_indicator.show()
+		current_timer = get_tree().create_timer(UPLOAD_TIMEOUT_TIME)
+		set_process(true)
+		current_timer.timeout.connect(
+			func():
+				token.backend_token.cancel_request()
+				if uploading_score_indicator.visible:
+					_on_score_upload_failed(tr("Score upload request timed out", &"Score upload request timeout error"))
+		)
+		
+	
 func _on_copy_result_url_button_pressed():
 	const PROGRESS_THING := preload("res://autoloads/DownloadProgressThing.tscn")
 	var progress_thing: HBDownloadProgressThing = PROGRESS_THING.instantiate()
@@ -138,6 +168,7 @@ func _on_return_button_pressed():
 		change_to_menu("lobby", false, {"lobby": mp_lobby})
 func set_game_info(val: HBGameInfo):
 	game_info = val
+	uploading_score_indicator.hide()
 	chart_tab.set_game_info(val)
 	var result = game_info.result as HBResult
 	
@@ -163,9 +194,7 @@ func set_game_info(val: HBGameInfo):
 
 	if game_info.is_leaderboard_legal():
 		# add result to history
-		ScoreHistory.add_result_to_history(game_info)
-	else:
-		_on_score_entered(game_info.song_id, game_info.difficulty)
+		upload_current_score()
 	
 	if SongLoader.songs.has(game_info.song_id):
 		var song = SongLoader.songs[game_info.song_id] as HBSong
@@ -222,11 +251,10 @@ func _on_score_uploaded(result: HBBackend.LeaderboardScoreUploadedResult):
 	HBBackend.refresh_user_info()
 	if score_web_id != -1:
 		copy_result_url_button.show()
-	
+	button_container.grab_focus()
+	uploading_score_indicator.hide()
 func _on_score_upload_failed(reason):
-	error_window.text = tr("There was an issue uploading your score:\n%s" % [reason])
+	uploading_score_indicator.hide()
+	error_window.text = tr("There was an issue uploading your score: %s\nWould you like to try uploading it again?" % [reason])
 	error_window.popup_centered()
 	
-func _on_score_entered(song, difficulty):
-	if not mp_lobby:
-		emit_signal("show_song_results", song, difficulty, game_info.modifiers.size() != 0)

@@ -37,7 +37,7 @@ func _ready():
 	leaderboard.connect("entries_request_failed", Callable(pagination_buttons, "hide"))
 	pagination_buttons.stop_hover_on_focus_exit = false
 	
-func _on_entries_received(handle, entries, _total_pages):
+func _on_entries_received(_entries: Array[HBBackend.BackendLeaderboardEntry], _total_pages: int):
 	pagination_buttons.visible = _total_pages > 1
 	total_pages = _total_pages
 	update_pages_label()

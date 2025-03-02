@@ -1,15 +1,11 @@
 extends Node
 
-signal result_entered(result: LeaderboardScoreUploadedResult)
-signal entries_received(handle, entries, total_pages)
 
 signal user_data_received
 signal diagnostics_response_received(response_data)
 signal diagnostics_created_request(request_data)
-signal request_failed(handle, code, total_pages)
-signal score_enter_failed(handle, reason)
+signal request_failed(token: BackendRequestToken, code, total_pages)
 signal connection_status_changed
-signal song_history_received(entries: BackendLeaderboardHistoryEntries)
 signal wrong_timezone_detected
 var enable_diagnostics = false
 
@@ -30,7 +26,7 @@ var has_user_data = false
 var auth_ticket: HBAuthTicketForWebAPI
 var _notified_wrong_timezone := false
 
-var queued_requests = []
+var queued_requests: Array[BackendRequestToken] = []
 
 var request_handle_i = 0
 
@@ -66,6 +62,25 @@ const LOG_NAME = "HBBackend"
 var user_info := HBWebUserInfo.new()
 
 var timer := Timer.new()
+
+class BackendRequestToken:
+	signal entries_received(entries: Array[BackendLeaderboardEntry], total_pages: int)
+	signal request_failed(code: int)
+	signal result_entered(result: LeaderboardScoreUploadedResult)
+	signal song_history_received(entries: BackendLeaderboardHistoryEntries)
+	signal score_enter_failed(handle, reason)
+	signal request_cancelled
+	
+	var url: String
+	var payload: Dictionary
+	var method: int
+	var type: REQUEST_TYPE
+	var no_auth: bool
+	var params: Dictionary
+	var request: HTTPRequest
+	
+	func cancel_request():
+		request_cancelled.emit()
 
 class BackendLeaderboardEntry:
 	var user: SteamServiceMember
@@ -146,16 +161,16 @@ func _on_retry_timer_timed_out():
 	if not connected and not waiting_for_auth:
 		renew_auth()
 	
-func _on_user_data_received(json, _params):
+func _on_user_data_received(json, token: BackendRequestToken):
 	json["type"] = "WebUserInfo"
 	var user_info_out = HBWebUserInfo.deserialize(json)
 	
 	if user_info_out:
 		has_user_data = true
 		user_info = user_info_out
-		emit_signal("user_data_received")
+		user_data_received.emit()
 	
-func _on_request_completed(result, response_code, headers, body, request_type, requester, params):
+func _on_request_completed(result, response_code, headers, body, request_type, requester, token: BackendRequestToken):
 	requester.queue_free()
 	if enable_diagnostics:
 		var data = ResponseData.new()
@@ -167,9 +182,10 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 		var test_json_conv = JSON.new()
 		test_json_conv.parse(body.get_string_from_utf8())
 		var json = test_json_conv.data
-		call(request_type_methods[request_type], json, params)
+		call(request_type_methods[request_type], json, token)
 	else:
-		emit_signal("request_failed", params.handle, response_code)
+		emit_signal("request_failed", token, response_code)
+		token.request_failed.emit(response_code)
 		
 		if request_type == REQUEST_TYPE.LOGIN:
 			timer.start()
@@ -183,7 +199,7 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 					failure_reason = json.error_message
 			else:
 				failure_reason = "Request error code %d %s" % [result, str(body) if body else ""]
-			emit_signal("score_enter_failed", failure_reason)
+			token.score_enter_failed.emit(failure_reason)
 		Log.log(self, "Error doing request " + HBUtils.find_key(REQUEST_TYPE, request_type) + " " + str(response_code) + body.get_string_from_utf8())
 func _on_logged_in(json, _params):
 	jwt_token = json.token
@@ -210,11 +226,25 @@ func get_jwt_data():
 	test_json_conv.parse(Marshalls.base64_to_utf8(jwt_token.split(".")[1]) + "}")
 	return test_json_conv.data
 
-func make_request(url: String, payload: Dictionary, method, type, params = {}, no_auth = false, ignore_jwt_expiration = false):
+func _on_request_cancelled(request_token: BackendRequestToken):
+	if request_token.request:
+		request_token.request.cancel_request()
+	else:
+		queued_requests.erase(request_token)
+
+func make_request(url: String, payload: Dictionary, method: int, type: REQUEST_TYPE, params = {}, no_auth = false, ignore_jwt_expiration = false):
 	if not ignore_jwt_expiration and _notified_wrong_timezone:
 		return
 	
 	request_handle_i += 1
+	var request_token := BackendRequestToken.new()
+	request_token.request_cancelled.connect(_on_request_cancelled.bind(request_token))
+	request_token.url = url
+	request_token.payload = payload
+	request_token.method = method
+	request_token.type = type
+	request_token.no_auth = no_auth
+	request_token.params = params
 	
 	params = HBUtils.merge_dict({
 		"handle": request_handle_i
@@ -225,22 +255,17 @@ func make_request(url: String, payload: Dictionary, method, type, params = {}, n
 		if not jwt_token or (get_jwt_data()["exp"] - Time.get_unix_time_from_system() < 60):
 			if not waiting_for_auth:
 				renew_auth()
-			queued_requests.append({
-				"url": url,
-				"payload": payload,
-				"method": method,
-				"type": type,
-				"no_auth": no_auth,
-				"params": params
-			})
-			return request_handle_i
+
+			queued_requests.append(request_token)
+			return request_token
 	
 	var requester = HTTPRequest.new()
+	request_token.request = requester
 	requester.use_threads = true
 	if not service_env.validate_domain:
 		var tls_options := TLSOptions.client_unsafe()
 		requester.set_tls_options(tls_options)
-	requester.connect("request_completed", Callable(self, "_on_request_completed").bind(type, requester, params))
+	requester.connect("request_completed", Callable(self, "_on_request_completed").bind(type, requester, request_token))
 	add_child(requester)
 	var headers = ["Content-Type: application/json"]
 	if not no_auth:
@@ -257,14 +282,14 @@ func make_request(url: String, payload: Dictionary, method, type, params = {}, n
 		}[method]
 		request_data.headers = str(headers)
 		emit_signal("diagnostics_created_request", request_data)
-	return request_handle_i
-func login_steam():
+	return request_token
+func login_steam() -> BackendRequestToken:
 	var payload = {
 		"steam_ticket": auth_ticket.ticket_data.hex_encode()
 	}
 	return make_request("/auth/steam-login", payload, HTTPClient.METHOD_POST, REQUEST_TYPE.LOGIN, {}, true, true)
 
-func _on_result_entered(result, _params):
+func _on_result_entered(result, token: BackendRequestToken):
 	var entry_result := LeaderboardScoreUploadedResult.new()
 	entry_result.beat_previous_record = result.get("beat_previous_record", false)
 	entry_result.experience_change = result.get("experience_change", 0)
@@ -281,7 +306,7 @@ func _on_result_entered(result, _params):
 		if "entry_data" in result.previous_record:
 			if "result" in result.previous_record.entry_data:
 				entry_result.previous_record = HBSerializable.deserialize(result.previous_record.entry_data.result)
-	emit_signal("result_entered", entry_result)
+	token.result_entered.emit(entry_result)
 
 func can_have_scores_uploaded(song: HBSong) -> bool:
 	if song is HBPPDSong:
@@ -293,7 +318,7 @@ func can_have_scores_uploaded(song: HBSong) -> bool:
 			return false
 	return true
 
-func upload_result(song: HBSong, game_info: HBGameInfo):
+func upload_result(song: HBSong, game_info: HBGameInfo) -> BackendRequestToken:
 	var request = {"game_info": {}, "song_ugc_id": "0", "song_ugc_type": "Steam"}
 	var game_info_dict = game_info.serialize(true)
 	game_info_dict.game_session_type = "Multiplayer"
@@ -349,7 +374,7 @@ func _convert_web_note_ratings(dict: Dictionary) -> Dictionary:
 			
 	return out_dict
 	
-func _on_user_song_history_received(result: Dictionary, params):
+func _on_user_song_history_received(result: Dictionary, token: BackendRequestToken):
 	var entries: Array[BackendLeaderboardHistoryEntry]
 	for entry in result.get("leaderboard_entries", []):
 		entry = entry.get("entry", {})
@@ -366,11 +391,11 @@ func _on_user_song_history_received(result: Dictionary, params):
 			continue
 		entries.push_back(BackendLeaderboardHistoryEntry.new(entry.get("id", 0), entry.get("rank", 0), game_info))
 	var entries_container := BackendLeaderboardHistoryEntries.new(result.get("song_ugc_id", ""), result.get("difficulty", ""), entries)
-	song_history_received.emit(entries_container)
+	token.song_history_received.emit(entries_container)
 	
 	
-func _on_entries_received(result, params):
-	var entries = []
+func _on_entries_received(result: Dictionary, token: BackendRequestToken):
+	var entries: Array[BackendLeaderboardEntry]
 	for item in result.leaderboard_entries:
 		var entry_data = item.entry.entry_data
 		var rank = item.rank
@@ -383,10 +408,9 @@ func _on_entries_received(result, params):
 				var member = SteamServiceMember.new(int(user.steam_id))
 				entries.append(BackendLeaderboardEntry.new(member, rank, game_info))
 				break
-	
-	emit_signal("entries_received", params.handle, entries, result.total_pages)
+	token.entries_received.emit(entries, result.total_pages)
 
-func get_song_entries(song: HBSong, difficulty: String, include_modifiers = false, page = 1):
+func get_song_entries(song: HBSong, difficulty: String, include_modifiers = false, page = 1) -> BackendRequestToken:
 	var type = "steam"
 	var song_uid = str(song.ugc_id)
 	if song is HBPPDSong:
@@ -395,7 +419,7 @@ func get_song_entries(song: HBSong, difficulty: String, include_modifiers = fals
 	var params = [type, song_uid, difficulty.uri_encode(), str(page), str(include_modifiers).to_lower()]
 	return make_request("/api/leaderboard/get-results/%s/%s/%s?page=%s&modifiers=%s" % params, {}, HTTPClient.METHOD_GET, REQUEST_TYPE.GET_ENTRIES, {"page": page})
 
-func get_song_history(song: HBSong, difficulty: String):
+func get_song_history(song: HBSong, difficulty: String) -> BackendRequestToken:
 	var type = "steam"
 	var song_uid = str(song.ugc_id)
 	if song is HBPPDSong:

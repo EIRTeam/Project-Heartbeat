@@ -34,7 +34,8 @@ func _update_history():
 	_update_song_stats_label()
 	if song and not difficulty.is_empty() and HBBackend.can_have_scores_uploaded(song):
 		loading_label.show()
-		HBBackend.get_song_history(song, difficulty)
+		var token := HBBackend.get_song_history(song, difficulty)
+		token.song_history_received.connect(_on_song_history_received)
 	else:
 		loading_label.hide()
 func _update_song_stats_label():
@@ -53,6 +54,8 @@ func _focus_entered():
 		(leaderboard_history_container.get_child(0) as Control).grab_focus()
 
 func _on_song_history_received(entry_container: HBBackend.BackendLeaderboardHistoryEntries):
+	if not is_inside_tree():
+		await tree_entered
 	var entries := entry_container.entries
 	if not song:
 		loading_label.hide()
@@ -85,9 +88,3 @@ func _on_song_history_received(entry_container: HBBackend.BackendLeaderboardHist
 		var etr := leaderboard_history_container.get_child(0) as HBPregameLeaderboardHistoryEntry
 		etr.set_prev(prev_entry_scene.get_path())
 		prev_entry_scene.set_next(etr.get_path())
-func _notification(what: int) -> void:
-	match what:
-		NOTIFICATION_ENTER_TREE:
-			HBBackend.song_history_received.connect(self._on_song_history_received)
-		NOTIFICATION_EXIT_TREE:
-			HBBackend.song_history_received.disconnect(self._on_song_history_received)

@@ -71,7 +71,7 @@ window/vsync/vsync_mode=false
 
 [editor]
 
-run/main_run_args="--editor-dev-mode --ph-log-input --enable-network-diagnostics --angle-backend d3d11 --phplugin:dscloader:game_location \"/home/eirexe/.steam/steam/steamapps/common/Hatsune Miku Project DIVA Mega Mix Plus\" --phplugin:dscloader:game_type f --logging-enabled --ph-dump-timing --rendering-driver opengl3"
+run/main_run_args="--editor-dev-mode --ph-log-input --enable-network-diagnostics --angle-backend d3d11 --phplugin:dscloader:game_location \"/home/eirexe/.steam/steam/steamapps/common/Hatsune Miku Project DIVA Mega Mix Plus\" --phplugin:dscloader:game_type f --logging-enabled --ph-dump-timing --rendering-driver opengl3 --service-environment dev"
 convert_text_resources_to_binary_on_export=true
 
 [editor_plugins]
@@ -933,7 +933,7 @@ editor_open_script_manager={
 }
 toggle_diagnostics={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"timestamp":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194335,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"timestamp":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194335,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 toggle_fps={

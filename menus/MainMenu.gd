@@ -146,7 +146,6 @@ func _ready():
 	MENUS["lobby"].left.connect("ugc_song_selected", Callable(MENUS["song_list_preview"].right, "select_ugc_song"))
 	MENUS["song_list"].left.connect("song_hovered", Callable(MENUS["pre_game"].left, "select_song"))
 	(MENUS["oob"].left as HBOOBMenu).show_text.connect(MENUS["oob_right"].right.show_text)
-	#MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "fetch_entries")
 	
 	MENUS["results"].left.connect("select_song", Callable(MENUS["song_list_preview"].right, "select_song"))
 	MENUS["results_mp"].left.show_song_results_mp.connect(MENUS["mp_leaderboard"].right.set_lobby)

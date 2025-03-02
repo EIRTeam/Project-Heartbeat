@@ -12,15 +12,18 @@ var games_queued_for_upload = []
 
 var last_song_uploaded
 
+class ScoreEnterToken:
+	signal score_uploaded(result: HBBackend.LeaderboardScoreUploadedResult)
+	signal score_upload_failed(reason)
+	var will_be_uploaded_to_backend := false
+	var backend_token: HBBackend.BackendRequestToken
 func _ready():
 	load_history()
-	HBBackend.connect("result_entered", Callable(self, "_on_leaderboard_score_uploaded"))
-	HBBackend.connect("score_enter_failed", Callable(self, "_on_score_enter_failed"))
 	
 func _on_score_enter_failed(reason):
 	emit_signal("score_upload_failed", reason)
 		
-func _on_leaderboard_score_uploaded(result):
+func _on_leaderboard_score_uploaded(result, song_id, difficulty):
 	emit_signal("score_entered", last_song_uploaded.song_id, last_song_uploaded.difficulty)
 	emit_signal("score_uploaded", result)
 
@@ -78,7 +81,8 @@ func save_history():
 		file.store_string(contents)
 		PlatformService.service_provider.write_remote_file_async(SCORE_HISTORY_PATH.get_file(), contents.to_utf8_buffer())
 		
-func add_result_to_history(game_info: HBGameInfo):
+func add_result_to_history(game_info: HBGameInfo) -> ScoreEnterToken:
+	var out_token := ScoreEnterToken.new()
 	var result = game_info.result as HBResult
 	if result.used_cheats or not game_info.is_leaderboard_legal():
 		Log.log(self, "Can't enter a cheated result")
@@ -101,11 +105,17 @@ func add_result_to_history(game_info: HBGameInfo):
 		var song = SongLoader.songs[game_info.song_id] as HBSong
 		if HBBackend.can_have_scores_uploaded(song):
 			last_song_uploaded = game_info
-			HBBackend.upload_result(song, game_info)
+			var upload_token := HBBackend.upload_result(song, game_info)
+			upload_token.result_entered.connect(_on_leaderboard_score_uploaded.bind(song.id, game_info.difficulty))
+			upload_token.score_enter_failed.connect(_on_score_enter_failed)
+			out_token.backend_token = upload_token
+			upload_token.result_entered.connect(out_token.score_uploaded.emit)
+			upload_token.score_enter_failed.connect(out_token.score_upload_failed.emit)
 		else:
 			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
 
 		save_history()
+	return out_token
 
 func has_result(song_id: String, difficulty: String):
 	var r = false
