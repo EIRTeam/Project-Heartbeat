@@ -31,7 +31,7 @@ func _on_request_completed(result, response_code, headers, body):
 		var json = test_json_conv.data
 		var news_items = []
 		for item in json.appnews.newsitems:
-			if not "tags" in item or not "patchnotes" in item.tags:
+			if not "tags" in item:
 				news_items.append(item)
 				if news_items.size() == 3:
 					break
