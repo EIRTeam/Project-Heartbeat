@@ -13,6 +13,7 @@ signal folder_selected(folder)
 func _ready():
 	super._ready()
 	button.connect("pressed", Callable(self, "emit_signal").bind("pressed"))
+	stop_hover(true)
 
 func set_folder(val: HBFolder):
 	folder = val
@@ -32,4 +33,3 @@ func _gui_input(event):
 #	get_tree().root.add_child(scene)
 #	get_tree().current_scene = scene
 #	scene.set_song(song)
-

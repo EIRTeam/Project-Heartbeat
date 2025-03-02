@@ -156,7 +156,8 @@ func update_folder_items():
 	var prev_selected_item := 0
 	if selected_index_stack:
 		prev_selected_item = selected_index_stack[-1]
-	
+	# Hack to prevent the animation from playing on elements it shouldn't
+	current_selected_item = -1
 	select_item(min(prev_selected_item, item_container.get_child_count()-1))
 	force_scroll()
 #	hard_arrange_all()
