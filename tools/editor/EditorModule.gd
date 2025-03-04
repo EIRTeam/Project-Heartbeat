@@ -247,3 +247,6 @@ func sort_items():
 
 func snap_time_to_timeline(time: int):
 	return editor.snap_time_to_timeline(time)
+
+func toggle_focus_loss() -> void:
+	editor.prevent_focus_loss = not editor.prevent_focus_loss

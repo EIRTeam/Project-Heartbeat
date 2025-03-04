@@ -17,6 +17,10 @@ func _ready():
 			{"name": tr("Save last arrange angle"), "var": "editor_save_arrange_angle", "type": "Bool"},
 			{"name": tr("Arranger separation per 8th"), "var": "editor_arrange_separation", "type": "Int", "options": {"suffix": "px"}},
 			
+			{"name": tr("Arrange pad diagonal angle (Standard Line)"), "var": "editor_arrange_menu_angle", "type": "Float", "options": {"suffix": "º", "min": 0, "max": 90}},
+			{"x_name": tr("Arrange pad horizontal step per 8th (Distance Line)"), "y_name": tr("Arrange pad vertical step per 8th"), "var": "editor_arrange_menu_diagonal_step", "type": "Vector2", "options": {"suffix": "px", "min": 1, "step": 1}},
+			{"name": tr("Arrange pad vertical step per 8th (Full Width Line)"), "var": "editor_arrange_menu_vstep", "type": "Int", "options": {"suffix": "px", "min": 1, "max": 360}},
+			
 			{"name": tr("Inner arrange wheel behaviour"), "var": "editor_arrange_inner_mode", "type": "List", "data_callback": "_get_wheel_modes", "options": {"update_affects_conditions": true}},
 			{"name": tr("Inner arrange wheel subdivisions"), "var": "editor_arrange_inner_subdivision", "type": "Int", "options": {"condition": "editor_arrange_inner_mode == EDITOR_ARRANGE_MODES.SUBDIVIDED", "suffix": " subdivisions", "min": 1, "max": 360}},
 			{"name": tr("Inner arrange wheel diagonal angle"), "var": "editor_arrange_inner_snap", "type": "Float", "options": {"condition": "editor_arrange_inner_mode in [EDITOR_ARRANGE_MODES.SINGLE_SNAP, EDITOR_ARRANGE_MODES.DUAL_SNAP]", "suffix": "º", "min": 0, "max": 45}},
@@ -99,6 +103,14 @@ func _get_grid_types() -> Dictionary:
 	return types
 
 func _get_wheel_modes() -> Dictionary:
+	var modes := {}
+	
+	for possibility in UserSettings.user_settings.editor_arrange_mode__possibilities:
+		modes[possibility] = true
+	
+	return modes
+
+func _get_arrange_pad_modes() -> Dictionary:
 	var modes := {}
 	
 	for possibility in UserSettings.user_settings.editor_arrange_mode__possibilities:

@@ -69,39 +69,148 @@ alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="0"]
 layout_mode = 2
-text = "Line angle:"
+text = "Line type:"
 horizontal_alignment = 1
 
-[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="ArrangeModeOptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="1" groups=["disabled_ui"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-max_value = 360.0
+
+[node name="StandardHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Angle at which to place the notes."
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/StandardHBoxContainer" index="0"]
+layout_mode = 2
+text = "Slope angle:"
+horizontal_alignment = 1
+
+[node name="ArrangeAngleSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/StandardHBoxContainer" index="1" groups=["disabled_ui"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 90.0
 step = 0.1
+allow_greater = true
+allow_lesser = true
 suffix = "º"
 custom_arrow_step = 1.0
 script = ExtResource("4")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="2"]
+[node name="DiagonalStepHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="3"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
-tooltip_text = "Arrange from the last note
-rather than the first."
+tooltip_text = "Angle at which to place the notes."
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="0"]
 layout_mode = 2
-text = "Place in reverse:"
+text = "X Step:"
+horizontal_alignment = 1
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" index="1"]
+[node name="DiagonalStepXSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="1" groups=["disabled_ui"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 192.0
+allow_greater = true
+suffix = "px"
+custom_arrow_step = 1.0
+script = ExtResource("4")
+
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="2"]
+layout_mode = 2
+text = "Y step:"
+horizontal_alignment = 1
+
+[node name="DiagonalStepYSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="3" groups=["disabled_ui"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 192.0
+allow_greater = true
+suffix = "px"
+custom_arrow_step = 1.0
+script = ExtResource("4")
+
+[node name="FullWidthHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="4"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+tooltip_text = "Angle at which to place the notes."
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/FullWidthHBoxContainer" index="0"]
+layout_mode = 2
+text = "Vertical step:"
+horizontal_alignment = 1
+
+[node name="VerticalStepSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/FullWidthHBoxContainer" index="1" groups=["disabled_ui"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 192.0
+allow_greater = true
+suffix = "px"
+custom_arrow_step = 1.0
+script = ExtResource("4")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="5"]
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" index="0"]
+layout_mode = 2
+tooltip_text = "Arrange from the last note
+rather than the first.
+Shortcut: Shift"
+alignment = 1
+
+[node name="ReverseArrangeCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer" index="0" groups=["disabled_ui"]]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBEditorButtonPad" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer" index="1"]
+layout_mode = 2
+text = "Arrange from last note"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" index="1"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" index="2"]
+layout_mode = 2
+tooltip_text = "Set basic angles while arranging.
+Shortcut: Control"
+alignment = 1
+
+[node name="AutoAngleCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer2" index="0" groups=["disabled_ui"]]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer2" index="1"]
+layout_mode = 2
+text = "Change angles"
+
+[node name="ArrangeButtonPad" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(104, 547)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
 script = ExtResource("4_dfckn")
 text = "Arrange in a Line"
+tooltip = "Arranges the selected notes in a
+straight line with the given slope or
+step between each note.
+Press a specific arrow to select the
+line direction."
 texture = ExtResource("5_52snf")
+button_mode = "function"
+function_name = "_menu_arrange_button_pressed"
 metadata/_custom_type_script = ExtResource("4_dfckn")
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
@@ -124,14 +233,16 @@ layout_mode = 2
 layout_mode = 2
 text = "Size:"
 
-[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="CircleSizeSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" index="1" groups=["disabled_ui"]]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 4.0
 max_value = 64.0
 value = 16.0
 script = ExtResource("4")
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="1" groups=["disabled_ui"]]
+[node name="CircleSizeHSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="1" groups=["disabled_ui"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 4.0
@@ -414,14 +525,16 @@ layout_mode = 2
 layout_mode = 2
 text = "Angle:"
 
-[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="RotationAngleSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="1" groups=["disabled_ui"]]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = -180.0
 max_value = 180.0
 suffix = "º"
 script = ExtResource("4")
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1" groups=["disabled_ui"]]
+[node name="RotationAngleHSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1" groups=["disabled_ui"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = -180.0
@@ -489,3 +602,10 @@ action = "editor_rotate_screen_center"
 
 [node name="ArrangeMenu" parent="." index="1" instance=ExtResource("14")]
 visible = false
+
+[connection signal="item_selected" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/ArrangeModeOptionButton" to="." method="arrange_menu_mode_selected"]
+[connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/StandardHBoxContainer/ArrangeAngleSpinBox" to="." method="_on_arrange_angle_spinbox_value_changed"]
+[connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer/DiagonalStepXSpinBox" to="." method="_on_arrange_diagonal_step_spinbox_value_changed"]
+[connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer/DiagonalStepYSpinBox" to="." method="_on_arrange_diagonal_step_spinbox_value_changed"]
+[connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/FullWidthHBoxContainer/VerticalStepSpinBox" to="." method="_on_arrange_vstep_spinbox_value_changed"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/AutoAngleCheckBox" to="." method="_on_auto_angle_check_box_toggled"]

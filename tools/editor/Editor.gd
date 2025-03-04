@@ -10,6 +10,10 @@ signal song_editor_settings_changed
 signal modules_update_settings(settings)
 signal modules_update_user_settings
 signal paused
+signal enable_ui
+signal enable_extended_ui
+signal disable_ui
+signal disable_extended_ui
 
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
@@ -115,6 +119,8 @@ var editor_hidden: bool = false
 
 var modified: bool = false
 
+var prevent_focus_loss: bool = false
+
 func _sort_current_items_impl(a, b):
 	return a.data.time < b.data.time
 
@@ -132,7 +138,6 @@ func _sort_modules(a, b):
 	return a.priority < b.priority
 
 func load_modules():
-	
 	for module in EDITOR_MODULE_PATHS:
 		var module_c: Variant = load(module)
 		if module_c is PackedScene:
@@ -1749,6 +1754,8 @@ func obscure_ui(extended: bool = true):
 		if control is SpinBox:
 			control.get_line_edit().editable = false
 	
+	disable_ui.emit()
+	
 	if not extended:
 		return
 	
@@ -1759,6 +1766,8 @@ func obscure_ui(extended: bool = true):
 			control.editable = false
 		if control is SpinBox:
 			control.get_line_edit().editable = false
+	
+	disable_extended_ui.emit()
 
 func reveal_ui(extended: bool = true):
 	if not is_inside_tree():
@@ -1775,6 +1784,8 @@ func reveal_ui(extended: bool = true):
 	save_button.disabled = editor_hidden
 	save_as_button.disabled = editor_hidden
 	
+	enable_ui.emit()
+	
 	if not extended:
 		notify_selected_changed()
 		return
@@ -1786,6 +1797,8 @@ func reveal_ui(extended: bool = true):
 			control.editable = true
 		if control is SpinBox:
 			control.get_line_edit().editable = true
+	
+	enable_extended_ui.emit()
 	
 	notify_selected_changed()
 
@@ -1814,7 +1827,8 @@ func try_open():
 		open()
 
 func release_owned_focus():
-	$FocusTrap.grab_focus()
+	if not prevent_focus_loss:
+		$FocusTrap.grab_focus()
 
 func get_note_resolution() -> float:
 	return 1.0 / (sync_module.get_resolution() as float) if sync_module else 1.0/16.0
