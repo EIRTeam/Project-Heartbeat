@@ -1,14 +1,29 @@
 extends HBEditorModule
 
 @onready var arrange_menu := get_node("ArrangeMenu")
-@onready var arrange_angle_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBEditorSpinBox")
-@onready var reverse_arrange_checkbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/CheckBox")
-@onready var circle_size_slider := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HSlider")
-@onready var circle_size_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer/HBEditorSpinBox")
-@onready var rotation_angle_slider := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HSlider")
-@onready var rotation_angle_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer/HBEditorSpinBox")
+@onready var arrange_pad := get_node("%ArrangeButtonPad")
+@onready var arrange_mode_option_button := get_node("%ArrangeModeOptionButton")
+@onready var arrange_angle_spinbox := get_node("%ArrangeAngleSpinBox")
+@onready var arrange_diagonal_x_spinbox := get_node("%DiagonalStepXSpinBox")
+@onready var arrange_diagonal_y_spinbox := get_node("%DiagonalStepYSpinBox")
+@onready var arrange_vstep_spinbox := get_node("%VerticalStepSpinBox")
+@onready var reverse_arrange_checkbox := get_node("%ReverseArrangeCheckBox")
+@onready var autoangle_checkbox := get_node("%AutoAngleCheckBox")
+@onready var standard_mode_options := get_node("%StandardHBoxContainer")
+@onready var diagonal_mode_options := get_node("%DiagonalStepHBoxContainer")
+@onready var fake_slope_mode_options := get_node("%FullWidthHBoxContainer")
+@onready var circle_size_slider := get_node("%CircleSizeHSlider")
+@onready var circle_size_spinbox := get_node("%CircleSizeSpinBox")
+@onready var rotation_angle_slider := get_node("%RotationAngleHSlider")
+@onready var rotation_angle_spinbox := get_node("%RotationAngleSpinBox")
 
-var autoarrange_shortcuts = [
+@onready var autoarrange_menu_modes = [
+	{"name": "Standard Line", "mode": HBUserSettings.EDITOR_ARRANGE_MODES.FREE, "options": standard_mode_options},
+	{"name": "Diagonal Step Line", "mode": HBUserSettings.EDITOR_ARRANGE_MODES.DISTANCE, "options": diagonal_mode_options},
+	{"name": "Full Width Line", "mode": HBUserSettings.EDITOR_ARRANGE_MODES.FAKE_SLOPE, "options": fake_slope_mode_options},
+]
+
+const autoarrange_shortcuts = [
 	"editor_arrange_r",
 	"editor_arrange_dr",
 	"editor_arrange_d",
@@ -18,6 +33,8 @@ var autoarrange_shortcuts = [
 	"editor_arrange_u",
 	"editor_arrange_ur",
 ]
+
+var last_angle := 0.0
 
 func _ready():
 	super._ready()
@@ -40,17 +57,23 @@ func _ready():
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_ABSOLUTE),
 		HBEditorTransforms.MakeCircleTransform.new(1), 					# Last used circle transform
 		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_CENTER), # Last used rotation transform
+		HBEditorTransforms.ArrangeTransformation.new(),
 	]
 	
 	for i in range(autoarrange_shortcuts.size()):
 		add_shortcut(autoarrange_shortcuts[i], "_apply_arrange_shortcut", [i])
 	add_shortcut("editor_arrange_center", "_apply_center_arrange")
 	
+	for item in autoarrange_menu_modes:
+		arrange_mode_option_button.add_item(item.name)
+	
 	add_shortcut("editor_circle_size_bigger", "increase_circle_size", [], true)
 	add_shortcut("editor_circle_size_smaller", "decrease_circle_size", [], true)
 	
-	arrange_menu.connect("angle_changed", Callable(self, "arrange_selected_notes_by_time"))
 	arrange_menu.connect("angle_changed", Callable(self, "_update_slope_info"))
+	
+	arrange_pad.hover_changed.connect(self._menu_arrange_button_hovered)
+	arrange_pad.button.mouse_exited.connect(self._menu_arrange_button_mouse_exited)
 	
 	for i in range(4):
 		circle_size_slider.connect("value_changed", Callable(transforms[i], "set_epr"))
@@ -94,23 +117,11 @@ func _input(event: InputEvent):
 	
 	if event.is_action_pressed("editor_show_arrange_menu"):
 		if selected.size() >= 2 and editor.game_preview.get_global_rect().has_point(get_global_mouse_position()):
-			selected.sort_custom(Callable(self, "_order_items"))
-			
-			original_notes.clear()
-			for item in selected:
-				original_notes.append(item.data.clone())
-			
-			original_notes.sort_custom(Callable(self, "_order_timing_points"))
-			
 			arranging = true
 			arrange_menu.show()
 			var old_angle_translation := Vector2.ZERO
 			
 			if UserSettings.user_settings.editor_save_arrange_angle:
-				var old_angle = arrange_angle_spinbox.value
-				
-				old_angle = deg_to_rad(old_angle)
-				
 				var old_distance
 				match selected_ring:
 					"inner":
@@ -120,11 +131,11 @@ func _input(event: InputEvent):
 					"outer":
 						old_distance = 80
 				
-				old_angle_translation = Vector2(old_distance, 0).rotated(old_angle)
+				old_angle_translation = Vector2(old_distance, 0).rotated(last_angle)
 				
-				arrange_menu.menu_rotation = old_angle
+				arrange_menu.menu_rotation = last_angle
 				
-				arrange_selected_notes_by_time(old_angle, false, false)
+				preview_arrange(last_angle, false, false)
 			
 			arrange_menu.set_global_position(get_global_mouse_position() - Vector2(120, 120) - old_angle_translation)
 	elif event.is_action_released("editor_show_arrange_menu") and arranging:
@@ -140,10 +151,28 @@ func _input(event: InputEvent):
 		elif mouse_distance > 44:
 			selected_ring = "middle"
 		
-		commit_arrange()
+		apply_transform(18)
 
 func user_settings_changed():
+	var mode_idx = 0
+	for mode in autoarrange_menu_modes:
+		if mode.mode == UserSettings.user_settings.editor_arrange_menu_mode:
+			break
+		else:
+			mode_idx += 1
+	
+	arrange_mode_option_button.select(mode_idx)
+	arrange_menu_mode_selected(mode_idx)
+	
+	arrange_angle_spinbox.set_value_no_signal(UserSettings.user_settings.editor_arrange_menu_angle)
+	arrange_diagonal_x_spinbox.set_value_no_signal(UserSettings.user_settings.editor_arrange_menu_diagonal_step.x)
+	arrange_diagonal_y_spinbox.set_value_no_signal(UserSettings.user_settings.editor_arrange_menu_diagonal_step.y)
+	arrange_vstep_spinbox.set_value_no_signal(UserSettings.user_settings.editor_arrange_menu_vstep)
+	
+	autoangle_checkbox.button_pressed = UserSettings.user_settings.editor_auto_angle
+	
 	circle_size_spinbox.value = UserSettings.user_settings.editor_circle_size
+	
 	transforms[0].separation = UserSettings.user_settings.editor_circle_separation
 	transforms[1].separation = UserSettings.user_settings.editor_circle_separation
 	transforms[2].separation = UserSettings.user_settings.editor_circle_separation
@@ -177,273 +206,8 @@ func update_shortcuts():
 	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.tooltip_text += "\nShortcut (increase): " + get_event_text(size_up_ev)
 	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.tooltip_text += "\nShortcut (decrease): " + get_event_text(size_down_ev)
 
-
-func _update_slope_info(angle: float, reverse: bool, _autoangle_toggle: bool):
-	arrange_angle_spinbox.value = rad_to_deg(fmod(angle + 2*PI, 2*PI))
-	reverse_arrange_checkbox.button_pressed = reverse
-
-func _apply_arrange():
-	original_notes.clear()
-	for item in get_selected():
-		original_notes.append(item.data.clone())
-	
-	original_notes.sort_custom(Callable(self, "_order_timing_points"))
-	
-	arrange_selected_notes_by_time(deg_to_rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.button_pressed, false)
-	
-	commit_arrange()
-
-func _apply_arrange_shortcut(direction: int):
-	original_notes.clear()
-	for item in get_selected():
-		original_notes.append(item.data.clone())
-	
-	original_notes.sort_custom(Callable(self, "_order_timing_points"))
-	
-	var angle = 45
-	
-	if direction % 2:
-		if direction > 3:
-			angle = -angle 
-		
-		if direction in [3, 5]:
-			angle = -angle
-			angle += 180
-		
-		
-		arrange_selected_notes_by_time(deg_to_rad(angle), reverse_arrange_checkbox.button_pressed, false)
-	else:
-		arrange_selected_notes_by_time(direction * deg_to_rad(90) / 2.0, reverse_arrange_checkbox.button_pressed, false)
-	
-	commit_arrange()
-
-func _apply_center_arrange():
-	original_notes.clear()
-	for item in get_selected():
-		original_notes.append(item.data.clone())
-	
-	original_notes.sort_custom(Callable(self, "_order_timing_points"))
-	
-	arrange_selected_notes_by_time(null, reverse_arrange_checkbox.button_pressed, false)
-	
-	commit_arrange()
-
-static func _order_items(a: EditorTimelineItemNote, b: EditorTimelineItemNote):
-	return a.data.time < b.data.time
-
-static func _order_timing_points(a: HBTimingPoint, b: HBTimingPoint):
-	return a.time < b.time
-
-# Arranges the selected notes in the playarea by a certain distances
-var original_notes: Array
-func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool):
-	var selected = get_selected()
-	selected.sort_custom(Callable(self, "_order_items"))
-	if selected.size() < 2:
-		return
-	
-	var separation: Vector2 = Vector2.ZERO
-	var slide_separation: Vector2 = Vector2.ZERO
-	var eight_separation = UserSettings.user_settings.editor_arrange_separation
-	
-	
-	if angle != null:
-		separation.x = eight_separation * cos(angle)
-		separation.y = eight_separation * sin(angle)
-		
-		slide_separation.x = 32 * cos(angle)
-		slide_separation.y = 32 * sin(angle)
-		
-		if not angle in [0.0, PI/2, PI, 3*PI/2]:
-			var quadrant = 0
-			if angle > PI and angle < 3*PI/2:
-				quadrant = 1
-			elif angle > PI/2 and angle < PI:
-				quadrant = 2
-			elif angle > 0 and angle < PI/2:
-				quadrant = 3
-			
-			match arrange_menu.mode_info.mode:
-				HBUserSettings.EDITOR_ARRANGE_MODES.DISTANCE:
-					separation.x = arrange_menu.mode_info.diagonal_step.x
-					separation.y = -arrange_menu.mode_info.diagonal_step.y
-					
-					if quadrant in [1, 2]:
-						separation.x = -separation.x
-					if quadrant in [2, 3]:
-						separation.y = -separation.y
-				HBUserSettings.EDITOR_ARRANGE_MODES.FAKE_SLOPE:
-					separation.x = eight_separation
-					separation.y = -arrange_menu.mode_info.vertical_step
-					
-					if quadrant in [1, 2]:
-						separation.x = -separation.x
-					if quadrant in [2, 3]:
-						separation.y = -separation.y
-		
-		if reverse:
-			separation = -separation
-			slide_separation = -slide_separation
-	
-	# Never remove these, it makes the mikuphile mad
-	var direction = Vector2.ZERO
-	if abs(direction.x) > 0 and abs(direction.y) > 0:
-		pass
-	
-	var pos_compensation: Vector2
-	var time_compensation := 0
-	var slide_index := 0
-	
-	var anchor = original_notes[0]
-	if reverse:
-		anchor = original_notes[-1]
-		selected.reverse()
-	
-	pos_compensation = anchor.position
-	time_compensation = anchor.time
-	
-	if anchor is HBSustainNote and reverse:
-		time_compensation = anchor.end_time
-	
-	for selected_item in selected:
-		if selected_item.data is HBBaseNote:
-			# Real snapping hours
-			var eight_diff = get_time_as_eight(selected_item.data.time) - \
-							 get_time_as_eight(time_compensation)
-			
-			if reverse and selected_item.data is HBSustainNote:
-				eight_diff = get_time_as_eight(selected_item.data.end_time) - \
-							 get_time_as_eight(time_compensation)
-			
-			if selected_item.data is HBNoteData and selected_item.data.is_slide_note():
-				if slide_index > 1:
-					eight_diff = max(1, eight_diff)
-				
-				slide_index = 1
-			elif selected_item.data is HBNoteData and slide_index and selected_item.data.is_slide_hold_piece():
-				slide_index += 1
-			elif slide_index:
-				if slide_index > 1:
-					eight_diff = max(1, eight_diff)
-				
-				slide_index = 0
-			
-			var new_pos = pos_compensation + (separation * eight_diff)
-			
-			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index:
-				if slide_index == 2:
-					new_pos = pos_compensation + separation / 2
-				else:
-					new_pos = pos_compensation + slide_separation
-			
-			change_selected_property_single_item(selected_item, "position", new_pos)
-			
-			pos_compensation = new_pos
-			if selected_item.data is HBSustainNote:
-				if reverse:
-					time_compensation = selected_item.data.time
-				else:
-					time_compensation = selected_item.data.end_time
-			else:
-				time_compensation = selected_item.data.time
-	
-	for i in range(selected.size()):
-		var selected_item = selected[i]
-		var note = selected_item.data
-		
-		if note is HBBaseNote:
-			var autoangle_enabled := UserSettings.user_settings.editor_auto_angle
-			if toggle_autoangle:
-				autoangle_enabled = not autoangle_enabled
-			
-			var _i = i
-			if reverse:
-				_i = -i - 1
-			
-			var new_angle_params = [original_notes[_i].entry_angle, original_notes[_i].oscillation_frequency]
-			
-			if autoangle_enabled:
-				new_angle_params = autoangle(note, selected[0].data.position, angle, reverse)
-			
-			change_selected_property_single_item(selected_item, "entry_angle", new_angle_params[0])
-			change_selected_property_single_item(selected_item, "oscillation_frequency", new_angle_params[1])
-	
-	timing_points_params_changed()
-
-func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle, reverse: bool):
-	if arrange_angle != null:
-		var new_angle: float
-		var oscillation_frequency = abs(note.oscillation_frequency)
-		
-		# Normalize the arrange angle to be between 0 and 2PI
-		arrange_angle = fmod(fmod(arrange_angle, 2*PI) + 2*PI, 2*PI)
-		
-		# Get the quadrant and rotated quadrant
-		var quadrant = int(arrange_angle / (PI/2.0))
-		var rotated_quadrant = int((arrange_angle + PI/4.0) / (PI/2.0)) % 4
-		
-		new_angle = arrange_angle + PI/2.0
-		
-		if rotated_quadrant in [1, 3]:
-			new_angle += PI if quadrant in [0, 1] else 0.0
-			
-			var left_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 0), Vector2(0, 1080))
-			var right_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(1920, 0), Vector2(1920, 1080))
-			
-			var left_distance = new_pos.distance_to(left_point)
-			var right_distance = new_pos.distance_to(right_point)
-			
-			# Point towards closest side
-			new_angle += PI if right_distance > left_distance else 0.0
-		else:
-			new_angle += PI if quadrant in [1, 2] else 0.0
-			
-			var top_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 0), Vector2(1920, 0))
-			var bottom_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 1080), Vector2(1920, 1080))
-			
-			var top_distance = new_pos.distance_to(top_point)
-			var bottom_distance = new_pos.distance_to(bottom_point)
-			
-			# Point towards furthest side
-			new_angle += PI if top_distance > bottom_distance else 0.0
-		
-		var positive_quadrants = []
-		
-		if new_pos.x > 960:
-			positive_quadrants.append(3)
-		else:
-			positive_quadrants.append(1)
-		
-		if new_pos.y > 540:
-			positive_quadrants.append(2)
-		else:
-			positive_quadrants.append(0)
-		
-		var is_negative_quadrant = not rotated_quadrant in positive_quadrants
-		var is_odd = fposmod(oscillation_frequency, 2.0) != 0
-		
-		if is_negative_quadrant:
-			oscillation_frequency = -oscillation_frequency
-		if is_odd:
-			oscillation_frequency = -oscillation_frequency
-		
-		oscillation_frequency *= sign(note.oscillation_amplitude)
-		if reverse:
-			oscillation_frequency = -oscillation_frequency
-		return [fmod(rad_to_deg(new_angle), 360.0), oscillation_frequency]
-	else:
-		return [note.entry_angle, note.oscillation_frequency]
-
-func commit_arrange():
-	undo_redo.create_action("Arrange selected notes by time")
-	commit_selected_property_change("position", false)
-	commit_selected_property_change("entry_angle", false)
-	commit_selected_property_change("oscillation_frequency", false)
-	undo_redo.commit_action()
-	
-	original_notes.clear()
-
 func apply_transform(id: int):
+	hide_transform()
 	super.apply_transform(id)
 	
 	 # Set last used circle transform
@@ -453,6 +217,119 @@ func apply_transform(id: int):
 	# Set last used rotation transform
 	if id in [12, 13, 14, 15]:
 		transforms[17] = transforms[id]
+
+func arrange_menu_mode_selected(idx: int):
+	standard_mode_options.hide()
+	diagonal_mode_options.hide()
+	fake_slope_mode_options.hide()
+	
+	var new_mode = autoarrange_menu_modes[idx]
+	new_mode.options.show()
+	
+	UserSettings.user_settings.editor_arrange_menu_mode = new_mode.mode
+	UserSettings.save_user_settings()
+
+func set_arrange_parameters(angle, reverse: bool, toggle_autoangle: bool, mode_info = null):
+	self.transforms[18].angle = angle
+	self.transforms[18].reverse = reverse
+	self.transforms[18].toggle_autoangle = toggle_autoangle
+	self.transforms[18].mode_info = mode_info if mode_info else arrange_menu.mode_info
+
+func set_arrange_shortcut_parameters(direction: int):
+	var angle = UserSettings.user_settings.editor_arrange_menu_angle
+	
+	var mode_info = {
+		"mode": UserSettings.user_settings.editor_arrange_menu_mode,
+		"diagonal_step": UserSettings.user_settings.editor_arrange_menu_diagonal_step,
+		"vertical_step": UserSettings.user_settings.editor_arrange_menu_vstep,
+	}
+	
+	if direction % 2:
+		if direction > 3:
+			angle = -angle 
+		
+		if direction in [3, 5]:
+			angle = -angle
+			angle += 180
+		
+		set_arrange_parameters(deg_to_rad(angle), reverse_arrange_checkbox.button_pressed, false, mode_info)
+	else:
+		set_arrange_parameters(direction * deg_to_rad(90) / 2.0, reverse_arrange_checkbox.button_pressed, false, mode_info)
+
+# Arranges the selected notes in the playarea by a certain distance
+func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool, mode_info = null):
+	set_arrange_parameters(angle, reverse, toggle_autoangle, mode_info)
+	
+	apply_transform(18)
+
+func preview_arrange(angle, reverse: bool, toggle_autoangle: bool, mode_info = null):
+	set_arrange_parameters(angle, reverse, toggle_autoangle, mode_info)
+	
+	show_transform(18)
+
+func _apply_arrange_shortcut(direction: int):
+	set_arrange_shortcut_parameters(direction)
+	
+	apply_transform(18)
+
+func _apply_center_arrange():
+	arrange_selected_notes_by_time(null, reverse_arrange_checkbox.button_pressed, false) 
+
+
+var direction_map = [
+	5, 6, 7,
+	4, 8, 0,
+	3, 2, 1,
+]
+func _menu_arrange_button_pressed(pad_direction: int):
+	var arrange_direction: int = direction_map[pad_direction]
+	
+	if arrange_direction == 8:
+		_apply_center_arrange()
+	else:
+		_apply_arrange_shortcut(arrange_direction)
+
+func _menu_arrange_button_hovered(pad_direction: int):
+	var arrange_direction: int = direction_map[pad_direction]
+	
+	if arrange_direction == 8:
+		set_arrange_parameters(null, reverse_arrange_checkbox.button_pressed, false)
+	else:
+		set_arrange_shortcut_parameters(arrange_direction)
+	
+	show_transform(18)
+
+func _menu_arrange_button_mouse_exited():
+	hide_transform()
+
+
+func _update_slope_info(angle: float, reverse: bool, toggle_autoangle: bool):
+	last_angle = fmod(angle + 2*PI, 2*PI)
+	
+	preview_arrange(angle, reverse, toggle_autoangle)
+
+func _on_arrange_angle_spinbox_value_changed(value: float) -> void:
+	UserSettings.user_settings.editor_arrange_menu_angle = fmod(abs(value), 90.0)
+	arrange_angle_spinbox.set_value_no_signal(UserSettings.user_settings.editor_arrange_menu_angle)
+	
+	UserSettings.save_user_settings()
+
+func _on_arrange_diagonal_step_spinbox_value_changed(_value: float) -> void:
+	UserSettings.user_settings.editor_arrange_menu_diagonal_step.x = arrange_diagonal_x_spinbox.value
+	UserSettings.user_settings.editor_arrange_menu_diagonal_step.y = arrange_diagonal_y_spinbox.value
+	
+	UserSettings.save_user_settings()
+
+func _on_arrange_vstep_spinbox_value_changed(_value: float) -> void:
+	UserSettings.user_settings.editor_arrange_menu_vstep = arrange_vstep_spinbox.value
+	
+	UserSettings.save_user_settings()
+
+func _on_auto_angle_check_box_toggled(value: bool) -> void:
+	UserSettings.user_settings.editor_auto_angle = value
+	
+	UserSettings.save_user_settings()
+
 
 func _set_circle_size(value: int):
 	UserSettings.user_settings.editor_circle_size = value

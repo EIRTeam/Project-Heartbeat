@@ -2,6 +2,221 @@ extends MarginContainer
 
 class_name HBEditorTransforms
 
+class ArrangeTransformation:
+	extends EditorTransformation
+	
+	var mode_info := {
+		
+	}
+	
+	var angle = 0.0
+	var reverse := false
+	var toggle_autoangle := false
+	
+	static func _order_timing_points(a: HBTimingPoint, b: HBTimingPoint):
+		return a.time < b.time
+	
+	func get_time_as_eight(time: int) -> float:
+		return editor.get_time_as_eight(time)
+	
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		
+		if not notes or notes.size() < 2:
+			return {}
+		
+		notes.sort_custom(Callable(self, "_order_timing_points"))
+		
+		var separation: Vector2 = Vector2.ZERO
+		var slide_separation: Vector2 = Vector2.ZERO
+		var eight_separation = UserSettings.user_settings.editor_arrange_separation
+		
+		if angle != null:
+			separation.x = eight_separation * cos(angle)
+			separation.y = eight_separation * sin(angle)
+			
+			slide_separation.x = 32 * cos(angle)
+			slide_separation.y = 32 * sin(angle)
+			
+			if not angle in [0.0, PI/2, PI, 3*PI/2]:
+				var quadrant = 0
+				if angle > PI and angle < 3*PI/2:
+					quadrant = 1
+				elif angle > PI/2 and angle < PI:
+					quadrant = 2
+				elif angle > 0 and angle < PI/2:
+					quadrant = 3
+				
+				match mode_info.mode:
+					HBUserSettings.EDITOR_ARRANGE_MODES.DISTANCE:
+						separation.x = mode_info.diagonal_step.x
+						separation.y = -mode_info.diagonal_step.y
+						
+						if quadrant in [1, 2]:
+							separation.x = -separation.x
+						if quadrant in [2, 3]:
+							separation.y = -separation.y
+					HBUserSettings.EDITOR_ARRANGE_MODES.FAKE_SLOPE:
+						separation.x = eight_separation
+						separation.y = -mode_info.vertical_step
+						
+						if quadrant in [1, 2]:
+							separation.x = -separation.x
+						if quadrant in [2, 3]:
+							separation.y = -separation.y
+			
+			if reverse:
+				separation = -separation
+				slide_separation = -slide_separation
+		
+		# Never remove these, it makes the mikuphile mad
+		var direction = Vector2.ZERO
+		if abs(direction.x) > 0 and abs(direction.y) > 0:
+			pass
+		
+		var pos_compensation: Vector2
+		var time_compensation := 0
+		var slide_index := 0
+		
+		var anchor = notes[0]
+		if reverse:
+			anchor = notes[-1]
+			notes.reverse()
+		
+		pos_compensation = anchor.position
+		time_compensation = anchor.time
+		
+		if anchor is HBSustainNote and reverse:
+			time_compensation = anchor.end_time
+		
+		for note_data in notes:
+			if note_data is HBBaseNote:
+				# Real snapping hours
+				var eight_diff = get_time_as_eight(note_data.time) - \
+								 get_time_as_eight(time_compensation)
+				
+				if reverse and note_data is HBSustainNote:
+					eight_diff = get_time_as_eight(note_data.end_time) - \
+								 get_time_as_eight(time_compensation)
+				
+				if note_data is HBNoteData and note_data.is_slide_note():
+					if slide_index > 1:
+						eight_diff = max(1, eight_diff)
+					
+					slide_index = 1
+				elif note_data is HBNoteData and slide_index and note_data.is_slide_hold_piece():
+					slide_index += 1
+				elif slide_index:
+					if slide_index > 1:
+						eight_diff = max(1, eight_diff)
+					
+					slide_index = 0
+				
+				var new_pos = pos_compensation + (separation * eight_diff)
+				
+				if note_data is HBNoteData and note_data.is_slide_hold_piece() and slide_index:
+					if slide_index == 2:
+						new_pos = pos_compensation + separation / 2
+					else:
+						new_pos = pos_compensation + slide_separation
+				
+				transformation_result[note_data] = {
+					"position": new_pos,
+				}
+				
+				pos_compensation = new_pos
+				if note_data is HBSustainNote:
+					if reverse:
+						time_compensation = note_data.time
+					else:
+						time_compensation = note_data.end_time
+				else:
+					time_compensation = note_data.time
+		
+		var autoangle_enabled := UserSettings.user_settings.editor_auto_angle
+		if toggle_autoangle:
+			autoangle_enabled = not autoangle_enabled
+		
+		if autoangle_enabled:
+			for i in range(notes.size()):
+				var note_data = notes[i]
+				
+				if note_data is HBBaseNote:
+					var _i = i
+					if reverse:
+						_i = -i - 1
+					
+					var new_angle_params = autoangle(notes[_i], transformation_result[notes[0]].position, angle, reverse)
+					
+					transformation_result[note_data]["entry_angle"] = new_angle_params[0]
+					transformation_result[note_data]["oscillation_frequency"] = new_angle_params[1]
+		
+		return transformation_result
+	
+	func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle, reverse: bool):
+		if arrange_angle != null:
+			var new_angle: float
+			var oscillation_frequency = abs(note.oscillation_frequency)
+			
+			# Normalize the arrange angle to be between 0 and 2PI
+			arrange_angle = fmod(fmod(arrange_angle, 2*PI) + 2*PI, 2*PI)
+			
+			# Get the quadrant and rotated quadrant
+			var quadrant = int(arrange_angle / (PI/2.0))
+			var rotated_quadrant = int((arrange_angle + PI/4.0) / (PI/2.0)) % 4
+			
+			new_angle = arrange_angle + PI/2.0
+			
+			if rotated_quadrant in [1, 3]:
+				new_angle += PI if quadrant in [0, 1] else 0.0
+				
+				var left_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 0), Vector2(0, 1080))
+				var right_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(1920, 0), Vector2(1920, 1080))
+				
+				var left_distance = new_pos.distance_to(left_point)
+				var right_distance = new_pos.distance_to(right_point)
+				
+				# Point towards closest side
+				new_angle += PI if right_distance > left_distance else 0.0
+			else:
+				new_angle += PI if quadrant in [1, 2] else 0.0
+				
+				var top_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 0), Vector2(1920, 0))
+				var bottom_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 1080), Vector2(1920, 1080))
+				
+				var top_distance = new_pos.distance_to(top_point)
+				var bottom_distance = new_pos.distance_to(bottom_point)
+				
+				# Point towards furthest side
+				new_angle += PI if top_distance > bottom_distance else 0.0
+			
+			var positive_quadrants = []
+			
+			if new_pos.x > 960:
+				positive_quadrants.append(3)
+			else:
+				positive_quadrants.append(1)
+			
+			if new_pos.y > 540:
+				positive_quadrants.append(2)
+			else:
+				positive_quadrants.append(0)
+			
+			var is_negative_quadrant = not rotated_quadrant in positive_quadrants
+			var is_odd = fposmod(oscillation_frequency, 2.0) != 0
+			
+			if is_negative_quadrant:
+				oscillation_frequency = -oscillation_frequency
+			if is_odd:
+				oscillation_frequency = -oscillation_frequency
+			
+			oscillation_frequency *= sign(note.oscillation_amplitude)
+			if reverse:
+				oscillation_frequency = -oscillation_frequency
+			return [fmod(rad_to_deg(new_angle), 360.0), oscillation_frequency]
+		else:
+			return [note.entry_angle, note.oscillation_frequency]
+
 class FlipHorizontallyTransformation:
 	extends EditorTransformation
 	

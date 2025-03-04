@@ -194,6 +194,11 @@ var editor_auto_place := true
 var editor_arrange_separation := 96
 var editor_save_arrange_angle := true
 
+var editor_arrange_menu_mode: int = EDITOR_ARRANGE_MODES.FREE
+var editor_arrange_menu_angle := 30.0 
+var editor_arrange_menu_diagonal_step := {"x": 80, "y": 48}
+var editor_arrange_menu_vstep := 24
+
 var editor_arrange_inner_mode: int = EDITOR_ARRANGE_MODES.DUAL_SNAP
 var editor_arrange_inner_subdivision := 12
 var editor_arrange_inner_snap := 30
@@ -293,6 +298,7 @@ func _init():
 		"editor_auto_multi", "editor_auto_angle", "editor_angle_snaps", "editor_straight_angle_increment", "editor_diagonal_angle_increment",
 		"editor_circle_size", "editor_circle_separation",
 		"editor_pitch_compensation", "editor_migrated_shortcuts", "editor_code_font_size",
+		"editor_arrange_menu_mode", "editor_arrange_menu_angle", "editor_arrange_menu_diagonal_step", "editor_arrange_menu_vstep",
 		"editor_arrange_inner_mode", "editor_arrange_inner_subdivision", "editor_arrange_inner_snap", "editor_arrange_inner_diagonal_step", "editor_arrange_inner_vstep",
 		"editor_arrange_middle_mode", "editor_arrange_middle_subdivision", "editor_arrange_middle_snap", "editor_arrange_middle_diagonal_step", "editor_arrange_middle_vstep",
 		"editor_arrange_outer_mode", "editor_arrange_outer_subdivision", "editor_arrange_outer_snap", "editor_arrange_outer_diagonal_step", "editor_arrange_outer_vstep",
