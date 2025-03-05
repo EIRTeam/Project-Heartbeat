@@ -24,7 +24,6 @@ func _ready():
 	hide_timer.wait_time = 0.1
 	hide_timer.one_shot = true
 	hide_timer.connect("timeout", Callable(self, "hide"))
-	hide_timer.connect("timeout", print.bind("HIDE"))
 	add_child(hide_timer)
 	
 	hide()
