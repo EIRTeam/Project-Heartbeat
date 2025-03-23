@@ -455,3 +455,6 @@ func get_stars() -> Array[float]:
 		var stars := charts.get(diff, {}).get("stars", 0) as float
 		out_arr.push_back(stars)
 	return out_arr
+
+func can_upload_scores() -> bool:
+	return get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN or _comes_from_ugc

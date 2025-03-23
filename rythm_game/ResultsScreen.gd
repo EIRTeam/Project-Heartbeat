@@ -2,7 +2,6 @@ extends HBMenu
 
 var game_info : HBGameInfo: set = set_game_info
 
-@onready var percentage_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/PercentageLabel")
 @onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/SongTitle")
 @onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
 @onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton2")
@@ -120,6 +119,9 @@ func upload_current_score():
 	if game_info.is_leaderboard_legal():
 		# add result to history
 		var token := ScoreHistory.add_result_to_history(game_info)
+		if not game_info.get_song().can_upload_scores():
+			button_container.grab_focus()
+			return
 		token.score_uploaded.connect(_on_score_uploaded)
 		token.score_upload_failed.connect(_on_score_upload_failed)
 		get_viewport().gui_release_focus()
@@ -132,7 +134,6 @@ func upload_current_score():
 				if uploading_score_indicator.visible:
 					_on_score_upload_failed(tr("Score upload request timed out", &"Score upload request timeout error"))
 		)
-		
 	
 func _on_copy_result_url_button_pressed():
 	const PROGRESS_THING := preload("res://autoloads/DownloadProgressThing.tscn")
