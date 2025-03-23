@@ -242,7 +242,7 @@ func request_asset_load(song: HBSong, assets: Array[ASSET_TYPES], variant := -1)
 			assert(dep in assets, "Asset type %s requires %s as a dependency" % [ASSET_TYPES.find_key(dep), ASSET_TYPES.find_key(asset)])
 	for i in range(assets.size()-1, -1, -1):
 		var asset := assets[i]
-		var asset_name := ASSET_TYPES.find_key(asset)
+		var asset_name := ASSET_TYPES.find_key(asset) as String
 		if _has_asset(song, asset, variant):
 			assets.remove_at(i)
 			var asset_cache: SongAssetCache = assets_cache[variant_id]
