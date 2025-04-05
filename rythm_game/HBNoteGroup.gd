@@ -20,6 +20,7 @@ var note_judgement_infos := {}
 var game
 
 var current_time_usec := 0
+var absolute_time_usec := 0
 
 # final judgement is the final judgement when judging multiple notes, otherwise it's the same as
 # judgement_infos[0].judgement
@@ -90,28 +91,36 @@ func is_slide_only_group() -> bool:
 			return false
 	return true
 
+func sync_with_game_time(game_time_usec: int):
+	current_time_usec = game_time_usec
+
+func get_game_time_usec() -> int:
+	return absolute_time_usec if UserSettings.user_settings.timing_method == HBUserSettings.TimingMethod.ACCURATE else current_time_usec
+
 # Returns true if the group is done
-func process_group(time_usec: int) -> bool:
+func process_group(delta_time_usec: int, _absolute_time_usec: int) -> bool:
 	if game.game_mode == HBRhythmGame.GAME_MODE.EDITOR_SEEK:
 		finished_notes.clear()
 		note_judgement_infos.clear()
 		if laser_renderer:
-			if time_usec > get_hit_time_msec() * 1000:
+			if get_game_time_usec() > get_hit_time_msec() * 1000:
 				laser_renderer.hide()
 			else:
 				laser_renderer.show()
-	current_time_usec = time_usec
+	current_time_usec += delta_time_usec
+	absolute_time_usec = _absolute_time_usec
+	var game_time_usec := get_game_time_usec()
 	for nd in note_datas:
 		var note_data := nd as HBBaseNote
 		if note_data in finished_notes:
 			continue
-		if (note_data.time - note_data.get_time_out(game.get_note_speed_at_time(note_data.time))) * 1000 <= time_usec:
+		if (note_data.time - note_data.get_time_out(game.get_note_speed_at_time(note_data.time))) * 1000 <= game_time_usec:
 			var note_drawer
 			if not note_data in note_drawers:
 				note_drawer = create_note_drawer(note_data)
 			else:
 				note_drawer = note_drawers[note_data]
-			note_drawer.process_note(time_usec)
+			note_drawer.process_note(game_time_usec)
 	
 	var should_finish := note_datas.size() == finished_notes.size()
 	if note_judgement_infos.size() != note_datas.size() and note_datas.size() > 1:
@@ -261,6 +270,7 @@ func _on_wrong(input_event: InputEventHB):
 		var c := calculate_judgement(note_judgement_infos.values())
 		if c != -1:
 			final_judgement = c
+	var game_time_usec := get_game_time_usec()
 	for note in note_datas:
 		var drawer := note_drawers.get(note, null) as HBNewNoteDrawer
 		if drawer:
@@ -268,7 +278,7 @@ func _on_wrong(input_event: InputEventHB):
 		if not note in note_judgement_infos:
 			var note_judgement_info := HBNoteJudgementInfo.new()
 			note_judgement_info.note_data = note
-			note_judgement_info.time_msec = current_time_usec / 1000
+			note_judgement_info.time_msec = game_time_usec / 1000
 			note_judgement_info.judgement = final_judgement
 			note_judgement_info.input_event = input_event
 			note_judgement_infos[note] = note_judgement_info
@@ -302,7 +312,7 @@ func _on_note_remove_node_from_layer(layer_name: StringName, node: Node):
 func _on_note_judged(judgement: int, independent: bool, judgement_target_time: int, input_event: InputEventHB, note_data: HBBaseNote):
 	var judgement_info := HBNoteJudgementInfo.new()
 	judgement_info.judgement = judgement
-	judgement_info.time_msec = current_time_usec / 1000
+	judgement_info.time_msec = get_game_time_usec() / 1000
 	judgement_info.note_data = note_data
 	judgement_info.input_event = input_event
 	if not independent:

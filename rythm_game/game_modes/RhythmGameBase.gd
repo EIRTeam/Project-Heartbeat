@@ -523,14 +523,14 @@ func _group_compare_end(a, b):
 var last_culled_note_group := -1
 
 # List of note groups that should be processed
-var current_note_groups := []
+var current_note_groups: Array[HBNoteGroup] = []
 
 func _sort_groups_by_hit_time(a, b):
 	return a.get_hit_time_msec() < b.get_hit_time_msec()
 
 func query_points():
 	return note_group_interval_tree.query_point(time_usec / 1000)
-func _process_groups():
+func _process_groups(delta_time_usec: int):
 	if note_groups.size() == 0:
 		return
 		
@@ -541,6 +541,7 @@ func _process_groups():
 		if not group in current_note_groups and not group in finished_note_groups:
 			if group.get_start_time_msec() * 1000 <= time_usec and group.get_end_time_msec() * 1000 >= time_usec:
 				current_note_groups.append(group)
+				group.sync_with_game_time(time_usec - delta_time_usec)
 				group_order_dirty = true
 	
 	if group_order_dirty:
@@ -550,15 +551,15 @@ func _process_groups():
 	
 	for i in range(current_note_groups.size()-1, -1, -1):
 		var note_group := current_note_groups[i] as HBNoteGroup
-		if note_group.process_group(time_usec):
+		if note_group.process_group(delta_time_usec, time_usec):
 			current_note_groups.erase(note_group)
 			finished_note_groups.append(note_group)
 # We need to split _process into it's own function so we can override it because
 # godot is stupid and calls _process on both parent and child
 func _process_game(_delta):
 	_sfx_debounce_t += _delta
-	
-	_process_groups()
+	var delta_time_usec := _delta * 1000_000 as int
+	_process_groups(delta_time_usec)
 	
 	for i in range(tracked_sounds.size()-1, -1, -1):
 		var sound := tracked_sounds[i] as ShinobuSoundPlayer
@@ -832,6 +833,8 @@ func seek_new(new_position_msec: int, reset_notes := false):
 	autoplay_scheduled_sounds.clear()
 	seek(new_position_msec)
 	time_usec = new_position_msec * 1000
+	for group in current_note_groups:
+		group.sync_with_game_time(time_usec)
 	if reset_notes:
 		last_culled_note_group = -1
 		for group in current_note_groups:

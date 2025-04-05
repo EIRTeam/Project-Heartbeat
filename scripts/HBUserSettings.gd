@@ -14,6 +14,14 @@ var note_size = 1.0
 var icon_pack = "playstation"
 var resource_pack = "playstation"
 var ui_skin := ""
+
+enum TimingMethod {
+	ACCURATE,
+	ALTERNATIVE
+}
+
+var timing_method := TimingMethod.ACCURATE
+
 var romanized_titles_enabled = false
 var left_arrow_override_enabled = false
 var right_arrow_override_enabled = false
