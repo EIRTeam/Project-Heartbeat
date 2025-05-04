@@ -300,7 +300,10 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 	for j in judgements:
 		if j.note_data.note_type in held_notes:
 			var event: InputEventHB = j.input_event
-			hold_release_subtick(event.game_time / 1000)
+			if event:
+				hold_release_subtick(event.game_time / 1000)
+			else:
+				hold_release_subtick(judgement_target_time)
 			emit_signal("hold_released_early")
 			break
 
