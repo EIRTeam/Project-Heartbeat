@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-02-18 21:07\n"
+"PO-Revision-Date: 2025-05-17 15:35\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -35,12 +35,13 @@ msgid "Steam couldn't be found, is it closed?"
 msgstr "没有找到正在运行的 Steam"
 
 #: autoloads/MouseTrap.tscn
-msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
-msgstr "这首歌需要从 Youtube 下载视频/音频文件，你想要下载它们吗？"
-
-#: autoloads/MouseTrap.tscn
 msgid "Yes (audio only)"
 msgstr "是 (仅音频)"
+
+#: autoloads/MouseTrap.tscn
+#: menus/HBConfirmationWindow.tscn
+msgid "Yes"
+msgstr "是"
 
 #: autoloads/MouseTrap.tscn
 msgid "Media for this song is currently being downloaded."
@@ -48,7 +49,7 @@ msgstr "已经开始下载此歌曲的媒体文件"
 
 #: autoloads/MouseTrap.tscn
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: autoloads/MouseTrap.tscn
 msgid "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.\n\n"
@@ -72,11 +73,11 @@ msgstr "无效的链接，请确保使用的是有效的 YouTube 链接"
 
 #: autoloads/MouseTrap.tscn
 msgid "Open a Directory"
-msgstr ""
+msgstr "打开文件夹"
 
 #: autoloads/MouseTrap.tscn
 msgid "Select Current Folder"
-msgstr ""
+msgstr "选择当前文件夹"
 
 #: autoloads/MouseTrap.tscn
 msgid "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"
@@ -86,7 +87,7 @@ msgstr "你的系统时间似乎不正确，请确保你的时区和本地时间
 #: multiplayer/lobby/LobbyList.tscn
 #: multiplayer/lobby/LobbyMenu.tscn
 msgid "Okay"
-msgstr ""
+msgstr "确定"
 
 #: autoloads/UserSettings.gd
 msgid "DualShock Cross, Xbox A, Nintendo B"
@@ -106,11 +107,11 @@ msgstr "DualShock △, Xbox Y, Nintendo X"
 
 #: autoloads/UserSettings.gd
 msgid "Select, DualShock Share, Nintendo -"
-msgstr ""
+msgstr "Select、DualShock Share、任天堂 -"
 
 #: autoloads/UserSettings.gd
 msgid "Start, DualShock Options, Nintendo +"
-msgstr ""
+msgstr "Start、DualShock Options、任天堂 +"
 
 #: autoloads/UserSettings.gd
 msgid "D-Pad Up"
@@ -266,7 +267,7 @@ msgstr "搜索菜单"
 
 #: autoloads/UserSettings.gd
 msgid "Contextual option"
-msgstr ""
+msgstr "上下文选项"
 
 #: autoloads/UserSettings.gd
 msgid "Undo"
@@ -282,7 +283,7 @@ msgstr "选择Note"
 
 #: autoloads/UserSettings.gd
 msgid "Show contextual menu"
-msgstr ""
+msgstr "显示上下文菜单"
 
 #: autoloads/UserSettings.gd
 msgid "Pan the timeline"
@@ -290,35 +291,35 @@ msgstr "平移时间轴"
 
 #: autoloads/UserSettings.gd
 msgid "Scale up the timeline"
-msgstr ""
+msgstr "放大时间线"
 
 #: autoloads/UserSettings.gd
 msgid "Scale down the timeline"
-msgstr ""
+msgstr "缩小时间线"
 
 #: autoloads/UserSettings.gd
 msgid "Scroll the timeline to the left"
-msgstr ""
+msgstr "向左滚动时间线"
 
 #: autoloads/UserSettings.gd
 msgid "Scroll the timeline to the right"
-msgstr ""
+msgstr "向右滚动时间线"
 
 #: autoloads/UserSettings.gd
 msgid "Snap the playhead to the previous beat"
-msgstr ""
+msgstr "将播放头对齐到上一拍"
 
 #: autoloads/UserSettings.gd
 msgid "Snap the playhead to the next beat"
-msgstr ""
+msgstr "将播放头对齐到下一拍"
 
 #: autoloads/UserSettings.gd
 msgid "Snap the playhead to the previous bar"
-msgstr ""
+msgstr "将播放头对齐到上一小节"
 
 #: autoloads/UserSettings.gd
 msgid "Snap the playhead to the next bar"
-msgstr ""
+msgstr "将播放头对齐到下一小节"
 
 #: autoloads/UserSettings.gd
 msgid "Open/Close the settings menu"
@@ -466,19 +467,19 @@ msgstr "转换为普通Note"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle hold note"
-msgstr ""
+msgstr "切换保持音符"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle sustain note"
-msgstr ""
+msgstr "切换长条音符"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle double note"
-msgstr ""
+msgstr "切换双押音符"
 
 #: autoloads/UserSettings.gd
 msgid "Toggle rush note"
-msgstr ""
+msgstr "切换连打音符"
 
 #: autoloads/UserSettings.gd
 msgid "Make slide chain"
@@ -722,19 +723,19 @@ msgstr "创建从内侧飞入的逆时针圆环"
 
 #: autoloads/UserSettings.gd
 msgid "Make arc clockwise"
-msgstr ""
+msgstr "创建顺时针圆形排版"
 
 #: autoloads/UserSettings.gd
 msgid "Make arc counter-clockwise"
-msgstr ""
+msgstr "创建逆时针圆形排版"
 
 #: autoloads/UserSettings.gd
 msgid "Make arc clockwise from the inside"
-msgstr ""
+msgstr "创建从内侧飞入的顺时针圆形排版"
 
 #: autoloads/UserSettings.gd
 msgid "Make arc counter-clockwise from the inside"
-msgstr ""
+msgstr "创建从内侧飞入的逆时针圆形排版"
 
 #: autoloads/UserSettings.gd
 msgid "Circle size bigger"
@@ -850,7 +851,7 @@ msgstr "快速短语结束"
 
 #: autoloads/UserSettings.gd
 msgid "Notes"
-msgstr ""
+msgstr "音符"
 
 #: autoloads/UserSettings.gd
 #: menus/options_menu/OptionsMenu.gd
@@ -899,13 +900,13 @@ msgstr "PVDB 不存在 ({pvdb_path})"
 
 #: autoloads/song_loader/song_loaders/SongLoaderDSC.gd
 msgid "Song ID {song_id}'s audio path ({audio_path}) did not exist"
-msgstr ""
+msgstr "歌曲 ID {song_id} 的音频文件路径（{audio_path}）不存在"
 
 #: base_scene.tscn
 #: menus/LoadingScreen.gd
 #: menus/LoadingScreen.tscn
 msgid "Loadingu..."
-msgstr ""
+msgstr "加载中……"
 
 #: menus/FolderManager.gd
 msgid "Enter the new folder name"
@@ -964,10 +965,6 @@ msgid "Are you sure you want to do this?"
 msgstr "你确定要这么做吗？"
 
 #: menus/HBConfirmationWindow.tscn
-msgid "Yes"
-msgstr "是"
-
-#: menus/HBConfirmationWindow.tscn
 msgid "No"
 msgstr "否"
 
@@ -998,7 +995,7 @@ msgstr "这个谱面的视频存在闪烁场景\n"
 
 #: menus/MainMenuUserInfo.gd
 msgid "Lvl. %d"
-msgstr ""
+msgstr "%d 级"
 
 #: menus/ModifierSelector.tscn
 msgid "Makes everyone sound like anime girls, who would have thought?"
@@ -1040,11 +1037,11 @@ msgstr "启用后游戏将会使用谱师为这首歌指定的皮肤，如果没
 
 #: menus/PerSongSettingsEditor.gd
 msgid "Enable vocals"
-msgstr ""
+msgstr "启用人声"
 
 #: menus/PerSongSettingsEditor.gd
 msgid "If disabled, disables the vocal track completely, to play songs in instrumental mode!"
-msgstr ""
+msgstr "禁用时将完全禁用人声音轨，仅播放纯音乐！"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Normal notes"
@@ -1052,7 +1049,7 @@ msgstr "普通Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Hold notes"
-msgstr ""
+msgstr "保持音符"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Slide notes"
@@ -1138,7 +1135,7 @@ msgstr "创意工坊"
 #: menus/song_list/SongList.gd
 msgctxt "Steam Workshop song list modded filter"
 msgid "Workshop"
-msgstr ""
+msgstr "工坊"
 
 #: menus/main_menu/MainMenuLeft.tscn
 msgid "How to play"
@@ -1199,7 +1196,7 @@ msgstr "在Twitter上关注我们！"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "NEWS"
-msgstr ""
+msgstr "新闻"
 
 #: menus/options_menu/OptionControlsSection.tscn
 msgid "Note: You can assign the same button to more than one action to create macros!"
@@ -1208,7 +1205,8 @@ msgstr "注意：你可以将同一个按键分配给多个操作来创建宏绑
 #: menus/options_menu/OptionControlsSection.tscn
 msgid "Press the Key/Button/Axis to bind\n\n"
 "Wait to cancel..."
-msgstr ""
+msgstr "按下按键或摇杆以绑定\n\n"
+"等待取消……"
 
 #: menus/options_menu/OptionControlsSection.tscn
 msgid "Are you sure you want to reset all controls to default?"
@@ -1229,12 +1227,12 @@ msgstr "引擎"
 #: menus/options_menu/OptionResourcePacksSection.gd
 #: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Note Packs"
-msgstr ""
+msgstr "音符包"
 
 #: menus/options_menu/OptionResourcePacksSection.gd
 #: menus/workshop_browser/WorkshopBrowser.gd
 msgid "Skins"
-msgstr ""
+msgstr "皮肤"
 
 #: menus/options_menu/OptionResourcePacksSection.tscn
 msgid "Rebuilding note atlas..."
@@ -1326,7 +1324,7 @@ msgstr "允许游戏直接访问控制器的摇杆，让长滑条和心形Note�
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Direct joystick slider deadzone outer"
-msgstr ""
+msgstr "直接摇杆访问外部死区"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off."
@@ -1334,7 +1332,7 @@ msgstr "从0到1，摇杆（或者其他的模拟输入）需要推动多少距�
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Direct joystick angle deadzone"
-msgstr ""
+msgstr "直接摇杆访问角度死区"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Angle used to define the angular deadzone of sliders\n"
@@ -1368,7 +1366,7 @@ msgstr "音频"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Audio buffer size"
-msgstr ""
+msgstr "音频缓冲区大小"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "In milliseconds, how big should the requested audio buffer be, lower means lower latency and more smoothness but also higher CPU usage, this is just a target value, your OS might force a different value."
@@ -1516,11 +1514,11 @@ msgstr "限制帧率，对于减轻便携式系统电池消耗可能会有帮助
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "yt-dlp: Custom command-line arguments"
-msgstr ""
+msgstr "yt-dlp：自定义命令行参数"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Custom command-line arguments to prepend to yt-dlp"
-msgstr ""
+msgstr "传入 yt-dlp 的自定义命令行参数"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Desired Video FPS"
@@ -1553,17 +1551,17 @@ msgstr "重置控制器显示的按钮提示到指定的类型"
 #: menus/options_menu/OptionsMenu.gd
 msgctxt "Button prompt auto detect option"
 msgid "Auto-detect"
-msgstr ""
+msgstr "自动检测"
 
 #: menus/options_menu/OptionsMenu.gd
 msgctxt "UI blur enabled options menu option name"
 msgid "Enable interface blurring"
-msgstr ""
+msgstr "启用界面模糊"
 
 #: menus/options_menu/OptionsMenu.gd
 msgctxt "UI blur enabled options menu description"
 msgid "Enables blurring the background of some interface elements."
-msgstr ""
+msgstr "启用模糊某些界面元素的背景。"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable lyrics"
@@ -1731,7 +1729,7 @@ msgstr "在歌曲列表显示评级的具体名称（除了CHEAP评价）"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Res. Packs"
-msgstr ""
+msgstr "资源包"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Credits"
@@ -1760,7 +1758,7 @@ msgstr "检测到的控制器："
 #: menus/options_menu/OptionsMenu.gd
 msgctxt "Display number shown in options menu"
 msgid "Display {display_number}"
-msgstr ""
+msgstr "显示器 {display_number}"
 
 #: menus/options_menu/content_dirs_menu/ContentDirControl.tscn
 msgid "Content directory"
@@ -1842,7 +1840,7 @@ msgstr "歌曲重新加载成功"
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 #: menus/workshop_browser/WorkshopItemDetailView.tscn
 msgid "Alright"
-msgstr ""
+msgstr "好吧"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn
 msgid "Cache cleared succesfully, please re-run the game."
@@ -1930,7 +1928,7 @@ msgstr "谱师"
 
 #: menus/song_list/SongList.gd
 msgid "BPM"
-msgstr ""
+msgstr "BPM"
 
 #: menus/song_list/SongList.gd
 msgid "Last Subscribed"
@@ -1951,51 +1949,51 @@ msgstr "最近更新"
 #: menus/song_list/SongList.gd
 msgctxt "\"All\" song list filter"
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: menus/song_list/SongList.gd
 msgctxt "Official song list filter"
 msgid "Official"
-msgstr ""
+msgstr "官方"
 
 #: menus/song_list/SongList.gd
 msgctxt "MegaMix+ song list filter"
 msgid "MM+"
-msgstr ""
+msgstr "MM+"
 
 #: menus/song_list/SongList.gd
 msgctxt "MegaMix+ modded song list filter"
 msgid "MM+ (Mod)"
-msgstr ""
+msgstr "MM+（模组）"
 
 #: menus/song_list/SongList.gd
 msgctxt "Editor song list filter"
 msgid "Editor"
-msgstr ""
+msgstr "编辑器"
 
 #: menus/song_list/SongList.gd
 msgctxt "Local song list filter"
 msgid "Local"
-msgstr ""
+msgstr "本地"
 
 #: menus/song_list/SongList.gd
 msgctxt "DSC song list filter"
 msgid "DSC"
-msgstr ""
+msgstr "DSC"
 
 #: menus/song_list/SongList.gd
 msgctxt "PPD song list filter"
 msgid "PPD"
-msgstr ""
+msgstr "PPD"
 
 #: menus/song_list/SongList.gd
 msgctxt "Folder song list filter"
 msgid "Folders"
-msgstr ""
+msgstr "文件夹"
 
 #: menus/song_list/SongList.tscn
 msgid "With media"
-msgstr ""
+msgstr "带媒体"
 
 #: menus/song_list/SongList.tscn
 msgid "No folders found, add some!"
@@ -2025,7 +2023,7 @@ msgstr "输入搜索关键词："
 
 #: menus/song_list/SongList.tscn
 msgid "Are you sure you want to unsubscribe from this item?"
-msgstr ""
+msgstr "您确定要退订此项目吗？"
 
 #: menus/song_list/SongListFolderBack.tscn
 msgid "Go back"
@@ -2057,7 +2055,7 @@ msgstr "打开用户文件夹"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "PPD Manager"
-msgstr ""
+msgstr "PPD 管理器"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
@@ -2065,7 +2063,7 @@ msgstr "延时测试器"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Out-of-the box setup"
-msgstr ""
+msgstr "开箱即用配置"
 
 #: menus/tutorial/page1/page1.tscn
 msgid "How to play: Normal notes"
@@ -2227,7 +2225,7 @@ msgstr "结果"
 
 #: rythm_game/ResultsScreen.gd
 msgid "Accuracy"
-msgstr ""
+msgstr "准确率"
 
 #: rythm_game/ResultsScreen.gd
 msgid "Graph"
@@ -2235,7 +2233,7 @@ msgstr "图表"
 
 #: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
-msgstr ""
+msgstr "已复制分数链接至剪贴板！"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Retry"
@@ -2243,7 +2241,7 @@ msgstr "重试"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Copy Result URL"
-msgstr ""
+msgstr "复制结果链接"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Return"
@@ -2278,12 +2276,12 @@ msgstr "让游戏自己进行游玩"
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier name"
 msgid "Nightcore"
-msgstr ""
+msgstr "Nightcore"
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier list name, %d is the percentage amount of speed applied"
 msgid "Nightcore %d %%"
-msgstr ""
+msgstr "Nightcore %d %%"
 
 #: rythm_game/modifiers/nightcore/nightcore.gd
 msgctxt "Nightcore modifier description"
@@ -2395,19 +2393,19 @@ msgstr "等待其他玩家加载完成！"
 
 #: scripts/HBSong.gd
 msgid "Written by: "
-msgstr ""
+msgstr "作词："
 
 #: scripts/HBSong.gd
 msgid "Vocals by: "
-msgstr ""
+msgstr "人声："
 
 #: scripts/HBSong.gd
 msgid "Composed by: "
-msgstr ""
+msgstr "作曲："
 
 #: scripts/HBSong.gd
 msgid "Chart by: %s"
-msgstr ""
+msgstr "谱师：%s"
 
 #: scripts/new_ui/HBUISkipIntroIndicator.gd
 msgid "Press "
@@ -2499,7 +2497,7 @@ msgstr "随机调整一些Note的键型"
 
 #: multiplayer/lobby/LobbyChat.tscn
 msgid "Say something nice..."
-msgstr ""
+msgstr "说些友善的话……"
 
 #: multiplayer/lobby/LobbyChat.tscn
 msgid "Send"
@@ -2543,90 +2541,105 @@ msgstr "其他"
 
 #: menus/options_menu/OptionCreditsSection.gd
 msgid "License: "
-msgstr ""
+msgstr "许可证："
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Sort & filter settings"
-msgstr ""
+msgstr "排序与过滤设置"
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Has downloaded media"
-msgstr ""
+msgstr "已下载媒体"
 
 #: menus/song_list/SongListSortByPanel.tscn
 msgid "Filter by stars"
-msgstr ""
+msgstr "按星数排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by title"
-msgstr ""
+msgstr "按标题排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by artist"
-msgstr ""
+msgstr "按艺术家排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by highest difficulty"
-msgstr ""
+msgstr "按最高难度排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by lowest difficulty"
-msgstr ""
+msgstr "按最低难度排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by chart creator name"
-msgstr ""
+msgstr "按作谱者排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by BPM"
-msgstr ""
+msgstr "按 BPM 排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last subscribed"
-msgstr ""
+msgstr "按最新订阅排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by times played"
-msgstr ""
+msgstr "按游玩次数排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last released"
-msgstr ""
+msgstr "按最后发布时间排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last updated"
-msgstr ""
+msgstr "按最后更新时间排序"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Song list sort by panel maximum stars"
 msgid "Maximum"
-msgstr ""
+msgstr "最大"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Song list sort by panel minimum stars"
 msgid "Minimum"
-msgstr ""
+msgstr "最小"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "All notes"
-msgstr ""
+msgstr "所有音符"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Console notes only"
-msgstr ""
+msgstr "仅主机音符"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Chart style filter mode in song list sort & filter settings panel"
 msgid "Arcade notes only"
-msgstr ""
+msgstr "仅街机音符"
 
 #: menus/song_list/SongListPreview.tscn
 msgid "by"
-msgstr ""
+msgstr "创作："
 
 #: menus/song_list/SongListPreview.gd
 msgid "{beats_per_minute} BPM"
-msgstr ""
+msgstr "{beats_per_minute} BPM"
+
+#: autoloads/CacheSongOverlay.gd
+msgctxt "yt-dlp cache status missing"
+msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
+msgstr "这首歌需要从 YouTube 下载视频/音频文件，您想要下载吗？"
+
+#: autoloads/CacheSongOverlay.gd
+msgctxt "yt-dlp video missing"
+msgid "The video for this song appears to be missing, would you like to download it?"
+msgstr "此歌曲的视频似乎缺失，您想要下载吗？"
+
+#: autoloads/CacheSongOverlay.gd
+msgctxt "yt-dlp audio missing"
+msgid "The audio for this song appears to be missing, would you like to download it?"
+msgstr "此歌曲的音频似乎缺失，您想要下载吗？"
 
