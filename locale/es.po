@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2025-02-18 21:10\n"
+"PO-Revision-Date: 2025-05-17 15:35\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -35,12 +35,13 @@ msgid "Steam couldn't be found, is it closed?"
 msgstr "Steam no se pudo encontrar, ¿está cerrado?"
 
 #: autoloads/MouseTrap.tscn
-msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
-msgstr "Esta canción requiere descargar archivos de video/audio de YouTube, ¿te gustaría descargarlos?"
-
-#: autoloads/MouseTrap.tscn
 msgid "Yes (audio only)"
 msgstr "Si (solo audio)"
+
+#: autoloads/MouseTrap.tscn
+#: menus/HBConfirmationWindow.tscn
+msgid "Yes"
+msgstr "Si"
 
 #: autoloads/MouseTrap.tscn
 msgid "Media for this song is currently being downloaded."
@@ -962,10 +963,6 @@ msgstr "Iniciar"
 #: menus/HBConfirmationWindow.tscn
 msgid "Are you sure you want to do this?"
 msgstr "¿Estás seguro de querer hacer esto?"
-
-#: menus/HBConfirmationWindow.tscn
-msgid "Yes"
-msgstr "Si"
 
 #: menus/HBConfirmationWindow.tscn
 msgid "No"
@@ -2635,4 +2632,19 @@ msgstr "por"
 #: menus/song_list/SongListPreview.gd
 msgid "{beats_per_minute} BPM"
 msgstr "{beats_per_minute} PPM"
+
+#: autoloads/CacheSongOverlay.gd
+msgctxt "yt-dlp cache status missing"
+msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
+msgstr ""
+
+#: autoloads/CacheSongOverlay.gd
+msgctxt "yt-dlp video missing"
+msgid "The video for this song appears to be missing, would you like to download it?"
+msgstr ""
+
+#: autoloads/CacheSongOverlay.gd
+msgctxt "yt-dlp audio missing"
+msgid "The audio for this song appears to be missing, would you like to download it?"
+msgstr ""
 
