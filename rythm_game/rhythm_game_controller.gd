@@ -8,6 +8,7 @@ const FADE_OUT_TIME = 1.0
 
 const ROLLBACK_TIME = 1300 # Rollback time after pausing and unpausing
 var rollback_on_resume = false
+var do_initial_video_rescale := true
 @onready var fade_out_tween = get_node("FadeOutThreen")
 @onready var fade_in_tween = get_node("FadeInThreen")
 @onready var game : HBRhythmGame
@@ -110,6 +111,7 @@ func start_fade_in():
 	pause_menu_disabled = true
 	HBGame.song_stats.song_played(song.id)
 	HBGame.song_stats.save_song_stats()
+	do_initial_video_rescale = true
 
 func start_session(game_info: HBGameInfo, assets: SongAssetLoader.AssetLoadToken = null):
 	current_assets = assets
@@ -376,6 +378,10 @@ func _process(delta):
 	$Label.text = "%.2f\n" % [video_player.stream_position]
 	$Label.text += "%.2f\n" % [game.audio_playback.get_playback_position_msec() / 1000.0]
 	$Label.text += "DIFF: %.2f" % [(game.audio_playback.get_playback_position_msec() / 1000.0) - video_player.stream_position]
+	
+	if do_initial_video_rescale and video_player.get_video_texture():
+		rescale_video_player()
+		do_initial_video_rescale = false
 #	$Label.text = "pos: %d\n" % [game.time_msec]
 #	$Label.text = "pos %d \n audiopos %d \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [game.audio_playback.get_playback_position_msec(), game.audio_playback.get_playback_position_msec(), game.time - video_player.stream_position, game.last_hit_index, game.audio_playback.volume]
 #	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
