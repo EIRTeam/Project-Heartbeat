@@ -43,8 +43,8 @@ func _redraw_items():
 		selection_rect.size.y = size.y
 	
 	var texture_size_changed = false
-	if not image or not size.is_equal_approx(image.get_size()):
-		image = Image.create(size.x, size.y, false, Image.FORMAT_RGBA8)
+	if not image or not size.is_equal_approx(image.get_size()) or not image.get_height() >= visible_layers * LAYER_HEIGHT:
+		image = Image.create(size.x, custom_minimum_size.y, false, Image.FORMAT_RGBA8)
 		texture_size_changed = true
 	
 	var base_color = Color.WHITE
