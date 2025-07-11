@@ -18,6 +18,7 @@ const SCRIPT_META_FIELDS = ["name", "description", "usage"]
 @onready var copy_icon = preload("res://tools/icons/icon_action_copy.svg")
 @onready var delete_icon = preload("res://tools/icons/icon_remove.svg")
 @onready var run_icon = preload("res://graphics/icons/console-line.svg")
+@onready var edit_icon = preload("res://graphics/icons/edit-script.svg")
 
 var watcher: DirectoryWatcher
 
@@ -54,9 +55,11 @@ func _ready():
 	file_manager_tree.set_column_custom_minimum_width(3, 1)
 	
 	script_runner_tree.set_column_expand(0, true)
-	script_runner_tree.set_column_expand(1, true)
-	script_runner_tree.set_column_custom_minimum_width(0, 9)
+	script_runner_tree.set_column_expand(1, false)
+	script_runner_tree.set_column_expand(2, false)
+	script_runner_tree.set_column_custom_minimum_width(0, 8)
 	script_runner_tree.set_column_custom_minimum_width(1, 1)
+	script_runner_tree.set_column_custom_minimum_width(2, 1)
 	
 	populate_file_lists()
 	
@@ -72,11 +75,13 @@ func _ready():
 	add_child(watcher)
 	
 	# Change text for the confirmation dialog
-	save_confirmation_dialog.get_ok_button().set_text("Yes")
-	save_confirmation_dialog.get_cancel_button().set_text("Go back")
+	save_confirmation_dialog.get_ok_button().set_text("Save and Close")
+	save_confirmation_dialog.get_cancel_button().set_text("Continue Editing")
+	var close_without_saving_button = save_confirmation_dialog.add_cancel_button("Close without Saving")
+	close_without_saving_button.pressed.connect(self.force_close)
 	
 	# Change text for the delete dialog
-	delete_confirmation_dialog.get_ok_button().set_text("Yes")
+	delete_confirmation_dialog.get_ok_button().set_text("Yes, ")
 	
 	# Change text for the reload dialog
 	reload_dialog.get_ok_button().set_text("Reload")
@@ -154,7 +159,7 @@ func create_script_item(script_name: String, id: int = -1) -> TreeItem:
 	var item := file_manager_tree.create_item(file_manager_tree.get_root(), id)
 	item.set_text(0, script_name)
 	
-	item.add_button(1, load_icon, -1, false, "Open this script")
+	item.add_button(1, edit_icon, -1, false, "Edit this script")
 	item.add_button(2, copy_icon, -1, false, "Duplicate this script")
 	item.add_button(3, delete_icon, -1, false, "Delete this script")
 	
@@ -182,7 +187,8 @@ func create_script_runner_item(script_name: String, meta: Dictionary):
 	
 	set_item_meta(item, script_name, meta)
 	
-	item.add_button(1, run_icon, -1, false, "Execute this script")
+	item.add_button(1, edit_icon, -1, false, "Edit this script")
+	item.add_button(2, run_icon, -1, false, "Execute this script")
 	
 	return item
 
@@ -287,7 +293,18 @@ func _on_file_manager_button_pressed(item: TreeItem, column: int, id: int, mouse
 
 func _on_script_runner_button_pressed(item: TreeItem, column: int, id: int, mouse_button_index: int):
 	var file_name = item.get_meta("script_name")
+	
 	if column == 1:
+		# Edit script
+		if file_name == current_script_name:
+			_popup_script_editor()
+			return
+		
+		_open_file_name = file_name
+		
+		_popup_script_editor()
+		open_file()
+	if column == 2:
 		# Execute script
 		run_script(HBUtils.join_path(EDITOR_SCRIPTS_PATH, file_name))
 
@@ -433,16 +450,26 @@ func _popup_script_editor():
 
 func _close_script_editor():
 	if modified:
-		# Request confirmation
-		requested_action = "force_close"
+		# Request confirmation to Close and Save. Force close is handled with a
+		# signal
+		requested_action = "save_and_close"
 		save_confirmation_dialog.popup_centered()
 	else:
 		script_editor_dialog.hide()
 		reveal_ui()
 		watcher.scan_delay = 3.0
 
+# Set modified to false to close the file, and then set it to true to display
+# (modified) if the user opens the same file again. If they open a different
+# file, modified will be set to false again.
 func force_close():
 	_set_modified(false, false)
+	_close_script_editor()
+	_set_modified(true, false)
+
+# Save and Close the script. Resets modified.
+func save_and_close():
+	save_file()
 	_close_script_editor()
 	script_editor_dialog.hide()
 
@@ -495,6 +522,9 @@ func unblock_actions():
 
 func _do_requested_action():
 	call(requested_action)
+
+func _do_custom_action(custom_action: StringName):
+	call(custom_action)
 
 func _delete(file_name: String):
 	# Lets make sure we dont delete the whole folder, just in case I fuck something up really badly

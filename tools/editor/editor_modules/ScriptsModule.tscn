@@ -1,18 +1,18 @@
 [gd_scene load_steps=14 format=3 uid="uid://ko3o8mogfbn8"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="2"]
-[ext_resource type="Script" path="res://tools/editor/editor_modules/ScriptsModule.gd" id="3"]
+[ext_resource type="Script" uid="uid://buyyl1h56yijv" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="2"]
+[ext_resource type="Script" uid="uid://dtnk82ck4beue" path="res://tools/editor/editor_modules/ScriptsModule.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="4"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorCodeEdit.gd" id="5"]
+[ext_resource type="Script" uid="uid://couhrq5u8xsy0" path="res://tools/editor/controls/HBEditorCodeEdit.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://ceim7qh5vd4g2" path="res://graphics/icons/save_plus.svg" id="6"]
 [ext_resource type="Texture2D" uid="uid://c0fe7cjb2bknm" path="res://tools/icons/icon_save.svg" id="7"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSimpleButton.gd" id="8"]
-[ext_resource type="Script" path="res://tools/editor/editor_modules/FocusTrapLineEdit.gd" id="9"]
+[ext_resource type="Script" uid="uid://b06kp7o87nsq7" path="res://tools/editor/controls/HBEditorSimpleButton.gd" id="8"]
+[ext_resource type="Script" uid="uid://cbknvye57rmip" path="res://tools/editor/editor_modules/FocusTrapLineEdit.gd" id="9"]
 [ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="10"]
 [ext_resource type="Texture2D" uid="uid://df86hx5aopskt" path="res://graphics/icons/edit-document.svg" id="11"]
 [ext_resource type="Texture2D" uid="uid://br0v232enbxsc" path="res://graphics/icons/file-document-plus.svg" id="12"]
-[ext_resource type="Script" path="res://tools/editor/editor_modules/FocusSensitiveTree.gd" id="13"]
+[ext_resource type="Script" uid="uid://cy2imrkjr1wyi" path="res://tools/editor/editor_modules/FocusSensitiveTree.gd" id="13"]
 
 [node name="EditorModule" instance=ExtResource("10")]
 script = ExtResource("3")
@@ -28,10 +28,6 @@ anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
 layout_mode = 2
 text = "Run scripts..."
@@ -41,7 +37,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-columns = 2
+columns = 3
 hide_root = true
 script = ExtResource("13")
 
@@ -73,15 +69,19 @@ theme = ExtResource("1")
 
 [node name="SaveDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="0"]
 unique_name_in_owner = true
+size = Vector2i(253, 161)
 transient_to_focused = true
 always_on_top = true
 theme = ExtResource("1")
+ok_button_text = "Close and Save"
 dialog_text = "This file has been modified.
 Do you really want to close it?"
 dialog_autowrap = true
+cancel_button_text = "Go Back"
 
 [node name="DeleteDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="1"]
 unique_name_in_owner = true
+size = Vector2i(200, 161)
 always_on_top = true
 theme = ExtResource("1")
 dialog_text = "Do you really want to delete this script?
@@ -90,6 +90,7 @@ dialog_autowrap = true
 
 [node name="ReloadDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="2"]
 unique_name_in_owner = true
+size = Vector2i(200, 161)
 always_on_top = true
 theme = ExtResource("1")
 dialog_text = "This script has been modified by an external source.
