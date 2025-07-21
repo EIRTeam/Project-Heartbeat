@@ -843,6 +843,7 @@ func _init():
 		file.store_string(FONT_LICENSE)
 
 func _ready():
+	# Setup syntax highlighting.
 	syntax_highlighter = CodeHighlighter.new()
 	
 	syntax_highlighter.symbol_color = SYMBOL_COLOR
