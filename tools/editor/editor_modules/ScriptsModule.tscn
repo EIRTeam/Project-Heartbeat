@@ -198,6 +198,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.5
 theme_type_variation = &"HBEditorCodeEdit"
+theme_override_colors/background_color = Color(0.101961, 0.101961, 0.101961, 1)
 minimap_draw = true
 highlight_all_occurrences = true
 highlight_current_line = true
