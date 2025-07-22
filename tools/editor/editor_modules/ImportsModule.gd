@@ -68,7 +68,8 @@ class DSCImporter:
 		FT,
 		DT,
 		F,
-		F2
+		F2,
+		NC
 	}
 	
 	const DSC_LOADER = preload("res://autoloads/song_loader/song_loaders/DSCConverter.gd")
@@ -85,6 +86,7 @@ class DSCImporter:
 		options_button.add_item("Dreamy Theater")
 		options_button.add_item("F/X")
 		options_button.add_item("F2nd")
+		options_button.add_item("New Classics Mod")
 		
 		add_child(options_button)
 	
@@ -99,6 +101,8 @@ class DSCImporter:
 				game = "F/X"
 			DSC_OPTIONS.F2:
 				game = "F2nd"
+			DSC_OPTIONS.NC:
+				game = "New Classics Mod"
 		
 		return ["*.dsc ; Project DIVA %s chart" % game]
 	
@@ -116,6 +120,8 @@ class DSCImporter:
 				game = "f"
 			DSC_OPTIONS.F2:
 				game = "F2"
+			DSC_OPTIONS.NC:
+				game = "NC"
 		
 		var opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game)
 		

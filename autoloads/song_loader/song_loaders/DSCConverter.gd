@@ -11,12 +11,15 @@ static func unsigned32_to_signed(unsigned):
 	return (unsigned + MAX_31B) % MAX_32B - MAX_31B
 
 static func load_dsc_file_from_buff(spb: StreamPeerBuffer, opcode_map: DSCOpcodeMap):
+	# Skip checksum
 	spb.seek(4)
+	
 	var opcodes = []
 	while spb.get_available_bytes() > 0:
 		var opcode = spb.get_u32()
 		var param_count = opcode_map.get_opcode_parameter_count(opcode)
 		var params = []
+		
 		for _i in range(param_count):
 			if not spb.get_available_bytes() == 0:
 				var param = spb.get_32()
@@ -30,6 +33,7 @@ static func load_dsc_file_from_buff(spb: StreamPeerBuffer, opcode_map: DSCOpcode
 		opcodes.append(opcode_obj)
 	
 	return opcodes
+
 static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 	var file = FileAccess.open(path, FileAccess.READ)
 	if FileAccess.get_open_error() != OK:
@@ -65,28 +69,6 @@ static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 	
 	return load_dsc_file_from_buff(spb, opcode_map)
 
-enum AFTButtons {
-	TRIANGLE = 0x0,
-	CIRCLE = 0x1,
-	CROSS = 0x2,
-	SQUARE = 0x3,
-	TRIANGLE_HOLD = 0x4,
-	CIRCLE_HOLD = 0x5,
-	CROSS_HOLD = 0x6,
-	SQUARE_HOLD = 0x7,
-	SLIDE_L = 0x0C,
-	SLIDE_R = 0x0D,
-	CHAIN_L = 0x0F,
-	CHAIN_R = 0x10,
-	RAINBOW_TRIANGLE = 0x12,
-	RAINBOW_CIRCLE = 0x13,
-	RAINBOW_CROSS = 0x14,
-	RAINBOW_SQUARE = 0x15,
-	# Skip???
-	RAINBOW_SLIDE_L = 0x17,
-	RAINBOW_SLIDE_R = 0x18
-}
-
 enum FButtons {
 	TRIANGLE = 0x0,
 	CIRCLE = 0x1,
@@ -110,6 +92,70 @@ enum FButtons {
 	CIRCLE_RUSH = 0x1A,
 	CROSS_RUSH = 0x1B,
 	SQUARE_RUSH = 0x1C
+}
+
+enum AFTButtons {
+	TRIANGLE = 0x0,
+	CIRCLE = 0x1,
+	CROSS = 0x2,
+	SQUARE = 0x3,
+	TRIANGLE_HOLD = 0x4,
+	CIRCLE_HOLD = 0x5,
+	CROSS_HOLD = 0x6,
+	SQUARE_HOLD = 0x7,
+	SLIDE_L = 0x0C,
+	SLIDE_R = 0x0D,
+	CHAIN_L = 0x0F,
+	CHAIN_R = 0x10,
+	RAINBOW_TRIANGLE = 0x12,
+	RAINBOW_CIRCLE = 0x13,
+	RAINBOW_CROSS = 0x14,
+	RAINBOW_SQUARE = 0x15,
+	# Skip???
+	RAINBOW_SLIDE_L = 0x17,
+	RAINBOW_SLIDE_R = 0x18,
+}
+
+# Button ids defined in the New Classics mod from Clover
+enum NCButtons {
+	TRIANGLE = 0x0,
+	CIRCLE = 0x1,
+	CROSS = 0x2,
+	SQUARE = 0x3,
+	TRIANGLE_HOLD = 0x4,
+	CIRCLE_HOLD = 0x5,
+	CROSS_HOLD = 0x6,
+	SQUARE_HOLD = 0x7,
+	SLIDE_L = 0x0C,
+	SLIDE_R = 0x0D,
+	CHAIN_L = 0x0F,
+	CHAIN_R = 0x10,
+	RAINBOW_TRIANGLE = 0x12,
+	RAINBOW_CIRCLE = 0x13,
+	RAINBOW_CROSS = 0x14,
+	RAINBOW_SQUARE = 0x15,
+	# Skip???
+	RAINBOW_SLIDE_L = 0x17,
+	RAINBOW_SLIDE_R = 0x18,
+	TRIANGLE_RUSH = 0x19,
+	CIRCLE_RUSH = 0x1A,
+	CROSS_RUSH = 0x1B,
+	SQUARE_RUSH = 0x1C,
+	TRIANGLE_DOUBLE = 0x1D,
+	CIRCLE_DOUBLE = 0x1E,
+	CROSS_DOUBLE = 0x1F,
+	SQUARE_DOUBLE = 0x20,
+	TRIANGLE_SUSTAIN = 0x21,
+	CIRCLE_SUSTAIN = 0x22,
+	CROSS_SUSTAIN = 0x23,
+	SQUARE_SUSTAIN = 0x24,
+	STAR = 0x25,
+	STAR_SUSTAIN = 0x26,
+	STAR_DOUBLE = 0x27,
+	STAR_CHANCE_TIME = 0x28,
+	LINK_STAR = 0x29,
+	LINK_STAR_END = 0x2A,
+	STAR_RUSH = 0x2B,
 }
 
 const F2PHButtonMap = {
@@ -158,6 +204,46 @@ const AFT2PHButtonMap = {
 	AFTButtons.RAINBOW_SLIDE_R: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT,
 }
 
+const NC2PHButtonMap = {
+	NCButtons.TRIANGLE: HBBaseNote.NOTE_TYPE.UP,
+	NCButtons.CIRCLE: HBBaseNote.NOTE_TYPE.RIGHT,
+	NCButtons.CROSS: HBBaseNote.NOTE_TYPE.DOWN,
+	NCButtons.SQUARE: HBBaseNote.NOTE_TYPE.LEFT,
+	NCButtons.TRIANGLE_HOLD: HBBaseNote.NOTE_TYPE.UP,
+	NCButtons.CIRCLE_HOLD: HBBaseNote.NOTE_TYPE.RIGHT,
+	NCButtons.CROSS_HOLD: HBBaseNote.NOTE_TYPE.DOWN,
+	NCButtons.SQUARE_HOLD: HBBaseNote.NOTE_TYPE.LEFT,
+	NCButtons.SLIDE_L: HBBaseNote.NOTE_TYPE.SLIDE_LEFT,
+	NCButtons.SLIDE_R: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT,
+	NCButtons.CHAIN_L: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
+	NCButtons.CHAIN_R: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT,
+	NCButtons.RAINBOW_TRIANGLE: HBBaseNote.NOTE_TYPE.UP,
+	NCButtons.RAINBOW_CIRCLE: HBBaseNote.NOTE_TYPE.RIGHT,
+	NCButtons.RAINBOW_CROSS: HBBaseNote.NOTE_TYPE.DOWN,
+	NCButtons.RAINBOW_SQUARE: HBBaseNote.NOTE_TYPE.LEFT,
+	NCButtons.RAINBOW_SLIDE_L: HBBaseNote.NOTE_TYPE.SLIDE_LEFT,
+	NCButtons.RAINBOW_SLIDE_R: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT,
+	NCButtons.TRIANGLE_RUSH: HBBaseNote.NOTE_TYPE.UP,
+	NCButtons.CIRCLE_RUSH: HBBaseNote.NOTE_TYPE.RIGHT,
+	NCButtons.CROSS_RUSH: HBBaseNote.NOTE_TYPE.DOWN,
+	NCButtons.SQUARE_RUSH: HBBaseNote.NOTE_TYPE.LEFT,
+	NCButtons.TRIANGLE_DOUBLE: HBBaseNote.NOTE_TYPE.UP,
+	NCButtons.CIRCLE_DOUBLE: HBBaseNote.NOTE_TYPE.RIGHT,
+	NCButtons.CROSS_DOUBLE: HBBaseNote.NOTE_TYPE.DOWN,
+	NCButtons.SQUARE_DOUBLE: HBBaseNote.NOTE_TYPE.LEFT,
+	NCButtons.TRIANGLE_SUSTAIN: HBBaseNote.NOTE_TYPE.UP,
+	NCButtons.CIRCLE_SUSTAIN: HBBaseNote.NOTE_TYPE.RIGHT,
+	NCButtons.CROSS_SUSTAIN: HBBaseNote.NOTE_TYPE.DOWN,
+	NCButtons.SQUARE_SUSTAIN: HBBaseNote.NOTE_TYPE.LEFT,
+	NCButtons.STAR: HBBaseNote.NOTE_TYPE.HEART,
+	NCButtons.STAR_SUSTAIN: HBBaseNote.NOTE_TYPE.HEART,
+	NCButtons.STAR_DOUBLE: HBBaseNote.NOTE_TYPE.HEART,
+	NCButtons.STAR_CHANCE_TIME: HBBaseNote.NOTE_TYPE.HEART,
+	NCButtons.LINK_STAR: HBBaseNote.NOTE_TYPE.HEART,
+	NCButtons.LINK_STAR_END: HBBaseNote.NOTE_TYPE.HEART,
+	NCButtons.STAR_RUSH: HBBaseNote.NOTE_TYPE.HEART,
+}
+
 static func is_hold(button: int):
 	return button > 3 and button < 8
 
@@ -169,6 +255,27 @@ static func is_sustain(button: int):
 
 static func is_rush(button: int):
 	return (button >= FButtons.TRIANGLE_RUSH and button <= FButtons.SQUARE_RUSH) or button == FButtons.STAR_RUSH
+
+static func is_link_star(button: int):
+	return button == FButtons.LINKED_STAR or button == FButtons.LINKED_STAR_END
+
+static func is_link_star_end(button: int):
+	return button == FButtons.LINKED_STAR_END
+
+static func is_nc_double(button: int):
+	return (button >= NCButtons.TRIANGLE_DOUBLE and button <= NCButtons.SQUARE_DOUBLE) or button == NCButtons.STAR_DOUBLE
+
+static func is_nc_sustain(button: int):
+	return (button >= NCButtons.TRIANGLE_SUSTAIN and button <= NCButtons.SQUARE_SUSTAIN) or button == NCButtons.STAR_SUSTAIN
+
+static func is_nc_rush(button: int):
+	return (button >= NCButtons.TRIANGLE_RUSH and button <= NCButtons.SQUARE_RUSH) or button == NCButtons.STAR_RUSH
+
+static func is_nc_link_star(button: int):
+	return button == NCButtons.LINK_STAR or button == NCButtons.LINK_STAR_END
+
+static func is_nc_link_star_end(button: int):
+	return button == NCButtons.LINK_STAR_END
 
 static func convert_dsc_buffer_to_chart(buffer: StreamPeerBuffer, opcode_map: DSCOpcodeMap) -> HBChart:
 	var r = load_dsc_file_from_buff(buffer, opcode_map)
@@ -197,6 +304,11 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 	var curr_chain_starter: HBNoteData = null
 	var last_chain_piece: HBNoteData = null
 	var last_chain_piece_time := -1
+	
+	var curr_sustain_notes := {}
+	var found_sustain_length := false
+	
+	var previous_link_star = null
 	
 	var current_time_sig := 4
 	var current_bpm := 180
@@ -235,19 +347,23 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 		if opcode.opcode == opcode_map.opcode_names_to_id.MUSIC_PLAY:
 			music_start_offset = curr_time / 100.0
 		
+		found_sustain_length = false
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET:
 			if (opcode_map.game == "FT" and opcode.params[0] in AFTButtons.values()) or \
+				(opcode_map.game == "NC" and opcode.params[0] in NCButtons.values()) or \
 				((opcode_map.game in ["f", "F2", "DT"]) and opcode.params[0] in FButtons.values()):
 				
 				var note_d: HBBaseNote = HBNoteData.new()
 				
-				note_d.time += int(curr_time / 100.0)
-				note_d.time += offset
-				
-				note_d.pos_modified = true
+				# Set note time to the target appearance time (from TIME commands)
+				# To get the real note time we still have to add the timeout
+				var time := int(curr_time / 100.0) + offset
+				note_d.time = time
 				
 				if opcode_map.game == "FT":
 					note_d.position = Vector2(opcode.params[1] / 250.0, opcode.params[2] / 250.0)
+					
+					# Set timeout
 					note_d.time += target_flying_time
 					note_d.time_out = target_flying_time
 					
@@ -278,11 +394,114 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 						var note_type = int(AFT2PHButtonMap[opcode.params[0]])
 						note_d.note_type = note_type
 					
-					note_d.hold = is_hold(opcode.params[0])
+					if note_d is HBNoteData:
+						note_d.hold = is_hold(opcode.params[0])
+					
 					note_d.entry_angle = (opcode.params[3] / 1000.0) - 90.0
 					note_d.oscillation_frequency = opcode.params[6]
 					note_d.oscillation_amplitude = opcode.params[5]
 					note_d.distance = opcode.params[4] / 250.0
+				
+				if opcode_map.game == "NC":
+					var note_type = int(NC2PHButtonMap[opcode.params[0]])
+					
+					var flying_time = opcode.params[9]
+					
+					var is_hold_end = opcode.params[2] == 1
+					if is_hold_end:
+						# If we have already encountered a sustain start for a given note
+						# type, we can update the end time and insert it. If not, we can
+						# safely discard the current sustain end (it is an orphan)
+						if curr_sustain_notes.has(note_type):
+							var end_time = time + flying_time
+							
+							note_d = curr_sustain_notes[note_d.note_type]
+							note_d.end_time = end_time
+							
+							curr_sustain_notes.erase(note_d.note_type)
+							
+							chart.layers[chart.get_layer_i(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_type))].timing_points.append(note_d)
+						
+						continue
+					
+					if is_nc_double(opcode.params[0]):
+						note_d = HBDoubleNote.new()
+						note_d.time = time
+					
+					elif is_nc_sustain(opcode.params[0]):
+						# Sustains in NC come in two parts: The sustain start
+						# and the sustain end. If we find a sustain we need to 
+						# cache it, and only create the note when the end time
+						# is known
+						note_d = HBSustainNote.new()
+						note_d.time = time
+						
+						# Set sustain length
+						if opcode.params[1] != -1:
+							(note_d as HBSustainNote).end_time = time + flying_time + (opcode.params[1] / 100.0) + offset
+							found_sustain_length = true
+					
+					elif is_nc_rush(opcode.params[0]):
+						note_d = HBRushNote.new()
+						note_d.time = time
+						(note_d as HBRushNote).end_time = time + flying_time + (opcode.params[1] / 100.0)
+					
+					note_d.position = Vector2(opcode.params[3] / 250.0, opcode.params[4] / 250.0)
+					
+					# Set timeout
+					note_d.time += flying_time
+					note_d.time_out = flying_time
+					
+					# From looking at comfy's code (steven did this, ty) it seems to use a maximum tolerance of
+					# 20000ms / bpm to check if two notes belong in a chain
+					if opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R] and curr_chain_starter:
+						var CHAIN_MAX_SEPARATION := 20000 / current_bpm
+						
+						if opcode.params[0] == AFTButtons.CHAIN_R and curr_chain_starter.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
+							curr_chain_starter = null
+						elif note_d.time - last_chain_piece_time > CHAIN_MAX_SEPARATION:
+							curr_chain_starter = null
+						else:
+							last_chain_piece_time = note_d.time
+					
+					# The first chain piece of a new chain needs to become the parent slider.
+					if not curr_chain_starter and opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R]:
+						if opcode.params[0] == AFTButtons.CHAIN_L:
+							note_d.position.x -= 20
+							note_d.note_type = HBBaseNote.NOTE_TYPE.SLIDE_LEFT
+						else:
+							note_d.position.x += 20
+							note_d.note_type = HBBaseNote.NOTE_TYPE.SLIDE_RIGHT
+						
+						curr_chain_starter = note_d
+						last_chain_piece_time = curr_chain_starter.time
+					else:
+						note_d.note_type = note_type
+					
+					if note_d is HBNoteData:
+						note_d.hold = is_hold(opcode.params[0])
+					
+					note_d.entry_angle = (opcode.params[5] / 1000.0) - 90.0
+					note_d.oscillation_frequency = opcode.params[6]
+					note_d.oscillation_amplitude = opcode.params[8]
+					note_d.distance = opcode.params[7] / 250.0
+					
+					# Set link star parameters
+					if is_nc_link_star(opcode.params[0]):
+						if previous_link_star:
+							note_d.entry_angle = rad_to_deg( \
+								note_d.position.angle_to_point(previous_link_star.position) \
+							)
+							
+							note_d.oscillation_frequency = 0
+							note_d.distance = note_d.position.distance_to(previous_link_star.position)
+							note_d.auto_time_out = false
+							note_d.time_out = note_d.time - previous_link_star.time
+					
+					if is_nc_link_star_end(opcode.params[0]):
+						previous_link_star = null
+					elif is_nc_link_star(opcode.params[0]):
+						previous_link_star = note_d
 				
 				if opcode_map.game in ["f", "F2", "DT"]:
 					var is_hold_end = opcode.params[2] != -1
@@ -291,7 +510,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 					
 					if is_double(opcode.params[0]):
 						note_d = HBDoubleNote.new()
-						note_d.time += (curr_time / 100.0) + offset
+						note_d.time += int(curr_time / 100.0) + offset
 					
 					elif is_sustain(opcode.params[0]):
 						note_d = HBSustainNote.new()
@@ -323,13 +542,42 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 					
 					note_d.time_out = opcode.params[9]
 					note_d.time += opcode.params[9]
+					
+					# Set link star parameters
+					if is_link_star(opcode.params[0]):
+						if previous_link_star:
+							note_d.entry_angle = rad_to_deg( \
+								note_d.position.angle_to_point(previous_link_star.position) \
+							)
+							
+							note_d.oscillation_frequency = 0
+							note_d.distance = note_d.position.distance_to(previous_link_star.position)
+							note_d.auto_time_out = false
+							note_d.time_out = note_d.time - previous_link_star.time
+					
+					if is_link_star_end(opcode.params[0]):
+						previous_link_star = null
+					elif is_link_star(opcode.params[0]):
+						previous_link_star = note_d
 				
+				note_d.pos_modified = true
+				
+				# Place slide chain pieces in their respective layers
 				var search_type = note_d.note_type
-				if opcode_map.game == "FT" and note_d.is_slide_hold_piece():
+				if opcode_map.game == "FT" and note_d is HBNoteData:
 					if note_d.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT:
 						search_type = HBBaseNote.NOTE_TYPE.SLIDE_LEFT
-					else:
+					elif note_d.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT:
 						search_type = HBBaseNote.NOTE_TYPE.SLIDE_RIGHT
+				
+				# If we have already encountered a sustain start for a given note
+				# type, we can update the end time and insert it. If not, we need
+				# to cache the sustain we did find as a sustain start, and wait
+				# for a sustain end to appear
+				if opcode_map.game == "NC" and note_d is HBSustainNote and not found_sustain_length:
+					curr_sustain_notes[note_d.note_type] = note_d
+					
+					continue
 				
 				chart.layers[chart.get_layer_i(HBUtils.find_key(HBNoteData.NOTE_TYPE, search_type))].timing_points.append(note_d)
 	
