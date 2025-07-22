@@ -13,12 +13,19 @@ func _init(map_path = "res://autoloads/song_loader/song_loaders/dsc_opcode_db.js
 	var test_json_conv = JSON.new()
 	test_json_conv.parse(file.get_as_text())
 	opcode_db = test_json_conv.get_data()
+	
+	# Treat MM+ DSCs like FT DSCs
 	if _game == "MMPLUS":
 		_game = "FT"
+	
 	game = _game
-	if _game == "DT":
+	
+	# Treat DT and NC DSCs like F DSCs, but keep the original _game value in self.game
+	if _game == "DT" or _game == "NC":
 		_game = "f"
+	
 	_game_info_entry_n = "info_" + _game
+	
 	for opcode_name in opcode_db:
 		if _game_info_entry_n in opcode_db[opcode_name]:
 			var opcode_entry = opcode_db[opcode_name][_game_info_entry_n]
