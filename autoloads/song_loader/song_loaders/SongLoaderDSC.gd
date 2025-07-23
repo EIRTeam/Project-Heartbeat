@@ -11,7 +11,7 @@ const DSCConverter = preload("DSCConverter.gd")
 
 var fs_access: DSCGameFSAccess
 
-var opcode_map: DSCOpcodeMap
+var opcode_maps: Dictionary
 
 var game_type = "FT"
 
@@ -20,9 +20,9 @@ class HBSongDSC:
 	var pv_data: DSCPVData
 	var game_fs_access: DSCGameFSAccess
 	var _audio_cache: WeakRef
-	var opcode_map: DSCOpcodeMap
+	var opcode_maps: Dictionary
 	
-	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap):
+	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_maps: Dictionary):
 		self.pv_data = _pv_data
 		has_audio_loudness = true
 		audio_loudness = -13.0
@@ -31,7 +31,7 @@ class HBSongDSC:
 		title = pv_data.title
 		romanized_title = pv_data.title_en
 		game_fs_access = _game_fs_access
-		opcode_map = _opcode_map
+		opcode_maps = _opcode_maps
 		if pv_data.preview_start != 0.0:
 			preview_start = pv_data.preview_start * 1000
 			if pv_data.preview_duration != 0.0:
@@ -57,7 +57,7 @@ class HBSongDSC:
 	func has_audio():
 		return game_fs_access.get_file_path(pv_data.song_file_name) != ""
 	func get_chart_for_difficulty(difficulty) -> HBChart:
-		return DSCConverter.convert_dsc_to_chart(pv_data.charts[difficulty].dsc_path, opcode_map)
+		return DSCConverter.convert_dsc_to_chart(pv_data.charts[difficulty].dsc_path, opcode_maps["FT"])
 	func is_cached(variant := -1):
 		return true
 	func get_meta_string():
@@ -87,8 +87,8 @@ class HBSongMMPLUS:
 	# array of dicts
 	var mod_infos := []
 	
-	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap):
-		super._init(_pv_data, _game_fs_access, _opcode_map)
+	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_maps: Dictionary):
+		super._init(_pv_data, _game_fs_access, _opcode_maps)
 		preview_image = "PLACEHOLDER"
 		background_image = "PLACEHOLDER"
 		circle_image = "PLACEHOLDER"
@@ -122,8 +122,11 @@ class HBSongMMPLUS:
 			return sprite_set
 	
 	func get_chart_for_difficulty(difficulty) -> HBChart:
+		var opcode_map = opcode_maps["NC"] if pv_data.charts[difficulty].get("is_nc_chart", false) else opcode_maps["MMPLUS"]
+		
 		var chart_path := pv_data.charts[difficulty].dsc_path as String
 		var buff := game_fs_access.load_file_as_buffer(chart_path)
+		
 		return DSCConverter.convert_dsc_buffer_to_chart(buff, opcode_map)
 		
 	func get_meta_string():
@@ -139,7 +142,9 @@ class HBSongMMPLUS:
 		return meta
 
 func _init_loader() -> int:
-	opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game_type)
+	for game in ["FT", "MMPLUS", "NC"]:
+		opcode_maps[game] = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game)
+	
 	return OK
 
 # If true this loader manages discovery by itself
@@ -171,7 +176,7 @@ class DSCPVData:
 
 	func _ensure_diff_exists(diff: String):
 		if not diff in charts:
-			charts[diff] = {"stars": 0.0}
+			charts[diff] = {"stars": 0.0, "is_nc_chart": false}
 
 	func set_dsc_path(diff: String, scr_path: String):
 		_ensure_diff_exists(diff)
@@ -187,6 +192,11 @@ class DSCPVData:
 		if spl.size() > 1:
 			charts[diff].stars = float(spl[-2])
 			charts[diff].stars += float(spl[-1]) / 10.0
+	
+	func set_nc_chart(diff: String, is_nc_chart: bool):
+		_ensure_diff_exists(diff)
+		charts[diff]["is_nc_chart"] = is_nc_chart
+	
 	func merge(other: DSCPVData):
 		for chart in other.charts:
 			if chart in charts:
@@ -587,8 +597,8 @@ func load_songs_mmplus() -> Array:
 	# Load and merge mods DBs
 	if FileAccess.file_exists(mods_config_path):
 		var mods_toml := TOMLParser.from_file(mods_config_path)
-		
 		var mods_path := GAME_LOCATION.path_join(mods_toml.default.get("mods", "mods")) as String
+		
 		var d := DirAccess.open(mods_path)
 		if DirAccess.get_open_error() == OK:
 			d.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
@@ -611,13 +621,17 @@ func load_songs_mmplus() -> Array:
 					mod_filesystems.push_back(mod_fs_access)
 					fs_access.mod_fs.push_back(mod_fs_access)
 					var mod_dir := mods_path.path_join(current_file)
+					
+					# Load regular Arcade charts
 					for n in [mod_dir.path_join("rom/mod_pv_db.txt"), mod_dir.path_join("rom/eden39_pv_db.txt")]:
 						if not FileAccess.file_exists(n):
 							continue
 						var f := FileAccess.open(n, FileAccess.READ)
+						
 						var err := FileAccess.get_open_error()
 						if err != OK:
 							propagate_error("Error %d loading pvdb from mod" % [err], true)
+						
 						var buffer := f.get_as_text()
 						if not buffer.is_empty():
 							var pvdb_text := buffer
@@ -631,17 +645,61 @@ func load_songs_mmplus() -> Array:
 								pv_data.is_built_in = pv_id in main_pvdb
 								pv_data.is_mod_song = true
 								pv_data.mod_infos.push_back(mod_toml)
+								
 								if pv_id in mods_pv_db:
 									mods_pv_db[pv_id].merge(pv_data)
 								else:
 									mods_pv_db[pv_id] = pv_data
+					
+					# Load New Classics charts
+					var nc_db := mod_dir.path_join("rom/nc_db.toml")
+					
+					if not FileAccess.file_exists(nc_db):
+						current_file = d.get_next()
+						continue
+					
+					var ncdb_toml := TOMLParser.from_file(nc_db)
+					
+					var err := FileAccess.get_open_error()
+					if err != OK:
+						propagate_error("Error %d loading db from mod" % [err], true)
+					
+					for song in ncdb_toml.get("songs", []):
+						if song.has("id"):
+							var pv_id = song.get("id")
 							
+							var pv_data = DSCPVData.new(pv_id)
+							pv_data.is_built_in = pv_id in main_pvdb
+							pv_data.is_mod_song = true
+							pv_data.mod_infos.push_back(mod_toml)
+							
+							# Note: Currently NC seems to store chart data for each
+							# difficulty in an array. TODO: Make this more extensible
+							# if needed.
+							for diff in ["easy", "normal", "hard", "extreme"]:
+								var diff_name = "CONSOLE " + diff.to_upper()
+								
+								for chart in song.get(diff, []):
+									if chart.get("style") == "CONSOLE" and chart.has("script_file_name"):
+										var dsc_path = fs_access.get_file_path(chart.get("script_file_name"))
+										
+										if dsc_path:
+											pv_data.set_dsc_path(diff_name, dsc_path)
+											pv_data.set_nc_chart(diff_name, true)
+							
+							if pv_id in mods_pv_db:
+								mods_pv_db[pv_id].merge(pv_data)
+							else:
+								mods_pv_db[pv_id] = pv_data
 				
 				current_file = d.get_next()
 	
 	for pv_id in mods_pv_db:
 		if pv_id in main_pvdb:
-			main_pvdb[pv_id].merge(mods_pv_db[pv_id])
+			var new_data = mods_pv_db[pv_id]
+			new_data.merge(main_pvdb[pv_id])
+			
+			main_pvdb[pv_id] = new_data
 		else:
 			main_pvdb[pv_id] = mods_pv_db[pv_id]
 	
@@ -664,7 +722,7 @@ func load_songs_mmplus() -> Array:
 				propagate_error(tr("Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path").format(format_data))
 				pv_data.charts.erase(chart_name)
 		
-		var song := HBSongMMPLUS.new(pv_data, fs_access, opcode_map)
+		var song := HBSongMMPLUS.new(pv_data, fs_access, opcode_maps)
 		song.id = "pv_" + str(pv_id)
 		
 		var bpm_timing_change := HBTimingChange.new()
@@ -725,7 +783,7 @@ func load_songs() -> Array:
 				var format_data := {"song_id": pv_data.pv_id_str, "difficulty": chart_name, "song_title": pv_data.title_en}
 				propagate_error(tr("Song ID {song_id}'s ({song_title}) difficulty {difficulty} did not have a DSC script path").format(format_data))
 		
-		var song := HBSongDSC.new(pv_data, fs_access, opcode_map)
+		var song := HBSongDSC.new(pv_data, fs_access, opcode_maps)
 		song.id = "pv_" + str(pv_id)
 		
 		if song.has_audio():
