@@ -649,10 +649,11 @@ func load_songs_mmplus() -> Array:
 								pv_data.is_mod_song = true
 								pv_data.mod_infos.push_back(mod_toml)
 								
+								# Previously defined data should take priority
 								if pv_id in mods_pv_db:
-									mods_pv_db[pv_id].merge(pv_data)
-								else:
-									mods_pv_db[pv_id] = pv_data
+									pv_data.merge(mods_pv_db[pv_id])
+								
+								mods_pv_db[pv_id] = pv_data
 					
 					# Load New Classics charts
 					var nc_db := mod_dir.path_join("rom/nc_db.toml")
@@ -695,14 +696,16 @@ func load_songs_mmplus() -> Array:
 											pv_data.set_nc_chart(diff_name, true)
 											pv_data.set_star_count_from_str(diff_name, star_count_str)
 							
+							# Previously defined data in the mod should take priority
 							if pv_id in mods_pv_db:
-								mods_pv_db[pv_id].merge(pv_data)
-							else:
-								mods_pv_db[pv_id] = pv_data
+								pv_data.merge(mods_pv_db[pv_id])
+							
+							mods_pv_db[pv_id] = pv_data
 				
 				current_file = d.get_next()
 	
 	for pv_id in mods_pv_db:
+		# Official PV data takes precedence over mod PV data
 		if pv_id in main_pvdb:
 			var new_data = mods_pv_db[pv_id]
 			new_data.merge(main_pvdb[pv_id])
