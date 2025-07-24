@@ -57,7 +57,7 @@ class HBSongDSC:
 	func has_audio():
 		return game_fs_access.get_file_path(pv_data.song_file_name) != ""
 	func get_chart_for_difficulty(difficulty) -> HBChart:
-		return DSCConverter.convert_dsc_to_chart(pv_data.charts[difficulty].dsc_path, opcode_maps["FT"])
+		return DSCConverter.convert_dsc_to_chart(pv_data.charts[difficulty].dsc_path, opcode_maps["FT"], UserSettings.user_settings.import_link_stars)
 	func is_cached(variant := -1):
 		return true
 	func get_meta_string():
@@ -127,7 +127,7 @@ class HBSongMMPLUS:
 		var chart_path := pv_data.charts[difficulty].dsc_path as String
 		var buff := game_fs_access.load_file_as_buffer(chart_path)
 		
-		return DSCConverter.convert_dsc_buffer_to_chart(buff, opcode_map)
+		return DSCConverter.convert_dsc_buffer_to_chart(buff, opcode_map, UserSettings.user_settings.import_link_stars)
 		
 	func get_meta_string():
 		var meta := []

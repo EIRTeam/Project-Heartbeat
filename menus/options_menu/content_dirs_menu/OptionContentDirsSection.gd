@@ -92,6 +92,13 @@ func populate():
 	content_directory_control.connect("pressed", Callable(set_directory_confirmation_window, "popup_centered"))
 	scroll_container.item_container.add_child(content_directory_control)
 	
+	var link_stars_button = preload("res://menus/options_menu/OptionBool.tscn").instantiate()
+	link_stars_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll_container.item_container.add_child(link_stars_button)
+	link_stars_button.set_value(UserSettings.user_settings.import_link_stars)
+	link_stars_button.set_text(tr("Import Link Stars with custom parameters."))
+	link_stars_button.connect("changed", Callable(self, "_on_import_link_stars_option_changed"))
+	
 	mmplus_button = preload("res://menus/options_menu/content_dirs_menu/MMPlusControl.tscn").instantiate()
 	scroll_container.item_container.add_child(mmplus_button)
 	mmplus_button.set_value(UserSettings.user_settings.enable_system_mmplus_loading)
@@ -105,6 +112,10 @@ func _on_mmplus_option_changed(new_value: bool):
 	UserSettings.save_user_settings()
 	HBGame.mmplus_error = HBGame.MMPLUS_ERROR.NEEDS_RESTART
 	mmplus_button.update_error()
+	
+func _on_import_link_stars_option_changed(new_value: bool):
+	UserSettings.user_settings.import_link_stars = new_value
+	UserSettings.save_user_settings()
 	
 func _on_path_selected(path):
 	UserSettings.user_settings.content_path = path
