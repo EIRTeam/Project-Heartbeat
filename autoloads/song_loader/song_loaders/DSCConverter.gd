@@ -277,24 +277,24 @@ static func is_nc_link_star(button: int):
 static func is_nc_link_star_end(button: int):
 	return button == NCButtons.LINK_STAR_END
 
-static func convert_dsc_buffer_to_chart(buffer: StreamPeerBuffer, opcode_map: DSCOpcodeMap) -> HBChart:
+static func convert_dsc_buffer_to_chart(buffer: StreamPeerBuffer, opcode_map: DSCOpcodeMap, convert_link_stars: bool = false) -> HBChart:
 	var r = load_dsc_file_from_buff(buffer, opcode_map)
 	if not r:
 		return null
 	
-	return convert_dsc_opcodes_to_chart(r, opcode_map)[0]
+	return convert_dsc_opcodes_to_chart(r, opcode_map, 0, convert_link_stars)[0]
 
-static func convert_dsc_to_chart(path: String, opcode_map: DSCOpcodeMap, offset: int = 0):
-	return convert_dsc_to_chart_and_tempo_map(path, opcode_map, offset)[0]
+static func convert_dsc_to_chart(path: String, opcode_map: DSCOpcodeMap, offset: int = 0, convert_link_stars: bool = false):
+	return convert_dsc_to_chart_and_tempo_map(path, opcode_map, offset, convert_link_stars)[0]
 
-static func convert_dsc_to_chart_and_tempo_map(path: String, opcode_map: DSCOpcodeMap, offset: int = 0):
+static func convert_dsc_to_chart_and_tempo_map(path: String, opcode_map: DSCOpcodeMap, offset: int = 0, convert_link_stars: bool = false):
 	var r = load_dsc_file(path, opcode_map)
 	if not r:
 		return null
 	
-	return convert_dsc_opcodes_to_chart(r, opcode_map, offset)
+	return convert_dsc_opcodes_to_chart(r, opcode_map, offset, convert_link_stars)
 
-static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, offset: int = 0) -> Array:
+static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, offset: int = 0, convert_link_stars: bool = false) -> Array:
 	var curr_time = 0.0
 	var target_flying_time = 0.0
 	var chart = HBChart.new()
@@ -493,10 +493,13 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 								note_d.position.angle_to_point(previous_link_star.position) \
 							)
 							
-							note_d.oscillation_frequency = 0
-							note_d.distance = note_d.position.distance_to(previous_link_star.position)
-							note_d.auto_time_out = false
-							note_d.time_out = note_d.time - previous_link_star.time
+							if convert_link_stars:
+								note_d.oscillation_frequency = 0
+								note_d.distance = note_d.position.distance_to(previous_link_star.position)
+								note_d.auto_time_out = false
+								note_d.time_out = note_d.time - previous_link_star.time
+							else:
+								note_d.entry_angle += 180.0
 					
 					if is_nc_link_star_end(opcode.params[0]):
 						previous_link_star = null
@@ -550,10 +553,13 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 								note_d.position.angle_to_point(previous_link_star.position) \
 							)
 							
-							note_d.oscillation_frequency = 0
-							note_d.distance = note_d.position.distance_to(previous_link_star.position)
-							note_d.auto_time_out = false
-							note_d.time_out = note_d.time - previous_link_star.time
+							if convert_link_stars:
+								note_d.oscillation_frequency = 0
+								note_d.distance = note_d.position.distance_to(previous_link_star.position)
+								note_d.auto_time_out = false
+								note_d.time_out = note_d.time - previous_link_star.time
+							else:
+								note_d.entry_angle += 180.0
 					
 					if is_link_star_end(opcode.params[0]):
 						previous_link_star = null
