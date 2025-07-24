@@ -204,7 +204,10 @@ class DSCPVData:
 			else:
 				charts[chart] = other.charts[chart]
 		song_file_name = other.song_file_name
-		title = other.title_en
+		title = other.title
+		title_en = other.title_en
+		pv_id = other.pv_id
+		pv_id_str = other.pv_id_str
 		metadata.merge(other.metadata, true)
 		mod_infos.append_array(other.mod_infos)
 		tutorial = other.tutorial
@@ -675,17 +678,22 @@ func load_songs_mmplus() -> Array:
 							
 							# Note: Currently NC seems to store chart data for each
 							# difficulty in an array. TODO: Make this more extensible
-							# if needed.
+							# if support for custom difficulties is added.
 							for diff in ["easy", "normal", "hard", "extreme"]:
-								var diff_name = "CONSOLE " + diff.to_upper()
+								var diff_name = diff.to_upper()
 								
 								for chart in song.get(diff, []):
-									if chart.get("style") == "CONSOLE" and chart.has("script_file_name"):
+									if chart.has("script_file_name") and chart.has("level"):
 										var dsc_path = fs_access.get_file_path(chart.get("script_file_name"))
+										var star_count_str = chart.get("level", "PV_LV_00_0")
+										
+										if chart.get("style", "ARCADE") == "CONSOLE":
+											diff_name += " (CONSOLE)"
 										
 										if dsc_path:
 											pv_data.set_dsc_path(diff_name, dsc_path)
 											pv_data.set_nc_chart(diff_name, true)
+											pv_data.set_star_count_from_str(diff_name, star_count_str)
 							
 							if pv_id in mods_pv_db:
 								mods_pv_db[pv_id].merge(pv_data)
