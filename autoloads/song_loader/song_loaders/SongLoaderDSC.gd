@@ -677,11 +677,24 @@ func load_songs_mmplus() -> Array:
 							pv_data.is_mod_song = true
 							pv_data.mod_infos.push_back(mod_toml)
 							
+							var difficulties := [
+								"easy",
+								"normal",
+								"hard",
+								"extreme",
+								"ex_easy",
+								"ex_normal",
+								"ex_hard",
+								"ex_extreme",
+							]
+							
 							# Note: Currently NC seems to store chart data for each
-							# difficulty in an array. TODO: Make this more extensible
-							# if support for custom difficulties is added.
-							for diff in ["easy", "normal", "hard", "extreme"]:
+							# difficulty in an array.
+							for diff in difficulties:
 								var diff_name = diff.to_upper()
+								
+								if diff.begins_with("ex_"):
+									diff_name = "EXTRA " + diff_name.substr(3, len(diff_name) - 3)
 								
 								for chart in song.get(diff, []):
 									if chart.has("script_file_name") and chart.has("level"):
