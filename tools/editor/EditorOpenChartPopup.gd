@@ -80,10 +80,17 @@ func populate_tree():
 	var _root = tree.create_item()
 	
 	for song in SongLoader.songs.values():
-		# Only show editor and local songs by default, but allow opening everything as read-only
-		var hidden = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or \
-			song.comes_from_ugc() or song is HBPPDSong or \
-			song is SongLoaderDSC.HBSongMMPLUS or song is SongLoaderDSC.HBSongDSC
+		# Only show editor and local songs by default, but allow opening everything as read-only.
+		# We first check if the song is built in. We hide these only when we are not using the
+		# editor dev mode (which should show official charts for editing or updating).
+		var hidden = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN and not HBGame.enable_editor_dev_mode
+		
+		hidden = hidden or \
+				 song.comes_from_ugc() or \
+				 song is HBPPDSong or \
+				 song is SongLoaderDSC.HBSongMMPLUS or \
+				 song is SongLoaderDSC.HBSongDSC
+		
 		if hidden and not show_hidden:
 			continue
 		
@@ -106,7 +113,7 @@ func populate_tree():
 				item.set_text(0, song.get_visible_title() + origin)
 				
 				item.set_meta("song", song)
-				item.set_meta("hidden", hidden and not HBGame.enable_editor_dev_mode)
+				item.set_meta("hidden", hidden)
 				
 				for difficulty in song.charts:
 					var diff_item = tree.create_item(item)
@@ -115,7 +122,7 @@ func populate_tree():
 					
 					diff_item.set_meta("song", song)
 					diff_item.set_meta("difficulty", difficulty)
-					diff_item.set_meta("hidden", hidden and not HBGame.enable_editor_dev_mode)
+					diff_item.set_meta("hidden", hidden)
 				
 				break
 	
@@ -170,6 +177,9 @@ func show_error(error: String):
 	$AcceptDialog.popup_centered(Vector2(500, 100))
 func _on_confirmed():
 	var item = tree.get_selected()
+	
+	if not item:
+		return
 	
 	var song = item.get_meta("song") as HBSong
 	if not song.is_cached() and YoutubeDL.validate_video_url(song.youtube_url):
