@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dci2lt4rkyjn8"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionBool.gd" id="2"]
+[ext_resource type="Script" uid="uid://bpf6tgrxxm1u2" path="res://menus/options_menu/OptionBool.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://bwhiiioudwqlb" path="res://graphics/icons/checkbox-marked.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://di30jv0le85ua" path="res://graphics/icons/checkbox-blank-outline.png" id="5"]
 
@@ -41,11 +41,12 @@ mouse_filter = 2
 [node name="Label" type="Label" parent="HBoxContainer"]
 use_parent_material = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")
 text = "(NT)Boolean Option"
-horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
 use_parent_material = true
