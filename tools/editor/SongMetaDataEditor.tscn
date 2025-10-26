@@ -12,23 +12,20 @@
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
-[node name="SongMetaEditor" type="Panel"]
+[node name="SongMetaEditor" type="PanelContainer"]
 offset_left = 634.0
-offset_right = 1260.0
+offset_right = 1944.0
 offset_bottom = 700.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("1")
 script = ExtResource("2")
 
 [node name="TabContainer" type="TabContainer" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -1.12246
-offset_bottom = -1.12244
-current_tab = 0
+layout_mode = 2
+current_tab = 1
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 0
@@ -180,7 +177,6 @@ layout_mode = 2
 text = "Clear"
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
-visible = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 1

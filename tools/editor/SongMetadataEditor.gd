@@ -1,4 +1,4 @@
-extends Panel
+extends PanelContainer
 
 var song_meta: HBSong: set = set_song_meta
 signal song_meta_saved
