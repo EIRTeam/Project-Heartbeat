@@ -113,7 +113,6 @@ func _update_mesh() -> void:
 	multimesh.multimesh = null
 	
 	if offset_map.is_empty():
-		print("OFFSETTI!")
 		return
 	
 	var ref_size := size

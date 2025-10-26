@@ -41,13 +41,11 @@ func set_element_separation(val):
 
 func set_artist_font(val):
 	artist_font = val
-	print("GOT FONT!", val)
 	if is_inside_tree():
 		set_control_font(artist_label, "font", artist_font)
 
 func set_title_font(val):
 	title_font = val
-	print("GOT TITLE FONT!", val)
 	if is_inside_tree():
 		set_control_font(title_label, "font", title_font)
 

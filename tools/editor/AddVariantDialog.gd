@@ -39,12 +39,10 @@ func _ready() -> void:
 	
 	canceled.connect(func():
 		result.error = AddVariantDialogError.CANCELED
-		print("CUNCEL")
 		dialog_finished.emit(result)
 	)
 	
 	confirmed.connect(func():
-		print("CUMFIRM")
 		dialog_finished.emit(result)
 	)
 	

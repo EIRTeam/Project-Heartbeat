@@ -18,7 +18,6 @@ func get_texture(texture_name: String) -> Texture2D:
 			var animated_texture := AnimatedTexture.new()
 			var frame_count := skin_resources.get_animated_texture_frame_count(texture_name)
 			animated_texture.frames = frame_count
-			print("FRAME COUNT!", frame_count)
 			for i in range(frame_count):
 				var texture_path := skin_resources.get_animated_texture_frame_path(texture_name, i)
 				var image := Image.load_from_file(texture_path)

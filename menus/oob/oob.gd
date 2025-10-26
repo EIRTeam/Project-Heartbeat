@@ -211,7 +211,6 @@ func _setup_step_button(step_option: OOBStepOption) -> HBHovereableButton:
 	return button
 	
 func _set_user_setting(user_setting_name: String, user_setting_value: Variant):
-	print("SET,", user_setting_name, user_setting_value)
 	UserSettings.user_settings.set(user_setting_name, user_setting_value)
 	UserSettings.save_user_settings()
 	

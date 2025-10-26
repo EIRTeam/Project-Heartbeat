@@ -30,7 +30,6 @@ func fetch_entries(song: HBSong, difficulty: String, include_modifiers: bool, pa
 			current_request_handle.entries_received.disconnect(_on_entries_received)
 			current_request_handle.request_failed.disconnect(_on_request_failed)
 		current_request_handle = HBBackend.get_song_entries(song, difficulty, include_modifiers, page)
-		print("CALL")
 		current_request_handle.entries_received.connect(_on_entries_received)
 		current_request_handle.request_failed.connect(_on_request_failed)
 	else:

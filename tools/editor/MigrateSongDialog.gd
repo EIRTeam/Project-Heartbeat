@@ -52,7 +52,6 @@ func _run_migration():
 		if variant.variant_url.is_empty():
 			continue
 		if not variant.is_cached(true):
-			print("UNCACHED!", variant_idx, YoutubeDL.get_cache_status(variant.variant_url, false, true))
 			uncached_variants.push_back(variant_idx)
 	
 	if not uncached_variants.is_empty():
