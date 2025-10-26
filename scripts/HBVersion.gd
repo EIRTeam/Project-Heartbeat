@@ -54,9 +54,9 @@ static func get_version_string(with_line_breaks := false):
 			format_info["commit"] = json.commit_hash
 			format_info["dirty"] = "-dirty" if json.is_dirty else ""
 		
-	var result = "{ver_name} - {status} ({video_driver} {api_version}, {audio_driver}, {os_name}) - {version} (build {commit}{dirty}, {build_date} {build_time}) - {video_adapter}"
+	var result = "{ver_name} - {status} - ({video_driver} {api_version}, {audio_driver}, {os_name}) - {version} (build {commit}{dirty}, {build_date} {build_time}) - {video_adapter}"
 	if not has_date_info:
-		result = "{ver_name} - {status} ({video_driver} {api_version}, {audio_driver}, {os_name}) - {version} - {video_adapter}"
+		result = "{ver_name} - {status} - ({video_driver} {api_version}, {audio_driver}, {os_name}) - {version} - {video_adapter}"
 		
 	result = result.format(format_info)
 	if with_line_breaks:
