@@ -68,6 +68,15 @@ func _on_upload_to_workshop_pressed():
 	var song = item.get_meta("song") as HBSong
 	var verification = HBSongVerification.new()
 	var errors = verification.verify_song(song)
+	if song_uses_yt_urls(song):
+		var error = {
+			"type": -1,
+			"string": "Workshop songs must not use YouTube URLs anymore, please migrate your song!",
+			"fatal": false,
+			"warning": false,
+			"fatal_ugc": true
+		}
+		errors["meta"].append(error)
 	if verification.has_fatal_error(errors, true) and not HBGame.enable_editor_dev_mode:
 		verify_song_popup.show_song_verification(errors, true, "Before you can upload your song, there are some issues you have to resolve:")
 	else:
@@ -298,9 +307,7 @@ func _on_chart_deleted():
 	song.save_song()
 	populate_tree()
 	
-func can_song_be_migrated(song: HBSong) -> bool:
-	if song.get_fs_origin() != HBSong.SONG_FS_ORIGIN.USER or song.comes_from_ugc():
-		return false
+func song_uses_yt_urls(song: HBSong) -> bool:
 	if not song.youtube_url.is_empty():
 		return true
 	for variant_idx in range(song.song_variants.size()):
@@ -308,3 +315,8 @@ func can_song_be_migrated(song: HBSong) -> bool:
 		if not variant_data.variant_url.is_empty():
 			return true
 	return false
+	
+func can_song_be_migrated(song: HBSong) -> bool:
+	if song.get_fs_origin() != HBSong.SONG_FS_ORIGIN.USER or song.comes_from_ugc():
+		return false
+	return song_uses_yt_urls(song)
