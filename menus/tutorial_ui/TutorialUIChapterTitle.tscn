@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://mgvcsronofwd"]
+
+[ext_resource type="Script" uid="uid://clfh37jgpdh5f" path="res://menus/tutorial_ui/TutorialUIChapterTitle.gd" id="1_4q5xt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_q8ui4"]
+font_size = 60
+
+[node name="ChapterTitle" type="PanelContainer"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TutorialChapterTitleContainer"
+script = ExtResource("1_4q5xt")
+
+[node name="TitleContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="TitleContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Learning how to do shit properly"
+label_settings = SubResource("LabelSettings_q8ui4")
+vertical_alignment = 1

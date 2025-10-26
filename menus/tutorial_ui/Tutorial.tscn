@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://devyogl1v22pc"]
+
+[ext_resource type="Script" uid="uid://be6k6ckcr3oeh" path="res://menus/tutorial_ui/Tutorial.gd" id="1_gbmpg"]
+[ext_resource type="PackedScene" uid="uid://cf2jxkpomwvf3" path="res://rythm_game/rhythm_game_controller.tscn" id="2_st7ak"]
+[ext_resource type="Script" uid="uid://bf4q4pciebhcg" path="res://menus/tutorial_ui/TutorialPromptDisplay.gd" id="3_qv6cv"]
+[ext_resource type="PackedScene" uid="uid://da02dm7nfv3ee" path="res://menus/tutorial_ui/TutorialUI.tscn" id="4_u07xn"]
+
+[node name="Tutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gbmpg")
+
+[node name="RhythmGame" parent="." instance=ExtResource("2_st7ak")]
+layout_mode = 1
+
+[node name="HBTutorialUIPromptDisplay" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 659.0
+offset_top = 338.0
+offset_right = 1601.0
+offset_bottom = 760.0
+script = ExtResource("3_qv6cv")
+metadata/_custom_type_script = "uid://bf4q4pciebhcg"
+
+[node name="TutorialUI" parent="." instance=ExtResource("4_u07xn")]
+layout_mode = 1

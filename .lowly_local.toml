@@ -1,0 +1,4 @@
+engine_binaries_path = "/mnt/wwn-0x50026b7782b0ee9e-part1/ph-monorepo/buildeps/retail_bin"
+steam_branch = "tls_fix"
+steam_account_name = "eirteam_buildbot"
+editor_path = "/mnt/wwn-0x50026b7782b0ee9e-part1/ph-monorepo/buildeps/retail_bin/godot.linuxbsd.editor.x86_64"

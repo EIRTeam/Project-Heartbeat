@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://da02dm7nfv3ee"]
+
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_76tpw"]
+[ext_resource type="Script" uid="uid://iy0gsi081ijk" path="res://menus/tutorial_ui/TutorialUI.gd" id="2_3k56v"]
+[ext_resource type="PackedScene" uid="uid://mgvcsronofwd" path="res://menus/tutorial_ui/TutorialUIChapterTitle.tscn" id="3_3864b"]
+[ext_resource type="Texture2D" uid="uid://cer3eapxts4fv" path="res://graphics/tutorial/prompt_holder.png" id="4_3k56v"]
+[ext_resource type="Script" uid="uid://bf4q4pciebhcg" path="res://menus/tutorial_ui/TutorialPromptDisplay.gd" id="5_3864b"]
+
+[node name="TutorialUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_76tpw")
+script = ExtResource("2_3k56v")
+
+[node name="ChapterTitle" parent="." instance=ExtResource("3_3864b")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+offset_top = -133.0
+offset_bottom = 133.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -428.0
+offset_top = -128.0
+offset_right = -172.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(128, 128)
+texture = ExtResource("4_3k56v")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+ratio = 1.7778
+
+[node name="MarginContainer" type="Control" parent="AspectRatioContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/MarginContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.7
+anchor_right = 1.0
+anchor_bottom = 0.915
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="HBTutorialUIPromptDisplay" type="HBoxContainer" parent="AspectRatioContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+script = ExtResource("5_3864b")
+metadata/_custom_type_script = "uid://bf4q4pciebhcg"

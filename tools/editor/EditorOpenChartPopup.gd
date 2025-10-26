@@ -17,6 +17,11 @@ extends ConfirmationDialog
 @onready var search_line_edit: LineEdit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SearchLineEdit")
 signal chart_selected(song, difficulty, hidden)
 
+enum MenuItemType {
+	SONG,
+	CHART
+}
+
 const LOG_NAME = "EditorOpenChartPopup"
 
 # If we should show songs in res://
@@ -113,13 +118,15 @@ func populate_tree():
 				item.set_text(0, song.get_visible_title() + origin)
 				
 				item.set_meta("song", song)
-				item.set_meta("hidden", hidden)
+				item.set_meta("hidden", hidden and not HBGame.enable_editor_dev_mode)
+				item.set_meta("type", MenuItemType.SONG)
 				
 				for difficulty in song.charts:
 					var diff_item = tree.create_item(item)
 					
 					diff_item.set_text(0, difficulty.capitalize())
 					
+					diff_item.set_meta("type", MenuItemType.CHART)
 					diff_item.set_meta("song", song)
 					diff_item.set_meta("difficulty", difficulty)
 					diff_item.set_meta("hidden", hidden)
@@ -179,6 +186,10 @@ func _on_confirmed():
 	var item = tree.get_selected()
 	
 	if not item:
+		return
+	
+	if item.get_meta("type") == MenuItemType.SONG:
+		_show_meta_editor()
 		return
 	
 	var song = item.get_meta("song") as HBSong

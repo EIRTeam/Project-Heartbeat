@@ -1,0 +1,210 @@
+[gd_scene load_steps=14 format=3 uid="uid://c0jpaba4eg3dv"]
+
+[ext_resource type="Script" uid="uid://ciix2q1466qe1" path="res://menus/song_list/SongListItemRandom.gd" id="1_gordm"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2_tghit"]
+[ext_resource type="StyleBox" uid="uid://bpo43s4bcd0gr" path="res://styles/SongListItemHover.tres" id="3_1ea7g"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="4_repcx"]
+[ext_resource type="Texture2D" uid="uid://dfq7klmc635ah" path="res://graphics/icons/menu_heart.png" id="5_dhy6g"]
+[ext_resource type="Texture2D" uid="uid://uebvk0qr14vq" path="res://graphics/icons/menu_heart_white.png" id="6_3uxrt"]
+
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.3, 0.3, 0.3, 0.5)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 8
+border_width_bottom = 6
+border_color = Color(0.6, 0.6, 0.6, 0.74902)
+corner_radius_top_left = 5
+corner_radius_top_right = 1024
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 10
+
+[sub_resource type="Shader" id="5"]
+code = "shader_type canvas_item;
+
+vec3 hsv2rgb(vec3 c)
+{
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+void fragment() {
+	COLOR.rgb = hsv2rgb(vec3(UV.x + mod(TIME * 0.25, 1.0), 1.0, 1.0));
+}"
+
+[sub_resource type="ShaderMaterial" id="6"]
+shader = SubResource("5")
+
+[sub_resource type="StyleBoxFlat" id="7"]
+bg_color = Color(0.3, 0.3, 0.3, 0.5)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 8
+border_width_bottom = 6
+border_color = Color(0.6, 0.6, 0.6, 0.74902)
+corner_radius_top_left = 5
+corner_radius_top_right = 1024
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 10
+
+[sub_resource type="Shader" id="8"]
+code = "shader_type canvas_item;
+
+vec3 hsv2rgb(vec3 c)
+{
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	COLOR.rgb *= hsv2rgb(vec3((UV.x * 0.25) + mod(TIME * 0.25, 0.0), 1.0, 1.0));
+}"
+
+[sub_resource type="ShaderMaterial" id="9"]
+shader = SubResource("8")
+
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("4_repcx")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[node name="Control" type="Control"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+focus_mode = 2
+mouse_filter = 2
+script = ExtResource("1_gordm")
+node_to_scale_path = NodePath("Control")
+
+[node name="Control" type="Button" parent="."]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 25.0
+offset_right = 1720.0
+offset_bottom = 75.0
+size_flags_horizontal = 3
+focus_mode = 0
+theme = ExtResource("2_tghit")
+theme_override_constants/h_separation = 0
+theme_override_styles/hover = ExtResource("3_1ea7g")
+theme_override_styles/pressed = ExtResource("3_1ea7g")
+theme_override_styles/normal = SubResource("2")
+
+[node name="RainbowOverlay" type="Panel" parent="Control"]
+material = SubResource("6")
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("7")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -7.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 62
+theme_override_constants/margin_top = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("4_repcx")
+text = "??????"
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(175, 125)
+layout_mode = 0
+offset_left = -87.747
+offset_top = -35.0
+offset_right = 87.253
+offset_bottom = 90.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+mouse_filter = 2
+texture = ExtResource("5_dhy6g")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="StarRainbow" type="TextureRect" parent="Control/TextureRect"]
+material = SubResource("9")
+custom_minimum_size = Vector2(175, 125)
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+mouse_filter = 2
+texture = ExtResource("6_3uxrt")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="StarsLabel" type="Label" parent="Control/TextureRect"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 0.918
+offset_left = 0.397217
+offset_right = 0.397217
+theme_override_fonts/font = SubResource("1")
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Control" to="." method="emit_signal" binds= ["pressed"]]
