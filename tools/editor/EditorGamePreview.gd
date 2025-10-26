@@ -16,6 +16,8 @@ var video_time = 0.0
 
 signal preview_size_changed
 
+const LOG_NAME := "EditorGamePreview"
+
 func _ready():
 	video_player.volume_db = 0
 	game.health_system_enabled = false

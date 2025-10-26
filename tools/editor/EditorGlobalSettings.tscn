@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://b8lwp32xk453o"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
-[ext_resource type="Script" path="res://tools/editor/EditorGlobalSettings.gd" id="2"]
-[ext_resource type="Script" path="res://tools/editor/EditorGlobalSettingsShortcuts.gd" id="3"]
-[ext_resource type="Script" path="res://tools/editor/settings/EditorSettingsSong.gd" id="4"]
-[ext_resource type="Script" path="res://tools/editor/settings/EditorSettingsGlobal.gd" id="5"]
+[ext_resource type="Script" uid="uid://dqb0mfm3ebsbk" path="res://tools/editor/EditorGlobalSettings.gd" id="2"]
+[ext_resource type="Script" uid="uid://d0waq38jjc04k" path="res://tools/editor/EditorGlobalSettingsShortcuts.gd" id="3"]
+[ext_resource type="Script" uid="uid://dqy8k3hmu1iqv" path="res://tools/editor/settings/EditorSettingsSong.gd" id="4"]
+[ext_resource type="Script" uid="uid://ckbw05jbvlao8" path="res://tools/editor/settings/EditorSettingsGlobal.gd" id="5"]
 
 [node name="EditorGlobalSettings" type="Window"]
 title = "Editor Settings"

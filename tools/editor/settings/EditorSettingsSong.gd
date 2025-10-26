@@ -10,6 +10,14 @@ var note_resolution_item: TreeItem
 
 signal song_variant_download_requested(song: HBSong, variant: int)
 
+enum VariantAvailability {
+	AVAILABLE,
+	AUDIO_NOT_FOUND,
+	VIDEO_NOT_FOUND,
+	YT_DLP_AUDIO_NOT_CACHED,
+	YT_DLP_VIDEO_NOT_CACHED,
+}
+
 func _ready():
 	super._ready()
 	settings = {
@@ -52,10 +60,14 @@ func load_settings(settings):
 func update_setting(property_name: String, new_value: Variant):
 	var old_value: Variant = settings_base.get(property_name)
 	if property_name == "selected_variant":
-		if not editor.current_song.is_cached(new_value):
-			# Extreme hack... to undo the change
+		var availabilities := _get_variant_availability()
+		var availability := availabilities[new_value]
+		if availability in [VariantAvailability.YT_DLP_VIDEO_NOT_CACHED, VariantAvailability.YT_DLP_AUDIO_NOT_CACHED]:
+				song_variant_download_requested.emit(editor.current_song, new_value)
+		
+		if availability != VariantAvailability.AVAILABLE:
+			# Undo change...
 			_update_settings_tree(tree.get_root())
-			song_variant_download_requested.emit(editor.current_song, new_value)
 			return
 	editor.disconnect("song_editor_settings_changed", Callable(self, "update"))
 	settings_base.set(property_name, new_value)
@@ -68,16 +80,51 @@ func _grid_column_spacing_parser(value, _mode):
 	var new_value = {"x": 1080.0 / value.x, "y": 1920.0 / value.y}
 	return new_value
 
+func _get_variant_availability() -> Dictionary[int, VariantAvailability]:
+	var variants: Dictionary[int, VariantAvailability] = {-1: VariantAvailability.AVAILABLE}
+	if editor.current_song:
+		for variant_idx in range(editor.current_song.song_variants.size()):
+			var variant := editor.current_song.song_variants[variant_idx] as HBSongVariantData
+			var availability := VariantAvailability.AVAILABLE
+			var audio_status = YoutubeDL.get_cache_status(variant.variant_url, false, true) == YoutubeDL.CACHE_STATUS.OK
+			
+			# youtube URL
+			if variant.variant_url:
+				if not audio_status:
+					availability = VariantAvailability.YT_DLP_AUDIO_NOT_CACHED
+				elif not variant.audio_only:
+					if not YoutubeDL.get_cache_status(variant.variant_url, true, true) == YoutubeDL.CACHE_STATUS.OK:
+						availability = VariantAvailability.YT_DLP_VIDEO_NOT_CACHED
+			else:
+				# built-in audio file
+				if variant.variant_audio.is_empty() or not FileAccess.file_exists(editor.current_song.get_variant_audio_res_path(variant_idx)):
+					availability = VariantAvailability.AUDIO_NOT_FOUND
+				if not variant.audio_only:
+					if variant.variant_video.is_empty() or not FileAccess.file_exists(editor.current_song.get_variant_video_res_path(variant_idx)):
+						availability = VariantAvailability.VIDEO_NOT_FOUND
+			
+
+			variants[variant_idx] = availability
+	return variants
 func _get_variants():
 	var variants = {"Default": true}
+	var availabilities := _get_variant_availability()
 	if editor.current_song:
-		for variant in editor.current_song.song_variants:
+		for variant_idx in range(editor.current_song.song_variants.size()):
+			var variant := editor.current_song.song_variants[variant_idx] as HBSongVariantData
+			var availability := availabilities[variant_idx]
 			var display_name = variant.variant_name
 			var audio_status = YoutubeDL.get_cache_status(variant.variant_url, false, true) == YoutubeDL.CACHE_STATUS.OK
-			if not audio_status:
-				display_name += " (audio not downloaded)"
-			elif not variant.audio_only:
-				if not YoutubeDL.get_cache_status(variant.variant_url, true, true) == YoutubeDL.CACHE_STATUS.OK:
+			match availabilities[variant_idx]:
+				VariantAvailability.AVAILABLE:
+					pass
+				VariantAvailability.AUDIO_NOT_FOUND:
+					display_name += " (audio not found in disk)"
+				VariantAvailability.VIDEO_NOT_FOUND:
+					display_name += " (video not found in disk)"
+				VariantAvailability.YT_DLP_AUDIO_NOT_CACHED:
+					display_name += " (audio not downloaded)"
+				VariantAvailability.YT_DLP_VIDEO_NOT_CACHED:
 					display_name += " (video not downloaded)"
 			variants[display_name] = true
 	

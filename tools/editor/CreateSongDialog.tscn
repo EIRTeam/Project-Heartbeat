@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcbf31mumsfhs"]
+[gd_scene load_steps=3 format=3 uid="uid://bcbf31mumsfhs"]
 
 [ext_resource type="Script" uid="uid://bjf7ax627mbx7" path="res://tools/editor/CreateSongDialog.gd" id="1_7ory4"]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_niwt4"]
 
 [node name="CreateSongDialog" type="ConfirmationDialog"]
 auto_translate_mode = 1
 title = "Create a song"
+position = Vector2i(0, 32)
 size = Vector2i(824, 1067)
+visible = true
+theme = ExtResource("1_niwt4")
 script = ExtResource("1_7ory4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -14,8 +18,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -70.0
+offset_right = 816.0
+offset_bottom = 1019.0
 
 [node name="TitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
@@ -31,24 +35,19 @@ caret_blink_interval = 0.5
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer"]
-custom_minimum_size = Vector2(250, 0)
-layout_mode = 2
-text = "If you intend to upload this song to the Steam Workshop, you must provide a YouTube URL below for both video and audio.
-"
-autowrap_mode = 3
-
-[node name="YoutubeURL" type="LineEdit" parent="VBoxContainer"]
+[node name="SelectVideoButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-placeholder_text = "YouTube URL"
-caret_blink = true
-caret_blink_interval = 0.5
+text = "Select video"
 
-[node name="NoWorkshopCheckbox" type="CheckBox" parent="VBoxContainer"]
-unique_name_in_owner = true
+[node name="VideoSelectedInfoLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "I don't plan to upload the song to the Workshop"
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 unique_name_in_owner = true
+
+[node name="NoVideoAudioDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+size = Vector2i(1320, 130)
+ok_button_text = "Yes, I am!"
+dialog_text = "You're about to create a song without video or audio, are you sure about this?"

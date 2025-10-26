@@ -50,14 +50,14 @@ func _input(event):
 var stream_base: AudioStream
 var stream_variant: AudioStream
 
-func show_comparison(song: HBSong, variant: HBSongVariantData, offset: float):
+func show_comparison(song: HBSong, variant_idx: int, offset: float):
 	stream_base = song.get_audio_stream()
 	base_editor.max_t = stream_base.get_length()
 	base_editor.stream_editor.edit(stream_base)
 #	base_editor.start_point = song.start_time / 1000.0
 #	base_editor.end_point = (song.start_time / 1000.0) + 10.0
 #	base_editor.start = song.start_time / 1000.0
-	stream_variant = HBUtils.load_ogg(YoutubeDL.get_audio_path(YoutubeDL.get_video_id(variant.variant_url)))
+	stream_variant = song.get_audio_stream(variant_idx)
 	var ogg = stream_variant
 	variant_editor.stream_editor.edit(ogg)
 	variant_editor.max_t = stream_variant.get_length()

@@ -88,6 +88,7 @@ text = "Upload to workshop"
 
 [node name="CreateSongDialog" parent="." instance=ExtResource("4_034tf")]
 size = Vector2i(550, 330)
+visible = false
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
 size = Vector2i(100, 429)
@@ -120,5 +121,12 @@ visible = false
 visible = false
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+
+[node name="ImportingMediaDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = ""
+dialog_text = "Importing media..."
+dialog_hide_on_ok = false
+dialog_close_on_escape = false
 
 [connection signal="confirmed" from="SongMetaEditorDialog" to="." method="_on_SongMetaEditorDialog_confirmed"]

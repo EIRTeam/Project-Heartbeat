@@ -5,8 +5,7 @@ signal song_meta_saved
 
 var current_downloading_id = ""
 
-@onready var add_variant_dialog_youtube_url = get_node("AddVariantDialog/VBoxContainer/LineEdit2")
-@onready var add_variant_dialog_name = get_node("AddVariantDialog/VBoxContainer/LineEdit")
+@onready var add_variant_dialog: HBAddVariantDialog = get_node("%AddVariantDialog")
 
 @onready var title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongTitle")
 @onready var romanized_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongRomanizedTitle")
@@ -19,6 +18,7 @@ var current_downloading_id = ""
 @onready var composers_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongComposers")
 
 @onready var audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
+@onready var video_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4/VideoFileLineEdit")
 @onready var preview_start_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewSpinBox")
 @onready var preview_end_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewEndSpinBox")
 @onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
@@ -63,9 +63,26 @@ var current_downloading_id = ""
 
 @onready var add_variant_button: Button = get_node("TabContainer/Alternative Videos/MarginContainer/VBoxContainer/AddVariantButton")
 
+@onready var import_media_button: Button = get_node("%ImportMediaButton")
+
+var selected_variant_media: MediaImportDialog.MediaImportDialogResult
+
 const VARIANT_EDITOR = preload("res://tools/editor/VariantEditor.tscn")
 
 var show_hidden: bool = false: set = set_hidden
+
+func populate_variants():
+	for child in alternative_video_container.get_children():
+		child.queue_free()
+	
+	for variant_idx in range(song_meta.song_variants.size()):
+		var variant_editor = VARIANT_EDITOR.instantiate()
+		var variant := song_meta.song_variants[variant_idx] as HBSongVariantData
+		alternative_video_container.add_child(variant_editor)
+		variant_editor.initialize(song_meta, variant_idx)
+		variant_editor.song = song_meta
+		variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
+		variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
 
 func set_song_meta(value):
 	song_meta = value
@@ -80,6 +97,7 @@ func set_song_meta(value):
 	creator_edit.text = song_meta.creator
 	original_title_edit.text = song_meta.original_title
 	audio_filename_edit.text = song_meta.audio
+	video_filename_edit.text = song_meta.video
 	circle_image_line_edit.text = song_meta.circle_image
 	circle_logo_image_line_edit.text = song_meta.circle_logo
 	voice_audio_filename_edit.text = song_meta.voice
@@ -98,16 +116,7 @@ func set_song_meta(value):
 	volume_spinbox.value = song_meta.volume
 	epilepsy_warning_checkbox.button_pressed = song_meta.show_epilepsy_warning
 	
-	for child in alternative_video_container.get_children():
-		child.queue_free()
-	
-	for variant in song_meta.song_variants:
-		var variant_editor = VARIANT_EDITOR.instantiate()
-		alternative_video_container.add_child(variant_editor)
-		variant_editor.set_variant(variant)
-		variant_editor.song = song_meta
-		variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
-		variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
+	populate_variants()
 	
 	chart_ed.populate(value, not show_hidden)
 	
@@ -128,11 +137,36 @@ func set_song_meta(value):
 					break
 		
 	
+func _on_add_variant_button_pressed():
+	add_variant_dialog.popup_centered()
+	var result: HBAddVariantDialog.AddVariantDialogResult = await add_variant_dialog.dialog_finished
+	
+	if result.error != HBAddVariantDialog.AddVariantDialogError.OK:
+		return
+		
+	var import_ui := MediaImporterUI.new()
+	var variant_idx := song_meta.song_variants.size() as int
+	var variant := HBSongVariantData.new()
+	variant.variant_name = result.variant_name
+	variant.audio_only = !result.media_info.has_video_stream
+	song_meta.song_variants.push_back(variant)
+	import_ui.do_import(song_meta, result.media_info, variant_idx)
+	var import_result: MediaImporterUI.MediaImporterUIResult = await import_ui.import_finished
+	
+	if import_result.error != MediaImporterUI.MediaImporterUIError.OK:
+		song_meta.song_variants.remove_at(variant_idx)
+		return
+		
+	populate_variants()
+	import_ui.queue_free()
+	save_meta()
+	
 func _ready():
 	YoutubeDL.connect("video_downloaded", Callable(self, "_on_video_downloaded"))
 	clear_skin_button.connect("pressed", Callable(self, "_on_clear_skin_button_pressed"))
 	select_skin_button.connect("pressed", Callable(skin_picker, "popup_centered"))
 	skin_picker.connect("skin_selected", Callable(self, "_on_skin_selected"))
+	add_variant_button.pressed.connect(_on_add_variant_button_pressed)
 	_update_paths()
 
 func _on_skin_selected(skin_ugc_id: int):
@@ -169,6 +203,7 @@ func save_meta():
 	song_meta.creator = creator_edit.text
 	
 	song_meta.audio = audio_filename_edit.text
+	song_meta.video = video_filename_edit.text
 	song_meta.circle_image = circle_image_line_edit.text
 	song_meta.circle_logo = circle_logo_image_line_edit.text
 	song_meta.preview_start = preview_start_edit.value
@@ -328,14 +363,6 @@ func _update_paths():
 	$AudioFileDialog.set_current_dir(UserSettings.user_settings.last_audio_dir)
 	$VoiceAudioFileDialog.set_current_dir(UserSettings.user_settings.last_audio_dir)
 
-
-func _on_AddVariantButton_pressed():
-	var variant_editor = VARIANT_EDITOR.instantiate()
-	alternative_video_container.add_child(variant_editor)
-	variant_editor.song = song_meta
-	variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
-	variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
-
 func _on_show_download_prompt(variant: int):
 	if show_hidden:
 		return
@@ -348,49 +375,6 @@ func show_error(err: String):
 	$ErrorDialog.dialog_text = err
 	$ErrorDialog.popup_centered()
 
-func _on_AddVariantDialog_confirmed():
-	var url = add_variant_dialog_youtube_url.text
-	if not song_meta.youtube_url:
-		show_error("In order to add variants you must first add a base youtube URL")
-		return
-	if not YoutubeDL.validate_video_url(url):
-		show_error("Invalid youtube URL")
-	else:
-		if YoutubeDL.get_cache_status(url, false) != YoutubeDL.CACHE_STATUS.OK:
-			current_downloading_id = YoutubeDL.get_video_id(url)
-			# HACK...
-			var v = HBSongVariantData.new()
-			v.variant_name = add_variant_dialog_name.text
-			v.variant_url = url
-			v.audio_only = true
-			song_meta.song_variants.append(v)
-			song_meta.cache_data(song_meta.song_variants.size()-1)
-			$DownloadingSongPopup.popup_centered()
-		else:
-			user_add_variant(YoutubeDL.get_video_id(url))
-
-func _on_video_downloaded(id, result):
-	if id == current_downloading_id:
-		$DownloadingSongPopup.hide()
-		song_meta.song_variants.pop_back()
-		if result.has("audio") and not result.audio:
-			show_error("There was an error downloading the audio...")
-		else:
-			user_add_variant(id)
-
-func user_add_variant(id: String):
-	var variant_editor = VARIANT_EDITOR.instantiate()
-	alternative_video_container.add_child(variant_editor)
-	variant_editor.song = song_meta
-	variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
-	variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
-	var ss := Shinobu.register_sound_from_memory("meta_editor_norm_temp", HBUtils.load_ogg(YoutubeDL.get_audio_path(id)).get_meta("raw_file_data"))
-	var res = ss.ebur128_get_loudness()
-	variant_editor.variant.variant_url = "https://www.youtube.com/watch?v=%s" % [id]
-	variant_editor.variant.variant_normalization = res
-	variant_editor.variant.variant_name = add_variant_dialog_name.text
-	variant_editor.set_variant(variant_editor.variant)
-
 # Goofy ahh code
 func set_enabled(enabled: bool):
 	title_edit.editable = enabled
@@ -402,10 +386,11 @@ func set_enabled(enabled: bool):
 	composers_edit.editable = enabled
 	creator_edit.editable = enabled
 	original_title_edit.editable = enabled
-	audio_filename_edit.editable = enabled
+	audio_filename_edit.editable = false
+	video_filename_edit.editable = false
 	circle_image_line_edit.editable = enabled
 	circle_logo_image_line_edit.editable = enabled
-	voice_audio_filename_edit.editable = enabled
+	voice_audio_filename_edit.editable = false
 	preview_start_edit.editable = enabled
 	preview_end_edit.editable = enabled
 	background_image_filename_edit.editable = enabled

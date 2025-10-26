@@ -31,7 +31,7 @@ enum META_ERROR {
 	ILLEGAL_FOLDERS
 }
 
-const LEGAL_FILE_EXTENSIONS = ["json", "png", "jpg", "jpeg"]
+const LEGAL_FILE_EXTENSIONS = ["json", "png", "jpg", "jpeg", "mp4", "webm", "ogg"]
 
 var META_ERROR_SEVERITY = {
 	"fatal": [ META_ERROR.AUDIO_FIELD_MISSING, META_ERROR.VOICE_NOT_FOUND, META_ERROR.PREVIEW_FILE_MISSING, META_ERROR.AUDIO_NOT_FOUND ],
@@ -41,7 +41,7 @@ var META_ERROR_SEVERITY = {
 }
 # Meta fields that MUST be set to something 
 const MANDATORY_META_FIELDS = [
-	"title", "artist", "creator"
+	"title", "artist", "creator", "preview_image"
 ]
 
 func verify_song(song: HBSong):

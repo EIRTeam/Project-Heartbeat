@@ -1,13 +1,14 @@
-[gd_scene load_steps=10 format=4 uid="uid://lhyypajs7taw"]
+[gd_scene load_steps=11 format=3 uid="uid://lhyypajs7taw"]
 
-[ext_resource type="Script" path="res://tools/editor/ChartDiffEditor.gd" id="1"]
-[ext_resource type="Script" path="res://tools/editor/SongMetadataEditor.gd" id="2"]
+[ext_resource type="Script" uid="uid://do5ln05knnv3w" path="res://tools/editor/ChartDiffEditor.gd" id="1"]
+[ext_resource type="Script" uid="uid://oimnv3vfj488" path="res://tools/editor/SongMetadataEditor.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://74k8memq16u3" path="res://tools/icons/icon_help.svg" id="3"]
 [ext_resource type="Texture2D" uid="uid://bg1cmxm05pmwc" path="res://graphics/icons/icon_add.svg" id="4"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="5"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="6"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorTextEdit.gd" id="7"]
+[ext_resource type="Script" uid="uid://clphuuunv7ko1" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="5"]
+[ext_resource type="Script" uid="uid://buyyl1h56yijv" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="6"]
+[ext_resource type="Script" uid="uid://uykh6t8eepns" path="res://tools/editor/controls/HBEditorTextEdit.gd" id="7"]
 [ext_resource type="PackedScene" uid="uid://5j038o3idk5f" path="res://tools/editor/SkinPicker.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://brcmkftjt27xp" path="res://tools/editor/AddVariantDialog.tscn" id="8_ulow8"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
@@ -25,9 +26,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -1.12246
 offset_bottom = -1.12244
-current_tab = 0
+current_tab = 1
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -175,7 +177,6 @@ layout_mode = 2
 text = "Clear"
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -191,7 +192,25 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label2" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Video file" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Video file"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VideoFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+script = ExtResource("6")
+
+[node name="SelectVideoFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4"]
+visible = false
+layout_mode = 2
+text = "Select file"
+
+[node name="Label7" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Audio file"
 
@@ -201,9 +220,11 @@ layout_mode = 2
 [node name="SelectAudioFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+editable = false
 script = ExtResource("6")
 
 [node name="SelectAudioFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2"]
+visible = false
 layout_mode = 2
 text = "Select file"
 
@@ -235,6 +256,11 @@ script = ExtResource("6")
 [node name="SelectVoiceAudioFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 text = "Select file"
+
+[node name="ImportMediaButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Import media"
 
 [node name="Label3" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -543,26 +569,8 @@ access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
 
-[node name="AddVariantDialog" type="ConfirmationDialog" parent="."]
-
-[node name="VBoxContainer" type="VBoxContainer" parent="AddVariantDialog"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -36.0
-
-[node name="LineEdit" type="LineEdit" parent="AddVariantDialog/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "variant name..."
-script = ExtResource("6")
-
-[node name="LineEdit2" type="LineEdit" parent="AddVariantDialog/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "youtube URL..."
-script = ExtResource("6")
+[node name="AddVariantDialog" parent="." instance=ExtResource("8_ulow8")]
+unique_name_in_owner = true
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
@@ -589,17 +597,16 @@ vertical_alignment = 1
 [node name="SkinPicker" parent="." instance=ExtResource("8")]
 unique_name_in_owner = true
 
+[connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4/SelectVideoFileButton" to="AudioFileDialog" method="popup_centered_ratio" binds= [0.5]]
 [connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileButton" to="AudioFileDialog" method="popup_centered_ratio" binds= [0.5]]
 [connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton" to="VoiceAudioFileDialog" method="popup_centered_ratio" binds= [0.5]]
 [connection signal="pressed" from="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageButton" to="PreviewFileDialog" method="popup_centered_ratio" binds= [0.5]]
 [connection signal="pressed" from="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4/SelectBackgroundImageButton" to="BackgroundFileDialog" method="popup_centered_ratio" binds= [0.5]]
 [connection signal="pressed" from="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5/SelectCircleImageButton" to="CircleFileDialog" method="popup_centered_ratio" binds= [0.5]]
 [connection signal="pressed" from="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6/SelectCircleLogoButton" to="CircleLogoFileDialog" method="popup_centered_ratio" binds= [0.5]]
-[connection signal="pressed" from="TabContainer/Alternative Videos/MarginContainer/VBoxContainer/AddVariantButton" to="AddVariantDialog" method="popup_centered"]
 [connection signal="file_selected" from="AudioFileDialog" to="." method="_on_AudioFileDialog_file_selected"]
 [connection signal="file_selected" from="VoiceAudioFileDialog" to="." method="_on_VoiceAudioFileDialog_file_selected"]
 [connection signal="file_selected" from="PreviewFileDialog" to="." method="_on_PreviewFileDialog_file_selected"]
 [connection signal="file_selected" from="BackgroundFileDialog" to="." method="_on_BackgroundFileDialog_file_selected"]
 [connection signal="file_selected" from="CircleFileDialog" to="." method="_on_CircleFileDialog_file_selected"]
 [connection signal="file_selected" from="CircleLogoFileDialog" to="." method="_on_CircleLogoFileDialog_file_selected"]
-[connection signal="confirmed" from="AddVariantDialog" to="." method="_on_AddVariantDialog_confirmed"]

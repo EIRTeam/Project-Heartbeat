@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://bc347khpk1ja0"]
 
 [ext_resource type="Texture2D" uid="uid://cjgss627udi13" path="res://tools/icons/icon_remove.svg" id="1"]
-[ext_resource type="Script" path="res://tools/editor/VariantEditor.gd" id="2"]
+[ext_resource type="Script" uid="uid://il7itk0lewlh" path="res://tools/editor/VariantEditor.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://xipkuscb13ti" path="res://tools/editor/VariantSync.tscn" id="3"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="4"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="5"]
+[ext_resource type="Script" uid="uid://clphuuunv7ko1" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="4"]
+[ext_resource type="Script" uid="uid://buyyl1h56yijv" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="5"]
 
 [node name="PanelContainer" type="VBoxContainer"]
 offset_right = 588.0
@@ -21,6 +21,7 @@ icon = ExtResource("1")
 
 [node name="AudioOnlyCheckbox" type="CheckBox" parent="VBoxContainer"]
 layout_mode = 2
+disabled = true
 text = "Use audio only"
 
 [node name="Label" type="Label" parent="VBoxContainer"]

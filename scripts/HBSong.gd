@@ -177,7 +177,7 @@ func is_cached(variant=-1):
 	if not has_video_enabled():
 		use_video = false
 	if variant != -1 and song_variants:
-		return (song_variants[variant] as HBSongVariantData).is_cached(use_video)
+		return (song_variants[variant] as HBSongVariantData).is_cached(use_video) or not (song_variants[variant] as HBSongVariantData).variant_audio.is_empty()
 	if youtube_url:
 		return YoutubeDL.get_cache_status(youtube_url, use_video, use_youtube_for_audio) == YoutubeDL.CACHE_STATUS.OK
 	elif audio:
@@ -190,6 +190,8 @@ func get_cache_status():
 	return YoutubeDL.get_cache_status(youtube_url, use_youtube_for_video, use_youtube_for_audio)
 
 func get_audio_stream(variant := -1):
+	if variant != -1 && not song_variants[variant].variant_audio.is_empty():
+		return HBUtils.load_ogg(get_variant_audio_res_path(variant))
 	var audio_path = get_song_audio_res_path()
 	if youtube_url:
 		if use_youtube_for_audio:
@@ -214,15 +216,18 @@ func get_artist_sort_text():
 		return ""
 func get_video_stream(variant := -1):
 	var video_path = get_song_video_res_path()
-	if use_youtube_for_video and not youtube_url.is_empty():
-		if is_cached(variant):
-			if variant == -1 or song_variants[variant].audio_only:
-				video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
+	
+	if variant != -1 && not song_variants[variant].variant_video.is_empty():
+		video_path = get_variant_video_res_path(variant)
+	elif use_youtube_for_video and not youtube_url.is_empty():
+			if is_cached(variant):
+				if variant == -1 or song_variants[variant].audio_only:
+					video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
+				else:
+					video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(song_variants[variant].variant_url))
 			else:
-				video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(song_variants[variant].variant_url))
-		else:
-			Log.log(self, "Tried to get video stream from an uncached song!!")
-			return null
+				Log.log(self, "Tried to get video stream from an uncached song!!")
+				return null
 	print("Loading video stream ", video_path)
 	
 	if video_path:
@@ -393,15 +398,20 @@ func get_variant_offset(variant := -1) -> int:
 	else:
 		return (song_variants[variant] as HBSongVariantData).variant_offset - start_time
 
-func get_variant_data(variant := -1):
+func get_variant_data(variant := -1) -> HBSongVariantData:
 	if variant < 0:
 		var d = HBSongVariantData.new()
 		d.variant_url = youtube_url
 		d.variant_normalization = audio_loudness
 		d.audio_only = !use_youtube_for_video
+		d.variant_video = video
+		d.variant_audio = audio
 		return d
 	else:
 		return song_variants[variant]
+
+func has_variant(variant_idx: int) -> bool:
+	return variant_idx < 0 or song_variants.size() > variant_idx
 
 func get_audio_stream_start_time(variant := -1):
 	if variant == -1:
@@ -447,6 +457,42 @@ func update_bpm_string():
 			bpm_string = "%s-%s" % [str(bpm_range[0]), str(bpm_range[1])]
 		else:
 			bpm_string = "%s" % str(bpm_range[0])
+
+func set_variant_video_path(variant: int, video_path: String):
+	if variant == -1:
+		video = video_path
+	else:
+		var variant_data := get_variant_data(variant)
+		if variant_data:
+			variant_data.variant_video = video_path
+
+func set_variant_audio_path(variant: int, audio_path: String):
+	if variant == -1:
+		audio = audio_path
+	else:
+		var variant_data := get_variant_data(variant)
+		if variant_data:
+			variant_data.variant_audio = audio_path
+
+func set_variant_audio_loudness(variant: int, _audio_loudness: float):
+	if variant == -1:
+		audio_loudness = _audio_loudness
+		has_audio_loudness = true
+	else:
+		var variant_data := get_variant_data(variant)
+		if variant_data:
+			variant_data.has_audio_normalization = true
+			variant_data.variant_normalization = _audio_loudness
+
+func get_variant_audio_res_path(variant := -1) -> String:
+	if variant < 0:
+		return get_song_audio_res_path()
+	return path.path_join("/%s" % [song_variants[variant].variant_audio])
+
+func get_variant_video_res_path(variant := -1) -> String:
+	if variant < 0:
+		return get_song_video_res_path()
+	return path.path_join("/%s" % [song_variants[variant].variant_video])
 
 ## Returns all stars in a song
 func get_stars() -> Array[float]:

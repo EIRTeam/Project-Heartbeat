@@ -16,6 +16,7 @@ run/main_scene="res://base_scene.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Project Heartbeat"
 config/project_settings_override="user://ph_override.cfg"
+config/quit_on_go_back=false
 config/features=PackedStringArray("4.4")
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"

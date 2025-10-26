@@ -15,6 +15,7 @@ extends ConfirmationDialog
 @onready var upload_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/UploadToWorkshopButton")
 @onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
 @onready var search_line_edit: LineEdit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SearchLineEdit")
+@onready var importing_media_dialog: AcceptDialog = %ImportingMediaDialog
 signal chart_selected(song, difficulty, hidden)
 
 enum MenuItemType {
@@ -28,6 +29,7 @@ const LOG_NAME = "EditorOpenChartPopup"
 var show_hidden = false
 
 func _ready():
+	importing_media_dialog.get_ok_button().hide()
 	connect("about_to_popup", Callable(self, "_on_about_to_show"))
 	tree.connect("item_selected", Callable(self, "_on_item_selected"))
 	tree.connect("item_activated", Callable(self, "_on_confirmed"))
@@ -52,15 +54,6 @@ func _on_upload_to_workshop_pressed():
 	var song = item.get_meta("song") as HBSong
 	var verification = HBSongVerification.new()
 	var errors = verification.verify_song(song)
-	if not (song.youtube_url and song.use_youtube_for_audio) or song.audio:
-		var error = {
-			"type": -1,
-			"string": "Workshop songs must not have an audio file, instead you should use a YouTube video.",
-			"fatal": false,
-			"warning": false,
-			"fatal_ugc": true
-		}
-		errors["meta"].append(error)
 	if verification.has_fatal_error(errors, true) and not HBGame.enable_editor_dev_mode:
 		verify_song_popup.show_song_verification(errors, true, "Before you can upload your song, there are some issues you have to resolve:")
 	else:
@@ -164,17 +157,28 @@ func _show_meta_editor():
 	song_meta_editor_dialog.popup_centered_clamped(Vector2(500, 650))
 	song_meta_editor_dialog.get_ok_button().disabled = tree.get_selected().get_meta("hidden")
 
-func _on_create_song_dialog_accepted(song_title: String, use_youtube_url: bool, youtube_url: String):
+func _on_create_song_dialog_accepted(song_title: String, video_import: MediaImportDialog.MediaImportDialogResult):
 	var song_id := HBUtils.get_valid_filename(song_title)
 	var editor_song_folder = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs/%s")
-	
+	editor_song_folder = editor_song_folder % song_id
+	if FileAccess.file_exists(editor_song_folder):
+		show_error("Folder for song %s already exists!" % [editor_song_folder])
+		return
 	var song_meta = HBSong.new()
-	song_meta.title = song_title
 	song_meta.id = song_id
-	song_meta.path = editor_song_folder % song_id
-	if use_youtube_url:
-		song_meta.youtube_url = youtube_url
+	if video_import:
+		var importer_ui := MediaImporterUI.new()
+		add_child(importer_ui)
+		importer_ui.do_import(song_meta, video_import)
+		var import_result: MediaImporterUI.MediaImporterUIResult = await importer_ui.import_finished
+		importer_ui.queue_free()
+		if import_result.error != MediaImporterUI.MediaImporterUIError.OK:
+			return
+		
+	song_meta.title = song_title
+	song_meta.path = editor_song_folder
 	song_meta.save_song()
+	importing_media_dialog.hide()
 	SongLoader.songs[song_meta.id] = song_meta
 	populate_tree()
 
@@ -182,6 +186,7 @@ func show_error(error: String):
 	$AcceptDialog.dialog_text = error
 	$AcceptDialog.size = Vector2.ZERO
 	$AcceptDialog.popup_centered(Vector2(500, 100))
+	importing_media_dialog.hide()
 func _on_confirmed():
 	var item = tree.get_selected()
 	

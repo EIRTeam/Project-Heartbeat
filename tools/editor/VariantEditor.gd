@@ -12,13 +12,16 @@ var offset := 0.0
 
 var variant: HBSongVariantData = HBSongVariantData.new()
 var song: HBSong
+var variant_idx: int
 
 func _on_DeleteButton_pressed():
 	emit_signal("deleted")
 	SongLoader.remove_video_ownership(song, variant.variant_url)
 	
-func set_variant(_variant: HBSongVariantData):
-	variant = _variant
+func initialize(_song: HBSong, _variant_idx: int):
+	song = _song
+	variant = _song.get_variant_data(_variant_idx)
+	variant_idx = _variant_idx
 	line_edit_name.text = variant.variant_name
 	line_edit_url.text = variant.variant_url
 	checkbox_audio_only.button_pressed = variant.audio_only
@@ -31,10 +34,10 @@ func save_variant():
 	SongLoader.add_video_ownership(song, variant.variant_url)
 
 func _on_ButtonSync_pressed():
-	if YoutubeDL.get_cache_status(variant.variant_url, false, true) != YoutubeDL.CACHE_STATUS.OK:
+	if variant.variant_audio.is_empty() and YoutubeDL.get_cache_status(variant.variant_url, false, true) != YoutubeDL.CACHE_STATUS.OK:
 		emit_signal("show_download_prompt", get_index())
 	else:
-		sync_window.show_comparison(song, variant, offset_spinbox.value / 1000.0)
+		sync_window.show_comparison(song, variant_idx, offset_spinbox.value / 1000.0)
 
 func _on_WindowDialog_offset_changed(new_offset: float):
 	offset_spinbox.value = int(new_offset * 1000.0)

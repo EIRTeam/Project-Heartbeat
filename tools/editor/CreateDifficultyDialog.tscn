@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://bogchj2lurtn7"]
 
-[ext_resource type="Script" path="res://tools/editor/CreateDifficultyDialog.gd" id="1"]
+[ext_resource type="Script" uid="uid://11f6acdgl1tf" path="res://tools/editor/CreateDifficultyDialog.gd" id="1"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://m8cn3xq4wtxf" path="res://tools/editor/arcade_style.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://bohucqss88bjh" path="res://tools/editor/console_style.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://74k8memq16u3" path="res://tools/icons/icon_help.svg" id="5"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="6"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="7"]
+[ext_resource type="Script" uid="uid://buyyl1h56yijv" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="6"]
+[ext_resource type="Script" uid="uid://clphuuunv7ko1" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="7"]
 
 [node name="ConfirmationDialog" type="ConfirmationDialog"]
 position = Vector2i(0, 32)

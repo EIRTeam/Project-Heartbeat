@@ -74,6 +74,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="Panel2" type="Panel" parent="VBoxContainer"]
@@ -558,7 +560,6 @@ Any unsaved progress will be lost."
 dialog_autowrap = true
 
 [node name="OpenChartPopupDialog" parent="Popups" groups=["block_shortcuts"] instance=ExtResource("10")]
-position = Vector2i(0, 32)
 
 [node name="PluginErrorDialog" type="AcceptDialog" parent="Popups" groups=["block_shortcuts"]]
 dialog_text = "Plugin ERROR!"
