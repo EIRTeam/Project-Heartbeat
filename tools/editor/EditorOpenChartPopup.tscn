@@ -127,11 +127,4 @@ visible = false
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 
-[node name="ImportingMediaDialog" type="AcceptDialog" parent="."]
-unique_name_in_owner = true
-title = ""
-dialog_text = "Importing media..."
-dialog_hide_on_ok = false
-dialog_close_on_escape = false
-
 [connection signal="confirmed" from="SongMetaEditorDialog" to="." method="_on_SongMetaEditorDialog_confirmed"]

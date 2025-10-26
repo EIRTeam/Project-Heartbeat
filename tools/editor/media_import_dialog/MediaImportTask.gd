@@ -42,7 +42,7 @@ var task_id: int
 
 signal finished(result: MediaImportTaskResult)
 
-static func apply_import(song_meta: HBSong, song_folder: String, result: MediaImportTaskResult, variant := -1, create_variant_name := "") -> MediaApplyImportResult:
+static func apply_import(song_meta: HBSong, song_folder: String, result: MediaImportTaskResult, variant := -1) -> MediaApplyImportResult:
 	var audio_path: String
 	var video_path: String
 	if not result.final_audio_path.is_empty():

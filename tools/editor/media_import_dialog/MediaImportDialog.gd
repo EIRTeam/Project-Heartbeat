@@ -3,6 +3,7 @@ extends AcceptDialog
 class_name MediaImportDialog
 
 class MediaImportDialogResult:
+	var canceled := false
 	var has_video_stream := false
 	var selected_video_stream_format := FFmpegStreamInfo.VideoCodec.VIDEO_CODEC_UNKNOWN
 	var has_audio_stream := false
@@ -20,7 +21,10 @@ func _on_confirmed():
 
 func _ready() -> void:
 	confirmed.connect(_on_confirmed)
-	canceled.connect(_on_confirmed)
+	canceled.connect(func():
+		result.canceled = true
+		_on_confirmed()
+	)
 	_update_status()
 	exclusive = true
 	transient = true

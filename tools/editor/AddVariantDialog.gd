@@ -51,8 +51,10 @@ func _ready() -> void:
 		add_child(media_import_dialog)
 		media_import_dialog.popup_centered()
 		var import_dialog_result: MediaImportDialog.MediaImportDialogResult = await media_import_dialog.media_selected
-		if import_dialog_result.has_audio_stream or import_dialog_result.has_video_stream:
+		if not result.canceled and (import_dialog_result.has_audio_stream or import_dialog_result.has_video_stream):
 			result.media_info = import_dialog_result
+		else:
+			result.media_info = null
 		media_import_dialog.queue_free()
 		_update_ok_button()
 	)

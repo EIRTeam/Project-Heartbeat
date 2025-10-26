@@ -15,7 +15,6 @@ extends ConfirmationDialog
 @onready var upload_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/UploadToWorkshopButton")
 @onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
 @onready var search_line_edit: LineEdit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SearchLineEdit")
-@onready var importing_media_dialog: AcceptDialog = %ImportingMediaDialog
 @onready var migrate_button: Button = %MigrateButton
 
 signal chart_selected(song, difficulty, hidden)
@@ -31,7 +30,6 @@ const LOG_NAME = "EditorOpenChartPopup"
 var show_hidden = false
 
 func _ready():
-	importing_media_dialog.get_ok_button().hide()
 	connect("about_to_popup", Callable(self, "_on_about_to_show"))
 	tree.connect("item_selected", Callable(self, "_on_item_selected"))
 	tree.connect("item_activated", Callable(self, "_on_confirmed"))
@@ -203,7 +201,6 @@ func _on_create_song_dialog_accepted(song_title: String, video_import: MediaImpo
 	song_meta.title = song_title
 	song_meta.path = editor_song_folder
 	song_meta.save_song()
-	importing_media_dialog.hide()
 	SongLoader.songs[song_meta.id] = song_meta
 	populate_tree()
 
@@ -211,7 +208,6 @@ func show_error(error: String):
 	$AcceptDialog.dialog_text = error
 	$AcceptDialog.size = Vector2.ZERO
 	$AcceptDialog.popup_centered(Vector2(500, 100))
-	importing_media_dialog.hide()
 func _on_confirmed():
 	var item = tree.get_selected()
 	
