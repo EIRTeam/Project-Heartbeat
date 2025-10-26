@@ -301,6 +301,11 @@ func _game_init():
 
 func _notification(what: int) -> void:
 	match what:
+		NOTIFICATION_WM_GO_BACK_REQUEST:
+			var input_event := InputEventAction.new()
+			input_event.action = &"gui_cancel"
+			input_event.pressed = true
+			Input.parse_input_event(input_event)
 		NOTIFICATION_PREDELETE:
 			DIVATextureProcessor._destruct()
 
