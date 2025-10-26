@@ -9,10 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://lhyypajs7taw" path="res://tools/editor/SongMetaDataEditor.tscn" id="6"]
 [ext_resource type="Script" uid="uid://buyyl1h56yijv" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="7"]
 
-[node name="Control" type="ConfirmationDialog"]
+[node name="Control2" type="ConfirmationDialog"]
 title = ""
 position = Vector2i(0, 32)
-size = Vector2i(275, 289)
+size = Vector2i(275, 316)
 visible = true
 theme = ExtResource("1")
 dialog_hide_on_ok = false
@@ -25,7 +25,7 @@ anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 267.0
-offset_bottom = 241.0
+offset_bottom = 268.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -67,6 +67,11 @@ text = "Verify Song"
 [node name="EditDataButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
 layout_mode = 2
 text = "Edit song data"
+
+[node name="MigrateButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Migrate song"
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
 layout_mode = 2

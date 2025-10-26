@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3nd1hxfw1vqh"]
+
+[ext_resource type="Script" uid="uid://tbd0imdpiba" path="res://tools/editor/MigrateSongDialog.gd" id="1_1atix"]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_u5m76"]
+
+[node name="MigrateSongDialog" type="ConfirmationDialog"]
+title = "Song migration"
+position = Vector2i(0, 32)
+size = Vector2i(650, 236)
+visible = true
+theme = ExtResource("1_u5m76")
+ok_button_text = "Migrate"
+dialog_text = "After version 1.0, new songs to be uploaded to the workshop are required to include their own audio and video data, replacing the previous YouTube URL-based system.
+
+Would you like to mgirate this song?
+
+WARNING: It is recommended you make a backup of this song before migrating it, in case something goes wrong."
+dialog_hide_on_ok = false
+dialog_autowrap = true
+script = ExtResource("1_1atix")
+
+[node name="StatusDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+size = Vector2i(221, 130)
+borderless = true
+dialog_close_on_escape = false
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Error importing"
+
+[node name="CompletedDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = ""
+dialog_text = "Migration completed succesfully!"

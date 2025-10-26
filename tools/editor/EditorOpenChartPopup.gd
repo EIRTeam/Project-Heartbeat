@@ -16,6 +16,8 @@ extends ConfirmationDialog
 @onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
 @onready var search_line_edit: LineEdit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SearchLineEdit")
 @onready var importing_media_dialog: AcceptDialog = %ImportingMediaDialog
+@onready var migrate_button: Button = %MigrateButton
+
 signal chart_selected(song, difficulty, hidden)
 
 enum MenuItemType {
@@ -45,6 +47,18 @@ func _ready():
 	upload_button.connect("pressed", Callable(self, "_on_upload_to_workshop_pressed"))
 	search_line_edit.connect("text_changed", Callable(self, "_on_search_text_changed"))
 	create_song_dialog.accepted.connect(_on_create_song_dialog_accepted)
+	migrate_button.pressed.connect(_on_migrate_button_pressed)
+	
+func _on_migrate_button_pressed():
+	var migrate_song_dialog: HBMigrateSongDialog = preload("res://tools/editor/MigrateSongDialog.tscn").instantiate()
+	add_child(migrate_song_dialog)
+	var item = tree.get_selected()
+	var song = item.get_meta("song") as HBSong
+	migrate_song_dialog.song = song
+	migrate_song_dialog.popup_centered()
+	await migrate_song_dialog.visibility_changed
+	migrate_song_dialog.queue_free()
+	_on_item_selected()
 	
 func _on_search_text_changed(_new_text: String):
 	populate_tree()
@@ -73,6 +87,7 @@ func populate_tree():
 	verify_song_button.disabled = true
 	upload_button.disabled = true
 	get_ok_button().disabled = true
+	migrate_button.hide()
 	
 	tree.clear()
 	var _root = tree.create_item()
@@ -145,6 +160,7 @@ func _on_item_selected():
 	add_chart_button.disabled = item.get_meta("hidden")
 	verify_song_button.disabled = item.get_meta("hidden")
 	upload_button.disabled = item.get_meta("hidden")
+	migrate_button.visible = can_song_be_migrated(item.get_meta("song") as HBSong)
 	
 func _on_about_to_show():
 	populate_tree()
@@ -282,3 +298,13 @@ func _on_chart_deleted():
 	song.save_song()
 	populate_tree()
 	
+func can_song_be_migrated(song: HBSong) -> bool:
+	if song.get_fs_origin() != HBSong.SONG_FS_ORIGIN.USER or song.comes_from_ugc():
+		return false
+	if not song.youtube_url.is_empty():
+		return true
+	for variant_idx in range(song.song_variants.size()):
+		var variant_data := song.get_variant_data(variant_idx)
+		if not variant_data.variant_url.is_empty():
+			return true
+	return false
