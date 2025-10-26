@@ -12,6 +12,13 @@ var OPTIONS = {
 			"options_pretty": [tr("Auto detect"), "English", "Español", "Català", "Japanese", "Portuguese", "Chinese (Simplified)"],
 			"type": "options"
 		},
+		"timing_method": {
+			"name": tr("Timing method"),
+			"description": "",
+			"options": [HBUserSettings.TimingMethod.ACCURATE, HBUserSettings.TimingMethod.ALTERNATIVE],
+			"options_pretty": ["Accurate", "Alternative"],
+			"type": "options"
+		},
 		"enable_streamer_mode": {
 			"name": tr("Enable streamer mode"),
 			"description": tr("If enabled, saves the title, background and preview image to the user folder so they can be used on a streaming software")
