@@ -74,7 +74,6 @@ func _on_song_assets_loaded(assets: SongAssetLoader.AssetLoadToken):
 	game_info.difficulty = lobby.lobby_data.difficulty
 	game_info.variant = lobby.lobby_data.song_variant
 
-	rhythm_game_controller.is_multiplayer = true
 	game_info.game_session_type = HBGameInfo.GAME_SESSION_TYPE.MULTIPLAYER
 	rhythm_game_controller.start_session(game_info, _assets)
 
