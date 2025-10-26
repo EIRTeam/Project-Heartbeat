@@ -26,11 +26,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -1.12246
 offset_bottom = -1.12244
-current_tab = 1
+current_tab = 0
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
-visible = false
 layout_mode = 2
+horizontal_scroll_mode = 0
 metadata/_tab_index = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Metadata"]
@@ -124,6 +124,7 @@ layout_mode = 2
 text = "Vocals (separated by newline)"
 
 [node name="SongVocals" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -132,6 +133,7 @@ layout_mode = 2
 text = "Composers (separated by newline)"
 
 [node name="SongComposers" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("7")
@@ -141,6 +143,7 @@ layout_mode = 2
 text = "Writers (separated by newline)"
 
 [node name="SongWriters" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("7")
@@ -177,7 +180,9 @@ layout_mode = 2
 text = "Clear"
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
+horizontal_scroll_mode = 0
 metadata/_tab_index = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Technical Data"]
@@ -381,6 +386,7 @@ text = "Use YouTube for video"
 [node name="Charts" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
+horizontal_scroll_mode = 0
 script = ExtResource("1")
 metadata/_tab_index = 2
 
@@ -404,6 +410,7 @@ size_flags_vertical = 3
 [node name="Graphics" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
+horizontal_scroll_mode = 0
 metadata/_tab_index = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Graphics"]
@@ -498,6 +505,7 @@ text = "Show epilepsy warning before playing"
 [node name="Alternative Videos" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
+horizontal_scroll_mode = 0
 metadata/_tab_index = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Alternative Videos"]
