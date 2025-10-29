@@ -152,7 +152,7 @@ func try_show_intro_skip(song: HBSong):
 
 func _show_intro_skip(song: HBSong):
 	if song.allows_intro_skip and not game.disable_intro_skip:
-		if game.earliest_note_time / 1000.0 > song.intro_skip_min_time:
+		if game.earliest_note_time / 1000.0 > song.intro_skip_min_time and game._intro_skip_enabled:
 			get_tree().call_group(SKIP_INTRO_INDICATOR_GROUP, "appear")
 	
 func _on_song_set(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken = null, modifiers = []):
