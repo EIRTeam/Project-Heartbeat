@@ -106,6 +106,9 @@ func _init():
 		"oob_right": {
 			"right": preload("res://menus/oob/oob_right.tscn").instantiate()
 		},
+		"mobile_content_dir_set": {
+			"left": preload("res://menus/mobile_content_dir_set/MobileContentDirSet.tscn").instantiate()
+		},
 		"oob": {
 			"left": preload("res://menus/oob/oob.tscn").instantiate(),
 			"right": "oob_right"

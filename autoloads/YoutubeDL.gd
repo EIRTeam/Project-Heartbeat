@@ -145,9 +145,9 @@ func _copy_youtube_dl(userdata):
 						failed = true
 						Log.log(self, "Error copying youtube-dl: " + str(result))
 			dir_name = dir.get_next()
-	var result = dir.copy("res://third_party/youtube_dl/" + "VERSION", YOUTUBE_DL_DIR + "/%s" % ["VERSION"])
-	ensure_perms()
-	_youtube_dl_copied.call_deferred(thread)
+		var result = dir.copy("res://third_party/youtube_dl/" + "VERSION", YOUTUBE_DL_DIR + "/%s" % ["VERSION"])
+		ensure_perms()
+		_youtube_dl_copied.call_deferred(thread)
 func copy_youtube_dl_binary():
 	var thread = Thread.new()
 	var result = thread.start(_copy_youtube_dl.bind({"thread": thread}))
@@ -178,7 +178,10 @@ func get_aria2_executable():
 
 func _init_ytdl():
 	YOUTUBE_DL_DIR = HBGame.platform_settings.user_dir_redirect(YOUTUBE_DL_DIR)
-	CACHE_FILE = HBGame.platform_settings.user_dir_redirect(CACHE_FILE)
+	if OS.has_feature("mobile"):
+		CACHE_FILE = UserSettings.user_settings.content_path.path_join("youtube_dl/cache/yt_cache.json")
+	else:
+		CACHE_FILE = HBGame.platform_settings.user_dir_redirect(CACHE_FILE)
 	
 	clean_temp_folder()
 	

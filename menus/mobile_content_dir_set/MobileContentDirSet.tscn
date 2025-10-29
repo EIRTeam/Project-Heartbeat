@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbbf8inqoj5ph"]
+
+[ext_resource type="Script" uid="uid://c2aj14xeumldf" path="res://menus/mobile_content_dir_set/MobileContentDirSet.gd" id="1_fbuvq"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2_hqu4y"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="3_hqu4y"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="3_whmp0"]
+[ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="4_s1rip"]
+
+[node name="MobileContentDirSet" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fbuvq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 75
+alignment = 1
+
+[node name="HBPanelContainerBlurEX2" type="HBPanelContainerBlurEX" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = ExtResource("2_hqu4y")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBPanelContainerBlurEX2"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBPanelContainerBlurEX2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 55
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HBPanelContainerBlurEX2/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "In order to make modding possible on mobile, you must choose a directory to store songs and other mod data!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+alignment = 1
+script = ExtResource("3_whmp0")
+
+[node name="PickDirectoryButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Select directory."
+script = ExtResource("3_hqu4y")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"
+
+[node name="RestartConfirmationWindow" parent="." instance=ExtResource("4_s1rip")]
+unique_name_in_owner = true
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+has_cancel = false
+text = "You must now restart the game to apply the changes!"
+accept_text = "Okay"
+focus_starts_on = 0
+
+[node name="PermissionsConfirmationWindow" parent="." instance=ExtResource("4_s1rip")]
+unique_name_in_owner = true
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+has_cancel = false
+text = "Due to an engine bug, we have to request permissions to access the whole filesystem."
+accept_text = "Okay"
+focus_starts_on = 0

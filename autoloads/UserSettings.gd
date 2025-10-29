@@ -491,7 +491,8 @@ func apply_display_mode():
 	await get_tree().process_frame
 	var curr_display = get_current_display()
 	var display_mode = UserSettings.user_settings.display_mode
-	if HBGame.is_on_steam_deck():
+
+	if OS.has_feature("mobile") or HBGame.is_on_steam_deck():
 		display_mode = "fullscreen"
 		
 	match display_mode:
