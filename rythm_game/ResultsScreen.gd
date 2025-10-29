@@ -33,7 +33,7 @@ var score_web_id := -1
 @onready var chart_tab = preload("res://rythm_game/results_screen/ResultsScreenGraphTab.tscn").instantiate()
 @onready var stats_tab: HBResultsScreenStatsTab = preload("res://rythm_game/results_screen/ResultsScreenStatsTab.tscn").instantiate()
 var current_timer: SceneTreeTimer
-const UPLOAD_TIMEOUT_TIME := 15.0
+const UPLOAD_TIMEOUT_TIME := 5.0
 
 func custom_sort_mp_entries(a: HBBackend.BackendLeaderboardEntry, b: HBBackend.BackendLeaderboardEntry):
 	return b.game_info.result.score > b.game_info.result.score
