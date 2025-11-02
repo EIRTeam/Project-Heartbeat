@@ -107,7 +107,7 @@ func set_song_meta(value):
 	preview_image_filename_edit.text = song_meta.preview_image
 	use_youtube_as_audio.button_pressed = song_meta.use_youtube_for_audio
 	use_youtube_as_video.button_pressed = song_meta.use_youtube_for_video
-	youtube_url_line_edit.text = song_meta.youtube_url
+	youtube_url_line_edit.text = song_meta.youtube_preview_url
 	intro_skip_checkbox.button_pressed = song_meta.allows_intro_skip
 	intro_skip_min_time_spinbox.value = song_meta.intro_skip_min_time
 	hide_artist_name_checkbox.button_pressed = song_meta.hide_artist_name
@@ -171,8 +171,6 @@ func _ready():
 	import_media_button.pressed.connect(_on_import_media_button_pressed)
 
 func _on_import_media_button_pressed():
-	if not song_meta.youtube_url.is_empty():
-		return
 	var media_import_dialog := preload("res://tools/editor/media_import_dialog/MediaImportDialog.tscn").instantiate() as MediaImportDialog
 	add_child(media_import_dialog)
 	media_import_dialog.popup_centered()
@@ -248,10 +246,8 @@ func save_meta():
 	song_meta.preview_end = preview_end_edit.value
 	song_meta.background_image = background_image_filename_edit.text
 	song_meta.preview_image = preview_image_filename_edit.text
-	if song_meta.youtube_url != youtube_url_line_edit.text:
-		SongLoader.remove_video_ownership(song_meta, song_meta.youtube_url)
-		song_meta.youtube_url = youtube_url_line_edit.text
-		SongLoader.add_video_ownership(song_meta, song_meta.youtube_url)
+	if song_meta.youtube_preview_url != youtube_url_line_edit.text:
+		song_meta.youtube_preview_url = youtube_url_line_edit.text
 	song_meta.use_youtube_for_audio = use_youtube_as_audio.button_pressed
 	song_meta.use_youtube_for_video = use_youtube_as_video.button_pressed
 	

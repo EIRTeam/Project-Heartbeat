@@ -285,7 +285,8 @@ script = ExtResource("5")
 
 [node name="Label4" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "YouTube URL (optional, leave empty to not use YouTube, can replace audio)"
+text = "YouTube Preview URL (used on the website for previewing the song, never used in the actual game)"
+autowrap_mode = 3
 
 [node name="YoutubeURL" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -39,6 +39,7 @@ var background_image = ""
 var circle_image = ""
 var circle_logo = ""
 var youtube_url = ""
+var youtube_preview_url = ""
 var use_youtube_for_audio = true
 var use_youtube_for_video = true
 var ugc_service_name = ""
@@ -79,7 +80,7 @@ func _init():
 	serializable_fields += ["title", "romanized_title", "artist", "artist_alias", 
 	"composers", "vocals", "writers", "audio", "creator", "original_title", "bpm", "bpm_string",
 	"preview_start", "preview_end", "charts", "preview_image", "background_image", "voice", 
-	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
+	"circle_image", "circle_logo", "youtube_url", "youtube_preview_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
 	"end_time", "volume", "hide_artist_name", "lyrics", "show_epilepsy_warning", "has_audio_loudness",
 	"audio_loudness", "song_variants", "sections", "skin_ugc_id", "timing_changes"]
@@ -190,9 +191,11 @@ func get_cache_status():
 	return YoutubeDL.get_cache_status(youtube_url, use_youtube_for_video, use_youtube_for_audio)
 
 func get_audio_stream(variant := -1):
+	var audio_path = get_song_audio_res_path()
+	if not audio_path.is_empty():
+		return HBUtils.load_ogg(audio_path)
 	if variant != -1 && not song_variants[variant].variant_audio.is_empty():
 		return HBUtils.load_ogg(get_variant_audio_res_path(variant))
-	var audio_path = get_song_audio_res_path()
 	if youtube_url:
 		if use_youtube_for_audio:
 			var variant_url = get_variant_data(variant).variant_url
@@ -217,26 +220,22 @@ func get_artist_sort_text():
 func get_video_stream(variant := -1):
 	var video_path = get_song_video_res_path()
 	
-	if variant != -1 && not song_variants[variant].variant_video.is_empty():
-		video_path = get_variant_video_res_path(variant)
-	elif use_youtube_for_video and not youtube_url.is_empty():
-			if is_cached(variant):
-				if variant == -1 or song_variants[variant].audio_only:
-					video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
-				else:
-					video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(song_variants[variant].variant_url))
-			else:
-				Log.log(self, "Tried to get video stream from an uncached song!!")
-				return null
-	print("Loading video stream ", video_path)
-	
 	if video_path:
 		var video_stream = FFmpegVideoStream.new()
 		video_stream.set_file(video_path)
-		
 		return video_stream
-	else:
-		return null
+	elif variant != -1 && not song_variants[variant].variant_video.is_empty():
+		video_path = get_variant_video_res_path(variant)
+	elif use_youtube_for_video and not youtube_url.is_empty():
+		if is_cached(variant):
+			if variant == -1 or song_variants[variant].audio_only:
+				video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
+			else:
+				video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(song_variants[variant].variant_url))
+		else:
+			Log.log(self, "Tried to get video stream from an uncached song!!")
+			return null
+	print("Loading video stream ", video_path)
 
 func get_voice_stream():
 	return HBUtils.load_ogg(get_song_voice_res_path())

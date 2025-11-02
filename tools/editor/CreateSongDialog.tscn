@@ -38,7 +38,7 @@ layout_mode = 2
 [node name="SelectVideoButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Select video"
+text = "Select audio/video"
 
 [node name="VideoSelectedInfoLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
