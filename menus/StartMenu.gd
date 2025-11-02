@@ -17,7 +17,7 @@ func _ready():
 	#elif date_time.day == 20 and date_time.month == Time.MONTH_MARCH:
 
 func _on_PressStart_start_pressed():
-	if UserSettings.user_settings.content_path == "user://" and (OS.has_feature("mobile") or true):
+	if UserSettings.user_settings.content_path == "user://" and OS.has_feature("mobile"):
 		change_to_menu("mobile_content_dir_set")
 		return
 	if not UserSettings.user_settings.oob_completed:
