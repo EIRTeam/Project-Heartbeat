@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://clclotslxtcow" path="res://menus/RandomQuote.gd" id="3"]
 [ext_resource type="Script" uid="uid://c6khaelx76wtk" path="res://menus/StartMenu.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://d0lkf8vj15wdi" path="res://graphics/logo_all_aboard.png" id="4_ye8o8"]
+[ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="4_ye8o8"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="5"]
 [ext_resource type="Script" uid="uid://dokb315qt2f5o" path="res://menus/PressStartMenu.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://dpavg7fpmvy8v" path="res://graphics/party_hat.png" id="8"]
@@ -30,7 +30,8 @@ mouse_filter = 2
 script = ExtResource("6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PressStart"]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -0.568787
@@ -56,10 +57,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -806.0
+offset_left = -777.0
 offset_top = -307.0
-offset_right = 166.0
-offset_bottom = -38.0
+offset_right = -87.0
+offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8")
