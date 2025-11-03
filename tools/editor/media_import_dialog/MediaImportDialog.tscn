@@ -9,7 +9,7 @@
 [node name="VideoImportdialog" type="AcceptDialog"]
 title = "Video/Audio Import"
 position = Vector2i(0, 32)
-size = Vector2i(478, 970)
+size = Vector2i(478, 179)
 visible = true
 theme = ExtResource("1_ugbcy")
 ok_button_text = "Import"
@@ -19,7 +19,7 @@ script = ExtResource("2_1lp5v")
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 470.0
-offset_bottom = 922.0
+offset_bottom = 131.0
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2

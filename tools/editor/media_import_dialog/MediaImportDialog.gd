@@ -35,6 +35,14 @@ func _parse_video_stream_info(path: String):
 	result.selected_video_path = ""
 	get_ok_button().disabled = true
 	
+	# HACK for now, since PH's ffmpeg library distro does not come with ogg demuxing support
+	# this will get converted later by the binary version of ffmpeg anyways...
+	if path.get_extension() == "ogg":
+		result.selected_audio_stream_format = FFmpegStreamInfo.AUDIO_CODEC_VORBIS
+		result.has_audio_stream = true
+		_update_status()
+		return
+	
 	var info := FFmpegStreamInfo.new()
 	if info.load(path) != OK:
 		return
@@ -54,14 +62,12 @@ func _parse_video_stream_info(path: String):
 func _update_status():
 	status_label.hide()
 	get_ok_button().disabled = true
-	if result.selected_video_path.is_empty():
-		return
 	status_label.show()
 	status_label.clear()
 	
 	const ALLOWED_CODECS := [FFmpegStreamInfo.VideoCodec.VIDEO_CODEC_H264, FFmpegStreamInfo.VideoCodec.VIDEO_CODEC_H265, FFmpegStreamInfo.VideoCodec.VIDEO_CODEC_VP9]
 	var is_importable := true
-	if not result.selected_video_stream_format in ALLOWED_CODECS or not result.has_video_stream:
+	if result.has_video_stream and not result.selected_video_stream_format in ALLOWED_CODECS:
 		is_importable = false
 		status_label.push_color(Color.RED)
 		status_label.append_text("Error:")
