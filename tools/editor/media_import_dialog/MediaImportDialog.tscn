@@ -56,7 +56,7 @@ filters = PackedStringArray("*.mp4;MP4 files", "*.webm;WEBM files", "*.ogg;OGG f
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
 [node name="VideoDownloader" type="Window" parent="."]
-size = Vector2i(406, 130)
+size = Vector2i(462, 195)
 visible = false
 wrap_controls = true
 
@@ -72,3 +72,4 @@ grow_vertical = 2
 [connection signal="pressed" from="VBoxContainer/MediaDownloadHelperButton" to="VideoDownloader" method="popup_centered_ratio"]
 [connection signal="pressed" from="VBoxContainer/ImportVideoButton" to="VideoImportfileDialog" method="popup_centered_ratio" binds= [0.5]]
 [connection signal="file_selected" from="VideoImportfileDialog" to="." method="_parse_video_stream_info"]
+[connection signal="close_requested" from="VideoDownloader" to="VideoDownloader" method="hide"]

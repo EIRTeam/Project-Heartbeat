@@ -25,7 +25,6 @@ func _ready() -> void:
 		result.canceled = true
 		_on_confirmed()
 	)
-	_update_status()
 	exclusive = true
 	transient = true
 
