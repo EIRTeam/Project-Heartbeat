@@ -12,7 +12,7 @@ theme = ExtResource("1_u5m76")
 ok_button_text = "Migrate"
 dialog_text = "After version 1.0, new songs to be uploaded to the workshop are required to include their own audio and video data, replacing the previous YouTube URL-based system.
 
-Would you like to mgirate this song?
+Would you like to migrate this song?
 
 WARNING: It is recommended you make a backup of this song before migrating it, in case something goes wrong."
 dialog_hide_on_ok = false
