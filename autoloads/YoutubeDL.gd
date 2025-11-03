@@ -341,7 +341,7 @@ func get_ytdl_error(process: Process) -> String:
 			break
 	return error
 	
-func get_ytdl_shared_params(handle_temp_files := false):
+func get_ytdl_shared_params(handle_temp_files := false, use_progress_template := true):
 	var shared_params = ["--ignore-config",
 		"--no-cache-dir",
 		"--force-ipv4",
@@ -349,8 +349,12 @@ func get_ytdl_shared_params(handle_temp_files := false):
 		"--no-part",
 		"--newline",
 		"--output-na-placeholder", "0",
-		"--progress-template", "PHD:%(progress.downloaded_bytes)s-%(progress.total_bytes)s-%(progress.total_bytes_estimate)s-%(progress.speed)s-%(info.ext)s",
 	]
+	
+	if use_progress_template:
+		shared_params += [
+			"--progress-template", "PHD:%(progress.downloaded_bytes)s-%(progress.total_bytes)s-%(progress.total_bytes_estimate)s-%(progress.speed)s-%(info.ext)s"
+		]
 	
 	if handle_temp_files:
 		shared_params.append_array([

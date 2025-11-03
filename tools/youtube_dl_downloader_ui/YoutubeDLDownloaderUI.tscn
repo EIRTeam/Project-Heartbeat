@@ -43,6 +43,14 @@ layout_mode = 2
 text = "Download audio"
 icon = ExtResource("2_1xsl0")
 
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="UseConfiguredCommandLineArgumentsCheckbox" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use custom command line arguments"
+
 [node name="Label" type="RichTextLabel" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxEmpty_tmh5l")

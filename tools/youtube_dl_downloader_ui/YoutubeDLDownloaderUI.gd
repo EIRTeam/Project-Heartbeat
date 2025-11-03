@@ -7,6 +7,7 @@ extends PanelContainer
 @onready var save_combined_file_dialog: FileDialog = %SaveCombinedFileDialog
 @onready var save_audio_file_dialog: FileDialog = %SaveAudioFileDialog
 @onready var success_dialog: AcceptDialog = %SuccessDialog
+@onready var use_configured_command_line_args_checkbox: CheckBox = %UseConfiguredCommandLineArgumentsCheckbox
 
 enum State {
 	IDLING,
@@ -18,16 +19,19 @@ var current_process: Process
 
 func _start_download(url: String, save_to: String, download_video: bool):
 	var yt_dlp_path := YoutubeDL.get_ytdl_executable() as String
-	var shared_params := YoutubeDL.get_ytdl_shared_params(false) as Array
+	var shared_params := YoutubeDL.get_ytdl_shared_params(false, false) as Array
 	
 	var media_format := "bestvideo[vcodec!^=av01][height<=%d][fps<=%d]+bestaudio" % [1080, 60]
-	
+
 	if not download_video:
 		media_format = "bestaudio"
 	
-	var video_params = [
+	var video_params = shared_params + [
 		"-P", save_to,
 		"-f", media_format, "-o", save_to.get_basename() + ".%(ext)s", url]
+	
+	if use_configured_command_line_args_checkbox.pressed:
+		video_params += YoutubeDL.get_ytdl_user_params()
 	
 	if not download_video:
 		video_params.push_back("--extract-audio")
