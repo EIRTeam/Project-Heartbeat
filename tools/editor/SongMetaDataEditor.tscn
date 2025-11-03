@@ -372,14 +372,6 @@ value = 10.0
 custom_arrow_step = 0.25
 script = ExtResource("5")
 
-[node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Use YouTube for audio"
-
-[node name="UseYoutubeAsVideo" type="CheckBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Use YouTube for video"
-
 [node name="Charts" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2

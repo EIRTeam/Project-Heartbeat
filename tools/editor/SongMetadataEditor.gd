@@ -32,8 +32,6 @@ var current_downloading_id = ""
 @onready var circle_logo_image_line_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6/SelectCircleLogoLineEdit")
 
 @onready var youtube_url_line_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/YoutubeURL")
-@onready var use_youtube_as_video = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/UseYoutubeAsVideo")
-@onready var use_youtube_as_audio = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/UseYoutubeAsAudio")
 
 @onready var intro_skip_checkbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11/IntroSkipCheckbox")
 @onready var intro_skip_min_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/IntroSkipTimeSpinbox")
@@ -105,8 +103,6 @@ func set_song_meta(value):
 	preview_end_edit.value = song_meta.preview_end
 	background_image_filename_edit.text = song_meta.background_image
 	preview_image_filename_edit.text = song_meta.preview_image
-	use_youtube_as_audio.button_pressed = song_meta.use_youtube_for_audio
-	use_youtube_as_video.button_pressed = song_meta.use_youtube_for_video
 	youtube_url_line_edit.text = song_meta.youtube_preview_url
 	intro_skip_checkbox.button_pressed = song_meta.allows_intro_skip
 	intro_skip_min_time_spinbox.value = song_meta.intro_skip_min_time
@@ -248,8 +244,6 @@ func save_meta():
 	song_meta.preview_image = preview_image_filename_edit.text
 	if song_meta.youtube_preview_url != youtube_url_line_edit.text:
 		song_meta.youtube_preview_url = youtube_url_line_edit.text
-	song_meta.use_youtube_for_audio = use_youtube_as_audio.button_pressed
-	song_meta.use_youtube_for_video = use_youtube_as_video.button_pressed
 	
 	song_meta.allows_intro_skip = intro_skip_checkbox.button_pressed
 	song_meta.intro_skip_min_time = intro_skip_min_time_spinbox.value
@@ -429,8 +423,6 @@ func set_enabled(enabled: bool):
 	preview_end_edit.editable = enabled
 	background_image_filename_edit.editable = enabled
 	preview_image_filename_edit.editable = enabled
-	use_youtube_as_audio.disabled = not enabled
-	use_youtube_as_video.disabled = not enabled
 	youtube_url_line_edit.editable = enabled
 	intro_skip_checkbox.disabled = not enabled
 	intro_skip_min_time_spinbox.editable = enabled
