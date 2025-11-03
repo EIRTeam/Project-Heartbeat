@@ -191,11 +191,9 @@ func get_cache_status():
 	return YoutubeDL.get_cache_status(youtube_url, use_youtube_for_video, use_youtube_for_audio)
 
 func get_audio_stream(variant := -1):
-	var audio_path = get_song_audio_res_path()
-	if not audio_path.is_empty():
-		return HBUtils.load_ogg(audio_path)
 	if variant != -1 && not song_variants[variant].variant_audio.is_empty():
 		return HBUtils.load_ogg(get_variant_audio_res_path(variant))
+	var audio_path = get_song_audio_res_path()
 	if youtube_url:
 		if use_youtube_for_audio:
 			var variant_url = get_variant_data(variant).variant_url
