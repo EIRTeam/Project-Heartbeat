@@ -95,6 +95,7 @@ func _run_migration():
 			song.set_variant_video_path(variant_idx, new_video_file_path.get_file())
 		song.set_variant_audio_path(variant_idx, new_audio_file_path.get_file())
 		variant_data.variant_url = ""
+	song.youtube_preview_url = song.youtube_url
 	song.youtube_url = ""
 	
 	song.save_song()
