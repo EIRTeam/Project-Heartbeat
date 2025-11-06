@@ -69,6 +69,31 @@ const VARIANT_EDITOR = preload("res://tools/editor/VariantEditor.tscn")
 
 var show_hidden: bool = false: set = set_hidden
 
+func _on_variant_delete_confirmed(variant_editor: Node, variant: HBSongVariantData):
+	var variant_idx := song_meta.song_variants.find(variant)
+	if variant_idx == -1:
+		printerr("Something went wrong...")
+		return
+	if variant.variant_video:
+		var video_path := song_meta.get_variant_video_res_path(variant_idx)
+		if video_path.begins_with(song_meta.path) and FileAccess.file_exists(video_path):
+			OS.move_to_trash(ProjectSettings.globalize_path(video_path))
+	if variant.variant_video:
+		var audio_path := song_meta.get_variant_audio_res_path(variant_idx)
+		if audio_path.begins_with(song_meta.path) and FileAccess.file_exists(audio_path):
+			OS.move_to_trash(ProjectSettings.globalize_path(audio_path))
+	variant_editor.queue_free()
+	save_meta()
+
+func _variant_delete_button_pressed(variant_editor: Node, variant: HBSongVariantData):
+	var confirm_dialog := ConfirmationDialog.new()
+	add_child(confirm_dialog)
+	confirm_dialog.dialog_text = "Are you sure you want to delete this variant? This will also move the variant's media files from the chart folder to trash."
+	confirm_dialog.confirmed.connect(_on_variant_delete_confirmed.bind(variant_editor, variant))
+	confirm_dialog.popup_centered()
+	await confirm_dialog.visibility_changed
+	confirm_dialog.queue_free()
+
 func populate_variants():
 	for child in alternative_video_container.get_children():
 		child.queue_free()
@@ -79,7 +104,7 @@ func populate_variants():
 		alternative_video_container.add_child(variant_editor)
 		variant_editor.initialize(song_meta, variant_idx)
 		variant_editor.song = song_meta
-		variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
+		variant_editor.connect("deleted", _variant_delete_button_pressed.bind(variant_editor, variant))
 		variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
 
 func set_song_meta(value):
