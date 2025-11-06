@@ -49,7 +49,8 @@ layout_mode = 2
 [node name="UseConfiguredCommandLineArgumentsCheckbox" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Use custom command line arguments"
+button_pressed = true
+text = "Use custom command line arguments (from options)"
 
 [node name="Label" type="RichTextLabel" parent="VBoxContainer"]
 layout_mode = 2
