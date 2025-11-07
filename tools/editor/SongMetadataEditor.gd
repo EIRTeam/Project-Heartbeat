@@ -82,6 +82,7 @@ func _on_variant_delete_confirmed(variant_editor: Node, variant: HBSongVariantDa
 		var audio_path := song_meta.get_variant_audio_res_path(variant_idx)
 		if audio_path.begins_with(song_meta.path) and FileAccess.file_exists(audio_path):
 			OS.move_to_trash(ProjectSettings.globalize_path(audio_path))
+	variant_editor.get_parent().remove_child(variant_editor)
 	variant_editor.queue_free()
 	save_meta()
 
