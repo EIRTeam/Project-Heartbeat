@@ -168,7 +168,7 @@ func _init(_import_data: MediaImportDialog.MediaImportDialogResult) -> void:
 		return
 	
 	result._tmp_dir_access = DirAccess.create_temp("tmp_video")
-	var tmp_dir := result._tmp_dir_access .get_current_dir()
+	var tmp_dir := result._tmp_dir_access.get_current_dir()
 	var media_base_path := tmp_dir.path_join("media")
 	target_path = media_base_path
 	

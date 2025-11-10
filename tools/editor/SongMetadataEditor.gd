@@ -167,6 +167,7 @@ func _on_add_variant_button_pressed():
 		return
 		
 	var import_ui := MediaImporterUI.new()
+	add_child(import_ui)
 	var variant_idx := song_meta.song_variants.size() as int
 	var variant := HBSongVariantData.new()
 	variant.variant_name = result.variant_name

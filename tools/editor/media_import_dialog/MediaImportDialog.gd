@@ -39,6 +39,7 @@ func _parse_video_stream_info(path: String):
 	if path.get_extension() == "ogg":
 		result.selected_audio_stream_format = FFmpegStreamInfo.AUDIO_CODEC_VORBIS
 		result.has_audio_stream = true
+		result.selected_video_path = path
 		_update_status()
 		return
 	
