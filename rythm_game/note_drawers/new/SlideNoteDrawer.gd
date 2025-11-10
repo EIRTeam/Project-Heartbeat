@@ -40,7 +40,7 @@ func show_note_hit_effect(target_pos: Vector2, effect_scale := 1.0):
 		effect.scale = Vector2.ONE * UserSettings.user_settings.note_size
 		game.game_ui.get_drawing_layer_node(&"StarParticles").add_child(effect)
 		if note_data.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
-			effect.scale.x = -1.0
+			effect.scale.x *= -1.0
 		effect.position = target_pos
 	
 func create_note_drawer(piece: HBNoteData):
