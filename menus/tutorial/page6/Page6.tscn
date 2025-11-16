@@ -2,7 +2,7 @@
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2"]
-[ext_resource type="Texture2D" uid="uid://brkyimo6hbqwf" path="res://menus/tutorial/page6/heart.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://bw4sc2xbphe6s" path="res://menus/chart_feature_previews/heart_note.png" id="2_ssvjc"]
 
 [node name="Page4" type="MarginContainer"]
 anchors_preset = 15
@@ -33,9 +33,9 @@ size_flags_horizontal = 3
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("3")
+texture = ExtResource("2_ssvjc")
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2

@@ -2,8 +2,8 @@
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2"]
-[ext_resource type="Texture2D" uid="uid://cjfijbxksf2c3" path="res://menus/tutorial/page1/notes_example.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://p6avrooiekb4" path="res://menus/tutorial/page1/slides_example.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://dflywc0pf4cen" path="res://menus/chart_feature_previews/normal_note.png" id="2_5pa2q"]
+[ext_resource type="Texture2D" uid="uid://cseoj54gndbx8" path="res://menus/chart_feature_previews/slide_note.png" id="3_a1m0n"]
 
 [node name="MarginContainer" type="MarginContainer"]
 anchors_preset = 15
@@ -34,25 +34,29 @@ size_flags_horizontal = 3
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("3")
+texture = ExtResource("2_5pa2q")
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 3
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("4")
+texture = ExtResource("3_a1m0n")
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("2")
 text = "Hit normal notes by pressing the corresponding face button or d-pad direction when they go over their target
 
@@ -63,12 +67,98 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+alignment = 1
+
+[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &"note_up"
+
+[node name="InputGlyphRect2" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &"note_left"
+
+[node name="InputGlyphRect3" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &"note_down"
+
+[node name="InputGlyphRect4" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &"note_right"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "or"
+
+[node name="InputGlyphRect5" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &"note_up"
+action_skip_count = 1
+
+[node name="InputGlyphRect6" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &"note_left"
+action_skip_count = 1
+
+[node name="InputGlyphRect7" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &"note_down"
+action_skip_count = 1
+
+[node name="InputGlyphRect8" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &"note_right"
+action_skip_count = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("2")
 text = "You can hit slide notes using the analog sticks on your controler."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+action_text = ""
+action_name = &"slide_left"
+
+[node name="InputGlyphRect2" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+action_text = ""
+action_name = &"slide_right"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "or"
+
+[node name="InputGlyphRect3" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+action_text = ""
+action_name = &"slide_left"
+action_skip_count = 1
+
+[node name="InputGlyphRect4" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+action_text = ""
+action_name = &"slide_right"
+action_skip_count = 1
