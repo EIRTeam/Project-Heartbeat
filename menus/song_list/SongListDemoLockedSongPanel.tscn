@@ -1,0 +1,89 @@
+[gd_scene load_steps=6 format=3 uid="uid://cy5nj8reqdbv7"]
+
+[ext_resource type="Script" uid="uid://f8rxl6vfd1xc" path="res://menus/song_list/SongListDemoLockedSongPanel.gd" id="1_8ibda"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="2_72nf8"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="3_jh2gp"]
+[ext_resource type="Texture2D" uid="uid://rx4rtkhmkprb" path="res://graphics/icons/steam.svg" id="3_mrtqa"]
+
+[sub_resource type="StyleBoxFlat" id="4"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0.74902)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 10
+
+[node name="SortByPanel" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+script = ExtResource("1_8ibda")
+
+[node name="SortByPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_styles/panel = SubResource("4")
+
+[node name="MarginContainer" type="MarginContainer" parent="SortByPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="ButtonContainer" type="VBoxContainer" parent="SortByPanel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="SortByPanel/MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "This song is only available in the full version of Project Heartbeat!"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="SortByPanel/MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "The full version includes additional content such as:
+- Steam Workshop integration
+- Leaderboards
+- Multiplayer
+- Proffessional-grade chart editor"
+
+[node name="ButtonContainer" type="HBoxContainer" parent="SortByPanel/MarginContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+alignment = 1
+script = ExtResource("2_72nf8")
+
+[node name="GoToStoreButton" type="Button" parent="SortByPanel/MarginContainer/ButtonContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Get Project Heartbeat!"
+icon = ExtResource("3_mrtqa")
+script = ExtResource("3_jh2gp")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"
+
+[node name="ContinueButton" type="Button" parent="SortByPanel/MarginContainer/ButtonContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Continue playing the demo"
+script = ExtResource("3_jh2gp")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"

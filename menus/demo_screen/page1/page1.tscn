@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://daul3fw7ohk30"]
 
-[ext_resource type="FontVariation" path="res://fonts/default_font_medium.tres" id="1"]
-[ext_resource type="FontVariation" path="res://fonts/default_font_black.tres" id="2"]
+[ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
+[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="3"]
 
 [node name="MarginContainer" type="MarginContainer"]
@@ -9,7 +9,6 @@ auto_translate_mode = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-auto_translate = false
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
@@ -18,45 +17,39 @@ theme_override_constants/margin_bottom = 15
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 theme_override_fonts/font = ExtResource("2")
-text = "Welcome to Project Heartbeat"
+text = "Welcome to Project Heartbeat!"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
-auto_translate = false
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
-auto_translate = false
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
-auto_translate = false
 texture = ExtResource("3")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-auto_translate = false
 theme_override_fonts/font = ExtResource("1")
 text = "Welcome to the Project Heartbeat demo, I hope you enjoy it!
 
@@ -69,13 +62,12 @@ auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-auto_translate = false
 theme_override_fonts/font = ExtResource("1")
 text = "The full version of the game has a few more features and content than what is available here:
 
 - Full workshop support for custom songs, including background video playback
 - Full chart editor
-- 16 hand-crafted high quality song charts (7 are currently available)
+- A collection of 25+ hand-charted songs
 - Multiplayer
 - Ability to load your own charts (Including PPD charts)
 

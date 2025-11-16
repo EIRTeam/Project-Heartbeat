@@ -29,6 +29,8 @@ const DIFFICULTY_TAG: PackedScene = preload("res://menus/song_list/DifficultyTag
 @onready var unsubscribe_button_container: Control = get_node("%UnsubscribeButtonContainer")
 @onready var unsubscribe_button_margin_container: Control = get_node("%UnsubscribeButtonMarginContainer")
 @onready var unsubscribe_button: Button = get_node("%UnsubscribeButton")
+
+@onready var demo_lock_icon: Control = get_node("%DemoLockIcon")
 # HACK...
 var had_selected_unsubscribe := false
 
@@ -36,6 +38,7 @@ var song_update_queued := false
 
 signal difficulty_selected(song: HBSong, difficulty: String)
 signal unsubscribe_requested(song: HBSong)
+signal demo_locked_song_selected(song: HBSong)
 
 func _queue_song_update():
 	if not song_update_queued:
@@ -114,6 +117,11 @@ func _song_update():
 		preview.notify_visible()
 		album_art_texture.material = preview.get_fallback_material()
 	album_art_texture.texture = preview
+	if HBGame.demo_mode and not HBGame.is_song_playable_in_demo_mode(song.id):
+		difficulty_tag_container.hide()
+		demo_lock_icon.show()
+	else:
+		demo_lock_icon.hide()
 	
 func update_scale(to: Vector2, no_animation=false):
 	super.update_scale(to, no_animation)
@@ -137,6 +145,7 @@ func _ready():
 	)
 	
 	get_viewport().gui_focus_changed.connect(self._on_focus_changed)
+	
 
 func _on_focus_changed(new_focus_owner: Control):
 	if not new_focus_owner in [unsubscribe_button_container, difficulty_tag_container]:
@@ -258,6 +267,9 @@ func _on_difficulty_hovered(diff: String):
 		console_texture_diff_rect.show()
 
 func _on_pressed():
+	if HBGame.demo_mode and not HBGame.is_song_playable_in_demo_mode(song.id):
+		demo_locked_song_selected.emit(song)
+		return
 	hover()
 	rating_data_container.show()
 	_on_difficulty_hovered(difficulty_tag_container.get_child(0).difficulty)

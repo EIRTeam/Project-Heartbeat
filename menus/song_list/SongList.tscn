@@ -335,7 +335,6 @@ action_name = "gui_cancel"
 text = "Back"
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource("5")]
-visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -392,7 +391,6 @@ text = "Enter the search term:"
 
 [node name="UnsubscribeWindow" parent="." instance=ExtResource("5")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

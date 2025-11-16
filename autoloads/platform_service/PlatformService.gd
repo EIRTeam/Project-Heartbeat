@@ -30,17 +30,14 @@ func _initialize_platform():
 		InputGlyphsSingleton.init()
 		return
 	# Try to load steam first, if not fallback to Offline
-	if not HBGame.demo_mode:
-		var steam_service_provider := SteamPlatformServicePovider.new() as PlatformServiceProvider
-		var service_init_result = set_service_provider(steam_service_provider)
-		
-		if service_init_result != OK:
-			steam_service_provider.queue_free()
-			set_service_provider(OfflinePlatformServicePovider.new())
-			InputGlyphsSingleton.init()
-			Log.log(self, "Loading Steamworks failed, falling back to offline service provider", Log.LogLevel.INFO)
-	else:
+	var steam_service_provider := SteamPlatformServicePovider.new() as PlatformServiceProvider
+	var service_init_result = set_service_provider(steam_service_provider)
+	
+	if service_init_result != OK:
+		steam_service_provider.queue_free()
 		set_service_provider(OfflinePlatformServicePovider.new())
+		InputGlyphsSingleton.init()
+		Log.log(self, "Loading Steamworks failed, falling back to offline service provider", Log.LogLevel.INFO)
 func set_service_provider(provider: PlatformServiceProvider):
 	var init_result = provider.init_platform()
 	if init_result != OK:

@@ -26,6 +26,7 @@ signal difficulty_selected(song, difficulty)
 signal show_no_folder_label
 signal hide_no_folder_label
 signal unsubscribe_requested(song: HBSong)
+signal demo_locked_song_selected(song: HBSong)
 
 var filtered_song_items = {}
 
@@ -91,6 +92,7 @@ func _create_song_item(song: HBSong):
 	item.ready.connect(item._become_visible)
 	item.difficulty_selected.connect(self._on_difficulty_selected)
 	item.unsubscribe_requested.connect(unsubscribe_requested.emit)
+	item.demo_locked_song_selected.connect(demo_locked_song_selected.emit)
 	return item
 func update_folder_items():
 	if folder_stack.size() == 0:

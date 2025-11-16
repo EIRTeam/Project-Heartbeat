@@ -34,7 +34,8 @@ func init_platform() -> int:
 		local_user = Steamworks.user.get_local_user()
 		friendly_username = local_user.persona_name
 		user_id = local_user.steam_id
-		ugc_provider = SteamUGCService.new()
+		if not HBGame.demo_mode:
+			ugc_provider = SteamUGCService.new()
 		Steamworks.utils.gamepad_text_input_dismissed.connect(self._on_gamepad_input_dismissed)
 		
 		super.init_platform()
@@ -71,7 +72,7 @@ func _on_lobby_join_requested(steam_lobby: HBSteamLobby):
 	get_tree().current_scene = scene
 		
 func _post_game_init():
-	if UserSettings.user_settings.enable_system_mmplus_loading:
+	if UserSettings.user_settings.enable_system_mmplus_loading and not HBGame.demo_mode:
 		setup_system_mm_plus()
 
 var MainMenu = load("res://menus/MainMenu3D.tscn")

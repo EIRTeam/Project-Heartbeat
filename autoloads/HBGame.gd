@@ -147,9 +147,9 @@ func _ready():
 		ProjectSettings.load_resource_pack(base_content_pack_path, false)
 	
 	spectrum_snapshot = HBSpectrumSnapshot.new(SPECTRUM_DEFINITION)
-	_game_init()
 	if "--demo-mode" in OS.get_cmdline_args():
 		demo_mode = true
+	_game_init()
 	add_child(spectrum_snapshot)
 	
 var spectrum_analyzer: ShinobuSpectrumAnalyzerEffect
@@ -262,6 +262,7 @@ func _game_init():
 
 	SongLoader.init_song_loader()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
+	if not demo_mode:
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	SongLoader.add_song_loader("ppd_ext", load("res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd").new())
 	ResourcePackLoader._init_resource_pack_loader()
@@ -359,3 +360,10 @@ func instantiate_user_sfx(sfx_name: String) -> ShinobuSoundPlayer:
 	var sound := sound_source.instantiate(HBGame.sfx_group)
 	sound.volume = UserSettings.user_settings.get_sound_volume_linear(sfx_name)
 	return sound
+
+const DEMO_MODE_PLAYABLE_SONGS = [
+	"blossoming_spell"
+]
+
+func is_song_playable_in_demo_mode(song_id: String) -> bool:
+	return song_id in DEMO_MODE_PLAYABLE_SONGS

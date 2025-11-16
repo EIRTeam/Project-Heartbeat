@@ -211,6 +211,7 @@ func _ready():
 	song_container.connect("song_hovered", Callable(self, "_on_song_hovered"))
 	song_container.connect("hover_nonsong", Callable(self, "_on_non_song_hovered"))
 	song_container.connect("difficulty_selected", Callable(self, "_on_difficulty_selected"))
+	song_container.demo_locked_song_selected.connect(_on_demo_locked_song_selected)
 	song_container.connect("updated_folders", Callable(self, "_on_folder_path_updated"))
 	song_container.unsubscribe_requested.connect(_on_unsubscribe_requested)
 	$PPDAudioBrowseWindow.connect("accept", Callable(self, "_on_PPDAudioBrowseWindow_accept"))
@@ -228,6 +229,25 @@ func _ready():
 	sort_by_list.sort_filter_settings_changed.connect(self._on_sort_mode_changed)
 	sort_by_list.closed.connect(song_container.grab_focus)
 
+func _on_demo_locked_song_selected(_song: HBSong):
+	var demo_locked_song_panel: HBSongListDemoLockedSongPanel = preload("res://menus/song_list/SongListDemoLockedSongPanel.tscn").instantiate()
+	add_child(demo_locked_song_panel)
+	
+	demo_locked_song_panel.popup()
+	var result: HBSongListDemoLockedSongPanel.LockedSongPanelResult = await demo_locked_song_panel.finished
+	
+	if result == HBSongListDemoLockedSongPanel.LockedSongPanelResult.GO_TO_STORE:
+		if Steamworks.utils:
+			if Steamworks.utils.is_overlay_enabled():
+				Steamworks.friends.activate_game_overlay_to_store(1216230, true)
+			else:
+				OS.shell_open("https://store.steampowered.com/app/1216230/Project_Heartbeat/")
+		else:
+			OS.shell_open("https://store.steampowered.com/app/1216230/Project_Heartbeat/")
+	
+	song_container.grab_focus()
+	
+	demo_locked_song_panel.queue_free()
 func _on_sort_mode_changed():
 	UserSettings.save_user_settings()
 	song_container.on_filter_changed()
