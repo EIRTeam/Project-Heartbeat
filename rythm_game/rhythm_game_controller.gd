@@ -459,6 +459,9 @@ func _on_RhythmGame_game_over():
 
 func _notification(what):
 	match what:
+		NOTIFICATION_APPLICATION_PAUSED:
+			if not pause_disabled and not get_tree().paused and not pause_menu_disabled:
+				_on_paused()
 		NOTIFICATION_APPLICATION_FOCUS_OUT:
 			if not pause_disabled and UserSettings.user_settings.pause_on_focus_loss and \
 			not get_tree().paused and not pause_menu_disabled:

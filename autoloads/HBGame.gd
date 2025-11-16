@@ -306,6 +306,10 @@ func _notification(what: int) -> void:
 			input_event.action = &"gui_cancel"
 			input_event.pressed = true
 			Input.parse_input_event(input_event)
+		NOTIFICATION_APPLICATION_PAUSED:
+			Shinobu.pause()
+		NOTIFICATION_APPLICATION_RESUMED:
+			Shinobu.resume()
 		NOTIFICATION_PREDELETE:
 			DIVATextureProcessor._destruct()
 
