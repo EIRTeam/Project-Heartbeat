@@ -44,7 +44,7 @@ var PH_AUTHORS = {
 		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice", "Reprisal", "Confession", "Monochrome Stars"],
 		"Twoncity": ["Cloudy Sky 2019", "Blossoming Spell", "Connected", "Imademo"],
 		"Starbeat": ["Getaway", "War Zone"],
-		"Luunah": ["Spread my Wings", "The Nostalgic Messenger", "Versos Perversos", "Divine Luneth", "Don't die on me"],
+		"Luunah": ["Spread my Wings", "The Nostalgic Messenger", "Versos Perversos", "Divine Luneth", "Don't die on me", "Luna 2018 (Dream Mode) - Eurobeat Brony ft. Odyssey"],
 		"Lino Bigatti": ["Versos Perversos"],
 		"Blizzin": ["Sands of Time", "RedLine", "Imademo", "Core creation"],
 		"Snail": ["ETERNAL"],
@@ -86,6 +86,9 @@ var PH_AUTHORS = {
 		],
 		"CuZi Music": [
 			"The Nostalgic Messenger"
+		],
+		"Licensed courtesy of Odyssey Eurobeat": [
+			"Luna 2018 (Dream Mode) - Eurobeat Brony ft. Odyssey"
 		]
 	},
 	"Charting software": {
