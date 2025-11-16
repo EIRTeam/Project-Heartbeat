@@ -1,7 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://b4eqtqajjdw50"]
+[gd_scene load_steps=11 format=3 uid="uid://b4eqtqajjdw50"]
 
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="1"]
-[ext_resource type="Script" path="res://menus/tools_menu/ToolsMenu.gd" id="2"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="1"]
+[ext_resource type="Script" uid="uid://feq54nnl7ka3" path="res://menus/tools_menu/ToolsMenu.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://df57f4m3iefr8" path="res://menus/HBMenuChangeButton.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://dnbe0dc4neqg3" path="res://graphics/icons/folder-music.svg" id="4"]
 [ext_resource type="Texture2D" uid="uid://bov4rkihexnl0" path="res://graphics/icons/folder-cog.svg" id="5"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://c8c1a67bhcxiv" path="res://graphics/icons/settings-box.svg" id="8"]
 [ext_resource type="Texture2D" uid="uid://07ken53fehqf" path="res://graphics/icons/package-variant.svg" id="9"]
 [ext_resource type="Texture2D" uid="uid://bwx8jmm5u4dmc" path="res://graphics/icons/music-box-outline.svg" id="11"]
-[ext_resource type="Texture2D" uid="uid://bys46g1tt3d17" path="res://graphics/icons/uoh.svg" id="12"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -82,5 +81,5 @@ next_menu = "latency_tester"
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Out-of-the box setup"
-icon = ExtResource("12")
+icon = ExtResource("8")
 next_menu = "oob"
