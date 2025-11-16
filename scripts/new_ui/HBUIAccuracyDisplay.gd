@@ -6,6 +6,7 @@ var max_latency = 128
 const JUDGEMENTS_TO_COUNT = 40
 var last_judgements = []
 
+var last_judgement_line_extra_width := 2: set = set_last_judgement_line_extra_width
 var gradient_color_cool := Color.DEEP_SKY_BLUE: set = set_gradient_color_cool
 var gradient_color_fine := Color.GREEN: set = set_gradient_color_fine
 var gradient_color_safe := Color.ORANGE: set = set_gradient_color_safe
@@ -28,7 +29,8 @@ func get_hb_inspector_whitelist() -> Array:
 	var whitelist := super.get_hb_inspector_whitelist()
 	whitelist.append_array([
 		"rating_line_width", "gradient_color_cool", "gradient_color_fine",
-		"gradient_color_safe", "gradient_color_sad", "gradient_line_height"
+		"gradient_color_safe", "gradient_color_sad", "gradient_line_height",
+		"last_judgement_line_extra_width"
 	])
 	return whitelist
 	
@@ -41,6 +43,7 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	out_dict["gradient_color_fine"] = get_color_string(gradient_color_fine)
 	out_dict["gradient_color_safe"] = get_color_string(gradient_color_safe)
 	out_dict["gradient_color_sad"] = get_color_string(gradient_color_sad)
+	out_dict["last_judgement_line_extra_width"] = last_judgement_line_extra_width
 	return out_dict
 
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
@@ -52,6 +55,7 @@ func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
 	gradient_color_fine = get_color_from_dict(dict, "gradient_color_fine", Color.GREEN)
 	gradient_color_safe = get_color_from_dict(dict, "gradient_color_safe", Color.ORANGE)
 	gradient_color_sad = get_color_from_dict(dict, "gradient_color_sad", Color.GOLD)
+	last_judgement_line_extra_width = dict.get("last_judgement_line_extra_width", 2)
 	gradient_line_height = dict.get("gradient_line_height", 12)
 
 func update_line_grad_colors():
@@ -76,6 +80,10 @@ func update_line_grad_colors():
 
 func set_rating_line_width(val):
 	rating_line_width = val
+	queue_redraw()
+	
+func set_last_judgement_line_extra_width(val):
+	last_judgement_line_extra_width = val
 	queue_redraw()
 
 func set_gradient_color_cool(val):
@@ -106,6 +114,7 @@ func _ready():
 	set_gradient_color_safe(gradient_color_safe)
 	set_gradient_color_sad(gradient_color_sad)
 	set_gradient_line_height(gradient_line_height)
+	set_last_judgement_line_extra_width(last_judgement_line_extra_width)
 
 func _draw():
 	# draw the background
@@ -124,14 +133,20 @@ func _draw():
 	ending_pos.y = size.y
 	var average_sum := 0.0
 	var average_count := 0.0
-	for i in range(last_judgements.size()):
+	for i in range(last_judgements.size()-1, -1, -1):
 		var judgement = last_judgements[i]
 		starting_pos.x = judgement * size.x
 		ending_pos.x = starting_pos.x
 		var color_i = clamp(judgement * line_grad_colors.size(), 0, line_grad_colors.size()-1)
-		var color = line_grad_colors[int(color_i)]
+		var color := line_grad_colors[int(color_i)] as Color
 		color.a -= 0.95 * (i / float(JUDGEMENTS_TO_COUNT-1))
-		draw_line(starting_pos, ending_pos, color, max(rating_line_width, 1.0))
+		# Last line gets an... outline!
+		if i == 0:
+			color = color.inverted()
+			draw_line(starting_pos, ending_pos, color, last_judgement_line_extra_width + rating_line_width)
+		else:
+			draw_line(starting_pos, ending_pos, color, rating_line_width)
+			
 		average_count += 1
 		average_sum += judgement
 	# draw the center line
