@@ -19,7 +19,8 @@ enum FEATURES_DISPLAY_TYPES {
 	SLIDE_CHAINS,
 	DOUBLE_NOTES,
 	SUSTAIN_NOTES,
-	HEART_NOTES
+	HEART_NOTES,
+	RUSH_NOTES
 }
 
 var feature_titles = {
@@ -29,7 +30,8 @@ var feature_titles = {
 	FEATURES_DISPLAY_TYPES.SLIDE_CHAINS: tr("Slide chains"),
 	FEATURES_DISPLAY_TYPES.DOUBLE_NOTES: tr("Double notes"),
 	FEATURES_DISPLAY_TYPES.SUSTAIN_NOTES: tr("Sustain notes"),
-	FEATURES_DISPLAY_TYPES.HEART_NOTES: tr("Heart notes")
+	FEATURES_DISPLAY_TYPES.HEART_NOTES: tr("Heart notes"),
+	FEATURES_DISPLAY_TYPES.RUSH_NOTES: tr("Rush Notes")
 }
 
 var feature_descriptions = {
@@ -39,7 +41,8 @@ var feature_descriptions = {
 	FEATURES_DISPLAY_TYPES.SLIDE_CHAINS: tr("Hold the indicated direction!"),
 	FEATURES_DISPLAY_TYPES.DOUBLE_NOTES: tr("Press the indicated note on two different buttons!"),
 	FEATURES_DISPLAY_TYPES.SUSTAIN_NOTES: tr("Hold and release when the time is right!"),
-	FEATURES_DISPLAY_TYPES.HEART_NOTES: tr("Flick in any direction!")
+	FEATURES_DISPLAY_TYPES.HEART_NOTES: tr("Flick in any direction!"),
+	FEATURES_DISPLAY_TYPES.RUSH_NOTES: tr("Mash to your heart's content!")
 }
 
 var feature_actions = {
@@ -49,7 +52,8 @@ var feature_actions = {
 	FEATURES_DISPLAY_TYPES.SLIDE_NOTES: ["slide_left", "slide_right"],
 	FEATURES_DISPLAY_TYPES.SLIDE_CHAINS: ["slide_left", "slide_right"],
 	FEATURES_DISPLAY_TYPES.SUSTAIN_NOTES: ["note_up", "note_left", "note_down", "note_right"],
-	FEATURES_DISPLAY_TYPES.HEART_NOTES: ["heart_note"]
+	FEATURES_DISPLAY_TYPES.HEART_NOTES: ["heart_note"],
+	FEATURES_DISPLAY_TYPES.RUSH_NOTES: ["note_up", "note_left", "note_down", "note_right"]
 }
 
 var feature_actions_plus_one = {
@@ -65,7 +69,8 @@ var feature_textures = {
 	FEATURES_DISPLAY_TYPES.SLIDE_NOTES: preload("res://menus/chart_feature_previews/slide_note.png"),
 	FEATURES_DISPLAY_TYPES.SLIDE_CHAINS: preload("res://menus/chart_feature_previews/slide_chain.png"),
 	FEATURES_DISPLAY_TYPES.SUSTAIN_NOTES: preload("res://menus/chart_feature_previews/sustain_note.png"),
-	FEATURES_DISPLAY_TYPES.HEART_NOTES: preload("res://menus/chart_feature_previews/heart_note.png")
+	FEATURES_DISPLAY_TYPES.HEART_NOTES: preload("res://menus/chart_feature_previews/heart_note.png"),
+	FEATURES_DISPLAY_TYPES.RUSH_NOTES: preload("res://menus/chart_feature_previews/rush_note.png")
 }
 
 var disable_axis_direction_display_features = [FEATURES_DISPLAY_TYPES.HEART_NOTES]
@@ -125,7 +130,9 @@ func set_chart(chart: HBChart):
 	
 	for tp in tps:
 		var found_feature = -1
-		if tp is HBSustainNote:
+		if tp is HBRushNote:
+			found_feature = FEATURES_DISPLAY_TYPES.RUSH_NOTES
+		elif tp is HBSustainNote:
 			found_feature = FEATURES_DISPLAY_TYPES.SUSTAIN_NOTES
 		elif tp is HBDoubleNote:
 			found_feature = FEATURES_DISPLAY_TYPES.DOUBLE_NOTES
