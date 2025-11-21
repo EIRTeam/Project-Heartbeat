@@ -1,5 +1,7 @@
 extends Control
 
+class_name HBRhythmGameController
+
 const LOG_NAME = "RhythmGameController"
 
 var MainMenu = load("res://menus/MainMenu3D.tscn")
@@ -48,6 +50,10 @@ var rollback_delta := 0.0
 var rich_presence_update_queued := false
 
 func _ready():
+	if get_viewport().transparent_bg:
+		visualizer.hide()
+		background_texture.hide()
+	
 	connect("resized", Callable(self, "set_game_size"))
 	MainMenu = load("res://menus/MainMenu3D.tscn")
 	
