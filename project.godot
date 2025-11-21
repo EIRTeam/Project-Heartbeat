@@ -82,6 +82,7 @@ enabled=PackedStringArray()
 [eirteam]
 
 steamworks/app_id=1216230
+steamworks/app_id.demo=1396330
 
 [gdnative]
 
