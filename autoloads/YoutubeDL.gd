@@ -177,6 +177,8 @@ func get_aria2_executable():
 	return ProjectSettings.globalize_path(path)
 
 func _init_ytdl():
+	if OS.has_feature("no_youtube_dl"):
+		return
 	YOUTUBE_DL_DIR = HBGame.platform_settings.user_dir_redirect(YOUTUBE_DL_DIR)
 	if OS.has_feature("mobile"):
 		CACHE_FILE = UserSettings.user_settings.content_path.path_join("youtube_dl/cache/yt_cache.json")

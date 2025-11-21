@@ -36,6 +36,8 @@ func init_platform() -> int:
 		user_id = local_user.steam_id
 		if not HBGame.demo_mode:
 			ugc_provider = SteamUGCService.new()
+		else:
+			implements_ugc = false
 		Steamworks.utils.gamepad_text_input_dismissed.connect(self._on_gamepad_input_dismissed)
 		
 		super.init_platform()

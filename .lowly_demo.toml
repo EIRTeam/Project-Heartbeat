@@ -1,0 +1,76 @@
+game_type = "Godot"
+steam_app_id = 1396330
+steam_depot_id = 1396331
+steam_branch = "staging"
+
+[[pcks]]
+name = "Project Heartbeat.pck"
+export_preset_name = "Main Demo"
+
+[[extra_files]]
+from = "{engine_binaries_path}/godot.windows.template_release.x86_64.exe"
+to = "{game_output_path}/Project Heartbeat.exe"
+
+[[extra_files]]
+from = "{engine_binaries_path}/godot.linuxbsd.template_release.x86_64"
+to = "{game_output_path}/Project Heartbeat.x86_64"
+
+[[extra_files]]
+from = "{engine_binaries_path}/SDL2.dll"
+to = "{game_output_path}/SDL2.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/libavcodec.so.60"
+to = "{game_output_path}/libavcodec.so.60"
+
+[[extra_files]]
+from = "{engine_binaries_path}/libavfilter.so.9"
+to = "{game_output_path}/libavfilter.so.9"
+
+[[extra_files]]
+from = "{engine_binaries_path}/libavformat.so.60"
+to = "{game_output_path}/libavformat.so.60"
+
+[[extra_files]]
+from = "{engine_binaries_path}/libavutil.so.58"
+to = "{game_output_path}/libavutil.so.58"
+
+[[extra_files]]
+from = "{engine_binaries_path}/libswresample.so.4"
+to = "{game_output_path}/libswresample.so.4"
+
+[[extra_files]]
+from = "{engine_binaries_path}/libswscale.so.7"
+to = "{game_output_path}/libswscale.so.7"
+
+[[extra_files]]
+from = "{engine_binaries_path}/libsteam_api.so"
+to = "{game_output_path}/libsteam_api.so"
+
+[[extra_files]]
+from = "{engine_binaries_path}/avcodec-60.dll"
+to = "{game_output_path}/avcodec-60.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/avfilter-9.dll"
+to = "{game_output_path}/avfilter-9.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/avformat-60.dll"
+to = "{game_output_path}/avformat-60.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/avutil-58.dll"
+to = "{game_output_path}/avutil-58.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/steam_api64.dll"
+to = "{game_output_path}/steam_api64.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/swresample-4.dll"
+to = "{game_output_path}/swresample-4.dll"
+
+[[extra_files]]
+from = "{engine_binaries_path}/swscale-7.dll"
+to = "{game_output_path}/swscale-7.dll"

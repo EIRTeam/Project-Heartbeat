@@ -147,7 +147,7 @@ func _ready():
 		ProjectSettings.load_resource_pack(base_content_pack_path, false)
 	
 	spectrum_snapshot = HBSpectrumSnapshot.new(SPECTRUM_DEFINITION)
-	if "--demo-mode" in OS.get_cmdline_args():
+	if "--demo-mode" in OS.get_cmdline_args() or OS.has_feature("demo"):
 		demo_mode = true
 	_game_init()
 	add_child(spectrum_snapshot)
