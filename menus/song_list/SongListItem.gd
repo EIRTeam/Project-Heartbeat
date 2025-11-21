@@ -117,17 +117,22 @@ func _song_update():
 		preview.notify_visible()
 		album_art_texture.material = preview.get_fallback_material()
 	album_art_texture.texture = preview
-	if HBGame.demo_mode and not HBGame.is_song_playable_in_demo_mode(song.id):
-		difficulty_tag_container.hide()
-		demo_lock_icon.show()
-	else:
-		demo_lock_icon.hide()
+	_update_demo_lock_icon()
 	
 func update_scale(to: Vector2, no_animation=false):
 	super.update_scale(to, no_animation)
 
+func _update_demo_lock_icon():
+	if song:
+		if HBGame.demo_mode and not HBGame.is_song_playable_in_demo_mode(song.id):
+			difficulty_tag_container.hide()
+			demo_lock_icon.show()
+		else:
+			demo_lock_icon.hide()
+
 func _ready():
 	super._ready()
+	_update_demo_lock_icon()
 	set_process(false)
 	arcade_texture_diff_rect.texture = ResourcePackLoader.get_graphic("slide_right_note.png")
 	console_texture_diff_rect.texture = ResourcePackLoader.get_graphic("heart_note.png")
@@ -159,7 +164,6 @@ func _on_unsubscribe_requested_pressed():
 func set_song(value: HBSong):
 	song = value
 	_queue_song_update()
-
 #	if ScoreHistory.has_result(value.id, difficulty):
 #		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
 #		var pass_percentage = result.get_percentage()
@@ -265,7 +269,6 @@ func _on_difficulty_hovered(diff: String):
 		arcade_texture_diff_rect.show()
 	if HBChart.ChartNoteUsage.CONSOLE in note_type_usage:
 		console_texture_diff_rect.show()
-
 func _on_pressed():
 	if HBGame.demo_mode and not HBGame.is_song_playable_in_demo_mode(song.id):
 		demo_locked_song_selected.emit(song)
