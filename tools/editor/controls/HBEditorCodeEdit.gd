@@ -843,6 +843,10 @@ func _init():
 		file.store_string(FONT_LICENSE)
 
 func _ready():
+	# Setup editing options.
+	self.indent_automatic = true
+	self.gutters_draw_line_numbers = true
+	
 	# Setup syntax highlighting.
 	syntax_highlighter = CodeHighlighter.new()
 	
