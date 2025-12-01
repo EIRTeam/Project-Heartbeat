@@ -186,25 +186,25 @@ func update_shortcuts():
 	var arrange_ev = arrange_event_list[0] if arrange_event_list else null
 	
 	if arrange_ev:
-		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.show()
-		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.text = \
+		$%QuickPlacingLabel.show()
+		$%QuickPlacingLabel.text = \
 			"Hold " + get_event_text(arrange_ev) + " for quick placing."
-		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.tooltip_text = \
+		$%QuickPlacingLabel.tooltip_text = \
 			"The arrange wheel helps you place notes quickly.\n" + \
 			"Hold Shift for reverse arranging.\n" + \
 			"Hold Control to toggle automatic angles.\n" + \
 			"Shortcut: " + get_event_text(arrange_ev)
 	else:
-		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.hide()
+		$%QuickPlacingLabel.hide()
 	
 	var size_up_event_list = InputMap.action_get_events("editor_circle_size_bigger")
 	var size_down_event_list = InputMap.action_get_events("editor_circle_size_smaller")
 	var size_up_ev = size_up_event_list[0] if size_up_event_list else null
 	var size_down_ev = size_down_event_list[0] if size_down_event_list else null
 	
-	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.tooltip_text = "Amount of 8th notes required for \na full revolution."
-	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.tooltip_text += "\nShortcut (increase): " + get_event_text(size_up_ev)
-	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.tooltip_text += "\nShortcut (decrease): " + get_event_text(size_down_ev)
+	$%CircleSizeHBoxContainer.tooltip_text = "Amount of 8th notes required for \na full revolution."
+	$%CircleSizeHBoxContainer.tooltip_text += "\nShortcut (increase): " + get_event_text(size_up_ev)
+	$%CircleSizeHBoxContainer.tooltip_text += "\nShortcut (decrease): " + get_event_text(size_down_ev)
 
 func apply_transform(id: int):
 	hide_transform()
