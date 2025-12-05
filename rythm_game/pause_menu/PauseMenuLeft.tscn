@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://c0ob8f5020lvo"]
+[gd_scene load_steps=9 format=3 uid="uid://c0ob8f5020lvo"]
 
-[ext_resource type="PackedScene" path="res://menus/HBMenuChangeButton.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://df57f4m3iefr8" path="res://menus/HBMenuChangeButton.tscn" id="1"]
+[ext_resource type="StyleBox" uid="uid://cscdlmef4kfh3" path="res://styles/PanelStyleOpaque.tres" id="1_clucw"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="4"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="5"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionMenuButton.gd" id="6"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="3"]
+[ext_resource type="StyleBox" uid="uid://cp7yh4stt825r" path="res://styles/PanelStyleTransparentIconHover.tres" id="4"]
+[ext_resource type="StyleBox" uid="uid://b21324ii6ky3l" path="res://styles/PanelStyleTransparentIcon.tres" id="5"]
+[ext_resource type="Script" uid="uid://b425c67rmdr6" path="res://menus/options_menu/OptionMenuButton.gd" id="6"]
+[ext_resource type="StyleBox" uid="uid://bax05u7srvinw" path="res://styles/PanelStyleTransparentHoverAnimation.tres" id="8_pmg46"]
 
 [node name="MarginContainer" type="MarginContainer"]
 anchors_preset = 4
@@ -22,17 +24,14 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = ExtResource("4")
+theme_override_styles/panel = ExtResource("1_clucw")
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 25.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2")
 text = "PAUSED"
 vertical_alignment = 1
@@ -51,51 +50,51 @@ enable_wrap_around = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = ExtResource("5")
 theme_override_styles/hover = ExtResource("4")
 theme_override_styles/pressed = ExtResource("5")
+theme_override_styles/normal = ExtResource("5")
 text = "Resume"
-alignment = 0
 script = ExtResource("6")
 normal_style = ExtResource("5")
 hover_style = ExtResource("4")
+hover_style_animation = ExtResource("8_pmg46")
 
 [node name="RestartButton" parent="VBoxContainer/HBListContainer" instance=ExtResource("1")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = ExtResource("5")
 theme_override_styles/hover = ExtResource("4")
 theme_override_styles/pressed = ExtResource("5")
+theme_override_styles/normal = ExtResource("5")
 text = "Restart"
-alignment = 0
 script = ExtResource("6")
 normal_style = ExtResource("5")
 hover_style = ExtResource("4")
+hover_style_animation = ExtResource("8_pmg46")
 
 [node name="SongSettingsButton" parent="VBoxContainer/HBListContainer" instance=ExtResource("1")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 2
-theme_override_styles/normal = ExtResource("5")
 theme_override_styles/hover = ExtResource("4")
 theme_override_styles/pressed = ExtResource("5")
+theme_override_styles/normal = ExtResource("5")
 text = "Song Settings"
-alignment = 0
 script = ExtResource("6")
 normal_style = ExtResource("5")
 hover_style = ExtResource("4")
+hover_style_animation = ExtResource("8_pmg46")
 
 [node name="QuitButton" parent="VBoxContainer/HBListContainer" instance=ExtResource("1")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = ExtResource("5")
 theme_override_styles/hover = ExtResource("4")
 theme_override_styles/pressed = ExtResource("5")
+theme_override_styles/normal = ExtResource("5")
 text = "Quit"
-alignment = 0
 script = ExtResource("6")
 normal_style = ExtResource("5")
 hover_style = ExtResource("4")
+hover_style_animation = ExtResource("8_pmg46")
