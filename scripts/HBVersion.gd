@@ -7,7 +7,7 @@ const MAJOR = 1
 const MINOR = 0
 const PATCH = 0
 
-const status = "Release Candidate 4"
+const status = "Release Candidate 5"
 const ver_name = "Project Heartbeat: Marina's Legacy"
 const VERSION_FILE_PATH := "res://version.json"
 
