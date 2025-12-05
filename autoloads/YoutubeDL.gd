@@ -3,6 +3,7 @@ extends Node
 const LOG_NAME = "YoutubeDL"
 
 var YOUTUBE_DL_DIR = "user://youtube_dl"
+var THIRD_PARTY_BINARY_PATH = ""
 var CACHE_FILE = "user://youtube_dl/cache/yt_cache.json"
 const VIDEO_EXT = "mp4"
 const AUDIO_EXT = "ogg"
@@ -120,6 +121,14 @@ class CachingQueueEntry:
 func _init():
 	var compile_out := DOWNLOAD_REGEX.compile("PHD:([0-9]+)-([0-9]+)-([0-9]+)-([0-9]*\\.[0-9]+)")
 	assert(compile_out == OK)
+	
+	# Slightly horrible detection of whether or not we are using a PCK or an exported game
+	var is_exported := not DirAccess.dir_exists_absolute("res://third_party/deno")
+	if is_exported:
+		THIRD_PARTY_BINARY_PATH = OS.get_executable_path().get_base_dir().path_join("bin")
+	else:
+		THIRD_PARTY_BINARY_PATH = "res://third_party"
+	
 func _youtube_dl_copied(thread: Thread):
 	thread.wait_to_finish()
 	status_mutex.lock()
@@ -166,15 +175,7 @@ func ensure_perms():
 		OS.execute("chmod", ["+x", get_ytdl_executable()])
 		OS.execute("chmod", ["+x", get_ffmpeg_executable()])
 		OS.execute("chmod", ["+x", get_ffprobe_executable()])
-		OS.execute("chmod", ["+x", get_aria2_executable()])
-
-func get_aria2_executable():
-	var path
-	if OS.get_name() == "Windows":
-		path = YOUTUBE_DL_DIR + "/aria2c.exe"
-	elif OS.get_name() == "Linux":
-		path = YOUTUBE_DL_DIR + "/aria2c"
-	return ProjectSettings.globalize_path(path)
+		OS.execute("chmod", ["+x", get_deno_executable()])
 
 func _init_ytdl():
 	if OS.has_feature("no_youtube_dl"):
@@ -304,18 +305,25 @@ func get_ytdl_executable():
 func get_ffmpeg_executable():
 	var path
 	if OS.get_name() == "Windows":
-		path = YOUTUBE_DL_DIR + "/ffmpeg.exe"
+		path = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg/ffmpeg.exe")
 	elif OS.get_name() == "Linux":
-		path = YOUTUBE_DL_DIR + "/ffmpeg"
+		path = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg/ffmpeg")
 	return ProjectSettings.globalize_path(path)
 func get_ffprobe_executable():
 	var path
 	if OS.get_name() == "Windows":
-		path = YOUTUBE_DL_DIR + "/ffprobe.exe"
+		path = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg/ffprobe.exe")
 	elif OS.get_name() == "Linux":
-		path = YOUTUBE_DL_DIR + "/ffprobe"
+		path = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg/ffprobe")
 	return ProjectSettings.globalize_path(path)
 
+func get_deno_executable() -> String:
+	var path := ""
+	if OS.get_name() == "Windows":
+		path = THIRD_PARTY_BINARY_PATH.path_join("deno/deno.exe")
+	elif OS.get_name() == "Linux":
+		path = THIRD_PARTY_BINARY_PATH.path_join("deno/deno")
+	return ProjectSettings.globalize_path(path)
 
 func get_video_path(video_id, global=false) -> String:
 	var ext := "mp4"
@@ -345,6 +353,7 @@ func get_ytdl_error(process: Process) -> String:
 	
 func get_ytdl_shared_params(handle_temp_files := false, use_progress_template := true):
 	var shared_params = ["--ignore-config",
+		"--js-runtimes", "deno:%s" % [get_deno_executable()],
 		"--no-cache-dir",
 		"--force-ipv4",
 		"--compat-options", "youtube-dl",
