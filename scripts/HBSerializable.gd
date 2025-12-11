@@ -105,7 +105,8 @@ static func deserialize(data: Dictionary):
 							serializable_type_name = obj_template.get_serialized_type()
 						for i in data[field]:
 							if arr_type == TYPE_OBJECT and i is Dictionary:
-								i["type"] = serializable_type_name
+								if not i.has("type"):
+									i["type"] = serializable_type_name
 								typed_out.append(deserialize(i))
 							elif not typeof(i) == arr_type:
 								typed_out.push_back(convert(i, arr_type))

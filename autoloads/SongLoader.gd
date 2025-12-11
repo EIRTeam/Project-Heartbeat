@@ -12,7 +12,7 @@ const BASE_DIFFICULTY_ORDER = ["easy", "normal", "hard", "extreme", "extra extre
 var scores = {}
 
 # Contains song loaders in a dict key:loader
-var song_loaders = {}
+var song_loaders: Dictionary[String, SongLoaderImpl]
 
 # video id -> songs
 var video_users: Dictionary
@@ -46,6 +46,7 @@ func load_song_meta(path: String, id: String) -> HBSong:
 			song_instance.id = id
 			song_instance.path = path.get_base_dir()
 			Log.log(self, "Loaded song %s succesfully from %s" % [song_instance.get_visible_title(), path.get_base_dir()])
+
 			return song_instance
 		else:
 			Log.log(self, "Error loading song config file on line %d: %s" % [test_json_conv.get_error_line(), test_json_conv.get_error_message()])
@@ -94,7 +95,34 @@ func add_song(song: HBSong):
 func get_video_users(video_id: String) -> Array[HBSong]:
 	var empty_arr: Array[HBSong]
 	return video_users.get(video_id, empty_arr)
-			
+
+func load_song_from_packages_from_path(path: String) -> Array[HBSong]:
+	var dir := DirAccess.open(path)
+	var err := DirAccess.get_open_error()
+	var out: Array[HBSong]
+	if err == OK:
+		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
+		var dir_name = dir.get_next()
+
+		while dir_name != "":
+			if not dir.current_is_dir() and not dir_name.begins_with("."):
+				var song_found = false
+				for loader: SongLoaderImpl in song_loaders.values():
+					if loader.get_load_methods() & SongLoaderImpl.LoadMethods.PACKAGE == 0:
+						continue
+					
+					if dir_name.get_extension() == loader.get_package_extension():
+						var package_songs := loader.load_songs_from_package_file(path.path_join(dir_name))
+						var loaded_songs := package_songs.filter(
+							func(result: SongLoaderImpl.SongLoadResult):
+								return result.error == SongLoaderImpl.SongLoadResult.SongLoadError.OK
+						).map(func (result: SongLoaderImpl.SongLoadResult):
+							return result.song
+						)
+						out.append_array(loaded_songs)
+						
+			dir_name = dir.get_next()
+	return out
 func load_songs_from_path(path):
 	var value = {}
 	var dir := DirAccess.open(path)
@@ -124,11 +152,11 @@ func load_songs_from_path(path):
 		Log.log(self, "An error occurred when trying to load songs from %s" % [path], Log.LogLevel.ERROR)
 	return value
 func load_all_songs_meta():
-	
 	if PlatformService.service_provider.implements_ugc:
 		PlatformService.service_provider.ugc_provider.reload_ugc_songs()
 	
 	var song_paths = [] as Array
+	var package_load_paths: Array[String] = []
 	
 	if not HBGame.demo_mode:
 		for content_dir in UserSettings.get_content_directories():
@@ -136,9 +164,14 @@ func load_all_songs_meta():
 			var editor_songs_dir = HBUtils.join_path(content_dir, "editor_songs")
 			song_paths.append(songs_dir)
 			song_paths.append(editor_songs_dir)
+			var mods_dir = HBUtils.join_path(content_dir, "mods")
+			package_load_paths.push_back(mods_dir)
 	else:
 		song_paths = ["res://songs"]
 	
+	for path in package_load_paths:
+		for song in load_song_from_packages_from_path(path):
+			add_song(song)
 	for path in song_paths:
 		var loaded_songs = load_songs_from_path(path)
 		for song_id in loaded_songs:

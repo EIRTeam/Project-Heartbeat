@@ -73,39 +73,6 @@ func _finish_task(token: AssetLoadToken):
 	WorkerThreadPool.wait_for_group_task_completion(token.task_id)
 	token.assets_loaded.emit(token)
 
-# HACK to allow case insensitive naming of files, fairly expensive so use sparingly
-func _case_sensitivity_hack(path: String):
-	if path.begins_with("res://"):
-		return path
-	if OS.get_name() == "linuxbsd":
-		var file_name = path.get_file().to_lower()
-		var out_path = null
-		if FileAccess.file_exists(path):
-			out_path = path
-		else:
-			var dir := DirAccess.open(path.get_base_dir())
-			if DirAccess.get_open_error() == OK:
-				dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
-				var dir_name = dir.get_next()
-				while dir_name != "":
-					if not dir.current_is_dir():
-						if dir_name.to_lower() == file_name.to_lower():
-							out_path = HBUtils.join_path(path.get_base_dir(), dir_name)
-							break
-					dir_name = dir.get_next()
-		return out_path
-	else:
-		return path
-
-func _image_from_fs(path: String) -> Texture2D:
-	if path.begins_with("res://"):
-		return load(path)
-	var img: Image = Image.load_from_file(path)
-	if img:
-		img.generate_mipmaps()
-	var tex := ImageTexture.create_from_image(img)
-	return tex
-
 func _process_audio_loudness(token: AssetLoadToken, audio: ShinobuSoundSource):
 	token.mutex.lock()
 	var normalization_info := AudioNormalizationInfo.new()
@@ -143,9 +110,7 @@ func _load_thread_func(element: int, token: AssetLoadToken):
 						if "SONG_JK" in sprite.name:
 							loaded_asset = sprite
 				else:
-					var asset_path = _case_sensitivity_hack(token.song.get_song_preview_res_path())
-					if asset_path:
-						loaded_asset = _image_from_fs(asset_path)
+					loaded_asset = token.song.get_song_preview()
 		ASSET_TYPES.BACKGROUND:
 			if token.song.background_image:
 				if token.sprite_set:
@@ -153,9 +118,7 @@ func _load_thread_func(element: int, token: AssetLoadToken):
 						if "SONG_BG" in sprite.name:
 							loaded_asset = sprite
 				else:
-					var asset_path = _case_sensitivity_hack(token.song.get_song_background_image_res_path())
-					if asset_path:
-						loaded_asset = _image_from_fs(asset_path)
+					loaded_asset = token.song.get_song_background()
 		ASSET_TYPES.NOTE_USAGE:
 			var dict := {}
 			for difficulty in token.song.charts:
@@ -194,14 +157,10 @@ func _load_thread_func(element: int, token: AssetLoadToken):
 					if "SONG_LOGO" in sprite.name:
 						loaded_asset = sprite
 			elif token.song.circle_image:
-				var asset_path = _case_sensitivity_hack(token.song.get_song_circle_image_res_path())
-				if asset_path:
-					loaded_asset = _image_from_fs(asset_path)
+				loaded_asset = token.song.get_song_circle_image()
 		ASSET_TYPES.CIRCLE_LOGO:
 			if token.song.circle_logo:
-				var asset_path = _case_sensitivity_hack(token.song.get_song_circle_logo_image_res_path())
-				if asset_path:
-					loaded_asset = _image_from_fs(asset_path)
+				loaded_asset = token.song.get_song_circle_logo()
 	if loaded_asset:
 		token.mutex.lock()
 		token.loaded_assets[asset] = loaded_asset

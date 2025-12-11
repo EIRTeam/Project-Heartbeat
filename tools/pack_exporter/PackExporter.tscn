@@ -1,0 +1,120 @@
+[gd_scene load_steps=4 format=3 uid="uid://cys6k5alxm6sm"]
+
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_a2hrt"]
+[ext_resource type="Script" uid="uid://bmr7n4xo5w15a" path="res://tools/pack_exporter/PackExporter.gd" id="1_b838k"]
+[ext_resource type="Texture2D" uid="uid://dq7c1cw2ym5i7" path="res://graphics/icons/chevron_left.svg" id="2_p54s6"]
+
+[node name="PackExporter" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_a2hrt")
+script = ExtResource("1_b838k")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ReturnButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Return"
+icon = ExtResource("2_p54s6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SearchLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SongList" type="ItemList" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+select_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AddSelectedButton" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ">>"
+
+[node name="RemoveSelectedButton" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "<<"
+
+[node name="SongOutList" type="ItemList" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Title"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "EIREXE's super awesome pack"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Description"
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+placeholder_text = "This is a cool mod, isn't it?"
+
+[node name="ExportButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "EXPORT"
+
+[node name="SavePackageFileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+access = 2
+filters = PackedStringArray("*.phz;Project Heartbeat ZIP")
+
+[node name="StatusDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+size = Vector2i(256, 140)
+min_size = Vector2i(256, 0)
+dialog_hide_on_ok = false
+dialog_close_on_escape = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatusDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 248.0
+offset_bottom = 92.0
+
+[node name="StatusLabel" type="Label" parent="StatusDialog/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Migrating song..."
+
+[node name="StatusProgress" type="ProgressBar" parent="StatusDialog/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+step = 1.0
+show_percentage = false

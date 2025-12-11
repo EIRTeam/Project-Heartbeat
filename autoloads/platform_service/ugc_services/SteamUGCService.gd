@@ -232,6 +232,21 @@ func _on_ugc_meta_query_update_completed(results: Array[HBSteamUGCItem]):
 			song._released_time = detail.time_created
 			song._updated_time = detail.time_updated
 			song._ugc_preview_url = detail.preview_image_url
+			song._ugc_title = detail.title
+			song._ugc_description = detail.description
+			song._ugc_metadata = {
+				"title": detail.title,
+				"description": detail.description,
+				"preview_image_url": detail.preview_image_url,
+				"metadata": detail.metadata,
+				"tags": detail.children,
+				"additional_previews": detail.additional_previews.map(func(preview: HBSteamUGCAdditionalPreview): return {
+					"url_or_video_id": preview.get_url_or_video_id(),
+					"original_filename": preview.get_original_filename(),
+					"preview_type": preview.get_preview_type()
+				}),
+				"kv_tags": detail.kv_tags
+			}
 			added_time_map[song.ugc_id] = detail.time_added_to_user_list
 	if results.size() > 0:
 		emit_signal("ugc_song_meta_updated")

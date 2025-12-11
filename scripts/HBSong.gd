@@ -70,6 +70,9 @@ var _added_time: int = 0
 var _released_time: int = 0
 var _updated_time: int = 0
 var _ugc_preview_url: String
+var _ugc_title: String
+var _ugc_description: String
+var _ugc_metadata: Dictionary
 
 func get_leaderboard_name(difficulty: String):
 	return id + "_%s" % difficulty
@@ -129,6 +132,62 @@ func get_song_preview_res_path():
 		return path.path_join("/%s" % [preview_image])
 	else:
 		return null
+
+func _image_from_fs(path: String) -> Texture2D:
+	if path.begins_with("res://"):
+		return load(path)
+	var img: Image = Image.load_from_file(path)
+	if img:
+		img.generate_mipmaps()
+	var tex := ImageTexture.create_from_image(img)
+	return tex
+
+func _case_sensitivity_hack(path: String):
+	if path.begins_with("res://"):
+		return path
+	if OS.get_name() == "linuxbsd":
+		var file_name = path.get_file().to_lower()
+		var out_path = null
+		if FileAccess.file_exists(path):
+			out_path = path
+		else:
+			var dir := DirAccess.open(path.get_base_dir())
+			if DirAccess.get_open_error() == OK:
+				dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
+				var dir_name = dir.get_next()
+				while dir_name != "":
+					if not dir.current_is_dir():
+						if dir_name.to_lower() == file_name.to_lower():
+							out_path = HBUtils.join_path(path.get_base_dir(), dir_name)
+							break
+					dir_name = dir.get_next()
+		return out_path
+	else:
+		return path
+
+func get_song_preview() -> Texture2D:
+	var asset_path = _case_sensitivity_hack(get_song_preview_res_path())
+	if asset_path:
+		return _image_from_fs(asset_path)
+	return null
+
+func get_song_background() -> Texture2D:
+	var asset_path = _case_sensitivity_hack(get_song_background_image_res_path())
+	if asset_path:
+		return _image_from_fs(asset_path)
+	return null
+
+func get_song_circle_image() -> Texture2D:
+	var asset_path = _case_sensitivity_hack(get_song_circle_image_res_path())
+	if asset_path:
+		return _image_from_fs(asset_path)
+	return null
+
+func get_song_circle_logo() -> Texture2D:
+	var asset_path = _case_sensitivity_hack(get_song_circle_logo_image_res_path())
+	if asset_path:
+		return _image_from_fs(asset_path)
+	return null
 
 # Some songs might put vocals in the same file as they put instrumental, in a non-standard
 # ogg channel layout of [instrumental_l, instrumental_r, voice_l, voice_r] enabling this
@@ -218,12 +277,12 @@ func get_artist_sort_text():
 func get_video_stream(variant := -1):
 	var video_path = get_song_video_res_path()
 	
-	if video_path:
+	if variant != -1 && not song_variants[variant].variant_video.is_empty():
+		video_path = get_variant_video_res_path(variant)
+	elif video_path:
 		var video_stream = FFmpegVideoStream.new()
 		video_stream.set_file(video_path)
 		return video_stream
-	elif variant != -1 && not song_variants[variant].variant_video.is_empty():
-		video_path = get_variant_video_res_path(variant)
 	elif use_youtube_for_video and not youtube_url.is_empty():
 		if is_cached(variant):
 			if variant == -1 or song_variants[variant].audio_only:

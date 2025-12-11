@@ -70,6 +70,12 @@ layout_mode = 2
 text = "PPD Manager"
 icon = ExtResource("8")
 
+[node name="ExporterButton" parent="ToolsList" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Exporter"
+icon = ExtResource("9")
+
 [node name="LatencyCalculatorButton" parent="ToolsList" instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2

@@ -3,14 +3,15 @@ extends HBMenu
 
 func _ready():
 	super._ready()
-	$ToolsList/SongMetaEditorButton.connect("pressed", Callable(self, "_on_SongMetaEditorButton_pressed"))
-	$ToolsList/OpenSongsDirectoryButton.connect("pressed", Callable(self, "_on_OpenSongsDirectoryButton_pressed"))
-	$ToolsList/OpenLogsDirectoryButton.connect("pressed", Callable(self, "_on_OpenLogsDirectoryButton_pressed"))
-	$ToolsList/OpenUserDirectoryButton.connect("pressed", Callable(self, "_on_OpenUserDirectoryButton_pressed"))
-	$ToolsList/PPDManagerButton.connect("pressed", Callable(self, "_on_PPDDownloaderButton_pressed"))
-	$ToolsList/ResourcePackEditorButton.connect("pressed", Callable(self, "_on_ResourcePackEditorButton_pressed"))
-	$ToolsList/LatencyCalculatorButton.connect("pressed", Callable(self, "_on_LatencyCalculatorButton_pressed"))
-	$ToolsList/OOBDebugButton.connect("pressed", change_to_menu.bind("oob"))
+	$ToolsList/SongMetaEditorButton.pressed.connect(_on_SongMetaEditorButton_pressed)
+	$ToolsList/OpenSongsDirectoryButton.pressed.connect(_on_OpenSongsDirectoryButton_pressed)
+	$ToolsList/OpenLogsDirectoryButton.pressed.connect(_on_OpenLogsDirectoryButton_pressed)
+	$ToolsList/OpenUserDirectoryButton.pressed.connect(_on_OpenUserDirectoryButton_pressed)
+	$ToolsList/PPDManagerButton.pressed.connect(_on_PPDDownloaderButton_pressed)
+	$ToolsList/ResourcePackEditorButton.pressed.connect(_on_ResourcePackEditorButton_pressed)
+	$ToolsList/LatencyCalculatorButton.pressed.connect(_on_LatencyCalculatorButton_pressed)
+	$ToolsList/OOBDebugButton.pressed.connect(change_to_menu.bind("oob"))
+	$ToolsList/ExporterButton.pressed.connect(_on_exporter_button_pressed)
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
@@ -45,6 +46,9 @@ func _on_ResourcePackEditorButton_pressed():
 
 func _on_dja_debug_button_pressed():
 	get_tree().change_scene_to_packed(load("res://tools/InputManagerTester.tscn"))
+
+func _on_exporter_button_pressed():
+	get_tree().change_scene_to_packed(load("res://tools/pack_exporter/PackExporter.tscn"))
 
 func _on_LatencyCalculatorButton_pressed():
 	change_to_menu("latency_tester")

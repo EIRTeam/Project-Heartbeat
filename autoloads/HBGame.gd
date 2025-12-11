@@ -108,6 +108,11 @@ var serializable_types = {
 	"Skin": load("res://scripts/new_ui/HBUISkin.gd"),
 	"SkinScreen": load("res://scripts/new_ui/HBUISkinScreen.gd"),
 	"EditorTemplate": load("res://scripts/HBEditorTemplate.gd"),
+	"HBPackItem": load("res://autoloads/song_loader/song_loaders/HBPackItem.gd"),
+	"HBPackItemSong": load("res://autoloads/song_loader/song_loaders/HBPackItemSong.gd"),
+	"HBPackMetadata": load("res://autoloads/song_loader/song_loaders/HBPackMetadata.gd"),
+	"HBPackUGCMeta": load("res://autoloads/song_loader/song_loaders/HBPackUGCMeta.gd"),
+	"HBSongFromPack": load("res://autoloads/song_loader/song_loaders/HBSongFromPack.gd")
 }
 
 const EXCELLENT_THRESHOLD = 0.95
@@ -263,8 +268,8 @@ func _game_init():
 	SongLoader.init_song_loader()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	if not demo_mode:
-	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
-	SongLoader.add_song_loader("ppd_ext", load("res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd").new())
+		SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
+		SongLoader.add_song_loader("ppd_ext", load("res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd").new())
 	ResourcePackLoader._init_resource_pack_loader()
 	
 	PlatformService.service_provider._post_game_init()
