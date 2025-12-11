@@ -78,7 +78,3 @@ to = "{game_output_path}/swresample-4.dll"
 [[extra_files]]
 from = "{engine_binaries_path}/swscale-7.dll"
 to = "{game_output_path}/swscale-7.dll"
-
-[[extra_files]]
-from = "{engine_binaries_path}/steam_appid.txt"
-to = "{game_output_path}/steam_appid.txt"
