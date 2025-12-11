@@ -4,6 +4,10 @@ const LOG_NAME = "YoutubeDL"
 
 var YOUTUBE_DL_DIR = "user://youtube_dl"
 var THIRD_PARTY_BINARY_PATH = ""
+var FFMPEG_FOLDER_PATH = ""
+var FFMPEG_BINARY_PATH = ""
+var FFPROBE_BINARY_PATH = ""
+var DENO_BINARY_PATH = ""
 var CACHE_FILE = "user://youtube_dl/cache/yt_cache.json"
 const VIDEO_EXT = "mp4"
 const AUDIO_EXT = "ogg"
@@ -128,6 +132,16 @@ func _init():
 		THIRD_PARTY_BINARY_PATH = OS.get_executable_path().get_base_dir().path_join("bin")
 	else:
 		THIRD_PARTY_BINARY_PATH = "res://third_party"
+		
+	FFMPEG_FOLDER_PATH = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg")
+	if OS.get_name() == "Linux":
+		DENO_BINARY_PATH = DENO_BINARY_PATH.path_join("deno/deno")
+		FFMPEG_BINARY_PATH = FFMPEG_FOLDER_PATH.path_join("ffmpeg")
+		FFPROBE_BINARY_PATH = FFMPEG_FOLDER_PATH.path_join("ffprobe")
+	elif OS.get_name() == "Windows":
+		DENO_BINARY_PATH = DENO_BINARY_PATH.path_join("deno/deno.exe")
+		FFMPEG_BINARY_PATH = FFMPEG_FOLDER_PATH.path_join("ffmpeg.exe")
+		FFPROBE_BINARY_PATH = FFMPEG_FOLDER_PATH.path_join("ffprobe.exe")
 	
 func _youtube_dl_copied(thread: Thread):
 	thread.wait_to_finish()
@@ -303,27 +317,13 @@ func get_ytdl_executable():
 		path = YOUTUBE_DL_DIR + "/youtube-dl"
 	return ProjectSettings.globalize_path(path)
 func get_ffmpeg_executable():
-	var path
-	if OS.get_name() == "Windows":
-		path = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg/ffmpeg.exe")
-	elif OS.get_name() == "Linux":
-		path = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg/ffmpeg")
-	return ProjectSettings.globalize_path(path)
+	return ProjectSettings.globalize_path(FFMPEG_BINARY_PATH)
+
 func get_ffprobe_executable():
-	var path
-	if OS.get_name() == "Windows":
-		path = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg/ffprobe.exe")
-	elif OS.get_name() == "Linux":
-		path = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg/ffprobe")
-	return ProjectSettings.globalize_path(path)
+	return ProjectSettings.globalize_path(FFPROBE_BINARY_PATH)
 
 func get_deno_executable() -> String:
-	var path := ""
-	if OS.get_name() == "Windows":
-		path = THIRD_PARTY_BINARY_PATH.path_join("deno/deno.exe")
-	elif OS.get_name() == "Linux":
-		path = THIRD_PARTY_BINARY_PATH.path_join("deno/deno")
-	return ProjectSettings.globalize_path(path)
+	return ProjectSettings.globalize_path(DENO_BINARY_PATH)
 
 func get_video_path(video_id, global=false) -> String:
 	var ext := "mp4"
@@ -377,7 +377,7 @@ func get_ytdl_shared_params(handle_temp_files := false, use_progress_template :=
 		shared_params.append(ProjectSettings.globalize_path(get_cache_dir()))
 	
 	if OS.get_name() == "Linux":
-		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
+		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(FFMPEG_FOLDER_PATH)]
 	
 	return shared_params
 
