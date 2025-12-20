@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://daul3fw7ohk30"]
+[gd_scene load_steps=5 format=3 uid="uid://daul3fw7ohk30"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
-[ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2"]
-[ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cqnkf426msan2" path="res://graphics/demo_ss/demo_1.jpg" id="1_pvsj1"]
+[ext_resource type="Texture2D" uid="uid://bnr8no6pvtslt" path="res://graphics/demo_ss/demo_2.jpg" id="2_gcihi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_buucu"]
+font_size = 28
 
 [node name="MarginContainer" type="MarginContainer"]
 auto_translate_mode = 2
@@ -19,13 +22,6 @@ auto_translate_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="VBoxContainer"]
-auto_translate_mode = 2
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2")
-text = "Welcome to Project Heartbeat!"
-horizontal_alignment = 1
-
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 auto_translate_mode = 2
 layout_mode = 2
@@ -36,26 +32,31 @@ auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-auto_translate_mode = 2
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.75
-texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 5
-
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")
-text = "Welcome to the Project Heartbeat demo, I hope you enjoy it!
-
-Please check the \"How to play\" section in the main menu."
+text = "Welcome to the Project Heartbeat demo!"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_pvsj1")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_gcihi")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 auto_translate_mode = 2
@@ -63,14 +64,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")
-text = "The full version of the game has a few more features and content than what is available here:
+text = "The full version contains many more additional features and content!
 
-- Full workshop support for custom songs, including background video playback
+- Full workshop support for custom songs
 - Full chart editor
 - A collection of 25+ hand-charted songs
 - Multiplayer
 - Ability to load your own charts (Including PPD charts)
 
 Press any button to continue to the main menu"
+label_settings = SubResource("LabelSettings_buucu")
 horizontal_alignment = 1
 vertical_alignment = 1

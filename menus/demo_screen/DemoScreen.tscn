@@ -38,7 +38,7 @@ size_flags_vertical = 3
 [node name="PreviousArrow" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("9")
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -55,11 +55,11 @@ size_flags_vertical = 3
 [node name="NextArrow" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("10")
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4")
-text = "1/6"
 horizontal_alignment = 1
 vertical_alignment = 1

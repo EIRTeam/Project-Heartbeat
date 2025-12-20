@@ -2786,7 +2786,3 @@ msgstr ""
 msgctxt "yt-dlp audio missing"
 msgid "The audio for this song appears to be missing, would you like to download it?"
 msgstr ""
-
-#: menus/demo_screen/DemoScreen.tscn
-msgid "1/6"
-msgstr ""
