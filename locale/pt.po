@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
-"PO-Revision-Date: 2025-05-17 15:35\n"
+"PO-Revision-Date: 2025-12-20 11:41\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1072,6 +1072,10 @@ msgid "Heart notes"
 msgstr "Notas de coração"
 
 #: menus/PreGameChartFeaturesDisplay.gd
+msgid "Rush Notes"
+msgstr ""
+
+#: menus/PreGameChartFeaturesDisplay.gd
 msgid "Press the indicated button!"
 msgstr ""
 
@@ -1098,6 +1102,10 @@ msgstr ""
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Flick in any direction!"
 msgstr "Segure a direção indicada!"
+
+#: menus/PreGameChartFeaturesDisplay.gd
+msgid "Mash to your heart's content!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "This chart includes:"
@@ -1182,6 +1190,10 @@ msgid "There are no entries for this song yet, soyez le premier! (be the first!)
 msgstr ""
 
 #: menus/news_list/MainMenuRight.tscn
+msgid "Get the full game!"
+msgstr ""
+
+#: menus/news_list/MainMenuRight.tscn
 msgid "My profile"
 msgstr "Meu perfil"
 
@@ -1251,6 +1263,22 @@ msgstr "Selecione a linguagem a ser usada (requer reinicialização)"
 #: menus/options_menu/OptionsMenu.gd
 msgid "Auto detect"
 msgstr "Detecção automática"
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Timing method"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Internal timing methods, accurate mode is generally better, but on some systems alternative mode may be smoother."
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Accurate"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Alternative"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
@@ -1806,6 +1834,10 @@ msgid "Download all song media"
 msgstr "Baixe todas as mídias das músicas"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+msgid "Import Link Stars with custom parameters."
+msgstr ""
+
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
 msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
 msgstr ""
@@ -1852,14 +1884,6 @@ msgid "Leaderboard"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.gd
-msgid "View leaderboards on the website"
-msgstr ""
-
-#: menus/pregame_screen/PreGameScreen.gd
-msgid "Video/Audio variant"
-msgstr ""
-
-#: menus/pregame_screen/PreGameScreen.gd
 msgid "The current song and settings will count towards leaderboard scores"
 msgstr ""
 
@@ -1884,7 +1908,15 @@ msgid "Delete song media"
 msgstr "Excluir mídia de música"
 
 #: menus/pregame_screen/PreGameScreen.gd
+msgid "View leaderboards on the website"
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.gd
 msgid "Add modifier"
+msgstr ""
+
+#: menus/pregame_screen/PreGameScreen.gd
+msgid "Video/Audio variant"
 msgstr ""
 
 #: menus/pregame_screen/PreGameScreen.tscn
@@ -2051,6 +2083,10 @@ msgid "PPD Manager"
 msgstr "Gerenciar"
 
 #: menus/tools_menu/ToolsMenu.tscn
+msgid "Exporter"
+msgstr ""
+
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
 msgstr "Testador de latência"
 
@@ -2066,6 +2102,10 @@ msgstr "Notas normais"
 msgid "Hit normal notes by pressing the corresponding face button or d-pad direction when they go over their target\n\n"
 "The d-pad and the face buttons are interchangeable!\n\n"
 "(All key bindings can be changed in the options)"
+msgstr ""
+
+#: menus/tutorial/page1/page1.tscn
+msgid "or"
 msgstr ""
 
 #: menus/tutorial/page1/page1.tscn
@@ -2222,6 +2262,11 @@ msgid "Graph"
 msgstr "Gráfico"
 
 #: rythm_game/ResultsScreen.gd
+msgctxt "Score upload request timeout error"
+msgid "Score upload request timed out"
+msgstr ""
+
+#: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
 msgstr ""
 
@@ -2248,6 +2293,10 @@ msgstr "Sem opinião"
 #: rythm_game/ResultsScreen.tscn
 msgid "Don't ask me again"
 msgstr "Não me pergunte novamente"
+
+#: rythm_game/ResultsScreen.tscn
+msgid "Uploading score..."
+msgstr ""
 
 #: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
 msgid "Fast forward!"
@@ -2631,5 +2680,9 @@ msgstr ""
 #: autoloads/CacheSongOverlay.gd
 msgctxt "yt-dlp audio missing"
 msgid "The audio for this song appears to be missing, would you like to download it?"
+msgstr ""
+
+#: menus/demo_screen/DemoScreen.tscn
+msgid "1/6"
 msgstr ""
 
