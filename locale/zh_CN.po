@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-05-17 15:35\n"
+"PO-Revision-Date: 2025-12-20 11:48\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1073,6 +1073,10 @@ msgid "Heart notes"
 msgstr "心形Note"
 
 #: menus/PreGameChartFeaturesDisplay.gd
+msgid "Rush Notes"
+msgstr ""
+
+#: menus/PreGameChartFeaturesDisplay.gd
 msgid "Press the indicated button!"
 msgstr "按下指定的按键！"
 
@@ -1099,6 +1103,10 @@ msgstr "在正确的时机按住和松开按键！"
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Flick in any direction!"
 msgstr "向任意方向滑动！"
+
+#: menus/PreGameChartFeaturesDisplay.gd
+msgid "Mash to your heart's content!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "This chart includes:"
@@ -1183,6 +1191,10 @@ msgid "There are no entries for this song yet, soyez le premier! (be the first!)
 msgstr "这首歌还没有任何记录, soyez le premier! (来成为第一个完成的人!)"
 
 #: menus/news_list/MainMenuRight.tscn
+msgid "Get the full game!"
+msgstr ""
+
+#: menus/news_list/MainMenuRight.tscn
 msgid "My profile"
 msgstr "个人资料"
 
@@ -1253,6 +1265,22 @@ msgstr "选择要使用的语言（需要重启）"
 #: menus/options_menu/OptionsMenu.gd
 msgid "Auto detect"
 msgstr "自动检测"
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Timing method"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Internal timing methods, accurate mode is generally better, but on some systems alternative mode may be smoother."
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Accurate"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Alternative"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
@@ -1813,6 +1841,10 @@ msgid "Download all song media"
 msgstr "下载所有歌曲媒体文件"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+msgid "Import Link Stars with custom parameters."
+msgstr ""
+
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
 msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
 msgstr "清除 {unused_video_count} 首未使用歌曲的媒体文件 ({unused_size})"
@@ -1859,14 +1891,6 @@ msgid "Leaderboard"
 msgstr "排行榜"
 
 #: menus/pregame_screen/PreGameScreen.gd
-msgid "View leaderboards on the website"
-msgstr "在网站上查看排行榜"
-
-#: menus/pregame_screen/PreGameScreen.gd
-msgid "Video/Audio variant"
-msgstr "切换视频/音频"
-
-#: menus/pregame_screen/PreGameScreen.gd
 msgid "The current song and settings will count towards leaderboard scores"
 msgstr "当前歌曲和设置将会被计入到排行榜"
 
@@ -1891,8 +1915,16 @@ msgid "Delete song media"
 msgstr "删除歌曲媒体文件"
 
 #: menus/pregame_screen/PreGameScreen.gd
+msgid "View leaderboards on the website"
+msgstr "在网站上查看排行榜"
+
+#: menus/pregame_screen/PreGameScreen.gd
 msgid "Add modifier"
 msgstr "添加修改器"
+
+#: menus/pregame_screen/PreGameScreen.gd
+msgid "Video/Audio variant"
+msgstr "切换视频/音频"
 
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Are you sure you want to change this song's video URL? this requires you use the mouse."
@@ -2058,6 +2090,10 @@ msgid "PPD Manager"
 msgstr "PPD 管理器"
 
 #: menus/tools_menu/ToolsMenu.tscn
+msgid "Exporter"
+msgstr ""
+
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
 msgstr "延时测试器"
 
@@ -2076,6 +2112,10 @@ msgid "Hit normal notes by pressing the corresponding face button or d-pad direc
 msgstr "当Note与目标重合时按下对应的按键即可击打普通Note\n\n"
 "你可以选择按下对应的按键或者对应的十字键！\n\n"
 "（所有的按键绑定都可以在设置中进行调整）"
+
+#: menus/tutorial/page1/page1.tscn
+msgid "or"
+msgstr ""
 
 #: menus/tutorial/page1/page1.tscn
 msgid "You can hit slide notes using the analog sticks on your controler."
@@ -2232,6 +2272,11 @@ msgid "Graph"
 msgstr "图表"
 
 #: rythm_game/ResultsScreen.gd
+msgctxt "Score upload request timeout error"
+msgid "Score upload request timed out"
+msgstr ""
+
+#: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
 msgstr "已复制分数链接至剪贴板！"
 
@@ -2258,6 +2303,10 @@ msgstr "没有意见"
 #: rythm_game/ResultsScreen.tscn
 msgid "Don't ask me again"
 msgstr "不再询问"
+
+#: rythm_game/ResultsScreen.tscn
+msgid "Uploading score..."
+msgstr ""
 
 #: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
 msgid "Fast forward!"
