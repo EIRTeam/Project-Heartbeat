@@ -1365,6 +1365,18 @@ msgid "Timing method"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
+msgid "Internal timing methods, accurate mode is generally better, but on some systems alternative mode may be smoother."
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Accurate"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Alternative"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
 msgstr ""
 

@@ -14,9 +14,9 @@ var OPTIONS = {
 		},
 		"timing_method": {
 			"name": tr("Timing method"),
-			"description": "",
+			"description": tr("Internal timing methods, accurate mode is generally better, but on some systems alternative mode may be smoother."),
 			"options": [HBUserSettings.TimingMethod.ACCURATE, HBUserSettings.TimingMethod.ALTERNATIVE],
-			"options_pretty": ["Accurate", "Alternative"],
+			"options_pretty": [tr("Accurate"), tr("Alternative")],
 			"type": "options"
 		},
 		"enable_streamer_mode": {
