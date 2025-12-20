@@ -370,7 +370,9 @@ const DEMO_MODE_PLAYABLE_SONGS = [
 	"core_creation",
 	"sands_of_time",
 	"love_sacrifice",
-	"through_the_night_2019"
+	"through_the_night_2019",
+	"dime_linda",
+	"luna"
 ]
 
 func is_song_playable_in_demo_mode(song_id: String) -> bool:
