@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2025-12-20 11:41\n"
+"PO-Revision-Date: 2025-12-20 11:48\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1074,7 +1074,7 @@ msgstr "Notas de corazón"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Rush Notes"
-msgstr ""
+msgstr "Notas Rush"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Press the indicated button!"
@@ -1106,7 +1106,7 @@ msgstr "¡Golpea en cualquier dirección!"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Mash to your heart's content!"
-msgstr ""
+msgstr "¡Aporrea el botón hasta aburrirte!"
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "This chart includes:"
@@ -1192,7 +1192,7 @@ msgstr "Aún no hay entradas para esta canción, soyez le premier! (¡sé el pri
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "Get the full game!"
-msgstr ""
+msgstr "¡Hazte con el juego completo!"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "My profile"
@@ -1268,19 +1268,19 @@ msgstr "Auto detectar"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Timing method"
-msgstr ""
+msgstr "Método de sincronización"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Internal timing methods, accurate mode is generally better, but on some systems alternative mode may be smoother."
-msgstr ""
+msgstr "Método de sincronización interno, el modo preciso es generalmente mejor, pero en algunos sistemas el modo alternativo podría ser más suave."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Accurate"
-msgstr ""
+msgstr "Preciso"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Alternative"
-msgstr ""
+msgstr "Alternativo"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
@@ -1844,7 +1844,7 @@ msgstr "Descargar todos los medios de canción"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgid "Import Link Stars with custom parameters."
-msgstr ""
+msgstr "Importar \"Link Stars\" con parámetros personalizados."
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
@@ -2093,7 +2093,7 @@ msgstr "Gestor de PPD"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Exporter"
-msgstr ""
+msgstr "Exportador"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
@@ -2119,7 +2119,7 @@ msgstr "Toca notas normales presionando el botón correspondiente o la direcció
 
 #: menus/tutorial/page1/page1.tscn
 msgid "or"
-msgstr ""
+msgstr "o"
 
 #: menus/tutorial/page1/page1.tscn
 msgid "You can hit slide notes using the analog sticks on your controler."
@@ -2279,7 +2279,7 @@ msgstr "Grafico"
 #: rythm_game/ResultsScreen.gd
 msgctxt "Score upload request timeout error"
 msgid "Score upload request timed out"
-msgstr ""
+msgstr "La solicitud de subida de puntuación ha expirado"
 
 #: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
@@ -2311,7 +2311,7 @@ msgstr "No me vuelvas a preguntar"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Uploading score..."
-msgstr ""
+msgstr "Subiendo puntuación..."
 
 #: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
 msgid "Fast forward!"
@@ -2685,19 +2685,15 @@ msgstr "{beats_per_minute} PPM"
 #: autoloads/CacheSongOverlay.gd
 msgctxt "yt-dlp cache status missing"
 msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
-msgstr ""
+msgstr "Esta canción requiere descargar archivos de video/audio de YouTube, ¿te gustaría descargarlos?"
 
 #: autoloads/CacheSongOverlay.gd
 msgctxt "yt-dlp video missing"
 msgid "The video for this song appears to be missing, would you like to download it?"
-msgstr ""
+msgstr "Parece que falta el vídeo de esta canción, ¿quieres descargarlo?"
 
 #: autoloads/CacheSongOverlay.gd
 msgctxt "yt-dlp audio missing"
 msgid "The audio for this song appears to be missing, would you like to download it?"
-msgstr ""
-
-#: menus/demo_screen/DemoScreen.tscn
-msgid "1/6"
-msgstr ""
+msgstr "Parece que falta el audio de esta canción, ¿quieres descargarlo?"
 
