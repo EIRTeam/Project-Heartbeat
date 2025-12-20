@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2025-05-17 15:35\n"
+"PO-Revision-Date: 2025-12-20 11:41\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1073,6 +1073,10 @@ msgid "Heart notes"
 msgstr "Notas de corazón"
 
 #: menus/PreGameChartFeaturesDisplay.gd
+msgid "Rush Notes"
+msgstr ""
+
+#: menus/PreGameChartFeaturesDisplay.gd
 msgid "Press the indicated button!"
 msgstr "¡Pulsa el botón indicado!"
 
@@ -1099,6 +1103,10 @@ msgstr "Aguanta y suelta cuando llegue el momento!"
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Flick in any direction!"
 msgstr "¡Golpea en cualquier dirección!"
+
+#: menus/PreGameChartFeaturesDisplay.gd
+msgid "Mash to your heart's content!"
+msgstr ""
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "This chart includes:"
@@ -1183,6 +1191,10 @@ msgid "There are no entries for this song yet, soyez le premier! (be the first!)
 msgstr "Aún no hay entradas para esta canción, soyez le premier! (¡sé el primero!)"
 
 #: menus/news_list/MainMenuRight.tscn
+msgid "Get the full game!"
+msgstr ""
+
+#: menus/news_list/MainMenuRight.tscn
 msgid "My profile"
 msgstr "Mi perfil"
 
@@ -1253,6 +1265,22 @@ msgstr "Selecciona el idioma a usar (requiere reiniciar)"
 #: menus/options_menu/OptionsMenu.gd
 msgid "Auto detect"
 msgstr "Auto detectar"
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Timing method"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Internal timing methods, accurate mode is generally better, but on some systems alternative mode may be smoother."
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Accurate"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd
+msgid "Alternative"
+msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
@@ -1815,6 +1843,10 @@ msgid "Download all song media"
 msgstr "Descargar todos los medios de canción"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
+msgid "Import Link Stars with custom parameters."
+msgstr ""
+
+#: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
 msgid "Clean unused media for {unused_video_count} songs ({unused_size})"
 msgstr "Limpiar medios no utilizados para {unused_video_count} canciones ({unused_size})"
@@ -1861,14 +1893,6 @@ msgid "Leaderboard"
 msgstr "Tabla de clasificación"
 
 #: menus/pregame_screen/PreGameScreen.gd
-msgid "View leaderboards on the website"
-msgstr "Ver tablas de clasificación en la web"
-
-#: menus/pregame_screen/PreGameScreen.gd
-msgid "Video/Audio variant"
-msgstr "Variante de vídeo/audio"
-
-#: menus/pregame_screen/PreGameScreen.gd
 msgid "The current song and settings will count towards leaderboard scores"
 msgstr "La canción y la configuración actuales contarán para las puntuaciones de la tabla de clasificación"
 
@@ -1893,8 +1917,16 @@ msgid "Delete song media"
 msgstr "Limpiar los medios de canciones no utilizados"
 
 #: menus/pregame_screen/PreGameScreen.gd
+msgid "View leaderboards on the website"
+msgstr "Ver tablas de clasificación en la web"
+
+#: menus/pregame_screen/PreGameScreen.gd
 msgid "Add modifier"
 msgstr "Agregar modificador"
+
+#: menus/pregame_screen/PreGameScreen.gd
+msgid "Video/Audio variant"
+msgstr "Variante de vídeo/audio"
 
 #: menus/pregame_screen/PreGameScreen.tscn
 msgid "Are you sure you want to change this song's video URL? this requires you use the mouse."
@@ -2060,6 +2092,10 @@ msgid "PPD Manager"
 msgstr "Gestor de PPD"
 
 #: menus/tools_menu/ToolsMenu.tscn
+msgid "Exporter"
+msgstr ""
+
+#: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
 msgstr "Comprobador de latencia"
 
@@ -2080,6 +2116,10 @@ msgstr "Toca notas normales presionando el botón correspondiente o la direcció
 "orte ¡El pad direccional y los botones son intercambiables!\n"
 " \n"
 " (Todas las combinaciones de teclas se pueden cambiar en las opciones)"
+
+#: menus/tutorial/page1/page1.tscn
+msgid "or"
+msgstr ""
 
 #: menus/tutorial/page1/page1.tscn
 msgid "You can hit slide notes using the analog sticks on your controler."
@@ -2237,6 +2277,11 @@ msgid "Graph"
 msgstr "Grafico"
 
 #: rythm_game/ResultsScreen.gd
+msgctxt "Score upload request timeout error"
+msgid "Score upload request timed out"
+msgstr ""
+
+#: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
 msgstr "URL de la puntuación copiada al portapapeles!"
 
@@ -2263,6 +2308,10 @@ msgstr "Sin opinión"
 #: rythm_game/ResultsScreen.tscn
 msgid "Don't ask me again"
 msgstr "No me vuelvas a preguntar"
+
+#: rythm_game/ResultsScreen.tscn
+msgid "Uploading score..."
+msgstr ""
 
 #: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
 msgid "Fast forward!"
@@ -2598,7 +2647,7 @@ msgstr "Ordenar por última publicada"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgid "Sort by last updated"
-msgstr "Ordenar por última actualización"
+msgstr "Ordenar por último actualizado"
 
 #: menus/song_list/SongListSortByPanel.gd
 msgctxt "Song list sort by panel maximum stars"
@@ -2646,5 +2695,9 @@ msgstr ""
 #: autoloads/CacheSongOverlay.gd
 msgctxt "yt-dlp audio missing"
 msgid "The audio for this song appears to be missing, would you like to download it?"
+msgstr ""
+
+#: menus/demo_screen/DemoScreen.tscn
+msgid "1/6"
 msgstr ""
 
