@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-12-20 11:41\n"
+"PO-Revision-Date: 2025-12-20 11:48\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -2691,8 +2691,4 @@ msgstr "此歌曲的视频似乎缺失，您想要下载吗？"
 msgctxt "yt-dlp audio missing"
 msgid "The audio for this song appears to be missing, would you like to download it?"
 msgstr "此歌曲的音频似乎缺失，您想要下载吗？"
-
-#: menus/demo_screen/DemoScreen.tscn
-msgid "1/6"
-msgstr ""
 
