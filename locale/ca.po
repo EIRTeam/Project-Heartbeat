@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File-ID: 12\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
-"PO-Revision-Date: 2025-12-20 11:48\n"
+"PO-Revision-Date: 2025-12-20 11:54\n"
 
 #: autoloads/HBGame.gd
 msgid "Unknown error"
@@ -1074,7 +1074,7 @@ msgstr "Notes de cor"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Rush Notes"
-msgstr ""
+msgstr "Notes Rush"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Press the indicated button!"
@@ -1106,7 +1106,7 @@ msgstr "Dona un cop a qualsevol direcció!"
 
 #: menus/PreGameChartFeaturesDisplay.gd
 msgid "Mash to your heart's content!"
-msgstr ""
+msgstr "Colpeja el botó fins a avorrir-te!"
 
 #: menus/PreGameChartFeaturesDisplay.tscn
 msgid "This chart includes:"
@@ -1192,7 +1192,7 @@ msgstr "Encara no hi ha entrades per a aquesta cançó, soyez le premier! (sigue
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "Get the full game!"
-msgstr ""
+msgstr "Fes-te amb el joc complet!"
 
 #: menus/news_list/MainMenuRight.tscn
 msgid "My profile"
@@ -1268,19 +1268,19 @@ msgstr "Auto detectar"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Timing method"
-msgstr ""
+msgstr "Mètode de sincronització"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Internal timing methods, accurate mode is generally better, but on some systems alternative mode may be smoother."
-msgstr ""
+msgstr "Mètodes de sincronització interna, el mode precís és generalment millor, però en alguns sistemes el mode alternatiu pot ser més suau."
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Accurate"
-msgstr ""
+msgstr "Precís"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Alternative"
-msgstr ""
+msgstr "Alternatiu"
 
 #: menus/options_menu/OptionsMenu.gd
 msgid "Enable streamer mode"
@@ -1844,7 +1844,7 @@ msgstr "Baixar tots els continguts multimèdia de cançons"
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgid "Import Link Stars with custom parameters."
-msgstr ""
+msgstr "Importar \"Link Stars\" amb paràmetres personalitzats."
 
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd
 msgctxt "Used for the options -> content label for clearing song media"
@@ -2093,7 +2093,7 @@ msgstr "Gestor PPD"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Exporter"
-msgstr ""
+msgstr "Exportador"
 
 #: menus/tools_menu/ToolsMenu.tscn
 msgid "Latency Tester"
@@ -2119,7 +2119,7 @@ msgstr "Premeu les notes normals prement el botó corresponent o la direcció de
 
 #: menus/tutorial/page1/page1.tscn
 msgid "or"
-msgstr ""
+msgstr "o"
 
 #: menus/tutorial/page1/page1.tscn
 msgid "You can hit slide notes using the analog sticks on your controler."
@@ -2279,7 +2279,7 @@ msgstr "Gràfic"
 #: rythm_game/ResultsScreen.gd
 msgctxt "Score upload request timeout error"
 msgid "Score upload request timed out"
-msgstr ""
+msgstr "S'ha esgotat el temps d'espera de la sol·licitud de pujada de puntuació"
 
 #: rythm_game/ResultsScreen.gd
 msgid "Score URL copied to clipboard!"
@@ -2311,7 +2311,7 @@ msgstr "No m'ho tornis a preguntar"
 
 #: rythm_game/ResultsScreen.tscn
 msgid "Uploading score..."
-msgstr ""
+msgstr "Pujant puntuació..."
 
 #: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn
 msgid "Fast forward!"
@@ -2685,15 +2685,15 @@ msgstr "{beats_per_minute} PPM"
 #: autoloads/CacheSongOverlay.gd
 msgctxt "yt-dlp cache status missing"
 msgid "This song requires downloading video/audio files from YouTube, would you like to download them?"
-msgstr ""
+msgstr "Aquesta cançó requereix baixar fitxers de vídeo/àudio de YouTube, els voleu baixar?"
 
 #: autoloads/CacheSongOverlay.gd
 msgctxt "yt-dlp video missing"
 msgid "The video for this song appears to be missing, would you like to download it?"
-msgstr ""
+msgstr "Sembla que falta el vídeo d'aquesta cançó. Vols descarregar-lo?"
 
 #: autoloads/CacheSongOverlay.gd
 msgctxt "yt-dlp audio missing"
 msgid "The audio for this song appears to be missing, would you like to download it?"
-msgstr ""
+msgstr "Sembla que falta l'àudio d'aquesta cançó. Vols descarregar-lo?"
 
