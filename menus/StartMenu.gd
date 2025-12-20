@@ -20,12 +20,13 @@ func _on_PressStart_start_pressed():
 	if UserSettings.user_settings.content_path == "user://" and OS.has_feature("mobile"):
 		change_to_menu("mobile_content_dir_set")
 		return
+	if HBGame.demo_mode:
+		change_to_menu("demo_premenu")
+		return
 	if not UserSettings.user_settings.oob_completed:
 		change_to_menu("oob")
 		return
 	if HBGame.platform_settings is HBPlatformSettingsSwitch:
 		change_to_menu("switch_premenu")
-	elif HBGame.demo_mode:
-		change_to_menu("demo_premenu")
 	else:
 		change_to_menu("main_menu")
