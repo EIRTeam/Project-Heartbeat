@@ -6,6 +6,8 @@ class PHExportPlugin:
 	
 	func _export_begin(features: PackedStringArray, is_debug: bool, path: String, flags: int) -> void:
 		# copy extra third party stuff
+		if features.has("demo") or features.has("no_youtube_dl"):
+			return
 		var target_dir := path.get_base_dir()
 		
 		var copy_map := [
