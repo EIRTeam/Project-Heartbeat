@@ -10,6 +10,8 @@ func _ready():
 	avatar_texture_rect.texture = PlatformService.service_provider.get_avatar()
 	HBBackend.connect("user_data_received", Callable(self, "load_from_user_data"))
 	load_from_user_data()
+	if HBGame.demo_mode:
+		hide()
 
 func load_from_user_data():
 	level_field.text = tr("Lvl. %d") % [HBBackend.user_info.level]

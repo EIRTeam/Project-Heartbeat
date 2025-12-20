@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://be7tuc1i6yq5b"]
+[gd_scene load_steps=12 format=3 uid="uid://be7tuc1i6yq5b"]
 
 [ext_resource type="Script" uid="uid://bwqdqrpx3e0je" path="res://menus/news_list/MainMenuRight.gd" id="1"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://bvjpuhjr8roau" path="res://graphics/icons/steam_big.svg" id="4_q8d4t"]
 [ext_resource type="Texture2D" uid="uid://cgkq7divjs4o6" path="res://graphics/icons/discord_main_join.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://58gmorfx1ujw" path="res://graphics/icons/twitter_main.svg" id="7"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="8"]
@@ -65,6 +66,20 @@ theme_override_constants/separation = 15
 alignment = 1
 script = ExtResource("10")
 orientation = 1
+
+[node name="GetFullGameButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons"]
+custom_minimum_size = Vector2(0, 125)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("8")
+theme_override_styles/hover = SubResource("1")
+theme_override_styles/pressed = SubResource("1")
+theme_override_styles/normal = SubResource("2")
+text = "Get the full game!"
+icon = ExtResource("4_q8d4t")
+script = ExtResource("4")
+normal_style = SubResource("2")
+hover_style = SubResource("1")
 
 [node name="OpenProfileButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons"]
 custom_minimum_size = Vector2(0, 125)
@@ -167,4 +182,5 @@ orientation = 1
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 use_threads = true
 
+[connection signal="pressed" from="VBoxContainer/SocialButtons/GetFullGameButton" to="." method="_on_get_full_game_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/SocialButtons/OpenProfileButton" to="." method="_on_OpenProfileButton_pressed"]

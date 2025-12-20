@@ -155,6 +155,12 @@ func sort_and_filter_songs():
 			filter_datas.push_back(filter_data)
 	
 	filter_datas.sort_custom(compare_func)
+	# In demo mode unlocked songs should come first
+	if HBGame.demo_mode:
+		var demo_songs := filter_datas.filter(func (d: SongFilterData) -> bool: return HBGame.is_song_playable_in_demo_mode(d.song.id))
+		var locked_demo_songs := filter_datas.filter(func (d: SongFilterData) -> bool: return !HBGame.is_song_playable_in_demo_mode(d.song.id))
+		filter_datas = demo_songs
+		filter_datas.append_array(locked_demo_songs)
 	var out_songs: Array = filter_datas.map(func(d: SongFilterData) -> HBSong: return d.song)
 	_task_finished.call_deferred(out_songs)
 

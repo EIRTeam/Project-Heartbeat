@@ -239,7 +239,8 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 
 		left_menu.connect("changed_to_menu", Callable(self, "change_to_menu").bind(), CONNECT_ONE_SHOT)
 		left_menu._on_menu_enter(force_hard_transition, args)
-
+	if HBGame.demo_mode:
+		user_info_ui.hide()
 func _on_background_loaded(token: SongAssetLoader.AssetLoadToken):
 	var background := token.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND)
 	if background and fullscreen_menu != MENUS["start_menu"].fullscreen:

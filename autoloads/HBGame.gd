@@ -367,7 +367,10 @@ func instantiate_user_sfx(sfx_name: String) -> ShinobuSoundPlayer:
 	return sound
 
 const DEMO_MODE_PLAYABLE_SONGS = [
-	"blossoming_spell"
+	"core_creation",
+	"sands_of_time",
+	"love_sacrifice",
+	"through_the_night_2019"
 ]
 
 func is_song_playable_in_demo_mode(song_id: String) -> bool:

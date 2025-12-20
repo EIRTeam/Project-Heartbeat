@@ -21,6 +21,7 @@ func _ready():
 	request.request("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=1216230&count=20")
 	twitter_button.connect("pressed", Callable(OS, "shell_open").bind("https://twitter.com/PHeartbeatGame"))
 	discord_button.connect("pressed", Callable(OS, "shell_open").bind("https://discord.com/invite/qGMdbez"))
+		
 	if not PlatformService.service_provider.ugc_provider is SteamUGCService:
 		open_profile_button.queue_free()
 	
@@ -62,3 +63,13 @@ func _input(event):
 func _on_OpenProfileButton_pressed():
 	var steam_id = PlatformService.service_provider.user_id
 	OS.shell_open("https://ph.eirteam.moe/leaderboards/user/%s/1" % [steam_id])
+
+
+func _on_get_full_game_button_pressed() -> void:
+	if Steamworks.utils:
+		if Steamworks.utils.is_overlay_enabled():
+			Steamworks.friends.activate_game_overlay_to_store(1216230, true)
+		else:
+			OS.shell_open("https://store.steampowered.com/app/1216230/Project_Heartbeat/")
+	else:
+		OS.shell_open("https://store.steampowered.com/app/1216230/Project_Heartbeat/")
