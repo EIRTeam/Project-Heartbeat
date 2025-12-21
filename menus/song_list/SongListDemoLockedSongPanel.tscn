@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cy5nj8reqdbv7"]
+[gd_scene load_steps=8 format=3 uid="uid://cy5nj8reqdbv7"]
 
 [ext_resource type="Script" uid="uid://f8rxl6vfd1xc" path="res://menus/song_list/SongListDemoLockedSongPanel.gd" id="1_8ibda"]
 [ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="2_72nf8"]
+[ext_resource type="Texture2D" uid="uid://cqnkf426msan2" path="res://graphics/demo_ss/demo_1.jpg" id="2_ycfnq"]
+[ext_resource type="Texture2D" uid="uid://bnr8no6pvtslt" path="res://graphics/demo_ss/demo_2.jpg" id="3_72nf8"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="3_jh2gp"]
 [ext_resource type="Texture2D" uid="uid://rx4rtkhmkprb" path="res://graphics/icons/steam.svg" id="3_mrtqa"]
 
@@ -34,6 +36,7 @@ mouse_force_pass_scroll_events = false
 script = ExtResource("1_8ibda")
 
 [node name="SortByPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(1800, 0)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -52,6 +55,23 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 2
 theme_override_constants/separation = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SortByPanel/MarginContainer/ButtonContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="SortByPanel/MarginContainer/ButtonContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_ycfnq")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="SortByPanel/MarginContainer/ButtonContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_72nf8")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="SortByPanel/MarginContainer/ButtonContainer"]
 layout_mode = 2
