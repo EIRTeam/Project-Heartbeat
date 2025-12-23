@@ -135,11 +135,11 @@ func _init():
 		
 	FFMPEG_FOLDER_PATH = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg")
 	if OS.get_name() == "Linux":
-		DENO_BINARY_PATH = DENO_BINARY_PATH.path_join("deno/deno")
+		DENO_BINARY_PATH = THIRD_PARTY_BINARY_PATH.path_join("deno/deno")
 		FFMPEG_BINARY_PATH = FFMPEG_FOLDER_PATH.path_join("ffmpeg")
 		FFPROBE_BINARY_PATH = FFMPEG_FOLDER_PATH.path_join("ffprobe")
 	elif OS.get_name() == "Windows":
-		DENO_BINARY_PATH = DENO_BINARY_PATH.path_join("deno/deno.exe")
+		DENO_BINARY_PATH = THIRD_PARTY_BINARY_PATH.path_join("deno/deno.exe")
 		FFMPEG_BINARY_PATH = FFMPEG_FOLDER_PATH.path_join("ffmpeg.exe")
 		FFPROBE_BINARY_PATH = FFMPEG_FOLDER_PATH.path_join("ffprobe.exe")
 	
