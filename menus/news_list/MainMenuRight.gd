@@ -24,6 +24,8 @@ func _ready():
 		
 	if not PlatformService.service_provider.ugc_provider is SteamUGCService:
 		open_profile_button.queue_free()
+	if not HBGame.demo_mode:
+		$VBoxContainer/SocialButtons/GetFullGameButton.queue_free()
 	
 func _on_request_completed(result, response_code, headers, body):
 	if response_code == 200:
