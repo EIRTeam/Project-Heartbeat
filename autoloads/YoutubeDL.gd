@@ -356,7 +356,6 @@ func get_ytdl_shared_params(handle_temp_files := false, use_progress_template :=
 		"--js-runtimes", "deno:%s" % [get_deno_executable()],
 		"--no-cache-dir",
 		"--force-ipv4",
-		"--compat-options", "youtube-dl",
 		"--no-part",
 		"--newline",
 		"--output-na-placeholder", "0",
