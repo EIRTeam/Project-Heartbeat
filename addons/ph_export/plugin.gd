@@ -11,12 +11,12 @@ class PHExportPlugin:
 		var target_dir := path.get_base_dir()
 		
 		var copy_map := [
-			["res://third_party/ffmpeg/ffmpeg.exe", "bin/ffmpeg/ffmpeg.exe"],
-			["res://third_party/ffmpeg/ffprobe.exe", "bin/ffmpeg/ffprobe.exe"],
-			["res://third_party/ffmpeg/ffmpeg", "bin/ffmpeg/ffmpeg"],
-			["res://third_party/ffmpeg/ffprobe", "bin/ffmpeg/ffprobe"],
-			["res://third_party/deno/deno.exe", "bin/deno/deno.exe"],
-			["res://third_party/deno/deno", "bin/deno/deno"]
+			["res://third_party/win64/ffmpeg/ffmpeg.exe", "bin/win64/ffmpeg/ffmpeg.exe"],
+			["res://third_party/win64/ffmpeg/ffprobe.exe", "bin/win64/ffmpeg/ffprobe.exe"],
+			["res://third_party/linux64/ffmpeg/ffmpeg", "bin/linux64/ffmpeg/ffmpeg"],
+			["res://third_party/linux64/ffmpeg/ffprobe", "bin/linux64/ffmpeg/ffprobe"],
+			["res://third_party/win64/deno/deno.exe", "bin/win64/deno/deno.exe"],
+			["res://third_party/win64/deno/deno", "bin/linux64/deno/deno"]
 		]
 		
 		for file_src_dst in copy_map:

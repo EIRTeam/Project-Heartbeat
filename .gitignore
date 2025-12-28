@@ -17,11 +17,5 @@ songs/
 *~
 version.json
 
-third_party/deno/deno
-third_party/deno/deno.exe
-third_party/ffmpeg/ffmpeg
-third_party/ffmpeg/ffmpeg.exe
-third_party/ffmpeg/ffprobe
-third_party/ffmpeg/ffprobe.exe
-third_party/youtube_dl/youtube-dl
-third_party/youtube_dl/youtube-dl.exe
+third_party/linux64
+third_party/win64

@@ -127,11 +127,16 @@ func _init():
 	assert(compile_out == OK)
 	
 	# Slightly horrible detection of whether or not we are using a PCK or an exported game
-	var is_exported := not DirAccess.dir_exists_absolute("res://third_party/deno")
+	var is_exported := not DirAccess.dir_exists_absolute("res://third_party/linux64")
 	if is_exported:
 		THIRD_PARTY_BINARY_PATH = OS.get_executable_path().get_base_dir().path_join("bin")
 	else:
 		THIRD_PARTY_BINARY_PATH = "res://third_party"
+	
+	if OS.get_name() == "Windows":
+		THIRD_PARTY_BINARY_PATH = THIRD_PARTY_BINARY_PATH.path_join("win64")
+	elif OS.get_name() == "Linux":
+		THIRD_PARTY_BINARY_PATH = THIRD_PARTY_BINARY_PATH.path_join("linux64")
 		
 	FFMPEG_FOLDER_PATH = THIRD_PARTY_BINARY_PATH.path_join("ffmpeg")
 	if OS.get_name() == "Linux":
@@ -375,8 +380,7 @@ func get_ytdl_shared_params(handle_temp_files := false, use_progress_template :=
 		
 		shared_params.append(ProjectSettings.globalize_path(get_cache_dir()))
 	
-	if OS.get_name() == "Linux":
-		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(FFMPEG_FOLDER_PATH)]
+	shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(FFMPEG_FOLDER_PATH)]
 	
 	return shared_params
 
