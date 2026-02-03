@@ -287,6 +287,7 @@ func _init():
 		"lag_compensation", 
 		"resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 		"ui_skin",
+		"timing_method",
 		"note_size", "input_map", "input_map_version",
 		"fps_limit", "display_mode", "display", "desired_video_fps", "ytdlp_custom_command_line", "desired_video_resolution", "disable_video",
 		"disable_ppd_video", "use_visualizer_with_video", "sort_filter_settings", "last_selected_difficulty", "leading_trail_enabled",
