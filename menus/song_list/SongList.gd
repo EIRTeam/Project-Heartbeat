@@ -143,15 +143,14 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", Callable(self, "_on_youtube_url_selected"))
 	MouseTrap.ppd_dialog.connect("file_selected", Callable(self, "_on_ppd_audio_file_selected"))
 	MouseTrap.ppd_dialog.connect("file_selector_hidden", Callable(song_container, "grab_focus").bind(), CONNECT_DEFERRED)
-	MouseTrap.ppd_dialog.connect("visibility_changed", self._on_ppd_dialog_visiblity_changed, CONNECT_DEFERRED)
-#	song_container.hard_arrange_all()
-	#sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
-	#fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
+	if not MouseTrap.ppd_dialog.is_connected("visibility_changed", self._on_ppd_dialog_visibility_changed):
+		MouseTrap.ppd_dialog.connect("visibility_changed", self._on_ppd_dialog_visibility_changed, CONNECT_DEFERRED)
+	
 	if "force_url_request" in args:
 		_on_PPDAudioBrowseWindow_accept()
 	song_container.grab_focus()
 
-func _on_ppd_dialog_visiblity_changed():
+func _on_ppd_dialog_visibility_changed():
 	if MouseTrap.ppd_dialog.visible:
 		song_container.grab_focus()
 	
@@ -186,7 +185,6 @@ func _on_menu_exit(force_hard_transition = false):
 	MouseTrap.ppd_dialog.disconnect("youtube_url_selected", Callable(self, "_on_youtube_url_selected"))
 	MouseTrap.ppd_dialog.disconnect("file_selected", Callable(self, "_on_ppd_audio_file_selected"))
 	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", Callable(song_container, "grab_focus"))
-	MouseTrap.ppd_dialog.disconnect("popup_hide", Callable(song_container, "grab_focus"))
 	if PlatformService.service_provider.implements_ugc:
 		PlatformService.service_provider.ugc_provider.disconnect("ugc_song_meta_updated", Callable(self, "_on_ugc_song_meta_updated"))
 	HBGame.rich_presence.notify_at_main_menu()
