@@ -18,6 +18,22 @@ enum State {
 var current_process: Process
 
 func _start_download(url: String, save_to: String, download_video: bool):
+	# Remove playlist parameters from url
+	var url_params := url.split("?", true, 1)
+	if url_params.size() == 2:
+		var params = url_params[1].split("&")
+		
+		var new_params = PackedStringArray()
+		for param in params:
+			if not param.begins_with("list"):
+				new_params.append(param)
+		
+		url_params[1] = "&".join(new_params)
+	
+	print(url)
+	url = "?".join(url_params)
+	print(url)
+	
 	var yt_dlp_path := YoutubeDL.get_ytdl_executable() as String
 	var shared_params := YoutubeDL.get_ytdl_shared_params(false, false) as Array
 	var format_options: PackedStringArray = PackedStringArray([
