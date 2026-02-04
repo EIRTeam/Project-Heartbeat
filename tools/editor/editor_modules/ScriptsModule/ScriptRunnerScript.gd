@@ -28,6 +28,21 @@ func set_timing_point_property(timing_point: HBTimingPoint, property_name: Strin
 		_timing_point_changed_properties[timing_point] = {}
 	_timing_point_changed_properties[timing_point][property_name] = value
 
+func get_timing_point_meta(timing_point: HBTimingPoint, key: String, default_value = null):
+	if key in timing_point.meta:
+		return timing_point.meta[key]
+	else:
+		return default_value
+
+func set_timing_point_meta(timing_point: HBTimingPoint, key: String, value):
+	if not timing_point in _timing_point_changed_properties:
+		_timing_point_changed_properties[timing_point] = {}
+	
+	if "meta" in _timing_point_changed_properties[timing_point]:
+		_timing_point_changed_properties[timing_point]["meta"][key] = value
+	else:
+		_timing_point_changed_properties[timing_point]["meta"] = {key: value}
+
 func bsearch_time(a, b):
 	var a_t = a
 	var b_t = b
