@@ -16,7 +16,7 @@ class PHExportPlugin:
 			["res://third_party/linux64/ffmpeg/ffmpeg", "bin/linux64/ffmpeg/ffmpeg"],
 			["res://third_party/linux64/ffmpeg/ffprobe", "bin/linux64/ffmpeg/ffprobe"],
 			["res://third_party/win64/deno/deno.exe", "bin/win64/deno/deno.exe"],
-			["res://third_party/win64/deno/deno", "bin/linux64/deno/deno"]
+			["res://third_party/linux64/deno/deno", "bin/linux64/deno/deno"]
 		]
 		
 		for file_src_dst in copy_map:
