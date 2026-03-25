@@ -517,7 +517,7 @@ func apply_display_mode():
 			
 	
 func apply_volumes():
-	Shinobu.master_volume = user_settings.master_volume
+	Shinobu.set_master_volume(user_settings.master_volume)
 	if HBGame.music_group:
 		HBGame.music_group.volume = user_settings.music_volume
 		HBGame.menu_music_group.volume = 0.0 if user_settings.disable_menu_music else 1.0
