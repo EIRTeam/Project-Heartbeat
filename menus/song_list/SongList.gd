@@ -26,7 +26,7 @@ var pevent_pregame_screen = false
 @onready var note_usage_filter_texture_rect: TextureRect = get_node("%NoteUsageFilterTextureRect")
 @onready var unsubscribe_window: HBConfirmationWindow = get_node("%UnsubscribeWindow")
 
-var filter_settings: HBSongSortFilterSettings = UserSettings.user_settings.sort_filter_settings
+@onready var filter_settings: HBSongSortFilterSettings = UserSettings.user_settings.sort_filter_settings
 
 var force_next_song_update = false
 var item_to_unsubscribe: HBSteamUGCItem
