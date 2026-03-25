@@ -21,9 +21,9 @@ func _start_download(url: String, save_to: String, download_video: bool):
 	var yt_dlp_path := YoutubeDL.get_ytdl_executable() as String
 	var shared_params := YoutubeDL.get_ytdl_shared_params(false, false) as Array
 	var format_options: PackedStringArray = PackedStringArray([
-		"[ext=mp4][vcodec^=hevc]+bestaudio[ext=m4a]",
-		"[ext=webm][vcodec^=vp9]+bestaudio[ext=webm][acodec^=vorb]",
-		"[ext=webm][vcodec^=vp9][acodec^=vorb]/best"
+		"[vcodec^=avc1]+bestaudio",
+		"[vcodec^=hevc]+bestaudio",
+		"[vcodec^=vp9]+bestaudio/best"
 	])
 	for i in range(format_options.size()):
 		format_options[i] = ("bestvideo[height<=%d][fps<=%d]" % [1080, 60]) + format_options[i]
