@@ -378,11 +378,11 @@ func _input_received(event: InputEvent):
 			last_action_device_idx = device_idx
 			last_action_device_type = device_type
 			
-			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid, current_actions, event.timestamp)
+			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid, current_actions, event.timestamp_usec)
 		
 		for action in releases_to_send:
 			var buffered_uh_release := UnhandledRelease.new()
 			buffered_uh_release.action = action
 			buffered_uh_release.event_uid = event_uid
-			buffered_uh_release.timestamp = event.timestamp
+			buffered_uh_release.timestamp = event.timestamp_usec
 			_buffered_unhandled_releases.push_back(buffered_uh_release)

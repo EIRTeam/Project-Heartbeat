@@ -650,7 +650,7 @@ func _process(delta):
 	should_fire_empty = true
 	notes_judged_this_frame = []
 	game_input_manager._frame_end()
-	last_frame_time_usec = Time.get_ticks_usec()
+	last_frame_time_usec = PHNative.get_clock_time_usec()
 
 
 func toggle_ui():

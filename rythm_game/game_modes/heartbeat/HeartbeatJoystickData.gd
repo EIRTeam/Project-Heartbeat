@@ -64,12 +64,12 @@ func merge_events() -> Array[MergedAxis]:
 		merged_ev.value = Vector2()
 		merged_ev.axises = AXIS_BITFIELD.X if ev.axis == x_axis_idx else AXIS_BITFIELD.Y
 		merged_ev.value += Vector2(ev.axis_value, 0.0) if ev.axis == x_axis_idx else Vector2(0.0, ev.axis_value)
-		merged_ev.timestamp = ev.timestamp
+		merged_ev.timestamp = ev.timestamp_usec
 		if event_buffer.size() > 1 and event_buffer[-2].axis != ev.axis:
 			var ev_prev := event_buffer[-2]
 			merged_ev.axises = merged_ev.axises | (AXIS_BITFIELD.X if ev_prev.axis == x_axis_idx else AXIS_BITFIELD.Y)
 			merged_ev.value += Vector2(ev_prev.axis_value, 0.0) if ev_prev.axis == x_axis_idx else Vector2(0.0, ev_prev.axis_value)
-			merged_ev.timestamp = max(merged_ev.timestamp, ev_prev.timestamp)
+			merged_ev.timestamp = max(merged_ev.timestamp, ev_prev.timestamp_usec)
 			event_buffer.pop_back()
 		event_buffer.pop_back()
 		merged_events.push_back(merged_ev)

@@ -47,7 +47,7 @@ func send_input(action, pressed, count = 1, event_uid=0b0, current_actions=[], t
 	a.pressed = pressed
 	a.event_uid = event_uid
 	a.actions = current_actions
-	a.timestamp = timestamp
+	a.timestamp_usec = timestamp
 	_buffered_inputs.append(a)
 
 func _frame_end():
@@ -62,12 +62,12 @@ func event_time_to_game_time(event_time: int, prev_game_time_usec: float, new_ga
 	return out_game_time
 
 func flush_inputs(prev_game_time_usec: float, new_game_time_usec: float, last_frame_time_usec: int):
-	var current_frame_time_usec := Time.get_ticks_usec()
+	var current_frame_time_usec := PHNative.get_clock_time_usec()
 	for input: InputEventHB in _buffered_inputs:
-		if input.timestamp == -1 or get_tree().paused:
+		if input.timestamp_usec == -1 or get_tree().paused:
 			input.game_time = new_game_time_usec
 		else:
-			input.game_time = clamp(prev_game_time_usec + ((last_frame_time_usec - input.timestamp)), prev_game_time_usec, new_game_time_usec)
+			input.game_time = clamp(prev_game_time_usec + ((last_frame_time_usec - input.timestamp_usec)), prev_game_time_usec, new_game_time_usec)
 		current_ev = input
 		input_out.emit(input)
 
