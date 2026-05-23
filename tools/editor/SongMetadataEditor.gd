@@ -98,7 +98,8 @@ func _variant_delete_button_pressed(variant_editor: Node, variant: HBSongVariant
 func populate_variants():
 	for child in alternative_video_container.get_children():
 		child.queue_free()
-	
+	for child in alternative_video_container.get_children():
+		alternative_video_container.remove_child(child)
 	for variant_idx in range(song_meta.song_variants.size()):
 		var variant_editor = VARIANT_EDITOR.instantiate()
 		var variant := song_meta.song_variants[variant_idx] as HBSongVariantData
