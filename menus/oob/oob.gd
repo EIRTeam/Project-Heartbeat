@@ -212,6 +212,8 @@ func _setup_step_button(step_option: OOBStepOption) -> HBHovereableButton:
 	
 func _set_user_setting(user_setting_name: String, user_setting_value: Variant):
 	UserSettings.user_settings.set(user_setting_name, user_setting_value)
+	if user_setting_name == "resource_pack":
+		ResourcePackLoader.rebuild_final_atlases()
 	UserSettings.save_user_settings()
 	
 func end_setup():
