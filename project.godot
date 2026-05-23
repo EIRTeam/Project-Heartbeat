@@ -1116,7 +1116,6 @@ common/max_physics_steps_per_frame=1
 rendering_device/staging_buffer/block_size_kb=512
 rendering_device/staging_buffer/texture_upload_region_size_px=256
 textures/canvas_textures/default_texture_filter=2
-rendering_device/driver.windows="d3d12"
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.01, 0.05, 0.1, 1)
 environment/defaults/default_environment="res://default_env.tres"
