@@ -31,6 +31,7 @@ var pevent_pregame_screen = false
 var force_next_song_update = false
 var item_to_unsubscribe: HBSteamUGCItem
 var song_to_unsubscribe: HBSong
+var previous_menu := "main_menu"
 
 var allowed_sort_by = {
 	"title": tr("Title"),
@@ -398,8 +399,27 @@ func should_receive_input(event):
 	if event is InputEventKey:
 		shift = event.shift_pressed
 	
-	return song_container.has_focus() and not shift
+	return (song_container.has_focus()) and not shift
 	
+func _input(event):
+	if event.is_action_pressed("gui_cancel"):
+		if sort_by_list.visible:
+			get_viewport().set_input_as_handled()
+			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
+			sort_by_list.close()
+			song_container.grab_focus()
+		elif filter_settings.search_term and should_receive_input(event):
+			get_viewport().set_input_as_handled()
+			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
+			filter_settings.search_term = ""
+			update_path_label()
+			force_next_song_update = true
+			update_songs()
+		else:
+			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
+			get_viewport().set_input_as_handled()
+			change_to_menu(previous_menu)
+
 func _unhandled_input(event):
 	if should_receive_input(event):
 		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
@@ -409,16 +429,6 @@ func _unhandled_input(event):
 			search_text_input.line_edit.text = filter_settings.search_term
 			search_text_input.line_edit.caret_column = filter_settings.search_term.length()
 			search_text_input.popup_centered()
-		elif event.is_action_pressed("gui_cancel"):
-			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-			get_viewport().set_input_as_handled()
-			if filter_settings.search_term:
-				filter_settings.search_term = ""
-				update_path_label()
-				force_next_song_update = true
-				update_songs()
-			else:
-				change_to_menu("main_menu")
 		elif event.is_action_pressed("gui_sort_by"):
 			get_viewport().set_input_as_handled()
 			show_order_by_list()
@@ -437,11 +447,6 @@ func _unhandled_input(event):
 					folder_manager.show_manager(folder_manager.MODE.MANAGE)
 			else:
 				folder_manager.show_manager(folder_manager.MODE.SELECT)
-	else:
-		if event.is_action_pressed("gui_cancel") and sort_by_list.visible:
-			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-			sort_by_list.close()
-			song_container.grab_focus()
 
 func show_order_by_list():
 	sort_by_list.popup()
