@@ -481,7 +481,7 @@ func set_velocity(value: float):
 	else:
 		remove_pitch_effect()
 	
-	video_player.playback_speed = value
+	video_player.speed_scale = value
 	
 	speed_label.text = str(playback_speed) + "x"
 

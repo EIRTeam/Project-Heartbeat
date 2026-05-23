@@ -237,7 +237,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 					video_player.stream = stream
 					video_player.paused = true
 				video_player.play()
-				video_player.playback_speed = game.audio_playback.pitch_scale
+				video_player.speed_scale = game.audio_playback.pitch_scale
 				if game.time_msec < 0:
 					video_player.paused = true
 				video_player_panel.show()

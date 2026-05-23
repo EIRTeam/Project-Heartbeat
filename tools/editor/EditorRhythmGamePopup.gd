@@ -254,7 +254,7 @@ func set_velocity(value: float, correction: bool):
 		add_pitch_effect()
 	else:
 		remove_pitch_effect()
-	video_player.playback_speed = playback_speed
+	video_player.speed_scale = playback_speed
 	
 func add_pitch_effect():
 	HBGame.spectrum_analyzer.connect_to_effect(pitch_shift_effect)
