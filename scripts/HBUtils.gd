@@ -24,7 +24,7 @@ const MOUSE_BUTTON_NAMES := {
 # for lap-time style time formatting
 static func format_time(time: float, format = TimeFormat.FORMAT_DEFAULT, digit_format = "%02d"):
 	var digits = []
-	var s = time / 1000.0
+	var s = abs(time) / 1000.0
 	if format & TimeFormat.FORMAT_HOURS:
 		var hours = digit_format % [s / 3600]
 		digits.append(hours)
@@ -48,6 +48,8 @@ static func format_time(time: float, format = TimeFormat.FORMAT_DEFAULT, digit_f
 	if format & TimeFormat.FORMAT_MILISECONDS:
 		var miliseconds = fmod(time, 1000.0)
 		formatted += ".%03d" % [miliseconds]
+	if time < 0.0:
+		formatted = "-" + formatted
 	return formatted
 
 # Merges two dicts, similar to JS's spread operator
