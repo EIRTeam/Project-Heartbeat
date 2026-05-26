@@ -29,24 +29,6 @@ func _init(_game: HBRhythmGame):
 	self.game = _game
 
 func _process(delta):
-	var time = 0.0
-	if is_playing() and false:
-		time = (Time.get_ticks_usec() - time_begin) / 1000000.0
-		time *= playback_speed
-		# Compensate for latency.
-		time -= time_delay
-		time -= UserSettings.user_settings.lag_compensation / 1000.0
-		# May be below 0 (did not being yet).
-		time = max(0, time)
-		
-		time = time + _audio_play_offset
-		
-		var variant_offset = 0
-		if current_song:
-			variant_offset = current_song.get_variant_offset(selected_variant) / 1000.0
-		time += variant_offset
-		game.time_msec = time * 1000.0
-	
 	if is_playing() and game.audio_playback.is_playing():
 		emit_signal("time_changed", game.time_msec / 1000.0)
 
@@ -56,6 +38,7 @@ func get_song_volume():
 func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken, variant=-1):
 	current_song = song
 	selected_variant = variant
+	game.current_variant = variant
 	game.audio_playback = null
 	game.voice_audio_playback = null
 	

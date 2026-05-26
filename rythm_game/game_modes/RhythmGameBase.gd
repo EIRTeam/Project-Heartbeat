@@ -620,7 +620,7 @@ func _process_game(_delta):
 
 func get_latency_compensation_msec() -> int:
 	var latency_compensation = UserSettings.user_settings.lag_compensation
-	if current_song.id in UserSettings.user_settings.per_song_settings:
+	if current_song.id in UserSettings.user_settings.per_song_settings and game_mode == GAME_MODE.NORMAL:
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 	return latency_compensation
 			

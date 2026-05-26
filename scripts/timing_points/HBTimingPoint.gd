@@ -3,6 +3,7 @@ extends HBSerializable
 class_name HBTimingPoint
 
 var time: int
+var meta := {}
 
 var _class_name: String = "HBTimingPoint" # Workaround for godot#4708
 var _inheritance: Array = [] # HACK: ClassDB.get_parent_class() is retarded
@@ -13,7 +14,7 @@ func get_log_name():
 	return get_serialized_type()
 
 func _init():
-	serializable_fields += ["time"]
+	serializable_fields += ["time", "meta"]
 	
 func get_serialized_type():
 	return "TimingPoint"

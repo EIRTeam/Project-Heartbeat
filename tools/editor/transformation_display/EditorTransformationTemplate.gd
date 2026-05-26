@@ -13,6 +13,6 @@ func transform_notes(notes: Array) -> Dictionary:
 	
 	for note in notes:
 		if template.has_type_template(note.note_type, note.get_meta("second_layer", false)):
-			notes_to_transform_map[note] = template.get_type_template(note.note_type, note.get_meta("second_layer"))
+			notes_to_transform_map[note] = template.get_type_template(note.note_type, note.get_meta("second_layer", false))
 	
 	return notes_to_transform_map
