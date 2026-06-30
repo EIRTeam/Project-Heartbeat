@@ -591,5 +591,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 		for layer in chart.layers:
 			for timing_point in layer.timing_points:
 				timing_point.time -= music_start_offset
+				if timing_point is HBSustainNote:
+					timing_point.end_time -= music_start_offset
 	
 	return [chart, timing_changes]
