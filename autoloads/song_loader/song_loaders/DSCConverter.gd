@@ -438,7 +438,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 						
 						# Set sustain length
 						if opcode.params[1] != -1:
-							(note_d as HBSustainNote).end_time = time + flying_time + (opcode.params[1] / 100.0) + offset
+							(note_d as HBSustainNote).end_time = time + flying_time + (opcode.params[1] / 100.0)
 							found_sustain_length = true
 					
 					elif is_nc_rush(opcode.params[0]):
