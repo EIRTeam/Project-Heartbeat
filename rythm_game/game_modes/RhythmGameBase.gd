@@ -151,8 +151,9 @@ func set_chart(chart: HBChart):
 		modifier._preprocess_timing_points(tp)
 	_set_timing_points(tp)
 	# Find slide hold chains
-	result.max_score = chart.get_max_score()
+	result.max_score = chart._max_score_from_timing_points(tp)
 	game_ui._on_chart_set(chart)
+	game_ui.set_clear_bar_max(result)
 
 # Override this
 func get_chart_from_song(song: HBSong, difficulty) -> HBChart:

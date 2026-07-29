@@ -220,9 +220,13 @@ func backport_chart(song):
 	
 	self.format_version -= 1
 
-# Returns the max score, not including the extra hold score.
 func get_max_score():
 	var tp = get_timing_points()
+	return _max_score_from_timing_points(tp)
+
+# Returns the max score, not including the extra hold score.
+func _max_score_from_timing_points(timing_points):
+	var tp = timing_points
 	var max_score = 0.0
 	
 	var last_point: HBBaseNote

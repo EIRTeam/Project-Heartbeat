@@ -28,8 +28,8 @@ func _preprocess_timing_points(points: Array) -> Array:
 		if point is HBDoubleNote:
 			# Doubles to singles
 			points[i] = point.convert_to_type("Note")
-		elif point is HBSustainNote:
-			# Sustains to two notes
+		elif point is HBSustainNote and modifier_settings.sustain_mode != HBConsoleToArcadeModifierSettings.SUSTAIN_MODE.NO_CHANGE:
+			# Sustains to singles
 			var pt := point.convert_to_type("Note") as HBNoteData
 			points[i] = pt
 			match modifier_settings.sustain_mode:
@@ -66,12 +66,14 @@ static func get_option_settings() -> Dictionary:
 			"options_pretty": [
 				TranslationServer.tr("Replace with two notes", &"Console to arcade modifier sustain_mode two note option"),
 				TranslationServer.tr("Replace with hold", &"Console to arcade modifier sustain_mode hold option"),
-				TranslationServer.tr("Replace with one note", &"Console to arcade modifier sustain_mode single note option")
+				TranslationServer.tr("Replace with one note", &"Console to arcade modifier sustain_mode single note option"),
+				TranslationServer.tr("Don't change", &"Console to arcade modifier sustain_mode no change option")
 			],
 			"options": [
 				HBConsoleToArcadeModifierSettings.SUSTAIN_MODE.TWO_NOTES,
 				HBConsoleToArcadeModifierSettings.SUSTAIN_MODE.HOLD,
 				HBConsoleToArcadeModifierSettings.SUSTAIN_MODE.SINGLE_NOTE,
+				HBConsoleToArcadeModifierSettings.SUSTAIN_MODE.NO_CHANGE
 			],
 			"type": "options"
 		}

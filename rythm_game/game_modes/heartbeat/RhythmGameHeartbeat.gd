@@ -149,8 +149,8 @@ func _game_ready():
 func set_chart(chart: HBChart):
 	slide_hold_chains = chart.get_slide_hold_chains()
 	_potential_result = HBResult.new()
-	_potential_result.max_score = chart.get_max_score()
-	super.set_chart(chart)
+	super.set_chart(chart)	
+	_potential_result.max_score = result.max_score
 	if csv_timing_dump_enabled:
 		csv_timing_dump.reset()
 

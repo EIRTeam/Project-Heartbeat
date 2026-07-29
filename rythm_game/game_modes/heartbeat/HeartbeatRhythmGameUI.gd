@@ -142,9 +142,9 @@ func _on_reset():
 func reset_score_counter():
 	get_tree().set_group(SCORE_COUNTER_GROUP, "score", 0.0)
 	get_tree().call_group(SCORE_COUNTER_GROUP, "reset")
-	
-func _on_chart_set(chart: HBChart):
-	get_tree().set_group(CLEAR_BAR_GROUP, "max_value", chart.get_max_score())
+
+func set_clear_bar_max(result: HBResult):
+	get_tree().set_group(CLEAR_BAR_GROUP, "max_value", result.max_score)
 	_update_clear_bar_value()
 
 func try_show_intro_skip(song: HBSong):

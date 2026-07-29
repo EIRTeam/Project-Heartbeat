@@ -7,7 +7,8 @@ var keep_hearts := false
 enum SUSTAIN_MODE {
 	TWO_NOTES,
 	HOLD,
-	SINGLE_NOTE
+	SINGLE_NOTE,
+	NO_CHANGE,
 }
 
 var sustain_mode: SUSTAIN_MODE = SUSTAIN_MODE.TWO_NOTES
