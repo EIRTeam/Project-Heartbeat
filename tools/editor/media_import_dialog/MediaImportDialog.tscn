@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://boaf7wwj0jd15"]
+[gd_scene format=3 uid="uid://boaf7wwj0jd15"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_ugbcy"]
 [ext_resource type="Script" uid="uid://hk61opgfui7g" path="res://tools/editor/media_import_dialog/MediaImportDialog.gd" id="2_1lp5v"]
@@ -6,7 +6,8 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u2q2y"]
 
-[node name="VideoImportdialog" type="AcceptDialog"]
+[node name="VideoImportdialog" type="AcceptDialog" unique_id=1893922906]
+oversampling_override = 1.0
 title = "Video/Audio Import"
 position = Vector2i(0, 32)
 size = Vector2i(478, 183)
@@ -15,7 +16,7 @@ theme = ExtResource("1_ugbcy")
 ok_button_text = "Import"
 script = ExtResource("2_1lp5v")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1552114587]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -27,44 +28,44 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=890151981]
 layout_mode = 2
 text = "Videos imported must be H264 MP4 videos or VP9 webms.
 You can also make your song audio only by selecting a vorbis OGG file."
 
-[node name="MediaDownloadHelperButton" type="Button" parent="VBoxContainer"]
+[node name="MediaDownloadHelperButton" type="Button" parent="VBoxContainer" unique_id=2141270299]
 layout_mode = 2
 text = "Media download helper"
 
-[node name="ImportVideoButton" type="Button" parent="VBoxContainer"]
+[node name="ImportVideoButton" type="Button" parent="VBoxContainer" unique_id=1117312105]
 layout_mode = 2
 text = "Select video/audio"
 
-[node name="StatusLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="StatusLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=1423878871]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/fill = SubResource("StyleBoxEmpty_u2q2y")
-theme_override_styles/background = SubResource("StyleBoxEmpty_u2q2y")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_u2q2y")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_u2q2y")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_u2q2y")
+theme_override_styles/background = SubResource("StyleBoxEmpty_u2q2y")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_u2q2y")
 bbcode_enabled = true
 fit_content = true
 
-[node name="VideoImportfileDialog" type="FileDialog" parent="."]
+[node name="VideoImportfileDialog" type="FileDialog" parent="." unique_id=748746763]
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.mp4;MP4 files", "*.webm;WEBM files", "*.ogg;OGG files")
 
-[node name="ErrorDialog" type="AcceptDialog" parent="."]
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=1772517439]
 
-[node name="VideoDownloader" type="Window" parent="."]
+[node name="VideoDownloader" type="Window" parent="." unique_id=444986055]
 size = Vector2i(462, 195)
 visible = false
 wrap_controls = true
 
-[node name="YoutubeDlDownloaderUi" parent="VideoDownloader" instance=ExtResource("3_4xri5")]
+[node name="YoutubeDlDownloaderUi" parent="VideoDownloader" unique_id=1940923578 instance=ExtResource("3_4xri5")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

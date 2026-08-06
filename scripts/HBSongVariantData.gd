@@ -6,7 +6,12 @@ var variant_name := ""
 var variant_url := ""
 var variant_audio := ""
 var variant_video := ""
-var variant_offset := 0
+
+# Offset for video + audio
+var variant_offset := 0 
+# Extra offset for video only
+var video_offset := 0
+
 var has_audio_normalization := false
 var variant_normalization := 0.0
 var audio_only := false
@@ -18,6 +23,7 @@ func _init():
 		"variant_audio",
 		"variant_video",
 		"variant_offset",
+		"video_offset",
 		"variant_normalization",
 		"audio_only"
 	]

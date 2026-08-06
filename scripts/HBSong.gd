@@ -48,6 +48,7 @@ var allows_intro_skip = false
 var intro_skip_min_time = 30.0
 var start_time = 0
 var end_time = -1
+var video_offset := 0
 var volume = 1.0
 var hide_artist_name = false
 var lyrics = []
@@ -85,7 +86,7 @@ func _init():
 	"preview_start", "preview_end", "charts", "preview_image", "background_image", "voice", 
 	"circle_image", "circle_logo", "youtube_url", "youtube_preview_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
-	"end_time", "volume", "hide_artist_name", "lyrics", "show_epilepsy_warning", "has_audio_loudness",
+	"end_time", "video_offset", "volume", "hide_artist_name", "lyrics", "show_epilepsy_warning", "has_audio_loudness",
 	"audio_loudness", "song_variants", "sections", "skin_ugc_id", "timing_changes"]
 	
 	update_bpm_string()
@@ -479,9 +480,9 @@ func get_audio_stream_start_time(variant := -1):
 		
 func get_video_offset(variant := -1):
 	if variant == -1 or song_variants[variant].audio_only:
-		return -0.0
+		return video_offset
 	else:
-		return song_variants[variant].variant_offset
+		return song_variants[variant].variant_offset + song_variants[variant].video_offset
 
 func set_timing_changes(p_timing_changes: Array):
 	timing_changes = p_timing_changes

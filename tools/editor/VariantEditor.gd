@@ -7,6 +7,7 @@ signal show_download_prompt(variant)
 @onready var line_edit_url: LineEdit = get_node("VBoxContainer/LineEditURL")
 @onready var checkbox_audio_only: CheckBox = get_node("VBoxContainer/AudioOnlyCheckbox")
 @onready var offset_spinbox: SpinBox = get_node("VBoxContainer/OffsetSpinBox")
+@onready var video_offset_spinbox: SpinBox = get_node("VBoxContainer/VideoOffsetSpinBox")
 @onready var sync_window = get_node("Window")
 var offset := 0.0
 
@@ -26,11 +27,13 @@ func initialize(_song: HBSong, _variant_idx: int):
 	line_edit_url.text = variant.variant_url
 	checkbox_audio_only.button_pressed = variant.audio_only
 	offset_spinbox.value = variant.variant_offset
+	video_offset_spinbox.value = variant.video_offset
 func save_variant():
 	variant.variant_name = line_edit_name.text
 	variant.variant_url = line_edit_url.text
 	variant.audio_only = checkbox_audio_only.button_pressed
 	variant.variant_offset = offset_spinbox.value
+	variant.video_offset = video_offset_spinbox.value
 	SongLoader.add_video_ownership(song, variant.variant_url)
 
 func _on_ButtonSync_pressed():
