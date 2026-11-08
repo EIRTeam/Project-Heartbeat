@@ -142,7 +142,7 @@ func _show_normal_song():
 	var song_data := selected_song_data
 	var song := selected_song_data.song
 	bpm_label.text = tr("{beats_per_minute} BPM").format({
-		"beats_per_minute": int(song.bpm_string)
+		"beats_per_minute": song.bpm_string if song.bpm_string else int(song.bpm)
 	})
 	
 	var song_meta = song.get_meta_string()
