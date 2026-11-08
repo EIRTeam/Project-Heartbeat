@@ -570,7 +570,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 				
 				# Place slide chain pieces in their respective layers
 				var search_type = note_d.note_type
-				if opcode_map.game == "FT" and note_d is HBNoteData:
+				if note_d is HBNoteData:
 					if note_d.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT:
 						search_type = HBBaseNote.NOTE_TYPE.SLIDE_LEFT
 					elif note_d.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT:
