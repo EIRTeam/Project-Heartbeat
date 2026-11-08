@@ -293,6 +293,8 @@ func get_video_stream(variant := -1):
 		else:
 			Log.log(self, "Tried to get video stream from an uncached song!!")
 			return null
+	if not video_path or video_path.is_empty():
+		return null
 	print("Loading video stream ", video_path)
 	var video_stream = FFmpegVideoStream.new()
 	video_stream.set_file(video_path)

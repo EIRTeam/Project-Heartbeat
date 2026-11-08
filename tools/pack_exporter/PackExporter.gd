@@ -18,7 +18,7 @@ func reload_songs(filter: String):
 	song_list.clear()
 	for song_id in SongLoader.songs:
 		var song: HBSong = SongLoader.songs[song_id]
-		if song is HBPPDSong or song is HBPPDSong:
+		if song is HBPPDSong or song is HBSongFromPack:
 			continue
 		var visible_title := song.get_visible_title()
 		if filter.is_empty() or filter in visible_title.to_lower():
@@ -99,7 +99,12 @@ func _ready() -> void:
 	
 func _on_export_file_selected(path: String):
 	var writer := HBPackArchiveWriter.new(path)
-	export_songs(writer)
+	var result := await export_songs(writer)
+	if result != OK:
+		writer.close()
+		if FileAccess.file_exists(path):
+			DirAccess.remove_absolute(path)
+		await show_error("Could not export package (error %d)." % result)
 	
 	
 func show_error(error: String):
@@ -164,16 +169,22 @@ func _show_status(message: String, progress: int, progress_max: int):
 	status_progress.value = progress
 	status_dialog.popup_centered()
 
-func export_songs(packer: HBPackArchiveWriter):
+func export_songs(packer: HBPackArchiveWriter) -> int:
+	if packer == null or packer.get_open_error() != OK:
+		return packer.get_open_error() if packer != null else ERR_UNCONFIGURED
 	for song in songs_to_export:
 		_show_status("Packing song %s..." % [song.get_visible_title()], songs_to_export.find(song), songs_to_export.size())
-		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN:
-			return
+		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or song is HBSongFromPack:
+			return ERR_INVALID_PARAMETER
 		# Copy song dir so we can migrate it
 		var temp := DirAccess.create_temp("song_migration")
+		if temp == null:
+			return DirAccess.get_open_error()
 		var temp_dir := temp.get_current_dir()
 
 		var source_dir := DirAccess.open(song.path)
+		if source_dir == null:
+			return DirAccess.get_open_error()
 		source_dir.list_dir_begin()
 		var file_name = source_dir.get_next()
 
@@ -181,8 +192,12 @@ func export_songs(packer: HBPackArchiveWriter):
 
 		while file_name != "":
 			if not source_dir.current_is_dir():
-				DirAccess.copy_absolute(song.path.path_join(file_name), temp_dir.path_join(file_name.to_lower()))
+				var copy_error := DirAccess.copy_absolute(song.path.path_join(file_name), temp_dir.path_join(file_name.to_lower()))
+				if copy_error != OK:
+					source_dir.list_dir_end()
+					return copy_error
 			file_name = source_dir.get_next()
+		source_dir.list_dir_end()
 		
 		song_meta_copy.background_image = song_meta_copy.background_image.to_lower()
 		song_meta_copy.preview_image = song_meta_copy.preview_image.to_lower()
@@ -203,17 +218,20 @@ func export_songs(packer: HBPackArchiveWriter):
 			migrate_song_task.run_migration()
 			var migration_result := await migrate_song_task.migration_finished as HBMigrateSongTask.MigrationResult
 			if migration_result.error != HBMigrateSongTask.MigrationError.OK:
-				var message := migration_result.error_message
-				message = "Error migrating song \"%s\":\n%s" % [song.get_visible_title(), message]
-				show_error(message)
-				return
-		song_meta_copy.save_to_file(song_meta_copy.get_meta_path())
+				return ERR_CANT_CREATE
+		var save_error: int = song_meta_copy.save_to_file(song_meta_copy.get_meta_path())
+		if save_error != OK:
+			return save_error
 		var song_meta := HBPackItemSong.new()
 		song_meta.title = song.title if not song._ugc_title.is_empty() else song._ugc_title
 		song_meta.description = song._ugc_description if not song._ugc_description.is_empty() else ""
 		song_meta.ugc_metadata = song._ugc_metadata
-		packer.add_song(song_meta_copy, song_meta)
-	packer.close()
+		var add_error := packer.add_song(song_meta_copy, song_meta)
+		if add_error != OK:
+			return add_error
+	var close_error := packer.close()
+	if close_error != OK:
+		return close_error
 	status_dialog.hide()
 	
 	var success := AcceptDialog.new()
@@ -222,3 +240,4 @@ func export_songs(packer: HBPackArchiveWriter):
 	success.popup_centered()
 	await success.visibility_changed
 	success.queue_free()
+	return OK

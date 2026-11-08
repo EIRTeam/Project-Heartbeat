@@ -35,6 +35,7 @@ func load_songs_from_package_file(path: String) -> Array[SongLoadResult]:
 	var package := HBPackArchive.from_path(path)
 	if package.error != OK:
 		print("Error loading package at path %s! %d" % [path, package.error])
+		return []
 	
 	return package.load_songs()
 	
