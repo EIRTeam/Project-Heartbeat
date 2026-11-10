@@ -75,11 +75,12 @@ func history_to_dict() -> Dictionary:
 	return result_dict
 
 func save_history():
-	var file := FileAccess.open(SCORE_HISTORY_PATH, FileAccess.WRITE)
-	if FileAccess.get_open_error() == OK:
-		var contents = JSON.stringify(history_to_dict(), "  ")
-		file.store_string(contents)
+	var contents = JSON.stringify(history_to_dict(), "  ")
+	var error := HBUtils.write_text_atomic(SCORE_HISTORY_PATH, contents)
+	if error == OK:
 		PlatformService.service_provider.write_remote_file_async(SCORE_HISTORY_PATH.get_file(), contents.to_utf8_buffer())
+	else:
+		Log.log(self, "Error saving score history: %s" % error, Log.LogLevel.ERROR)
 		
 func add_result_to_history(game_info: HBGameInfo) -> ScoreEnterToken:
 	var out_token := ScoreEnterToken.new()

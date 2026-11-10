@@ -1687,8 +1687,9 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 		print("ERROR: Data could not be formatted as json.")
 		return
 	
-	var file = FileAccess.open(chart_path, FileAccess.WRITE)
-	file.store_string(json)
+	var save_error := HBUtils.write_text_atomic(chart_path, json)
+	if save_error != OK:
+		printerr("Error saving chart: %s" % save_error)
 
 func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	deselect_all()
@@ -1987,9 +1988,10 @@ func _on_SaveButton_pressed():
 		print("ERROR: Data could not be formatted as json.")
 		return
 	
-	var file = FileAccess.open(chart_path, FileAccess.WRITE)
-	file.store_string(json)
-	file.close()
+	var save_error := HBUtils.write_text_atomic(chart_path, json)
+	if save_error != OK:
+		message_shower._show_notification("Error saving chart")
+		return
 	
 	var new_timing_changes = []
 	for item in get_timing_changes():

@@ -43,6 +43,12 @@ var task_id: int
 signal finished(result: MediaImportTaskResult)
 
 static func apply_import(song_meta: HBSong, song_folder: String, result: MediaImportTaskResult, variant := -1) -> MediaApplyImportResult:
+	if not song_meta.has_variant(variant):
+		return MediaApplyImportResult.new(
+			MediaApplyImportError.INVALID_VARIANT_IDX,
+			"Invalid variant IDX %d!" % [variant]
+		)
+
 	var audio_path: String
 	var video_path: String
 	if not result.final_audio_path.is_empty():
@@ -52,16 +58,10 @@ static func apply_import(song_meta: HBSong, song_folder: String, result: MediaIm
 			var variant_idx := variant
 			var variant_audio_path := "audio_v%d.ogg" % [variant_idx]
 			
-			while FileAccess.file_exists(variant_audio_path):
+			while FileAccess.file_exists(song_folder.path_join(variant_audio_path)):
 				variant_idx += 1
 				variant_audio_path = "audio_v%d.ogg" % [variant_idx]
 			audio_path = variant_audio_path
-		var copy_result := DirAccess.copy_absolute(result.final_audio_path, song_folder.path_join(audio_path))
-		if copy_result != OK:
-			return MediaApplyImportResult.new(
-				MediaApplyImportError.AUDIO_COPY_FAILED,
-				"Error copying audio, error code %d" % copy_result
-			)
 	if not result.final_video_path.is_empty():
 		var video_ext := result.final_video_path.get_extension()
 		video_path = "video.%s" % [video_ext]
@@ -69,28 +69,71 @@ static func apply_import(song_meta: HBSong, song_folder: String, result: MediaIm
 			var variant_idx := variant
 			var variant_video_path := "video_v%d.%s" % [variant_idx, video_ext]
 			
-			while FileAccess.file_exists(variant_video_path):
+			while FileAccess.file_exists(song_folder.path_join(variant_video_path)):
 				variant_idx += 1
-				variant_video_path = "video_v%d.ogg" % [variant_idx, video_ext]
+				variant_video_path = "video_v%d.%s" % [variant_idx, video_ext]
 			video_path = variant_video_path
-		var copy_result := DirAccess.copy_absolute(result.final_video_path, song_folder.path_join(video_path))
-		if copy_result != OK:
+
+	var temporary := DirAccess.create_temp("media_apply")
+	if temporary == null:
+		return MediaApplyImportResult.new(
+			MediaApplyImportError.AUDIO_COPY_FAILED,
+			"Error creating temporary media directory"
+		)
+	var temporary_dir := temporary.get_current_dir()
+	var staged_paths := {}
+	var destination_paths := {}
+	var backup_paths := {}
+	var sources := {}
+	if not audio_path.is_empty():
+		sources["audio"] = result.final_audio_path
+		destination_paths["audio"] = song_folder.path_join(audio_path)
+	if not video_path.is_empty():
+		sources["video"] = result.final_video_path
+		destination_paths["video"] = song_folder.path_join(video_path)
+
+	for media_type in sources:
+		var staged_path := temporary_dir.path_join(media_type + ".stage")
+		var stage_error := HBUtils.copy_file_atomic(sources[media_type], staged_path)
+		if stage_error != OK:
 			return MediaApplyImportResult.new(
-				MediaApplyImportError.VIDEO_COPY_FAILED,
-				"Error copying video, error code %d" % copy_result
+				MediaApplyImportError.AUDIO_COPY_FAILED if media_type == "audio" else MediaApplyImportError.VIDEO_COPY_FAILED,
+				"Error staging %s, error code %d" % [media_type, stage_error]
 			)
-			
-	if not song_meta.has_variant(variant):
-		# Passed invalid variant idx, oh my...
-		if not song_meta.song_variants.size() == variant:
+		staged_paths[media_type] = staged_path
+
+	for media_type in destination_paths:
+		var destination := destination_paths[media_type]
+		if FileAccess.file_exists(destination):
+			var backup_path := temporary_dir.path_join(media_type + ".backup")
+			var backup_error := HBUtils.copy_file_atomic(destination, backup_path)
+			if backup_error != OK:
+				return MediaApplyImportResult.new(
+					MediaApplyImportError.AUDIO_COPY_FAILED if media_type == "audio" else MediaApplyImportError.VIDEO_COPY_FAILED,
+					"Error backing up %s, error code %d" % [media_type, backup_error]
+				)
+			backup_paths[media_type] = backup_path
+
+	var committed: Array[String] = []
+	for media_type in destination_paths:
+		var commit_error := HBUtils.copy_file_atomic(staged_paths[media_type], destination_paths[media_type])
+		if commit_error != OK:
+			for committed_type in committed:
+				if committed_type in backup_paths:
+					HBUtils.copy_file_atomic(backup_paths[committed_type], destination_paths[committed_type])
+				else:
+					DirAccess.remove_absolute(destination_paths[committed_type])
 			return MediaApplyImportResult.new(
-				MediaApplyImportError.INVALID_VARIANT_IDX,
-				"Invalid variant IDX %d!" % [variant] 
+				MediaApplyImportError.AUDIO_COPY_FAILED if media_type == "audio" else MediaApplyImportError.VIDEO_COPY_FAILED,
+				"Error replacing %s, error code %d" % [media_type, commit_error]
 			)
-			
-	song_meta.set_variant_audio_path(variant, audio_path)
-	song_meta.set_variant_video_path(variant, video_path)
-	song_meta.set_variant_audio_loudness(variant, result.audio_loudness)
+		committed.append(media_type)
+
+	if not audio_path.is_empty():
+		song_meta.set_variant_audio_path(variant, audio_path)
+		song_meta.set_variant_audio_loudness(variant, result.audio_loudness)
+	if not video_path.is_empty():
+		song_meta.set_variant_video_path(variant, video_path)
 	return MediaApplyImportResult.new(MediaApplyImportError.OK, "")
 			
 

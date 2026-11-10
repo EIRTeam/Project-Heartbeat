@@ -311,8 +311,9 @@ func get_unused_videos_data() -> UnusedVideosData:
 func save_cache():
 	var video_cache_str := JSON.stringify(cache_meta, "  ")
 	if video_cache_str:
-		var file = FileAccess.open(CACHE_FILE, FileAccess.WRITE)
-		file.store_string(video_cache_str)
+		var error := HBUtils.write_text_atomic(CACHE_FILE, video_cache_str)
+		if error != OK:
+			Log.log(self, "Error saving video cache: %s" % error, Log.LogLevel.ERROR)
 	
 func get_ytdl_executable():
 	var path

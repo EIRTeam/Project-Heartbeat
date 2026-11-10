@@ -84,9 +84,9 @@ func load_ppd_youtube_url_list():
 			Log.log(self, "Error loading PPD URL list " + str(result.error))
 
 func save_ppd_youtube_url_list():
-	var file = FileAccess.open(PPD_YOUTUBE_URL_LIST_PATH, FileAccess.WRITE)
-	if FileAccess.get_open_error() == OK:
-		file.store_string(JSON.stringify(ppd_youtube_url_list))
+	var error := HBUtils.write_json_atomic(PPD_YOUTUBE_URL_LIST_PATH, ppd_youtube_url_list)
+	if error != OK:
+		Log.log(self, "Error saving PPD URL list: %s" % error, Log.LogLevel.ERROR)
 
 # We attempt to purge a youtube URL's on disk data, if it's not being used by another song
 func _try_purge_youtube_video_file(song: HBSong):

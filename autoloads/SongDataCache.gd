@@ -63,7 +63,6 @@ func load_cache():
 			file.close()
 	
 func _on_save_cache_timed_out():
-	var file = FileAccess.open(CACHE_PATH, FileAccess.WRITE)
 	var serialized_metas = {}
 	for song_id in song_meta_cache:
 		var meta_cache = song_meta_cache[song_id] as HBSongCacheEntry
@@ -81,9 +80,9 @@ func _on_save_cache_timed_out():
 		"song_meta": serialized_metas,
 		"audio_normalization": serialized_audio_caches
 	})
-	file.store_string(text)
-	
-	file.close()
+	var error := HBUtils.write_text_atomic(CACHE_PATH, text)
+	if error != OK:
+		Log.log(self, "Error saving cache: %s" % error, Log.LogLevel.ERROR)
 	
 	
 func save_cache():

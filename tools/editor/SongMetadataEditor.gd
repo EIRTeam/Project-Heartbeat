@@ -200,31 +200,11 @@ func _on_import_media_button_pressed():
 	media_import_dialog.popup_centered()
 	var result: MediaImportDialog.MediaImportDialogResult = await media_import_dialog.media_selected
 	if not result.canceled and (result.has_video_stream or result.has_audio_stream):
-		var original_video_path := song_meta.get_variant_video_res_path()
-		var original_audio_path := song_meta.get_variant_audio_res_path()
-			
-		var temp := DirAccess.create_temp("media_tmp")
-		var original_video_temp_path := ""
-		var original_audio_temp_path := ""
-		if FileAccess.file_exists(original_video_path):
-			original_video_temp_path = temp.get_current_dir().path_join(original_video_path)
-			DirAccess.copy_absolute(original_video_path, original_video_temp_path)
-			DirAccess.remove_absolute(original_video_path)
-		if FileAccess.file_exists(original_audio_path):
-			original_audio_temp_path = temp.get_current_dir().path_join(original_audio_path)
-			DirAccess.copy_absolute(original_audio_path, original_audio_temp_path)
-			DirAccess.remove_absolute(original_audio_path)
-			
 		var importer_ui := MediaImporterUI.new()
 		add_child(importer_ui)
 		importer_ui.do_import(song_meta, result)
 		var import_result: MediaImporterUI.MediaImporterUIResult = await importer_ui.import_finished
 		importer_ui.queue_free()
-		if import_result.error != MediaImporterUI.MediaImporterUIError.OK:
-			if not original_video_temp_path.is_empty():
-				DirAccess.copy_absolute(original_video_temp_path, original_video_path)
-			if not original_audio_temp_path.is_empty():
-				DirAccess.copy_absolute(original_audio_temp_path, original_audio_path)
 		video_filename_edit.text = song_meta.video
 		audio_filename_edit.text = song_meta.audio
 	media_import_dialog.queue_free()

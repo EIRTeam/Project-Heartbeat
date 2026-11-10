@@ -179,9 +179,10 @@ func skin_to_dict() -> Dictionary:
 func save_skin():
 	var skin_dict := skin_to_dict()
 	var js := JSON.stringify(skin_dict, "  ", false)
-	var f := FileAccess.open(resource_pack.get_skin_config_path(), FileAccess.WRITE)
-	f.store_string(js)
-	f.close()
+	var save_error := HBUtils.write_text_atomic(resource_pack.get_skin_config_path(), js)
+	if save_error != OK:
+		Log.log(self, "Error saving skin configuration: %s" % save_error, Log.LogLevel.ERROR)
+		return
 	resource_pack.save_pack()
 	ResourcePackLoader.reload_skin()
 

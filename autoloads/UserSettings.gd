@@ -468,11 +468,12 @@ func save_user_settings():
 func _save_user_settings():
 	var usp = HBGame.platform_settings.user_dir_redirect(USER_SETTINGS_PATH)
 	user_settings.input_map = get_input_map()
-	var file := FileAccess.open(usp, FileAccess.WRITE)
-	if FileAccess.get_open_error() == OK:
-		var contents = JSON.stringify(user_settings.serialize(), "  ")
-		file.store_string(contents)
+	var contents = JSON.stringify(user_settings.serialize(), "  ")
+	var error := HBUtils.write_text_atomic(usp, contents)
+	if error == OK:
 		PlatformService.service_provider.write_remote_file_async(usp.get_file(), contents.to_utf8_buffer())
+	else:
+		Log.log(self, "Error saving user settings: %s" % error, Log.LogLevel.ERROR)
 
 func get_event_name(event: InputEvent):
 	var ret = ""

@@ -1,6 +1,21 @@
 # Utility methods
 class_name HBUtils
 
+static func write_file_atomic(path: String, data: PackedByteArray) -> Error:
+	return PHNative.write_file_atomic(path, data)
+
+static func copy_file_atomic(source: String, destination: String) -> Error:
+	return PHNative.copy_file_atomic(source, destination)
+
+static func write_text_atomic(path: String, text: String) -> Error:
+	return write_file_atomic(path, text.to_utf8_buffer())
+
+static func write_json_atomic(path: String, data: Variant, indent := "") -> Error:
+	return write_text_atomic(path, JSON.stringify(data, indent))
+
+static func write_var_atomic(path: String, data: Variant) -> Error:
+	return PHNative.write_var_atomic(path, data)
+
 enum TimeFormat {
 	FORMAT_HOURS   = 1 << 0, # broken, do not use
 	FORMAT_MINUTES = 1 << 1,

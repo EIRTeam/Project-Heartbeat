@@ -276,8 +276,10 @@ func _on_difficulty_created(difficulty: String, stars, uses_console_style = fals
 			chart.editor_settings.hidden_layers.erase("HEART")
 		var json = JSON.stringify(chart.serialize(), "  ")
 		
-		var f = FileAccess.open(song.get_chart_path(difficulty.to_lower()), FileAccess.WRITE)
-		f.store_string(json)
+		var save_error := HBUtils.write_text_atomic(song.get_chart_path(difficulty.to_lower()), json)
+		if save_error != OK:
+			show_error("Error saving chart, error code %d" % save_error)
+			return
 		
 		populate_tree()
 	else:
