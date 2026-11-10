@@ -128,6 +128,9 @@ class LeaderboardScoreUploadedResult:
 	var score_id: int
 		
 func _ready():
+	if "--gdscript-tests" in OS.get_cmdline_user_args():
+		return
+
 	add_child(timer)
 	
 	timer.wait_time = 5

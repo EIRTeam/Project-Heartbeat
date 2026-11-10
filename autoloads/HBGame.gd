@@ -146,6 +146,10 @@ const SPECTRUM_DEFINITION = 256
 var spectrum_snapshot: HBSpectrumSnapshot
 
 func _ready():
+	if "--gdscript-tests" in OS.get_cmdline_user_args():
+		set_process(false)
+		return
+
 	var exe_path := OS.get_executable_path()
 	var base_content_pack_path = exe_path.get_base_dir().path_join("Project Heartbeat Base Content.pck")
 	if FileAccess.file_exists(base_content_pack_path):
