@@ -839,8 +839,9 @@ func _init():
 	var font_license_path := "user://font_license.txt"
 	
 	if not FileAccess.file_exists(font_license_path):
-		var file := FileAccess.open(font_license_path, FileAccess.WRITE)
-		file.store_string(FONT_LICENSE)
+		var save_error := HBUtils.write_text_atomic(font_license_path, FONT_LICENSE)
+		if save_error != OK:
+			Log.log(self, "Error saving font license: %s" % save_error, Log.LogLevel.ERROR)
 
 func _ready():
 	# Setup editing options.

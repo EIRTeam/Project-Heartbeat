@@ -327,13 +327,11 @@ func save_file(save_as: bool = false):
 		return
 	
 	if FileAccess.file_exists(HBUtils.join_path(EDITOR_SCRIPTS_PATH, current_script_name)) and not save_as:
-		var file := FileAccess.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, current_script_name), FileAccess.WRITE)
-		if FileAccess.get_open_error() == OK:
-			# File exists
-			file.store_string(script_editor.get_text())
+		var save_error := HBUtils.write_text_atomic(HBUtils.join_path(EDITOR_SCRIPTS_PATH, current_script_name), script_editor.get_text())
+		if save_error == OK:
 			_set_modified(false)
-			
 			return
+		Log.log(self, "Error saving editor script: %s" % save_error, Log.LogLevel.ERROR)
 	
 	# Its a new file
 	var script_name = current_script_name if current_script_name else "new_script.gd"
@@ -407,9 +405,10 @@ func _on_name_accepted():
 			contents = file.get_as_text()
 	
 	# Save the contents
-	var file := FileAccess.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, new_file_name), FileAccess.WRITE)
-	if FileAccess.get_open_error() == OK:
-		file.store_string(contents)
+	var save_error := HBUtils.write_text_atomic(HBUtils.join_path(EDITOR_SCRIPTS_PATH, new_file_name), contents)
+	if save_error != OK:
+		Log.log(self, "Error saving editor script: %s" % save_error, Log.LogLevel.ERROR)
+		return
 	
 	if action == "move":
 		# Remove previous file

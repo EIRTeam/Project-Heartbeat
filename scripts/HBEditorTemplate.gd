@@ -48,12 +48,6 @@ func save(base_path: String = EDITOR_TEMPLATES_PATH) -> int:
 	if FileAccess.file_exists(path):
 		return ERR_ALREADY_EXISTS
 	
-	var file := FileAccess.open(path, FileAccess.WRITE)
-
-	var result = FileAccess.get_open_error()
-	if result != OK:
-		return result
-	
 	var data = self.serialize()
 	if not data:
 		Log.log(self, "Data was not serialized.", Log.LogLevel.ERROR)
@@ -64,10 +58,7 @@ func save(base_path: String = EDITOR_TEMPLATES_PATH) -> int:
 		Log.log(self, "Data could not be formatted as json.", Log.LogLevel.ERROR)
 		return ERR_FILE_CORRUPT
 	
-	file.store_string(json)
-	file.close()
-	
-	return OK
+	return HBUtils.write_text_atomic(path, json)
 
 
 func _get_template(note_type: int, second_layer: bool) -> HBBaseNote:

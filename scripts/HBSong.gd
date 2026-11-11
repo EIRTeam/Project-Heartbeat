@@ -304,9 +304,11 @@ func get_voice_stream():
 	
 func save_song():
 	# Ensure song directory exists
-	DirAccess.make_dir_recursive_absolute(path)
+	var directory_error := DirAccess.make_dir_recursive_absolute(path)
+	if directory_error != OK:
+		return directory_error
 	
-	save_to_file(get_meta_path())
+	return save_to_file(get_meta_path())
 
 func cache_data(variant := -1) -> YoutubeDL.CachingQueueEntry:
 	if youtube_url:

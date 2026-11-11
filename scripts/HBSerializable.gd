@@ -161,13 +161,10 @@ func save_to_file(path: String):
 		print("ERROR: Data could not be formatted as json.")
 		return
 	
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	if FileAccess.get_open_error() == OK:
-		file.store_string(json)
-	else:
-		print("Error when saving serialized object %s, error: %s" % [get_serialized_type(), FileAccess.get_open_error()])
-	
-	return FileAccess.get_open_error()
+	var error := HBUtils.write_text_atomic(path, json)
+	if error != OK:
+		print("Error when saving serialized object %s, error: %s" % [get_serialized_type(), error])
+	return error
 
 static func can_show_in_editor():
 	return false

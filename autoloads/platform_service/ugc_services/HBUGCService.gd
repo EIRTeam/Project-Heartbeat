@@ -76,9 +76,10 @@ func get_update_progress(update_id):
 	pass
 	
 func save_ugc_data():
-	var file := FileAccess.open(UGC_DATA_PATH, FileAccess.WRITE)
 	var json = JSON.stringify(ugc_data, "  ")
-	file.store_string(json)
+	var error := HBUtils.write_text_atomic(UGC_DATA_PATH, json)
+	if error != OK:
+		Log.log(self, "Error saving UGC data: %s" % error, Log.LogLevel.ERROR)
 	
 func skip_vote(item_id):
 	ugc_data.skipped_votes.append(item_id)

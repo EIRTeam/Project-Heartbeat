@@ -29,14 +29,14 @@ func load_user_stats():
 		file.close()
 func save_song_stats():
 	var ss_path = HBGame.platform_settings.user_dir_redirect(get_song_stats_path())
-	var file = FileAccess.open(ss_path, FileAccess.WRITE)
 	var serialized_song_stats = {}
 	for song_id in song_stats:
 		var stats = song_stats[song_id] as HBSongStats
 		var serialized_stats = stats.serialize()
 		serialized_song_stats[song_id] = serialized_stats
-	file.store_var(serialized_song_stats)
-	file.close()
+	var error := HBUtils.write_var_atomic(ss_path, serialized_song_stats)
+	if error != OK:
+		Log.log(self, "Error saving song stats: %s" % error, Log.LogLevel.ERROR)
 
 func song_played(song_id: String):
 	if not song_id in song_stats:

@@ -186,9 +186,9 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 					DirAccess.make_dir_recursive_absolute(extraction_dir)
 				var uncompressed = zip.uncompress(f)
 				if uncompressed:
-					var file = FileAccess.open(extraction_path, FileAccess.WRITE)
-					file.store_buffer(uncompressed)
-					file.close()
+					var write_error := HBUtils.write_file_atomic(extraction_path, uncompressed)
+					if write_error != OK:
+						print("FAILED TO WRITE ", f, " error ", write_error)
 				else:
 					print("FAILED TO DECOMPRESS ", f)
 					
