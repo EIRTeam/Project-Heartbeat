@@ -82,7 +82,7 @@ static func apply_import(song_meta: HBSong, song_folder: String, result: MediaIm
 		)
 	var temporary_dir := temporary.get_current_dir()
 	var staged_paths := {}
-	var destination_paths := {}
+	var destination_paths: Dictionary[String, String] = {}
 	var backup_paths := {}
 	var sources := {}
 	if not audio_path.is_empty():
