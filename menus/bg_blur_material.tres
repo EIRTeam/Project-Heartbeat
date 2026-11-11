@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dus27voxewyv4"]
+
+[ext_resource type="Shader" uid="uid://dh3o5tpb5s8ed" path="res://menus/bg_blur.gdshader" id="1_v555t"]
+
+[resource]
+shader = ExtResource("1_v555t")
+shader_parameter/tint_color = Color(0.36300015, 0, 0.66, 1)

@@ -1,13 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://c31wn00neekt1"]
+[gd_scene format=3 uid="uid://c31wn00neekt1"]
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://d2xoywdaxsuvs" path="res://menus/MainMenuVisualizer.tscn" id="4"]
-[ext_resource type="Script" path="res://base_scene.gd" id="5"]
+[ext_resource type="Script" uid="uid://bj377nfjt1lv8" path="res://base_scene.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://dssxtjqhuhlbn" path="res://graphics/effects/SlideParticles.tscn" id="6_x0nmg"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=423278691]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,9 +18,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5")
 
-[node name="Node2D" parent="." instance=ExtResource("6_x0nmg")]
+[node name="Node2D" parent="." unique_id=1797344885 instance=ExtResource("6_x0nmg")]
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=268907046]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,13 +28,13 @@ texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="MainMenuVisualizer2" parent="." instance=ExtResource("4")]
+[node name="MainMenuVisualizer2" parent="." unique_id=12442582 instance=ExtResource("4")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1093653655]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -43,14 +43,14 @@ offset_right = 5.04529
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer"]
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer" unique_id=283729791]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 texture = ExtResource("3")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+[node name="StatusLabel" type="Label" parent="VBoxContainer" unique_id=1444720427]
 layout_mode = 2
 size_flags_vertical = 5
 theme_override_fonts/font = ExtResource("1")
