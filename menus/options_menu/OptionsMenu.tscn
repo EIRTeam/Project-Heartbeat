@@ -1,16 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7isl8t15nu1i"]
+[gd_scene format=3 uid="uid://c7isl8t15nu1i"]
 
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="1"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionsMenu.gd" id="4"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="1"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="3"]
+[ext_resource type="Script" uid="uid://mtwrhfhtbqhl" path="res://menus/options_menu/OptionsMenu.gd" id="4"]
 
-[node name="HBoxContainer" type="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" unique_id=637443080]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1084280206]
 layout_mode = 2
 focus_mode = 2
 script = ExtResource("1")
@@ -18,11 +18,11 @@ stop_hover_on_focus_exit = false
 orientation = 1
 enable_wrap_around = true
 
-[node name="Panel" type="Control" parent="."]
+[node name="Panel" type="Control" parent="." unique_id=1944918072]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Content" type="MarginContainer" parent="Panel"]
+[node name="Content" type="MarginContainer" parent="Panel" unique_id=1098051920]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,7 +31,7 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="Panel" type="Panel" parent="Panel"]
+[node name="Panel" type="Panel" parent="Panel" unique_id=339681865]
 visible = false
 layout_mode = 0
 anchor_right = 1.0

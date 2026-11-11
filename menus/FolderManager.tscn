@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4tvo47nahi4h"]
+[gd_scene format=3 uid="uid://c4tvo47nahi4h"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="2"]
@@ -26,7 +26,7 @@ corner_detail = 20
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[node name="Panel2" type="PanelContainer"]
+[node name="Panel2" type="PanelContainer" unique_id=1199958779]
 offset_right = 750.0
 offset_bottom = 529.0
 grow_horizontal = 2
@@ -36,20 +36,20 @@ theme = ExtResource("5")
 theme_override_styles/panel = SubResource("1")
 script = ExtResource("6")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=245668238]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=233798846]
 custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 focus_mode = 2
 theme_override_constants/separation = 10
 
-[node name="HBScrollList" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBScrollList" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=1023123877]
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
@@ -58,18 +58,18 @@ container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 scroll_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBScrollList"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBScrollList" unique_id=540461259]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1089095578]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Panel4" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3")]
+[node name="Panel4" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=195285620 instance=ExtResource("3")]
 custom_minimum_size = Vector2(158, 53)
 layout_mode = 2
 action_name = "gui_left"
@@ -79,7 +79,7 @@ text = "Close"
 action_text = "Close"
 action_name = &"gui_left"
 
-[node name="Panel5" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3")]
+[node name="Panel5" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1465784937 instance=ExtResource("3")]
 custom_minimum_size = Vector2(149, 53)
 layout_mode = 2
 action_name = "gui_right"
@@ -89,7 +89,7 @@ text = "Open"
 action_text = "Open"
 action_name = &"gui_right"
 
-[node name="ManageInputGlyph" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3")]
+[node name="ManageInputGlyph" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=158793657 instance=ExtResource("3")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(146, 53)
 layout_mode = 2
@@ -100,7 +100,7 @@ text = "Manage"
 action_text = "Manage"
 action_name = &"gui_sort_by"
 
-[node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3")]
+[node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=128886799 instance=ExtResource("3")]
 custom_minimum_size = Vector2(170, 53)
 layout_mode = 2
 action_name = "gui_accept"
@@ -110,7 +110,7 @@ text = "Select"
 action_text = "Select"
 action_name = &"gui_accept"
 
-[node name="Panel7" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3")]
+[node name="Panel7" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=261787082 instance=ExtResource("3")]
 custom_minimum_size = Vector2(146, 53)
 layout_mode = 2
 action_name = "gui_cancel"
@@ -120,27 +120,26 @@ text = "Back"
 action_text = "Back"
 action_name = &"gui_cancel"
 
-[node name="DeleteConfirmationWindow" parent="." instance=ExtResource("8")]
-visible = false
+[node name="DeleteConfirmationWindow" parent="." unique_id=140094150 instance=ExtResource("8")]
 layout_mode = 2
 text = "Do you want to delete this folder?"
 
-[node name="FolderOptionsContainer" type="CenterContainer" parent="."]
+[node name="FolderOptionsContainer" type="CenterContainer" parent="." unique_id=840042566]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Panel" type="PanelContainer" parent="FolderOptionsContainer"]
+[node name="Panel" type="PanelContainer" parent="FolderOptionsContainer" unique_id=899515080]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="FolderOptionsContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="FolderOptionsContainer/Panel" unique_id=1322899505]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="FolderOptions" type="VBoxContainer" parent="FolderOptionsContainer/Panel/MarginContainer"]
+[node name="FolderOptions" type="VBoxContainer" parent="FolderOptionsContainer/Panel/MarginContainer" unique_id=1785668424]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2
@@ -148,11 +147,11 @@ theme_override_constants/separation = 10
 script = ExtResource("2")
 orientation = 1
 
-[node name="TextInputCreate" parent="." instance=ExtResource("9")]
+[node name="TextInputCreate" parent="." unique_id=70923396 instance=ExtResource("9")]
 visible = false
 layout_mode = 2
 
-[node name="TextInputRename" parent="." instance=ExtResource("9")]
+[node name="TextInputRename" parent="." unique_id=193248076 instance=ExtResource("9")]
 visible = false
 layout_mode = 2
 

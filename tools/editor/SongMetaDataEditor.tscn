@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://lhyypajs7taw"]
+[gd_scene format=3 uid="uid://lhyypajs7taw"]
 
 [ext_resource type="Script" uid="uid://do5ln05knnv3w" path="res://tools/editor/ChartDiffEditor.gd" id="1"]
 [ext_resource type="Script" uid="uid://oimnv3vfj488" path="res://tools/editor/SongMetadataEditor.gd" id="2"]
@@ -12,7 +12,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
-[node name="SongMetaEditor" type="PanelContainer"]
+[node name="SongMetaEditor" type="PanelContainer" unique_id=2034326041]
 offset_left = 634.0
 offset_right = 1944.0
 offset_bottom = 700.0
@@ -20,17 +20,17 @@ size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("1")
 script = ExtResource("2")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="." unique_id=77037148]
 layout_mode = 2
 current_tab = 1
 
-[node name="Metadata" type="ScrollContainer" parent="TabContainer"]
+[node name="Metadata" type="ScrollContainer" parent="TabContainer" unique_id=1122036775]
 visible = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Metadata"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Metadata" unique_id=1676766098]
 custom_minimum_size = Vector2(280, 664)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -38,28 +38,28 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Metadata/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Metadata/MarginContainer" unique_id=1301874468]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=343613048]
 layout_mode = 2
 text = "Title"
 
-[node name="SongTitle" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongTitle" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=755526446]
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 script = ExtResource("6")
 
-[node name="Label10" type="HBoxContainer" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label10" type="HBoxContainer" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=461562638]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label10"]
+[node name="Label" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label10" unique_id=811453906]
 layout_mode = 2
 text = "Romanized title"
 
-[node name="TextureRect" type="TextureRect" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label10"]
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label10" unique_id=591816827]
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "Title transliterated to use the latin script.
@@ -69,40 +69,40 @@ texture = ExtResource("3")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="SongRomanizedTitle" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongRomanizedTitle" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1884176621]
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 script = ExtResource("6")
 
-[node name="Label4" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1968817430]
 layout_mode = 2
 text = "Artist/Circle"
 
-[node name="SongArtist" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongArtist" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1132909009]
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 script = ExtResource("6")
 
-[node name="Label2" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=626011236]
 layout_mode = 2
 text = "Artist alias (leave empty if using real name)"
 
-[node name="SongArtistAlias" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongArtistAlias" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1419706704]
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 script = ExtResource("6")
 
-[node name="Label6" type="HBoxContainer" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label6" type="HBoxContainer" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1231644703]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label6"]
+[node name="Label" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label6" unique_id=1809627468]
 layout_mode = 2
 text = "Original title"
 
-[node name="TextureRect" type="TextureRect" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label6"]
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/Label6" unique_id=1846356507]
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "Title used for songs that are based on others, such as remixes."
@@ -110,133 +110,133 @@ texture = ExtResource("3")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="SongOriginalTitle" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongOriginalTitle" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=212472834]
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 script = ExtResource("6")
 
-[node name="Label7" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label7" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=785422795]
 layout_mode = 2
 text = "Vocals (separated by newline)"
 
-[node name="SongVocals" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongVocals" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1007486396]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label8" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label8" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1352670717]
 layout_mode = 2
 text = "Composers (separated by newline)"
 
-[node name="SongComposers" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongComposers" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1949930367]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("7")
 
-[node name="Label11" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label11" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=50776744]
 layout_mode = 2
 text = "Writers (separated by newline)"
 
-[node name="SongWriters" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongWriters" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1445562835]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("7")
 
-[node name="Label5" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1693366161]
 layout_mode = 2
 text = "Chart creator"
 
-[node name="SongCreator" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="SongCreator" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=2110156900]
 layout_mode = 2
 script = ExtResource("6")
 
-[node name="Label9" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="Label9" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1105057029]
 layout_mode = 2
 text = "Recommended skin"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Metadata/MarginContainer/VBoxContainer" unique_id=1899822440]
 layout_mode = 2
 
-[node name="SkinLabel" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SkinLabel" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1998078592]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "None"
 
-[node name="SelectSkinButton" type="Button" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SelectSkinButton" type="Button" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/HBoxContainer" unique_id=540601198]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Select..."
 
-[node name="ClearSkinButton" type="Button" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ClearSkinButton" type="Button" parent="TabContainer/Metadata/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1315335380]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Clear"
 
-[node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
+[node name="Technical Data" type="ScrollContainer" parent="TabContainer" unique_id=266690672]
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Technical Data"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Technical Data" unique_id=157061321]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Technical Data/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Technical Data/MarginContainer" unique_id=287761698]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Video file" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Video file" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1223938274]
 layout_mode = 2
 text = "Video file"
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1747954292]
 layout_mode = 2
 
-[node name="VideoFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4"]
+[node name="VideoFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4" unique_id=660404568]
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 script = ExtResource("6")
 
-[node name="SelectVideoFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4"]
+[node name="SelectVideoFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4" unique_id=1478950271]
 visible = false
 layout_mode = 2
 text = "Select file"
 
-[node name="Label7" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label7" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=9046844]
 layout_mode = 2
 text = "Audio file"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1741124520]
 layout_mode = 2
 
-[node name="SelectAudioFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="SelectAudioFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=611575368]
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 script = ExtResource("6")
 
-[node name="SelectAudioFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="SelectAudioFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=2137765067]
 visible = false
 layout_mode = 2
 text = "Select file"
 
-[node name="Label10" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label10" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1978289908]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label10"]
+[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label10" unique_id=763229601]
 layout_mode = 2
 text = "Voice audio file"
 
-[node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label10"]
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label10" unique_id=698415930]
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "(Optional) Audio for the voice, separated from the original instrumental, this makes the voice audio channel fade when the user fails a note.
@@ -246,102 +246,102 @@ texture = ExtResource("3")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1194274037]
 layout_mode = 2
 
-[node name="SelectVoiceAudioFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="SelectVoiceAudioFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1015446692]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6")
 
-[node name="SelectVoiceAudioFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="SelectVoiceAudioFileButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1665902437]
 layout_mode = 2
 text = "Select file"
 
-[node name="ImportMediaButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="ImportMediaButton" type="Button" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=454134904]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Import media"
 
-[node name="Label3" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=112215491]
 layout_mode = 2
 text = "Song preview start (in miliseconds)"
 
-[node name="SongPreviewSpinBox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="SongPreviewSpinBox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=2056550393]
 layout_mode = 2
 min_value = -10000.0
-max_value = 2.14748e+09
+max_value = 2147480000.0
 script = ExtResource("5")
 
-[node name="Label5" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=78197653]
 layout_mode = 2
 text = "Song preview end (-1 to use audio file end time, in miliseconds)"
 
-[node name="SongPreviewEndSpinBox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="SongPreviewEndSpinBox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=569173129]
 layout_mode = 2
 min_value = -1.0
-max_value = 2.14748e+09
+max_value = 2147480000.0
 script = ExtResource("5")
 
-[node name="Label4" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=454309463]
 layout_mode = 2
 text = "YouTube Preview URL (used on the website for previewing the song, never used in the actual game)"
 autowrap_mode = 3
 
-[node name="YoutubeURL" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="YoutubeURL" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1119639132]
 layout_mode = 2
 script = ExtResource("6")
 
-[node name="Label15" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label15" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=382665678]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label15"]
+[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label15" unique_id=1642764529]
 layout_mode = 2
 text = "Volume (0 is mute, 1 is full volume)"
 
-[node name="VolumeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="VolumeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=964408570]
 layout_mode = 2
-max_value = 2.14748e+09
+max_value = 2147480000.0
 step = 0.0
 value = 10.0
 script = ExtResource("5")
 
-[node name="Label13" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label13" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=980535063]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label13"]
+[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label13" unique_id=1144563964]
 layout_mode = 2
 text = "Start time (in miliseconds)"
 
-[node name="StartTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="StartTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=672787727]
 layout_mode = 2
 min_value = -10000.0
-max_value = 2.14748e+09
+max_value = 2147480000.0
 script = ExtResource("5")
 
-[node name="Label14" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label14" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=561177030]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label14"]
+[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label14" unique_id=1251272505]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "End time (-1 to use audio file end time, in miliseconds)"
 
-[node name="EndTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="EndTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1935028014]
 layout_mode = 2
 min_value = -1.0
-max_value = 2.14748e+09
+max_value = 2147480000.0
 value = 10.0
 script = ExtResource("5")
 
-[node name="Label11" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label11" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1063091138]
 layout_mode = 2
 
-[node name="IntroSkipCheckbox" type="CheckBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11"]
+[node name="IntroSkipCheckbox" type="CheckBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11" unique_id=320891070]
 layout_mode = 2
 text = "Allows intro skip"
 
-[node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11"]
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11" unique_id=186692609]
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "Allows the user to skip the song's intro, see also intro skip time"
@@ -349,14 +349,14 @@ texture = ExtResource("3")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="Label12" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label12" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=1974962969]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label12"]
+[node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label12" unique_id=2081999702]
 layout_mode = 2
 text = "Intro skip minimum time"
 
-[node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label12"]
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label12" unique_id=160696183]
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 tooltip_text = "Minimum time in seconds  to the first timing point where the intro skip option will appear"
@@ -364,7 +364,7 @@ texture = ExtResource("3")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="IntroSkipTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="IntroSkipTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer" unique_id=2084298344]
 layout_mode = 2
 max_value = inf
 step = 0.001
@@ -372,153 +372,153 @@ value = 10.0
 custom_arrow_step = 0.25
 script = ExtResource("5")
 
-[node name="Charts" type="ScrollContainer" parent="TabContainer"]
+[node name="Charts" type="ScrollContainer" parent="TabContainer" unique_id=1059742188]
 visible = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 script = ExtResource("1")
 metadata/_tab_index = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Charts"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Charts" unique_id=1844997440]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Charts/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Charts/MarginContainer" unique_id=876600469]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Charts/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Charts/MarginContainer/HBoxContainer" unique_id=1225474946]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Graphics" type="ScrollContainer" parent="TabContainer"]
+[node name="Graphics" type="ScrollContainer" parent="TabContainer" unique_id=1140347582]
 visible = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Graphics"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Graphics" unique_id=407871651]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Graphics/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Graphics/MarginContainer" unique_id=1481102955]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=941075198]
 layout_mode = 2
 text = "Preview image"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=405876137]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SelectPreviewImageLineEdit" type="LineEdit" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="SelectPreviewImageLineEdit" type="LineEdit" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=548866503]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6")
 
-[node name="SelectPreviewImageButton" type="Button" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="SelectPreviewImageButton" type="Button" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1223759951]
 layout_mode = 2
 text = "Select file"
 
-[node name="Label2" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=374580793]
 layout_mode = 2
 text = "Background image"
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=807721025]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SelectBackgroundImageLineEdit" type="LineEdit" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4"]
+[node name="SelectBackgroundImageLineEdit" type="LineEdit" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4" unique_id=1957562944]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6")
 
-[node name="SelectBackgroundImageButton" type="Button" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4"]
+[node name="SelectBackgroundImageButton" type="Button" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4" unique_id=1746197142]
 layout_mode = 2
 text = "Select file"
 
-[node name="Label3" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=1386526951]
 layout_mode = 2
 text = "Circle Image (optional)"
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=106176636]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SelectCircleImageLineEdit" type="LineEdit" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5"]
+[node name="SelectCircleImageLineEdit" type="LineEdit" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5" unique_id=499611961]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6")
 
-[node name="SelectCircleImageButton" type="Button" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5"]
+[node name="SelectCircleImageButton" type="Button" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5" unique_id=603458575]
 layout_mode = 2
 text = "Select file"
 
-[node name="Label2123" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="Label2123" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=1140261864]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Circle Logo (optional, replaces artist/circle text in some circumstances)."
 
-[node name="HBoxContainer6" type="HBoxContainer" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer6" type="HBoxContainer" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=1202884139]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SelectCircleLogoLineEdit" type="LineEdit" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6"]
+[node name="SelectCircleLogoLineEdit" type="LineEdit" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6" unique_id=2036233437]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6")
 
-[node name="SelectCircleLogoButton" type="Button" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6"]
+[node name="SelectCircleLogoButton" type="Button" parent="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6" unique_id=218824955]
 layout_mode = 2
 text = "Select file"
 
-[node name="HideArtistName" type="CheckBox" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="HideArtistName" type="CheckBox" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=2064263602]
 layout_mode = 2
 text = "Hide artist name"
 
-[node name="EpilepsyWarning" type="CheckBox" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="EpilepsyWarning" type="CheckBox" parent="TabContainer/Graphics/MarginContainer/VBoxContainer" unique_id=137173204]
 layout_mode = 2
 text = "Show epilepsy warning before playing"
 
-[node name="Alternative Videos" type="ScrollContainer" parent="TabContainer"]
+[node name="Alternative Videos" type="ScrollContainer" parent="TabContainer" unique_id=2005344624]
 visible = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Alternative Videos"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Alternative Videos" unique_id=260605271]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Alternative Videos/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Alternative Videos/MarginContainer" unique_id=1621485092]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Alternative Videos/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Alternative Videos/MarginContainer/VBoxContainer" unique_id=1251824892]
 layout_mode = 2
 
-[node name="AddVariantButton" type="Button" parent="TabContainer/Alternative Videos/MarginContainer/VBoxContainer"]
+[node name="AddVariantButton" type="Button" parent="TabContainer/Alternative Videos/MarginContainer/VBoxContainer" unique_id=697866894]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Add variant"
 icon = ExtResource("4")
 
-[node name="AudioFileDialog" type="FileDialog" parent="."]
+[node name="AudioFileDialog" type="FileDialog" parent="." unique_id=1112188105]
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
@@ -526,7 +526,7 @@ access = 2
 filters = PackedStringArray("*.ogg; OGG")
 show_hidden_files = true
 
-[node name="VoiceAudioFileDialog" type="FileDialog" parent="."]
+[node name="VoiceAudioFileDialog" type="FileDialog" parent="." unique_id=1664923984]
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
@@ -534,7 +534,7 @@ access = 2
 filters = PackedStringArray("*.ogg; OGG")
 show_hidden_files = true
 
-[node name="PreviewFileDialog" type="FileDialog" parent="."]
+[node name="PreviewFileDialog" type="FileDialog" parent="." unique_id=621336459]
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
@@ -542,7 +542,7 @@ access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
 
-[node name="BackgroundFileDialog" type="FileDialog" parent="."]
+[node name="BackgroundFileDialog" type="FileDialog" parent="." unique_id=1742354776]
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
@@ -550,7 +550,7 @@ access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
 
-[node name="CircleFileDialog" type="FileDialog" parent="."]
+[node name="CircleFileDialog" type="FileDialog" parent="." unique_id=718275478]
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
@@ -558,7 +558,7 @@ access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
 
-[node name="CircleLogoFileDialog" type="FileDialog" parent="."]
+[node name="CircleLogoFileDialog" type="FileDialog" parent="." unique_id=2028313540]
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
@@ -566,24 +566,24 @@ access = 2
 filters = PackedStringArray("*.JPG, *.JPEG; Joint3D Photographic Experts Group", "*.PNG; Portable Network Graphics")
 show_hidden_files = true
 
-[node name="AddVariantDialog" parent="." instance=ExtResource("8_ulow8")]
+[node name="AddVariantDialog" parent="." unique_id=860217812 instance=ExtResource("8_ulow8")]
 unique_name_in_owner = true
 
-[node name="ErrorDialog" type="AcceptDialog" parent="."]
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=1540678896]
 
-[node name="DownloadingSongPopup" type="Window" parent="."]
+[node name="DownloadingSongPopup" type="Window" parent="." unique_id=1530048820]
 size = Vector2i(565, 190)
 visible = false
 transient = true
 exclusive = true
 borderless = true
 
-[node name="Panel" type="Panel" parent="DownloadingSongPopup"]
+[node name="Panel" type="Panel" parent="DownloadingSongPopup" unique_id=1522995536]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Label" type="Label" parent="DownloadingSongPopup/Panel"]
+[node name="Label" type="Label" parent="DownloadingSongPopup/Panel" unique_id=1117606669]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -591,7 +591,7 @@ text = "Downloading song..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SkinPicker" parent="." instance=ExtResource("8")]
+[node name="SkinPicker" parent="." unique_id=1536735204 instance=ExtResource("8")]
 unique_name_in_owner = true
 
 [connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer4/SelectVideoFileButton" to="AudioFileDialog" method="popup_centered_ratio" binds= [0.5]]

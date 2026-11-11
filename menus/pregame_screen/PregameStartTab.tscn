@@ -1,14 +1,20 @@
-[gd_scene load_steps=12 format=3 uid="uid://dwcd6tgw5po4y"]
+[gd_scene format=3 uid="uid://dwcd6tgw5po4y"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
-[ext_resource type="Script" path="res://menus/pregame_screen/PregameStartTab.gd" id="3"]
-[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
+[ext_resource type="Script" uid="uid://dojopkk0ffr5q" path="res://menus/pregame_screen/PregameStartTab.gd" id="3"]
+[ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://cm5g41krj37em" path="res://menus/pregame_screen/PreGameLeaderboardHistoryDisplay.tscn" id="4_43v3t"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="5"]
-[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="6"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="5"]
+[ext_resource type="Script" uid="uid://2e75yiqlqvm7" path="res://menus/UniversalScrollList.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://cai6nkgeq8ftu" path="res://graphics/icons/icon_information_sign.svg" id="8"]
 [ext_resource type="StyleBox" uid="uid://qlctqc40lhg6" path="res://styles/PanelStyleTransparentHover.tres" id="9_4nist"]
+
+[sub_resource type="StyleBoxEmpty" id="3"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxFlat" id="4"]
 content_margin_left = 10.0
@@ -27,54 +33,48 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 anti_aliasing_size = 3.0
 
-[sub_resource type="StyleBoxEmpty" id="3"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-
-[node name="HBoxContainer" type="VBoxContainer"]
+[node name="HBoxContainer" type="VBoxContainer" unique_id=844730321]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
 script = ExtResource("3")
 
-[node name="Panel" type="Control" parent="."]
+[node name="Panel" type="Control" parent="." unique_id=1008929467]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=1582038493]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer" unique_id=900622096]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer" unique_id=1238485980]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Panel" type="HBPanelContainerBlurEX" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Panel" type="HBPanelContainerBlurEX" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=511129199]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 theme_override_styles/panel = ExtResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel" unique_id=1623735765]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=108907736]
 clip_contents = false
 layout_mode = 2
 focus_neighbor_right = NodePath("../../../Panel2/HistoryDisplay")
@@ -83,7 +83,7 @@ script = ExtResource("6")
 container_path = NodePath("PanelContainer/ModifierButtonContainer")
 horizontal_step = 0
 
-[node name="PanelContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer"]
+[node name="PanelContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer" unique_id=1993638185]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -92,47 +92,47 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 10
 
-[node name="ModifierButtonContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer/PanelContainer"]
+[node name="ModifierButtonContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer/PanelContainer" unique_id=2054955953]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 7
 
-[node name="Panel2" type="HBPanelContainerBlurEX" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Panel2" type="HBPanelContainerBlurEX" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1377652707]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("2")
 
-[node name="HistoryDisplay" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2" instance=ExtResource("4_43v3t")]
+[node name="HistoryDisplay" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2" unique_id=1942696109 instance=ExtResource("4_43v3t")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../Panel/MarginContainer/ScrollContainer")
 
-[node name="Panel2" type="HBPanelContainerBlurEX" parent="Panel/HBoxContainer/VBoxContainer"]
+[node name="Panel2" type="HBPanelContainerBlurEX" parent="Panel/HBoxContainer/VBoxContainer" unique_id=1924269431]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 theme_override_styles/panel = ExtResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/Panel2"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/Panel2" unique_id=1099987062]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer" unique_id=1934471106]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer/HBoxContainer" unique_id=240724246]
 layout_mode = 2
 texture = ExtResource("8")
 stretch_mode = 5
 
-[node name="LeaderboardLegalLabel" type="Label" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
+[node name="LeaderboardLegalLabel" type="Label" parent="Panel/HBoxContainer/VBoxContainer/Panel2/MarginContainer/HBoxContainer" unique_id=2141903596]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -143,19 +143,19 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Panel2" type="HBPanelContainerBlurEX" parent="."]
+[node name="Panel2" type="HBPanelContainerBlurEX" parent="." unique_id=820168299]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel2"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel2" unique_id=1424774806]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel2/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel2/MarginContainer" unique_id=1807142879]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_right = NodePath("../../../Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2/HistoryDisplay")
@@ -164,34 +164,34 @@ alignment = 1
 script = ExtResource("5")
 orientation = 1
 
-[node name="StartButton" type="Button" parent="Panel2/MarginContainer/VBoxContainer"]
+[node name="StartButton" type="Button" parent="Panel2/MarginContainer/VBoxContainer" unique_id=1631091150]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
-theme_override_styles/hover = SubResource("4")
-theme_override_styles/pressed = SubResource("4")
 theme_override_styles/normal = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/hover = SubResource("4")
 text = "Start"
 script = ExtResource("4")
 normal_style = SubResource("3")
 hover_style = ExtResource("9_4nist")
 
-[node name="StartPractice" type="Button" parent="Panel2/MarginContainer/VBoxContainer"]
+[node name="StartPractice" type="Button" parent="Panel2/MarginContainer/VBoxContainer" unique_id=1836461385]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
-theme_override_styles/hover = SubResource("4")
-theme_override_styles/pressed = SubResource("4")
 theme_override_styles/normal = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/hover = SubResource("4")
 text = "Start Practice"
 script = ExtResource("4")
 normal_style = SubResource("3")
 hover_style = ExtResource("9_4nist")
 
-[node name="BackButton" type="Button" parent="Panel2/MarginContainer/VBoxContainer"]
+[node name="BackButton" type="Button" parent="Panel2/MarginContainer/VBoxContainer" unique_id=2047668011]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
-theme_override_styles/hover = SubResource("4")
-theme_override_styles/pressed = SubResource("4")
 theme_override_styles/normal = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/hover = SubResource("4")
 text = "Back"
 script = ExtResource("4")
 normal_style = SubResource("3")

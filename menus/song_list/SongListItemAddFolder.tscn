@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c0jpaba4eg3dv"]
+[gd_scene format=3 uid="uid://c0jpaba4eg3dv"]
 
 [ext_resource type="Script" uid="uid://ciix2q1466qe1" path="res://menus/song_list/SongListItemRandom.gd" id="1_gordm"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2_tghit"]
@@ -77,13 +77,15 @@ fallbacks = Array[Font]([ExtResource("4_repcx")])
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
-cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
-cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -91,8 +93,15 @@ cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=448610272]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 3
 anchors_preset = 10
@@ -105,7 +114,7 @@ mouse_filter = 2
 script = ExtResource("1_gordm")
 node_to_scale_path = NodePath("Control")
 
-[node name="Control" type="Button" parent="."]
+[node name="Control" type="Button" parent="." unique_id=1087928706]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 25.0
@@ -115,18 +124,18 @@ size_flags_horizontal = 3
 focus_mode = 0
 theme = ExtResource("2_tghit")
 theme_override_constants/h_separation = 0
-theme_override_styles/hover = ExtResource("3_1ea7g")
-theme_override_styles/pressed = ExtResource("3_1ea7g")
 theme_override_styles/normal = SubResource("2")
+theme_override_styles/pressed = ExtResource("3_1ea7g")
+theme_override_styles/hover = ExtResource("3_1ea7g")
 
-[node name="RainbowOverlay" type="Panel" parent="Control"]
+[node name="RainbowOverlay" type="Panel" parent="Control" unique_id=1775143333]
 material = SubResource("6")
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_styles/panel = SubResource("7")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=1980931610]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -139,37 +148,37 @@ mouse_filter = 2
 theme_override_constants/margin_left = 62
 theme_override_constants/margin_top = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer" unique_id=400593641]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 7
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer" unique_id=1651353138]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer" unique_id=393271110]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=771297956]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TitleLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=19946176]
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("4_repcx")
 text = "??????"
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=1642612143]
 custom_minimum_size = Vector2(175, 125)
 layout_mode = 0
 offset_left = -87.747
@@ -183,7 +192,7 @@ texture = ExtResource("5_dhy6g")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="StarRainbow" type="TextureRect" parent="Control/TextureRect"]
+[node name="StarRainbow" type="TextureRect" parent="Control/TextureRect" unique_id=1762624166]
 material = SubResource("9")
 custom_minimum_size = Vector2(175, 125)
 layout_mode = 0
@@ -196,7 +205,7 @@ texture = ExtResource("6_3uxrt")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="StarsLabel" type="Label" parent="Control/TextureRect"]
+[node name="StarsLabel" type="Label" parent="Control/TextureRect" unique_id=1844000655]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 0.918

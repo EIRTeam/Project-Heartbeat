@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d1ybtyf1sffqy"]
+[gd_scene format=3 uid="uid://d1ybtyf1sffqy"]
 
 [ext_resource type="Script" uid="uid://4ndfu8484yg2" path="res://menus/workshop_browser/WorkshopBrowser.gd" id="1"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="2"]
@@ -33,7 +33,7 @@ _data = {
 &"spin": SubResource("1")
 }
 
-[node name="WorkshopBrowser" type="Control"]
+[node name="WorkshopBrowser" type="Control" unique_id=805969912]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 10.0
@@ -42,7 +42,7 @@ offset_right = 1910.0
 offset_bottom = 1070.0
 script = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2068772051]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -54,68 +54,68 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Control" type="VBoxContainer" parent="MarginContainer"]
+[node name="Control" type="VBoxContainer" parent="MarginContainer" unique_id=679001951]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/Control"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/Control" unique_id=24753419]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="InputGlyphRect" type="InputGlyphRect" parent="MarginContainer/Control/HBoxContainer4"]
+[node name="InputGlyphRect" type="InputGlyphRect" parent="MarginContainer/Control/HBoxContainer4" unique_id=537974966]
 layout_mode = 2
 action_text = ""
 action_name = &"gui_tab_left"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer4"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer4" unique_id=1060357174]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 script = ExtResource("3")
 
-[node name="InputGlyphRect2" type="InputGlyphRect" parent="MarginContainer/Control/HBoxContainer4"]
+[node name="InputGlyphRect2" type="InputGlyphRect" parent="MarginContainer/Control/HBoxContainer4" unique_id=1222022378]
 layout_mode = 2
 action_text = ""
 action_name = &"gui_tab_right"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control" unique_id=1839334603]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
-[node name="Panel4" parent="MarginContainer/Control/HBoxContainer2" instance=ExtResource("11")]
+[node name="Panel4" parent="MarginContainer/Control/HBoxContainer2" unique_id=102767854 instance=ExtResource("11")]
 custom_minimum_size = Vector2(127, 33)
 layout_mode = 2
 action_name = "gui_search"
 text = "Search"
 
-[node name="SearchTitle" type="Label" parent="MarginContainer/Control/HBoxContainer2"]
+[node name="SearchTitle" type="Label" parent="MarginContainer/Control/HBoxContainer2" unique_id=1658468961]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Most popular for the last week"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2" unique_id=1562568511]
 layout_mode = 2
 alignment = 2
 
-[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" instance=ExtResource("11")]
+[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" unique_id=383577098 instance=ExtResource("11")]
 custom_minimum_size = Vector2(220, 33)
 layout_mode = 2
 action_name = "contextual_option"
 text = "Filter by Difficulty"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2" unique_id=389626627]
 layout_mode = 2
 alignment = 2
 
-[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer2" instance=ExtResource("11")]
+[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer2" unique_id=964006131 instance=ExtResource("11")]
 custom_minimum_size = Vector2(139, 33)
 layout_mode = 2
 action_name = "gui_sort_by"
 text = "Sort by..."
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control" unique_id=2053611657]
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
@@ -125,12 +125,12 @@ horizontal_step = 0
 enable_fade = true
 scroll_mode = 1
 
-[node name="GridContainer" type="VBoxContainer" parent="MarginContainer/Control/ScrollContainer"]
+[node name="GridContainer" type="VBoxContainer" parent="MarginContainer/Control/ScrollContainer" unique_id=2117874024]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control" unique_id=305677398]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 focus_neighbor_top = NodePath("../ScrollContainer")
@@ -139,29 +139,29 @@ theme_override_constants/separation = 29
 alignment = 1
 script = ExtResource("3")
 
-[node name="HBHovereableButton" type="Button" parent="MarginContainer/Control/HBoxContainer"]
+[node name="HBHovereableButton" type="Button" parent="MarginContainer/Control/HBoxContainer" unique_id=1950345505]
 layout_mode = 2
 icon = ExtResource("4")
 script = ExtResource("2")
 
-[node name="Label" type="Label" parent="MarginContainer/Control/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/Control/HBoxContainer" unique_id=1774385658]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_57xkq")
 text = "1/1"
 
-[node name="HBHovereableButton2" type="Button" parent="MarginContainer/Control/HBoxContainer"]
+[node name="HBHovereableButton2" type="Button" parent="MarginContainer/Control/HBoxContainer" unique_id=1026532819]
 layout_mode = 2
 icon = ExtResource("5")
 script = ExtResource("2")
 
-[node name="CenterContainer2" type="CenterContainer" parent="MarginContainer"]
+[node name="CenterContainer2" type="CenterContainer" parent="MarginContainer" unique_id=641513821]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/CenterContainer2"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/CenterContainer2" unique_id=319861152]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -169,12 +169,10 @@ texture = ExtResource("8")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/CenterContainer2"]
-libraries = {
-&"": SubResource("AnimationLibrary_lg87n")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/CenterContainer2" unique_id=1217447685]
+libraries/ = SubResource("AnimationLibrary_lg87n")
 
-[node name="HBConfirmationWindow" parent="." instance=ExtResource("10")]
+[node name="HBConfirmationWindow" parent="." unique_id=2071765014 instance=ExtResource("10")]
 visible = false
 layout_mode = 0
 anchors_preset = 0
@@ -184,7 +182,7 @@ grow_horizontal = 1
 grow_vertical = 1
 text = "Enter the search term:"
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=446451352]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -196,7 +194,7 @@ offset_right = 205.5
 offset_bottom = 113.0
 theme_override_styles/panel = ExtResource("12")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=297942461]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -205,21 +203,21 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=1358447548]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 2
 theme_override_constants/separation = 10
 script = ExtResource("3")
 
-[node name="StarFilterPanelContainer" type="PanelContainer" parent="."]
+[node name="StarFilterPanelContainer" type="PanelContainer" parent="." unique_id=18621690]
 unique_name_in_owner = true
 layout_mode = 0
 offset_right = 92.0
 offset_bottom = 110.0
 theme_override_styles/panel = ExtResource("12")
 
-[node name="StarFilterVBoxContainer" type="VBoxContainer" parent="StarFilterPanelContainer"]
+[node name="StarFilterVBoxContainer" type="VBoxContainer" parent="StarFilterPanelContainer" unique_id=1828133221]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2

@@ -1,15 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://cq7l7kpg66k88"]
 
-[ext_resource path="res://rythm_game/VideoPlayerOffset.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://bktl5vdwskklo" path="res://rythm_game/VideoPlayerOffset.gd" id="1"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1392919246]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=635648156]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource("1")

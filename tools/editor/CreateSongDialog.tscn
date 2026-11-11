@@ -1,10 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcbf31mumsfhs"]
+[gd_scene format=3 uid="uid://bcbf31mumsfhs"]
 
 [ext_resource type="Script" uid="uid://bjf7ax627mbx7" path="res://tools/editor/CreateSongDialog.gd" id="1_7ory4"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_niwt4"]
 
-[node name="CreateSongDialog" type="ConfirmationDialog"]
+[node name="CreateSongDialog" type="ConfirmationDialog" unique_id=1021284652]
 auto_translate_mode = 1
+oversampling_override = 1.0
 title = "Create a song"
 position = Vector2i(0, 32)
 size = Vector2i(824, 1067)
@@ -12,41 +13,41 @@ visible = true
 theme = ExtResource("1_niwt4")
 script = ExtResource("1_7ory4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1368121488]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 816.0
-offset_bottom = 1019.0
+offset_right = -8.0
+offset_bottom = -48.0
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="VBoxContainer" unique_id=1500016430]
 layout_mode = 2
 text = "Title"
 
-[node name="Title" type="LineEdit" parent="VBoxContainer"]
+[node name="Title" type="LineEdit" parent="VBoxContainer" unique_id=524143013]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "EIREXE's incredible song..."
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=2053776793]
 layout_mode = 2
 
-[node name="SelectVideoButton" type="Button" parent="VBoxContainer"]
+[node name="SelectVideoButton" type="Button" parent="VBoxContainer" unique_id=1291247064]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Select audio/video"
 
-[node name="VideoSelectedInfoLabel" type="Label" parent="VBoxContainer"]
+[node name="VideoSelectedInfoLabel" type="Label" parent="VBoxContainer" unique_id=1769139315]
 layout_mode = 2
 
-[node name="ErrorDialog" type="AcceptDialog" parent="."]
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=95022433]
 unique_name_in_owner = true
 
-[node name="NoVideoAudioDialog" type="ConfirmationDialog" parent="."]
+[node name="NoVideoAudioDialog" type="ConfirmationDialog" parent="." unique_id=830457827]
 unique_name_in_owner = true
 size = Vector2i(1320, 130)
 ok_button_text = "Yes, I am!"

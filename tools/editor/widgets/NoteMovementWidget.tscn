@@ -1,16 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cln6r61jlyeum"]
+[gd_scene format=3 uid="uid://cln6r61jlyeum"]
 
-[ext_resource type="Script" path="res://tools/editor/widgets/NoteMovementWidget.gd" id="1"]
-[ext_resource type="Script" path="res://tools/editor/widgets/MovementGizmo.gd" id="3"]
+[ext_resource type="Script" uid="uid://c8q2ys7lr5qls" path="res://tools/editor/widgets/NoteMovementWidget.gd" id="1"]
+[ext_resource type="Script" uid="uid://6jgtulia15sd" path="res://tools/editor/widgets/MovementGizmo.gd" id="3"]
 
-[node name="NoteMovementWidget" type="Control"]
+[node name="NoteMovementWidget" type="Control" unique_id=1772858987]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 100.0
 offset_bottom = 100.0
 script = ExtResource("1")
 
-[node name="MovementGizmo" type="Control" parent="."]
+[node name="MovementGizmo" type="Control" parent="." unique_id=1765256537]
 anchors_preset = 0
 offset_left = 40.0
 offset_top = 40.0
@@ -19,7 +19,7 @@ offset_bottom = 60.0
 pivot_offset = Vector2(20, 20)
 script = ExtResource("3")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1703057230]
 modulate = Color(0.5, 0.5, 0.5, 1)
 layout_mode = 0
 anchor_left = 0.5

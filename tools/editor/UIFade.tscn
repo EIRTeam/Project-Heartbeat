@@ -1,15 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://3lhim7huk7u6"]
 
-[ext_resource path="res://tools/editor/UIFadeItem.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://bk0fqvmb5dj3t" path="res://tools/editor/UIFadeItem.gd" id="1"]
 
-[node name="UIFade" type="ColorRect"]
+[node name="UIFade" type="ColorRect" unique_id=1337903719]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -3.0
 offset_right = 3.0
 offset_bottom = 3.0
-color = Color( 0, 0, 0, 1 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0, 0, 0, 1)
+script = ExtResource("1")

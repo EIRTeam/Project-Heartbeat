@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c51fsvr7ivxkl"]
+[gd_scene format=3 uid="uid://c51fsvr7ivxkl"]
 
-[ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenGraph.gd" id="2"]
+[ext_resource type="Script" uid="uid://bjbu71ws64i1a" path="res://rythm_game/results_screen/ResultsScreenGraph.gd" id="2"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1404191640]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,4 +11,4 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2")
 
-[node name="PointNodes" type="Node2D" parent="."]
+[node name="PointNodes" type="Node2D" parent="." unique_id=175989991]

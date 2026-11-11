@@ -1,22 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://ugik7k8g2kon"]
+[gd_scene format=3 uid="uid://ugik7k8g2kon"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionControlsSectionReset.gd" id="2"]
+[ext_resource type="Script" uid="uid://cfdkqme0g565o" path="res://menus/options_menu/OptionControlsSectionReset.gd" id="2"]
 
-[node name="Control" type="Panel"]
+[node name="Control" type="Panel" unique_id=1403759237]
 custom_minimum_size = Vector2(0, 64)
 anchors_preset = 10
 anchor_right = 1.0
 script = ExtResource("2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=424307757]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_right = -20.0
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1849295982]
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")

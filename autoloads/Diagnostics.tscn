@@ -1,28 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq5y3eypts76p"]
+[gd_scene format=3 uid="uid://dq5y3eypts76p"]
 
-[ext_resource type="Script" path="res://autoloads/Diagnostics.gd" id="1"]
+[ext_resource type="Script" uid="uid://c5ogb21fcyonm" path="res://autoloads/Diagnostics.gd" id="1"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="3"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3_cyjtc"]
 [ext_resource type="PackedScene" uid="uid://ctfqpu58nwwdy" path="res://autoloads/gamepad_visualizer/GamepadVisualizer.tscn" id="4"]
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="CanvasLayer" type="CanvasLayer" unique_id=76932803]
 process_mode = 3
 layer = 2
 script = ExtResource("1")
 
-[node name="Version Label" type="Label" parent="."]
+[node name="Version Label" type="Label" parent="." unique_id=1179458500]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -18.0
 offset_right = 120.0
 
-[node name="Window" type="Window" parent="."]
+[node name="Window" type="Window" parent="." unique_id=1303928986]
+oversampling_override = 1.0
 position = Vector2i(0, 24)
 size = Vector2i(1920, 1080)
 content_scale_aspect = 4
 
-[node name="TabContainer" type="TabContainer" parent="Window"]
+[node name="TabContainer" type="TabContainer" parent="Window" unique_id=1618368543]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,142 +33,142 @@ offset_bottom = -10.0
 theme = ExtResource("3")
 current_tab = 0
 
-[node name="Game" type="MarginContainer" parent="Window/TabContainer"]
+[node name="Game" type="MarginContainer" parent="Window/TabContainer" unique_id=267452981]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_tab_index = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Game"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Game" unique_id=705907108]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Game/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Game/VBoxContainer" unique_id=1711627673]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer" unique_id=1434711049]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="FrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="FrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1533121513]
 layout_mode = 2
 text = "FPS:"
 
-[node name="AVGFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="AVGFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=939332187]
 layout_mode = 2
 text = "Avg:"
 
-[node name="MinFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="MinFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=348566469]
 layout_mode = 2
 text = "Min:"
 
-[node name="MaxFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="MaxFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1031834676]
 layout_mode = 2
 text = "Max:"
 
-[node name="ResetButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="ResetButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=362301996]
 layout_mode = 2
 text = "Reset"
 
-[node name="TestResultsScreenButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="TestResultsScreenButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=73256603]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Test results screen"
 
-[node name="OpenStrayNodeTester" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="OpenStrayNodeTester" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=122927577]
 layout_mode = 2
 text = "Open Stray Node Test Scene"
 
-[node name="PrintOrphanedNodesButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="PrintOrphanedNodesButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1694222608]
 layout_mode = 2
 text = "Print Stray Nodes"
 
-[node name="CrashButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="CrashButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=902190862]
 unique_name_in_owner = true
 layout_mode = 2
 text = "CRASH!"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1960506373]
 layout_mode = 2
 
-[node name="InstanceID" type="SpinBox" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="InstanceID" type="SpinBox" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=204109242]
 layout_mode = 2
 max_value = 9.22337e+18
 
-[node name="PropertyName" type="LineEdit" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="PropertyName" type="LineEdit" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=177842827]
 layout_mode = 2
 
-[node name="PrintPropertyValue" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="PrintPropertyValue" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1509139339]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Print property"
 
-[node name="HSeparator" type="HSeparator" parent="Window/TabContainer/Game/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Window/TabContainer/Game/VBoxContainer" unique_id=333345700]
 layout_mode = 2
 
-[node name="AutoplayCheckbox" type="CheckBox" parent="Window/TabContainer/Game/VBoxContainer"]
+[node name="AutoplayCheckbox" type="CheckBox" parent="Window/TabContainer/Game/VBoxContainer" unique_id=1145759157]
 layout_mode = 2
 focus_mode = 0
 text = "Enable autoplay"
 
-[node name="TransparentViewport" type="CheckBox" parent="Window/TabContainer/Game/VBoxContainer"]
+[node name="TransparentViewport" type="CheckBox" parent="Window/TabContainer/Game/VBoxContainer" unique_id=379020549]
 layout_mode = 2
 text = "Enable transparent viewport (slower)"
 
-[node name="Service" type="MarginContainer" parent="Window/TabContainer"]
+[node name="Service" type="MarginContainer" parent="Window/TabContainer" unique_id=1678073491]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_tab_index = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Service"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Service" unique_id=1368253667]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Window/TabContainer/Service/VBoxContainer"]
+[node name="Button" type="Button" parent="Window/TabContainer/Service/VBoxContainer" unique_id=1117648452]
 layout_mode = 2
 text = "Clear achievment..."
 
-[node name="Button2" type="Button" parent="Window/TabContainer/Service/VBoxContainer"]
+[node name="Button2" type="Button" parent="Window/TabContainer/Service/VBoxContainer" unique_id=1850813768]
 layout_mode = 2
 text = "Obtain achivement"
 
-[node name="Button3" type="Button" parent="Window/TabContainer/Service/VBoxContainer"]
+[node name="Button3" type="Button" parent="Window/TabContainer/Service/VBoxContainer" unique_id=1778626785]
 layout_mode = 2
 text = "Set achievment progress"
 
-[node name="Logs" type="MarginContainer" parent="Window/TabContainer"]
+[node name="Logs" type="MarginContainer" parent="Window/TabContainer" unique_id=533160883]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_tab_index = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Logs"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Logs" unique_id=609874651]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Logs/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Logs/VBoxContainer" unique_id=1356316159]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer" unique_id=489703154]
 layout_mode = 2
 text = "Filter by:"
 
-[node name="LogFilterOptionButton" type="OptionButton" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+[node name="LogFilterOptionButton" type="OptionButton" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer" unique_id=1272815840]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer" unique_id=140511278]
 layout_mode = 2
 text = "Log level:"
 
-[node name="LogLevelFilterOptionButton" type="OptionButton" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+[node name="LogLevelFilterOptionButton" type="OptionButton" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer" unique_id=1871443612]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Window/TabContainer/Logs/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Window/TabContainer/Logs/VBoxContainer" unique_id=1852766716]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Window/TabContainer/Logs/VBoxContainer/ScrollContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Window/TabContainer/Logs/VBoxContainer/ScrollContainer" unique_id=996728828]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -175,71 +176,72 @@ focus_mode = 2
 bbcode_enabled = true
 selection_enabled = true
 
-[node name="Network" type="MarginContainer" parent="Window/TabContainer"]
+[node name="Network" type="MarginContainer" parent="Window/TabContainer" unique_id=1382941569]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_tab_index = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Network"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Network" unique_id=1892673302]
 layout_mode = 2
 
-[node name="AuthTokenButton" type="Button" parent="Window/TabContainer/Network/VBoxContainer"]
+[node name="AuthTokenButton" type="Button" parent="Window/TabContainer/Network/VBoxContainer" unique_id=990287290]
 layout_mode = 2
 text = "Copy auth token"
 
-[node name="HSplitContainer" type="HSplitContainer" parent="Window/TabContainer/Network/VBoxContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="Window/TabContainer/Network/VBoxContainer" unique_id=958601115]
 layout_mode = 2
 size_flags_vertical = 3
+split_offsets = PackedInt32Array(371)
 split_offset = 371
 
-[node name="Tree" type="Tree" parent="Window/TabContainer/Network/VBoxContainer/HSplitContainer"]
+[node name="Tree" type="Tree" parent="Window/TabContainer/Network/VBoxContainer/HSplitContainer" unique_id=977926405]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Window/TabContainer/Network/VBoxContainer/HSplitContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Window/TabContainer/Network/VBoxContainer/HSplitContainer" unique_id=1065149908]
 layout_mode = 2
 focus_mode = 2
 selection_enabled = true
 
-[node name="Workshop" type="MarginContainer" parent="Window/TabContainer"]
+[node name="Workshop" type="MarginContainer" parent="Window/TabContainer" unique_id=1754564000]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Workshop"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Workshop" unique_id=89713228]
 layout_mode = 2
 
-[node name="WorkshopRefreshButton" type="Button" parent="Window/TabContainer/Workshop/VBoxContainer"]
+[node name="WorkshopRefreshButton" type="Button" parent="Window/TabContainer/Workshop/VBoxContainer" unique_id=654398552]
 layout_mode = 2
 text = "Refresh"
 
-[node name="WorkshopTextEdit" type="TextEdit" parent="Window/TabContainer/Workshop/VBoxContainer"]
+[node name="WorkshopTextEdit" type="TextEdit" parent="Window/TabContainer/Workshop/VBoxContainer" unique_id=1223834776]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Editor" type="MarginContainer" parent="Window/TabContainer"]
+[node name="Editor" type="MarginContainer" parent="Window/TabContainer" unique_id=746053862]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Editor"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Editor" unique_id=2134684382]
 layout_mode = 2
 
-[node name="CommitActionButton" type="Button" parent="Window/TabContainer/Editor/VBoxContainer"]
+[node name="CommitActionButton" type="Button" parent="Window/TabContainer/Editor/VBoxContainer" unique_id=1705829031]
 layout_mode = 2
 text = "Commit stray actions"
 
-[node name="PrintShortcutsButton" type="Button" parent="Window/TabContainer/Editor/VBoxContainer"]
+[node name="PrintShortcutsButton" type="Button" parent="Window/TabContainer/Editor/VBoxContainer" unique_id=1276082603]
 layout_mode = 2
 text = "Print editor shortcuts"
 
-[node name="ShortcutsTextEdit" type="TextEdit" parent="Window/TabContainer/Editor/VBoxContainer"]
+[node name="ShortcutsTextEdit" type="TextEdit" parent="Window/TabContainer/Editor/VBoxContainer" unique_id=868000973]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="FPSLabel" type="Label" parent="."]
+[node name="FPSLabel" type="Label" parent="." unique_id=1681565183]
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = -10.0
@@ -248,7 +250,7 @@ theme_override_fonts/font = ExtResource("3_cyjtc")
 text = "FPS: 15"
 horizontal_alignment = 2
 
-[node name="GamepadVisualizer" parent="." instance=ExtResource("4")]
+[node name="GamepadVisualizer" parent="." unique_id=1252403601 instance=ExtResource("4")]
 offset_left = 1.18921
 offset_right = 1.18921
 

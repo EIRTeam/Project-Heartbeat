@@ -1,4 +1,4 @@
-[gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://wkerk1bs0uut"]
+[gd_resource type="FontVariation" format=3 uid="uid://wkerk1bs0uut"]
 
 [ext_resource type="FontFile" uid="uid://7604xb3extyu" path="res://fonts/orbitron/Orbitron-Regular.ttf" id="1_n7yo1"]
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2_vh6dk"]

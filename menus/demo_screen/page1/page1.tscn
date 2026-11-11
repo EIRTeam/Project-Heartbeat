@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://daul3fw7ohk30"]
+[gd_scene format=3 uid="uid://daul3fw7ohk30"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://cqnkf426msan2" path="res://graphics/demo_ss/demo_1.jpg" id="1_pvsj1"]
@@ -7,7 +7,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_buucu"]
 font_size = 28
 
-[node name="MarginContainer" type="MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" unique_id=856748533]
 auto_translate_mode = 2
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,22 +17,22 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=636554566]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=142305721]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=208182875]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=193001735]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
@@ -41,24 +41,24 @@ text = "Welcome to the Project Heartbeat demo!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1013496201]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=65632278]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("1_pvsj1")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=683492489]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("2_gcihi")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=16067844]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3

@@ -1,6 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://bgxdiwbsfjwi3"]
+[gd_scene format=3 uid="uid://bgxdiwbsfjwi3"]
 
-[ext_resource type="Script" path="res://menus/main_menu/MainMenuLeft.gd" id="1"]
+[ext_resource type="Script" uid="uid://by3g54opwuwm6" path="res://menus/main_menu/MainMenuLeft.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bwx8jmm5u4dmc" path="res://graphics/icons/music-box-outline.svg" id="2"]
 [ext_resource type="Texture2D" uid="uid://747hv6amarf4" path="res://graphics/icons/settings.svg" id="3"]
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="3_egic7"]
@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://cgshshdr1fqyn" path="res://graphics/icons/help-circle.svg" id="12"]
 [ext_resource type="Texture2D" uid="uid://bsw2b863mfxnd" path="res://graphics/icons/discord_main.svg" id="14"]
-[ext_resource type="Script" path="res://menus/main_menu/NetworkStatus.gd" id="15"]
+[ext_resource type="Script" uid="uid://bo2o3c1vyjc87" path="res://menus/main_menu/NetworkStatus.gd" id="15"]
 [ext_resource type="Texture2D" uid="uid://rx4rtkhmkprb" path="res://graphics/icons/steam.svg" id="16"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="17"]
 
@@ -34,7 +34,7 @@ func _on_ExitButton_pressed():
 	get_tree().quit()
 "
 
-[node name="StartMenu" type="Control"]
+[node name="StartMenu" type="Control" unique_id=958781049]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,7 +43,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=318098789]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -52,26 +52,26 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1190617191]
 layout_mode = 2
 alignment = 2
 script = ExtResource("15")
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=996209560]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("3_egic7")
 text = "HeartbeatNET: Connected"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer" unique_id=742345227]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("3_egic7")
 text = "HeartbeatNET: Connected"
 vertical_alignment = 1
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=1368695535]
 custom_minimum_size = Vector2(0, 175)
 layout_mode = 0
 offset_left = 2.0
@@ -82,7 +82,7 @@ texture = ExtResource("8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1299602119]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -93,11 +93,11 @@ grow_vertical = 2
 theme_override_constants/separation = 25
 alignment = 1
 
-[node name="TextureRect" type="VBoxContainer" parent="VBoxContainer"]
+[node name="TextureRect" type="VBoxContainer" parent="VBoxContainer" unique_id=1135797380]
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 
-[node name="StartMenu" type="VBoxContainer" parent="VBoxContainer"]
+[node name="StartMenu" type="VBoxContainer" parent="VBoxContainer" unique_id=2063855513]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 2
@@ -106,63 +106,63 @@ script = SubResource("1")
 orientation = 1
 enable_wrap_around = true
 
-[node name="StartButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+[node name="StartButton" parent="VBoxContainer/StartMenu" unique_id=760996706 instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Free Play"
 icon = ExtResource("2")
 next_menu = "song_list"
 
-[node name="WorkshopButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource("4")]
+[node name="WorkshopButton" parent="VBoxContainer/StartMenu" unique_id=383019246 groups=["mponly"] instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Workshop"
 icon = ExtResource("16")
 next_menu = "workshop_browser"
 
-[node name="HowToPlayButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+[node name="HowToPlayButton" parent="VBoxContainer/StartMenu" unique_id=410830663 instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "How to play"
 icon = ExtResource("12")
 next_menu = "tutorial"
 
-[node name="MultiplayerButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource("4")]
+[node name="MultiplayerButton" parent="VBoxContainer/StartMenu" unique_id=160054981 groups=["mponly"] instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Multiplayer"
 icon = ExtResource("7")
 next_menu = "lobby_list"
 
-[node name="DownloadQueueButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+[node name="DownloadQueueButton" parent="VBoxContainer/StartMenu" unique_id=423383628 instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Downloads"
 icon = ExtResource("17")
 next_menu = "download_queue"
 
-[node name="DiscordButton" parent="VBoxContainer/StartMenu" groups=["demo_only"] instance=ExtResource("4")]
+[node name="DiscordButton" parent="VBoxContainer/StartMenu" unique_id=2047291599 groups=["demo_only"] instance=ExtResource("4")]
 visible = false
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Discord Server"
 icon = ExtResource("14")
 
-[node name="OptionsButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+[node name="OptionsButton" parent="VBoxContainer/StartMenu" unique_id=250689790 instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Options"
 icon = ExtResource("3")
 next_menu = "options_menu"
 
-[node name="ToolsButton" parent="VBoxContainer/StartMenu" groups=["nodemo"] instance=ExtResource("4")]
+[node name="ToolsButton" parent="VBoxContainer/StartMenu" unique_id=2037481010 groups=["nodemo"] instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Tools"
 icon = ExtResource("6")
 next_menu = "tools_menu"
 
-[node name="ExitButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+[node name="ExitButton" parent="VBoxContainer/StartMenu" unique_id=1819819248 instance=ExtResource("4")]
 custom_minimum_size = Vector2(430, 60)
 layout_mode = 2
 text = "Exit"

@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://bpkrvgsnpbfed"]
 
-[ext_resource path="res://graphics/hold_hint.png" type="Texture2D" id=1]
-[ext_resource path="res://rythm_game/MultiHint.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://dgwtfrw2dka6q" path="res://graphics/hold_hint.png" id="1"]
+[ext_resource type="Script" uid="uid://ldp68oai34a0" path="res://rythm_game/MultiHint.gd" id="2"]
 
-[node name="MultiHint" type="TextureRect"]
+[node name="MultiHint" type="TextureRect" unique_id=1488019860]
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -12,7 +13,7 @@ offset_left = -128.0
 offset_top = -521.12
 offset_right = 128.0
 offset_bottom = -265.12
-scale = Vector2( 0.5, 0.5 )
-pivot_offset = Vector2( 128, 128 )
-texture = ExtResource( 1 )
-script = ExtResource( 2 )
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(128, 128)
+texture = ExtResource("1")
+script = ExtResource("2")

@@ -1,7 +1,7 @@
-[gd_resource type="FontVariation" script_class="HBUIFont" load_steps=3 format=3 uid="uid://ql3ok3egbokh"]
+[gd_resource type="FontVariation" script_class="HBUIFont" format=3 uid="uid://ql3ok3egbokh"]
 
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="1_6x5f5"]
-[ext_resource type="Script" path="res://scripts/new_ui/HBUIFont.gd" id="3"]
+[ext_resource type="Script" uid="uid://yjq87wyk8o5v" path="res://scripts/new_ui/HBUIFont.gd" id="3"]
 
 [resource]
 base_font = ExtResource("1_6x5f5")

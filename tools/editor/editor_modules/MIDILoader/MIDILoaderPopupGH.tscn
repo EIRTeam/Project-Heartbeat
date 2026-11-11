@@ -1,71 +1,52 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://kggmg132p8jk"]
 
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopupGH.gd" type="Script" id=2]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
+[ext_resource type="Script" uid="uid://dy4ojh5g2oy58" path="res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopupGH.gd" id="2"]
 
-[node name="Control" type="ConfirmationDialog"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 230.0
-offset_top = 129.0
-offset_right = -229.0
-offset_bottom = -129.0
-theme = ExtResource( 1 )
-exclusive = true
-window_title = "Select which difficulties to import..."
-resizable = true
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Control" type="ConfirmationDialog" unique_id=1773722508]
+theme = ExtResource("1")
+script = ExtResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2024644052]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -41.0
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_top = 0
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_left = 10.0
-offset_right = 1435.0
-offset_bottom = 763.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=573875122]
+layout_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
-offset_right = 785.0
-offset_bottom = 25.0
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer" unique_id=22041525]
+layout_mode = 2
 text = "Tracks to import"
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer"]
-offset_top = 29.0
-offset_right = 785.0
-offset_bottom = 403.0
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer" unique_id=1427390418]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/Panel" unique_id=477642970]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Panel/ScrollContainer"]
-offset_right = 785.0
-offset_bottom = 374.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Panel/ScrollContainer" unique_id=191396721]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ItemList" type="ItemList" parent="MarginContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
-offset_right = 785.0
-offset_bottom = 374.0
+[node name="ItemList" type="ItemList" parent="MarginContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer" unique_id=1717140928]
+layout_mode = 2
 size_flags_vertical = 3
-items = [ "Easy", null, false, "Normal", null, false, "Hard", null, false, "Extreme", null, false ]
+item_count = 4
+item_0/text = "Easy"
+item_1/text = "Normal"
+item_2/text = "Hard"
+item_3/text = "Extreme"

@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://s460eaf516lj"]
+[gd_scene format=3 uid="uid://s460eaf516lj"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_3086j"]
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="3"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="4_2kxm0"]
-[ext_resource type="Script" path="res://menus/MainMenuUserInfo.gd" id="5"]
+[ext_resource type="Script" uid="uid://b735hxnmb77yc" path="res://menus/MainMenuUserInfo.gd" id="5"]
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="5_snk2q"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
@@ -12,7 +12,7 @@ border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 shadow_color = Color(0.94902, 0.239216, 0.819608, 0.501961)
 shadow_size = 8
 
-[node name="Panel" type="HBPanelContainerBlurEX"]
+[node name="Panel" type="HBPanelContainerBlurEX" unique_id=1040048206]
 custom_minimum_size = Vector2(0, 135)
 anchors_preset = -1
 anchor_right = 1.0
@@ -23,25 +23,25 @@ theme = ExtResource("1_3086j")
 theme_override_styles/panel = ExtResource("1")
 script = ExtResource("5")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=185640590]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1679195468]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=477329547]
 custom_minimum_size = Vector2(104, 0)
 layout_mode = 2
 texture = ExtResource("3")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/TextureRect"]
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/TextureRect" unique_id=333585657]
 visible = false
 show_behind_parent = true
 layout_mode = 0
@@ -49,16 +49,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_styles/panel = SubResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=724558915]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 20
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=968873146]
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=955833974]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
@@ -68,12 +68,12 @@ text = "Player"
 vertical_alignment = 2
 clip_text = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=305875544]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=796145693]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -81,7 +81,7 @@ size_flags_vertical = 4
 value = 50.0
 show_percentage = false
 
-[node name="LevelLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="LevelLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2113069367]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 7

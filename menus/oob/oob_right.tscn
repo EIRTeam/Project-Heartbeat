@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cqtmxunmrnpbx"]
+[gd_scene format=3 uid="uid://cqtmxunmrnpbx"]
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1_5b452"]
-[ext_resource type="Script" path="res://menus/oob/oob_right.gd" id="1_i1y5j"]
+[ext_resource type="Script" uid="uid://dkctnhkr16vgb" path="res://menus/oob/oob_right.gd" id="1_i1y5j"]
 [ext_resource type="StyleBox" uid="uid://b21324ii6ky3l" path="res://styles/PanelStyleTransparentIcon.tres" id="2_2o5fb"]
 [ext_resource type="Texture2D" uid="uid://brb88438ytwge" path="res://graphics/aiko_normal_standing.png" id="3_woayx"]
 [ext_resource type="StyleBox" uid="uid://chtcd7ohnjt3f" path="res://styles/PanelStyleTransparentAlt.tres" id="4_bnbdd"]
@@ -14,7 +14,7 @@ corner_radius_bottom_left = 1024
 corner_detail = 1
 anti_aliasing = false
 
-[node name="OobRight" type="Control"]
+[node name="OobRight" type="Control" unique_id=1155162565]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_i1y5j")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1859801578]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -36,39 +36,39 @@ size_flags_stretch_ratio = 0.5
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=256530840]
 layout_mode = 2
 theme_override_constants/separation = -7
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer" unique_id=2022365634]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_styles/panel = ExtResource("2_2o5fb")
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/PanelContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/PanelContainer" unique_id=1676542159]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("1_5b452")
 text = "Aiko"
 horizontal_alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1868579662]
 layout_mode = 2
 theme_override_constants/separation = -1
 
-[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer/VBoxContainer" unique_id=903691165]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 theme_override_styles/panel = ExtResource("4_bnbdd")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer/VBoxContainer/HBPanelContainerBlurEX"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer/VBoxContainer/HBPanelContainerBlurEX" unique_id=871057251]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="StepDescriptionLabel" type="Label" parent="VBoxContainer/VBoxContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer"]
+[node name="StepDescriptionLabel" type="Label" parent="VBoxContainer/VBoxContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer" unique_id=1323338331]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
@@ -76,14 +76,14 @@ text = " dasdsadasdsadsadsadsadsadsa asd as ad asds aasdsad z"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer/VBoxContainer" unique_id=1678999358]
 show_behind_parent = true
 custom_minimum_size = Vector2(40, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_vi45s")
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1834717725]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_woayx")

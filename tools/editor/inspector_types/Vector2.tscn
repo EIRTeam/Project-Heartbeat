@@ -1,61 +1,47 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://c7ysrnuflnvrj"]
 
-[ext_resource path="res://tools/editor/inspector_types/Vector2.gd" type="Script" id=1]
-[ext_resource path="res://tools/editor/controls/HBEditorMultiSpinBox.gd" type="Script" id=2]
+[ext_resource type="Script" uid="uid://cam8fog0x4bgf" path="res://tools/editor/inspector_types/Vector2.gd" id="1"]
+[ext_resource type="Script" uid="uid://bqxg42angeqh6" path="res://tools/editor/controls/HBEditorMultiSpinBox.gd" id="2"]
 
-[node name="Vector2" type="HBoxContainer"]
+[node name="Vector2" type="HBoxContainer" unique_id=861066931]
 offset_right = 26.0
 alignment = 1
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_right = 85.0
-offset_bottom = 52.0
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1680625220]
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 85.0
-offset_bottom = 24.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1053983233]
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-offset_top = 5.0
-offset_right = 7.0
-offset_bottom = 19.0
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1057513745]
+layout_mode = 2
 text = "x"
 
-[node name="XSpinbox" type="MultiSpinBox" parent="VBoxContainer/HBoxContainer"]
+[node name="XSpinbox" type="MultiSpinBox" parent="VBoxContainer/HBoxContainer" unique_id=941170760]
 unique_name_in_owner = true
-offset_left = 11.0
-offset_right = 85.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 inner_property_name = "x"
 suffix = "px"
 max = 1920.0
-horizontal_alignment = 3
-script = ExtResource( 2 )
+script = ExtResource("2")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-offset_top = 28.0
-offset_right = 85.0
-offset_bottom = 52.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=912606231]
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2"]
-offset_top = 5.0
-offset_right = 7.0
-offset_bottom = 19.0
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2" unique_id=1923083690]
+layout_mode = 2
 text = "y"
 
-[node name="YSpinbox" type="MultiSpinBox" parent="VBoxContainer/HBoxContainer2"]
+[node name="YSpinbox" type="MultiSpinBox" parent="VBoxContainer/HBoxContainer2" unique_id=1334862820]
 unique_name_in_owner = true
-offset_left = 11.0
-offset_right = 85.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 inner_property_name = "y"
 suffix = "px"
 max = 1080.0
-horizontal_alignment = 3
-script = ExtResource( 2 )
+script = ExtResource("2")

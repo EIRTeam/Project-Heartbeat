@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=4 uid="uid://dycvec2jy0kmy"]
+[gd_scene format=3 uid="uid://dycvec2jy0kmy"]
 
-[ext_resource type="Script" path="res://tools/new_inspector/new_inspector.gd" id="1"]
+[ext_resource type="Script" uid="uid://chcf81ioh5bm1" path="res://tools/new_inspector/new_inspector.gd" id="1"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="2"]
 
-[node name="Control" type="PanelContainer"]
+[node name="Control" type="PanelContainer" unique_id=513173924]
 custom_minimum_size = Vector2(300, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,10 +13,10 @@ grow_vertical = 2
 theme = ExtResource("2")
 script = ExtResource("1")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1299154357]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=18749038]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://mk4i5mpqt4hy"]
+[gd_scene format=3 uid="uid://mk4i5mpqt4hy"]
 
-[ext_resource type="Script" path="res://menus/PerSongSettingsEditor.gd" id="1"]
+[ext_resource type="Script" uid="uid://t5oto57a1oud" path="res://menus/PerSongSettingsEditor.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://cloehp50oox4y" path="res://menus/options_menu/OptionSection.tscn" id="2"]
 
-[node name="PerSongSettingsEditor" type="Control"]
+[node name="PerSongSettingsEditor" type="Control" unique_id=1029359938]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -19,5 +19,5 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1")
 
-[node name="PerSongSettingsOptionSection" parent="." instance=ExtResource("2")]
+[node name="PerSongSettingsOptionSection" parent="." unique_id=897598743 instance=ExtResource("2")]
 layout_mode = 1

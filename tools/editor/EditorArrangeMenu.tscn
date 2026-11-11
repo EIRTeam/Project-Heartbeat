@@ -1,25 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://bknhgu2vawn75"]
+[gd_scene format=3 uid="uid://bknhgu2vawn75"]
 
-[ext_resource type="Script" path="res://tools/editor/EditorArrangeMenu.gd" id="1"]
-[ext_resource type="Script" path="res://tools/editor/EditorArrangeMenuArcDrawer.gd" id="2"]
+[ext_resource type="Script" uid="uid://m03exkbuys4n" path="res://tools/editor/EditorArrangeMenu.gd" id="1"]
+[ext_resource type="Script" uid="uid://44531jpu37se" path="res://tools/editor/EditorArrangeMenuArcDrawer.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://juq0bakm87kw" path="res://graphics/icons/swap-horizontal.svg" id="3"]
-[ext_resource type="Script" path="res://tools/editor/EditorArrangeMenuBaseDrawer.gd" id="4"]
+[ext_resource type="Script" uid="uid://b33xnoyyate27" path="res://tools/editor/EditorArrangeMenuBaseDrawer.gd" id="4"]
 
-[node name="Popup" type="Control"]
+[node name="Popup" type="Control" unique_id=901922009]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 240.0
 offset_bottom = 240.0
 script = ExtResource("1")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=695994743]
 clip_contents = true
-layout_mode = 3
 anchors_preset = 0
 offset_right = 240.0
 offset_bottom = 240.0
 
-[node name="Control" type="Control" parent="Control"]
+[node name="Control" type="Control" parent="Control" unique_id=943331315]
 anchors_preset = 0
 offset_left = 120.0
 offset_top = 120.0
@@ -27,7 +26,7 @@ offset_right = 160.0
 offset_bottom = 160.0
 script = ExtResource("2")
 
-[node name="Control2" type="Control" parent="Control"]
+[node name="Control2" type="Control" parent="Control" unique_id=2052268058]
 show_behind_parent = true
 anchors_preset = 0
 offset_left = 120.0
@@ -36,7 +35,7 @@ offset_right = 160.0
 offset_bottom = 160.0
 script = ExtResource("4")
 
-[node name="ReverseIndicator" type="TextureRect" parent="Control"]
+[node name="ReverseIndicator" type="TextureRect" parent="Control" unique_id=455751198]
 visible = false
 layout_mode = 0
 offset_left = 161.0

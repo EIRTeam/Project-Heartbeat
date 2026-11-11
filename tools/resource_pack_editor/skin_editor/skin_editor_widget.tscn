@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://i08qk1n42uwn"]
+[gd_scene format=3 uid="uid://i08qk1n42uwn"]
 
-[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.gd" id="1"]
+[ext_resource type="Script" uid="uid://cd6j7aeh650ic" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.gd" id="1"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="3"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="4"]
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="4_gmoep"]
@@ -9,6 +9,15 @@
 
 [sub_resource type="FontFile" id="4"]
 fallbacks = Array[Font]([ExtResource("3")])
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -40,7 +49,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="SkinEditorWidget" type="PanelContainer"]
+[node name="SkinEditorWidget" type="PanelContainer" unique_id=1358110826]
 offset_top = 33.0
 offset_right = 127.0
 offset_bottom = 119.0
@@ -49,19 +58,19 @@ theme_override_styles/panel = SubResource("3")
 script = ExtResource("1")
 popupmenu_font = SubResource("4")
 
-[node name="Outline" type="Panel" parent="."]
+[node name="Outline" type="Panel" parent="." unique_id=615756926]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("1")
 
-[node name="Inside" type="Panel" parent="Outline"]
+[node name="Inside" type="Panel" parent="Outline" unique_id=389901157]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("2")
 
-[node name="Label" type="Label" parent="Outline"]
+[node name="Label" type="Label" parent="Outline" unique_id=1792407506]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -70,14 +79,15 @@ text = "name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=278652467]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="PopupMenu" type="PopupMenu" parent="Control"]
+[node name="PopupMenu" type="PopupMenu" parent="Control" unique_id=1863279840]
 theme_override_fonts/font = SubResource("4")
 item_count = 3
 item_0/text = "Elemento 0"
+item_0/id = 0
 item_1/text = "Elemento 1"
 item_1/id = 1
 item_2/text = "Elemento 2"

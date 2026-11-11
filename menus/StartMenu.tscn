@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bo3yjn1jcs8j5"]
+[gd_scene format=3 uid="uid://bo3yjn1jcs8j5"]
 
 [ext_resource type="Script" uid="uid://clclotslxtcow" path="res://menus/RandomQuote.gd" id="3"]
 [ext_resource type="Script" uid="uid://c6khaelx76wtk" path="res://menus/StartMenu.gd" id="4"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dokb315qt2f5o" path="res://menus/PressStartMenu.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://dpavg7fpmvy8v" path="res://graphics/party_hat.png" id="8"]
 
-[node name="StartMenu" type="Control"]
+[node name="StartMenu" type="Control" unique_id=1680585444]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,29 +18,31 @@ mouse_filter = 2
 theme = ExtResource("5")
 script = ExtResource("4")
 
-[node name="AudioIn" type="Threen" parent="."]
+[node name="AudioIn" type="Threen" parent="." unique_id=2124266320]
 
-[node name="AudioOut" type="Threen" parent="."]
+[node name="AudioOut" type="Threen" parent="." unique_id=1206984483]
 
-[node name="PressStart" type="Control" parent="."]
+[node name="PressStart" type="Control" parent="." unique_id=1106494457]
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource("6")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PressStart"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PressStart" unique_id=1003477066]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -0.568787
 offset_right = -0.568848
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="TextureRect3" type="TextureRect" parent="PressStart/VBoxContainer"]
+[node name="TextureRect3" type="TextureRect" parent="PressStart/VBoxContainer" unique_id=131245341]
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -49,7 +51,7 @@ texture = ExtResource("4_ye8o8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="BirthdayHat" type="TextureRect" parent="PressStart/VBoxContainer/TextureRect3"]
+[node name="BirthdayHat" type="TextureRect" parent="PressStart/VBoxContainer/TextureRect3" unique_id=1154732505]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -67,12 +69,12 @@ texture = ExtResource("8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PressStart/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PressStart/VBoxContainer" unique_id=1939396886]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 70
 
-[node name="RandomQuote" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
+[node name="RandomQuote" type="Label" parent="PressStart/VBoxContainer/VBoxContainer" unique_id=1976410169]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -81,7 +83,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("3")
 
-[node name="Label" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="PressStart/VBoxContainer/VBoxContainer" unique_id=72846264]
 layout_mode = 2
 text = "Press any key"
 horizontal_alignment = 1

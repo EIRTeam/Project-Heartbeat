@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://ddwcdis3ndvvm"]
+[gd_scene format=3 uid="uid://ddwcdis3ndvvm"]
 
 [ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="2"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="4"]
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="4_a3lbd"]
-[ext_resource type="Script" path="res://menus/music_player/MainMenuMusicPlayer.gd" id="5"]
+[ext_resource type="Script" uid="uid://c8orx8mwjwqoi" path="res://menus/music_player/MainMenuMusicPlayer.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="6"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
@@ -50,7 +50,7 @@ func _on_line_edit_text_submitted(new_text):
 	$InputGlyphRect.action_name = new_text
 "
 
-[node name="MainMenuMusicPlayer" type="Control"]
+[node name="MainMenuMusicPlayer" type="Control" unique_id=648935862]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,9 +60,9 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=413106311]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1815068122]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.944
@@ -72,7 +72,7 @@ offset_top = -100.0
 mouse_filter = 2
 alignment = 2
 
-[node name="MusicPlayer" type="Panel" parent="HBoxContainer"]
+[node name="MusicPlayer" type="Panel" parent="HBoxContainer" unique_id=2136505343]
 custom_minimum_size = Vector2(900, 100)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -80,7 +80,7 @@ size_flags_vertical = 3
 theme = ExtResource("4")
 theme_override_styles/panel = SubResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MusicPlayer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MusicPlayer" unique_id=1094130806]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,17 +95,17 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer" unique_id=1461704384]
 layout_mode = 2
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer" unique_id=1370580180]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=294467776]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 0.6
@@ -113,23 +113,23 @@ texture = ExtResource("6")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=279523270]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_a3lbd")]
+[node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=264470451 instance=ExtResource("4_a3lbd")]
 self_modulate = Color(0, 0, 1, 1)
 material = null
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1028059762]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="PlaybackCurrentTimeLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="PlaybackCurrentTimeLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" unique_id=872960040]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -138,12 +138,12 @@ theme_override_font_sizes/font_size = 24
 text = "(NT)1:02/"
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" unique_id=1490048368]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer" unique_id=395406893]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/background = SubResource("StyleBoxLine_24haw")
@@ -153,7 +153,7 @@ step = 0.0
 value = 0.5
 show_percentage = false
 
-[node name="PlaybackMaxLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="PlaybackMaxLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" unique_id=157584594]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2")
@@ -161,7 +161,7 @@ theme_override_font_sizes/font_size = 24
 text = "(NT)4:00"
 horizontal_alignment = 2
 
-[node name="PromptInputAction" type="InputGlyphRect" parent="HBoxContainer/MusicPlayer"]
+[node name="PromptInputAction" type="InputGlyphRect" parent="HBoxContainer/MusicPlayer" unique_id=1863354720]
 layout_mode = 0
 anchor_left = 0.073
 anchor_top = 0.2

@@ -1,7 +1,7 @@
-[gd_resource type="GDNativeLibrary" format=2]
+[gd_resource type="GDNativeLibrary" format=3 uid="uid://ytm6kb71faoc"]
 
 [resource]
 entry/Windows.64 = "res://addons/ph_native_utils/bin/godot_audio_utils.dll"
 entry/X11.64 = "res://addons/ph_native_utils/bin/libgodot_audio_utils.so"
-dependency/Windows.64 = [ "res://addons/ph_native_utils/bin/godot_audio_utils.dll" ]
-dependency/X11.64 = [ "res://addons/ph_native_utils/bin/libgodot_audio_utils.so" ]
+dependency/Windows.64 = ["res://addons/ph_native_utils/bin/godot_audio_utils.dll"]
+dependency/X11.64 = ["res://addons/ph_native_utils/bin/libgodot_audio_utils.so"]

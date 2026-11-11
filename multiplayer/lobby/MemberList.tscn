@@ -1,18 +1,18 @@
-[gd_scene load_steps=3 format=4 uid="uid://bjxa2hpnq0raa"]
+[gd_scene format=3 uid="uid://bjxa2hpnq0raa"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
-[ext_resource type="Script" path="res://multiplayer/lobby/MemberList.gd" id="3"]
+[ext_resource type="Script" uid="uid://cna7xa8ch4b11" path="res://multiplayer/lobby/MemberList.gd" id="3"]
 
-[node name="Control" type="HBPanelContainerBlurEX"]
+[node name="Control" type="HBPanelContainerBlurEX" unique_id=931730397]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_styles/panel = ExtResource("1")
 script = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2091219429]
 layout_mode = 2
 theme_override_constants/margin_top = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1404183240]
 layout_mode = 2

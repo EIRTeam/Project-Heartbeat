@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dtdvcbase2j6f"]
+[gd_scene format=3 uid="uid://dtdvcbase2j6f"]
 
 [ext_resource type="Script" uid="uid://ctq4mgfhjxubn" path="res://menus/MainMenu2D.gd" id="1"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2"]
@@ -44,10 +44,10 @@ _data = {
 &"1to2": SubResource("3")
 }
 
-[node name="MainMenu3D" type="Node3D"]
+[node name="MainMenu3D" type="Node3D" unique_id=1647005147]
 script = ExtResource("1")
 
-[node name="FullscreenMenuContainer" type="Control" parent="."]
+[node name="FullscreenMenuContainer" type="Control" parent="." unique_id=1905290826]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,17 +56,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1380681167]
 layer = -128
 
-[node name="Panel" type="Panel" parent="CanvasLayer"]
+[node name="Panel" type="Panel" parent="CanvasLayer" unique_id=927860181]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("2")
 
-[node name="Background1" type="TextureRect" parent="CanvasLayer"]
+[node name="Background1" type="TextureRect" parent="CanvasLayer" unique_id=1434699094]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -76,7 +76,7 @@ expand_mode = 1
 stretch_mode = 6
 script = ExtResource("8")
 
-[node name="Background2" type="TextureRect" parent="CanvasLayer"]
+[node name="Background2" type="TextureRect" parent="CanvasLayer" unique_id=269754982]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -86,15 +86,13 @@ expand_mode = 1
 stretch_mode = 6
 script = ExtResource("8")
 
-[node name="MainMenuVisualizer2" parent="CanvasLayer" instance=ExtResource("5")]
+[node name="MainMenuVisualizer2" parent="CanvasLayer" unique_id=835504672 instance=ExtResource("5")]
 mouse_filter = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
-libraries = {
-&"": SubResource("AnimationLibrary_tck5u")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" unique_id=706589948]
+libraries/ = SubResource("AnimationLibrary_tck5u")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2035781219]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -106,45 +104,45 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1658464189]
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[node name="ContainerLeft" type="Container" parent="MarginContainer/HBoxContainer"]
+[node name="ContainerLeft" type="Container" parent="MarginContainer/HBoxContainer" unique_id=861619378]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("7_gv430")
 target_size = Vector2(1760, 1080)
 
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/ContainerLeft"]
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/ContainerLeft" unique_id=1765604448]
 layout_mode = 2
 
-[node name="ContainerRight" type="Container" parent="MarginContainer/HBoxContainer"]
+[node name="ContainerRight" type="Container" parent="MarginContainer/HBoxContainer" unique_id=160433358]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
 script = ExtResource("7_gv430")
 target_size = Vector2(720, 1440)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/ContainerRight"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/ContainerRight" unique_id=1581853380]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="UserInfo" parent="MarginContainer/HBoxContainer/ContainerRight/VBoxContainer" instance=ExtResource("7_f87bs")]
+[node name="UserInfo" parent="MarginContainer/HBoxContainer/ContainerRight/VBoxContainer" unique_id=1023209559 instance=ExtResource("7_f87bs")]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/ContainerRight/VBoxContainer"]
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/ContainerRight/VBoxContainer" unique_id=1842185667]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainer" unique_id=1075717806]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 editor_only = false
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1700335434]
 
-[node name="MainMenuMusicPlayer" parent="CanvasLayer2" instance=ExtResource("8_qs5i1")]
+[node name="MainMenuMusicPlayer" parent="CanvasLayer2" unique_id=765764279 instance=ExtResource("8_qs5i1")]

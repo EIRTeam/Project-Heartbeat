@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bi00tlp38rnc3"]
+[gd_scene format=3 uid="uid://bi00tlp38rnc3"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
-[ext_resource type="Script" path="res://tools/editor/WorkshopUploadForm.gd" id="2"]
+[ext_resource type="Script" uid="uid://4m2ubdnp1urr" path="res://tools/editor/WorkshopUploadForm.gd" id="2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85hbi"]
 bg_color = Color(0.2, 0.231373, 0.309804, 1)
@@ -16,12 +16,13 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.462745, 0.478431, 0.52549, 1)
 
-[node name="Window" type="Window"]
+[node name="Window" type="Window" unique_id=1046274433]
+oversampling_override = 1.0
 position = Vector2i(0, 32)
 theme = ExtResource("1")
 script = ExtResource("2")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=198707998]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -29,7 +30,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_85hbi")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=924841951]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -38,73 +39,73 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=816758424]
 layout_mode = 2
 
-[node name="DataLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="DataLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=63659254]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1808526352]
 layout_mode = 2
 text = "Title"
 
-[node name="TitleLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer"]
+[node name="TitleLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=388040391]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1795757204]
 layout_mode = 2
 text = "Description"
 
-[node name="DescriptionLineEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
+[node name="DescriptionLineEdit" type="TextEdit" parent="MarginContainer/VBoxContainer" unique_id=1934128191]
 layout_mode = 2
 size_flags_vertical = 3
 wrap_mode = 1
 
-[node name="Label4" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="MarginContainer/VBoxContainer" unique_id=227205549]
 layout_mode = 2
 text = "Changelog"
 
-[node name="UpdateDescriptionLineEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
+[node name="UpdateDescriptionLineEdit" type="TextEdit" parent="MarginContainer/VBoxContainer" unique_id=386338121]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=177280523]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer" unique_id=150773286]
 layout_mode = 2
 text = "Before uploading, please make sure that:
 - You don't upload content you don't have the rights or permission to upload.
 - Your upload doesn't break the Steam terms of service"
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer" unique_id=1929998936]
 layout_mode = 2
 text = "I comply with the conditions stated"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer" unique_id=1599223375]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_styles/normal = SubResource("1")
 bbcode_enabled = true
 text = "By submitting this item, you agree to the workshop terms of service"
 
-[node name="UploadButton" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="UploadButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=189439739]
 layout_mode = 2
 disabled = true
 text = "Upload"
 
-[node name="UploadDialog" type="Popup" parent="."]
+[node name="UploadDialog" type="Popup" parent="." unique_id=1628648266]
 size = Vector2i(400, 100)
 exclusive = true
 
-[node name="Panel" type="Panel" parent="UploadDialog"]
+[node name="Panel" type="Panel" parent="UploadDialog" unique_id=580306914]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -1.0
 theme_override_styles/panel = SubResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="UploadDialog/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="UploadDialog/Panel" unique_id=442417386]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -114,28 +115,28 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UploadDialog/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UploadDialog/Panel/MarginContainer" unique_id=1332258024]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UploadDialog/Panel/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="UploadDialog/Panel/MarginContainer/VBoxContainer" unique_id=827521360]
 layout_mode = 2
 text = "Uploading to the workshop, hold tight."
 horizontal_alignment = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="UploadDialog/Panel/MarginContainer/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="UploadDialog/Panel/MarginContainer/VBoxContainer" unique_id=2042419865]
 layout_mode = 2
 max_value = 1.0
 step = 0.0
 
-[node name="PostUploadDialog" type="AcceptDialog" parent="."]
+[node name="PostUploadDialog" type="AcceptDialog" parent="." unique_id=2064591090]
 
-[node name="ErrorDialog" type="AcceptDialog" parent="."]
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=1921869607]
 position = Vector2i(0, 32)
 size = Vector2i(117, 100)
 always_on_top = true
 dialog_text = "There "
 
-[node name="WorkshopFileNotFoundDialog" type="ConfirmationDialog" parent="."]
+[node name="WorkshopFileNotFoundDialog" type="ConfirmationDialog" parent="." unique_id=1896404584]
 unique_name_in_owner = true
 position = Vector2i(0, 32)
 size = Vector2i(440, 158)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://qmyd8asnn4d5"]
+[gd_scene format=3 uid="uid://qmyd8asnn4d5"]
 
 [ext_resource type="Script" uid="uid://6kmoc3hw18ov" path="res://menus/options_menu/OptionCustomCommandLine.gd" id="1_vsfbx"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2_sjjeo"]
@@ -10,7 +10,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_atcvq"]
 font_size = 24
 
-[node name="OptionSelect" type="Panel"]
+[node name="OptionSelect" type="Panel" unique_id=1600867352]
 custom_minimum_size = Vector2(0, 64)
 anchors_preset = 10
 anchor_right = 1.0
@@ -18,14 +18,14 @@ offset_bottom = 64.0
 grow_horizontal = 2
 script = ExtResource("1_vsfbx")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=371900788]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_right = -20.0
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1391447559]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 7
@@ -34,12 +34,12 @@ text = "(NT)Boolean Option"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=2043114868]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
-[node name="PreviewLabel" type="Label" parent="HBoxContainer/HBoxContainer"]
+[node name="PreviewLabel" type="Label" parent="HBoxContainer/HBoxContainer" unique_id=1353854225]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -48,22 +48,22 @@ label_settings = SubResource("LabelSettings_atcvq")
 horizontal_alignment = 2
 text_overrun_behavior = 3
 
-[node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=51693569]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 2
 script = ExtResource("3_sgxf5")
 
-[node name="EditButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+[node name="EditButton" type="Button" parent="HBoxContainer/ButtonContainer" unique_id=1043638023]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Edit"
 icon = ExtResource("4_amxqn")
 script = ExtResource("4_atcvq")
-metadata/_custom_type_script = ExtResource("4_atcvq")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2073813417]
 
-[node name="CommandLineEditPopup" parent="CanvasLayer" instance=ExtResource("3_vsfbx")]
+[node name="CommandLineEditPopup" parent="CanvasLayer" unique_id=1506896601 instance=ExtResource("3_vsfbx")]
 unique_name_in_owner = true

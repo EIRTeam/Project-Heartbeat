@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://be7tuc1i6yq5b"]
+[gd_scene format=3 uid="uid://be7tuc1i6yq5b"]
 
 [ext_resource type="Script" uid="uid://bwqdqrpx3e0je" path="res://menus/news_list/MainMenuRight.gd" id="1"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="4"]
@@ -9,20 +9,6 @@
 [ext_resource type="StyleBox" uid="uid://chtcd7ohnjt3f" path="res://styles/PanelStyleTransparentAlt.tres" id="8_lyhbe"]
 [ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="10"]
 [ext_resource type="Texture2D" uid="uid://diw3qc73g27lv" path="res://graphics/icons/account_main.svg" id="11"]
-
-[sub_resource type="StyleBoxFlat" id="1"]
-content_margin_left = 25.0
-content_margin_top = 7.0
-content_margin_right = 7.0
-content_margin_bottom = 7.0
-bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_color = Color(0, 0, 0, 0.25)
-shadow_size = 10
 
 [sub_resource type="StyleBoxFlat" id="2"]
 content_margin_left = 25.0
@@ -39,7 +25,21 @@ corner_radius_bottom_left = 5
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[node name="Panel" type="Control"]
+[sub_resource type="StyleBoxFlat" id="1"]
+content_margin_left = 25.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 10
+
+[node name="Panel" type="Control" unique_id=276808822]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,7 +49,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=397195007]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 0.856
@@ -57,7 +57,7 @@ offset_bottom = -0.480042
 theme_override_constants/separation = 25
 alignment = 2
 
-[node name="SocialButtons" type="VBoxContainer" parent="VBoxContainer"]
+[node name="SocialButtons" type="VBoxContainer" parent="VBoxContainer" unique_id=909821158]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_bottom = NodePath("../NewsButtons")
@@ -67,49 +67,49 @@ alignment = 1
 script = ExtResource("10")
 orientation = 1
 
-[node name="GetFullGameButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons"]
+[node name="GetFullGameButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons" unique_id=496823433]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("8")
-theme_override_styles/hover = SubResource("1")
-theme_override_styles/pressed = SubResource("1")
 theme_override_styles/normal = SubResource("2")
+theme_override_styles/pressed = SubResource("1")
+theme_override_styles/hover = SubResource("1")
 text = "Get the full game!"
 icon = ExtResource("4_q8d4t")
 script = ExtResource("4")
 normal_style = SubResource("2")
 hover_style = SubResource("1")
 
-[node name="OpenProfileButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons"]
+[node name="OpenProfileButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons" unique_id=1536105921]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("8")
-theme_override_styles/hover = SubResource("1")
-theme_override_styles/pressed = SubResource("1")
 theme_override_styles/normal = SubResource("2")
+theme_override_styles/pressed = SubResource("1")
+theme_override_styles/hover = SubResource("1")
 text = "My profile"
 icon = ExtResource("11")
 script = ExtResource("4")
 normal_style = SubResource("2")
 hover_style = SubResource("1")
 
-[node name="DiscordButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons"]
+[node name="DiscordButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons" unique_id=1452011514]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 focus_mode = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("8")
-theme_override_styles/hover = SubResource("1")
-theme_override_styles/pressed = SubResource("1")
 theme_override_styles/normal = SubResource("2")
+theme_override_styles/pressed = SubResource("1")
+theme_override_styles/hover = SubResource("1")
 icon = ExtResource("5")
 script = ExtResource("4")
 normal_style = SubResource("2")
 hover_style = SubResource("1")
 
-[node name="Label" type="Label" parent="VBoxContainer/SocialButtons/DiscordButton"]
+[node name="Label" type="Label" parent="VBoxContainer/SocialButtons/DiscordButton" unique_id=153979411]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -119,35 +119,35 @@ text = "Join the Discord server!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TwitterButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons"]
+[node name="TwitterButton" type="HBButtonBlurEX" parent="VBoxContainer/SocialButtons" unique_id=1223311271]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 focus_mode = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("8")
-theme_override_styles/hover = SubResource("1")
-theme_override_styles/pressed = SubResource("1")
 theme_override_styles/normal = SubResource("2")
+theme_override_styles/pressed = SubResource("1")
+theme_override_styles/hover = SubResource("1")
 icon = ExtResource("7")
 script = ExtResource("4")
 normal_style = SubResource("2")
 hover_style = SubResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SocialButtons/TwitterButton"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SocialButtons/TwitterButton" unique_id=691719735]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 123.0
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer" unique_id=1483780810]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8")
 text = "Follow us on Twitter!"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer" unique_id=103228323]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8")
@@ -155,23 +155,23 @@ theme_override_font_sizes/font_size = 24
 text = "@PHeartbeatGame"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=818914969]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="Panel" type="HBPanelBlurEX" parent="VBoxContainer/VBoxContainer"]
+[node name="Panel" type="HBPanelBlurEX" parent="VBoxContainer/VBoxContainer" unique_id=1591451063]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("8_lyhbe")
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/Panel"]
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/Panel" unique_id=944642025]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8")
 text = "NEWS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NewsButtons" type="VBoxContainer" parent="VBoxContainer"]
+[node name="NewsButtons" type="VBoxContainer" parent="VBoxContainer" unique_id=418295274]
 layout_mode = 2
 focus_neighbor_top = NodePath("../SocialButtons")
 focus_mode = 2
@@ -179,7 +179,7 @@ theme_override_constants/separation = 25
 script = ExtResource("10")
 orientation = 1
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=2043685068]
 use_threads = true
 
 [connection signal="pressed" from="VBoxContainer/SocialButtons/GetFullGameButton" to="." method="_on_get_full_game_button_pressed"]

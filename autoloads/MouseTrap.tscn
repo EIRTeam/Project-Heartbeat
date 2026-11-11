@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cql4su5gauqwp"]
+[gd_scene format=3 uid="uid://cql4su5gauqwp"]
 
 [ext_resource type="Script" uid="uid://ba6cvpejyuvq3" path="res://autoloads/MouseTrap.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="2"]
@@ -9,15 +9,15 @@
 [ext_resource type="StyleBox" uid="uid://cp7yh4stt825r" path="res://styles/PanelStyleTransparentIconHover.tres" id="7"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="8"]
 
-[sub_resource type="StyleBoxEmpty" id="1"]
-
 [sub_resource type="StyleBoxEmpty" id="2"]
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[sub_resource type="StyleBoxEmpty" id="1"]
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1708125391]
 layer = 128
 script = ExtResource("1")
 
-[node name="MouseTrap" type="Control" parent="."]
+[node name="MouseTrap" type="Control" parent="." unique_id=1114328295]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,12 +26,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PPDFileDialog" type="FileDialog" parent="MouseTrap"]
+[node name="PPDFileDialog" type="FileDialog" parent="MouseTrap" unique_id=1318099555]
 size = Vector2i(415, 176)
 theme = ExtResource("5")
 show_hidden_files = true
 
-[node name="CacheSongOverlay" type="Control" parent="MouseTrap"]
+[node name="CacheSongOverlay" type="Control" parent="MouseTrap" unique_id=657596961]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,8 +40,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3")
 
-[node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
-visible = false
+[node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" unique_id=394451576 instance=ExtResource("2")]
 layout_mode = 1
 text = ""
 
@@ -49,17 +48,17 @@ text = ""
 visible = false
 text = ""
 
-[node name="AcceptButtonAudio" type="Button" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/MarginContainer/VBoxContainer/ButtonContainer" index="1"]
+[node name="AcceptButtonAudio" type="Button" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/MarginContainer/VBoxContainer/ButtonContainer" index="1" unique_id=1281901308]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
-theme_override_styles/hover = ExtResource("7")
-theme_override_styles/pressed = ExtResource("7")
 theme_override_styles/normal = ExtResource("6")
+theme_override_styles/pressed = ExtResource("7")
+theme_override_styles/hover = ExtResource("7")
 text = "Yes (audio only)"
 script = ExtResource("8")
 
-[node name="DownloadConfirmPopupNative" type="AcceptDialog" parent="MouseTrap/CacheSongOverlay"]
+[node name="DownloadConfirmPopupNative" type="AcceptDialog" parent="MouseTrap/CacheSongOverlay" unique_id=1553157595]
 unique_name_in_owner = true
 title = ""
 transient = false
@@ -67,21 +66,20 @@ always_on_top = true
 theme = ExtResource("5")
 ok_button_text = "Yes"
 
-[node name="ErrorPromptNative" type="AcceptDialog" parent="MouseTrap/CacheSongOverlay"]
+[node name="ErrorPromptNative" type="AcceptDialog" parent="MouseTrap/CacheSongOverlay" unique_id=1486815805]
 unique_name_in_owner = true
 auto_translate_mode = 1
 title = ""
 theme = ExtResource("5")
 dialog_text = "Media for this song is currently being downloaded."
 
-[node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource("2")]
-visible = false
+[node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" unique_id=1032361541 instance=ExtResource("2")]
 layout_mode = 1
 has_cancel = false
 text = "Media for this song is currently being downloaded."
 accept_text = "Ok"
 
-[node name="PPDDialog" type="Window" parent="MouseTrap"]
+[node name="PPDDialog" type="Window" parent="MouseTrap" unique_id=44757686]
 position = Vector2i(0, 32)
 size = Vector2i(387, 100)
 visible = false
@@ -90,7 +88,7 @@ exclusive = true
 theme = ExtResource("5")
 script = ExtResource("4")
 
-[node name="MarginContainer" type="MarginContainer" parent="MouseTrap/PPDDialog"]
+[node name="MarginContainer" type="MarginContainer" parent="MouseTrap/PPDDialog" unique_id=1319678519]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -101,13 +99,13 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MouseTrap/PPDDialog/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MouseTrap/PPDDialog/MarginContainer" unique_id=1866790674]
 layout_mode = 2
 
-[node name="Label" type="RichTextLabel" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer"]
+[node name="Label" type="RichTextLabel" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer" unique_id=326520835]
 layout_mode = 2
-theme_override_styles/focus = SubResource("1")
 theme_override_styles/normal = SubResource("2")
+theme_override_styles/focus = SubResource("1")
 bbcode_enabled = true
 text = "Due to legal and licensing reasons, Project Heartbeat cannot use MP4 files for PPD songs. Read more about why here.
 
@@ -116,27 +114,27 @@ The recommended way to share and play community charts is to use the Workshop, P
 You can either input a YouTube URL or select an ogg file from disk to use as audio."
 scroll_active = false
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer" unique_id=529643583]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/HBoxContainer" unique_id=461603249]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="UseYouTube" type="Button" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="UseYouTube" type="Button" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/HBoxContainer" unique_id=785945173]
 layout_mode = 2
 focus_mode = 0
 text = "Use YouTube Video"
 
-[node name="Button" type="Button" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer" unique_id=1927533283]
 layout_mode = 2
 focus_mode = 0
 text = "Select from disk"
 
-[node name="AcceptDialog" type="AcceptDialog" parent="MouseTrap/PPDDialog"]
+[node name="AcceptDialog" type="AcceptDialog" parent="MouseTrap/PPDDialog" unique_id=147769638]
 dialog_text = "Invalid URL, ensure you are using a YouTube URL and that it is valid."
 
-[node name="AddContentDirDialog" type="FileDialog" parent="MouseTrap"]
+[node name="AddContentDirDialog" type="FileDialog" parent="MouseTrap" unique_id=1940431515]
 mode = 2
 title = "Open a Directory"
 theme = ExtResource("5")
@@ -145,9 +143,8 @@ file_mode = 2
 access = 2
 show_hidden_files = true
 
-[node name="WrongTimezoneConfirmationWindow" parent="MouseTrap" instance=ExtResource("2")]
+[node name="WrongTimezoneConfirmationWindow" parent="MouseTrap" unique_id=1899947820 instance=ExtResource("2")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 has_cancel = false
 text = "Your system time appears to be invalid, please ensure both your time zone and local time are set correctly! Specially if you are dual-booting Linux!"

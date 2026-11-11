@@ -1,37 +1,28 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://j1v17q7cexlg"]
 
-[ext_resource path="res://tools/editor/EditorPluginTool.gd" type="Script" id=1]
-[ext_resource path="res://tools/icons/icon_GUI_tree_arrow_right.svg" type="Texture2D" id=2]
+[ext_resource type="Script" uid="uid://xy6qdpmks0p4" path="res://tools/editor/EditorPluginTool.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d0d6boaawk2th" path="res://tools/icons/icon_GUI_tree_arrow_right.svg" id="2"]
 
-[node name="Control" type="VBoxContainer"]
+[node name="Control" type="VBoxContainer" unique_id=703554305]
 offset_left = -266.0
 offset_bottom = 234.0
 size_flags_horizontal = 3
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_right = 266.0
-offset_bottom = 20.0
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1584782420]
+layout_mode = 2
 
-[node name="ToggleToolButton" type="Button" parent="HBoxContainer"]
-offset_right = 24.0
-offset_bottom = 20.0
-icon = ExtResource( 2 )
+[node name="ToggleToolButton" type="Button" parent="HBoxContainer" unique_id=839940508]
+layout_mode = 2
+icon = ExtResource("2")
 flat = true
 
-[node name="ToolName" type="Label" parent="HBoxContainer"]
-offset_left = 28.0
-offset_top = 3.0
-offset_right = 143.0
-offset_bottom = 17.0
+[node name="ToolName" type="Label" parent="HBoxContainer" unique_id=1512910396]
+layout_mode = 2
 text = "Slide Hold Creator"
 
-[node name="HSeparator" type="HSeparator" parent="."]
-offset_top = 24.0
-offset_right = 266.0
-offset_bottom = 28.0
+[node name="HSeparator" type="HSeparator" parent="." unique_id=1737621712]
+layout_mode = 2
 size_flags_horizontal = 3
+
 [connection signal="pressed" from="HBoxContainer/ToggleToolButton" to="." method="_on_ToggleToolButton_pressed"]

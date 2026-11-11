@@ -1,39 +1,39 @@
-[gd_scene load_steps=4 format=4 uid="uid://dnppdwihquoxv"]
+[gd_scene format=3 uid="uid://dnppdwihquoxv"]
 
-[ext_resource type="Script" path="res://rythm_game/results_screen/NoteHitTotalsDisplay.gd" id="1_s740n"]
+[ext_resource type="Script" uid="uid://cywh5ni4etuby" path="res://rythm_game/results_screen/NoteHitTotalsDisplay.gd" id="1_s740n"]
 [ext_resource type="StyleBox" uid="uid://5p3tgk5ls5ia" path="res://styles/ResultRatingStyleOdd.tres" id="2_11u41"]
 [ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="3_0cuaq"]
 
-[node name="NoteHitTotalsContainer" type="MarginContainer"]
+[node name="NoteHitTotalsContainer" type="MarginContainer" unique_id=912205885]
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 script = ExtResource("1_s740n")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1128684316]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer" unique_id=2078985039]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("2_11u41")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer3" unique_id=1457994056]
 auto_translate_mode = 1
 layout_mode = 2
 alignment = 1
 
-[node name="RatingLabel" type="Label" parent="VBoxContainer/PanelContainer3/HBoxContainer"]
+[node name="RatingLabel" type="Label" parent="VBoxContainer/PanelContainer3/HBoxContainer" unique_id=414418067]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 text = "MAX COMBO"
 vertical_alignment = 1
 
-[node name="ComboLabel" type="Label" parent="VBoxContainer/PanelContainer3/HBoxContainer"]
+[node name="ComboLabel" type="Label" parent="VBoxContainer/PanelContainer3/HBoxContainer" unique_id=571967546]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -43,24 +43,24 @@ text = "(NT)700"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PanelContainer4" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer4" type="PanelContainer" parent="VBoxContainer" unique_id=2007263204]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("3_0cuaq")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer4"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer4" unique_id=921933605]
 auto_translate_mode = 1
 layout_mode = 2
 alignment = 1
 
-[node name="RatingLabel" type="Label" parent="VBoxContainer/PanelContainer4/HBoxContainer"]
+[node name="RatingLabel" type="Label" parent="VBoxContainer/PanelContainer4/HBoxContainer" unique_id=2116921619]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 text = "NOTES HIT"
 
-[node name="NotesHitLabel" type="Label" parent="VBoxContainer/PanelContainer4/HBoxContainer"]
+[node name="NotesHitLabel" type="Label" parent="VBoxContainer/PanelContainer4/HBoxContainer" unique_id=896374419]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -70,23 +70,23 @@ text = "(NT)700"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1933533123]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("2_11u41")
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/PanelContainer" unique_id=167157121]
 auto_translate_mode = 1
 layout_mode = 2
 alignment = 1
 
-[node name="RatingLabel" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer3"]
+[node name="RatingLabel" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer3" unique_id=454949527]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 text = "TOTAL NOTES"
 
-[node name="TotalNotesLabel" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer3"]
+[node name="TotalNotesLabel" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer3" unique_id=152185200]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2

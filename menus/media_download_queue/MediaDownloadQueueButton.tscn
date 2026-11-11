@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://1wkuf4tpymo8"]
+[gd_scene format=3 uid="uid://1wkuf4tpymo8"]
 
 [ext_resource type="Texture2D" uid="uid://cfplb8u67lgda" path="res://graphics/icons/icon_close_bg.svg" id="1"]
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="2"]
@@ -44,7 +44,7 @@ _data = {
 &"spin": SubResource("2")
 }
 
-[node name="Button" type="Button"]
+[node name="Button" type="Button" unique_id=1076094845]
 custom_minimum_size = Vector2(0, 80)
 offset_left = 10.0
 offset_top = 10.0
@@ -54,7 +54,7 @@ theme = ExtResource("3")
 theme_override_styles/normal = ExtResource("7")
 script = ExtResource("5")
 
-[node name="Button" type="MarginContainer" parent="."]
+[node name="Button" type="MarginContainer" parent="." unique_id=7227711]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -65,26 +65,24 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Button"]
-libraries = {
-&"": SubResource("AnimationLibrary_t2v6s")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Button" unique_id=908589202]
+libraries/ = SubResource("AnimationLibrary_t2v6s")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Button"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Button" unique_id=2109667319]
 layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Button/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Button/VBoxContainer" unique_id=461408106]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="TitleLabel" type="Label" parent="Button/VBoxContainer/HBoxContainer"]
+[node name="TitleLabel" type="Label" parent="Button/VBoxContainer/HBoxContainer" unique_id=1520988021]
 unique_name_in_owner = true
 layout_mode = 2
 text = "asdasdasdas"
 
-[node name="Spinner" type="TextureRect" parent="Button/VBoxContainer/HBoxContainer"]
+[node name="Spinner" type="TextureRect" parent="Button/VBoxContainer/HBoxContainer" unique_id=2075122057]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
@@ -92,14 +90,14 @@ texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CancelButton" type="Button" parent="Button/VBoxContainer/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="Button/VBoxContainer/HBoxContainer" unique_id=1633135119]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 icon = ExtResource("1")
 script = ExtResource("6_as7go")
 
-[node name="ProgressBar" type="ProgressBar" parent="Button/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="Button/VBoxContainer" unique_id=1852284752]
 unique_name_in_owner = true
 show_behind_parent = true
 custom_minimum_size = Vector2(0, 5)

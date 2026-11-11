@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b8lwp32xk453o"]
+[gd_scene format=3 uid="uid://b8lwp32xk453o"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Script" uid="uid://dqb0mfm3ebsbk" path="res://tools/editor/EditorGlobalSettings.gd" id="2"]
@@ -6,14 +6,15 @@
 [ext_resource type="Script" uid="uid://dqy8k3hmu1iqv" path="res://tools/editor/settings/EditorSettingsSong.gd" id="4"]
 [ext_resource type="Script" uid="uid://ckbw05jbvlao8" path="res://tools/editor/settings/EditorSettingsGlobal.gd" id="5"]
 
-[node name="EditorGlobalSettings" type="Window"]
+[node name="EditorGlobalSettings" type="Window" unique_id=853946900]
+oversampling_override = 1.0
 title = "Editor Settings"
 position = Vector2i(0, 32)
 exclusive = true
 theme = ExtResource("1")
 script = ExtResource("2")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="." unique_id=484645424]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,7 +26,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="General" type="MarginContainer" parent="TabContainer"]
+[node name="General" type="MarginContainer" parent="TabContainer" unique_id=1628516287]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
@@ -34,12 +35,12 @@ theme_override_constants/margin_bottom = 10
 script = ExtResource("5")
 metadata/_tab_index = 0
 
-[node name="Tree" type="Tree" parent="TabContainer/General"]
+[node name="Tree" type="Tree" parent="TabContainer/General" unique_id=1491862039]
 layout_mode = 2
 columns = 2
 hide_root = true
 
-[node name="Song" type="MarginContainer" parent="TabContainer"]
+[node name="Song" type="MarginContainer" parent="TabContainer" unique_id=1284592025]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -49,12 +50,12 @@ theme_override_constants/margin_bottom = 10
 script = ExtResource("4")
 metadata/_tab_index = 1
 
-[node name="Tree" type="Tree" parent="TabContainer/Song"]
+[node name="Tree" type="Tree" parent="TabContainer/Song" unique_id=1293365831]
 layout_mode = 2
 columns = 2
 hide_root = true
 
-[node name="Shortcuts" type="MarginContainer" parent="TabContainer"]
+[node name="Shortcuts" type="MarginContainer" parent="TabContainer" unique_id=1294338976]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -63,36 +64,36 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 metadata/_tab_index = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts" unique_id=828905732]
 layout_mode = 2
 
-[node name="Panel" type="Control" parent="TabContainer/Shortcuts/VBoxContainer"]
+[node name="Panel" type="Control" parent="TabContainer/Shortcuts/VBoxContainer" unique_id=822365493]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel" unique_id=1760716236]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_constants/separation = 10
 
-[node name="Tree" type="Tree" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer"]
+[node name="Tree" type="Tree" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer" unique_id=779789621]
 layout_mode = 2
 size_flags_vertical = 3
 columns = 3
 hide_root = true
 
-[node name="Button" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer"]
+[node name="Button" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer" unique_id=1533668366]
 layout_mode = 2
 text = "Reset all to default"
 
-[node name="Window" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
+[node name="Window" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel" unique_id=1372484265]
 position = Vector2i(0, 32)
 size = Vector2i(270, 123)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window" unique_id=1987583224]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -102,40 +103,40 @@ offset_right = -8.0
 offset_bottom = -48.0
 alignment = 1
 
-[node name="BindingLabel" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window/VBoxContainer"]
+[node name="BindingLabel" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window/VBoxContainer" unique_id=1059560192]
 layout_mode = 2
 text = "Press the new button combination for
 \"Shortcut Here\""
 horizontal_alignment = 1
 
-[node name="CombinationLabel" type="RichTextLabel" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window/VBoxContainer"]
+[node name="CombinationLabel" type="RichTextLabel" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window/VBoxContainer" unique_id=1654031211]
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 
-[node name="ConflictDialog" type="AcceptDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
+[node name="ConflictDialog" type="AcceptDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel" unique_id=574604357]
 size = Vector2i(906, 132)
 dialog_text = "This shortcut is conflicting with the following actions:"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog" unique_id=609330244]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 898.0
 offset_bottom = 83.0
 
-[node name="ItemList" type="ItemList" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog/VBoxContainer"]
+[node name="ItemList" type="ItemList" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog/VBoxContainer" unique_id=458103326]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog/VBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog/VBoxContainer" unique_id=1197340866]
 layout_mode = 2
 text = "What should be done?"
 horizontal_alignment = 1
 
-[node name="ResetConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
+[node name="ResetConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel" unique_id=1900242988]
 dialog_text = "Do you want to reset this shortcut to default?"
 
-[node name="ResetAllConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
+[node name="ResetAllConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel" unique_id=618179974]
 dialog_text = "Do you want to reset all shortcuts to default?"
 
 [connection signal="close_requested" from="." to="." method="hide"]

@@ -1,13 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1b3xwvwxcn4f"]
+[gd_scene format=3 uid="uid://d1b3xwvwxcn4f"]
 
-[ext_resource type="Script" path="res://menus/oob/oob.gd" id="1_m6xij"]
+[ext_resource type="Script" uid="uid://c18r7x4ak1bes" path="res://menus/oob/oob.gd" id="1_m6xij"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2_b0u1o"]
-[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3_vdqb8"]
+[ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="3_vdqb8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_khmsx"]
 font_size = 24
 
-[node name="Oob" type="Control"]
+[node name="Oob" type="Control" unique_id=1965004]
 auto_translate_mode = 2
 layout_mode = 3
 anchors_preset = 15
@@ -17,7 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_m6xij")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=555632467]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,67 +26,67 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="Container" type="PanelContainer" parent="HBoxContainer"]
+[node name="Container" type="PanelContainer" parent="HBoxContainer" unique_id=455854242]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Container"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Container" unique_id=1716225521]
 layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="HBPanelContainerBlurEX2" type="HBPanelContainerBlurEX" parent="HBoxContainer/Container/VBoxContainer"]
+[node name="HBPanelContainerBlurEX2" type="HBPanelContainerBlurEX" parent="HBoxContainer/Container/VBoxContainer" unique_id=1421104463]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/panel = ExtResource("2_b0u1o")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX2"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX2" unique_id=1656570040]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX2/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX2/MarginContainer" unique_id=1234684738]
 layout_mode = 2
 theme_override_constants/separation = 55
 
-[node name="TitleLabel" type="Label" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX2/MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX2/MarginContainer/VBoxContainer" unique_id=1743600273]
 unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="StepFooterLabel" type="Label" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX2/MarginContainer/VBoxContainer"]
+[node name="StepFooterLabel" type="Label" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX2/MarginContainer/VBoxContainer" unique_id=2014812634]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 10
 label_settings = SubResource("LabelSettings_khmsx")
 horizontal_alignment = 1
 
-[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="HBoxContainer/Container/VBoxContainer"]
+[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="HBoxContainer/Container/VBoxContainer" unique_id=1232678718]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/panel = ExtResource("2_b0u1o")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX" unique_id=1448648741]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX/MarginContainer" unique_id=980375740]
 layout_mode = 2
 theme_override_constants/separation = 55
 
-[node name="ButtonDescriptionLabel" type="Label" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer"]
+[node name="ButtonDescriptionLabel" type="Label" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer" unique_id=1958302359]
 unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer"]
+[node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer/Container/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer" unique_id=1995850577]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4

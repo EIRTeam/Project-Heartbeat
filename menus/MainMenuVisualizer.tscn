@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2xoywdaxsuvs"]
+[gd_scene format=3 uid="uid://d2xoywdaxsuvs"]
 
-[ext_resource type="Script" path="res://menus/visualizer/Visualizer.gd" id="1"]
+[ext_resource type="Script" uid="uid://dgnjciok4ooti" path="res://menus/visualizer/Visualizer.gd" id="1"]
 
 [sub_resource type="Shader" id="1"]
 code = "shader_type canvas_item;
@@ -96,7 +96,7 @@ shader_parameter/FREQ_RANGE = 64.0
 [sub_resource type="StyleBoxFlat" id="3"]
 bg_color = Color(0.075175, 0.0405, 0.15, 0.501961)
 
-[node name="MainMenuVisualizer2" type="Panel"]
+[node name="MainMenuVisualizer2" type="Panel" unique_id=746136203]
 material = SubResource("2")
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,7 +104,7 @@ anchor_bottom = 1.0
 script = ExtResource("1")
 fallback_stylebox = SubResource("3")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1006386885]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 0
 anchor_right = 1.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://batn8iey4yeus"]
+[gd_scene format=3 uid="uid://batn8iey4yeus"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="3"]
@@ -46,7 +46,7 @@ corner_detail = 20
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[node name="ResultsScene" type="Control"]
+[node name="ResultsScene" type="Control" unique_id=2053806721]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,7 +56,7 @@ grow_vertical = 2
 theme = ExtResource("4")
 script = ExtResource("12")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1851255320]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -65,59 +65,59 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1745836855]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1679150274]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" unique_id=318364015]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 theme_override_constants/separation = 19
 
-[node name="SongTitle" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer" instance=ExtResource("13")]
+[node name="SongTitle" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1159818161 instance=ExtResource("13")]
 self_modulate = Color(0, 0, 1, 1)
 material = null
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TabbedContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" instance=ExtResource("14")]
+[node name="TabbedContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" unique_id=10423476 instance=ExtResource("14")]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" unique_id=1230455990]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.07
 theme_override_constants/separation = 0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer" unique_id=693243678]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Panel3" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
+[node name="Panel3" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2" unique_id=146611976]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3" unique_id=1285474645]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_stretch_ratio = 0.4
 
-[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer" unique_id=782198524]
 layout_mode = 2
 focus_mode = 2
 alignment = 1
 script = ExtResource("3")
 
-[node name="HBHovereableButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+[node name="HBHovereableButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer" unique_id=167993008]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
 theme_override_styles/normal = ExtResource("8")
@@ -126,7 +126,7 @@ script = ExtResource("5")
 normal_style = ExtResource("8")
 hover_style = SubResource("4")
 
-[node name="CopyResultURLButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+[node name="CopyResultURLButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer" unique_id=203241526]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
@@ -136,7 +136,7 @@ script = ExtResource("5")
 normal_style = ExtResource("8")
 hover_style = SubResource("4")
 
-[node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+[node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer" unique_id=810030890]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
 theme_override_styles/normal = ExtResource("8")
@@ -145,60 +145,60 @@ script = ExtResource("5")
 normal_style = ExtResource("8")
 hover_style = SubResource("4")
 
-[node name="RatingPopup" type="Popup" parent="."]
+[node name="RatingPopup" type="Popup" parent="." unique_id=1593428882]
 size = Vector2i(837, 170)
 
-[node name="Panel" type="PanelContainer" parent="RatingPopup"]
+[node name="Panel" type="PanelContainer" parent="RatingPopup" unique_id=415552094]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_styles/panel = SubResource("5")
 
-[node name="MarginContainer" type="MarginContainer" parent="RatingPopup/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="RatingPopup/Panel" unique_id=621149089]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RatingPopup/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RatingPopup/Panel/MarginContainer" unique_id=2084337607]
 layout_mode = 2
 theme_override_constants/separation = 40
 
-[node name="Label" type="Label" parent="RatingPopup/Panel/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="RatingPopup/Panel/MarginContainer/VBoxContainer" unique_id=614629122]
 layout_mode = 2
 text = "What did you think of the song you just played?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="RatingPopup/Panel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="RatingPopup/Panel/MarginContainer/VBoxContainer" unique_id=1965501020]
 layout_mode = 2
 focus_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 script = ExtResource("3")
 
-[node name="UpvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="UpvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=62057243]
 layout_mode = 2
 icon = ExtResource("10")
 script = ExtResource("5")
 
-[node name="DownvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="DownvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=771628071]
 layout_mode = 2
 icon = ExtResource("9")
 script = ExtResource("5")
 
-[node name="NoOpinionButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="NoOpinionButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=385843668]
 layout_mode = 2
 text = "No opinion"
 script = ExtResource("5")
 
-[node name="SkipButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SkipButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1051145280]
 layout_mode = 2
 text = "Don't ask me again"
 script = ExtResource("5")
 
-[node name="ErrorWindow" parent="." instance=ExtResource("7")]
+[node name="ErrorWindow" parent="." unique_id=1806059101 instance=ExtResource("7")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -210,11 +210,11 @@ grow_vertical = 1
 text = ""
 focus_starts_on = 0
 
-[node name="TextLabel" parent="ErrorWindow/Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" index="0"]
+[node name="TextLabel" parent="ErrorWindow/Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(1806059101, 1101312760) index="0" unique_id=526326536]
 visible = false
 text = ""
 
-[node name="UploadingScoreIndicator" type="CenterContainer" parent="."]
+[node name="UploadingScoreIndicator" type="CenterContainer" parent="." unique_id=618252126]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -224,25 +224,25 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 
-[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="UploadingScoreIndicator"]
+[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="UploadingScoreIndicator" unique_id=1436635351]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("12_sgj51")
 
-[node name="MarginContainer" type="MarginContainer" parent="UploadingScoreIndicator/HBPanelContainerBlurEX"]
+[node name="MarginContainer" type="MarginContainer" parent="UploadingScoreIndicator/HBPanelContainerBlurEX" unique_id=1754104731]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UploadingScoreIndicator/HBPanelContainerBlurEX/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UploadingScoreIndicator/HBPanelContainerBlurEX/MarginContainer" unique_id=1158096997]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UploadingScoreIndicator/HBPanelContainerBlurEX/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="UploadingScoreIndicator/HBPanelContainerBlurEX/MarginContainer/VBoxContainer" unique_id=1709876712]
 layout_mode = 2
 text = "Uploading score..."
 
-[node name="UploadingScoreIndicatorProgressBar" type="ProgressBar" parent="UploadingScoreIndicator/HBPanelContainerBlurEX/MarginContainer/VBoxContainer"]
+[node name="UploadingScoreIndicatorProgressBar" type="ProgressBar" parent="UploadingScoreIndicator/HBPanelContainerBlurEX/MarginContainer/VBoxContainer" unique_id=1562129717]
 unique_name_in_owner = true
 layout_mode = 2
 value = 50.0

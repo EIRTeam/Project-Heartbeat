@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://f7tw4wikjads"]
+[gd_scene format=3 uid="uid://f7tw4wikjads"]
 
 [ext_resource type="Script" uid="uid://cdgb016idnq7u" path="res://rythm_game/results_screen/ResultRating.gd" id="1"]
 [ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="1_3rfje"]
@@ -9,6 +9,15 @@ fallbacks = Array[Font]([ExtResource("2")])
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -20,7 +29,7 @@ cache/0/30/0/underline_position = 0.0
 cache/0/30/0/underline_thickness = 0.0
 cache/0/30/0/scale = 1.0
 
-[node name="Panel" type="PanelContainer"]
+[node name="Panel" type="PanelContainer" unique_id=639062800]
 custom_minimum_size = Vector2(0, 50)
 anchors_preset = 10
 anchor_right = 1.0
@@ -30,18 +39,18 @@ size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("1_3rfje")
 script = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=141238196]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1681991626]
 layout_mode = 2
 alignment = 1
 
-[node name="RatingRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+[node name="RatingRect" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=38434090]
 unique_name_in_owner = true
 texture_filter = 6
 layout_mode = 2
@@ -49,12 +58,12 @@ size_flags_horizontal = 3
 expand_mode = 2
 stretch_mode = 4
 
-[node name="ValueLabel3" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="ValueLabel3" type="HBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=858090515]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="TotalLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
+[node name="TotalLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3" unique_id=1567984230]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
@@ -65,7 +74,7 @@ text = "(NT)407/"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
+[node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3" unique_id=1263874711]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3

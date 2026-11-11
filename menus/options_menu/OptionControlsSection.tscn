@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b654vfqndxbc5"]
+[gd_scene format=3 uid="uid://b654vfqndxbc5"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" uid="uid://2e75yiqlqvm7" path="res://menus/UniversalScrollList.gd" id="2"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
 [ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="6"]
 
-[node name="OptionSection" type="Control"]
+[node name="OptionSection" type="Control" unique_id=1881058272]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,18 +18,18 @@ focus_mode = 2
 theme = ExtResource("1")
 script = ExtResource("4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=493863862]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Panel2" type="HBPanelBlurEX" parent="VBoxContainer"]
+[node name="Panel2" type="HBPanelBlurEX" parent="VBoxContainer" unique_id=717600681]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2" unique_id=702409800]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/margin_left = 30
@@ -37,21 +37,21 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 30
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer" unique_id=787191756]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="CategoryContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+[node name="CategoryContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=641909376]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 alignment = 1
 script = ExtResource("6")
 
-[node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1721849312]
 layout_mode = 2
 text = "Note: You can assign the same button to more than one action to create macros!"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=2123656373]
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
@@ -61,12 +61,12 @@ horizontal_step = 0
 enable_wrap_around = true
 scroll_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1104795546]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Popup" type="PanelContainer" parent="."]
+[node name="Popup" type="PanelContainer" parent="." unique_id=1112711666]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -82,14 +82,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="Popup"]
+[node name="MarginContainer" type="MarginContainer" parent="Popup" unique_id=1586357008]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="Label" type="Label" parent="Popup/MarginContainer"]
+[node name="Label" type="Label" parent="Popup/MarginContainer" unique_id=1287340978]
 layout_mode = 2
 text = "Press the Key/Button/Axis to bind
 
@@ -97,8 +97,7 @@ Wait to cancel..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResetConfirmationWindow" parent="." instance=ExtResource("5")]
-visible = false
+[node name="ResetConfirmationWindow" parent="." unique_id=1287879661 instance=ExtResource("5")]
 layout_mode = 1
 offset_left = -325.0
 offset_right = 325.0

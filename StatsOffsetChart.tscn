@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bdx14prn80d7c"]
+[gd_scene format=3 uid="uid://bdx14prn80d7c"]
 
 [ext_resource type="Script" uid="uid://du72pll741s5j" path="res://rythm_game/results_screen/StatsOffsetChart.gd" id="1_gfmgt"]
 [ext_resource type="Shader" uid="uid://d03ierdbh7ofh" path="res://rythm_game/results_screen/stats_offset_chart.gdshader" id="2_mt6ec"]
@@ -39,7 +39,7 @@ instance_count = 64
 mesh = SubResource("PointMesh_q6hof")
 buffer = PackedFloat32Array(1, 0, 0, 0.086296, 0, 1, 0, 0.558594, 1, 0, 0, 0.0983211, 0, 1, 0, 0.488281, 1, 0, 0, 0.110346, 0, 1, 0, 0.589844, 1, 0, 0, 0.122371, 0, 1, 0, 0.574219, 1, 0, 0, 0.134396, 0, 1, 0, 0.574219, 1, 0, 0, 0.146392, 0, 1, 0, 0.394531, 1, 0, 0, 0.152405, 0, 1, 0, 0.4375, 1, 0, 0, 0.170443, 0, 1, 0, 0.59375, 1, 0, 0, 0.182468, 0, 1, 0, 0.523438, 1, 0, 0, 0.182468, 0, 1, 0, 0.570312, 1, 0, 0, 0.200476, 0, 1, 0, 0.546875, 1, 0, 0, 0.206489, 0, 1, 0, 0.597656, 1, 0, 0, 0.212501, 0, 1, 0, 0.5625, 1, 0, 0, 0.218514, 0, 1, 0, 0.511719, 1, 0, 0, 0.224527, 0, 1, 0, 0.390625, 1, 0, 0, 0.230539, 0, 1, 0, 0.464844, 1, 0, 0, 0.242564, 0, 1, 0, 0.484375, 1, 0, 0, 0.245556, 0, 1, 0, 0.574219, 1, 0, 0, 0.27861, 0, 1, 0, 0.5625, 1, 0, 0, 0.27861, 0, 1, 0, 0.582031, 1, 0, 0, 0.296648, 0, 1, 0, 0.609375, 1, 0, 0, 0.30269, 0, 1, 0, 0.480469, 1, 0, 0, 0.308673, 0, 1, 0, 0.398438, 1, 0, 0, 0.320698, 0, 1, 0, 0.40625, 1, 0, 0, 0.362786, 0, 1, 0, 0.445312, 1, 0, 0, 0.374782, 0, 1, 0, 0.566406, 1, 0, 0, 0.374782, 0, 1, 0, 0.59375, 1, 0, 0, 0.39282, 0, 1, 0, 0.511719, 1, 0, 0, 0.404816, 0, 1, 0, 0.515625, 1, 0, 0, 0.410828, 0, 1, 0, 0.578125, 1, 0, 0, 0.416841, 0, 1, 0, 0.496094, 1, 0, 0, 0.422853, 0, 1, 0, 0.394531, 1, 0, 0, 0.440862, 0, 1, 0, 0.390625, 1, 0, 0, 0.443883, 0, 1, 0, 0.476562, 1, 0, 0, 0.446875, 0, 1, 0, 0.5625, 1, 0, 0, 0.452887, 0, 1, 0, 0.375, 1, 0, 0, 0.494946, 0, 1, 0, 0.558594, 1, 0, 0, 0.494946, 0, 1, 0, 0.589844, 1, 0, 0, 0.518996, 0, 1, 0, 0.621094, 1, 0, 0, 0.518996, 0, 1, 0, 0.621094, 1, 0, 0, 0.525009, 0, 1, 0, 0.527344, 1, 0, 0, 0.525009, 0, 1, 0, 0.527344, 1, 0, 0, 0.531021, 0, 1, 0, 0.4375, 1, 0, 0, 0.531021, 0, 1, 0, 0.4375, 1, 0, 0, 0.57308, 0, 1, 0, 0.492188, 1, 0, 0, 0.576101, 0, 1, 0, 0.589844, 1, 0, 0, 0.62118, 0, 1, 0, 0.59375, 1, 0, 0, 0.675264, 0, 1, 0, 0.386719, 1, 0, 0, 0.678285, 0, 1, 0, 0.5, 1, 0, 0, 0.765423, 0, 1, 0, 0.570312, 1, 0, 0, 0.816487, 0, 1, 0, 0.515625, 1, 0, 0, 0.828512, 0, 1, 0, 0.605469, 1, 0, 0, 0.843529, 0, 1, 0, 0.601562, 1, 0, 0, 0.849541, 0, 1, 0, 0.507812, 1, 0, 0, 0.864558, 0, 1, 0, 0.496094, 1, 0, 0, 0.873591, 0, 1, 0, 0.453125, 1, 0, 0, 0.885587, 0, 1, 0, 0.464844, 1, 0, 0, 0.906646, 0, 1, 0, 0.496094, 1, 0, 0, 0.918642, 0, 1, 0, 0.433594, 1, 0, 0, 0.9397, 0, 1, 0, 0.621094, 1, 0, 0, 0.951696, 0, 1, 0, 0.492188, 1, 0, 0, 0.951696, 0, 1, 0, 0.503906, 1, 0, 0, 0.963721, 0, 1, 0, 0.363281, 1, 0, 0, 0.963721, 0, 1, 0, 0.378906)
 
-[node name="StatsOffsetChart" type="Control"]
+[node name="StatsOffsetChart" type="Control" unique_id=1687347313]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,14 +49,14 @@ grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_gfmgt")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1578208126]
 layout_mode = 0
 offset_right = 9.0
 offset_bottom = 52.0
 text = "Early (-128 ms)"
 label_settings = SubResource("LabelSettings_ch822")
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=1849665633]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -68,27 +68,27 @@ text = "Late (128 ms)"
 label_settings = SubResource("LabelSettings_ch822")
 vertical_alignment = 2
 
-[node name="_MultiMeshInstance2D_3625" type="MultiMeshInstance2D" parent="."]
+[node name="_MultiMeshInstance2D_3625" type="MultiMeshInstance2D" parent="." unique_id=1635816426]
 modulate = Color(0.894118, 0.439216, 1, 1)
 material = SubResource("ShaderMaterial_a1w2p")
 multimesh = SubResource("MultiMesh_maabc")
 
-[node name="_MultiMeshInstance2D_3626" type="MultiMeshInstance2D" parent="."]
+[node name="_MultiMeshInstance2D_3626" type="MultiMeshInstance2D" parent="." unique_id=1745798877]
 modulate = Color(0.341176, 0.662745, 1, 1)
 material = SubResource("ShaderMaterial_a1w2p")
 multimesh = SubResource("MultiMesh_hmvmw")
 
-[node name="_MultiMeshInstance2D_3627" type="MultiMeshInstance2D" parent="."]
+[node name="_MultiMeshInstance2D_3627" type="MultiMeshInstance2D" parent="." unique_id=541572358]
 modulate = Color(0, 0.631373, 0.235294, 1)
 material = SubResource("ShaderMaterial_a1w2p")
 multimesh = SubResource("MultiMesh_wy5wq")
 
-[node name="_MultiMeshInstance2D_3628" type="MultiMeshInstance2D" parent="."]
+[node name="_MultiMeshInstance2D_3628" type="MultiMeshInstance2D" parent="." unique_id=1977880812]
 modulate = Color(0.305882, 0.745098, 1, 1)
 material = SubResource("ShaderMaterial_a1w2p")
 multimesh = SubResource("MultiMesh_fov5g")
 
-[node name="_MultiMeshInstance2D_3629" type="MultiMeshInstance2D" parent="."]
+[node name="_MultiMeshInstance2D_3629" type="MultiMeshInstance2D" parent="." unique_id=415112178]
 modulate = Color(1, 0.815686, 0.133333, 1)
 material = SubResource("ShaderMaterial_a1w2p")
 multimesh = SubResource("MultiMesh_l4yv3")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cm8wdjpfyiarr"]
+[gd_scene format=3 uid="uid://cm8wdjpfyiarr"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2_g5n2e"]
 [ext_resource type="StyleBox" uid="uid://3yhfuv7t5wgf" path="res://styles/SongListItemNormal.tres" id="3_05a8f"]
@@ -11,7 +11,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1864973756]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 3
 anchors_preset = 10
@@ -22,7 +22,7 @@ size_flags_horizontal = 3
 focus_mode = 2
 mouse_filter = 2
 
-[node name="Control" type="Panel" parent="."]
+[node name="Control" type="Panel" parent="." unique_id=657374021]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 25.0
@@ -33,7 +33,7 @@ size_flags_horizontal = 3
 theme = ExtResource("2_g5n2e")
 theme_override_styles/panel = ExtResource("3_05a8f")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=2056233129]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.5
@@ -44,11 +44,11 @@ theme_override_constants/margin_left = 62
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+[node name="Panel" type="Panel" parent="Control/MarginContainer" unique_id=1256870466]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qchs")
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=333379136]
 custom_minimum_size = Vector2(175, 125)
 layout_mode = 1
 anchors_preset = 4

@@ -1,7 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://cr4ygsnm3cu5s"]
+[gd_scene format=3 uid="uid://cr4ygsnm3cu5s"]
 
 [ext_resource type="PackedScene" uid="uid://cf2jxkpomwvf3" path="res://rythm_game/rhythm_game_controller.tscn" id="1"]
-[ext_resource type="Script" path="res://rythm_game/practice_mode.gd" id="2"]
+[ext_resource type="Script" uid="uid://hghvm78op1vy" path="res://rythm_game/practice_mode.gd" id="2"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3"]
 [ext_resource type="FontVariation" uid="uid://s8yk8vo62t7j" path="res://fonts/mono.tres" id="3_1ic2e"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
@@ -116,8 +116,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_88c88"]
 _data = {
-"appear": SubResource("5"),
-"disappear": SubResource("6")
+&"appear": SubResource("5"),
+&"disappear": SubResource("6")
 }
 
 [sub_resource type="Environment" id="7"]
@@ -127,6 +127,15 @@ fallbacks = Array[Font]([ExtResource("3")])
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -169,10 +178,10 @@ corner_radius_bottom_left = 5
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[node name="RhythmGame" instance=ExtResource("1")]
+[node name="RhythmGame" unique_id=880058292 instance=ExtResource("1")]
 script = ExtResource("2")
 
-[node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="0"]
+[node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="0" unique_id=1506501390]
 z_index = -1
 layout_mode = 0
 anchor_right = 1.0
@@ -180,12 +189,12 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_constants/margin_right = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PracticeModeUIIngame" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PracticeModeUIIngame" index="0" unique_id=2011652883]
 layout_mode = 2
 mouse_filter = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="PracticeModeUIIngame/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="PracticeModeUIIngame/HBoxContainer" index="0" unique_id=1217279972]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_constants/outline_size = 15
@@ -229,9 +238,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 
 [node name="AnimationPlayer" parent="RollbackLabel" index="0"]
-libraries = {
-"": SubResource("AnimationLibrary_88c88")
-}
+libraries/ = SubResource("AnimationLibrary_88c88")
 
 [node name="VBoxContainer" parent="RollbackLabel" index="1"]
 anchor_right = 0.0
@@ -250,8 +257,7 @@ grow_vertical = 1
 [node name="WorldEnvironment" parent="." index="11"]
 environment = SubResource("7")
 
-[node name="QuitConfirmation" parent="." index="12" instance=ExtResource("6")]
-visible = false
+[node name="QuitConfirmation" parent="." index="12" unique_id=806257381 instance=ExtResource("6")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -262,7 +268,7 @@ grow_horizontal = 1
 grow_vertical = 1
 text = "Are you sure you want to quit?"
 
-[node name="SeekGUI" type="MarginContainer" parent="." index="13"]
+[node name="SeekGUI" type="MarginContainer" parent="." index="13" unique_id=1362949358]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -270,29 +276,29 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 100
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SeekGUI" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SeekGUI" index="0" unique_id=639974382]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 50
 alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SeekGUI/VBoxContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SeekGUI/VBoxContainer" index="0" unique_id=32526883]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SeekGUI/VBoxContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="SeekGUI/VBoxContainer/VBoxContainer" index="0" unique_id=108176641]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_constants/outline_size = 15
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1:20/1:23"
 
-[node name="ProgressBar" type="ProgressBar" parent="SeekGUI/VBoxContainer/VBoxContainer" index="1"]
+[node name="ProgressBar" type="ProgressBar" parent="SeekGUI/VBoxContainer/VBoxContainer" index="1" unique_id=1975195497]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 max_value = 1.0
 step = 0.0
 
-[node name="ProgresBarWaypoint" type="ProgressBar" parent="SeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="0"]
+[node name="ProgresBarWaypoint" type="ProgressBar" parent="SeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="0" unique_id=628059548]
 visible = false
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 0
@@ -302,7 +308,7 @@ max_value = 1.0
 step = 0.0
 value = 0.5
 
-[node name="SeekButton" type="Button" parent="SeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="1"]
+[node name="SeekButton" type="Button" parent="SeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="1" unique_id=248985625]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
@@ -310,108 +316,108 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = SubResource("GDScript_q7pkj")
 
-[node name="HBoxContainer" type="HFlowContainer" parent="SeekGUI/VBoxContainer" index="1"]
+[node name="HBoxContainer" type="HFlowContainer" parent="SeekGUI/VBoxContainer" index="1" unique_id=1475146181]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 alignment = 1
 
-[node name="Panel1" parent="SeekGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("4")]
+[node name="Panel1" parent="SeekGUI/VBoxContainer/HBoxContainer" index="0" unique_id=1652917186 instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_last_mode"
 text = "Previous mode"
 
-[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" parent_id_path=PackedInt32Array(1652917186, 139269750) index="0" unique_id=252149381]
 theme_override_constants/action_text_font_outline_size = 15
 action_text = "Previous mode"
 action_name = &"practice_last_mode"
 
-[node name="Panel2" parent="SeekGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("4")]
+[node name="Panel2" parent="SeekGUI/VBoxContainer/HBoxContainer" index="1" unique_id=307551608 instance=ExtResource("4")]
 custom_minimum_size = Vector2(142, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_left"
 text = "Seek Left"
 
-[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" parent_id_path=PackedInt32Array(307551608, 139269750) index="0" unique_id=252149381]
 theme_override_constants/action_text_font_outline_size = 15
 action_text = "Seek Left"
 action_name = &"gui_left"
 
-[node name="Panel3" parent="SeekGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource("4")]
+[node name="Panel3" parent="SeekGUI/VBoxContainer/HBoxContainer" index="2" unique_id=1117035214 instance=ExtResource("4")]
 custom_minimum_size = Vector2(174, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_set_waypoint"
 text = "Set Waypoint"
 
-[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" parent_id_path=PackedInt32Array(1117035214, 139269750) index="0" unique_id=252149381]
 theme_override_constants/action_text_font_outline_size = 15
 action_text = "Set Waypoint"
 action_name = &"practice_set_waypoint"
 
-[node name="Panel4" parent="SeekGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource("4")]
+[node name="Panel4" parent="SeekGUI/VBoxContainer/HBoxContainer" index="3" unique_id=1052561250 instance=ExtResource("4")]
 custom_minimum_size = Vector2(189, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_go_to_waypoint"
 text = "Go to waypoint"
 
-[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" parent_id_path=PackedInt32Array(1052561250, 139269750) index="0" unique_id=252149381]
 theme_override_constants/action_text_font_outline_size = 15
 action_text = "Go to waypoint"
 action_name = &"practice_go_to_waypoint"
 
-[node name="Panel5" parent="SeekGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource("4")]
+[node name="Panel5" parent="SeekGUI/VBoxContainer/HBoxContainer" index="4" unique_id=1232228945 instance=ExtResource("4")]
 custom_minimum_size = Vector2(126, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "pause"
 text = "Resume"
 
-[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" parent_id_path=PackedInt32Array(1232228945, 139269750) index="0" unique_id=252149381]
 theme_override_constants/action_text_font_outline_size = 15
 action_text = "Resume"
 action_name = &"pause"
 
-[node name="Panel6" parent="SeekGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource("4")]
+[node name="Panel6" parent="SeekGUI/VBoxContainer/HBoxContainer" index="5" unique_id=296225070 instance=ExtResource("4")]
 custom_minimum_size = Vector2(90, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "contextual_option"
 text = "Quit"
 
-[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" parent_id_path=PackedInt32Array(296225070, 139269750) index="0" unique_id=252149381]
 theme_override_constants/action_text_font_outline_size = 15
 action_text = "Quit"
 action_name = &"contextual_option"
 
-[node name="Panel7" parent="SeekGUI/VBoxContainer/HBoxContainer" index="6" instance=ExtResource("4")]
+[node name="Panel7" parent="SeekGUI/VBoxContainer/HBoxContainer" index="6" unique_id=1840953866 instance=ExtResource("4")]
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_right"
 text = "Seek Right"
 
-[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" parent_id_path=PackedInt32Array(1840953866, 139269750) index="0" unique_id=252149381]
 theme_override_constants/action_text_font_outline_size = 15
 action_text = "Seek Right"
 action_name = &"gui_right"
 
-[node name="Panel8" parent="SeekGUI/VBoxContainer/HBoxContainer" index="7" instance=ExtResource("4")]
+[node name="Panel8" parent="SeekGUI/VBoxContainer/HBoxContainer" index="7" unique_id=315405414 instance=ExtResource("4")]
 custom_minimum_size = Vector2(149, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_next_mode"
 text = "Next mode"
 
-[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" parent_id_path=PackedInt32Array(315405414, 139269750) index="0" unique_id=252149381]
 theme_override_constants/action_text_font_outline_size = 15
 action_text = "Next mode"
 action_name = &"practice_next_mode"
 
-[node name="SectionSeekGUI" type="MarginContainer" parent="." index="14"]
+[node name="SectionSeekGUI" type="MarginContainer" parent="." index="14" unique_id=1615101874]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
@@ -420,28 +426,28 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 100
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SectionSeekGUI" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionSeekGUI" index="0" unique_id=1155598689]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 50
 alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SectionSeekGUI/VBoxContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionSeekGUI/VBoxContainer" index="0" unique_id=225615088]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="0" unique_id=1229941810]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1:20/1:23"
 
-[node name="ProgressBar" type="ProgressBar" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="1"]
+[node name="ProgressBar" type="ProgressBar" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="1" unique_id=1470991372]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 max_value = 1.0
 step = 0.0
 
-[node name="ProgresBarWaypoint" type="ProgressBar" parent="SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="0"]
+[node name="ProgresBarWaypoint" type="ProgressBar" parent="SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="0" unique_id=803454027]
 visible = false
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 0
@@ -451,7 +457,7 @@ max_value = 1.0
 step = 0.0
 value = 0.5
 
-[node name="SeekButton" type="Button" parent="SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="1"]
+[node name="SeekButton" type="Button" parent="SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="1" unique_id=1497662486]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
@@ -459,84 +465,84 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = SubResource("GDScript_q7pkj")
 
-[node name="Label2" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="2"]
+[node name="Label2" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="2" unique_id=1603050125]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "Default"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SectionSeekGUI/VBoxContainer" index="1"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SectionSeekGUI/VBoxContainer" index="1" unique_id=101467081]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 alignment = 1
 
-[node name="Panel1" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("4")]
+[node name="Panel1" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="0" unique_id=1137336604 instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_last_mode"
 text = "Previous mode"
 
-[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" parent_id_path=PackedInt32Array(1137336604, 139269750) index="0" unique_id=252149381]
 action_text = "Previous mode"
 action_name = &"practice_last_mode"
 
-[node name="Panel2" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("4")]
+[node name="Panel2" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="1" unique_id=338502671 instance=ExtResource("4")]
 custom_minimum_size = Vector2(205, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_left"
 text = "Previous section"
 
-[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" parent_id_path=PackedInt32Array(338502671, 139269750) index="0" unique_id=252149381]
 action_text = "Previous section"
 action_name = &"gui_left"
 
-[node name="Panel3" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource("4")]
+[node name="Panel3" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="2" unique_id=347968867 instance=ExtResource("4")]
 custom_minimum_size = Vector2(126, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "pause"
 text = "Resume"
 
-[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" parent_id_path=PackedInt32Array(347968867, 139269750) index="0" unique_id=252149381]
 action_text = "Resume"
 action_name = &"pause"
 
-[node name="Panel4" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource("4")]
+[node name="Panel4" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="3" unique_id=1696777245 instance=ExtResource("4")]
 custom_minimum_size = Vector2(90, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "contextual_option"
 text = "Quit"
 
-[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" parent_id_path=PackedInt32Array(1696777245, 139269750) index="0" unique_id=252149381]
 action_text = "Quit"
 action_name = &"contextual_option"
 
-[node name="Panel5" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource("4")]
+[node name="Panel5" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="4" unique_id=996919363 instance=ExtResource("4")]
 custom_minimum_size = Vector2(166, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_right"
 text = "Next section"
 
-[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" parent_id_path=PackedInt32Array(996919363, 139269750) index="0" unique_id=252149381]
 action_text = "Next section"
 action_name = &"gui_right"
 
-[node name="Panel6" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource("4")]
+[node name="Panel6" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="5" unique_id=1910208862 instance=ExtResource("4")]
 custom_minimum_size = Vector2(149, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_next_mode"
 text = "Next mode"
 
-[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" parent_id_path=PackedInt32Array(1910208862, 139269750) index="0" unique_id=252149381]
 action_text = "Next mode"
 action_name = &"practice_next_mode"
 
-[node name="SettingsGUI" type="MarginContainer" parent="." index="15"]
+[node name="SettingsGUI" type="MarginContainer" parent="." index="15" unique_id=681912482]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
@@ -548,81 +554,81 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 100
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SettingsGUI" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsGUI" index="0" unique_id=248910270]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 50
 alignment = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="SettingsGUI/VBoxContainer" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="SettingsGUI/VBoxContainer" index="0" unique_id=455808859]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PerSongSettingsEditor" parent="SettingsGUI/VBoxContainer/MarginContainer" index="0" instance=ExtResource("7")]
+[node name="PerSongSettingsEditor" parent="SettingsGUI/VBoxContainer/MarginContainer" index="0" unique_id=841200355 instance=ExtResource("7")]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SettingsGUI/VBoxContainer" index="1"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsGUI/VBoxContainer" index="1" unique_id=1663634181]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 alignment = 1
 
-[node name="Panel1" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("4")]
+[node name="Panel1" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="0" unique_id=56221278 instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_last_mode"
 text = "Previous mode"
 
-[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" parent_id_path=PackedInt32Array(56221278, 139269750) index="0" unique_id=252149381]
 action_text = "Previous mode"
 action_name = &"practice_last_mode"
 
-[node name="Panel2" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("4")]
+[node name="Panel2" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="1" unique_id=363666527 instance=ExtResource("4")]
 custom_minimum_size = Vector2(126, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "pause"
 text = "Resume"
 
-[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" parent_id_path=PackedInt32Array(363666527, 139269750) index="0" unique_id=252149381]
 action_text = "Resume"
 action_name = &"pause"
 
-[node name="Panel3" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource("4")]
+[node name="Panel3" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="2" unique_id=2133151844 instance=ExtResource("4")]
 custom_minimum_size = Vector2(90, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "contextual_option"
 text = "Quit"
 
-[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" parent_id_path=PackedInt32Array(2133151844, 139269750) index="0" unique_id=252149381]
 action_text = "Quit"
 action_name = &"contextual_option"
 
-[node name="Panel4" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource("4")]
+[node name="Panel4" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="3" unique_id=402361173 instance=ExtResource("4")]
 custom_minimum_size = Vector2(178, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_apply_latency"
 text = "Apply latency"
 
-[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" parent_id_path=PackedInt32Array(402361173, 139269750) index="0" unique_id=252149381]
 action_text = "Apply latency"
 action_name = &"practice_apply_latency"
 
-[node name="Panel5" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource("4")]
+[node name="Panel5" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="4" unique_id=2135891912 instance=ExtResource("4")]
 custom_minimum_size = Vector2(149, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_next_mode"
 text = "Next mode"
 
-[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" parent_id_path=PackedInt32Array(2135891912, 139269750) index="0" unique_id=252149381]
 action_text = "Next mode"
 action_name = &"practice_next_mode"
 
-[node name="SpeedControlGUI" type="MarginContainer" parent="." index="16"]
+[node name="SpeedControlGUI" type="MarginContainer" parent="." index="16" unique_id=1358439429]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
@@ -631,89 +637,89 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 100
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SpeedControlGUI" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SpeedControlGUI" index="0" unique_id=16113033]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 50
 alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SpeedControlGUI/VBoxContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SpeedControlGUI/VBoxContainer" index="0" unique_id=1842551673]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SpeedControlGUI/VBoxContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="SpeedControlGUI/VBoxContainer/VBoxContainer" index="0" unique_id=894941421]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontFile_5u356")
 text = "1x"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SpeedControlGUI/VBoxContainer" index="1"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SpeedControlGUI/VBoxContainer" index="1" unique_id=1749634144]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 alignment = 1
 
-[node name="Panel1" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("4")]
+[node name="Panel1" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="0" unique_id=1544505315 instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_last_mode"
 text = "Previous mode"
 
-[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" parent_id_path=PackedInt32Array(1544505315, 139269750) index="0" unique_id=252149381]
 action_text = "Previous mode"
 action_name = &"practice_last_mode"
 
-[node name="Panel2" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("4")]
+[node name="Panel2" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="1" unique_id=1482147277 instance=ExtResource("4")]
 custom_minimum_size = Vector2(154, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_left"
 text = "Slow down"
 
-[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" parent_id_path=PackedInt32Array(1482147277, 139269750) index="0" unique_id=252149381]
 action_text = "Slow down"
 action_name = &"gui_left"
 
-[node name="Panel3" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource("4")]
+[node name="Panel3" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="2" unique_id=1092568010 instance=ExtResource("4")]
 custom_minimum_size = Vector2(126, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "pause"
 text = "Resume"
 
-[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" parent_id_path=PackedInt32Array(1092568010, 139269750) index="0" unique_id=252149381]
 action_text = "Resume"
 action_name = &"pause"
 
-[node name="Panel4" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource("4")]
+[node name="Panel4" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="3" unique_id=1769431141 instance=ExtResource("4")]
 custom_minimum_size = Vector2(90, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "contextual_option"
 text = "Quit"
 
-[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" parent_id_path=PackedInt32Array(1769431141, 139269750) index="0" unique_id=252149381]
 action_text = "Quit"
 action_name = &"contextual_option"
 
-[node name="Panel5" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource("4")]
+[node name="Panel5" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="4" unique_id=1593937879 instance=ExtResource("4")]
 custom_minimum_size = Vector2(137, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "gui_right"
 text = "Speed up"
 
-[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" parent_id_path=PackedInt32Array(1593937879, 139269750) index="0" unique_id=252149381]
 action_text = "Speed up"
 action_name = &"gui_right"
 
-[node name="Panel6" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource("4")]
+[node name="Panel6" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="5" unique_id=2131798570 instance=ExtResource("4")]
 custom_minimum_size = Vector2(149, 25)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5djo4")
 action_name = "practice_next_mode"
 text = "Next mode"
 
-[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+[node name="InputGlyphRect" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" parent_id_path=PackedInt32Array(2131798570, 139269750) index="0" unique_id=252149381]
 action_text = "Next mode"
 action_name = &"practice_next_mode"
 

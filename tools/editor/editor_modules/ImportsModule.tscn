@@ -1,45 +1,42 @@
-[gd_scene load_steps=7 format=3 uid="uid://bjyw8bnxifsoi"]
+[gd_scene format=3 uid="uid://bjyw8bnxifsoi"]
 
 [ext_resource type="Texture2D" uid="uid://b3m1vmqngnscl" path="res://graphics/icons/folder-open.svg" id="1"]
-[ext_resource type="Script" path="res://tools/editor/editor_modules/ImportsModule.gd" id="2"]
+[ext_resource type="Script" uid="uid://bkx4yxnoiaa34" path="res://tools/editor/editor_modules/ImportsModule.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="3"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="4"]
+[ext_resource type="Script" uid="uid://clphuuunv7ko1" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://d0d6boaawk2th" path="res://tools/icons/icon_GUI_tree_arrow_right.svg" id="5"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="6"]
 
-[node name="EditorModule" instance=ExtResource("3")]
+[node name="EditorModule" unique_id=994860055 instance=ExtResource("3")]
 script = ExtResource("2")
 module_location = "right_panel"
 module_name = "Import chart"
 priority = 3
 button_group_name = "importer_buttons"
 
-[node name="MarginContainer" parent="." index="0"]
+[node name="MarginContainer" parent="." index="0" unique_id=428630603]
 layout_mode = 1
 anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="0" unique_id=807940314]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="0" unique_id=153820102]
 layout_mode = 2
 text = "Import timing points..."
 horizontal_alignment = 1
 
-[node name="ImporterOptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="1"]
+[node name="ImporterOptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="1" unique_id=2043367087]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Select the source to import from."
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="2" unique_id=988289456]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="3" groups=["disabled_ui"]]
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="3" unique_id=1189500992 groups=["disabled_ui"]]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -47,83 +44,83 @@ tooltip_text = "Select a file to import."
 icon = ExtResource("1")
 expand_icon = true
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="4"]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="4" unique_id=1004381918]
 layout_mode = 2
 text = "Open file"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="5"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="5" unique_id=843028224]
 layout_mode = 2
 
-[node name="AdvancedOptionsButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="AdvancedOptionsButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=871865424]
 unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("5")
 flat = true
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1772440400]
 layout_mode = 2
 text = "Advanced options..."
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="6"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="6" unique_id=2037215755]
 visible = false
 layout_mode = 2
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="0" unique_id=1069865224]
 layout_mode = 2
 tooltip_text = "Offset all imported timing points
 by some amount."
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=572111433]
 layout_mode = 2
 text = "Import offset:"
 
-[node name="OffsetSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="OffsetSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1799389518]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = -1e+06
-max_value = 1e+06
+min_value = -1000000.0
+max_value = 1000000.0
 suffix = "ms"
 script = ExtResource("4")
 
-[node name="TempoMapHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="1"]
+[node name="TempoMapHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="1" unique_id=428172009]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Offset all imported timing points
 by some amount."
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/TempoMapHBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/TempoMapHBoxContainer" index="0" unique_id=525972640]
 layout_mode = 2
 text = "Import Tempo Map:"
 
-[node name="TempoMapOptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/TempoMapHBoxContainer" index="1"]
+[node name="TempoMapOptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/TempoMapHBoxContainer" index="1" unique_id=839182551]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LinkStarsCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="2"]
+[node name="LinkStarsCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="2" unique_id=1548378384]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Add custom settings to the hearts
 mimicking F2nd link stars."
 text = "Import link star parameters"
 
-[node name="ReplaceChartCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="3"]
+[node name="ReplaceChartCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="3" unique_id=2097426691]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Replace the current chart by the imported chart if enabled, or paste notes into the current chart if disabled."
 button_pressed = true
 text = "Replace chart"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="1" unique_id=1237458101]
 visible = false
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="0"]
+[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="0" unique_id=300862676]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.92549, 0, 0, 1)
 text = "Important!
@@ -134,13 +131,13 @@ material to the workshop, it WILL
 be deleted."
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="1"]
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="1" unique_id=122415897]
 layout_mode = 2
 text = "Accept"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="1" unique_id=1139050551]
 
-[node name="FileDialog" type="FileDialog" parent="CanvasLayer" index="0" groups=["block_shortcuts"]]
+[node name="FileDialog" type="FileDialog" parent="CanvasLayer" index="0" unique_id=1030929308 groups=["block_shortcuts"]]
 unique_name_in_owner = true
 title = "Open a File"
 theme = ExtResource("6")

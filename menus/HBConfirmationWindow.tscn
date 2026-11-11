@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://r6cc2m204dqw"]
+[gd_scene format=3 uid="uid://r6cc2m204dqw"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="2"]
@@ -24,7 +24,7 @@ corner_detail = 20
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[node name="HBConfirmationWindow" type="CenterContainer"]
+[node name="HBConfirmationWindow" type="CenterContainer" unique_id=1735869430]
 visible = false
 top_level = true
 anchors_preset = 15
@@ -36,31 +36,31 @@ mouse_filter = 0
 theme = ExtResource("1")
 script = ExtResource("4")
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="PanelContainer" parent="." unique_id=344888388]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1909363724]
 layout_mode = 2
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_bottom = 40
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=93249819]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=393844007]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer" unique_id=1101312760]
 layout_mode = 2
 alignment = 1
 
-[node name="TextLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="TextLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" unique_id=526326536]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -68,7 +68,7 @@ text = "Are you sure you want to do this?"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ButtonContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+[node name="ButtonContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=1818095317]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 2
@@ -76,22 +76,22 @@ theme_override_constants/separation = 20
 alignment = 1
 script = ExtResource("3")
 
-[node name="AcceptButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ButtonContainer"]
+[node name="AcceptButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ButtonContainer" unique_id=591682112]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
-theme_override_styles/hover = ExtResource("5")
-theme_override_styles/pressed = ExtResource("5")
 theme_override_styles/normal = ExtResource("6")
+theme_override_styles/pressed = ExtResource("5")
+theme_override_styles/hover = ExtResource("5")
 text = "Yes"
 script = ExtResource("2")
 
-[node name="CancelButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ButtonContainer"]
+[node name="CancelButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ButtonContainer" unique_id=1945619883]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
-theme_override_styles/hover = ExtResource("5")
-theme_override_styles/pressed = ExtResource("5")
 theme_override_styles/normal = ExtResource("6")
+theme_override_styles/pressed = ExtResource("5")
+theme_override_styles/hover = ExtResource("5")
 text = "No"
 script = ExtResource("2")

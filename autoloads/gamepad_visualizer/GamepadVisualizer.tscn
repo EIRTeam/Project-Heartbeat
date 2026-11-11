@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://ctfqpu58nwwdy"]
+[gd_scene format=3 uid="uid://ctfqpu58nwwdy"]
 
-[ext_resource type="Script" path="res://autoloads/gamepad_visualizer/GamepadVisualizer.gd" id="1"]
+[ext_resource type="Script" uid="uid://dmh0fjb8n55di" path="res://autoloads/gamepad_visualizer/GamepadVisualizer.gd" id="1"]
 
-[node name="GamepadVisualizer" type="Control"]
+[node name="GamepadVisualizer" type="Control" unique_id=973915494]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,13 +12,13 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=845454284]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1316674708]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 mouse_filter = 2

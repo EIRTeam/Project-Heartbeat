@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1v7ncwitep8e"]
+[gd_scene format=3 uid="uid://c1v7ncwitep8e"]
 
 [ext_resource type="Texture2D" uid="uid://b0jrpncgb14qb" path="res://tools/icons/EditorControlAnchor.svg" id="1"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor_corner.gd" id="2"]
+[ext_resource type="Script" uid="uid://c3g0moegsyl3i" path="res://tools/resource_pack_editor/skin_editor/skin_editor_corner.gd" id="2"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.525647, 0.1554, 0.74, 1)
@@ -16,13 +16,13 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 anti_aliasing = false
 
-[node name="Panel" type="Panel"]
+[node name="Panel" type="Panel" unique_id=915681101]
 offset_right = 16.0
 offset_bottom = 16.0
 theme_override_styles/panel = SubResource("1")
 script = ExtResource("2")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1007238318]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0

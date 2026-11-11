@@ -1,17 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://bk36n81tgbx1g"]
+[gd_scene format=3 uid="uid://bk36n81tgbx1g"]
 
-[ext_resource type="Script" path="res://menus/SongTitle.gd" id="3"]
+[ext_resource type="Script" uid="uid://d3qfjwatardui" path="res://menus/SongTitle.gd" id="3"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3_hm66h"]
 [ext_resource type="FontVariation" uid="uid://nyc27vir054y" path="res://fonts/default_font_bold.tres" id="4_oh0tk"]
 
-[node name="SongTitle" type="HBoxContainer"]
+[node name="SongTitle" type="HBoxContainer" unique_id=160757586]
 use_parent_material = true
 offset_right = 1612.0
 offset_bottom = 67.0
 theme_override_constants/separation = 20
 script = ExtResource("3")
 
-[node name="DifficultyLabel" type="Label" parent="."]
+[node name="DifficultyLabel" type="Label" parent="." unique_id=1884014866]
 auto_translate_mode = 2
 visible = false
 use_parent_material = true
@@ -24,7 +24,7 @@ horizontal_alignment = 3
 vertical_alignment = 1
 uppercase = true
 
-[node name="TitleLabel" type="Label" parent="."]
+[node name="TitleLabel" type="Label" parent="." unique_id=890246073]
 auto_translate_mode = 2
 use_parent_material = true
 layout_mode = 2
@@ -33,7 +33,7 @@ theme_override_fonts/font = ExtResource("3_hm66h")
 text = "(NT)Song Title"
 vertical_alignment = 1
 
-[node name="AuthorLabel" type="Label" parent="."]
+[node name="AuthorLabel" type="Label" parent="." unique_id=1654848252]
 auto_translate_mode = 2
 use_parent_material = true
 layout_mode = 2
@@ -45,7 +45,7 @@ horizontal_alignment = 3
 vertical_alignment = 1
 uppercase = true
 
-[node name="CircleLabel" type="TextureRect" parent="."]
+[node name="CircleLabel" type="TextureRect" parent="." unique_id=1150621078]
 use_parent_material = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2

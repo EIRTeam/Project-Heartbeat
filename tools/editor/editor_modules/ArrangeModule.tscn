@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dp3dxv1k748mt"]
+[gd_scene format=3 uid="uid://dp3dxv1k748mt"]
 
 [ext_resource type="Texture2D" uid="uid://d0x0jbwaj58e" path="res://graphics/icons/rotate-relative-right.svg" id="2"]
 [ext_resource type="Script" uid="uid://d3j8dwm1jc0vn" path="res://tools/editor/editor_modules/ArrangeModule.gd" id="3"]
@@ -27,25 +27,25 @@
 [ext_resource type="Texture2D" uid="uid://cfjtyob2diytx" path="res://graphics/icons/rotate-absolute.svg" id="18"]
 [ext_resource type="Script" uid="uid://d3nluthy6ngac" path="res://menus/HBoxRatioContainer.gd" id="21"]
 
-[node name="EditorModule" instance=ExtResource("9")]
+[node name="EditorModule" unique_id=206634085 instance=ExtResource("9")]
 script = ExtResource("3")
 module_location = "left_panel"
 module_name = "Arrange notes"
 button_group_name = "arrange_buttons"
 
-[node name="MarginContainer" parent="." index="0"]
+[node name="MarginContainer" parent="." index="0" unique_id=428630603]
 layout_mode = 1
 anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="0" unique_id=1698291772]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Arrange in a line..."
 horizontal_alignment = 1
 
-[node name="QuickPlacingLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
+[node name="QuickPlacingLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="1" unique_id=98560236]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "The arrange wheel helps you place notes quickly (Hold Shift for reverse)."
@@ -53,41 +53,41 @@ mouse_filter = 0
 text = "Hold SHORTCUT for quick placing."
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="2" unique_id=1284990122]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0" unique_id=156798744]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0" unique_id=1509346900]
 layout_mode = 2
 tooltip_text = "Angle at which to place the notes."
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=2111078175]
 layout_mode = 2
 text = "Line type:"
 horizontal_alignment = 1
 
-[node name="ArrangeModeOptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="ArrangeModeOptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=694045920 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="StandardHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+[node name="StandardHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1" unique_id=399376558]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Angle at which to place the notes."
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/StandardHBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/StandardHBoxContainer" index="0" unique_id=1503810750]
 layout_mode = 2
 text = "Slope angle:"
 horizontal_alignment = 1
 
-[node name="ArrangeAngleSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/StandardHBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="ArrangeAngleSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/StandardHBoxContainer" index="1" unique_id=1300937036 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -99,19 +99,19 @@ suffix = "º"
 custom_arrow_step = 1.0
 script = ExtResource("4")
 
-[node name="DiagonalStepHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="2"]
+[node name="DiagonalStepHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="2" unique_id=789849591]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 tooltip_text = "Angle at which to place the notes."
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="0" unique_id=326971374]
 layout_mode = 2
 text = "X Step:"
 horizontal_alignment = 1
 
-[node name="DiagonalStepXSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="DiagonalStepXSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="1" unique_id=1581319597 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -121,12 +121,12 @@ suffix = "px"
 custom_arrow_step = 1.0
 script = ExtResource("4")
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="2"]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="2" unique_id=1067289345]
 layout_mode = 2
 text = "Y step:"
 horizontal_alignment = 1
 
-[node name="DiagonalStepYSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="3" groups=["disabled_ui"]]
+[node name="DiagonalStepYSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/DiagonalStepHBoxContainer" index="3" unique_id=810093225 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -136,19 +136,19 @@ suffix = "px"
 custom_arrow_step = 1.0
 script = ExtResource("4")
 
-[node name="FullWidthHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="3"]
+[node name="FullWidthHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="3" unique_id=1711240798]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 tooltip_text = "Angle at which to place the notes."
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/FullWidthHBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/FullWidthHBoxContainer" index="0" unique_id=52300798]
 layout_mode = 2
 text = "Vertical step:"
 horizontal_alignment = 1
 
-[node name="VerticalStepSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/FullWidthHBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="VerticalStepSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/FullWidthHBoxContainer" index="1" unique_id=1522854887 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -158,56 +158,56 @@ suffix = "px"
 custom_arrow_step = 1.0
 script = ExtResource("4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="4"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="4" unique_id=1094070523]
 layout_mode = 2
 alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="0"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="0" unique_id=1833611985]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="1"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="1" unique_id=1237418146]
 layout_mode = 2
 tooltip_text = "Arrange from the last note
 rather than the first.
 Shortcut: Shift"
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1758455527]
 layout_mode = 2
 texture = ExtResource("4_o6l4o")
 expand_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=2111055981]
 layout_mode = 2
 text = "Arrange from last note"
 
-[node name="ReverseArrangeCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="2" groups=["disabled_ui"]]
+[node name="ReverseArrangeCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="2" unique_id=1483188157 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="2"]
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="2" unique_id=772942222]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="3"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="3" unique_id=2106268875]
 layout_mode = 2
 tooltip_text = "Set basic angles while arranging.
 Shortcut: Control"
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="0"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="0" unique_id=511971961]
 layout_mode = 2
 texture = ExtResource("5_lnkft")
 expand_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="1"]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="1" unique_id=556139879]
 layout_mode = 2
 text = "Automatic angles"
 
-[node name="AutoAngleCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="2" groups=["disabled_ui"]]
+[node name="AutoAngleCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="2" unique_id=362778377 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ArrangeButtonPad" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
+[node name="ArrangeButtonPad" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" unique_id=366651388 groups=["arrange_buttons"]]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(104, 547)
 layout_mode = 2
@@ -225,28 +225,28 @@ button_mode = "function"
 function_name = "_menu_arrange_button_pressed"
 metadata/_custom_type_script = "uid://bp3qrjahqrk31"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="3" unique_id=514350622]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="4"]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="4" unique_id=2094015110]
 layout_mode = 2
 text = "Arrange in a circle..."
 horizontal_alignment = 1
 
-[node name="CircleSizeHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="5"]
+[node name="CircleSizeHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="5" unique_id=639222168]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Amount of 8th notes required for
 a full revolution."
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/CircleSizeHBoxContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/CircleSizeHBoxContainer" index="0" unique_id=2120342795]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/CircleSizeHBoxContainer/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/CircleSizeHBoxContainer/HBoxContainer" index="0" unique_id=1988236554]
 layout_mode = 2
 text = "Size:"
 
-[node name="CircleSizeSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/CircleSizeHBoxContainer/HBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="CircleSizeSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/CircleSizeHBoxContainer/HBoxContainer" index="1" unique_id=737109136 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 4.0
@@ -254,7 +254,7 @@ max_value = 64.0
 value = 16.0
 script = ExtResource("4")
 
-[node name="CircleSizeHSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/CircleSizeHBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="CircleSizeHSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/CircleSizeHBoxContainer" index="1" unique_id=1994932502 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -264,25 +264,25 @@ value = 16.0
 tick_count = 8
 ticks_on_borders = true
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="6"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="6" unique_id=135024393]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0" unique_id=1187193920]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="0" unique_id=1434220638]
 layout_mode = 2
 text = "Inside angles"
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="1" unique_id=277705228]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 script = ExtResource("21")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" unique_id=567189173 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 524)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -294,7 +294,7 @@ texture = ExtResource("9_dg0tx")
 transform_id = 2
 action = "editor_make_circle_cw_inside"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" unique_id=403832118 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 572)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -307,24 +307,24 @@ texture = ExtResource("10_kubfp")
 transform_id = 3
 action = "editor_make_circle_ccw_inside"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1" unique_id=844855847]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2" unique_id=620939315]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0" unique_id=881796672]
 layout_mode = 2
 text = "Outside angles"
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1" unique_id=647487079]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 script = ExtResource("21")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" unique_id=763578683 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 524)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -335,7 +335,7 @@ angles pointing outwards."
 texture = ExtResource("7_5egqo")
 action = "editor_make_circle_cw"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" unique_id=835310403 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 572)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -348,33 +348,33 @@ texture = ExtResource("8_y761g")
 transform_id = 1
 action = "editor_make_circle_ccw"
 
-[node name="HSeparator4" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="7"]
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="7" unique_id=1920606289]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="8"]
+[node name="Label5" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="8" unique_id=267920571]
 layout_mode = 2
 text = "Arrange in an arc..."
 horizontal_alignment = 1
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="9" unique_id=1123165804]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0" unique_id=2039646333]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="0" unique_id=2059876269]
 layout_mode = 2
 text = "Inside angles"
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="1" unique_id=538287783]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 script = ExtResource("21")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxRatioContainer" index="0" unique_id=1017827397 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 524)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -389,7 +389,7 @@ texture = ExtResource("13_xu3le")
 transform_id = 8
 action = "editor_make_arc_cw_inside"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxRatioContainer" index="1" unique_id=621949141 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 572)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -405,24 +405,24 @@ texture = ExtResource("14_dbbtw")
 transform_id = 9
 action = "editor_make_arc_ccw_inside"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1" unique_id=793979564]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="2" unique_id=1589714981]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="0" unique_id=2030420587]
 layout_mode = 2
 text = "Outside angles"
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="1" unique_id=1593627395]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 script = ExtResource("21")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="0" unique_id=211834866 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 524)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -437,7 +437,7 @@ texture = ExtResource("11_b6kd6")
 transform_id = 10
 action = "editor_make_arc_cw"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxRatioContainer" index="1" unique_id=1903919334 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(183, 572)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -453,20 +453,20 @@ texture = ExtResource("12_1o5sg")
 transform_id = 11
 action = "editor_make_arc_ccw"
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="10"]
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="10" unique_id=1541521210]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="11"]
+[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="11" unique_id=173888105]
 layout_mode = 2
 text = "Flip and mirror..."
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="12"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="12" unique_id=1786232932]
 custom_minimum_size = Vector2(312, 0)
 layout_mode = 2
 script = ExtResource("21")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" unique_id=1903330214 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(208, 573)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -479,7 +479,7 @@ texture = ExtResource("17")
 transform_id = 4
 action = "editor_mirror_v"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" unique_id=187009844 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(208, 574)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -492,7 +492,7 @@ texture = ExtResource("10")
 transform_id = 5
 action = "editor_mirror_h"
 
-[node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["arrange_buttons"]]
+[node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" unique_id=876837053 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(208, 573)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -505,7 +505,7 @@ texture = ExtResource("13")
 transform_id = 6
 action = "editor_flip_v"
 
-[node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" groups=["arrange_buttons"]]
+[node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" unique_id=1231434724 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(208, 574)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -518,27 +518,27 @@ texture = ExtResource("8")
 transform_id = 7
 action = "editor_flip_h"
 
-[node name="HSeparator3" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="13"]
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="13" unique_id=803534450]
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="14"]
+[node name="Label4" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="14" unique_id=282741464]
 layout_mode = 2
 text = "Rotate notes..."
 horizontal_alignment = 1
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="15"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="15" unique_id=282746192]
 layout_mode = 2
 tooltip_text = "Amount of 8th notes required for
 a full revolution."
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="0" unique_id=483390584]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="0" unique_id=138916495]
 layout_mode = 2
 text = "Angle:"
 
-[node name="RotationAngleSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="1" groups=["disabled_ui"]]
+[node name="RotationAngleSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="1" unique_id=1280059234 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = -180.0
@@ -546,7 +546,7 @@ max_value = 180.0
 suffix = "º"
 script = ExtResource("4")
 
-[node name="RotationAngleHSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1" groups=["disabled_ui"]]
+[node name="RotationAngleHSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1" unique_id=1669236230 groups=["disabled_ui"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -555,12 +555,12 @@ max_value = 180.0
 tick_count = 9
 ticks_on_borders = true
 
-[node name="HBoxRatioContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="16"]
+[node name="HBoxRatioContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="16" unique_id=2065495355]
 custom_minimum_size = Vector2(276, 0)
 layout_mode = 2
 script = ExtResource("21")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["arrange_buttons"]]
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" unique_id=1229888626 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(176, 573)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -573,7 +573,7 @@ texture = ExtResource("16")
 transform_id = 12
 action = "editor_rotate_center"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["arrange_buttons"]]
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" unique_id=975596177 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(176, 574)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -586,7 +586,7 @@ texture = ExtResource("5")
 transform_id = 13
 action = "editor_rotate_left"
 
-[node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="2" groups=["arrange_buttons"]]
+[node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="2" unique_id=431409798 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(176, 573)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -599,7 +599,7 @@ texture = ExtResource("2")
 transform_id = 14
 action = "editor_rotate_right"
 
-[node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="3" groups=["arrange_buttons"]]
+[node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="3" unique_id=1352047168 groups=["arrange_buttons"]]
 custom_minimum_size = Vector2(176, 621)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -613,8 +613,9 @@ texture = ExtResource("18")
 transform_id = 15
 action = "editor_rotate_screen_center"
 
-[node name="ArrangeMenu" parent="." index="1" instance=ExtResource("14")]
+[node name="ArrangeMenu" parent="." index="1" unique_id=1055899338 instance=ExtResource("14")]
 visible = false
+layout_mode = 0
 
 [connection signal="item_selected" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/ArrangeModeOptionButton" to="." method="arrange_menu_mode_selected"]
 [connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/StandardHBoxContainer/ArrangeAngleSpinBox" to="." method="_on_arrange_angle_spinbox_value_changed"]

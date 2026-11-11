@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://myahgto1rib3"]
+[gd_scene format=3 uid="uid://myahgto1rib3"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://c51fsvr7ivxkl" path="res://rythm_game/results_screen/ResultsScreenGraph.tscn" id="2"]
-[ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenGraphTab.gd" id="3"]
-[ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenMinimap.gd" id="4"]
+[ext_resource type="Script" uid="uid://da6xx3k1053rm" path="res://rythm_game/results_screen/ResultsScreenGraphTab.gd" id="3"]
+[ext_resource type="Script" uid="uid://dvdjel56vf253" path="res://rythm_game/results_screen/ResultsScreenMinimap.gd" id="4"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=2109342983]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1016071310]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,31 +23,31 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1091892369]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer"]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer" unique_id=1884605428]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("1")
 
-[node name="Chart" parent="MarginContainer/VBoxContainer/Panel" instance=ExtResource("2")]
+[node name="Chart" parent="MarginContainer/VBoxContainer/Panel" unique_id=274541774 instance=ExtResource("2")]
 layout_mode = 1
 size_flags_vertical = 3
 
-[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer"]
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer" unique_id=667902996]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 theme_override_styles/panel = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Panel2"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Panel2" unique_id=1431807044]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Panel2/MarginContainer"]
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Panel2/MarginContainer" unique_id=723241958]
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
 script = ExtResource("4")

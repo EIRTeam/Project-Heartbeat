@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://k6ydqqj6cf3j"]
+[gd_scene format=3 uid="uid://k6ydqqj6cf3j"]
 
 [ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="1"]
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2"]
@@ -13,6 +13,15 @@ fallbacks = Array[Font]([ExtResource("4"), ExtResource("2")])
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -24,7 +33,7 @@ cache/0/30/0/underline_position = 0.0
 cache/0/30/0/underline_thickness = 0.0
 cache/0/30/0/scale = 1.0
 
-[node name="MarginContainer" type="MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" unique_id=534702746]
 custom_minimum_size = Vector2(300, 75)
 offset_right = 971.0
 offset_bottom = 62.0
@@ -35,17 +44,17 @@ theme_override_constants/margin_right = 70
 theme_override_constants/margin_bottom = 10
 script = ExtResource("3")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=382357087]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1304785908]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="AvatarTextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+[node name="AvatarTextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer" unique_id=971202472]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -53,19 +62,19 @@ texture = ExtResource("1")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1528168451]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 55
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer" unique_id=1483811178]
 layout_mode = 2
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer" unique_id=969985102]
 layout_mode = 2
 
-[node name="PersonaNameLabel" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="PersonaNameLabel" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=820641942]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -75,16 +84,16 @@ text = "(NT)EIREXE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OwnerCrown" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="OwnerCrown" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1184987400]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("5")
 stretch_mode = 5
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer" unique_id=2040291224]
 layout_mode = 2
 
-[node name="MetaReloadingIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="MetaReloadingIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=713027935]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
@@ -92,25 +101,25 @@ texture = ExtResource("6_fgn7g")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="DataStatusLabel" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="DataStatusLabel" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=624652887]
 unique_name_in_owner = true
 auto_translate_mode = 2
 visible = false
 layout_mode = 2
 text = "WORKSHOP SONG DOWNLOAD NEEDED"
 
-[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer" unique_id=973146500]
 layout_mode = 2
 size_flags_horizontal = 10
 alignment = 1
 
-[node name="MakeHostButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="MakeHostButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer" unique_id=195660797]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Set as host"
 script = ExtResource("6")
 
-[node name="KickButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="KickButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer" unique_id=1583501606]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Kick"

@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://x7xfikvehhqo"]
+[gd_scene format=3 uid="uid://x7xfikvehhqo"]
 
 [ext_resource type="Texture2D" uid="uid://dxtkq6suj1nuh" path="res://graphics/effects/star_04.png" id="1_us5vf"]
-[ext_resource type="Script" path="res://graphics/effects/SliderPieceParticle.gd" id="2_jhinx"]
+[ext_resource type="Script" uid="uid://d1mumjf3pu2ib" path="res://graphics/effects/SliderPieceParticle.gd" id="2_jhinx"]
 [ext_resource type="Texture2D" uid="uid://hekel7lj4mxb" path="res://graphics/effects/trace_01.png" id="3_tbyq6"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6kaqy"]
@@ -15,17 +15,17 @@ point_count = 2
 offsets = PackedFloat32Array(0.47861, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
-[node name="SliderPieceParticle" type="CPUParticles2D"]
+[node name="SliderPieceParticle" type="CPUParticles2D" unique_id=1510949954]
 modulate = Color(0.5, 0.5, 0.5, 1)
 material = SubResource("CanvasItemMaterial_6kaqy")
 position = Vector2(831, 343)
 amount = 2
+texture = ExtResource("1_us5vf")
 lifetime = 0.24
 one_shot = true
 explosiveness = 1.0
 local_coords = true
 draw_order = 1
-texture = ExtResource("1_us5vf")
 spread = 27.14
 gravity = Vector2(0, 0)
 initial_velocity_min = 448.53
@@ -41,15 +41,15 @@ color = Color(0.643137, 0.764706, 0.921569, 1)
 color_ramp = SubResource("Gradient_ce7rh")
 script = ExtResource("2_jhinx")
 
-[node name="GPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="GPUParticles2D" type="CPUParticles2D" parent="." unique_id=59579292]
 use_parent_material = true
 scale = Vector2(1, 0.5)
 amount = 1
+texture = ExtResource("3_tbyq6")
 lifetime = 0.35
 one_shot = true
 local_coords = true
 draw_order = 1
-texture = ExtResource("3_tbyq6")
 spread = 0.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 1250.0

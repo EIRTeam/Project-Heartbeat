@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsfk2y1o74ie6"]
+[gd_scene format=3 uid="uid://bsfk2y1o74ie6"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://f4jld53gidy2" path="res://menus/chart_feature_previews/double_note.png" id="2_su5b5"]
 [ext_resource type="Texture2D" uid="uid://uu0e2jc64x44" path="res://menus/chart_feature_previews/sustain_note.png" id="3_0cmks"]
 
-[node name="Page4" type="MarginContainer"]
+[node name="Page4" type="MarginContainer" unique_id=1826955802]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,42 +14,42 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1841168099]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=697392724]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2")
 text = "Double and sustain notes"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2076904351]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=891455187]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1910905678]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("2_su5b5")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1700278364]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_0cmks")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1639247678]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1302953888]
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")
@@ -58,7 +58,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1700282705]
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")

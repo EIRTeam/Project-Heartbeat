@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b4eqtqajjdw50"]
+[gd_scene format=3 uid="uid://b4eqtqajjdw50"]
 
 [ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="1"]
 [ext_resource type="Script" uid="uid://feq54nnl7ka3" path="res://menus/tools_menu/ToolsMenu.gd" id="2"]
@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://07ken53fehqf" path="res://graphics/icons/package-variant.svg" id="9"]
 [ext_resource type="Texture2D" uid="uid://bwx8jmm5u4dmc" path="res://graphics/icons/music-box-outline.svg" id="11"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=591471887]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ grow_vertical = 2
 scale = Vector2(0.95, 0.95)
 script = ExtResource("2")
 
-[node name="ToolsList" type="VBoxContainer" parent="."]
+[node name="ToolsList" type="VBoxContainer" parent="." unique_id=1939270741]
 layout_mode = 0
 anchor_bottom = 1.0
 offset_top = 170.053
@@ -34,56 +34,56 @@ script = ExtResource("1")
 orientation = 1
 enable_wrap_around = true
 
-[node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="SongMetaEditorButton" parent="ToolsList" unique_id=2007987927 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Song Editor"
 icon = ExtResource("6")
 
-[node name="ResourcePackEditorButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="ResourcePackEditorButton" parent="ToolsList" unique_id=635059983 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Resource Pack Editor"
 icon = ExtResource("9")
 
-[node name="OpenLogsDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="OpenLogsDirectoryButton" parent="ToolsList" unique_id=1304310150 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Open Logs Directory"
 icon = ExtResource("5")
 
-[node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="OpenSongsDirectoryButton" parent="ToolsList" unique_id=775994009 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Open Songs Directory"
 icon = ExtResource("4")
 
-[node name="OpenUserDirectoryButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="OpenUserDirectoryButton" parent="ToolsList" unique_id=1012794078 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Open User Directory"
 icon = ExtResource("7")
 
-[node name="PPDManagerButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="PPDManagerButton" parent="ToolsList" unique_id=225135920 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "PPD Manager"
 icon = ExtResource("8")
 
-[node name="ExporterButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="ExporterButton" parent="ToolsList" unique_id=4257093 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Exporter"
 icon = ExtResource("9")
 
-[node name="LatencyCalculatorButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="LatencyCalculatorButton" parent="ToolsList" unique_id=1850089524 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Latency Tester"
 icon = ExtResource("11")
 next_menu = "latency_tester"
 
-[node name="OOBDebugButton" parent="ToolsList" instance=ExtResource("3")]
+[node name="OOBDebugButton" parent="ToolsList" unique_id=382102581 instance=ExtResource("3")]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Out-of-the box setup"

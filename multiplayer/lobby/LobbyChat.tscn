@@ -1,15 +1,15 @@
-[gd_scene load_steps=7 format=4 uid="uid://cy0nvbceaj51i"]
+[gd_scene format=3 uid="uid://cy0nvbceaj51i"]
 
-[ext_resource type="Script" path="res://multiplayer/lobby/LobbyChat.gd" id="1_kfqh7"]
+[ext_resource type="Script" uid="uid://dol0jhbyns5sk" path="res://multiplayer/lobby/LobbyChat.gd" id="1_kfqh7"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1_tnqp7"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2_6x2vo"]
 [ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="3_mx7up"]
 
-[sub_resource type="StyleBoxEmpty" id="3"]
-
 [sub_resource type="StyleBoxEmpty" id="4"]
 
-[node name="LobbyChat" type="VBoxContainer"]
+[sub_resource type="StyleBoxEmpty" id="3"]
+
+[node name="LobbyChat" type="VBoxContainer" unique_id=2111968414]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -18,44 +18,44 @@ grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_kfqh7")
 
-[node name="Chat" type="HBPanelContainerBlurEX" parent="."]
+[node name="Chat" type="HBPanelContainerBlurEX" parent="." unique_id=1508038117]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("1_tnqp7")
 
-[node name="MarginContainer" type="MarginContainer" parent="Chat"]
+[node name="MarginContainer" type="MarginContainer" parent="Chat" unique_id=1336315751]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Chat/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Chat/MarginContainer" unique_id=1617664035]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("2_6x2vo")
-theme_override_styles/focus = SubResource("3")
 theme_override_styles/normal = SubResource("4")
+theme_override_styles/focus = SubResource("3")
 bbcode_enabled = true
 scroll_following = true
 custom_effects = [null]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=929759071]
 layout_mode = 2
 
-[node name="ChatLineEdit" type="LineEdit" parent="HBoxContainer"]
+[node name="ChatLineEdit" type="LineEdit" parent="HBoxContainer" unique_id=269684439]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_styles/focus = ExtResource("1_tnqp7")
-theme_override_styles/read_only = ExtResource("1_tnqp7")
 theme_override_styles/normal = ExtResource("1_tnqp7")
+theme_override_styles/read_only = ExtResource("1_tnqp7")
+theme_override_styles/focus = ExtResource("1_tnqp7")
 placeholder_text = "Say something nice..."
 caret_blink = true
 
-[node name="SubmitButton" type="HBButtonBlurEX" parent="HBoxContainer"]
+[node name="SubmitButton" type="HBButtonBlurEX" parent="HBoxContainer" unique_id=1640437848]
 layout_mode = 2
 focus_mode = 1
 theme_override_styles/normal = ExtResource("3_mx7up")

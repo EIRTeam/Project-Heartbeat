@@ -1,27 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://dc1uyttoq1v6c"]
+[gd_scene format=3 uid="uid://dc1uyttoq1v6c"]
 
-[ext_resource type="Script" path="res://menus/PromptButton.gd" id="2"]
+[ext_resource type="Script" uid="uid://cwyupmqrgbf7c" path="res://menus/PromptButton.gd" id="2"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="3"]
 
-[node name="Control" type="Button"]
-custom_minimum_size = Vector2(174, 52)
-offset_right = 174.0
+[node name="Control" type="Button" unique_id=2042421530]
+custom_minimum_size = Vector2(175, 52)
+offset_right = 175.0
 offset_bottom = 52.0
 focus_mode = 0
 theme = ExtResource("3")
 script = ExtResource("2")
 action = "gui_left"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=905882580]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="InputGlyphRect" type="InputGlyphRect" parent="HBoxContainer"]
+[node name="InputGlyphRect" type="InputGlyphRect" parent="HBoxContainer" unique_id=1221186909]
 layout_mode = 2
 action_text = ""
 action_name = &"gui_left"
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=143927913]
 layout_mode = 2

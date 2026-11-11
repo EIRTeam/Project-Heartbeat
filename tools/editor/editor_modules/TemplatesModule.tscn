@@ -1,58 +1,54 @@
-[gd_scene load_steps=10 format=3 uid="uid://vcxq815cuid"]
+[gd_scene format=3 uid="uid://vcxq815cuid"]
 
 [ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://cnu3rcdufdon2" path="res://graphics/icons/folder-open-big.svg" id="2"]
-[ext_resource type="Script" path="res://tools/editor/editor_modules/TemplatesModule.gd" id="3"]
+[ext_resource type="Script" uid="uid://cuodise2hb05h" path="res://tools/editor/editor_modules/TemplatesModule.gd" id="3"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="4"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="5"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="6"]
-[ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="7"]
+[ext_resource type="Script" uid="uid://buyyl1h56yijv" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="5"]
+[ext_resource type="Script" uid="uid://cfed4elquwuh3" path="res://tools/editor/controls/HBEditorButton.gd" id="6"]
+[ext_resource type="Script" uid="uid://d3nluthy6ngac" path="res://menus/HBoxRatioContainer.gd" id="7"]
 [ext_resource type="Texture2D" uid="uid://da7e4ysio6w08" path="res://graphics/icons/template-edit.svg" id="9"]
 [ext_resource type="Texture2D" uid="uid://xfs0cidycw2w" path="res://graphics/icons/refresh-biggest.svg" id="10"]
 
-[node name="EditorModule" instance=ExtResource("1")]
+[node name="EditorModule" unique_id=1274033872 instance=ExtResource("1")]
 script = ExtResource("3")
 module_location = "left_panel"
 module_name = "Templates"
 priority = 3
 button_group_name = "template_buttons"
 
-[node name="MarginContainer" parent="." index="0"]
+[node name="MarginContainer" parent="." index="0" unique_id=428630603]
 layout_mode = 1
 anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="0" unique_id=1202249152]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Apply template..."
 horizontal_alignment = 1
 
-[node name="TemplatesVBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
+[node name="TemplatesVBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="1" unique_id=1017508735]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="2" unique_id=374952410]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="3" unique_id=1726973522]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Manage templates..."
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="4"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="4" unique_id=312451498]
 layout_mode = 2
 script = ExtResource("7")
 
-[node name="CreateTemplateButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["template_buttons"]]
+[node name="CreateTemplateButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" unique_id=1000931017 groups=["template_buttons"]]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(175, 747)
+custom_minimum_size = Vector2(175, 780)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6")
@@ -66,8 +62,8 @@ button_mode = "function"
 function_name = "_on_create_template_pressed"
 action = "editor_create_template"
 
-[node name="RefreshTemplatesButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["template_buttons"]]
-custom_minimum_size = Vector2(175, 713)
+[node name="RefreshTemplatesButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" unique_id=814264697 groups=["template_buttons"]]
+custom_minimum_size = Vector2(175, 733)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6")
@@ -79,8 +75,8 @@ button_mode = "function"
 function_name = "load_templates"
 action = "editor_refresh_templates"
 
-[node name="ManageTemplatesButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["template_buttons"]]
-custom_minimum_size = Vector2(175, 714)
+[node name="ManageTemplatesButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" unique_id=1349492812 groups=["template_buttons"]]
+custom_minimum_size = Vector2(175, 733)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6")
@@ -96,16 +92,16 @@ button_mode = "function"
 function_name = "_on_manage_templates_pressed"
 action = "editor_open_templates_dir"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="1" unique_id=2008403483]
 
-[node name="TemplateNameConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer" index="0"]
+[node name="TemplateNameConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer" index="0" unique_id=1440784674]
 unique_name_in_owner = true
 size = Vector2i(308, 196)
 theme = ExtResource("4")
 dialog_text = "Please input a name for the template:"
 dialog_hide_on_ok = false
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TemplateNameConfirmationDialog" index="3"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TemplateNameConfirmationDialog" index="2" unique_id=1706201509]
 clip_contents = true
 anchors_preset = -1
 anchor_right = 1.0
@@ -115,17 +111,17 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 43.316
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer" index="0" unique_id=1191003762]
 layout_mode = 2
 alignment = 1
 
-[node name="TemplateNameLineEdit" type="LineEdit" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="0"]
+[node name="TemplateNameLineEdit" type="LineEdit" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="0" unique_id=1767901983]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "Lino's terrific template"
 script = ExtResource("5")
 
-[node name="SaveAllCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="1"]
+[node name="SaveAllCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="1" unique_id=1609011033]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "If enabled, will save every
@@ -135,20 +131,20 @@ Disable this for templates which
 only modify certain properties."
 text = "Save all properties"
 
-[node name="AutoHideCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="2"]
+[node name="AutoHideCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="2" unique_id=1990371240]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "If enabled, this template will be hidden unless the notes selected have the exact same type than the originals."
 text = "Automatically hide template"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="3" unique_id=1068882727]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0" unique_id=2067897848]
 layout_mode = 2
 text = "Category: "
 
-[node name="CategoryOptionButton" type="OptionButton" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="CategoryOptionButton" type="OptionButton" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1" unique_id=2122441718]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

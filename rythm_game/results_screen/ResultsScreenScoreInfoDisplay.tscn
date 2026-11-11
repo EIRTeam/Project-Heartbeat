@@ -1,36 +1,36 @@
-[gd_scene load_steps=17 format=3 uid="uid://cj2kb1mby645f"]
+[gd_scene format=3 uid="uid://cj2kb1mby645f"]
 
-[ext_resource type="Script" path="res://rythm_game/results_screen/ResultsScreenScoreInfoDisplay.gd" id="1_4j7sx"]
+[ext_resource type="Script" uid="uid://dsnu0bqdjypap" path="res://rythm_game/results_screen/ResultsScreenScoreInfoDisplay.gd" id="1_4j7sx"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1_xj01d"]
 [ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="2_1ep3h"]
-[ext_resource type="Script" path="res://scripts/RichTextWordRainbow.gd" id="3_0qvw4"]
+[ext_resource type="Script" uid="uid://pebrh6lud5he" path="res://scripts/RichTextWordRainbow.gd" id="3_0qvw4"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_106dr"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6yucv"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3l76"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_umqy4"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3l76"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6yucv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_106dr"]
 
 [sub_resource type="RichTextEffect" id="RichTextEffect_2tagr"]
 script = ExtResource("3_0qvw4")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bcwfc"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3en0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tgsuj"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3en0"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i3swr"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5vjbe"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ixwog"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bcwfc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nceg5"]
 
-[node name="MarginContainer" type="MarginContainer"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ixwog"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5vjbe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i3swr"]
+
+[node name="MarginContainer" type="MarginContainer" unique_id=901866965]
 offset_right = 1009.0
 offset_bottom = 503.0
 theme_override_constants/margin_left = 1
@@ -39,24 +39,24 @@ theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 script = ExtResource("1_4j7sx")
 
-[node name="RatingResultsContainer" type="VBoxContainer" parent="."]
+[node name="RatingResultsContainer" type="VBoxContainer" parent="." unique_id=787616676]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="RatingResultsContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="RatingResultsContainer" unique_id=325767770]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 10
 
-[node name="VBoxContainer" type="HBoxContainer" parent="RatingResultsContainer/MarginContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="RatingResultsContainer/MarginContainer" unique_id=1968791057]
 layout_mode = 2
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="RatingTextureRect" type="TextureRect" parent="RatingResultsContainer/MarginContainer/VBoxContainer"]
+[node name="RatingTextureRect" type="TextureRect" parent="RatingResultsContainer/MarginContainer/VBoxContainer" unique_id=1744971058]
 unique_name_in_owner = true
 texture_filter = 6
 custom_minimum_size = Vector2(100, 0)
@@ -64,7 +64,7 @@ layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RatingLabel" type="Label" parent="RatingResultsContainer/MarginContainer/VBoxContainer"]
+[node name="RatingLabel" type="Label" parent="RatingResultsContainer/MarginContainer/VBoxContainer" unique_id=544607700]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -75,30 +75,30 @@ text = "EXCELLENT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="RatingResultsContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="RatingResultsContainer" unique_id=1308390876]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("2_1ep3h")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RatingResultsContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RatingResultsContainer/PanelContainer" unique_id=981134250]
 layout_mode = 2
 theme_override_constants/separation = -20
 alignment = 1
 
-[node name="PercentageNewRecordLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer/VBoxContainer"]
+[node name="PercentageNewRecordLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer/VBoxContainer" unique_id=1666950557]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
-theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_n3l76")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
+theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
 bbcode_enabled = true
 text = "[center]New record![/center]"
 fit_content = true
 custom_effects = [SubResource("RichTextEffect_2tagr")]
 
-[node name="NewPercentageLabel" type="Label" parent="RatingResultsContainer/PanelContainer/VBoxContainer"]
+[node name="NewPercentageLabel" type="Label" parent="RatingResultsContainer/PanelContainer/VBoxContainer" unique_id=887704328]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -106,40 +106,40 @@ theme_override_font_sizes/font_size = 86
 text = "100.00%"
 horizontal_alignment = 1
 
-[node name="PercentageDeltaLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer/VBoxContainer"]
+[node name="PercentageDeltaLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer/VBoxContainer" unique_id=937003944]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-theme_override_styles/fill = SubResource("StyleBoxEmpty_bcwfc")
-theme_override_styles/background = SubResource("StyleBoxEmpty_tgsuj")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_v3en0")
+theme_override_styles/background = SubResource("StyleBoxEmpty_tgsuj")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_bcwfc")
 bbcode_enabled = true
 text = "[center][color=#57ff59]test[/color][/center]"
 fit_content = true
 
-[node name="PanelContainer2" type="PanelContainer" parent="RatingResultsContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="RatingResultsContainer" unique_id=1640500548]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RatingResultsContainer/PanelContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RatingResultsContainer/PanelContainer2" unique_id=910571050]
 layout_mode = 2
 theme_override_constants/separation = -20
 alignment = 1
 
-[node name="ScoreNewRecordLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer2/VBoxContainer"]
+[node name="ScoreNewRecordLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer2/VBoxContainer" unique_id=1057900884]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
-theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
-theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_n3l76")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_umqy4")
+theme_override_styles/background = SubResource("StyleBoxEmpty_6yucv")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_106dr")
 bbcode_enabled = true
 text = "[center]New record![/center]"
 fit_content = true
 custom_effects = [SubResource("RichTextEffect_2tagr")]
 
-[node name="NewScoreLabel" type="Label" parent="RatingResultsContainer/PanelContainer2/VBoxContainer"]
+[node name="NewScoreLabel" type="Label" parent="RatingResultsContainer/PanelContainer2/VBoxContainer" unique_id=2014127923]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -147,15 +147,15 @@ theme_override_font_sizes/font_size = 86
 text = "3.000.000"
 horizontal_alignment = 1
 
-[node name="ScoreDeltaLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer2/VBoxContainer"]
+[node name="ScoreDeltaLabel" type="RichTextLabel" parent="RatingResultsContainer/PanelContainer2/VBoxContainer" unique_id=1319866388]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_styles/fill = SubResource("StyleBoxEmpty_i3swr")
-theme_override_styles/background = SubResource("StyleBoxEmpty_5vjbe")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ixwog")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_nceg5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ixwog")
+theme_override_styles/background = SubResource("StyleBoxEmpty_5vjbe")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_i3swr")
 bbcode_enabled = true
 text = "+1.120.000"
 fit_content = true

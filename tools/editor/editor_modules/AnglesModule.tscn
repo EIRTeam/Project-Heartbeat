@@ -1,12 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://ojpnaoiv0tsc"]
+[gd_scene format=3 uid="uid://ojpnaoiv0tsc"]
 
-[ext_resource type="Script" path="res://tools/editor/editor_modules/AnglesModule.gd" id="2"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="3"]
+[ext_resource type="Script" uid="uid://beowul2ik2b5r" path="res://tools/editor/editor_modules/AnglesModule.gd" id="2"]
+[ext_resource type="Script" uid="uid://clphuuunv7ko1" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://30kidvx5b58o" path="res://graphics/icons/increment-angles.svg" id="6_q27fg"]
 [ext_resource type="Texture2D" uid="uid://b37l5oso0nmso" path="res://graphics/icons/decrement-angles.svg" id="7_vj26r"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="8"]
+[ext_resource type="Script" uid="uid://cfed4elquwuh3" path="res://tools/editor/controls/HBEditorButton.gd" id="8"]
 [ext_resource type="Texture2D" uid="uid://bqm2d1jygdjok" path="res://graphics/icons/increment-angles-inverted.svg" id="8_sc1pm"]
-[ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="9"]
+[ext_resource type="Script" uid="uid://d3nluthy6ngac" path="res://menus/HBoxRatioContainer.gd" id="9"]
 [ext_resource type="Texture2D" uid="uid://b31e1bpibbgxl" path="res://graphics/icons/decrement-angles-inverted.svg" id="9_cmjgs"]
 [ext_resource type="Texture2D" uid="uid://t3k6s6msdeqv" path="res://graphics/icons/interpolate-angles.svg" id="10_quoot"]
 [ext_resource type="Texture2D" uid="uid://cqtbilom3nka8" path="res://graphics/icons/interpolate-distances.svg" id="11_m661p"]
@@ -14,36 +14,33 @@
 [ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="13"]
 [ext_resource type="Texture2D" uid="uid://me57hf7m1m0e" path="res://graphics/icons/flip-angles.svg" id="13_3p6rq"]
 
-[node name="EditorModule" instance=ExtResource("13")]
+[node name="EditorModule" unique_id=1315821580 instance=ExtResource("13")]
 script = ExtResource("2")
 module_location = "left_panel"
 module_name = "Edit angles"
 priority = 1
 button_group_name = "angle_buttons"
 
-[node name="MarginContainer" parent="." index="0"]
+[node name="MarginContainer" parent="." index="0" unique_id=428630603]
 layout_mode = 1
 anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="0" unique_id=1957646594]
 layout_mode = 2
 text = "Increment angles..."
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="1" unique_id=965324434]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0" unique_id=577809690]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0" unique_id=14815332]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -54,7 +51,7 @@ text = "Increment per straight 8th:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1" unique_id=332680586]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -65,11 +62,11 @@ text = "Increment per diagonal 8th:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1126412964]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="StraightIncrementSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2" index="0"]
+[node name="StraightIncrementSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2" index="0" unique_id=1301243250]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -80,7 +77,7 @@ suffix = "º"
 custom_arrow_step = 1.0
 script = ExtResource("3")
 
-[node name="DiagonalIncrementSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2" index="1"]
+[node name="DiagonalIncrementSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2" index="1" unique_id=365477891]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -91,26 +88,26 @@ suffix = "º"
 custom_arrow_step = 1.0
 script = ExtResource("3")
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="2" unique_id=1780585727]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0" unique_id=2141481837]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0" unique_id=795835484]
 layout_mode = 2
 text = "From first note"
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1" unique_id=2108707782]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 script = ExtResource("9")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(129, 218)
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" unique_id=2000708482 groups=["angle_buttons"]]
+custom_minimum_size = Vector2(129, 571)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -121,8 +118,8 @@ moving away from the first note."
 texture = ExtResource("6_q27fg")
 action = "editor_move_angles_away"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(129, 218)
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" unique_id=883314205 groups=["angle_buttons"]]
+custom_minimum_size = Vector2(129, 572)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -134,26 +131,26 @@ texture = ExtResource("7_vj26r")
 transform_id = 1
 action = "editor_move_angles_closer"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1" unique_id=653212324]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2" unique_id=802955366]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="0" unique_id=951243739]
 layout_mode = 2
 text = "From last note"
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="1" unique_id=1628370503]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("9")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(129, 218)
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" unique_id=1376647952 groups=["angle_buttons"]]
+custom_minimum_size = Vector2(129, 571)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -165,8 +162,8 @@ texture = ExtResource("8_sc1pm")
 transform_id = 2
 action = "editor_move_angles_away_back"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(129, 218)
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" unique_id=564334375 groups=["angle_buttons"]]
+custom_minimum_size = Vector2(129, 572)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -178,21 +175,21 @@ texture = ExtResource("9_cmjgs")
 transform_id = 3
 action = "editor_move_angles_closer_back"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="3" unique_id=395459760]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="4"]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="4" unique_id=2123727498]
 layout_mode = 2
 text = "Modify angles..."
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="5"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="5" unique_id=511168647]
 custom_minimum_size = Vector2(304, 0)
 layout_mode = 2
 script = ExtResource("9")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(198, 279)
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" unique_id=1224570146 groups=["angle_buttons"]]
+custom_minimum_size = Vector2(198, 573)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -204,8 +201,8 @@ texture = ExtResource("10_quoot")
 transform_id = 4
 action = "editor_interpolate_angle"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(198, 279)
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" unique_id=1772623945 groups=["angle_buttons"]]
+custom_minimum_size = Vector2(198, 574)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -218,8 +215,8 @@ transform_id = 5
 action = "editor_interpolate_distance"
 echo_action = true
 
-[node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(198, 287)
+[node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" unique_id=1878050629 groups=["angle_buttons"]]
+custom_minimum_size = Vector2(198, 573)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -230,8 +227,8 @@ texture = ExtResource("12_10bxe")
 transform_id = 6
 action = "editor_flip_oscillation"
 
-[node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(198, 210)
+[node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" unique_id=2022747906 groups=["angle_buttons"]]
+custom_minimum_size = Vector2(198, 574)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")

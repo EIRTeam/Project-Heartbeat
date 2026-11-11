@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b4rr5jg5duobg"]
+[gd_scene format=3 uid="uid://b4rr5jg5duobg"]
 
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="3"]
@@ -15,11 +15,11 @@
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="10"]
 [ext_resource type="FontFile" uid="uid://k13xkyrstrw6" path="res://fonts/orbitron-bold.otf" id="10_cnllk"]
 
-[sub_resource type="StyleBoxEmpty" id="1"]
-
 [sub_resource type="StyleBoxEmpty" id="2"]
 
-[node name="DetailView" type="Control"]
+[sub_resource type="StyleBoxEmpty" id="1"]
+
+[node name="DetailView" type="Control" unique_id=976578103]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,28 +29,28 @@ grow_vertical = 2
 theme = ExtResource("1")
 script = ExtResource("5")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1184450484]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=602463323]
 layout_mode = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=36475644]
 custom_minimum_size = Vector2(0, 133)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 25
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3" unique_id=2082212004]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" unique_id=605549919]
 custom_minimum_size = Vector2(0, 631)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -58,23 +58,23 @@ size_flags_stretch_ratio = 0.5
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3" unique_id=919868870]
 custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer" unique_id=776421976]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer" unique_id=757531734]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = -7
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=449214568]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
@@ -83,25 +83,25 @@ theme_override_font_sizes/font_size = 25
 text = "aasdasdasdsadsadsa"
 horizontal_alignment = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1816557694]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "aasdasdasdsadsadsa"
 horizontal_alignment = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer" unique_id=1024523459]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 2
 theme_override_constants/separation = 23
 alignment = 2
 
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2" unique_id=1931096075]
 custom_minimum_size = Vector2(138, 0)
 layout_mode = 2
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/Control"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/Control" unique_id=843446523]
 layout_mode = 0
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -114,90 +114,89 @@ step = 0.0
 texture_under = ExtResource("7")
 texture_progress = ExtResource("6")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2" unique_id=324729567]
 layout_mode = 2
 
-[node name="UpVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+[node name="UpVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=1401830491]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 text = "1"
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=393014252]
 auto_translate_mode = 2
 layout_mode = 2
 text = "/"
 
-[node name="DownVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+[node name="DownVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=19832111]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "1"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2" unique_id=1715903646]
 layout_mode = 2
 focus_mode = 2
 script = ExtResource("4")
 
-[node name="SubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+[node name="SubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2" unique_id=1074718949]
 layout_mode = 2
 text = "Subscribe"
 icon = ExtResource("7_dr1f8")
 script = ExtResource("3")
 
-[node name="UnsubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+[node name="UnsubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2" unique_id=1091868285]
 layout_mode = 2
 text = "Unsubscribe"
 icon = ExtResource("9_85hbg")
 script = ExtResource("3")
 
-[node name="ShowInSongListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+[node name="ShowInSongListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2" unique_id=1225764878]
 layout_mode = 2
 text = "Show in song list"
 script = ExtResource("3")
 
-[node name="Panel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer" unique_id=502317567]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("8")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel" unique_id=863030653]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="DescriptionLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
+[node name="DescriptionLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer" unique_id=1590643337]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_fonts/normal_font = ExtResource("9_jse5m")
 theme_override_fonts/bold_font = ExtResource("10_cnllk")
-theme_override_styles/focus = SubResource("1")
 theme_override_styles/normal = SubResource("2")
+theme_override_styles/focus = SubResource("1")
 bbcode_enabled = true
 scroll_active = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1353626993]
 layout_mode = 2
 size_flags_vertical = 8
 alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=1488541641]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 alignment = 1
 
-[node name="Panel4" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("9")]
+[node name="Panel4" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=949886302 instance=ExtResource("9")]
 custom_minimum_size = Vector2(146, 53)
 layout_mode = 2
 action_name = "gui_cancel"
 text = "Back"
 
-[node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource("10")]
-visible = false
+[node name="UnsubscribedConfirmationWindow" parent="." unique_id=210079123 instance=ExtResource("10")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0

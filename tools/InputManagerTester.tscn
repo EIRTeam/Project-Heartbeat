@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cadewdr5ixxfj"]
+[gd_scene format=3 uid="uid://cadewdr5ixxfj"]
 
-[ext_resource type="Script" path="res://tools/InputManagerTester.gd" id="1"]
-[ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/HeartbeatInputManager.gd" id="2"]
+[ext_resource type="Script" uid="uid://cj3ptmkvtxcvp" path="res://tools/InputManagerTester.gd" id="1"]
+[ext_resource type="Script" uid="uid://c0mr8yr7c63iw" path="res://rythm_game/game_modes/heartbeat/HeartbeatInputManager.gd" id="2"]
 
-[node name="InputManagerTester" type="Control"]
+[node name="InputManagerTester" type="Control" unique_id=900240898]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1840250252]
 show_behind_parent = true
 layout_mode = 0
 anchor_right = 1.0
@@ -22,41 +22,41 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1044611840]
 show_behind_parent = true
 layout_mode = 2
 
-[node name="SticksContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="SticksContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1240813328]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1957942899]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" unique_id=318972364]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2" unique_id=1882608262]
 layout_mode = 2
 text = "Blue = raw input
 Red = filtered input
 Green = input history"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2" unique_id=178098197]
 layout_mode = 2
 alignment = 1
 
-[node name="ReturnToMainMenuButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
+[node name="ReturnToMainMenuButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer" unique_id=334329413]
 layout_mode = 2
 text = "Return to main menu"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" unique_id=1451014081]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="EventLog" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="EventLog" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=536963580]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -64,7 +64,7 @@ focus_mode = 2
 scroll_following = true
 selection_enabled = true
 
-[node name="HeartbeatInputManager" type="Node" parent="."]
+[node name="HeartbeatInputManager" type="Node" parent="." unique_id=1538847606]
 unique_name_in_owner = true
 script = ExtResource("2")
 

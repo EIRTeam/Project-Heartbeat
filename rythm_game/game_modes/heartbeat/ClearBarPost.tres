@@ -1,7 +1,7 @@
-[gd_resource type="StyleBoxTexture" load_steps=2 format=2]
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://87k1dm0ajwjv"]
 
-[ext_resource path="res://graphics/clear_bar_postclear.png" type="Texture2D" id=1]
+[ext_resource type="Texture2D" uid="uid://c0b7tmapxxm3n" path="res://graphics/clear_bar_postclear.png" id="1"]
 
 [resource]
-texture = ExtResource( 1 )
-region_rect = Rect2( 0, 0, 1, 32 )
+texture = ExtResource("1")
+region_rect = Rect2(0, 0, 1, 32)

@@ -11,6 +11,5 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-shadow_draw_center = false
 shadow_color = Color(1, 1, 1, 0.25)
 anti_aliasing_size = 2.0

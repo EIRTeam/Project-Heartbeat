@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c73hmv1ny7bc4"]
+[gd_scene format=3 uid="uid://c73hmv1ny7bc4"]
 
 [ext_resource type="Texture2D" uid="uid://cfmgrqdhgpbb5" path="res://graphics/effects/flare.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://2rdevke1bns4" path="res://graphics/effects/bubble.png" id="2"]
-[ext_resource type="PackedScene" path="res://rythm_game/note_drawers/NoteGraphic.tscn" id="3"]
-[ext_resource type="Script" path="res://graphics/effects/NoteHitEffect.gd" id="4"]
+[ext_resource type="PackedScene" uid="uid://c8s373bamiwuj" path="res://rythm_game/note_drawers/NoteGraphic.tscn" id="3"]
+[ext_resource type="Script" uid="uid://dr1p3rfj7bil2" path="res://graphics/effects/NoteHitEffect.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://b6drgmmh83lrh" path="res://graphics/effects/loop.png" id="4_jlta4"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xwbid"]
@@ -162,43 +162,41 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_24dw0"]
 _data = {
-"RESET": SubResource("Animation_d4yd2"),
-"play": SubResource("Animation_ux1n5")
+&"RESET": SubResource("Animation_d4yd2"),
+&"play": SubResource("Animation_ux1n5")
 }
 
-[node name="NoteHitEffect" type="Node2D"]
+[node name="NoteHitEffect" type="Node2D" unique_id=1916522325]
 modulate = Color(0.5, 0.5, 0.5, 1)
 z_index = -1
 material = SubResource("CanvasItemMaterial_xwbid")
 position = Vector2(944, 441)
 script = ExtResource("4")
 
-[node name="Note" parent="." instance_placeholder="res://rythm_game/note_drawers/NoteGraphic.tscn"]
+[node name="Note" parent="." unique_id=1779089842 instance_placeholder="res://rythm_game/note_drawers/NoteGraphic.tscn"]
 visible = false
 use_parent_material = true
 position = Vector2(0, 0)
 
-[node name="Flare" parent="." instance=ExtResource("3")]
+[node name="Flare" parent="." unique_id=561596504 instance=ExtResource("3")]
 use_parent_material = true
 position = Vector2(0, 0)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("1")
 
-[node name="Loop" type="Sprite2D" parent="."]
+[node name="Loop" type="Sprite2D" parent="." unique_id=378910799]
 use_parent_material = true
 scale = Vector2(0.033, 0.033)
 texture = ExtResource("4_jlta4")
 
-[node name="NoteIcon" type="Sprite2D" parent="."]
+[node name="NoteIcon" type="Sprite2D" parent="." unique_id=1723292213]
 use_parent_material = true
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2")
 
-[node name="Threen" type="Threen" parent="."]
+[node name="Threen" type="Threen" parent="." unique_id=1339333704]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_24dw0")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=389025793]
+libraries/ = SubResource("AnimationLibrary_24dw0")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

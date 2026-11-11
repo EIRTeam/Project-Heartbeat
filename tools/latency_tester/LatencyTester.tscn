@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bsphtr4kd76lx"]
+[gd_scene format=3 uid="uid://bsphtr4kd76lx"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="2"]
@@ -14,7 +14,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="3"]
 
-[node name="HBMenu" type="Control"]
+[node name="HBMenu" type="Control" unique_id=1722769157]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ size_flags_vertical = 3
 theme = ExtResource("12")
 script = ExtResource("6")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1891039077]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -37,12 +37,12 @@ offset_top = 1.0
 offset_right = -2.0
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1408203301]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=871721305]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
@@ -50,53 +50,53 @@ size_flags_stretch_ratio = 0.15
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_bottom = -32
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer2"]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer2" unique_id=2102857453]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2" unique_id=1894222666]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer" unique_id=927618765]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer" unique_id=877273743]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="InputGlyphRect2" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="InputGlyphRect2" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=379986940]
 layout_mode = 2
 action_text = ""
 action_name = &"gui_cancel"
 
-[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=408550048]
 layout_mode = 2
 icon = ExtResource("9")
 script = ExtResource("2")
 
-[node name="ChangeTestButton" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11")]
+[node name="ChangeTestButton" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1127820114 instance=ExtResource("11")]
 custom_minimum_size = Vector2(360, 52)
 layout_mode = 2
 button_text = "Active test"
 action = "practice_set_waypoint"
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/VBoxContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/VBoxContainer" unique_id=1873553870]
 layout_mode = 2
 size_flags_vertical = 3
 ratio = 1.7778
 
-[node name="EmbeddedRhythmGame" parent="MarginContainer/VBoxContainer/AspectRatioContainer" instance=ExtResource("8")]
+[node name="EmbeddedRhythmGame" parent="MarginContainer/VBoxContainer/AspectRatioContainer" unique_id=858950008 instance=ExtResource("8")]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1669800267]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
@@ -104,39 +104,39 @@ size_flags_stretch_ratio = 0.15
 theme_override_constants/margin_top = -32
 theme_override_constants/margin_bottom = 32
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer"]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer" unique_id=1504166968]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer" unique_id=1084081256]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer" unique_id=158992448]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer" unique_id=1553111194]
 layout_mode = 2
 alignment = 1
 
-[node name="SubtractButtonPrompt" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SubtractButtonPrompt" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=657515462]
 unique_name_in_owner = true
 layout_mode = 2
 action_text = ""
 action_name = &"gui_left"
 
-[node name="SubstractButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SubstractButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1438916804]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("7")
 script = ExtResource("2")
 
-[node name="OffsetLabel" type="LineEdit" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="OffsetLabel" type="LineEdit" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=988335931]
 custom_minimum_size = Vector2(175, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("9_b72jn")
@@ -147,44 +147,43 @@ expand_to_text_length = true
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="AddButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="AddButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1951986853]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("4")
 script = ExtResource("2")
 
-[node name="AddButtonPrompt" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="AddButtonPrompt" type="InputGlyphRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=669569760]
 unique_name_in_owner = true
 layout_mode = 2
 action_text = ""
 action_name = &"gui_right"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer" unique_id=1218417067]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="ApplyButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11")]
+[node name="ApplyButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1954969126 instance=ExtResource("11")]
 custom_minimum_size = Vector2(270, 52)
 layout_mode = 2
 button_text = "Apply"
 action = "gui_accept"
 
-[node name="ResetButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11")]
+[node name="ResetButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=521398897 instance=ExtResource("11")]
 custom_minimum_size = Vector2(383, 52)
 layout_mode = 2
 button_text = "Reset offset"
 action = "practice_go_to_waypoint"
 
-[node name="TutorialButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11")]
+[node name="TutorialButton" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1233810739 instance=ExtResource("11")]
 custom_minimum_size = Vector2(302, 52)
 layout_mode = 2
 button_text = "Tutorial"
 action = "contextual_option"
 
-[node name="TutorialPopup" parent="." instance=ExtResource("3")]
+[node name="TutorialPopup" parent="." unique_id=1487327755 instance=ExtResource("3")]
 process_mode = 3
-visible = false
 layout_mode = 1
 theme = null
 has_cancel = false

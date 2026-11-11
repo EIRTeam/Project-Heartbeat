@@ -1,105 +1,70 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene format=3 uid="uid://dqwuhh4iicdu7"]
 
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://graphics/predarkenedbg.png" type="Texture2D" id=2]
-[ext_resource path="res://tools/SwitchExporter/SwitchExporter.gd" type="Script" id=3]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
+[ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
+[ext_resource type="Script" uid="uid://deh30hpl11qyr" path="res://tools/SwitchExporter/SwitchExporter.gd" id="3"]
 
-[sub_resource type="StyleBoxEmpty" id=1]
+[sub_resource type="StyleBoxEmpty" id="1"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=579877982]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("1")
+script = ExtResource("3")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=404976972]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
 offset_right = 2.0
-texture = ExtResource( 2 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource("2")
+expand_mode = 1
 
-[node name="Window" type="Window" parent="."]
-visible = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -405.0
-offset_top = -237.0
-offset_right = 406.0
-offset_bottom = 245.0
+[node name="Window" type="Window" parent="." unique_id=1441348848]
+oversampling_override = 1.0
 exclusive = true
-window_title = "Switch Exporter"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="MarginContainer" type="MarginContainer" parent="Window"]
+[node name="MarginContainer" type="MarginContainer" parent="Window" unique_id=594308572]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_top = 10
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 801.0
-offset_bottom = 472.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer" unique_id=1293139519]
+layout_mode = 2
 
-[node name="Label" type="RichTextLabel" parent="Window/MarginContainer/VBoxContainer"]
-offset_right = 791.0
-offset_bottom = 36.0
-theme_override_styles/normal = SubResource( 1 )
+[node name="Label" type="RichTextLabel" parent="Window/MarginContainer/VBoxContainer" unique_id=1328641219]
+layout_mode = 2
+theme_override_styles/normal = SubResource("1")
 bbcode_enabled = true
 text = "For workshop songs to show here, you need to download their media first from the song list.
-For more info on the homebrew switch version, click [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2544452341]here[/url]."
-text = "For workshop songs to show here, you need to download their media first from the song list.
 For more info on the homebrew switch version, click here."
-fit_content_height = true
 scroll_active = false
 
-[node name="Tree" type="Tree" parent="Window/MarginContainer/VBoxContainer"]
-offset_top = 40.0
-offset_right = 791.0
-offset_bottom = 404.0
+[node name="Tree" type="Tree" parent="Window/MarginContainer/VBoxContainer" unique_id=1303977226]
+layout_mode = 2
 size_flags_vertical = 3
 columns = 2
 hide_root = true
 
-[node name="ExportButton" type="Button" parent="Window/MarginContainer/VBoxContainer"]
-offset_top = 408.0
-offset_right = 791.0
-offset_bottom = 433.0
+[node name="ExportButton" type="Button" parent="Window/MarginContainer/VBoxContainer" unique_id=677041891]
+layout_mode = 2
 text = "Export..."
 
-[node name="CloseButton" type="Button" parent="Window/MarginContainer/VBoxContainer"]
-offset_top = 437.0
-offset_right = 791.0
-offset_bottom = 462.0
+[node name="CloseButton" type="Button" parent="Window/MarginContainer/VBoxContainer" unique_id=1880683207]
+layout_mode = 2
 text = "Close"
 
-[node name="FileDialog" type="FileDialog" parent="."]
-offset_right = 827.0
-offset_bottom = 441.0
-window_title = "Abrir un Directorio"
+[node name="FileDialog" type="FileDialog" parent="." unique_id=1121236513]
 mode = 2
 access = 2
 show_hidden_files = true
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [connection signal="meta_clicked" from="Window/MarginContainer/VBoxContainer/Label" to="." method="_on_Label_meta_clicked"]
 [connection signal="pressed" from="Window/MarginContainer/VBoxContainer/ExportButton" to="FileDialog" method="popup_centered"]

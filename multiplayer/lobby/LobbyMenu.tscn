@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dg1viq66ci7cl"]
+[gd_scene format=3 uid="uid://dg1viq66ci7cl"]
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://bjxa2hpnq0raa" path="res://multiplayer/lobby/MemberList.tscn" id="2"]
@@ -33,7 +33,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1746428142]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,7 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("9")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1778345964]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -51,56 +51,56 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=529332631]
 layout_mode = 2
 
-[node name="LobbyNameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="LobbyNameLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1651645097]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
 text = "(NT)LOBBY_NAME"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1394765211]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=731394218]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=336497103]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=330259593]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="Panel" type="HBPanelContainerBlurEX" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="Panel" type="HBPanelContainerBlurEX" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=12907143]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 theme_override_styles/panel = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel" unique_id=523593201]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer" unique_id=611532433]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=16620854]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LobbyMainMenu" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="LobbyMainMenu" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=2010071159]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -110,7 +110,7 @@ alignment = 2
 script = ExtResource("4")
 orientation = 1
 
-[node name="SelectSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" groups=["owner_only"]]
+[node name="SelectSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" unique_id=73689089 groups=["owner_only"]]
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8")
@@ -120,7 +120,7 @@ script = ExtResource("6")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
 
-[node name="InviteFriendButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" groups=["owner_only", "steam_only"]]
+[node name="InviteFriendButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" unique_id=690329793 groups=["owner_only", "steam_only"]]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8")
 theme_override_styles/normal = SubResource("1")
@@ -129,7 +129,7 @@ script = ExtResource("6")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
 
-[node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" groups=["owner_only"]]
+[node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" unique_id=313377874 groups=["owner_only"]]
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8")
@@ -139,7 +139,7 @@ script = ExtResource("6")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
 
-[node name="LeaveLobbyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu"]
+[node name="LeaveLobbyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu" unique_id=2014549939]
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8")
@@ -149,18 +149,17 @@ script = ExtResource("6")
 normal_style = SubResource("1")
 hover_style = SubResource("2")
 
-[node name="LobbyChat" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("8_d1lvb")]
+[node name="LobbyChat" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1672821515 instance=ExtResource("8_d1lvb")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../HBoxContainer2/VBoxContainer/Panel/MarginContainer/VBoxContainer/LobbyMainMenu")
 
-[node name="MemberList" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2")]
+[node name="MemberList" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1861763586 instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="WaitingForSongConfirmation" parent="." instance=ExtResource("7")]
-visible = false
+[node name="WaitingForSongConfirmation" parent="." unique_id=275491224 instance=ExtResource("7")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -174,8 +173,7 @@ text = "Checking if other users have this song..."
 accept_text = ""
 cancel_text = "Cancel"
 
-[node name="SongConfirmationError" parent="." instance=ExtResource("7")]
-visible = false
+[node name="SongConfirmationError" parent="." unique_id=1090917049 instance=ExtResource("7")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -191,8 +189,7 @@ text = "Song not owned by:"
 accept_text = "Okay"
 cancel_text = ""
 
-[node name="DownloadingMesssage" parent="." instance=ExtResource("7")]
-visible = false
+[node name="DownloadingMesssage" parent="." unique_id=819007403 instance=ExtResource("7")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -209,29 +206,26 @@ text = "Downloading song data..."
 accept_text = "Okay"
 cancel_text = ""
 
-[node name="LobbyMenuDebugWindow" type="Window" parent="."]
+[node name="LobbyMenuDebugWindow" type="Window" parent="." unique_id=232329106]
 unique_name_in_owner = true
 size = Vector2i(1625, 755)
 visible = false
 
-[node name="LobbyMenuDebug" parent="LobbyMenuDebugWindow" instance=ExtResource("10_jpq1t")]
+[node name="LobbyMenuDebug" parent="LobbyMenuDebugWindow" unique_id=106776347 instance=ExtResource("10_jpq1t")]
 unique_name_in_owner = true
 
-[node name="SendUGCDownloadSongRequestDialog" parent="." instance=ExtResource("7")]
+[node name="SendUGCDownloadSongRequestDialog" parent="." unique_id=870995877 instance=ExtResource("7")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 text = "Looks like some players lack the needed Workshop song or media for the songs, would you like to ask them to download them?"
 
-[node name="DownloadUGCSongDialog" parent="." instance=ExtResource("7")]
+[node name="DownloadUGCSongDialog" parent="." unique_id=841441849 instance=ExtResource("7")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 text = "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"
 
-[node name="ErrorMessage" parent="." instance=ExtResource("7")]
+[node name="ErrorMessage" parent="." unique_id=1519115457 instance=ExtResource("7")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 has_cancel = false
 text = "Looks like you don't have the current song used in this lobby, would you like to download the song and/or its data?"

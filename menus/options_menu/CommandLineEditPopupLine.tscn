@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0fare7qr3umv"]
+[gd_scene format=3 uid="uid://b0fare7qr3umv"]
 
 [ext_resource type="Script" uid="uid://dkn4dtpt41jm7" path="res://menus/options_menu/CommandLineEditPopupLine.gd" id="1_mmai5"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="2_4ii2l"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://pvb4tgdngyy2" path="res://tools/icons/arrow-down-thick.svg" id="5_k2yqn"]
 [ext_resource type="Texture2D" uid="uid://bxhrte7i7snxo" path="res://graphics/icons/icon_remove.svg" id="6_iqi5i"]
 
-[node name="Control2" type="PanelContainer"]
+[node name="Control2" type="PanelContainer" unique_id=1774666986]
 use_parent_material = true
 custom_minimum_size = Vector2(0, 72)
 anchors_preset = 10
@@ -21,12 +21,12 @@ mouse_filter = 2
 theme_type_variation = &"HBCommandLineEditPopupLine"
 script = ExtResource("1_mmai5")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1013293002]
 use_parent_material = true
 layout_mode = 2
 mouse_filter = 2
 
-[node name="LineLabel" type="Label" parent="HBoxContainer"]
+[node name="LineLabel" type="Label" parent="HBoxContainer" unique_id=687913851]
 unique_name_in_owner = true
 use_parent_material = true
 layout_mode = 2
@@ -37,7 +37,7 @@ text = "(NT)Boolean Option"
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="ButtonContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=1968982347]
 unique_name_in_owner = true
 use_parent_material = true
 layout_mode = 2
@@ -46,33 +46,33 @@ alignment = 2
 script = ExtResource("5_4ii2l")
 enable_wrap_around = true
 
-[node name="EditButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+[node name="EditButton" type="Button" parent="HBoxContainer/ButtonContainer" unique_id=46414879]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 icon = ExtResource("4_iqi5i")
 script = ExtResource("2_4ii2l")
-metadata/_custom_type_script = ExtResource("2_4ii2l")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"
 
-[node name="RemoveButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+[node name="RemoveButton" type="Button" parent="HBoxContainer/ButtonContainer" unique_id=1372670873]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 icon = ExtResource("6_iqi5i")
 expand_icon = true
 script = ExtResource("2_4ii2l")
-metadata/_custom_type_script = ExtResource("2_4ii2l")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"
 
-[node name="UpButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+[node name="UpButton" type="Button" parent="HBoxContainer/ButtonContainer" unique_id=167132033]
 unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("3_4ii2l")
 script = ExtResource("2_4ii2l")
-metadata/_custom_type_script = ExtResource("2_4ii2l")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"
 
-[node name="DownButton" type="Button" parent="HBoxContainer/ButtonContainer"]
+[node name="DownButton" type="Button" parent="HBoxContainer/ButtonContainer" unique_id=1987129073]
 unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("5_k2yqn")
 script = ExtResource("2_4ii2l")
-metadata/_custom_type_script = ExtResource("2_4ii2l")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"

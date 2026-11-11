@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bkc46k7he3haj"]
+[gd_scene format=3 uid="uid://bkc46k7he3haj"]
 
-[ext_resource type="Script" path="res://graphics/effects/rush_note_end_particles.gd" id="1_cq131"]
+[ext_resource type="Script" uid="uid://csmabwbeobmw8" path="res://graphics/effects/rush_note_end_particles.gd" id="1_cq131"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8kckm"]
 blend_mode = 1
@@ -181,28 +181,26 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qlto5"]
 _data = {
-"RESET": SubResource("Animation_5nays"),
-"new_animation": SubResource("Animation_fwxsu")
+&"RESET": SubResource("Animation_5nays"),
+&"new_animation": SubResource("Animation_fwxsu")
 }
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" unique_id=284390921]
 material = SubResource("CanvasItemMaterial_8kckm")
 script = ExtResource("1_cq131")
 
-[node name="Whirl" type="Sprite2D" parent="."]
+[node name="Whirl" type="Sprite2D" parent="." unique_id=906570937]
 use_parent_material = true
 scale = Vector2(0.25, 0.25)
 
-[node name="Circle" type="Sprite2D" parent="."]
+[node name="Circle" type="Sprite2D" parent="." unique_id=1846494993]
 self_modulate = Color(1, 1, 1, 0)
 use_parent_material = true
 scale = Vector2(1.5, 1.5)
 
-[node name="Spark" type="Sprite2D" parent="."]
+[node name="Spark" type="Sprite2D" parent="." unique_id=1252565185]
 use_parent_material = true
 scale = Vector2(2, 2)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_qlto5")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1809379618]
+libraries/ = SubResource("AnimationLibrary_qlto5")

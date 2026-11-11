@@ -1,17 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://c8216blwtxqlo"]
+[gd_scene format=3 uid="uid://c8216blwtxqlo"]
 
 [ext_resource type="Texture2D" uid="uid://xfs0cidycw2w" path="res://graphics/icons/refresh-biggest.svg" id="1"]
-[ext_resource type="Script" path="res://tools/editor/editor_modules/SyncModule.gd" id="2"]
+[ext_resource type="Script" uid="uid://dk541bj588463" path="res://tools/editor/editor_modules/SyncModule.gd" id="2"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="2_15yse"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="3"]
-[ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="4"]
+[ext_resource type="Script" uid="uid://clphuuunv7ko1" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="3"]
+[ext_resource type="Script" uid="uid://cfed4elquwuh3" path="res://tools/editor/controls/HBEditorButton.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://2fruys8sge51" path="res://graphics/icons/metronome.svg" id="5"]
-[ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="6"]
+[ext_resource type="Script" uid="uid://d3nluthy6ngac" path="res://menus/HBoxRatioContainer.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://3gtt2q72wmtc" path="res://graphics/icons/cursor-click.svg" id="7"]
 [ext_resource type="Texture2D" uid="uid://2bv6dbyulpda" path="res://graphics/icons/clock-plus.svg" id="8"]
 [ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="9"]
 
-[node name="EditorModule" instance=ExtResource("9")]
+[node name="EditorModule" unique_id=1557850522 instance=ExtResource("9")]
 theme = ExtResource("2_15yse")
 script = ExtResource("2")
 module_location = "right_panel"
@@ -19,27 +19,24 @@ module_name = "Sync"
 priority = 1
 button_group_name = "sync_buttons"
 
-[node name="MarginContainer" parent="." index="0"]
+[node name="MarginContainer" parent="." index="0" unique_id=428630603]
 layout_mode = 1
 anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="0" unique_id=31681632]
 layout_mode = 2
 text = "Timeline settings..."
 horizontal_alignment = 1
 
-[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="1" unique_id=680613013]
 custom_minimum_size = Vector2(260, 0)
 layout_mode = 2
 script = ExtResource("6")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(140, 161)
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" unique_id=505426507 groups=["sync_buttons"]]
+custom_minimum_size = Vector2(140, 984)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -51,8 +48,8 @@ button_mode = "function"
 function_name = "show_timing_change_dialog"
 action = "editor_create_timing_change"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(140, 170)
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" unique_id=1182250907 groups=["sync_buttons"]]
+custom_minimum_size = Vector2(140, 984)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -65,23 +62,23 @@ button_mode = "function"
 function_name = "toggle_metronome"
 action = "editor_toggle_metronome"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="2" unique_id=2024824255]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="3" unique_id=523543405]
 layout_mode = 2
 text = "BPM Calculator..."
 horizontal_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="4"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="4" unique_id=467501354]
 layout_mode = 2
 
-[node name="AverageBPMLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0"]
+[node name="AverageBPMLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0" unique_id=1181865717]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Average BPM:"
 
-[node name="AverageBPMLineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1"]
+[node name="AverageBPMLineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1" unique_id=425379218]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -90,15 +87,15 @@ editable = false
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="5"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="5" unique_id=1262271782]
 layout_mode = 2
 
-[node name="WholeBPMLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0"]
+[node name="WholeBPMLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0" unique_id=1917153085]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Nearest Whole BPM:"
 
-[node name="WholeBPMLineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1"]
+[node name="WholeBPMLineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1" unique_id=330804996]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -107,13 +104,13 @@ editable = false
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="HBoxRatioContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="6"]
+[node name="HBoxRatioContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="6" unique_id=1683182319]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 script = ExtResource("6")
 
-[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(73, 103)
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" unique_id=1935763132 groups=["sync_buttons"]]
+custom_minimum_size = Vector2(73, 984)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -126,7 +123,7 @@ button_mode = "function"
 function_name = "calculator_pressed"
 action = "editor_tap_metronome"
 
-[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["sync_buttons"]]
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" unique_id=1750581421 groups=["sync_buttons"]]
 custom_minimum_size = Vector2(73, 74)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -138,44 +135,44 @@ disable_when_playing = false
 button_mode = "function"
 function_name = "reset_pressed"
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="7"]
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="7" unique_id=1176064682]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="8"]
+[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="8" unique_id=2005700641]
 layout_mode = 2
 text = "Offset timing points by..."
 horizontal_alignment = 1
 
-[node name="OffsetNotesOnlyCheckbox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
+[node name="OffsetNotesOnlyCheckbox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="9" unique_id=1422910508]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Offsets only the notes notes, without touching the tempo map"
 text = "Offset notes only"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="10"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" parent_id_path=PackedInt32Array(2009721916) index="10" unique_id=54185573]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OffsetSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="OffsetSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1148963628]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 tooltip_text = "Amount of time (in milliseconds) to offset timing points by."
-min_value = -1e+07
-max_value = 1e+07
+min_value = -10000000.0
+max_value = 10000000.0
 allow_greater = true
 allow_lesser = true
 suffix = "ms"
 script = ExtResource("3")
 
-[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" unique_id=132751357]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Apply offset."
 text = "Apply"
 
-[node name="TempoDialog" type="PopupPanel" parent="." index="1"]
+[node name="TempoDialog" type="PopupPanel" parent="." index="1" unique_id=911662436]
 title = "Add tempo change..."
 position = Vector2i(0, 32)
 size = Vector2i(740, 145)
@@ -183,7 +180,7 @@ unresizable = false
 borderless = false
 theme = ExtResource("2_15yse")
 
-[node name="MarginContainer" type="MarginContainer" parent="TempoDialog" index="1"]
+[node name="MarginContainer" type="MarginContainer" parent="TempoDialog" index="1" unique_id=571466143]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -196,17 +193,17 @@ grow_vertical = 2
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TempoDialog/MarginContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TempoDialog/MarginContainer" index="0" unique_id=2082369857]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TempoDialog/MarginContainer/VBoxContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TempoDialog/MarginContainer/VBoxContainer" index="0" unique_id=961199029]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1084450266]
 layout_mode = 2
 text = "BPM: "
 
-[node name="BPMSpinBox" type="SpinBox" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="BPMSpinBox" type="SpinBox" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1050576446]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -218,14 +215,14 @@ suffix = "BPM"
 custom_arrow_step = 1.0
 script = ExtResource("3")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="TempoDialog/MarginContainer/VBoxContainer" index="1"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="TempoDialog/MarginContainer/VBoxContainer" index="1" unique_id=935762401]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="0"]
+[node name="Label" type="Label" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="0" unique_id=1526545105]
 layout_mode = 2
 text = "Time signature: "
 
-[node name="TimeSigNumSpinBox" type="SpinBox" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="1"]
+[node name="TimeSigNumSpinBox" type="SpinBox" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="1" unique_id=1545728644]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -235,11 +232,11 @@ allow_greater = true
 custom_arrow_step = 1.0
 script = ExtResource("3")
 
-[node name="Label2" type="Label" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="2"]
+[node name="Label2" type="Label" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="2" unique_id=166427456]
 layout_mode = 2
 text = "/"
 
-[node name="TimeSigDenSpinBox" type="SpinBox" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="3"]
+[node name="TimeSigDenSpinBox" type="SpinBox" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="3" unique_id=2000661498]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -249,7 +246,7 @@ allow_greater = true
 custom_arrow_step = 1.0
 script = ExtResource("3")
 
-[node name="Button" type="Button" parent="TempoDialog/MarginContainer/VBoxContainer" index="2"]
+[node name="Button" type="Button" parent="TempoDialog/MarginContainer/VBoxContainer" index="2" unique_id=1016434928]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Add tempo change"

@@ -1,16 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://goudcfvpe5jy"]
+[gd_scene format=3 uid="uid://goudcfvpe5jy"]
 
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="2_52mxr"]
 [ext_resource type="Script" uid="uid://b3mc255effeo2" path="res://menus/options_menu/content_dirs_menu/ContentDirControl.gd" id="3"]
 
-[node name="Control3" type="Panel"]
+[node name="Control3" type="Panel" unique_id=250181293]
 custom_minimum_size = Vector2(0, 64)
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 64.0
 script = ExtResource("3")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=924013760]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -18,14 +18,14 @@ offset_left = 20.0
 offset_right = -20.0
 theme_override_constants/separation = 52
 
-[node name="Label2" type="Label" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer" unique_id=1308396583]
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("2_52mxr")
 text = "Content directory"
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=855246263]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
@@ -34,15 +34,15 @@ text = "Content "
 vertical_alignment = 1
 text_overrun_behavior = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=825953795]
 layout_mode = 2
 alignment = 2
 
-[node name="Panel" type="PanelContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="HBoxContainer/HBoxContainer" unique_id=1276131570]
 custom_minimum_size = Vector2(120, 64)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Panel"]
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Panel" unique_id=2036011754]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_52mxr")
 text = "Change"

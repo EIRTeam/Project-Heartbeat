@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://q54rj3w4rhcg"]
+[gd_scene format=3 uid="uid://q54rj3w4rhcg"]
 
-[ext_resource type="Script" path="res://menus/new_leaderboard_control/LeaderboardView.gd" id="3"]
+[ext_resource type="Script" uid="uid://c75p8aex61lg5" path="res://menus/new_leaderboard_control/LeaderboardView.gd" id="3"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" unique_id=436302475]
 use_parent_material = true
 anchors_preset = 15
 anchor_right = 1.0

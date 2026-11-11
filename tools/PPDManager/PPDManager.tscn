@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://f1jy7yowfayo"]
+[gd_scene format=3 uid="uid://f1jy7yowfayo"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2"]
@@ -17,7 +17,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7v7p"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="PPDManager" type="Control"]
+[node name="PPDManager" type="Control" unique_id=1984323684]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +27,7 @@ grow_vertical = 2
 theme = ExtResource("1")
 script = ExtResource("3")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1913817541]
 show_behind_parent = true
 layout_mode = 0
 anchor_right = 1.0
@@ -36,7 +36,7 @@ texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=596780709]
 show_behind_parent = true
 layout_mode = 0
 anchor_right = 1.0
@@ -45,12 +45,13 @@ offset_top = -1.0
 offset_bottom = -1.0
 mouse_filter = 2
 
-[node name="ToolsPopup" type="Window" parent="CenterContainer"]
+[node name="ToolsPopup" type="Window" parent="CenterContainer" unique_id=639277748]
+oversampling_override = 1.0
 position = Vector2i(0, 32)
 size = Vector2i(980, 375)
 script = ExtResource("4_oui4o")
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/ToolsPopup"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/ToolsPopup" unique_id=1758500871]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -59,27 +60,27 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/ToolsPopup/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/ToolsPopup/MarginContainer" unique_id=2055354111]
 layout_mode = 2
 
-[node name="PPDDownloaderButton" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
+[node name="PPDDownloaderButton" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer" unique_id=932486519]
 layout_mode = 2
 text = "PPD Downloader"
 icon = ExtResource("5")
 
-[node name="PPDManagerSongs" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
+[node name="PPDManagerSongs" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer" unique_id=636497161]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Manage PPD Songs"
 icon = ExtResource("7")
 
-[node name="PPDImporter" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
+[node name="PPDImporter" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer" unique_id=672491598]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Import PPD Songs Directory"
 icon = ExtResource("7")
 
-[node name="PPDDownloader" type="Control" parent="."]
+[node name="PPDDownloader" type="Control" parent="." unique_id=226705341]
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -91,14 +92,14 @@ mouse_filter = 2
 theme = ExtResource("1")
 script = ExtResource("4")
 
-[node name="Panel" type="Window" parent="PPDDownloader"]
+[node name="Panel" type="Window" parent="PPDDownloader" unique_id=620668731]
 size = Vector2i(232, 100)
 visible = false
 transient = true
 exclusive = true
 script = ExtResource("4_oui4o")
 
-[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/Panel" unique_id=698945162]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -109,32 +110,32 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/Panel/MarginContainer" unique_id=1700633261]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer" unique_id=1202710434]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(1, 1, 0, 1)
 theme_override_styles/normal = SubResource("1")
 text = "WARNING: This is an experimental feature, it may be slow on some computers, performance will be improved in a future update."
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer" unique_id=540531549]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=275542514]
 layout_mode = 2
 text = "PPD download URL: "
 
-[node name="URLLineEdit" type="LineEdit" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="URLLineEdit" type="LineEdit" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=394917511]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer" unique_id=1904918504]
 layout_mode = 2
 text = "Download and install..."
 
-[node name="WaitDialog" type="Window" parent="PPDDownloader"]
+[node name="WaitDialog" type="Window" parent="PPDDownloader" unique_id=207217719]
 position = Vector2i(0, 32)
 size = Vector2i(218, 89)
 visible = false
@@ -143,7 +144,7 @@ transient = true
 exclusive = true
 script = ExtResource("4_oui4o")
 
-[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/WaitDialog"]
+[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/WaitDialog" unique_id=1809945692]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -154,16 +155,16 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/WaitDialog/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/WaitDialog/MarginContainer" unique_id=1884261136]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PPDDownloader/WaitDialog/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="PPDDownloader/WaitDialog/MarginContainer/VBoxContainer" unique_id=1084846564]
 layout_mode = 2
 text = "Downloading, please wait..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="PPDDownloader/WaitDialog/MarginContainer/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="PPDDownloader/WaitDialog/MarginContainer/VBoxContainer" unique_id=1686111863]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_03mkd")
@@ -171,12 +172,12 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_d7v7p")
 value = 28.32
 show_percentage = false
 
-[node name="YTDLErrorDialog" type="AcceptDialog" parent="PPDDownloader"]
+[node name="YTDLErrorDialog" type="AcceptDialog" parent="PPDDownloader" unique_id=1370161602]
 unique_name_in_owner = true
 position = Vector2i(0, 32)
 size = Vector2i(516, 240)
 
-[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/YTDLErrorDialog"]
+[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/YTDLErrorDialog" unique_id=1720705519]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -187,41 +188,41 @@ offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/YTDLErrorDialog/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/YTDLErrorDialog/MarginContainer" unique_id=907158379]
 layout_mode = 2
 
-[node name="YTDLErrorLabel" type="Label" parent="PPDDownloader/YTDLErrorDialog/MarginContainer/VBoxContainer"]
+[node name="YTDLErrorLabel" type="Label" parent="PPDDownloader/YTDLErrorDialog/MarginContainer/VBoxContainer" unique_id=1364077518]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="YTDLErrorTextEdit" type="TextEdit" parent="PPDDownloader/YTDLErrorDialog/MarginContainer/VBoxContainer"]
+[node name="YTDLErrorTextEdit" type="TextEdit" parent="PPDDownloader/YTDLErrorDialog/MarginContainer/VBoxContainer" unique_id=1619480048]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 150)
 layout_mode = 2
 
-[node name="PPDManagerPopup" parent="." instance=ExtResource("6")]
+[node name="PPDManagerPopup" parent="." unique_id=1382484274 instance=ExtResource("6")]
 position = Vector2i(0, 32)
 visible = false
 
-[node name="ErrorDialog" type="AcceptDialog" parent="."]
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=1550392436]
 position = Vector2i(0, 32)
 size = Vector2i(240, 114)
 
-[node name="PPDImporter" type="Control" parent="."]
+[node name="PPDImporter" type="Control" parent="." unique_id=1037831801]
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource("8")
 
-[node name="Window" type="Window" parent="PPDImporter"]
+[node name="Window" type="Window" parent="PPDImporter" unique_id=1656840966]
 position = Vector2i(0, 24)
 size = Vector2i(780, 385)
 visible = false
 exclusive = true
 script = ExtResource("4_oui4o")
 
-[node name="MarginContainer" type="MarginContainer" parent="PPDImporter/Window"]
+[node name="MarginContainer" type="MarginContainer" parent="PPDImporter/Window" unique_id=955517594]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -230,55 +231,55 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PPDImporter/Window/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PPDImporter/Window/MarginContainer" unique_id=33559331]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=1930576519]
 layout_mode = 2
 text = "This tool allows you to use your existing PPD installation into PH, the game will require a restart afterwards."
 
-[node name="PPDFoldersCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="PPDFoldersCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=1604110541]
 layout_mode = 2
 text = "Create folder with my PPD folder structure in the \"folders\" tab"
 
-[node name="HidePPDEXtSongsCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="HidePPDEXtSongsCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=1185435022]
 layout_mode = 2
 text = "Hide PPD importer songs from the PPD tab"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=1073361580]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1807915531]
 layout_mode = 2
 text = "PPD Folder Name (Overwritten if it exists)"
 
-[node name="LineEdit" type="LineEdit" parent="PPDImporter/Window/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="PPDImporter/Window/MarginContainer/VBoxContainer/HBoxContainer" unique_id=462916509]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "PPD"
 
-[node name="PPDOGGCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="PPDOGGCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=1044230441]
 layout_mode = 2
 text = "Convert all song audio to OGG now (Uncheck if you have a lot of songs, takes ~2-4 s per song)"
 
-[node name="Button" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=1604981000]
 layout_mode = 2
 text = "Select PPD Songs Directory & Import"
 
-[node name="Label2" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=229231365]
 layout_mode = 2
 text = "Current installation path: %s"
 
-[node name="RemoveInstallationButton" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="RemoveInstallationButton" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=10237739]
 layout_mode = 2
 disabled = true
 text = "Remove install"
 
-[node name="CloseButton" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+[node name="CloseButton" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer" unique_id=489816375]
 layout_mode = 2
 text = "Close"
 
-[node name="PPDImporterFileDialog" type="FileDialog" parent="PPDImporter"]
+[node name="PPDImporterFileDialog" type="FileDialog" parent="PPDImporter" unique_id=1510431612]
 mode = 2
 title = "Open a Directory"
 size = Vector2i(717, 175)
@@ -287,7 +288,7 @@ file_mode = 2
 access = 2
 show_hidden_files = true
 
-[node name="WaitDialog" type="Window" parent="PPDImporter"]
+[node name="WaitDialog" type="Window" parent="PPDImporter" unique_id=1911500205]
 size = Vector2i(280, 100)
 visible = false
 wrap_controls = true
@@ -295,7 +296,7 @@ transient = true
 exclusive = true
 script = ExtResource("4_oui4o")
 
-[node name="Label" type="Label" parent="PPDImporter/WaitDialog"]
+[node name="Label" type="Label" parent="PPDImporter/WaitDialog" unique_id=497095239]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -305,12 +306,12 @@ text = "Importing, please wait..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RestartAcceptDialog" type="AcceptDialog" parent="PPDImporter"]
+[node name="RestartAcceptDialog" type="AcceptDialog" parent="PPDImporter" unique_id=596154440]
 position = Vector2i(0, 32)
 size = Vector2i(343, 100)
 dialog_text = "Import complete, please restart the game."
 
-[node name="RemoveInstallationConfirmationDialog" type="ConfirmationDialog" parent="PPDImporter"]
+[node name="RemoveInstallationConfirmationDialog" type="ConfirmationDialog" parent="PPDImporter" unique_id=1942964762]
 size = Vector2i(200, 218)
 dialog_text = "Do you want to remove your existing PPD install? This will remove the songs from the game but not from the hard drive."
 dialog_autowrap = true

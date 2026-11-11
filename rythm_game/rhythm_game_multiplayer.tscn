@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://byjf4d5kfhwy"]
+[gd_scene format=3 uid="uid://byjf4d5kfhwy"]
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://1186uqvv6tv4" path="res://rythm_game/MultiplayerScoreboard.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://ddhhinndecvh7" path="res://multiplayer/lobby/MultiplayerLoadingMemberList.tscn" id="6_rk01l"]
 
-[node name="RhythmGameMultiplayer" type="Control"]
+[node name="RhythmGameMultiplayer" type="Control" unique_id=589540889]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -17,13 +17,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4")
 
-[node name="RhythmGame" parent="." instance=ExtResource("3")]
+[node name="RhythmGame" parent="." unique_id=2109020625 instance=ExtResource("3")]
 layout_mode = 1
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Node2D" type="Node2D" parent="." unique_id=419175906]
 z_index = -1
 
-[node name="MultiplayerScoreboardContainer" type="HBoxContainer" parent="Node2D"]
+[node name="MultiplayerScoreboardContainer" type="HBoxContainer" parent="Node2D" unique_id=1080303462]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,14 +34,14 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
 
-[node name="MultiplayerScoreboard" type="VBoxContainer" parent="Node2D/MultiplayerScoreboardContainer"]
+[node name="MultiplayerScoreboard" type="VBoxContainer" parent="Node2D/MultiplayerScoreboardContainer" unique_id=116070308]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 alignment = 1
 script = ExtResource("5")
 
-[node name="MPLoadingPanel" type="Panel" parent="."]
+[node name="MPLoadingPanel" type="Panel" parent="." unique_id=1522468740]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -51,7 +51,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MPLoadingPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MPLoadingPanel" unique_id=809827320]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,17 +60,17 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="MPLoadingPanel/VBoxContainer"]
+[node name="Label" type="Label" parent="MPLoadingPanel/VBoxContainer" unique_id=1763613444]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
 text = "Waiting for other players to load!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MPLoadingPanel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MPLoadingPanel/VBoxContainer" unique_id=320998947]
 layout_mode = 2
 alignment = 1
 
-[node name="MultiplayerLoadingMemberList" parent="MPLoadingPanel/VBoxContainer/HBoxContainer" instance=ExtResource("6_rk01l")]
+[node name="MultiplayerLoadingMemberList" parent="MPLoadingPanel/VBoxContainer/HBoxContainer" unique_id=59516291 instance=ExtResource("6_rk01l")]
 unique_name_in_owner = true
 layout_mode = 2

@@ -1,17 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://d3quy4802sn88"]
 
-[ext_resource path="res://tools/editor/inspector_types/String.gd" type="Script" id=1]
-[ext_resource path="res://tools/editor/controls/HBEditorLineEdit.gd" type="Script" id=2]
+[ext_resource type="Script" uid="uid://ckveoojfqcopd" path="res://tools/editor/inspector_types/String.gd" id="1"]
+[ext_resource type="Script" uid="uid://buyyl1h56yijv" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="2"]
 
-[node name="string" type="HBoxContainer"]
+[node name="string" type="HBoxContainer" unique_id=909120731]
 offset_right = 26.0
 size_flags_horizontal = 3
 alignment = 1
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="LineEdit" type="LineEdit" parent="."]
-offset_right = 58.0
-offset_bottom = 24.0
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1217736804]
+layout_mode = 2
 size_flags_horizontal = 3
-horizontal_alignment = 3
-script = ExtResource( 2 )
+script = ExtResource("2")

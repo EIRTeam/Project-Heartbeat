@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=4 uid="uid://bcwfsq3lkchcd"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bcwfsq3lkchcd"]
 
-[ext_resource type="Shader" path="res://rythm_game/Laser.gdshader" id="1"]
+[ext_resource type="Shader" uid="uid://betnlpui6v2tx" path="res://rythm_game/Laser.gdshader" id="1"]
 
 [resource]
 shader = ExtResource("1")

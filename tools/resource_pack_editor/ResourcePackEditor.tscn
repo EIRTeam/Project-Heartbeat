@@ -1,23 +1,23 @@
-[gd_scene load_steps=22 format=3 uid="uid://2e1c78lgxfkv"]
+[gd_scene format=3 uid="uid://2e1c78lgxfkv"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://l36o42nwrfnr" path="res://tools/icons/icon_back.svg" id="2"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/ResourcePackEditor.gd" id="3"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/OpenResourcePackDialog.gd" id="4"]
+[ext_resource type="Script" uid="uid://bj528svvhec8m" path="res://tools/resource_pack_editor/ResourcePackEditor.gd" id="3"]
+[ext_resource type="Script" uid="uid://dfpb0yq71u2b2" path="res://tools/resource_pack_editor/OpenResourcePackDialog.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://c0fe7cjb2bknm" path="res://tools/icons/icon_save.svg" id="5"]
 [ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="6"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://bi00tlp38rnc3" path="res://tools/editor/WorkshopUploadForm.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://cln670qlnyiv6" path="res://graphics/background.png" id="10"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="11"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorComponentPicker.gd" id="12"]
+[ext_resource type="Script" uid="uid://cc62jpk2f4ohe" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorComponentPicker.gd" id="12"]
 [ext_resource type="PackedScene" uid="uid://i08qk1n42uwn" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" id="18"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/viewport_quad.gd" id="20"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd" id="21"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor.gd" id="22"]
+[ext_resource type="Script" uid="uid://clngc7fpanvgs" path="res://tools/resource_pack_editor/skin_editor/viewport_quad.gd" id="20"]
+[ext_resource type="Script" uid="uid://elwikcnm4p5v" path="res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd" id="21"]
+[ext_resource type="Script" uid="uid://cyj31jykbmn47" path="res://tools/resource_pack_editor/skin_editor/skin_editor.gd" id="22"]
 [ext_resource type="PackedScene" uid="uid://dycvec2jy0kmy" path="res://tools/new_inspector/new_inspector.tscn" id="23"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorOutliner.gd" id="24"]
-[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinResourceEditor.gd" id="25"]
+[ext_resource type="Script" uid="uid://ceq0b2bamlm1w" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorOutliner.gd" id="24"]
+[ext_resource type="Script" uid="uid://de5vuokmhfe0m" path="res://tools/resource_pack_editor/skin_editor/HBSkinResourceEditor.gd" id="25"]
 
 [sub_resource type="ViewportTexture" id="6"]
 viewport_path = NodePath("VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport")
@@ -26,7 +26,7 @@ viewport_path = NodePath("VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2
 
 [sub_resource type="Shortcut" id="2"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=149548539]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,24 +36,24 @@ grow_vertical = 2
 theme = ExtResource("1")
 script = ExtResource("3")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=246275830]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.025
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer" unique_id=871186805]
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="Textures" type="Panel" parent="VBoxContainer/TabContainer"]
+[node name="Textures" type="Panel" parent="VBoxContainer/TabContainer" unique_id=1015409203]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures" unique_id=21839607]
 layout_mode = 0
 anchor_left = -0.00116924
 anchor_right = 0.998831
@@ -65,24 +65,24 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer" unique_id=1178589632]
 layout_mode = 2
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer" unique_id=916149885]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Tree" type="Tree" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer"]
+[node name="Tree" type="Tree" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer" unique_id=546305197]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer" unique_id=1767484595]
 layout_mode = 2
 size_flags_horizontal = 3
 current_tab = 0
 
-[node name="Metadata" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer"]
+[node name="Metadata" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer" unique_id=556489592]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
@@ -90,67 +90,67 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 metadata/_tab_index = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata" unique_id=1011226653]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer" unique_id=1694604125]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer" unique_id=175265652]
 layout_mode = 2
 text = "Resource Pack Title"
 
-[node name="TitleLineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
+[node name="TitleLineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer" unique_id=1559222604]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer" unique_id=758544275]
 layout_mode = 2
 text = "Author"
 
-[node name="PackCreatorLineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
+[node name="PackCreatorLineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer" unique_id=1535417115]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer" unique_id=2037350284]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2" unique_id=654425723]
 layout_mode = 2
 text = "Description"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2" unique_id=83264374]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
-[node name="PreviewBBCodeCheckbox" type="CheckBox" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer"]
+[node name="PreviewBBCodeCheckbox" type="CheckBox" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=2028818592]
 layout_mode = 2
 text = "Preview BBCode"
 
-[node name="DescriptionTextLabel" type="RichTextLabel" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
+[node name="DescriptionTextLabel" type="RichTextLabel" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer" unique_id=883066922]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
-[node name="DescriptionTextEdit" type="TextEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel"]
+[node name="DescriptionTextEdit" type="TextEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel" unique_id=1293619969]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer" unique_id=1445431132]
 layout_mode = 2
 text = "Pack Image (512x512)"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer" unique_id=1262673550]
 custom_minimum_size = Vector2(0, 256)
 layout_mode = 2
 
-[node name="PackIconTextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="PackIconTextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer" unique_id=1419453448]
 layout_mode = 2
 size_flags_horizontal = 3
 stretch_mode = 6
 
-[node name="NoPreviewImageLabel" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect"]
+[node name="NoPreviewImageLabel" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect" unique_id=2005737625]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -160,23 +160,23 @@ text = "No Image :("
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer" unique_id=505162364]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=216831849]
 layout_mode = 2
 size_flags_stretch_ratio = 1.5
 alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer" unique_id=1046502065]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Select Image"
 
-[node name="Atlas Preview" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer"]
+[node name="Atlas Preview" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer" unique_id=1255002360]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 15
@@ -185,24 +185,24 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 metadata/_tab_index = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview" unique_id=191828151]
 layout_mode = 2
 
-[node name="RegnerateAtlasButton" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+[node name="RegnerateAtlasButton" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer" unique_id=117312593]
 layout_mode = 2
 text = "Regenerate atlas"
 
-[node name="RegenerateAtlasFromDisk" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+[node name="RegenerateAtlasFromDisk" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer" unique_id=129124108]
 layout_mode = 2
 tooltip_text = "Regenerates the atlast but first reloads note graphics from disk"
 text = "Regenerate atlas (reload from disk)"
 
-[node name="AtlasPreviewTabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+[node name="AtlasPreviewTabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer" unique_id=23937075]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Skin" type="Panel" parent="VBoxContainer/TabContainer"]
+[node name="Skin" type="Panel" parent="VBoxContainer/TabContainer" unique_id=274206975]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
@@ -210,118 +210,119 @@ mouse_filter = 2
 script = ExtResource("22")
 metadata/_tab_index = 1
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/TabContainer/Skin"]
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/TabContainer/Skin" unique_id=260589892]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+split_offsets = PackedInt32Array(269)
 split_offset = 269
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer" unique_id=799297726]
 layout_mode = 2
 
-[node name="Control" type="VSplitContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer"]
+[node name="Control" type="VSplitContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer" unique_id=30399580]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TabContainer2" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control"]
+[node name="TabContainer2" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control" unique_id=2086642443]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.5
 current_tab = 0
 
-[node name="Outline" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2"]
+[node name="Outline" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2" unique_id=1441906839]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2/Outline"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2/Outline" unique_id=1865527455]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Outline" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2/Outline/ScrollContainer"]
+[node name="Outline" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2/Outline/ScrollContainer" unique_id=343370994]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("24")
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control" unique_id=359630448]
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="Components" type="ScrollContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer"]
+[node name="Components" type="ScrollContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer" unique_id=49679157]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="HBSkinEditorComponentPicker" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Components"]
+[node name="HBSkinEditorComponentPicker" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Components" unique_id=1683317790]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("12")
 
-[node name="Resources" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer"]
+[node name="Resources" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer" unique_id=1541940874]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="HBSkinResourceEditor" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Resources"]
+[node name="HBSkinResourceEditor" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Resources" unique_id=2115639465]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("25")
 
-[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer" unique_id=1610544522]
 layout_mode = 2
 text = "<"
 
-[node name="Panel2" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer"]
+[node name="Panel2" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer" unique_id=1983432728]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2" unique_id=1711390871]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer" unique_id=896164115]
 visible = false
 layout_mode = 2
 text = ">"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer" unique_id=372867593]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer" unique_id=302830533]
 layout_mode = 2
 
-[node name="MenuButton" type="OptionButton" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="MenuButton" type="OptionButton" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=912021311]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=529697924]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
-[node name="HelpButton" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="HelpButton" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=576783718]
 layout_mode = 2
 text = "Help"
 
-[node name="ScreenButton" type="OptionButton" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="ScreenButton" type="OptionButton" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=1162664986]
 layout_mode = 2
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer" unique_id=1007062319]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 ratio = 1.778
 alignment_vertical = 0
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer" unique_id=1867743122]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
@@ -329,12 +330,12 @@ texture = SubResource("6")
 expand_mode = 1
 script = ExtResource("20")
 
-[node name="SubViewport" type="SubViewport" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect"]
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect" unique_id=1630150872]
 size = Vector2i(2112, 1188)
 render_target_update_mode = 3
 script = ExtResource("21")
 
-[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport"]
+[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport" unique_id=456314163]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -348,7 +349,7 @@ offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" unique_id=766444963]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -357,7 +358,7 @@ texture = ExtResource("10")
 expand_mode = 1
 stretch_mode = 7
 
-[node name="ReferenceRect" type="ReferenceRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+[node name="ReferenceRect" type="ReferenceRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" unique_id=580779747]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -367,103 +368,105 @@ offset_right = -192.0
 offset_bottom = -108.0
 editor_only = false
 
-[node name="Node2D" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("11")]
+[node name="Node2D" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" unique_id=644683389 instance=ExtResource("11")]
 visible = false
+layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="EditLayer" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+[node name="EditLayer" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" unique_id=2117720062]
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="SkinEditorWidgetAnchor" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("18")]
+[node name="SkinEditorWidgetAnchor" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" unique_id=1759046387 instance=ExtResource("18")]
 layout_mode = 0
 offset_top = 0.0
 offset_bottom = 86.0
 theme_override_styles/panel = SubResource("3")
 
-[node name="SkinEditorWidgetMargin" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("18")]
+[node name="SkinEditorWidgetMargin" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" unique_id=228684716 instance=ExtResource("18")]
 layout_mode = 0
 offset_top = 0.0
 offset_bottom = 86.0
 theme_override_styles/panel = SubResource("3")
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer" unique_id=929020315]
 layout_mode = 2
 current_tab = 0
 
-[node name="Inspector" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/TabContainer" instance=ExtResource("23")]
+[node name="Inspector" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/TabContainer" unique_id=1092342223 instance=ExtResource("23")]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=155464349]
 layout_mode = 0
 anchor_right = 1.0
 offset_bottom = 25.0
 mouse_filter = 2
 
-[node name="BackButton" type="Button" parent="HBoxContainer"]
+[node name="BackButton" type="Button" parent="HBoxContainer" unique_id=1317454087]
 layout_mode = 2
 icon = ExtResource("2")
 
-[node name="OpenButton" type="Button" parent="HBoxContainer"]
+[node name="OpenButton" type="Button" parent="HBoxContainer" unique_id=329898306]
 layout_mode = 2
 shortcut_in_tooltip = false
 icon = ExtResource("6")
 
-[node name="SaveButton" type="Button" parent="HBoxContainer"]
+[node name="SaveButton" type="Button" parent="HBoxContainer" unique_id=423313384]
 layout_mode = 2
 shortcut = SubResource("2")
 shortcut_in_tooltip = false
 icon = ExtResource("5")
 
-[node name="OpenResourcePackDialog" type="ConfirmationDialog" parent="."]
+[node name="OpenResourcePackDialog" type="ConfirmationDialog" parent="." unique_id=2009940018]
+oversampling_override = 1.0
 position = Vector2i(0, 32)
 size = Vector2i(450, 236)
 visible = true
 dialog_hide_on_ok = false
 script = ExtResource("4")
 
-[node name="VBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog"]
+[node name="VBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog" unique_id=1481111854]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 442.0
 offset_bottom = 188.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer" unique_id=1958271320]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Tree" type="Tree" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer"]
+[node name="Tree" type="Tree" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer" unique_id=404585721]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer" unique_id=267410680]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="CreateResourcePackButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
+[node name="CreateResourcePackButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2" unique_id=2082221224]
 layout_mode = 2
 text = "Create Resource Pack"
 
-[node name="DeleteResourcePackButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
+[node name="DeleteResourcePackButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2" unique_id=896508309]
 layout_mode = 2
 text = "Delete Resource Pack"
 
-[node name="UploadToWorkshopButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
+[node name="UploadToWorkshopButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2" unique_id=761374155]
 layout_mode = 2
 text = "Upload to Workshop"
 
-[node name="CreateIconPackDialog" type="ConfirmationDialog" parent="OpenResourcePackDialog"]
+[node name="CreateIconPackDialog" type="ConfirmationDialog" parent="OpenResourcePackDialog" unique_id=1436206897]
 position = Vector2i(0, 24)
 size = Vector2i(400, 132)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog" unique_id=1824821327]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -472,46 +475,47 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -51.0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer" unique_id=455251957]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer2"]
+[node name="Label2" type="Label" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer2" unique_id=1471387320]
 layout_mode = 2
 text = "Title"
 
-[node name="TextEdit" type="LineEdit" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer2"]
+[node name="TextEdit" type="LineEdit" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer2" unique_id=1568712111]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "EIREXE's super awesome icon pack"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer" unique_id=1596552189]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer" unique_id=1482824903]
 layout_mode = 2
 text = "Type"
 
-[node name="PackTypeOptionButton" type="OptionButton" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer"]
+[node name="PackTypeOptionButton" type="OptionButton" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer" unique_id=324536223]
 layout_mode = 2
 item_count = 2
 popup/item_0/text = "Icon Pack"
+popup/item_0/id = 0
 popup/item_1/text = "Skin"
 popup/item_1/id = 1
 
-[node name="SkinSpecificOptions" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
+[node name="SkinSpecificOptions" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer" unique_id=1495351735]
 visible = false
 layout_mode = 2
 
-[node name="CopyOriginalSkinCheckbox" type="CheckBox" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/SkinSpecificOptions"]
+[node name="CopyOriginalSkinCheckbox" type="CheckBox" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/SkinSpecificOptions" unique_id=2085211815]
 layout_mode = 2
 text = "Copy original game skin"
 
-[node name="WorkshopUploadDialog" parent="OpenResourcePackDialog" instance=ExtResource("9")]
+[node name="WorkshopUploadDialog" parent="OpenResourcePackDialog" unique_id=1292111078 instance=ExtResource("9")]
 position = Vector2i(0, 24)
 visible = false
 upload_form_mode = 1
 
-[node name="FileDialog" type="FileDialog" parent="."]
+[node name="FileDialog" type="FileDialog" parent="." unique_id=1949199944]
 title = "Open a File"
 size = Vector2i(760, 430)
 theme_override_colors/folder_icon_color = Color(0, 0, 0, 1)
@@ -520,7 +524,7 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.png ; Portable Network Graphics")
 
-[node name="FileDialogPackIcon" type="FileDialog" parent="."]
+[node name="FileDialogPackIcon" type="FileDialog" parent="." unique_id=47893738]
 title = "Open a File"
 size = Vector2i(717, 430)
 theme_override_colors/folder_icon_color = Color(0, 0, 0, 1)
@@ -529,22 +533,22 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.png ; Portable Network Graphics")
 
-[node name="RemoveGraphicConfirmationDialog" type="ConfirmationDialog" parent="."]
+[node name="RemoveGraphicConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=275283655]
 dialog_text = "This will delete the file for this graphic, do you want to do this?"
 
-[node name="ErrorDialog" type="AcceptDialog" parent="."]
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=1174024198]
 
-[node name="ResizeConfirmationDialog" type="ConfirmationDialog" parent="."]
+[node name="ResizeConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=1326883480]
 
-[node name="ColorPickerPopup" type="PopupPanel" parent="."]
+[node name="ColorPickerPopup" type="PopupPanel" parent="." unique_id=2010991216]
 
-[node name="ColorPicker" type="ColorPicker" parent="ColorPickerPopup"]
+[node name="ColorPicker" type="ColorPicker" parent="ColorPickerPopup" unique_id=1829395395]
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 314.0
-offset_bottom = 459.0
+offset_right = 165.0
+offset_bottom = 335.0
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=808804060]
 position = Vector2i(0, 24)
 size = Vector2i(456, 132)
 dialog_text = "Do you really want to quit? Any unsaved progress will be lost."

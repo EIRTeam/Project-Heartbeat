@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://mq8cvko6co3o"]
+[gd_scene format=3 uid="uid://mq8cvko6co3o"]
 
 [ext_resource type="Script" uid="uid://cjfv61kwxjj8j" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
@@ -60,7 +60,7 @@ shadow_color = Color(0, 0, 0, 0.25098)
 shadow_size = 10
 anti_aliasing_size = 2.0
 
-[node name="SongListMenu" type="Control"]
+[node name="SongListMenu" type="Control" unique_id=1300264543]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,27 +74,25 @@ grow_vertical = 2
 theme = ExtResource("15_3x86c")
 script = ExtResource("2")
 
-[node name="SpinnerContainer" type="CenterContainer" parent="."]
+[node name="SpinnerContainer" type="CenterContainer" parent="." unique_id=31852310]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="CenterContainer" type="CenterContainer" parent="SpinnerContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="SpinnerContainer" unique_id=530745034]
 layout_mode = 2
 use_top_left = true
 
-[node name="TextureRect" type="TextureRect" parent="SpinnerContainer/CenterContainer"]
+[node name="TextureRect" type="TextureRect" parent="SpinnerContainer/CenterContainer" unique_id=1636560699]
 layout_mode = 2
 texture = ExtResource("17")
 stretch_mode = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SpinnerContainer/CenterContainer/TextureRect"]
-libraries = {
-&"": SubResource("AnimationLibrary_igfnq")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpinnerContainer/CenterContainer/TextureRect" unique_id=783301152]
+libraries/ = SubResource("AnimationLibrary_igfnq")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2123397638]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -103,55 +101,55 @@ offset_top = 10.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer" unique_id=1919858330]
 layout_mode = 2
 theme_override_constants/separation = 35
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2" unique_id=305153406]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
-[node name="PanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="PanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=338908596]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("5")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer" unique_id=1137278981]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2" unique_id=538008733]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 texture = ExtResource("4_4pum8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
+[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2" unique_id=2122611516]
 layout_mode = 2
 action_text = ""
 action_name = &"note_up"
 
-[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1998641404]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="SortModeContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer"]
+[node name="SortModeContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer" unique_id=1536638580]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SongListFilterItemPanel"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer" unique_id=1340539904]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer/HBoxContainer2" unique_id=206683738]
 custom_minimum_size = Vector2(39, 0)
 layout_mode = 2
 texture = ExtResource("8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SortModeLabel" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer/HBoxContainer2"]
+[node name="SortModeLabel" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/SortModeContainer/HBoxContainer2" unique_id=85680128]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -159,43 +157,43 @@ theme_override_font_sizes/font_size = 25
 text = "Difficulty"
 vertical_alignment = 1
 
-[node name="WithMediaPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer"]
+[node name="WithMediaPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer" unique_id=1786107786]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SongListFilterItemPanel"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer" unique_id=790748996]
 layout_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer/HBoxContainer2"]
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer/HBoxContainer2" unique_id=1509295105]
 custom_minimum_size = Vector2(39, 0)
 layout_mode = 2
 texture = ExtResource("9")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer/HBoxContainer2"]
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/WithMediaPanelContainer/HBoxContainer2" unique_id=638362761]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "With media"
 vertical_alignment = 1
 
-[node name="StarFilterPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer"]
+[node name="StarFilterPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer" unique_id=1558346953]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SongListFilterItemPanel"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer" unique_id=931797781]
 layout_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer/HBoxContainer2"]
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer/HBoxContainer2" unique_id=1430929729]
 custom_minimum_size = Vector2(39, 0)
 layout_mode = 2
 texture = ExtResource("6_t7ijm")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="StarFilterLabel" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer/HBoxContainer2"]
+[node name="StarFilterLabel" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/StarFilterPanelContainer/HBoxContainer2" unique_id=2133397045]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -203,15 +201,15 @@ theme_override_font_sizes/font_size = 25
 text = "1-2"
 vertical_alignment = 1
 
-[node name="NoteUsageFilterPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer"]
+[node name="NoteUsageFilterPanelContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer" unique_id=1583243551]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SongListFilterItemPanel"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/NoteUsageFilterPanelContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/NoteUsageFilterPanelContainer" unique_id=1351717663]
 layout_mode = 2
 
-[node name="NoteUsageFilterTextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/NoteUsageFilterPanelContainer/HBoxContainer2"]
+[node name="NoteUsageFilterTextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HFlowContainer/NoteUsageFilterPanelContainer/HBoxContainer2" unique_id=1510146033]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(39, 0)
 layout_mode = 2
@@ -219,7 +217,7 @@ texture = ExtResource("6_t7ijm")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1220938702]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_constants/separation = 10
@@ -227,12 +225,12 @@ alignment = 2
 script = ExtResource("7")
 stop_hover_on_focus_exit = false
 
-[node name="FolderPathContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+[node name="FolderPathContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2" unique_id=1273900250]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/FolderPathContainer"]
+[node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/FolderPathContainer" unique_id=458759427]
 unique_name_in_owner = true
 clip_children = 2
 layout_mode = 2
@@ -242,7 +240,7 @@ font_1 = ExtResource("7_fawyf")
 font_2 = ExtResource("16")
 text_2 = ""
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=361833884]
 show_behind_parent = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -251,7 +249,7 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="VBoxContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer" unique_id=1578979368]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -264,14 +262,14 @@ enable_wrap_around = true
 items_to_report_visibility_to = 10
 scroll_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" unique_id=860025787]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer" unique_id=491498314]
 visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("18")
@@ -279,62 +277,62 @@ text = "No folders found, add some!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Prompts" type="VBoxContainer" parent="VBoxContainer"]
+[node name="Prompts" type="VBoxContainer" parent="VBoxContainer" unique_id=2002277960]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_stretch_ratio = 1.25
 alignment = 1
 
-[node name="HBoxContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/Prompts"]
+[node name="HBoxContainer" type="HBPanelContainerBlurEX" parent="VBoxContainer/Prompts" unique_id=310698477]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("12_787qn")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer" unique_id=1945967319]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Panel13" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+[node name="Panel13" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" unique_id=970949187 instance=ExtResource("4")]
 custom_minimum_size = Vector2(184, 53)
 layout_mode = 2
 action_name = "gui_search"
 text = "Search"
 
-[node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+[node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" unique_id=144207407 instance=ExtResource("4")]
 custom_minimum_size = Vector2(188, 53)
 layout_mode = 2
 action_name = "contextual_option"
 text = "Add to..."
 
-[node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+[node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" unique_id=196118455 instance=ExtResource("4")]
 custom_minimum_size = Vector2(193, 53)
 layout_mode = 2
 action_name = "contextual_option"
 text = "Manage"
 
-[node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+[node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" unique_id=1170667672 instance=ExtResource("4")]
 custom_minimum_size = Vector2(201, 53)
 layout_mode = 2
 action_name = "contextual_option"
 text = "Remove"
 
-[node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+[node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" unique_id=435938009 instance=ExtResource("4")]
 custom_minimum_size = Vector2(170, 53)
 layout_mode = 2
 action_name = "gui_accept"
 text = "Select"
 
-[node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+[node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" unique_id=1721039506 instance=ExtResource("4")]
 custom_minimum_size = Vector2(146, 53)
 layout_mode = 2
 action_name = "gui_cancel"
 text = "Back"
 
-[node name="PPDAudioBrowseWindow" parent="." instance=ExtResource("5")]
+[node name="PPDAudioBrowseWindow" parent="." unique_id=1271230878 instance=ExtResource("5")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -347,7 +345,7 @@ grow_horizontal = 1
 grow_vertical = 1
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
 
-[node name="FolderManager" parent="." instance=ExtResource("11")]
+[node name="FolderManager" parent="." unique_id=2081405309 instance=ExtResource("11")]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -360,7 +358,7 @@ offset_top = -264.5
 offset_right = 374.0
 offset_bottom = 264.5
 
-[node name="SongCountIndicator" type="Label" parent="."]
+[node name="SongCountIndicator" type="Label" parent="." unique_id=56294030]
 auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = -1
@@ -379,7 +377,7 @@ theme_override_fonts/font = ExtResource("18")
 text = "123/123"
 vertical_alignment = 1
 
-[node name="SearchTextInput" parent="." instance=ExtResource("3")]
+[node name="SearchTextInput" parent="." unique_id=1875245391 instance=ExtResource("3")]
 visible = false
 layout_mode = 0
 anchors_preset = 0
@@ -389,7 +387,7 @@ grow_horizontal = 1
 grow_vertical = 1
 text = "Enter the search term:"
 
-[node name="UnsubscribeWindow" parent="." instance=ExtResource("5")]
+[node name="UnsubscribeWindow" parent="." unique_id=2128817881 instance=ExtResource("5")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -403,7 +401,7 @@ offset_right = 350.0
 offset_bottom = 130.0
 text = "Are you sure you want to unsubscribe from this item?"
 
-[node name="SortByPanel" parent="." instance=ExtResource("15_y4k7r")]
+[node name="SortByPanel" parent="." unique_id=1854986896 instance=ExtResource("15_y4k7r")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

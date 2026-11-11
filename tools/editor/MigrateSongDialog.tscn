@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3nd1hxfw1vqh"]
+[gd_scene format=3 uid="uid://d3nd1hxfw1vqh"]
 
 [ext_resource type="Script" uid="uid://tbd0imdpiba" path="res://tools/editor/MigrateSongDialog.gd" id="1_1atix"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_u5m76"]
 
-[node name="MigrateSongDialog" type="ConfirmationDialog"]
+[node name="MigrateSongDialog" type="ConfirmationDialog" unique_id=1216025089]
+oversampling_override = 1.0
 title = "Song migration"
 position = Vector2i(0, 32)
 size = Vector2i(650, 236)
@@ -19,17 +20,17 @@ dialog_hide_on_ok = false
 dialog_autowrap = true
 script = ExtResource("1_1atix")
 
-[node name="StatusDialog" type="AcceptDialog" parent="."]
+[node name="StatusDialog" type="AcceptDialog" parent="." unique_id=1526605495]
 unique_name_in_owner = true
 size = Vector2i(221, 130)
 borderless = true
 dialog_close_on_escape = false
 
-[node name="ErrorDialog" type="AcceptDialog" parent="."]
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=1299367181]
 unique_name_in_owner = true
 title = "Error importing"
 
-[node name="CompletedDialog" type="AcceptDialog" parent="."]
+[node name="CompletedDialog" type="AcceptDialog" parent="." unique_id=600072479]
 unique_name_in_owner = true
 title = ""
 dialog_text = "Migration completed succesfully!"

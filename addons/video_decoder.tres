@@ -1,8 +1,8 @@
-[gd_resource type="GDNativeLibrary" format=2]
+[gd_resource type="GDNativeLibrary" format=3 uid="uid://ds6dxcm3fkgy"]
 
 [resource]
 singleton = true
 entry/Windows.64 = "res://addons/bin/win64/libgdnative_videodecoder.dll"
 entry/X11.64 = "res://addons/bin/x11/libgdnative_videodecoder.so"
-dependency/Windows.64 = [ "res://addons/bin/win64/avcodec-58.dll", "res://addons/bin/win64/avdevice-58.dll", "res://addons/bin/win64/avfilter-7.dll", "res://addons/bin/win64/avformat-58.dll", "res://addons/bin/win64/avutil-56.dll", "res://addons/bin/win64/libwinpthread-1.dll", "res://addons/bin/win64/swresample-3.dll", "res://addons/bin/win64/swscale-5.dll" ]
-dependency/X11.64 = [ "res://addons/bin/x11/libavcodec.so.58", "res://addons/bin/x11/libavdevice.so.58", "res://addons/bin/x11/libavfilter.so.7", "res://addons/bin/x11/libavformat.so.58", "res://addons/bin/x11/libavutil.so.56", "res://addons/bin/x11/libswresample.so.3", "res://addons/bin/x11/libswscale.so.5" ]
+dependency/Windows.64 = ["res://addons/bin/win64/avcodec-58.dll", "res://addons/bin/win64/avdevice-58.dll", "res://addons/bin/win64/avfilter-7.dll", "res://addons/bin/win64/avformat-58.dll", "res://addons/bin/win64/avutil-56.dll", "res://addons/bin/win64/libwinpthread-1.dll", "res://addons/bin/win64/swresample-3.dll", "res://addons/bin/win64/swscale-5.dll"]
+dependency/X11.64 = ["res://addons/bin/x11/libavcodec.so.58", "res://addons/bin/x11/libavdevice.so.58", "res://addons/bin/x11/libavfilter.so.7", "res://addons/bin/x11/libavformat.so.58", "res://addons/bin/x11/libavutil.so.56", "res://addons/bin/x11/libswresample.so.3", "res://addons/bin/x11/libswscale.so.5"]

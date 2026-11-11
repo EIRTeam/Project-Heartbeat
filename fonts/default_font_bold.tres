@@ -1,4 +1,4 @@
-[gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://nyc27vir054y"]
+[gd_resource type="FontVariation" format=3 uid="uid://nyc27vir054y"]
 
 [ext_resource type="FontFile" uid="uid://bivqnckaepdqh" path="res://fonts/orbitron/Orbitron-Bold.ttf" id="1_xmtq5"]
 [ext_resource type="FontVariation" uid="uid://dtlwpiepskth" path="res://fonts/noto/NotoSans-Bold.tres" id="2_01dcf"]

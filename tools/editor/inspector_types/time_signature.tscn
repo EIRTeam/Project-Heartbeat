@@ -1,32 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://brs6v5go7pa0m"]
 
-[ext_resource path="res://tools/editor/inspector_types/time_signature.gd" type="Script" id=1]
-[ext_resource path="res://tools/editor/controls/HBEditorMultiSpinBox.gd" type="Script" id=2]
+[ext_resource type="Script" uid="uid://dmywe6vq01dco" path="res://tools/editor/inspector_types/time_signature.gd" id="1"]
+[ext_resource type="Script" uid="uid://bqxg42angeqh6" path="res://tools/editor/controls/HBEditorMultiSpinBox.gd" id="2"]
 
-[node name="TimeSignature" type="HBoxContainer"]
+[node name="TimeSignature" type="HBoxContainer" unique_id=378424314]
 offset_right = 26.0
 alignment = 1
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="NumeratorSpinbox" type="MultiSpinBox" parent="."]
-offset_right = 74.0
-offset_bottom = 24.0
+[node name="NumeratorSpinbox" type="MultiSpinBox" parent="." unique_id=2104854479]
+layout_mode = 2
 size_flags_horizontal = 3
 inner_property_name = "numerator"
-horizontal_alignment = 2
-script = ExtResource( 2 )
+script = ExtResource("2")
 
-[node name="Label" type="Label" parent="."]
-offset_left = 78.0
-offset_top = 5.0
-offset_right = 83.0
-offset_bottom = 19.0
+[node name="Label" type="Label" parent="." unique_id=2113921185]
+layout_mode = 2
 text = "/"
 
-[node name="DenominatorSpinbox" type="MultiSpinBox" parent="."]
-offset_left = 87.0
-offset_right = 161.0
-offset_bottom = 24.0
+[node name="DenominatorSpinbox" type="MultiSpinBox" parent="." unique_id=1804415548]
+layout_mode = 2
 size_flags_horizontal = 3
 inner_property_name = "denominator"
-script = ExtResource( 2 )
+script = ExtResource("2")

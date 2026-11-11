@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dakangk3xanaf"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dakangk3xanaf"]
 
 [ext_resource type="Shader" uid="uid://b7i5s374ssfly" path="res://menus/scrolling_container_shader.gdshader" id="1_sw0hk"]
 
@@ -7,4 +7,4 @@ shader = ExtResource("1_sw0hk")
 shader_parameter/fade_size = 50
 shader_parameter/fade_left_amount = 1.0
 shader_parameter/fade_right_amount = 0.0
-shader_parameter/position = null
+shader_parameter/position = Vector2(0, 0)

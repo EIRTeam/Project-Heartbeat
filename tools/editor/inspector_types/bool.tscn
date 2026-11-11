@@ -1,14 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://dr27sfqkoys4r"]
 
-[ext_resource path="res://tools/editor/inspector_types/bool.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://busqbrqyp3w5o" path="res://tools/editor/inspector_types/bool.gd" id="1"]
 
-[node name="Bool" type="HBoxContainer"]
+[node name="Bool" type="HBoxContainer" unique_id=1096615625]
 offset_right = 26.0
 alignment = 1
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="CheckBox" type="CheckBox" parent="."]
-offset_right = 26.0
-offset_bottom = 24.0
+[node name="CheckBox" type="CheckBox" parent="." unique_id=216164080]
+layout_mode = 2
 size_flags_horizontal = 3
-horizontal_alignment = 3

@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmww8gq2wjx8p"]
+[gd_scene format=3 uid="uid://bmww8gq2wjx8p"]
 
-[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="1"]
-[ext_resource type="Script" path="res://menus/media_download_queue/MediaDownloadQueue.gd" id="2"]
+[ext_resource type="Script" uid="uid://2e75yiqlqvm7" path="res://menus/UniversalScrollList.gd" id="1"]
+[ext_resource type="Script" uid="uid://hwdfkyxbvq3b" path="res://menus/media_download_queue/MediaDownloadQueue.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="5"]
 
-[node name="MarginContainer" type="MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" unique_id=1063870578]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,19 +14,18 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 script = ExtResource("2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=54132423]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=429191758]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2" unique_id=958185606]
 auto_translate_mode = 2
 layout_mode = 2
-auto_translate = false
 text = "adasdasdsadas"
 
-[node name="HBUniversalScrollList" type="ScrollContainer" parent="VBoxContainer"]
+[node name="HBUniversalScrollList" type="ScrollContainer" parent="VBoxContainer" unique_id=1530624297]
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
@@ -35,23 +34,23 @@ container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_wrap_around = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBUniversalScrollList"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBUniversalScrollList" unique_id=1196870948]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1619389973]
 layout_mode = 2
 alignment = 1
 
-[node name="Panel4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("5")]
+[node name="Panel4" parent="VBoxContainer/HBoxContainer" unique_id=422995398 instance=ExtResource("5")]
 custom_minimum_size = Vector2(124, 31)
 layout_mode = 2
 action_name = "gui_cancel"
 text = "Back"
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1473855279]
 layout_mode = 2
 text = "No downloads queued!"
 horizontal_alignment = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://lkkru7no1ko1"]
+[gd_scene format=3 uid="uid://lkkru7no1ko1"]
 
 [ext_resource type="FontVariation" uid="uid://wkerk1bs0uut" path="res://fonts/default_font_regular.tres" id="2_c1g4p"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2_g2q8y"]
@@ -37,7 +37,7 @@ shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 anti_aliasing_size = 2.0
 
-[node name="Panel" type="Control"]
+[node name="Panel" type="Control" unique_id=1767473019]
 auto_translate_mode = 2
 layout_mode = 3
 anchors_preset = 15
@@ -48,7 +48,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
 
-[node name="SongListPreview" type="MarginContainer" parent="."]
+[node name="SongListPreview" type="MarginContainer" parent="." unique_id=2021649075]
 auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 15
@@ -60,13 +60,13 @@ size_flags_horizontal = 3
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 87
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview" unique_id=42868156]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = -3
 
-[node name="TitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="SongListPreview/VBoxContainer" unique_id=1281224592]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -80,7 +80,7 @@ vertical_alignment = 1
 autowrap_mode = 3
 max_lines_visible = 2
 
-[node name="OriginalTitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
+[node name="OriginalTitleLabel" type="Label" parent="SongListPreview/VBoxContainer" unique_id=892839831]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -92,21 +92,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="AuthorInfoContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
+[node name="AuthorInfoContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer" unique_id=1790187168]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_constants/separation = -10
 alignment = 1
 
-[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfoContainer"]
+[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfoContainer" unique_id=1181715537]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_c1g4p")
 text = "by"
 horizontal_alignment = 1
 
-[node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfoContainer"]
+[node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfoContainer" unique_id=2011659724]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -116,14 +116,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="CircleImagePanel" type="Panel" parent="SongListPreview/VBoxContainer"]
+[node name="CircleImagePanel" type="Panel" parent="SongListPreview/VBoxContainer" unique_id=901940654]
 unique_name_in_owner = true
 auto_translate_mode = 2
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 theme_override_styles/panel = SubResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="SongListPreview/VBoxContainer/CircleImagePanel"]
+[node name="MarginContainer" type="MarginContainer" parent="SongListPreview/VBoxContainer/CircleImagePanel" unique_id=720700679]
 auto_translate_mode = 2
 layout_mode = 0
 anchor_right = 1.0
@@ -133,7 +133,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="CircleTextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/CircleImagePanel/MarginContainer"]
+[node name="CircleTextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/CircleImagePanel/MarginContainer" unique_id=1674364304]
 unique_name_in_owner = true
 auto_translate_mode = 2
 custom_minimum_size = Vector2(0, 50)
@@ -141,7 +141,7 @@ layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SongCoverPanel" type="MarginContainer" parent="SongListPreview/VBoxContainer"]
+[node name="SongCoverPanel" type="MarginContainer" parent="SongListPreview/VBoxContainer" unique_id=446486330]
 unique_name_in_owner = true
 auto_translate_mode = 2
 self_modulate = Color(1, 1, 1, 0)
@@ -152,11 +152,11 @@ theme_override_constants/margin_left = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 15
 
-[node name="Control" type="Control" parent="SongListPreview/VBoxContainer/SongCoverPanel"]
+[node name="Control" type="Control" parent="SongListPreview/VBoxContainer/SongCoverPanel" unique_id=2062512601]
 auto_translate_mode = 2
 layout_mode = 2
 
-[node name="CoverTextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/Control"]
+[node name="CoverTextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/Control" unique_id=756362723]
 unique_name_in_owner = true
 auto_translate_mode = 2
 modulate = Color(1, 1, 1, 0)
@@ -171,7 +171,7 @@ size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CoverTextureRectShadow" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/Control/CoverTextureRect"]
+[node name="CoverTextureRectShadow" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/Control/CoverTextureRect" unique_id=685511761]
 unique_name_in_owner = true
 auto_translate_mode = 2
 self_modulate = Color(0, 0, 0, 0.75)
@@ -184,25 +184,25 @@ size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 5
 
-[node name="MetaContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
+[node name="MetaContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer" unique_id=1240117207]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/MetaContainer"]
+[node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/MetaContainer" unique_id=1916525810]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2" unique_id=1675807956]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
 
-[node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2/VBoxContainer"]
+[node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2/VBoxContainer" unique_id=1280315862]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
@@ -212,7 +212,7 @@ text = "(NT)160 BPM"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2/VBoxContainer"]
+[node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/MetaContainer/Panel2/VBoxContainer" unique_id=1411351241]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2

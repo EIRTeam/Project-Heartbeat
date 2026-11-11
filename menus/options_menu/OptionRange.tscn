@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://fbjt8b81ifx4"]
+[gd_scene format=3 uid="uid://fbjt8b81ifx4"]
 
 [ext_resource type="Script" uid="uid://8doej2u6pt1f" path="res://menus/options_menu/OptionRange.gd" id="2"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="3"]
@@ -9,7 +9,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
-[node name="Control2" type="PanelContainer"]
+[node name="Control2" type="PanelContainer" unique_id=410978041]
 custom_minimum_size = Vector2(0, 64)
 anchors_preset = 10
 anchor_right = 1.0
@@ -19,21 +19,21 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hgdi3")
 script = ExtResource("2")
 
-[node name="OptionRange" type="PanelContainer" parent="."]
+[node name="OptionRange" type="PanelContainer" parent="." unique_id=1560966788]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("1")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OptionRange"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OptionRange" unique_id=1790241233]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OptionRange/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OptionRange/HBoxContainer" unique_id=997534501]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextLabel" type="Label" parent="OptionRange/HBoxContainer/HBoxContainer"]
+[node name="TextLabel" type="Label" parent="OptionRange/HBoxContainer/HBoxContainer" unique_id=806251481]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -43,27 +43,27 @@ text = "(NT)Boolean Option"
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Control" type="HBoxContainer" parent="OptionRange/HBoxContainer"]
+[node name="Control" type="HBoxContainer" parent="OptionRange/HBoxContainer" unique_id=1139146248]
 layout_mode = 2
 size_flags_horizontal = 10
 mouse_filter = 2
 alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OptionRange/HBoxContainer/Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OptionRange/HBoxContainer/Control" unique_id=1220792514]
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="MinimumArrow" type="Button" parent="OptionRange/HBoxContainer/Control/HBoxContainer"]
+[node name="MinimumArrow" type="Button" parent="OptionRange/HBoxContainer/Control/HBoxContainer" unique_id=1110383227]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-theme_override_colors/icon_hover_color = Color(0.969927, 0.539801, 0.864081, 1)
 theme_override_colors/icon_pressed_color = Color(0.928576, 0.215011, 0.796427, 1)
+theme_override_colors/icon_hover_color = Color(0.969927, 0.539801, 0.864081, 1)
 icon = ExtResource("3_3if5m")
 flat = true
 icon_alignment = 1
 
-[node name="OptionLabel" type="Label" parent="OptionRange/HBoxContainer/Control/HBoxContainer"]
+[node name="OptionLabel" type="Label" parent="OptionRange/HBoxContainer/Control/HBoxContainer" unique_id=2031503435]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -73,16 +73,16 @@ text = "-1300"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="MaximumArrow" type="Button" parent="OptionRange/HBoxContainer/Control/HBoxContainer"]
+[node name="MaximumArrow" type="Button" parent="OptionRange/HBoxContainer/Control/HBoxContainer" unique_id=1171352458]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-theme_override_colors/icon_hover_color = Color(0.968627, 0.541176, 0.862745, 1)
 theme_override_colors/icon_pressed_color = Color(0.929412, 0.215686, 0.796078, 1)
+theme_override_colors/icon_hover_color = Color(0.968627, 0.541176, 0.862745, 1)
 icon = ExtResource("4_0g6xl")
 icon_alignment = 1
 
-[node name="Slider" type="HSlider" parent="OptionRange/HBoxContainer/Control"]
+[node name="Slider" type="HSlider" parent="OptionRange/HBoxContainer/Control" unique_id=616989701]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(550, 0)
 layout_mode = 2

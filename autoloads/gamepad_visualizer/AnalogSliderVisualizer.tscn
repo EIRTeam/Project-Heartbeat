@@ -1,13 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://b5xs4hg0md3eu"]
 
-[ext_resource path="res://autoloads/gamepad_visualizer/AnalogSliderVisualizer.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://d1fvs6dr4hb7m" path="res://autoloads/gamepad_visualizer/AnalogSliderVisualizer.gd" id="1"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0, 0, 0.5 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0, 0, 0, 0.5)
 
-[node name="Panel" type="Panel"]
+[node name="Panel" type="Panel" unique_id=950464715]
+custom_minimum_size = Vector2(80, 10)
 offset_right = 80.0
 offset_bottom = 10.0
-custom_minimum_size = Vector2( 80, 10 )
-theme_override_styles/panel = SubResource( 1 )
-script = ExtResource( 1 )
+theme_override_styles/panel = SubResource("1")
+script = ExtResource("1")

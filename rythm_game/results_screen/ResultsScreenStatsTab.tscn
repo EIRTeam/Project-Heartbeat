@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2jbwx0x8npi3"]
+[gd_scene format=3 uid="uid://b2jbwx0x8npi3"]
 
 [ext_resource type="Script" uid="uid://bhwctjliu0v7y" path="res://rythm_game/results_screen/ResultsScreenStatsTab.gd" id="1_0mcp1"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="2_4fk1h"]
@@ -11,7 +11,7 @@ font_size = 24
 [sub_resource type="LabelSettings" id="LabelSettings_t3xkf"]
 font_size = 24
 
-[node name="ResultsScreenStatsTab" type="Control"]
+[node name="ResultsScreenStatsTab" type="Control" unique_id=1919289329]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0mcp1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=460016443]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,26 +28,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer"]
+[node name="Panel2" type="HBPanelContainerBlurEX" parent="VBoxContainer" unique_id=1203513442]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 theme_override_styles/panel = ExtResource("2_4fk1h")
 
-[node name="StatsOffsetChart" type="Control" parent="VBoxContainer/Panel2"]
+[node name="StatsOffsetChart" type="Control" parent="VBoxContainer/Panel2" unique_id=370127264]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("3_yxerj")
 
-[node name="Label" type="Label" parent="VBoxContainer/Panel2/StatsOffsetChart"]
+[node name="Label" type="Label" parent="VBoxContainer/Panel2/StatsOffsetChart" unique_id=617673810]
 layout_mode = 0
 offset_right = 9.0
 offset_bottom = 52.0
 text = "Early (-128 ms)"
 label_settings = SubResource("LabelSettings_ch822")
 
-[node name="Label2" type="Label" parent="VBoxContainer/Panel2/StatsOffsetChart"]
+[node name="Label2" type="Label" parent="VBoxContainer/Panel2/StatsOffsetChart" unique_id=1812442932]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -59,17 +59,17 @@ text = "Late (128 ms)"
 label_settings = SubResource("LabelSettings_ch822")
 vertical_alignment = 2
 
-[node name="Panel3" type="HBPanelContainerBlurEX" parent="VBoxContainer"]
+[node name="Panel3" type="HBPanelContainerBlurEX" parent="VBoxContainer" unique_id=940016625]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("2_4fk1h")
 
-[node name="StatsHistogram" type="Control" parent="VBoxContainer/Panel3"]
+[node name="StatsHistogram" type="Control" parent="VBoxContainer/Panel3" unique_id=606886107]
 unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("4_2emqr")
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Panel3/StatsHistogram"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Panel3/StatsHistogram" unique_id=1524096216]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -81,100 +81,100 @@ offset_bottom = 128.0
 grow_horizontal = 0
 theme_override_styles/panel = ExtResource("2_4fk1h")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer" unique_id=921789758]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer" unique_id=1546484244]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer" unique_id=941209490]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1099756435]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=2038358780]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=682042868]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="ColorRect3" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=1507957118]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="MeanLabel" type="Label" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="MeanLabel" type="Label" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1690993835]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 text = "Mean"
 label_settings = SubResource("LabelSettings_t3xkf")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer" unique_id=386812360]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=986238875]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=332736499]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(0, 1, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer"]
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=1673509830]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(0, 1, 0, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer"]
+[node name="ColorRect3" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=1699703706]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(0, 1, 0, 1)
 
-[node name="MedianLabel" type="Label" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="MedianLabel" type="Label" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1106793737]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 text = "Median"
 label_settings = SubResource("LabelSettings_t3xkf")
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer" unique_id=2102714663]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1558387286]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer" unique_id=316023962]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(0.627, 0.125, 0.941, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer" unique_id=424685836]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(0.627, 0.125, 0.941, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
+[node name="ColorRect3" type="ColorRect" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer" unique_id=1050443974]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 color = Color(0.627, 0.125, 0.941, 1)
 
-[node name="StdDevLabel" type="Label" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="StdDevLabel" type="Label" parent="VBoxContainer/Panel3/StatsHistogram/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1622521588]
 unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2

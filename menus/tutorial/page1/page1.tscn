@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://buyfrsi5g01dd"]
+[gd_scene format=3 uid="uid://buyfrsi5g01dd"]
 
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="1"]
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://dflywc0pf4cen" path="res://menus/chart_feature_previews/normal_note.png" id="2_5pa2q"]
 [ext_resource type="Texture2D" uid="uid://cseoj54gndbx8" path="res://menus/chart_feature_previews/slide_note.png" id="3_a1m0n"]
 
-[node name="MarginContainer" type="MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" unique_id=2069537029]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,47 +14,47 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1567434229]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=547401372]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1")
 text = "How to play: Normal notes"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=502022280]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1620825924]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=2144488097]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("2_5pa2q")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1497085433]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_a1m0n")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1041382017]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1526765992]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2" unique_id=238354348]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("2")
@@ -67,64 +67,64 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2" unique_id=1293020220]
 layout_mode = 2
 alignment = 1
 
-[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=1404789704]
 layout_mode = 2
 action_text = ""
 action_name = &"note_up"
 
-[node name="InputGlyphRect2" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="InputGlyphRect2" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=1180056144]
 layout_mode = 2
 action_text = ""
 action_name = &"note_left"
 
-[node name="InputGlyphRect3" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="InputGlyphRect3" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=1464530662]
 layout_mode = 2
 action_text = ""
 action_name = &"note_down"
 
-[node name="InputGlyphRect4" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="InputGlyphRect4" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=1405948372]
 layout_mode = 2
 action_text = ""
 action_name = &"note_right"
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=2083608499]
 layout_mode = 2
 text = "or"
 
-[node name="InputGlyphRect5" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="InputGlyphRect5" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=383028632]
 layout_mode = 2
 action_text = ""
 action_name = &"note_up"
 action_skip_count = 1
 
-[node name="InputGlyphRect6" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="InputGlyphRect6" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=108006185]
 layout_mode = 2
 action_text = ""
 action_name = &"note_left"
 action_skip_count = 1
 
-[node name="InputGlyphRect7" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="InputGlyphRect7" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=884806986]
 layout_mode = 2
 action_text = ""
 action_name = &"note_down"
 action_skip_count = 1
 
-[node name="InputGlyphRect8" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer"]
+[node name="InputGlyphRect8" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=1318314453]
 layout_mode = 2
 action_text = ""
 action_name = &"note_right"
 action_skip_count = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=468045025]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" unique_id=602643755]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("2")
@@ -133,31 +133,31 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" unique_id=392880010]
 layout_mode = 2
 alignment = 1
 
-[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2" unique_id=317602511]
 layout_mode = 2
 action_text = ""
 action_name = &"slide_left"
 
-[node name="InputGlyphRect2" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="InputGlyphRect2" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2" unique_id=1721700719]
 layout_mode = 2
 action_text = ""
 action_name = &"slide_right"
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2" unique_id=1662503778]
 layout_mode = 2
 text = "or"
 
-[node name="InputGlyphRect3" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="InputGlyphRect3" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2" unique_id=1433802349]
 layout_mode = 2
 action_text = ""
 action_name = &"slide_left"
 action_skip_count = 1
 
-[node name="InputGlyphRect4" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="InputGlyphRect4" type="InputGlyphRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2" unique_id=1081945424]
 layout_mode = 2
 action_text = ""
 action_name = &"slide_right"

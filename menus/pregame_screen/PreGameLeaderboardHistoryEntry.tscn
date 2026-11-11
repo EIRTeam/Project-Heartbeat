@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bj3tiwnqie15n"]
+[gd_scene format=3 uid="uid://bj3tiwnqie15n"]
 
 [ext_resource type="StyleBox" uid="uid://btifk3vr00fwd" path="res://styles/ResultRatingStyleEven.tres" id="1_1kq0a"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1_vx2hw"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://bfw8keld6wsmp" path="res://menus/HBSimpleMenu.gd" id="4_ntul7"]
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="5_glo25"]
 
-[node name="PreGameLeaderboardRank" type="PanelContainer"]
+[node name="PreGameLeaderboardRank" type="PanelContainer" unique_id=2073884263]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,32 +17,32 @@ theme = ExtResource("1_vx2hw")
 theme_override_styles/panel = ExtResource("1_1kq0a")
 script = ExtResource("1_xqhus")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1234759686]
 layout_mode = 2
 theme_override_constants/margin_top = 7
 theme_override_constants/margin_bottom = 7
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=943770444]
 layout_mode = 2
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/HBoxContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/HBoxContainer" unique_id=221451184]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 stretch_mode = 1
 
-[node name="RatingRect" type="TextureRect" parent="MarginContainer/HBoxContainer/AspectRatioContainer"]
+[node name="RatingRect" type="TextureRect" parent="MarginContainer/HBoxContainer/AspectRatioContainer" unique_id=128948872]
 unique_name_in_owner = true
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 3
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1695756701]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 horizontal_alignment = 1
 
-[node name="DiffLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="DiffLabel" type="Label" parent="MarginContainer/HBoxContainer" unique_id=160370297]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
@@ -50,13 +50,13 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 horizontal_alignment = 2
 
-[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=2040720468]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 script = ExtResource("4_ntul7")
 
-[node name="OpenScoreInBrowserButton" type="Button" parent="MarginContainer/HBoxContainer/ButtonContainer"]
+[node name="OpenScoreInBrowserButton" type="Button" parent="MarginContainer/HBoxContainer/ButtonContainer" unique_id=1803422395]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"GameButton"

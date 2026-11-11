@@ -1,22 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvtvu8k1p2fbh"]
+[gd_scene format=3 uid="uid://bvtvu8k1p2fbh"]
 
-[ext_resource type="Script" path="res://rythm_game/SlideHoldScoreText.gd" id="1"]
+[ext_resource type="Script" uid="uid://bl0d12i3t0hk0" path="res://rythm_game/SlideHoldScoreText.gd" id="1"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="2_mh82p"]
 
-[node name="SlideHoldScoreText" type="Control"]
+[node name="SlideHoldScoreText" type="Control" unique_id=182977214]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 389.0
 offset_bottom = 40.0
 script = ExtResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=207133735]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="MaxScoreLabel" type="Label" parent="VBoxContainer"]
+[node name="MaxScoreLabel" type="Label" parent="VBoxContainer" unique_id=699256775]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.72549, 0, 1)
@@ -26,7 +26,7 @@ text = "MAX SCORE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="VBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="VBoxContainer" unique_id=540243477]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_mh82p")

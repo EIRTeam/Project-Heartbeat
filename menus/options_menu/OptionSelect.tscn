@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://vifl4em7htra"]
+[gd_scene format=3 uid="uid://vifl4em7htra"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="2"]
 [ext_resource type="Script" uid="uid://bsxujnntb8q3r" path="res://menus/options_menu/OptionSelect.gd" id="3"]
@@ -25,7 +25,7 @@ shadow_color = Color(0, 0, 0, 0)
 shadow_size = 10
 anti_aliasing_size = 2.0
 
-[node name="Control3" type="PanelContainer"]
+[node name="Control3" type="PanelContainer" unique_id=850614770]
 custom_minimum_size = Vector2(0, 72)
 anchors_preset = 10
 anchor_right = 1.0
@@ -34,11 +34,11 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("1")
 script = ExtResource("3")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1975413301]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1310707133]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
@@ -46,11 +46,11 @@ theme_override_fonts/font = ExtResource("2")
 text = "(NT)Boolean Option"
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=1116434735]
 layout_mode = 2
 alignment = 2
 
-[node name="OptionButton" parent="HBoxContainer/HBoxContainer" instance=ExtResource("5")]
+[node name="OptionButton" parent="HBoxContainer/HBoxContainer" unique_id=1194726860 instance=ExtResource("5")]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_vertical = 4

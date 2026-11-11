@@ -1,16 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://b5jfxpr0tscsc"]
+[gd_scene format=3 uid="uid://b5jfxpr0tscsc"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionMenuButton.gd" id="2"]
+[ext_resource type="Script" uid="uid://b425c67rmdr6" path="res://menus/options_menu/OptionMenuButton.gd" id="2"]
 [ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="3"]
 [ext_resource type="StyleBox" uid="uid://sc2ff1paxrhx" path="res://styles/OptionButtonHover.tres" id="4"]
 
-[node name="Controls" type="Button"]
+[node name="Controls" type="Button" unique_id=1318825052]
 custom_minimum_size = Vector2(0, 64)
 offset_right = 217.0
 offset_bottom = 81.0
 theme_override_fonts/font = ExtResource("1")
-theme_override_styles/hover = ExtResource("4")
 theme_override_styles/normal = ExtResource("3")
+theme_override_styles/hover = ExtResource("4")
 text = "(NT)Controls"
 script = ExtResource("2")

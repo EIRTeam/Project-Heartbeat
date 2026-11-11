@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cirrqo7iy3t7a"]
+[gd_scene format=3 uid="uid://cirrqo7iy3t7a"]
 
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionSoundSelectDropdown.gd" id="3"]
+[ext_resource type="Script" uid="uid://cr6wcxlxghdru" path="res://menus/options_menu/OptionSoundSelectDropdown.gd" id="3"]
 
 [sub_resource type="GDScript" id="4"]
 script/source = "extends HBUniversalScrollList
@@ -15,7 +15,7 @@ func _gui_input(event: InputEvent):
 		emit_signal(\"back\")
 "
 
-[node name="Panel" type="Panel"]
+[node name="Panel" type="Panel" unique_id=812928517]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,7 +23,7 @@ focus_mode = 2
 theme_override_styles/panel = ExtResource("1")
 script = ExtResource("3")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1965812934]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,7 +32,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Control" type="ScrollContainer" parent="MarginContainer"]
+[node name="Control" type="ScrollContainer" parent="MarginContainer" unique_id=1722225948]
 layout_mode = 2
 focus_mode = 2
 script = SubResource("4")
@@ -41,7 +41,7 @@ horizontal_step = 0
 enable_wrap_around = true
 scroll_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Control" unique_id=1884407370]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

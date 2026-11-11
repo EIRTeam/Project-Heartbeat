@@ -1,13 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://cubtw5u6jiuth"]
+[gd_scene format=3 uid="uid://cubtw5u6jiuth"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]
-[ext_resource type="Script" path="res://tools/editor/EditorRhythmGamePopup.gd" id="3"]
+[ext_resource type="Script" uid="uid://dq7pklg4gm5u8" path="res://tools/editor/EditorRhythmGamePopup.gd" id="3"]
 [ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="4"]
 [ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="5"]
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="6"]
-[ext_resource type="Script" path="res://rythm_game/VideoPlayerOffset.gd" id="7"]
-[ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="8"]
+[ext_resource type="Script" uid="uid://bktl5vdwskklo" path="res://rythm_game/VideoPlayerOffset.gd" id="7"]
+[ext_resource type="Script" uid="uid://xyqqpxe7hfx2" path="res://rythm_game/SongBackground.gd" id="8"]
 
 [sub_resource type="StyleBoxFlat" id="3"]
 bg_color = Color(0, 0, 0, 1)
@@ -20,18 +20,27 @@ fallbacks = Array[Font]([ExtResource("4"), ExtResource("4")])
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
-cache/0/14/0/ascent = 0.0
-cache/0/14/0/descent = 0.0
-cache/0/14/0/underline_position = 0.0
-cache/0/14/0/underline_thickness = 0.0
-cache/0/14/0/scale = 1.0
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
 cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
+cache/0/14/0/ascent = 0.0
+cache/0/14/0/descent = 0.0
+cache/0/14/0/underline_position = 0.0
+cache/0/14/0/underline_thickness = 0.0
+cache/0/14/0/scale = 1.0
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1319429552]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,10 +51,10 @@ pivot_offset = Vector2(-982.881, -511.008)
 theme = ExtResource("1")
 script = ExtResource("3")
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Node2D" type="Node2D" parent="." unique_id=465072001]
 z_index = -100
 
-[node name="BackgroundTextureRect" type="TextureRect" parent="Node2D"]
+[node name="BackgroundTextureRect" type="TextureRect" parent="Node2D" unique_id=2098043431]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,16 +67,16 @@ expand_mode = 1
 stretch_mode = 6
 script = ExtResource("8")
 
-[node name="VideoPlayerPanel" type="Panel" parent="Node2D"]
+[node name="VideoPlayerPanel" type="Panel" parent="Node2D" unique_id=200710885]
 unique_name_in_owner = true
 offset_right = 1280.0
 offset_bottom = 720.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("3")
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Node2D/VideoPlayerPanel"]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Node2D/VideoPlayerPanel" unique_id=1496827261]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
 offset_left = 280.0
 offset_right = 1000.0
 offset_bottom = 720.0
@@ -77,7 +86,7 @@ autoplay = true
 expand = true
 script = ExtResource("7")
 
-[node name="Visualizer" parent="Node2D" instance=ExtResource("6")]
+[node name="Visualizer" parent="Node2D" unique_id=1589485419 instance=ExtResource("6")]
 unique_name_in_owner = true
 process_mode = 1
 offset_right = 1280.0
@@ -85,11 +94,11 @@ offset_bottom = 720.0
 mouse_filter = 2
 ingame = true
 
-[node name="RhythmGame" parent="." instance=ExtResource("2")]
+[node name="RhythmGame" parent="." unique_id=635860319 instance=ExtResource("2")]
 layout_mode = 1
 theme = SubResource("2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=713862246]
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
@@ -98,34 +107,34 @@ offset_top = 29.0
 offset_right = -20.8333
 offset_bottom = 54.0
 
-[node name="AutoplayCheckbox" type="CheckBox" parent="HBoxContainer"]
+[node name="AutoplayCheckbox" type="CheckBox" parent="HBoxContainer" unique_id=1786625638]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Autoplay"
 
-[node name="RestartButton" type="Button" parent="HBoxContainer"]
+[node name="RestartButton" type="Button" parent="HBoxContainer" unique_id=1807579049]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Restart"
 
-[node name="QuitButton" type="Button" parent="HBoxContainer"]
+[node name="QuitButton" type="Button" parent="HBoxContainer" unique_id=229536334]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Quit"
 
-[node name="ExtraUI" type="MarginContainer" parent="."]
+[node name="ExtraUI" type="MarginContainer" parent="." unique_id=581842945]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_constants/margin_right = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ExtraUI"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ExtraUI" unique_id=1248260063]
 layout_mode = 2
 mouse_filter = 2
 alignment = 2
 
-[node name="StatsLabel" type="Label" parent="ExtraUI/HBoxContainer"]
+[node name="StatsLabel" type="Label" parent="ExtraUI/HBoxContainer" unique_id=1936550111]
 layout_mode = 2
 theme_override_fonts/font = SubResource("1")
 text = "asdad"

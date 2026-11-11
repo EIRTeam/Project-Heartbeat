@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cf2jxkpomwvf3"]
+[gd_scene format=3 uid="uid://cf2jxkpomwvf3"]
 
 [ext_resource type="Script" uid="uid://xyqqpxe7hfx2" path="res://rythm_game/SongBackground.gd" id="1"]
 [ext_resource type="Script" uid="uid://b2akvshq6vr3n" path="res://rythm_game/rhythm_game_controller.gd" id="2"]
@@ -123,7 +123,7 @@ _data = {
 
 [sub_resource type="Environment" id="7"]
 
-[node name="RhythmGame" type="Control"]
+[node name="RhythmGame" type="Control" unique_id=634489278]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -133,10 +133,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2")
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Node2D" type="Node2D" parent="." unique_id=405619719]
 z_index = -100
 
-[node name="TextureRect" type="TextureRect" parent="Node2D"]
+[node name="TextureRect" type="TextureRect" parent="Node2D" unique_id=1793258865]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -149,12 +149,12 @@ expand_mode = 1
 stretch_mode = 6
 script = ExtResource("1")
 
-[node name="Panel" type="Panel" parent="Node2D"]
+[node name="Panel" type="Panel" parent="Node2D" unique_id=220211241]
 offset_right = 1280.0
 offset_bottom = 720.0
 theme_override_styles/panel = SubResource("1")
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Node2D/Panel"]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Node2D/Panel" unique_id=1375297566]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -163,22 +163,22 @@ autoplay = true
 expand = true
 script = ExtResource("10")
 
-[node name="Visualizer" parent="Node2D" instance=ExtResource("4")]
+[node name="Visualizer" parent="Node2D" unique_id=1722539913 instance=ExtResource("4")]
 process_mode = 1
 offset_right = 1280.0
 offset_bottom = 720.0
 ingame = true
 
-[node name="GameUIContainer" type="Control" parent="."]
+[node name="GameUIContainer" type="Control" parent="." unique_id=1843331590]
 process_mode = 1
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="FadeInThreen" type="Threen" parent="."]
+[node name="FadeInThreen" type="Threen" parent="." unique_id=725327274]
 process_mode = 1
 
-[node name="FadeIn" type="Panel" parent="."]
+[node name="FadeIn" type="Panel" parent="." unique_id=1553676937]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
@@ -186,7 +186,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("2")
 
-[node name="FadeToBlack" type="Panel" parent="."]
+[node name="FadeToBlack" type="Panel" parent="." unique_id=174588098]
 visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
@@ -195,34 +195,32 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("2")
 
-[node name="FadeOutThreen" type="Threen" parent="."]
+[node name="FadeOutThreen" type="Threen" parent="." unique_id=210785442]
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=982506417]
 auto_translate_mode = 2
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 14.0
 text = "asdsadsad"
 
-[node name="VHS" type="Panel" parent="."]
+[node name="VHS" type="Panel" parent="." unique_id=1052027988]
 visible = false
 material = SubResource("4")
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="RollbackLabel" type="Control" parent="."]
+[node name="RollbackLabel" type="Control" parent="." unique_id=349831962]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="RollbackLabel"]
-libraries = {
-&"": SubResource("AnimationLibrary_sj666")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RollbackLabel" unique_id=1369792451]
+libraries/ = SubResource("AnimationLibrary_sj666")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RollbackLabel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RollbackLabel" unique_id=2111356700]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -230,22 +228,22 @@ offset_top = -0.890869
 offset_bottom = -0.890869
 alignment = 1
 
-[node name="Label" type="Label" parent="RollbackLabel/VBoxContainer"]
+[node name="Label" type="Label" parent="RollbackLabel/VBoxContainer" unique_id=1926264624]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("7")
 text = "Rolling back!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="RollbackLabel/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="RollbackLabel/VBoxContainer" unique_id=634050697]
 layout_mode = 2
 texture = ExtResource("8")
 stretch_mode = 5
 
-[node name="PauseMenu" parent="." instance=ExtResource("3")]
+[node name="PauseMenu" parent="." unique_id=1838171116 instance=ExtResource("3")]
 layout_mode = 1
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1337830761]
 environment = SubResource("7")
 
 [connection signal="quit" from="PauseMenu" to="." method="_on_PauseMenu_quit"]

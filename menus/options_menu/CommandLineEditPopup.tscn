@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8hdyxlxgv30u"]
+[gd_scene format=3 uid="uid://c8hdyxlxgv30u"]
 
 [ext_resource type="Script" uid="uid://caato8evpw7v8" path="res://menus/options_menu/CommandLineEditPopup.gd" id="1_0lkai"]
 [ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="1_ic304"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://bimygeaeyhuiv" path="res://menus/HBHovereableButton.gd" id="5_cro42"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="6_1o5bn"]
 
-[node name="CommandLineEditPopup" type="PanelContainer"]
+[node name="CommandLineEditPopup" type="PanelContainer" unique_id=2066824039]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -15,28 +15,28 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0lkai")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1476226144]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=793540779]
 layout_mode = 2
 
-[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="CenterContainer/VBoxContainer"]
+[node name="HBPanelContainerBlurEX" type="HBPanelContainerBlurEX" parent="CenterContainer/VBoxContainer" unique_id=1918745209]
 custom_minimum_size = Vector2(750, 500)
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_ic304")
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX" unique_id=490926830]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer" unique_id=698704207]
 layout_mode = 2
 
-[node name="LineContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer"]
+[node name="LineContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer" unique_id=1028425899]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -45,7 +45,7 @@ focus_mode = 2
 script = ExtResource("4_c3bwv")
 orientation = 1
 
-[node name="AddButtonContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer"]
+[node name="AddButtonContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer" unique_id=1855137118]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -54,24 +54,24 @@ focus_mode = 2
 script = ExtResource("4_c3bwv")
 orientation = 1
 
-[node name="AddButton" type="Button" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer/AddButtonContainer"]
+[node name="AddButton" type="Button" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer/AddButtonContainer" unique_id=519997960]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Add new"
 icon = ExtResource("2_0lkai")
 script = ExtResource("5_cro42")
-metadata/_custom_type_script = ExtResource("5_cro42")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"
 
-[node name="ApplyButton" type="Button" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer/AddButtonContainer"]
+[node name="ApplyButton" type="Button" parent="CenterContainer/VBoxContainer/HBPanelContainerBlurEX/MarginContainer/VBoxContainer/AddButtonContainer" unique_id=420506517]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Apply"
 script = ExtResource("5_cro42")
-metadata/_custom_type_script = ExtResource("5_cro42")
+metadata/_custom_type_script = "uid://bimygeaeyhuiv"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=39886664]
 
-[node name="CreateLinePopup" parent="CanvasLayer" instance=ExtResource("6_1o5bn")]
+[node name="CreateLinePopup" parent="CanvasLayer" unique_id=841968407 instance=ExtResource("6_1o5bn")]
 unique_name_in_owner = true
 anchors_preset = 0
 anchor_right = 0.0
@@ -83,7 +83,7 @@ offset_bottom = 1076.0
 text_input_description = "Please enter"
 text = "Enter the new line:"
 
-[node name="EditLinePopup" parent="CanvasLayer" instance=ExtResource("6_1o5bn")]
+[node name="EditLinePopup" parent="CanvasLayer" unique_id=1080887042 instance=ExtResource("6_1o5bn")]
 unique_name_in_owner = true
 anchors_preset = 0
 anchor_right = 0.0
@@ -92,4 +92,3 @@ offset_left = 6.0
 offset_top = 4.0
 offset_right = 1914.0
 offset_bottom = 1076.0
-text = ""

@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://y8fip840vfy3"]
+[gd_scene format=3 uid="uid://y8fip840vfy3"]
 
 [ext_resource type="Texture2D" uid="uid://cs0udkbeyyhkv" path="res://graphics/icons/undo-variant.svg" id="1"]
 [ext_resource type="FontVariation" uid="uid://ccdyv65ubusey" path="res://fonts/default_font_black.tres" id="3_ub516"]
-[ext_resource type="StyleBox" path="res://styles/SongListItemNormal.tres" id="4"]
-[ext_resource type="Script" path="res://menus/song_list/SongListFolderBack.gd" id="5"]
+[ext_resource type="StyleBox" uid="uid://3yhfuv7t5wgf" path="res://styles/SongListItemNormal.tres" id="4"]
+[ext_resource type="Script" uid="uid://cxv1x4slvfls3" path="res://menus/song_list/SongListFolderBack.gd" id="5"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.188235, 0.0745098, 0.301961, 0.501961)
@@ -14,7 +14,7 @@ corner_radius_top_right = 1024
 corner_radius_bottom_right = 5
 corner_detail = 1
 
-[node name="Control" type="MarginContainer"]
+[node name="Control" type="MarginContainer" unique_id=1305469366]
 custom_minimum_size = Vector2(0, 100)
 anchors_preset = 10
 anchor_right = 1.0
@@ -26,42 +26,42 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_bottom = 25
 script = ExtResource("5")
 
-[node name="Control" type="Button" parent="."]
+[node name="Control" type="Button" parent="." unique_id=1696380844]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 theme_override_constants/h_separation = 0
-theme_override_styles/hover = SubResource("1")
 theme_override_styles/normal = ExtResource("4")
+theme_override_styles/hover = SubResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=370303014]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_constants/margin_left = 62
 theme_override_constants/margin_top = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer" unique_id=527279213]
 layout_mode = 2
 theme_override_constants/separation = 7
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer" unique_id=33368025]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 7
 theme_override_constants/margin_bottom = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer" unique_id=823356495]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1361329074]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="FolderName" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="FolderName" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=714555596]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
@@ -69,7 +69,7 @@ theme_override_fonts/font = ExtResource("3_ub516")
 text = "Create new folder"
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=1635530874]
 custom_minimum_size = Vector2(175, 125)
 layout_mode = 0
 offset_left = -87.747

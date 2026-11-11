@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bbf5jr2js4svr"]
+[gd_scene format=3 uid="uid://bbf5jr2js4svr"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
 [ext_resource type="Script" uid="uid://b3imq7aht4x3k" path="res://tools/editor/EditorOpenChartPopup.gd" id="2"]
@@ -9,7 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://lhyypajs7taw" path="res://tools/editor/SongMetaDataEditor.tscn" id="6"]
 [ext_resource type="Script" uid="uid://buyyl1h56yijv" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="7"]
 
-[node name="Control2" type="ConfirmationDialog"]
+[node name="Control2" type="ConfirmationDialog" unique_id=1059503265]
+oversampling_override = 1.0
 title = ""
 position = Vector2i(0, 32)
 size = Vector2i(275, 316)
@@ -18,91 +19,91 @@ theme = ExtResource("1")
 dialog_hide_on_ok = false
 script = ExtResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=931720072]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 267.0
-offset_bottom = 268.0
+offset_right = -8.0
+offset_bottom = -48.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1601109917]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=652377]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1609735477]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SearchLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="SearchLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=830662862]
 layout_mode = 2
 placeholder_text = "Search..."
 script = ExtResource("7")
 
-[node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=2030840528]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 hide_root = true
 
-[node name="VBoxContainerSong" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainerSong" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1577663237]
 layout_mode = 2
 
-[node name="NewSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="NewSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=774863335]
 layout_mode = 2
 text = "New song"
 
-[node name="VerifySongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="VerifySongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=260687584]
 layout_mode = 2
 text = "Verify Song"
 
-[node name="EditDataButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="EditDataButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=197870262]
 layout_mode = 2
 text = "Edit song data"
 
-[node name="MigrateButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="MigrateButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=1050132502]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Migrate song"
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=1451112624]
 layout_mode = 2
 
-[node name="AddDifficultyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="AddDifficultyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=115213033]
 layout_mode = 2
 text = "Add chart"
 
-[node name="DeleteChartButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="DeleteChartButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=851109552]
 layout_mode = 2
 text = "Remove chart"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=421656797]
 layout_mode = 2
 
-[node name="UploadToWorkshopButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+[node name="UploadToWorkshopButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong" unique_id=475017198]
 layout_mode = 2
 text = "Upload to workshop"
 
-[node name="CreateSongDialog" parent="." instance=ExtResource("4_034tf")]
+[node name="CreateSongDialog" parent="." unique_id=1102516360 instance=ExtResource("4_034tf")]
 size = Vector2i(550, 330)
 visible = false
 
-[node name="AcceptDialog" type="AcceptDialog" parent="."]
+[node name="AcceptDialog" type="AcceptDialog" parent="." unique_id=974186377]
 size = Vector2i(100, 429)
 dialog_text = "You must add an audio track to your song before editing, you can do this from \\\"Edit song data\\\"."
 dialog_autowrap = true
 
-[node name="SongMetaEditorDialog" type="ConfirmationDialog" parent="."]
+[node name="SongMetaEditorDialog" type="ConfirmationDialog" parent="." unique_id=600578202]
 
-[node name="SongMetaEditor" parent="SongMetaEditorDialog" instance=ExtResource("6")]
+[node name="SongMetaEditor" parent="SongMetaEditorDialog" unique_id=1033960581 instance=ExtResource("6")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -111,20 +112,20 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -41.0
 
-[node name="CreateDifficultyDialog" parent="." instance=ExtResource("4")]
+[node name="CreateDifficultyDialog" parent="." unique_id=1181155003 instance=ExtResource("4")]
 size = Vector2i(280, 314)
 visible = false
 
-[node name="DeleteConfirmationDialog" type="ConfirmationDialog" parent="."]
+[node name="DeleteConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=998601462]
 size = Vector2i(345, 132)
 dialog_text = "Are you sure you want to delete this chart?"
 
-[node name="SongVerificationPopup" parent="." instance=ExtResource("5")]
+[node name="SongVerificationPopup" parent="." unique_id=1515680926 instance=ExtResource("5")]
 visible = false
 
-[node name="WorkshopUploadDialog" parent="." instance=ExtResource("3")]
+[node name="WorkshopUploadDialog" parent="." unique_id=441613112 instance=ExtResource("3")]
 visible = false
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=991796959]
 
 [connection signal="confirmed" from="SongMetaEditorDialog" to="." method="_on_SongMetaEditorDialog_confirmed"]

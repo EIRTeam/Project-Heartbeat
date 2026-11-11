@@ -1,33 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://cn2oiulah57m5"]
+[gd_scene format=3 uid="uid://cn2oiulah57m5"]
 
 [ext_resource type="FontVariation" uid="uid://weeyd75f2ma7" path="res://fonts/default_font_medium.tres" id="1"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionControlsSectionAction.gd" id="2"]
+[ext_resource type="Script" uid="uid://dbmkgmxthvndy" path="res://menus/options_menu/OptionControlsSectionAction.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://c7gmr1hjpw2lt" path="res://graphics/icons/icon_add_big.svg" id="3"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.270588, 0.105882, 0.431373, 0.501961)
 
-[node name="Control" type="Panel"]
+[node name="Control" type="Panel" unique_id=2075620817]
 custom_minimum_size = Vector2(0, 64)
 anchors_preset = 10
 anchor_right = 1.0
 theme_override_styles/panel = SubResource("1")
 script = ExtResource("2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1287194873]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_right = -20.0
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=2079443950]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1176851447]
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")
@@ -35,16 +35,16 @@ text = "(NT)Action Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=1080047706]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
-[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer"]
+[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer" unique_id=1060425854]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/HBoxContainer/Panel"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/HBoxContainer/Panel" unique_id=635982578]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0

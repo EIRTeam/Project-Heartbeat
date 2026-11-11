@@ -1,85 +1,85 @@
-[gd_scene load_steps=8 format=3 uid="uid://bwkytn46g5yt3"]
+[gd_scene format=3 uid="uid://bwkytn46g5yt3"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1_7ylft"]
 [ext_resource type="Script" uid="uid://bm0wuxmf4rhe" path="res://tools/youtube_dl_downloader_ui/YoutubeDLDownloaderUI.gd" id="1_tmh5l"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="2_1xsl0"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tmh5l"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ylft"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1xsl0"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ylft"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tmh5l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ylft"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="YoutubeDlDownloaderUi" type="PanelContainer"]
+[node name="YoutubeDlDownloaderUi" type="PanelContainer" unique_id=31764421]
 offset_right = 1112.0
 offset_bottom = 966.0
 theme = ExtResource("1_7ylft")
 script = ExtResource("1_tmh5l")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2077738459]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=1752948958]
 layout_mode = 2
 
-[node name="URLLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
+[node name="URLLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer2" unique_id=1179074169]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Video URL"
 
-[node name="DownloadCombinedButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="DownloadCombinedButton" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=2047787835]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Download video + audio"
 icon = ExtResource("2_1xsl0")
 
-[node name="DownloadAudioButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="DownloadAudioButton" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=1688858578]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Download audio"
 icon = ExtResource("2_1xsl0")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2107206077]
 layout_mode = 2
 
-[node name="UseConfiguredCommandLineArgumentsCheckbox" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+[node name="UseConfiguredCommandLineArgumentsCheckbox" type="CheckBox" parent="VBoxContainer/HBoxContainer" unique_id=111707648]
 unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 text = "Use custom command line arguments (from options)"
 
-[node name="Label" type="RichTextLabel" parent="VBoxContainer"]
+[node name="Label" type="RichTextLabel" parent="VBoxContainer" unique_id=60825933]
 layout_mode = 2
-theme_override_styles/fill = SubResource("StyleBoxEmpty_tmh5l")
-theme_override_styles/background = SubResource("StyleBoxEmpty_1xsl0")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_7ylft")
+theme_override_styles/background = SubResource("StyleBoxEmpty_1xsl0")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_tmh5l")
 bbcode_enabled = true
 text = "[color=yellow]NOTE:[/color] Saved extension may be different"
 fit_content = true
 
-[node name="ConsoleText" type="RichTextLabel" parent="VBoxContainer"]
+[node name="ConsoleText" type="RichTextLabel" parent="VBoxContainer" unique_id=323099440]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_7ylft")
 scroll_following = true
 
-[node name="SaveCombinedFileDialog" type="FileDialog" parent="."]
+[node name="SaveCombinedFileDialog" type="FileDialog" parent="." unique_id=503512335]
 unique_name_in_owner = true
 access = 2
 filters = PackedStringArray("*.mp4;MP4 File")
 
-[node name="SaveAudioFileDialog" type="FileDialog" parent="."]
+[node name="SaveAudioFileDialog" type="FileDialog" parent="." unique_id=77909982]
 unique_name_in_owner = true
 auto_translate_mode = 1
 access = 2
 filters = PackedStringArray("*.ogg;OGG File")
 
-[node name="SuccessDialog" type="AcceptDialog" parent="."]
+[node name="SuccessDialog" type="AcceptDialog" parent="." unique_id=545754760]
 unique_name_in_owner = true
 title = ""
 dialog_text = "Saved media succesfully!

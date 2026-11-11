@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://3yxayegc4i16"]
+[gd_scene format=3 uid="uid://3yxayegc4i16"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -8,7 +8,7 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0, 0, 0, 0.627451)
 
-[node name="EditorTimelinePreview" type="Panel"]
+[node name="EditorTimelinePreview" type="Panel" unique_id=1662145241]
 custom_minimum_size = Vector2(0, 35)
 offset_right = 219.0
 offset_bottom = 35.0

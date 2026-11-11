@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://c0p0ql3vtldti"]
+[gd_scene format=4 uid="uid://c0p0ql3vtldti"]
 
 [ext_resource type="FontVariation" uid="uid://dhadcv8aq5u14" path="res://fonts/noto/NotoSans-Regular.tres" id="2"]
 [ext_resource type="Script" uid="uid://t0saprqonnka" path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" id="4"]
@@ -66,6 +66,15 @@ font_weight = 900
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 15.0
 cache/0/16/0/descent = 4.0
 cache/0/16/0/underline_position = 1.5625
@@ -132,6 +141,15 @@ fallbacks = Array[Font]([SubResource("13"), ExtResource("2")])
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -158,7 +176,7 @@ gradient = SubResource("17")
 texture = SubResource("18")
 region_rect = Rect2(0, 0, 64, 1)
 
-[node name="Node2D" type="Control"]
+[node name="Node2D" type="Control" unique_id=574112553]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -167,9 +185,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("10")
 
-[node name="AboveNotesUI" type="Node2D" parent="."]
+[node name="AboveNotesUI" type="Node2D" parent="." unique_id=1702304663]
 
-[node name="Control" type="Control" parent="AboveNotesUI"]
+[node name="Control" type="Control" parent="AboveNotesUI" unique_id=117393693]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,16 +196,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="SlideHoldScoreText" parent="AboveNotesUI/Control" instance=ExtResource("31")]
+[node name="SlideHoldScoreText" parent="AboveNotesUI/Control" unique_id=1225564423 instance=ExtResource("31")]
+layout_mode = 0
 offset_left = 202.697
 offset_top = 329.212
 offset_right = 591.697
 offset_bottom = 369.212
 
-[node name="UnderNotesUI" type="Node2D" parent="."]
+[node name="UnderNotesUI" type="Node2D" parent="." unique_id=31632445]
 z_index = -50
 
-[node name="Control" type="Control" parent="UnderNotesUI"]
+[node name="Control" type="Control" parent="UnderNotesUI" unique_id=376271298]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -198,7 +217,7 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="UnderNotesUI/Control"]
+[node name="Label" type="Label" parent="UnderNotesUI/Control" unique_id=1515375040]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 anchor_left = 0.5
@@ -212,20 +231,18 @@ offset_bottom = 23.5
 theme_override_fonts/font = ExtResource("5")
 text = "Fast forward!"
 
-[node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label"]
-libraries = {
-&"": SubResource("AnimationLibrary_uuc0j")
-}
+[node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label" unique_id=240309311]
+libraries/ = SubResource("AnimationLibrary_uuc0j")
 
-[node name="UserUI" type="Control" parent="UnderNotesUI/Control"]
+[node name="UserUI" type="Control" parent="UnderNotesUI/Control" unique_id=1269655426]
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Lyrics" type="Node2D" parent="."]
+[node name="Lyrics" type="Node2D" parent="." unique_id=1331446393]
 z_index = -2
 
-[node name="Control" type="Control" parent="Lyrics"]
+[node name="Control" type="Control" parent="Lyrics" unique_id=318017901]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -237,7 +254,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="LyricsView" parent="Lyrics/Control" instance=ExtResource("34")]
+[node name="LyricsView" parent="Lyrics/Control" unique_id=1351265912 instance=ExtResource("34")]
 layout_mode = 0
 anchor_left = 0.05
 anchor_top = 0.15
@@ -248,32 +265,32 @@ offset_right = 0.00012207
 offset_bottom = 0.0
 theme_override_fonts/font = SubResource("FontFile_higiy")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=1397080680]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 ratio = 1.7778
 
-[node name="Control" type="Control" parent="AspectRatioContainer"]
+[node name="Control" type="Control" parent="AspectRatioContainer" unique_id=1660720269]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="GameLayer" type="Node2D" parent="AspectRatioContainer/Control"]
+[node name="GameLayer" type="Node2D" parent="AspectRatioContainer/Control" unique_id=1651072365]
 unique_name_in_owner = true
 show_behind_parent = true
 position = Vector2(0, 1)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1701891738]
 
-[node name="DebugLabel" type="Label" parent="CanvasLayer"]
+[node name="DebugLabel" type="Label" parent="CanvasLayer" unique_id=387176394]
 auto_translate_mode = 2
 visible = false
 offset_right = 40.0
 offset_bottom = 14.0
 text = "(NT)esss"
 
-[node name="JudgementLabel" type="Control" parent="."]
+[node name="JudgementLabel" type="Control" parent="." unique_id=969567224]
 unique_name_in_owner = true
 anchors_preset = 0
 offset_left = 598.0
@@ -282,37 +299,37 @@ offset_right = 944.0
 offset_bottom = 113.0
 script = ExtResource("26")
 
-[node name="UserUI" type="Control" parent="."]
+[node name="UserUI" type="Control" parent="." unique_id=1464065367]
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -0.735077
 offset_bottom = -0.735107
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=642554441]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=2100889089]
 layer = 128
 
-[node name="GameOverMessage" type="VBoxContainer" parent="CanvasLayer2"]
+[node name="GameOverMessage" type="VBoxContainer" parent="CanvasLayer2" unique_id=1992260050]
 auto_translate_mode = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 alignment = 1
 
-[node name="Panel" type="PanelContainer" parent="CanvasLayer2/GameOverMessage"]
+[node name="Panel" type="PanelContainer" parent="CanvasLayer2/GameOverMessage" unique_id=1274195982]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_styles/panel = SubResource("19")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2/GameOverMessage/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2/GameOverMessage/Panel" unique_id=1137041169]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
@@ -321,22 +338,22 @@ mouse_filter = 2
 theme_override_constants/margin_top = 100
 theme_override_constants/margin_bottom = 100
 
-[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer" unique_id=1874953597]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Control" type="Control" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer" unique_id=1523197832]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_stretch_ratio = 0.3
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer/Control"]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer/Control" unique_id=2000306506]
 texture = ExtResource("7")
 
-[node name="Label" type="Label" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer" unique_id=36477474]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
@@ -347,7 +364,7 @@ REASON: FAILURE TO PRESS MISSION-CRITICAL BUTTONS"
 vertical_alignment = 1
 script = ExtResource("4")
 
-[node name="GameOverTurnOff" type="Control" parent="CanvasLayer2"]
+[node name="GameOverTurnOff" type="Control" parent="CanvasLayer2" unique_id=892390586]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -357,39 +374,39 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="GameOverTurnOffTop" type="VBoxContainer" parent="CanvasLayer2/GameOverTurnOff"]
+[node name="GameOverTurnOffTop" type="VBoxContainer" parent="CanvasLayer2/GameOverTurnOff" unique_id=1722297186]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop" unique_id=1661731700]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop"]
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop" unique_id=1657172742]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="GameOverTurnOffBottom" type="VBoxContainer" parent="CanvasLayer2/GameOverTurnOff"]
+[node name="GameOverTurnOffBottom" type="VBoxContainer" parent="CanvasLayer2/GameOverTurnOff" unique_id=38272789]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom"]
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom" unique_id=958679070]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom" unique_id=1147058217]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2

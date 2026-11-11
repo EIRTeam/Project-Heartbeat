@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bw8h1qsupd4h3"]
+[gd_scene format=3 uid="uid://bw8h1qsupd4h3"]
 
 [ext_resource type="PackedScene" uid="uid://vxo20bkhp7h3" path="res://menus/StaffRoll.tscn" id="2"]
 
@@ -32,7 +32,7 @@ func _process(delta):
 		container.position = Vector2(0, size.y)
 "
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1345966582]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,7 +41,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1610480118]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -50,12 +50,12 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="Panel" type="Panel" parent="MarginContainer"]
+[node name="Panel" type="Panel" parent="MarginContainer" unique_id=108209483]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("2")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel" unique_id=931480199]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -64,29 +64,32 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/MarginContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/MarginContainer" unique_id=1744504314]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 20
 
-[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer" unique_id=1036057912]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Panel" type="Panel" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2011251481]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("3")
 script = SubResource("4")
 
-[node name="Control" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel" instance=ExtResource("2")]
+[node name="Control" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel" unique_id=677330502 instance=ExtResource("2")]
+layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
-[node name="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control" index="0"]
+[node name="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control" index="0" unique_id=198119503]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 0.0

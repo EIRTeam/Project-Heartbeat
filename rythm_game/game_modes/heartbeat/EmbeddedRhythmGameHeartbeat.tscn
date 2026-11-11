@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6bkb7o6xrnja"]
+[gd_scene format=3 uid="uid://c6bkb7o6xrnja"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
-[ext_resource type="Script" path="res://rythm_game/game_modes/heartbeat/EmbeddedRhythmGameHeartbeat.gd" id="2"]
+[ext_resource type="Script" uid="uid://c4n4d4bkuwe0i" path="res://rythm_game/game_modes/heartbeat/EmbeddedRhythmGameHeartbeat.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="3"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1472230218]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,10 +14,10 @@ grow_vertical = 2
 theme = ExtResource("1")
 script = ExtResource("2")
 
-[node name="RhythmGame" parent="." instance=ExtResource("3")]
+[node name="RhythmGame" parent="." unique_id=145986556 instance=ExtResource("3")]
 layout_mode = 1
 
-[node name="ReferenceRect" type="ReferenceRect" parent="."]
+[node name="ReferenceRect" type="ReferenceRect" parent="." unique_id=942153563]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

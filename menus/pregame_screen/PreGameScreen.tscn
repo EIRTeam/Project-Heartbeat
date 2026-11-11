@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://1i2h228g0br"]
+[gd_scene format=3 uid="uid://1i2h228g0br"]
 
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="3"]
 [ext_resource type="Script" uid="uid://c0t2qgba2j2jy" path="res://menus/pregame_screen/PreGameScreen.gd" id="4"]
@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://u7xd1sepbnm5" path="res://menus/tabbed_container/TabbedContainer.tscn" id="13"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=75963831]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,7 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1201185847]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -26,23 +26,23 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1587291762]
 layout_mode = 2
 
-[node name="SongTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("3")]
+[node name="SongTitle" parent="MarginContainer/VBoxContainer" unique_id=1151870754 instance=ExtResource("3")]
 self_modulate = Color(0, 0, 1, 1)
 material = null
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="TabbedContainer" parent="MarginContainer/VBoxContainer" instance=ExtResource("13")]
+[node name="TabbedContainer" parent="MarginContainer/VBoxContainer" unique_id=1932846756 instance=ExtResource("13")]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ModifierLoader" parent="." instance=ExtResource("6")]
+[node name="ModifierLoader" parent="." unique_id=1742781836 instance=ExtResource("6")]
 layout_mode = 1
 
-[node name="ModifierSettingsOptionSection" parent="." instance=ExtResource("7")]
+[node name="ModifierSettingsOptionSection" parent="." unique_id=927572754 instance=ExtResource("7")]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -55,21 +55,20 @@ offset_top = -285.0
 offset_right = 579.0
 offset_bottom = 285.0
 
-[node name="PerSongSettingsEditor" parent="." instance=ExtResource("10")]
+[node name="PerSongSettingsEditor" parent="." unique_id=1740488410 instance=ExtResource("10")]
 visible = false
 layout_mode = 1
 offset_left = -571.0
 offset_right = 571.0
 focus_mode = 2
 
-[node name="PerSongSettingsOptionSection" parent="PerSongSettingsEditor" index="0"]
+[node name="PerSongSettingsOptionSection" parent="PerSongSettingsEditor" index="0" unique_id=897598743]
 offset_left = 1.49829
 offset_top = -1.49835
 offset_right = 1.49829
 offset_bottom = -1.49835
 
-[node name="VideoURLChangePopup" parent="." instance=ExtResource("12")]
-visible = false
+[node name="VideoURLChangePopup" parent="." unique_id=2133935503 instance=ExtResource("12")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -80,9 +79,8 @@ grow_horizontal = 1
 grow_vertical = 1
 text = "Are you sure you want to change this song's video URL? this requires you use the mouse."
 
-[node name="DeleteSongMediaPopup" parent="." instance=ExtResource("12")]
+[node name="DeleteSongMediaPopup" parent="." unique_id=1269668425 instance=ExtResource("12")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://csftab5uoigrn"]
+[gd_scene format=3 uid="uid://csftab5uoigrn"]
 
 [ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="1"]
 [ext_resource type="StyleBox" uid="uid://cp7yh4stt825r" path="res://styles/PanelStyleTransparentIconHover.tres" id="2"]
@@ -12,6 +12,15 @@ fallbacks = Array[Font]([ExtResource("5"), ExtResource("4")])
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -32,6 +41,15 @@ fallbacks = Array[Font]([ExtResource("1"), ExtResource("4")])
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -47,15 +65,15 @@ cache/0/30/0/scale = 1.0
 cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
 cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
-[node name="Button" type="HBButtonBlurEX"]
+[node name="Button" type="HBButtonBlurEX" unique_id=841660242]
 custom_minimum_size = Vector2(0, 100)
 offset_right = 331.0
 offset_bottom = 206.0
-theme_override_styles/hover = ExtResource("2")
 theme_override_styles/normal = ExtResource("3")
+theme_override_styles/hover = ExtResource("2")
 script = ExtResource("6")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=280473402]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,18 +86,18 @@ theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=678810328]
 layout_mode = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="DateLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="DateLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=758991315]
 layout_mode = 2
 theme_override_fonts/font = SubResource("1")
 text = "asdsadsadas"
 autowrap_mode = 3
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=198453919]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 theme_override_fonts/font = SubResource("3")
