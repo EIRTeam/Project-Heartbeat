@@ -20,7 +20,7 @@ enum TimingMethod {
 	ALTERNATIVE
 }
 
-var timing_method := TimingMethod.ALTERNATIVE
+var timing_method := TimingMethod.ACCURATE
 
 var romanized_titles_enabled = false
 var left_arrow_override_enabled = false
