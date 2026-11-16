@@ -37,7 +37,7 @@ var logging_enabled: bool = "--logging-enabled" in OS.get_cmdline_args()
 func _ready():
 	Log.connect("message_logged", Callable(self, "_on_message_logged"))
 	autoplay_checkbox.connect("toggled", Callable(self, "set_autoplay"))
-	crash_button.pressed.connect(OS.crash.bind("TEST CRASH!"))
+	crash_button.pressed.connect(PHNative.crash_test)
 	$Window.hide()
 	fps_label.hide()
 	gamepad_visualizer.hide()
