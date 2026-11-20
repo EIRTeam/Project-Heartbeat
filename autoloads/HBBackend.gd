@@ -128,11 +128,10 @@ class LeaderboardScoreUploadedResult:
 	var score_id: int
 		
 func _ready():
+	add_child(timer)
 	if "--gdscript-tests" in OS.get_cmdline_user_args():
 		return
 
-	add_child(timer)
-	
 	timer.wait_time = 5
 	timer.one_shot = false
 	timer.connect("timeout", Callable(self, "_on_retry_timer_timed_out"))

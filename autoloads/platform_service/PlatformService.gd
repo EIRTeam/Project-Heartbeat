@@ -18,10 +18,10 @@ func _init():
 	name = "PlatformService"
 	
 func _ready():
+	add_child(callbacks_timer)
 	if "--gdscript-tests" in OS.get_cmdline_user_args():
 		return
 
-	add_child(callbacks_timer)
 	callbacks_timer.wait_time = callbacks_rate
 	callbacks_timer.process_mode = Node.PROCESS_MODE_ALWAYS
 	callbacks_timer.connect("timeout", Callable(self, "_on_callbacks_timer_timeout"))

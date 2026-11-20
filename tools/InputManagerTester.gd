@@ -60,7 +60,7 @@ func _draw_stick_debug(stick_idx: int):
 	var axis1 = Input.get_joy_axis(input_man.last_action_device_idx, JOY_AXIS_LEFT_Y + stick_idx * 2)
 	var input := Vector2(axis0, axis1)
 	var filtered_input := input
-	var factor := UserSettings.user_settings.direct_joystick_filter_factor
+	var factor: float = UserSettings.user_settings.direct_joystick_filter_factor
 	filtered_input = (filtered_input * factor) + (info.last_filtered_output * (1.0 - factor))
 	var slide_angle := deg_to_rad(UserSettings.user_settings.direct_joystick_slider_angle_window)
 	

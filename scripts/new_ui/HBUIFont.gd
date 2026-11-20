@@ -25,6 +25,7 @@ func set_fallback_hint(val):
 		FALLBACK_HINT.BLACK:
 			fallbacks.push_back(preload("res://fonts/default_font_black.tres"))
 
-func _set(property, value):
+func _set(property, value) -> bool:
 	if property == "font_data":
 		set_fallback_hint(fallback_hint)
+	return false

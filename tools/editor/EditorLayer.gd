@@ -80,14 +80,13 @@ func remove_item(item: EditorTimelineItem):
 	if item.get_parent() == self:
 		remove_child(item)
 
-func _can_drop_data(position, data):
+func _can_drop_data(position, data) -> bool:
 	if data is EditorTimelineItem:
 		if not data in get_children():
 			preview.show()
 			place_preview(editor.scale_pixels(position.x + data._drag_x_offset), editor.scale_pixels(data.get_size().x))
 			return true
-	else:
-		return false
+	return false
 
 func bsearch_time(a, b):
 	var a_t = a

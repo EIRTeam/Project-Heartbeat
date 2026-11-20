@@ -35,6 +35,10 @@ func set_autoplay(value):
 var logging_enabled: bool = "--logging-enabled" in OS.get_cmdline_args()
 
 func _ready():
+	if "--gdscript-tests" in OS.get_cmdline_user_args():
+		set_process(false)
+		set_process_input(false)
+		return
 	Log.connect("message_logged", Callable(self, "_on_message_logged"))
 	autoplay_checkbox.connect("toggled", Callable(self, "set_autoplay"))
 	crash_button.pressed.connect(PHNative.crash_test)
