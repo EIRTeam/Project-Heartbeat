@@ -47,7 +47,8 @@ func _on_resized():
 	if not ignore_resize_hack:
 		_fit_font()
 	
-func _set(property, value):
+func _set(property, value) -> bool:
 	if property == "text":
 		if is_inside_tree():
 			_fit_font()
+	return false
