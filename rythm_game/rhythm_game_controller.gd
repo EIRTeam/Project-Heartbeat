@@ -59,6 +59,7 @@ func _ready():
 	
 	game = HBRhythmGame.new()
 	add_child(game)
+	video_player.set_song_clock(_get_video_song_time)
 	
 	DownloadProgress.holding_back_notifications = true
 
@@ -75,6 +76,16 @@ func _ready():
 	$Label.visible = false
 	game.health_system_enabled = UserSettings.user_settings.enable_health
 	$PauseMenu.volume_settings_changed.connect(game.notify_song_volume_settings_changed)
+
+func _get_video_song_time() -> float:
+	# Read Shinobu directly, avoiding a frame of delay from game process order.
+	# Use exactly the chart's compensation and audio offset, not a second
+	# independently accumulated video clock. Rollback uses the manual game time.
+	if game.audio_playback and (not game.editing or game.previewing):
+		return game.audio_playback.get_playback_position_nsec() / 1_000_000_000.0 \
+				- game.get_latency_compensation_msec() / 1000.0
+	return game.time_usec / 1_000_000.0
+
 func _on_intro_skipped(new_time):
 	video_player.set_stream_position(new_time)
 
