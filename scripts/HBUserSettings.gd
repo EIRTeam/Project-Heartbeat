@@ -6,7 +6,7 @@ class_name HBUserSettings
 #warning-ignore:unused_signal
 signal editor_grid_resolution_changed
 
-var visualizer_enabled = true
+var visualizer_enabled := true
 var visualizer_resolution = 32
 var ui_blur_enabled := false
 var lag_compensation = 0
@@ -21,6 +21,14 @@ enum TimingMethod {
 }
 
 var timing_method := TimingMethod.ACCURATE
+
+enum FFmpegGPUDecodePolicy {
+	PREFER_GPU,
+	GPU_ONLY,
+	SOFTWARE_ONLY
+}
+
+var ffmpeg_gpu_decode_policy := FFmpegGPUDecodePolicy.PREFER_GPU
 
 var romanized_titles_enabled = false
 var left_arrow_override_enabled = false
@@ -51,7 +59,7 @@ var ytdlp_custom_command_line: Array[String] = []
 var show_visualizer_on_video = true
 var disable_video = false
 var disable_ppd_video = false
-var use_visualizer_with_video = true
+var use_visualizer_with_video := true
 var sort_filter_settings = HBSongSortFilterSettings.new()
 
 var last_selected_difficulty := ""
@@ -313,7 +321,7 @@ func _init():
 		"editor_arrange_middle_mode", "editor_arrange_middle_subdivision", "editor_arrange_middle_snap", "editor_arrange_middle_diagonal_step", "editor_arrange_middle_vstep",
 		"editor_arrange_outer_mode", "editor_arrange_outer_subdivision", "editor_arrange_outer_snap", "editor_arrange_outer_diagonal_step", "editor_arrange_outer_vstep",
 		"editor_templates_visibility",
-		"pause_on_focus_loss",
+		"pause_on_focus_loss", "ffmpeg_gpu_decode_policy",
 		"oob_completed"
 	]
 	

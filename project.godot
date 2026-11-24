@@ -17,7 +17,7 @@ config/use_custom_user_dir=true
 config/custom_user_dir_name="Project Heartbeat"
 config/project_settings_override="user://ph_override.cfg"
 config/quit_on_go_back=false
-config/features=PackedStringArray("4.6")
+config/features=PackedStringArray("4.7")
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 run/delta_sync_after_draw=false
@@ -73,7 +73,7 @@ window/vsync/vsync_mode=false
 
 [editor]
 
-run/main_run_args="--editor-dev-mode"
+run/main_run_args="--editor-dev-mode --verbose"
 convert_text_resources_to_binary_on_export=true
 
 [editor_plugins]
@@ -1108,6 +1108,10 @@ file_logging/enable_file_logging=true
 
 limits/message_queue/max_size_kb=16384
 
+[multimedia]
+
+ffmpeg/default_decode_policy=2
+
 [physics]
 
 common/max_physics_steps_per_frame=1
@@ -1117,6 +1121,8 @@ common/max_physics_steps_per_frame=1
 rendering_device/staging_buffer/block_size_kb=512
 rendering_device/staging_buffer/texture_upload_region_size_px=256
 textures/canvas_textures/default_texture_filter=2
+rendering_device/vulkan/video_decode=true
+rendering_device/vulkan/video_decode_output=true
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.01, 0.05, 0.1, 1)
 environment/defaults/default_environment="res://default_env.tres"

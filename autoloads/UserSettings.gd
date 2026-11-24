@@ -433,6 +433,13 @@ func set_joypad_prompts():
 		"nintendo":
 			InputGlyphsSingleton.forced_input_type = InputGlyphsConstants.SWITCH_PRO_CONTROLLER
 func apply_user_settings(apply_display := false):
+	match user_settings.ffmpeg_gpu_decode_policy:
+		HBUserSettings.FFmpegGPUDecodePolicy.PREFER_GPU:
+			ProjectSettings.set("multimedia/ffmpeg/default_decode_policy", FFmpegVideoStream.DECODE_PREFER_GPU)
+		HBUserSettings.FFmpegGPUDecodePolicy.GPU_ONLY:
+			ProjectSettings.set("multimedia/ffmpeg/default_decode_policy", FFmpegVideoStream.DECODE_REQUIRE_GPU)
+		HBUserSettings.FFmpegGPUDecodePolicy.SOFTWARE_ONLY:
+			ProjectSettings.set("multimedia/ffmpeg/default_decode_policy", FFmpegVideoStream.DECODE_SOFTWARE_ONLY)
 	if apply_display:
 		apply_display_mode()
 	_update_fps_limits()

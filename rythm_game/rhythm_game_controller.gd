@@ -36,7 +36,7 @@ var disable_intro_skip = false
 
 var current_game_info: HBGameInfo 
 
-@onready var video_player = get_node("Node2D/Panel/VideoStreamPlayer")
+@onready var video_player: VideoStreamPlayer = get_node("Node2D/Panel/VideoStreamPlayer")
 
 signal fade_out_finished(game_info)
 signal user_quit()
@@ -82,9 +82,9 @@ func _get_video_song_time() -> float:
 	# Use exactly the chart's compensation and audio offset, not a second
 	# independently accumulated video clock. Rollback uses the manual game time.
 	if game.audio_playback and (not game.editing or game.previewing):
-		return game.audio_playback.get_playback_position_nsec() / 1_000_000_000.0 \
-				- game.get_latency_compensation_msec() / 1000.0
-	return game.time_usec / 1_000_000.0
+		return max(game.audio_playback.get_playback_position_nsec() / 1_000_000_000.0 \
+				- game.get_latency_compensation_msec() / 1000.0, 0.0)
+	return max(game.time_usec / 1_000_000.0, 0.0)
 
 func _on_intro_skipped(new_time):
 	video_player.set_stream_position(new_time)
@@ -93,7 +93,6 @@ func _fade_in_done():
 	video_player.paused = false
 	game_ui.try_show_intro_skip(game.current_song)
 	game.game_input_manager.set_process_input(true)
-	video_player.show()
 	$FadeIn.hide()
 	game.set_process(true)
 	rescale_video_player()
@@ -243,7 +242,6 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
 			var stream = song.get_video_stream(current_game_info.variant)
 			if stream:
-				video_player.hide()
 				if not video_player.stream:
 					video_player.stream = stream
 					video_player.paused = true
@@ -326,6 +324,8 @@ func _unhandled_input(event):
 				if not pause_disabled:
 					_on_paused()
 				else:
+					if video_player.get_stream_playback():
+						$PauseMenu.show_gpu_decoding_info(video_player.get_stream_playback())
 					$PauseMenu.show_pause(current_game_info.song_id)
 	
 			else:
@@ -361,6 +361,8 @@ func _on_paused():
 		#game.editing = true
 	video_player.paused = true
 	game.pause_game()
+	if video_player.get_stream_playback():
+		$PauseMenu.show_gpu_decoding_info(video_player.get_stream_playback())
 	$PauseMenu.show_pause(current_game_info.song_id)
 
 func _on_RhythmGame_song_cleared(result: HBResult):
@@ -390,11 +392,24 @@ func get_target_rollback_time_msec() -> int:
 			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
 	return last_pause_time - ROLLBACK_TIME + latency_compensation
 	
+func set_video_visbility(video_visible: bool):
+	var visualizer_enabled := UserSettings.user_settings.visualizer_enabled
+	if video_visible:
+		var visualizer_enabled_with_video := UserSettings.user_settings.use_visualizer_with_video
+		visualizer_enabled = visualizer_enabled and UserSettings.user_settings.use_visualizer_with_video
+	video_player_panel.visible = video_visible
+	if visualizer:
+		visualizer.visible = visualizer_enabled
+	
 func _process(delta):
 	$Label.visible = Diagnostics.fps_label.visible
 	$Label.text = "%.2f\n" % [video_player.stream_position]
 	$Label.text += "%.2f\n" % [game.audio_playback.get_playback_position_msec() / 1000.0]
 	$Label.text += "DIFF: %.2f" % [(game.audio_playback.get_playback_position_msec() / 1000.0) - video_player.stream_position]
+	
+	var playback := video_player.get_stream_playback() as FFmpegVideoStreamPlayback
+	var video_visible := playback != null and not playback.has_playback_failed()
+	set_video_visbility(video_visible)
 	
 	if do_initial_video_rescale and video_player.get_video_texture():
 		rescale_video_player()

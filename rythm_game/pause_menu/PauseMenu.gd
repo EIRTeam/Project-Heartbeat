@@ -11,6 +11,8 @@ signal volume_settings_changed
 @onready var list_container = get_node("SubViewportContainer/SubViewport/Node3D/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer")
 @onready var song_preview = get_node("SubViewportContainer/SubViewport/Node3D/ViewportRight/Panel")
 @onready var quit_popup = get_node("SubViewportContainer/SubViewport/Node3D/QuitPopup")
+@onready var gpu_decoding_info_label: Label = %GPUDecodingInfo
+
 func _ready():
 	get_viewport().connect("size_changed", Callable(self, "_on_viewport_size_changed"))
 	_on_viewport_size_changed()
@@ -29,6 +31,20 @@ func _on_viewport_size_changed():
 
 #func _input(event):
 #	$Viewport.input(event)
+
+func show_gpu_decoding_info(stream_playback: FFmpegVideoStreamPlayback):
+	if stream_playback.is_using_gpu_decoding():
+		gpu_decoding_info_label.text = "Using GPU decoding: {backend}".format({
+			"backend": stream_playback.get_decode_backend().capitalize()
+		})
+	else:
+		var reason := stream_playback.get_decode_fallback_reason()
+		if reason.is_empty():
+			reason = stream_playback.get_gpu_failure_reason()
+		gpu_decoding_info_label.text = "Not using GPU decoding:\n{reason}".format({
+			"reason": reason
+		})
+		
 
 func show_pause(song_id):
 	current_song = SongLoader.songs[song_id]

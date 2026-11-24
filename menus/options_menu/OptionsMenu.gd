@@ -173,6 +173,13 @@ var OPTIONS = {
 			"name": tr("Enable VSync"),
 			"description": tr("Waits for vertical synchronization to render frame, can reduce screen tearing but will introduce extra input lag.")
 		},
+		"ffmpeg_gpu_decode_policy": {
+			"name": tr("GPU video decoding"),
+			"description": tr("How and when GPU video decoding is used for videos."),
+			"options": [HBUserSettings.FFmpegGPUDecodePolicy.PREFER_GPU, HBUserSettings.FFmpegGPUDecodePolicy.GPU_ONLY, HBUserSettings.FFmpegGPUDecodePolicy.SOFTWARE_ONLY],
+			"options_pretty": [tr("Prefer GPU"), tr("GPU only"), tr("Software only")],
+			"type": "options",
+		},
 		"disable_video": {
 			"name": tr("Disable Video"),
 			"description": tr("Disables video playback and download, might yield more performance on some systems.")

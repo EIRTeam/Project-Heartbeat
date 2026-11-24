@@ -4,9 +4,12 @@
 [ext_resource type="Script" uid="uid://e02x5hbi4blb" path="res://rythm_game/pause_menu/PauseMenu.gd" id="2"]
 [ext_resource type="Shader" uid="uid://dl5nodfo0jtnj" path="res://rythm_game/pause_menu/blur_shader.gdshader" id="2_esbus"]
 [ext_resource type="PackedScene" uid="uid://mk4i5mpqt4hy" path="res://menus/PerSongSettingsEditor.tscn" id="3"]
+[ext_resource type="StyleBox" uid="uid://s4015jqriuh3" path="res://styles/PanelStyleTransparent.tres" id="5_hmud7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j064j"]
 shader = ExtResource("2_esbus")
+
+[sub_resource type="LabelSettings" id="LabelSettings_xemxf"]
 
 [node name="Control2" type="Control" unique_id=622223748]
 layout_mode = 3
@@ -50,6 +53,23 @@ offset_left = -636.5
 offset_top = -358.0
 offset_right = 636.5
 offset_bottom = 358.0
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=152226659]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+offset_right = 89.0
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("5_hmud7")
+
+[node name="GPUDecodingInfo" type="Label" parent="PanelContainer" unique_id=1086751346]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Using GPU decoding"
+label_settings = SubResource("LabelSettings_xemxf")
+vertical_alignment = 2
 
 [connection signal="quitted" from="SubViewportContainer/SubViewport/Node3D" to="." method="_on_quit"]
 [connection signal="restarted" from="SubViewportContainer/SubViewport/Node3D" to="." method="_on_restart"]
